@@ -1,1 +1,183 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #e5e5e5;
+  font-size: 14px;
+}
+
+.v3_60 {
+  padding-top: 40px;
+  width: 449px;
+  height: 289px;
+  text-align: center;
+  margin: auto;
+}
+
+.minor-heading {
+  width: 197px;
+  color: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 16px;
+  text-align: center;
+}
+
+.main-heading {
+  width: 449px;
+  color: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 48px;
+}
+
+.v103_12 {
+  width: 210px;
+  height: 45px;
+}
+
+.v103_14 {
+  width: 210px;
+  height: 45px;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 14px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.v103_9 {
+  width: 210px;
+  height: 70px;
+}
+
+.v103_11 {
+  width: 210px;
+  height: 45px;
+  background: rgba(34, 73, 87, 1);
+  color: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 14px;
+  text-align: center;
+}
+
+.v3_53 {
+  bottom: 0;
+  position: absolute;
+}
+
+.v3_54 {
+  min-width: 100vw;
+  height: 111px;
+  background: url("./assets/images/v3_54.png");
+
+  opacity: 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 0px solid rgba(0, 0, 0, 1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.v3_55 {
+  width: 100vw;
+  height: 111px;
+  background: url("./assets/images/v3_55.png");
+  opacity: 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 0px solid rgba(0, 0, 0, 1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.col-content {
+  width: 80%;
+  margin: auto;
+}
+
+.btns-container {
+  max-width: 540px;
+  text-align: center;
+}
+
+.col-content h2 {
+  text-align: center;
+}
+
+.allomiso {
+  min-height: 1060px;
+  height: 100%;
+  z-index: 1;
+  color: white;
+  font-size: 20px;
+  background-color: #41686f;
+}
+
+.uop-logo-blue {
+  width: 94px;
+  height: 91px;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+button:active {
+  opacity: 0.7;
+}
+
+.v3_56 {
+  width: 70px;
+  height: 70px;
+  background: rgba(1, 1, 1, 0);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: absolute;
+  bottom: -92px;
+  left: 36px;
+  overflow: hidden;
+}
+
+.v3_57 {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 1);
+  opacity: 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.v3_58 {
+  width: 44px;
+  height: 44px;
+  background: rgba(44, 44, 44, 1);
+  opacity: 1;
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  border-radius: 50%;
+}
+
+.v3_59 {
+  width: 17px;
+  height: 33px;
+  background: rgba(255, 255, 255, 1);
+  opacity: 1;
+  position: absolute;
+  top: 18px;
+  left: 35px;
+  border-radius: 0% 50% 50% 0%;
+}
