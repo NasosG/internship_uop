@@ -68,7 +68,7 @@ body {
 }
 
 .v3_53 {
-  bottom: 0;
+  bottom: 100;
   position: absolute;
 }
 
@@ -76,7 +76,6 @@ body {
   min-width: 100vw;
   height: 111px;
   background: url("./assets/images/v3_54.png");
-
   opacity: 1;
   position: absolute;
   top: 0px;
@@ -112,7 +111,7 @@ body {
 }
 
 .allomiso {
-  min-height: 1060px;
+  min-height: 100vh;
   height: 100%;
   z-index: 1;
   color: white;
