@@ -1,0 +1,282 @@
+.lang select {
+  /* background-color: #e5e5e5; */
+}
+.lang select {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 5px solid #333333;
+  padding: 10px;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  /* background-color: #e5e5e5; */
+}
+
+/* Arrow */
+.lang::after {
+  content: "\25BC";
+  font: normal normal normal 20px/1 FontAwesome;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.78em 0.65em 1em 0.5em;
+  transition: 0.25s all ease;
+  pointer-events: none;
+}
+
+/* Transition */
+.lang:hover::after {
+  color: rgba(0, 0, 0, 0.45);
+  transform: translateY(4%);
+}
+
+.lang:after {
+  color: rgba(45, 82, 82, 0.9);
+}
+
+/* Custom Select wrapper */
+.selectpicker {
+  min-width: 7em;
+  /* Reset Select */
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  padding: 0 1em;
+  background-image: none;
+
+  padding: 9px 7px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+
+/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #e5e5e5;
+  font-size: 14px;
+}
+
+.v3_60 {
+  padding-top: 40px;
+  width: 449px;
+  height: 289px;
+  text-align: center;
+  margin: auto;
+}
+
+.minor-heading {
+  width: 197px;
+  color: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 18px;
+  text-align: center;
+}
+
+.main-heading {
+  width: 449px;
+  color: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 48px;
+}
+
+.v103_12 {
+  width: 210px;
+  height: 45px;
+}
+
+.btn-student {
+  width: 210px;
+  height: 45px;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 16px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.v103_9 {
+  width: 210px;
+  height: 70px;
+}
+
+.btn-company {
+  width: 210px;
+  height: 45px;
+  background: rgba(34, 73, 87, 1);
+  color: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 16px;
+  text-align: center;
+}
+
+.v3_54 {
+  min-width: 100vw !important;
+  height: 111px;
+  position: absolute;
+  background: url("../../assets/images/v3_54.png");
+  opacity: 1;
+  border: 0px solid rgba(0, 0, 0, 1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.v3_55 {
+  width: 100vw;
+  height: 111px;
+  background: url("../../assets/images/v3_55.png");
+  opacity: 1;
+  border: 0px solid rgba(0, 0, 0, 1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.col-content {
+  width: 80%;
+  margin: auto;
+}
+
+.btns-container {
+  max-width: 540px;
+  text-align: center;
+}
+
+.col-content h2 {
+  text-align: center;
+}
+
+.allomiso {
+  min-height: 100vh;
+  height: 100%;
+  color: white;
+  font-size: 20px;
+  background-color: #41686f;
+  z-index: 1;
+}
+
+.uop-logo-blue {
+  width: 94px;
+  height: 91px;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+button:active {
+  opacity: 0.7;
+}
+
+.v3_56 {
+  width: 70px;
+  height: 70px;
+  background: rgba(1, 1, 1, 0);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  left: 36px;
+  overflow: hidden;
+  position: fixed;
+  bottom: 14px;
+}
+
+.v3_57 {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 1);
+  opacity: 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.v3_58 {
+  width: 44px;
+  height: 44px;
+  background: rgba(44, 44, 44, 1);
+  opacity: 1;
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  border-radius: 50%;
+}
+
+.v3_59 {
+  width: 17px;
+  height: 33px;
+  background: rgba(255, 255, 255, 1);
+  opacity: 1;
+  position: absolute;
+  top: 18px;
+  left: 35px;
+  border-radius: 0% 50% 50% 0%;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+}
+
+/*@media only screen and (max-width: 1920px) {
+    .allomiso {
+      z-index: 1;
+    }
+  }*/
+
+.container-fluid {
+  padding-left: 0;
+}
+
+@media (min-width: 992px) {
+  .allomiso {
+    background: url("../../assets/images/allomiso.png");
+    background-repeat: no-repeat;
+    background-position: calc(50% + 800px) center;
+  }
+}
+
+@media (max-width: 680px) {
+  .left-col {
+    margin-top: 40px;
+  }
+}
+
+.lang {
+  /* position: fixed; */
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+@media only screen and (max-width: 799px) {
+  .div-company {
+    padding-left: 17px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .allomiso {
+    margin-top: 50px;
+  }
+}
