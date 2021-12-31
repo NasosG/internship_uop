@@ -1,6 +1,62 @@
+.lang select {
+  /* background-color: #e5e5e5; */
+}
+.lang select {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 5px solid #48e094;
+  padding: 10px;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  /* background-color: #e5e5e5; */
+}
+  
+/* Arrow */
+.lang::after {
+  content: '\25BC';
+  font: normal normal normal 20px/1 FontAwesome;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.78em 0.65em 1em 0.5em;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+
+/* Transition */
+.lang:hover::after {
+  color: rgba(0, 0, 0, 0.45);
+  transform: translateY(4%)
+}
+
+.lang:after {
+  color: rgba(45, 82, 82, 0.9);
+}
+  
+  
+/* Custom Select wrapper */
 .selectpicker {
-    padding:  7px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    outline: none;
+  min-width: 7em;
+  /* Reset Select */
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  padding: 0 1em;
+  background-image: none;
+    
+  padding: 9px  7px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
 }
