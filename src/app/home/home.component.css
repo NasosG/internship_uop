@@ -37,6 +37,10 @@
   color: rgba(45, 82, 82, 0.9);
 }
 
+.lang-dark:after {
+  color: white !important;
+}
+
 /* Custom Select wrapper */
 .selectpicker {
   min-width: 7em;
@@ -279,4 +283,22 @@ footer {
   .allomiso {
     margin-top: 50px;
   }
+}
+
+/* Custom Select wrapper */
+.dark-mode-text {
+  color:white!important;   
+ }
+
+.dark-mode-body {
+  background-color:#1a1a1a!important;   
+}
+
+#ChangeTheme { 
+  display:none;
+  visibility:hidden;
+}
+
+footer {
+  padding-left: 0;
 }
