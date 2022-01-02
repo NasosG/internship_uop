@@ -71,3 +71,81 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.app-loading {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: -8px 0 0 -8px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-loading .app-loading-container {
+  width: auto;
+}
+
+.app-loading .app-loading-container > div {
+  display: flex;
+  justify-content: center;
+
+}
+
+@media only screen and (max-width: 480px) {
+  .app-loading .app-loading-logo img {
+    height: 72px;
+  }
+}
+
+.app-three-bounce {
+  width: 80px;
+  text-align: center;
+}
+
+.app-three-bounce .app-child {
+  width: 20px;
+  height: 20px;
+  background-color: #e6e6e6;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: app-three-bounce 1.4s ease-in-out 0s infinite both;
+  animation: app-three-bounce 1.4s ease-in-out 0s infinite both;
+}
+
+.app-three-bounce .app-bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.app-three-bounce .app-bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes app-three-bounce {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes app-three-bounce {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
