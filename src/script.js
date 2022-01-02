@@ -13,7 +13,8 @@ window.addEventListener("load", () => {
     [checkbox, languageButton, mainHeading, minorHeading] || null;
 
   // Check storage if dark mode was on or off
-  if (sessionStorage.getItem("mode") == "dark") enableDarkMode();
+  //if (sessionStorage.getItem("mode") == "dark") enableDarkMode();
+  if (localStorage.getItem("mode") == "dark") enableDarkMode();
   else noDarkMode();
 
   // If the checkbox state is changed, act accordingly
@@ -30,16 +31,17 @@ window.addEventListener("load", () => {
 
   function enableDarkMode() {
     try {
-      document.body.classList.add("dark-mode");
-      content.classList.add("dark-mode-body");
-      languageDiv.classList.add("lang-dark");
-      toBeChanged.forEach(function (element) {
-        element.classList.add("dark-mode-text");
-      });
-      logo.src = "assets/images/uop.png";
-
       checkbox.checked = true;
-      sessionStorage.setItem("mode", "dark");
+      // sessionStorage.setItem("mode", "dark");
+      localStorage.setItem("mode", "dark");
+
+      document.body.classList.add("dark-mode");
+      content?.classList.add("dark-mode-body");
+      languageDiv?.classList.add("lang-dark");
+      toBeChanged.forEach(function (element) {
+        element?.classList.add("dark-mode-text");
+      });
+      if (logo) logo.src = "assets/images/uop.png";
     } catch (error) {
       console.log("error: " + error);
     }
@@ -47,16 +49,17 @@ window.addEventListener("load", () => {
 
   function noDarkMode() {
     try {
-      document.body.classList.remove("dark-mode");
-      content.classList.remove("dark-mode-body");
-      languageDiv.classList.remove("lang-dark");
-      toBeChanged.forEach(function (element) {
-        element.classList.remove("dark-mode-text");
-      });
-      logo.src = "assets/images/v110_3.png";
-
       checkbox.checked = false;
-      sessionStorage.setItem("mode", "light");
+      // sessionStorage.setItem("mode", "light");
+      localStorage.setItem("mode", "light");
+
+      document.body.classList.remove("dark-mode");
+      content?.classList.remove("dark-mode-body");
+      languageDiv?.classList.remove("lang-dark");
+      toBeChanged.forEach(function (element) {
+        element?.classList.remove("dark-mode-text");
+      });
+      if (logo) logo.src = "assets/images/v110_3.png";
     } catch (error) {
       console.log("error: " + error);
     }
