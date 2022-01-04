@@ -1,330 +1,626 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Profile</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">User Profile</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
 
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Profile</h1>
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              <img class="profile-user-img img-fluid img-circle" src="assets/images//user4-128x128.jpg"
+                alt="User profile picture">
+            </div>
+
+            <h3 class="profile-username text-center">Μαρία Αλεξίου</h3>
+
+            <p class="text-muted text-center">Software Engineer</p>
+
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Followers</b> <a class="float-right">1,322</a>
+              </li>
+              <li class="list-group-item">
+                <b>Following</b> <a class="float-right">543</a>
+              </li>
+              <li class="list-group-item">
+                <b>Friends</b> <a class="float-right">13,287</a>
+              </li>
+            </ul>
+
+            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
           </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">User Profile</li>
-            </ol>
-          </div>
+          <!-- /.card-body -->
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
+        <!-- /.card -->
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3">
-
-            <!-- Profile Image -->
-            <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="assets/images//user4-128x128.jpg"
-                       alt="User profile picture">
-                </div>
-
-                <h3 class="profile-username text-center">Μαρία Αλεξίου</h3>
-
-                <p class="text-muted text-center">Software Engineer</p>
-
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item">
-                    <b>Followers</b> <a class="float-right">1,322</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
-                  </li>
-                </ul>
-
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-
-            <!-- About Me Box -->
-            <div class="card card-primary">
-              <div class="card-header student-card-header">
-                <h3 class="card-title">About Me</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i> Education</strong>
-
-                <p class="text-muted">
-                  B.S. in Computer Science from the University of Tennessee at Knoxville
-                </p>
-
-                <hr>
-
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
-
-                <p class="text-muted">Malibu, California</p>
-
-                <hr>
-
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                <p class="text-muted">
-                  <span class="tag tag-danger">UI Design</span>
-                  <span class="tag tag-success">Coding</span>
-                  <span class="tag tag-info">Javascript</span>
-                  <span class="tag tag-warning">PHP</span>
-                  <span class="tag tag-primary">Node.js</span>
-                </p>
-
-                <hr>
-
-                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+        <!-- About Me Box -->
+        <div class="card card-primary">
+          <div class="card-header student-card-header">
+            <h3 class="card-title">About Me</h3>
           </div>
-          <!-- /.col -->
-          <div class="col-md-9">
-            <div class="card">
-              <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
-                </ul>
-              </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content">
-                  <div class="active tab-pane" id="activity">
-                    <!-- Post -->
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="assets/images//user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <strong><i class="fas fa-book mr-1"></i> Education</strong>
 
-                      <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                        <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                      </p>
+            <p class="text-muted">
+              B.S. in Computer Science from the University of Tennessee at Knoxville
+            </p>
 
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                    </div>
-                    <!-- /.post -->
+            <hr>
 
-                    <!-- Post -->
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="assets/images//user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
 
-                      <form class="form-horizontal">
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control form-control-sm" placeholder="Response">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Send</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <!-- /.post -->
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
-                    <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-envelope bg-primary"></i>
+            <p class="text-muted">Malibu, California</p>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 12:05</span>
+            <hr>
 
-                          <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+            <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
 
-                          <div class="timeline-body">
-                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                            weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                            quora plaxo ideeli hulu weebly balihoo...
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-user bg-info"></i>
+            <p class="text-muted">
+              <span class="tag tag-danger">UI Design</span>
+              <span class="tag tag-success">Coding</span>
+              <span class="tag tag-info">Javascript</span>
+              <span class="tag tag-warning">PHP</span>
+              <span class="tag tag-primary">Node.js</span>
+            </p>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
+            <hr>
 
-                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                          </h3>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-comments bg-warning"></i>
+            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                          <div class="timeline-body">
-                            Take me to your leader!
-                            Switzerland is small and neutral!
-                            We are more like Germany, ambitious and misunderstood!
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-camera bg-purple"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                          <div class="timeline-body">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- /.tab-pane -->
-
-                  <div class="tab-pane" id="settings">
-                    <form class="form-horizontal">
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                        <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <!-- /.tab-pane -->
-                </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.
+            </p>
           </div>
-          <!-- /.col -->
+          <!-- /.card-body -->
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+
+
+              <!-- <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Ενδιαφέροντα:</a></li>
+<li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Επιπρόσθετα Στοιχεία: </a></li>
+<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Διακρίσεις-Βραβεία-Υποτροφίες:</a></li>
+<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Δια Βίου Μόρφωση:</a></li>
+<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Γνώσεις Η/Υ:</a></li>
+<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ξένες Γλώσσες:</a></li>
+<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Εργασιακή Εμπειρία:</a></li>
+<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Εκπαίδευση:</a></li> -->
+              <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Βασικά Στοιχεία</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="#bio" data-toggle="tab">Βιογραφικό</a></li>
+              <li class="nav-item"><a class="nav-link" href="#studentContact" data-toggle="tab">Στοιχεία
+                  Επικοινωνίας</a></li>
+            </ul>
+          </div><!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane" id="activity">
+                <!-- Post -->
+
+              </div>
+
+              <div class="tab-pane active" id="settings">
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label">Όνομα</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputName" placeholder="Όνομα">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Πατρός *</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Επώνυμο Πατρός *</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName2" placeholder="Επώνυμο Πατρός *">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Ημ. Γέννησης *</label>
+                    <div class="col-sm-10">
+                      <input class="form-control" type="date" id="date_of_birth" name="date_of_birth"
+                        placeholder="date of birth" required="" min="1900-01-01" max="2500-01-01">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Φύλο *</label>
+                    <div class="col-sm-10">
+                      <select class="form-control" id="sex" name="sex">
+                        <option value="0">Άνδρας</option>
+                        <option value="1">Γυναίκα</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"
+                      for="edit-profile-student-field-student-military-training-und">Στρατιωτικές Υποχρεώσεις
+                    </label>
+                    <div class="col-sm-10">
+                      <select id="edit-profile-student-field-student-military-training-und"
+                        name="profile_student[field_student_military_training][und]" class="form-control">
+                        <option value="_none">- Κανένα -</option>
+                        <option value="no">Μή εκπληρωμένες</option>
+                        <option value="yes" selected="selected">Εκπληρωμένες</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Μητρός *</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName2" placeholder="Όνομα Μητρός">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputName2" class="col-sm-2 col-form-label">Επώνυμο Μητρός *</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName2" placeholder="Επώνυμο Μητρός">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Εμπειρία</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Εμπειρία"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane" id="studentContact">
+                <form class="form-horizontal">
+                  <div class="fieldset-wrapper">
+                    <!-- <div class="form-item form-type-checkbox form-item-profile-student-field-student-address-und-0-re-geocode-location">
+                        <input type="checkbox" id="edit-profile-student-field-student-address-und-0-re-geocode-location" name="profile_student[field_student_address][und][0][re_geocode_location]" value="1" class="form-checkbox">  <label class="option" for="edit-profile-student-field-student-address-und-0-re-geocode-location">Re geocode </label>
+                       <div class="description">Check this box to re-geocode location.</div>
+                       </div>
+                       <div class="form-item form-type-checkbox form-item-profile-student-field-student-address-und-0-delete-location">
+                        <input type="checkbox" id="edit-profile-student-field-student-address-und-0-delete-location" name="profile_student[field_student_address][und][0][delete_location]" value="1" class="form-checkbox">  <label class="option" for="edit-profile-student-field-student-address-und-0-delete-location">Διαγραφή </label>
+                       <div class="description">Check this box to delete this location.</div>
+                       </div> -->
+                    <div class="form-group row">
+                      <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="inputEmail" class="col-sm-2 col-form-label">Τηλέφωνο</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="">
+                      </div>
+                    </div>
+                    <div class="form-group row form-type-textfield
+                      form-item-profile-student-field-student-address-und-0-street">
+                      <label class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-street">Οδός
+                      </label>
+                      <div class="col-sm-10">
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-street"
+                          name="profile_student[field_student_address][und][0][street]" value="" size="64"
+                          maxlength="255" class="form-text form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-additional">Περιοχή </label>
+                      <div class="col-sm-10">
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-additional"
+                          name="profile_student[field_student_address][und][0][additional]" value="" size="64"
+                          maxlength="255" class="form-text form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-city">Πόλη
+                      </label>
+                      <div class="col-sm-10">
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-city"
+                          name="profile_student[field_student_address][und][0][city]" value="" size="64" maxlength="255"
+                          class="form-text form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-postal-code">Ταχυδρομικός κώδικας </label>
+                      <div class="col-sm-10">
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-postal-code"
+                          name="profile_student[field_student_address][und][0][postal_code]" value="" size="16"
+                          maxlength="16" class="form-text form-control">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-country">Χώρα
+                      </label>
+                      <div class="col-sm-10">
+                        <select class="location_auto_country form-select ajax-processed"
+                          id="edit-profile-student-field-student-address-und-0-country"
+                          name="profile_student[field_student_address][und][0][country]">
+                          <option value="">Επιλογή</option>
+                          <option value="xx">NOT LISTED</option>
+                          <option value="fj">Fiji</option>
+                          <option value="nr">Nauru</option>
+                          <option value="tl">Timor-Leste</option>
+                          <option value="to">Tonga</option>
+                          <option value="bl">Άγιος Βαρθολομαίος</option>
+                          <option value="vc">Άγιος Βικέντιος και Γρεναδίνες</option>
+                          <option value="sm">Άγιος Μαρίνος</option>
+                          <option value="sx">Άγιος Μαρτίνος</option>
+                          <option value="mf">Άγιος Μαρτίνος Γαλλίας</option>
+                          <option value="kn">Άγιος Χριστόφορος και Νέβις</option>
+                          <option value="eg">Αίγυπτος</option>
+                          <option value="sh">Αγία Ελένη</option>
+                          <option value="lc">Αγία Λουκία</option>
+                          <option value="ao">Αγκόλα</option>
+                          <option value="az">Αζερμπαϊτζάν</option>
+                          <option value="et">Αιθιοπία</option>
+                          <option value="ci">Ακτή Ελεφαντοστού</option>
+                          <option value="al">Αλβανία</option>
+                          <option value="dz">Αλγερία</option>
+                          <option value="vi">Αμερικανικές Παρθένοι Νήσοι</option>
+                          <option value="as">Αμερικανική Σαμόα</option>
+                          <option value="ai">Ανγκουίλα</option>
+                          <option value="ad">Ανδόρρα</option>
+                          <option value="ag">Αντίγκουα και Μπαρμπούντα</option>
+                          <option value="aq">Ανταρκτική</option>
+                          <option value="um">Απομακρυσμένες Νησίδες των ΗΠΑ</option>
+                          <option value="ar">Αργεντινή</option>
+                          <option value="am">Αρμενία</option>
+                          <option value="aw">Αρούμπα</option>
+                          <option value="at">Αυστρία</option>
+                          <option value="au">Αυστραλία</option>
+                          <option value="af">Αφγανιστάν</option>
+                          <option value="ht">Αϊτή</option>
+                          <option value="be">Βέλγιο</option>
+                          <option value="vu">Βανουάτου</option>
+                          <option value="va">Βατικανό</option>
+                          <option value="ve">Βενεζουέλα</option>
+                          <option value="bm">Βερμούδες</option>
+                          <option value="vn">Βιετνάμ</option>
+                          <option value="bo">Βολιβία</option>
+                          <option value="ba">Βοσνία και Ερζεγοβίνη</option>
+                          <option value="bg">Βουλγαρία</option>
+                          <option value="br">Βραζιλία</option>
+                          <option value="vg">Βρετανικές Παρθένοι Νήσοι</option>
+                          <option value="io">Βρετανικό Έδαφος Ινδικού Ωκεανού</option>
+                          <option value="kp">Βόρεια Κορέα</option>
+                          <option value="mp">Βόρειες Μαριάνες Νήσοι</option>
+                          <option value="fr">Γαλλία</option>
+                          <option value="tf">Γαλλικά Νότια Εδάφη</option>
+                          <option value="gf">Γαλλική Γουιάνα</option>
+                          <option value="pf">Γαλλική Πολυνησία</option>
+                          <option value="de">Γερμανία</option>
+                          <option value="ge">Γεωργία</option>
+                          <option value="gi">Γιβραλτάρ</option>
+                          <option value="gm">Γκάμπια</option>
+                          <option value="gh">Γκάνα</option>
+                          <option value="gg">Γκέρνσεϊ</option>
+                          <option value="ga">Γκαμπόν</option>
+                          <option value="gu">Γκουαχάν</option>
+                          <option value="gp">Γουαδελούπη</option>
+                          <option value="gt">Γουατεμάλα</option>
+                          <option value="gy">Γουιάνα</option>
+                          <option value="gn">Γουινέα</option>
+                          <option value="gw">Γουινέα-Μπισσάου</option>
+                          <option value="gd">Γρενάδα</option>
+                          <option value="gl">Γροιλανδία</option>
+                          <option value="dk">Δανία</option>
+                          <option value="cg">Δημοκρατία του Κονγκό</option>
+                          <option value="do">Δομινικανή Δημοκρατία</option>
+                          <option value="eh">Δυτική Σαχάρα</option>
+                          <option value="sv">Ελ Σαλβαδόρ</option>
+                          <option value="ch">Ελβετία</option>
+                          <option value="gr" selected="selected">Ελλάδα</option>
+                          <option value="er">Ερυθραία</option>
+                          <option value="ee">Εσθονία</option>
+                          <option value="zm">Ζάμπια</option>
+                          <option value="zw">Ζιμπάμπουε</option>
+                          <option value="ae">Ηνωμένα Αραβικά Εμιράτα</option>
+                          <option value="us">Ηνωμένες Πολιτείες της Αμερικής</option>
+                          <option value="gb">Ηνωμένο Βασίλειο</option>
+                          <option value="jp">Ιαπωνία</option>
+                          <option value="in">Ινδία</option>
+                          <option value="id">Ινδονησία</option>
+                          <option value="jo">Ιορδανία</option>
+                          <option value="iq">Ιράκ</option>
+                          <option value="ir">Ιράν</option>
+                          <option value="ie">Ιρλανδία</option>
+                          <option value="gq">Ισημερινή Γουινέα</option>
+                          <option value="ec">Ισημερινός</option>
+                          <option value="is">Ισλανδία</option>
+                          <option value="es">Ισπανία</option>
+                          <option value="il">Ισραήλ</option>
+                          <option value="it">Ιταλία</option>
+                          <option value="ke">Κένυα</option>
+                          <option value="cn">Κίνα</option>
+                          <option value="kz">Καζακστάν</option>
+                          <option value="cm">Καμερούν</option>
+                          <option value="kh">Καμπότζη</option>
+                          <option value="ca">Καναδάς</option>
+                          <option value="qa">Κατάρ</option>
+                          <option value="cf">Κεντροαφρικανική Δημοκρατία</option>
+                          <option value="kg">Κιργιζία</option>
+                          <option value="ki">Κιριμπάτι</option>
+                          <option value="co">Κολομβία</option>
+                          <option value="km">Κομόρες</option>
+                          <option value="cd">Κονγκό (Κινσάσα)</option>
+                          <option value="kw">Κουβέιτ</option>
+                          <option value="cw">Κουρασάο</option>
+                          <option value="cu">Κούβα</option>
+                          <option value="hr">Κροατία</option>
+                          <option value="cr">Κόστα Ρίκα</option>
+                          <option value="cy">Κύπρος</option>
+                          <option value="la">Λάος</option>
+                          <option value="lb">Λίβανος</option>
+                          <option value="ls">Λεσότο</option>
+                          <option value="lv">Λεττονία</option>
+                          <option value="by">Λευκορωσία</option>
+                          <option value="lr">Λιβερία</option>
+                          <option value="ly">Λιβύη</option>
+                          <option value="lt">Λιθουανία</option>
+                          <option value="li">Λιχτενστάιν</option>
+                          <option value="lu">Λουξεμβούργο</option>
+                          <option value="ml">Μάλι</option>
+                          <option value="mt">Μάλτα</option>
+                          <option value="yt">Μαγιότ</option>
+                          <option value="mg">Μαδαγασκάρη</option>
+                          <option value="mo">Μακάου</option>
+                          <option value="mw">Μαλάουι</option>
+                          <option value="my">Μαλαισία</option>
+                          <option value="mv">Μαλδίβες</option>
+                          <option value="mq">Μαρτινίκα</option>
+                          <option value="ma">Μαρόκο</option>
+                          <option value="mu">Μαυρίκιος</option>
+                          <option value="mr">Μαυριτανία</option>
+                          <option value="me">Μαυροβούνιο</option>
+                          <option value="mx">Μεξικό</option>
+                          <option value="mm">Μιανμάρ</option>
+                          <option value="fm">Μικρονησία</option>
+                          <option value="mn">Μογγολία</option>
+                          <option value="mz">Μοζαμβίκη</option>
+                          <option value="md">Μολδαβία</option>
+                          <option value="mc">Μονακό</option>
+                          <option value="ms">Μοντσερράτ</option>
+                          <option value="bd">Μπανγκλαντές</option>
+                          <option value="bb">Μπαρμπάντος</option>
+                          <option value="bs">Μπαχάμες</option>
+                          <option value="bh">Μπαχρέιν</option>
+                          <option value="bz">Μπελίζε</option>
+                          <option value="bj">Μπενίν</option>
+                          <option value="bw">Μποτσουάνα</option>
+                          <option value="bf">Μπουρκίνα Φάσο</option>
+                          <option value="bi">Μπουρούντι</option>
+                          <option value="bt">Μπουτάν</option>
+                          <option value="bn">Μπρουνέι</option>
+                          <option value="nz">Νέα Ζηλανδία</option>
+                          <option value="nc">Νέα Καληδονία</option>
+                          <option value="ax">Νήσοι Ώλαντ</option>
+                          <option value="ck">Νήσοι Κουκ</option>
+                          <option value="mh">Νήσοι Μάρσαλ</option>
+                          <option value="gs">Νήσοι Νότια Γεωργία και Νότιες Σάντουιτς</option>
+                          <option value="pn">Νήσοι Πίτκαιρν</option>
+                          <option value="sb">Νήσοι Σολομώντα</option>
+                          <option value="fo">Νήσοι Φερόες</option>
+                          <option value="fk">Νήσοι Φώκλαντ</option>
+                          <option value="hm">Νήσοι Χερντ και Μακντόναλντ</option>
+                          <option value="im">Νήσος του Μαν</option>
+                          <option value="ne">Νίγηρας</option>
+                          <option value="na">Ναμίμπια</option>
+                          <option value="np">Νεπάλ</option>
+                          <option value="bv">Νησί Μπουβέ</option>
+                          <option value="nf">Νησί Νόρφολκ</option>
+                          <option value="cx">Νησί των Χριστουγέννων</option>
+                          <option value="bq">Νησιά BES</option>
+                          <option value="ky">Νησιά Καϋμάν</option>
+                          <option value="cc">Νησιά Κόκος (Κήλινγκ)</option>
+                          <option value="ng">Νιγηρία</option>
+                          <option value="ni">Νικαράγουα</option>
+                          <option value="nu">Νιούε</option>
+                          <option value="no">Νορβηγία</option>
+                          <option value="dm">Ντομίνικα</option>
+                          <option value="za">Νότια Αφρική</option>
+                          <option value="kr">Νότια Κορέα</option>
+                          <option value="ss">Νότιο Σουδάν</option>
+                          <option value="nl">Ολλανδία</option>
+                          <option value="an">Ολλανδικές Αντίλλες</option>
+                          <option value="om">Ομάν</option>
+                          <option value="hn">Ονδούρα</option>
+                          <option value="hu">Ουγγαρία</option>
+                          <option value="ug">Ουγκάντα</option>
+                          <option value="uz">Ουζμπεκιστάν</option>
+                          <option value="ua">Ουκρανία</option>
+                          <option value="uy">Ουρουγουάη</option>
+                          <option value="wf">Ουώλις και Φουτούνα</option>
+                          <option value="pk">Πακιστάν</option>
+                          <option value="pw">Παλάου</option>
+                          <option value="ps">Παλαιστίνη</option>
+                          <option value="pa">Παναμάς</option>
+                          <option value="pg">Παπούα Νέα Γουινέα</option>
+                          <option value="py">Παραγουάη</option>
+                          <option value="pe">Περού</option>
+                          <option value="pl">Πολωνία</option>
+                          <option value="pt">Πορτογαλία</option>
+                          <option value="pr">Πουέρτο Ρίκο</option>
+                          <option value="cv">Πράσινο Ακρωτήριο</option>
+                          <option value="re">Ρεουνιόν</option>
+                          <option value="rw">Ρουάντα</option>
+                          <option value="ro">Ρουμανία</option>
+                          <option value="ru">Ρωσία</option>
+                          <option value="st">Σάο Τομέ και Πρίνσιπε</option>
+                          <option value="pm">Σαιν Πιερ και Μικελόν</option>
+                          <option value="ws">Σαμόα</option>
+                          <option value="sa">Σαουδική Αραβία</option>
+                          <option value="sj">Σβάλμπαρντ και Γιαν Μαγιέν</option>
+                          <option value="sn">Σενεγάλη</option>
+                          <option value="rs">Σερβία</option>
+                          <option value="sc">Σεϋχέλλες</option>
+                          <option value="sl">Σιέρα Λεόνε</option>
+                          <option value="sg">Σιγκαπούρη</option>
+                          <option value="mk">Σκόπια</option>
+                          <option value="sk">Σλοβακία</option>
+                          <option value="si">Σλοβενία</option>
+                          <option value="so">Σομαλία</option>
+                          <option value="sz">Σουαζιλάνδη</option>
+                          <option value="sd">Σουδάν</option>
+                          <option value="se">Σουηδία</option>
+                          <option value="sr">Σουρινάμ</option>
+                          <option value="lk">Σρι Λάνκα</option>
+                          <option value="sy">Συρία</option>
+                          <option value="tz">Τανζανία</option>
+                          <option value="tj">Τατζικιστάν</option>
+                          <option value="tw">Ταϊβάν</option>
+                          <option value="th">Ταϊλάνδη</option>
+                          <option value="tc">Τερκ και Κάικος</option>
+                          <option value="je">Τζέρσεϊ</option>
+                          <option value="jm">Τζαμάικα</option>
+                          <option value="dj">Τζιμπουτί</option>
+                          <option value="tk">Τοκελάου</option>
+                          <option value="tv">Τουβαλού</option>
+                          <option value="tr">Τουρκία</option>
+                          <option value="tm">Τουρκμενιστάν</option>
+                          <option value="tt">Τρινιδάδ και Τομπάγκο</option>
+                          <option value="td">Τσαντ</option>
+                          <option value="cz">Τσεχία</option>
+                          <option value="tn">Τυνησία</option>
+                          <option value="tg">Τόγκο</option>
+                          <option value="ye">Υεμένη</option>
+                          <option value="ph">Φιλιππίνες</option>
+                          <option value="fi">Φινλανδία</option>
+                          <option value="cl">Χιλή</option>
+                          <option value="hk">Χονγκ Κονγκ</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2" for="edit-profile-student-field-student-address-und-0-phone">Αριθμός
+                        τηλεφώνου </label>
+                      <div class="col-sm-10">
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-phone"
+                          name="profile_student[field_student_address][und][0][phone]" value="" size="31" maxlength="31"
+                          class="form-text form-control">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane" id="bio">
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Εκπαίδευση: </label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Εκπαίδευση"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Εμπειρία</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Εμπειρία"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Ξένες Γλώσσες</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Ξένες Γλώσσες"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Γνώσεις Η/Υ</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Γνώσεις Η/Υ"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Δια Βίου Μόρφωση</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Δια Βίου Μόρφωση"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Διακρίσεις-Βραβεία-Υποτροφίες</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience"
+                        placeholder="Διακρίσεις-Βραβεία-Υποτροφίες"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Ενδιαφέροντα</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Ενδιαφέροντα"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Επιπρόσθετα Στοιχεία</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Επιπρόσθετα Στοιχεία"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+            <!-- /.tab-content -->
+          </div><!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->

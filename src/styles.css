@@ -36,3 +36,6 @@
     background-color: rgba(34, 73, 87, 1)!important;
   }
   
+  .dark-mode input[type=date]::-webkit-calendar-picker-indicator  {
+    filter: invert(100%);
+  }

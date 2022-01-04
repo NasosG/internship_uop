@@ -10,13 +10,20 @@ const routes: Routes = [{
 },
 {
   path: 'student', 
-  component: StudentComponent
+  children: [{
+    path: '',
+    component: StudentComponent
+  },
+  {
+    path:'profile',
+    component: StudentComponent
+  }]
 },
-{
-  path: 'profile', 
-  component: StudentProfileComponent
-}];
-
+// {
+//   path: 'profile', 
+//   component: StudentProfileComponent
+// }];
+];
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule],
