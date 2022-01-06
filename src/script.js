@@ -13,7 +13,7 @@ window.addEventListener("load", () => {
     [checkbox, languageButton, mainHeading, minorHeading] || null;
 
   // Check storage if dark mode was on or off
-  //if (sessionStorage.getItem("mode") == "dark") enableDarkMode();
+  // Can use sessionStorage instead of localStorage too
   if (localStorage.getItem("mode") == "dark") enableDarkMode();
   else noDarkMode();
 
@@ -32,7 +32,6 @@ window.addEventListener("load", () => {
   function enableDarkMode() {
     try {
       checkbox.checked = true;
-      // sessionStorage.setItem("mode", "dark");
       localStorage.setItem("mode", "dark");
 
       document.body.classList.add("dark-mode");
@@ -50,7 +49,6 @@ window.addEventListener("load", () => {
   function noDarkMode() {
     try {
       checkbox.checked = false;
-      // sessionStorage.setItem("mode", "light");
       localStorage.setItem("mode", "light");
 
       document.body.classList.remove("dark-mode");

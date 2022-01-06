@@ -1,41 +1,73 @@
 .dark-mode .btn-primary {
-    color: #fff;
-    background-color: #3f6791!important;
-    border-color: #3f6791!important;
-    box-shadow: none;
-  }
-  
-  .dark-mode .student-card-header {
-    background-color:#3f6791!important;
-  }
-  
-  .dark-mode .card-primary.card-outline {
-    border-top: 3px solid #3f6791!important;
-  }
-  
-  .dark-mode .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #3f6791!important;
-  }
+  color: #fff;
+  background-color: #3f6791 !important;
+  border-color: #3f6791 !important;
+  box-shadow: none;
+}
 
-  .btn-primary {
-    background-color:rgba(34, 73, 87, 1)!important;
-    border-color: rgba(34, 73, 87, 1)!important;
-  }
-  
-  .student-card-header {
-    background-color:rgba(34, 73, 87, 1)!important;
-  }
-  
-  .card-primary.card-outline {
-    border-top: 3px solid rgba(34, 73, 87, 1)!important;
-  }
-  
-  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: rgba(34, 73, 87, 1)!important;
-  }
-  
-  .dark-mode input[type=date]::-webkit-calendar-picker-indicator  {
-    filter: invert(100%);
-  }
+.dark-mode .student-card-header {
+  background-color: #3f6791 !important;
+}
+
+.dark-mode .card-primary.card-outline {
+  border-top: 3px solid #3f6791 !important;
+}
+
+.dark-mode .nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: #3f6791 !important;
+}
+
+.btn-primary {
+  background-color: rgba(34, 73, 87, 1) !important;
+  border-color: rgba(34, 73, 87, 1) !important;
+}
+
+.student-card-header {
+  background-color: rgba(34, 73, 87, 1) !important;
+}
+
+.card-primary.card-outline {
+  border-top: 3px solid rgba(34, 73, 87, 1) !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: rgba(34, 73, 87, 1) !important;
+}
+
+.dark-mode input[type=date]::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+}
+
+.dark-mode h3 {
+  color: white !important;
+}
+
+.dark-mode .dark-div {
+  background-color: #343a40 !important;
+}
+
+.dark-mode .dark-div strong {
+  color: white;
+  background-color: #343a40 !important;
+}
+
+.dark-mode .dark-div h4 {
+  color: white !important;
+}
+
+.dark-mode .widget h4 {
+  color: white !important;
+}
+
+.dark-mode .title a,
+.dark-mode .action a {
+  color: white !important;
+}
+
+.dark-mode .delete:hover {
+  color: #DC3545 !important;
+}

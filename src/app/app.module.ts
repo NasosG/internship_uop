@@ -7,13 +7,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentComponent } from './student/student.component';
 import { HomeComponent } from './home/home.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
+import { StudentInternshipComponent } from './student-internship/student-internship.component';
+import { StudentPositionsComponent } from './student-positions/student-positions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentComponent,
     HomeComponent,
-    StudentProfileComponent
+    StudentProfileComponent,
+    StudentInternshipComponent,
+    StudentPositionsComponent
   ],
   imports: [
     BrowserModule,
