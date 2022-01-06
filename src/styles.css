@@ -71,3 +71,36 @@
 .dark-mode .delete:hover {
   color: #DC3545 !important;
 }
+
+.dark-mode .list-group a {
+  color: rgb(206, 205, 205) !important;
+}
+
+.list-group a:hover {
+  color: black;
+  background-color: #f5f5f5 !important;
+}
+
+.list-group a {
+  font-weight: normal !important;
+}
+
+.dark-mode .list-group a:hover {
+  background-color: #3c4249 !important;
+}
+
+.dark-mode .list-group li {
+  color: white !important;
+}
+
+.list-group li {
+  font-weight: 600 !important;
+  color: 777777 !important;
+  background-color: #eeeeee !important;
+}
+
+.dark-mode .list-group li {
+  font-weight: 600 !important;
+  color: 777777 !important;
+  background-color: #272a2eb4 !important;
+}

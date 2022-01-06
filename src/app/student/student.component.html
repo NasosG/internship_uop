@@ -19,7 +19,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Αρχική</a>
+        <a href="./student/" class="nav-link">Αρχική</a>
       </li>
     </ul>
 
@@ -110,7 +110,8 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a>
+          <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
+          <a href="/student/profile" class="d-block">Το προφίλ μου</a>
         </div>
       </div>
 
@@ -134,15 +135,15 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">Βασικές Επιλογές</li>
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="/student/myinternship" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Η πρακτική μου
-                <i class="right fas fa-angle-left"></i>
+                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <!-- <li class="nav-item">
+            <!-- <ul class="nav nav-treeview"> -->
+            <!-- <li class="nav-item">
                 <a href="./index.html" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard v1</p>
@@ -160,10 +161,10 @@
                   <p>Dashboard v3</p>
                 </a>
               </li> -->
-            </ul>
+            <!-- </ul> -->
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="/student/positions" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Επιλεγμένες Θέσεις
@@ -179,14 +180,14 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="./student/profile/" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
                 Σχετικά
-                <i class="fas fa-angle-left right"></i>
+                <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <!-- <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/mailbox/mailbox.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -205,17 +206,17 @@
                   <p>Read</p>
                 </a>
               </li>
-            </ul>
+            </ul> -->
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
                 Επικοινωνία
-                <i class="fas fa-angle-left right"></i>
+                <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <!-- <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/examples/invoice.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -276,7 +277,7 @@
                   <p>Contact us</p>
                 </a>
               </li>
-            </ul>
+            </ul> -->
           </li>
           <li class="nav-item">
             <a href="iframe.html" class="nav-link">
@@ -342,6 +343,7 @@
           </app-student-internship>
           <app-student-positions *ngIf="isPositionsRoute()">
           </app-student-positions>
+          <!-- <app-manuals></app-manuals> -->
 
           <!-- /.col -->
           <!-- <div class="col-sm-6">
