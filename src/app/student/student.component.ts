@@ -31,5 +31,13 @@ export class StudentComponent implements OnInit {
 
   isAboutRoute() {
     return this.router.url === '/student/about';
+  }
+
+  isManualsRoute() {
+    return this.router.url === '/student/manuals';
+  } 
+
+  isCalendarRoute() {
+    return this.router.url === '/student/calendar';
   } 
 }

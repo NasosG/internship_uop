@@ -28,6 +28,14 @@ const routes: Routes = [{
   { 
     path: 'about',
     component: StudentComponent
+  },
+  {
+    path: 'manuals',
+    component: StudentComponent
+  },
+  {
+    path: 'calendar',
+    component: StudentComponent
   }]
 },
 // {

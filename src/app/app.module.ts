@@ -11,6 +11,7 @@ import { StudentInternshipComponent } from './student-internship/student-interns
 import { StudentPositionsComponent } from './student-positions/student-positions.component';
 import { ManualsComponent } from './manuals/manuals.component';
 import { AboutComponent } from './about/about.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AboutComponent } from './about/about.component';
     StudentInternshipComponent,
     StudentPositionsComponent,
     ManualsComponent,
-    AboutComponent
+    AboutComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
