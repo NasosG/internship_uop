@@ -27,5 +27,9 @@ export class StudentComponent implements OnInit {
 
   isPositionsRoute() {
     return this.router.url === '/student/positions';
-  }  
+  } 
+
+  isAboutRoute() {
+    return this.router.url === '/student/about';
+  } 
 }
