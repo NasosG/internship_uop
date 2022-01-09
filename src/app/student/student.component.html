@@ -118,10 +118,10 @@
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" style="background-color:white;color: #464646;"
+          <input class="form-control form-control-sidebar input-search" type="search"
             placeholder="Search" aria-label="Search" />
           <div class="input-group-append">
-            <button class="btn btn-sidebar" style="background-color:white;color: #464646;">
+            <button class="btn btn-sidebar btn-search-switch" >
               <i class="fas fa-search fa-fw"></i>
             </button>
           </div>
@@ -279,12 +279,12 @@
               </li>
             </ul> -->
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="iframe.html" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>Το ημερολόγιό μου</p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-header">Προσβασιμότητα</li>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
@@ -338,6 +338,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
 
+          <app-student-home *ngIf="isStudentRoute()"></app-student-home>
           <app-student-profile *ngIf="isProfileRoute()"></app-student-profile>
           <app-student-internship *ngIf="isInternshipRoute()">
           </app-student-internship>
@@ -346,7 +347,7 @@
           <app-about *ngIf="isAboutRoute()"></app-about>
           <app-manuals *ngIf="isManualsRoute()"></app-manuals>
           <app-calendar *ngIf="isCalendarRoute()"></app-calendar>
-
+          
           <!-- /.col -->
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

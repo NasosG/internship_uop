@@ -12,6 +12,7 @@ import { StudentPositionsComponent } from './student-positions/student-positions
 import { ManualsComponent } from './manuals/manuals.component';
 import { AboutComponent } from './about/about.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { StudentHomeComponent } from './student-home/student-home.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     StudentPositionsComponent,
     ManualsComponent,
     AboutComponent,
-    CalendarComponent
+    CalendarComponent,
+    StudentHomeComponent
   ],
   imports: [
     BrowserModule,

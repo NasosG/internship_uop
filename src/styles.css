@@ -615,5 +615,28 @@
   }
 }
 
-
 /* calendar css end */
+
+
+.dark-mode .btn-collapse-min{
+  color:white!important;
+}
+
+.input-search, .btn-search-switch {
+  background-color:white!important;color: #464646!important;
+}
+
+.dark-mode .input-search, .dark-mode .btn-search-switch {
+  background-color: #3f474e!important;
+  border: 1px solid #56606a!important;
+  /* border: 1px solid #137474!important; */
+  /* border: 1px solid #1a78d6!important; */
+  color: white!important;
+}
+
+/* .dark-mode .main-header {  
+  background-color: #3f474e!important;   
+  border: 1px solid #56606a!important;
+
+   color: white!important; 
+}  */
