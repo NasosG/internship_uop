@@ -11,6 +11,7 @@ window.addEventListener("load", () => {
   let logo = document.getElementById("uopLogo") || null;
   let toBeChanged =
     [checkbox, languageButton, mainHeading, minorHeading] || null;
+  let navbar = document.getElementById("nav-bar");
 
   // Check storage if dark mode was on or off
   // Can use sessionStorage instead of localStorage too
@@ -41,6 +42,9 @@ window.addEventListener("load", () => {
         element?.classList.add("dark-mode-text");
       });
       if (logo) logo.src = "assets/images/uop.png";
+
+      navbar?.classList.add("navbar-dark");
+      navbar?.classList.remove("navbar-light", "navbar-white");
     } catch (error) {
       console.log("error: " + error);
     }
@@ -58,6 +62,9 @@ window.addEventListener("load", () => {
         element?.classList.remove("dark-mode-text");
       });
       if (logo) logo.src = "assets/images/v110_3.png";
+      
+      navbar?.classList.remove("navbar-dark");
+      navbar?.classList.add("navbar-light", "navbar-white");
     } catch (error) {
       console.log("error: " + error);
     }
@@ -409,7 +416,6 @@ window.addEventListener("load", () => {
   ];
 
   
-
   function addDate(ev) {
     
   }
