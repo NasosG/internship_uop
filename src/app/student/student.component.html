@@ -19,14 +19,14 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="./student/" class="nav-link">Αρχική</a>
+        <a href="./student/" class="nav-link"> <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>
         </a>
@@ -45,7 +45,7 @@
             </div>
           </form>
         </div>
-      </li>
+      </li> -->
 
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
@@ -80,9 +80,39 @@
         </a>
       </li>
 
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-lg fa-user-graduate"></i>
+            Γεώργιος Π.
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="#" class="dropdown-item">Reports</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">Logout</a>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-lg fa-globe"></i>
+            Γλώσσα
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="#" class="dropdown-item">Reports</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">Logout</a>
+          </div>
+        </li>
+      </ul>
+
       <li class="nav-item">
         <span href="#" style="color: black;" class="nav-link" role="button">
-          <label class="theme-switch" for="ChangeTheme">
+          <label class="theme-switch" style="height:29px;" for="ChangeTheme">
             <input type="checkbox" id="ChangeTheme" />
             <div class="slider round"></div>
           </label>
@@ -98,7 +128,7 @@
     <a href="#" class="brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
-      <span class="brand-text font-weight-light">Πρακτική Φοιτητή</span>
+      <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
     </a>
 
     <!-- Sidebar -->
@@ -107,16 +137,16 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <!--<img src="assets/images/user2-160x160.jpg"-->
-          <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
+          <!-- <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" /> -->
         </div>
         <div class="info">
           <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
-          <a href="/student/profile" class="d-block">Το προφίλ μου</a>
+          <a class="d-block">Ιδιότητα: Φοιτητής</a>
         </div>
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      <!-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar input-search" type="search" placeholder="Search"
             aria-label="Search" />
@@ -126,7 +156,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -172,7 +202,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-header">Επιλογές Χρήστη</li>
+          <li class="nav-header">Δευτερεύουσες Επιλογές</li>
           <li class="nav-item">
             <a href="pages/kanban.html" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
