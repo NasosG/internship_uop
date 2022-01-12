@@ -36,6 +36,10 @@ const routes: Routes = [{
   {
     path: 'calendar',
     component: StudentComponent
+  },
+  {
+    path: 'sheets',
+    component: StudentComponent
   }]
 },
 // {

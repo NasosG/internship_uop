@@ -40,4 +40,8 @@ export class StudentComponent implements OnInit {
   isCalendarRoute() {
     return this.router.url === '/student/calendar';
   } 
+
+  isSheetsRoute() {
+    return this.router.url === '/student/sheets';
+  } 
 }

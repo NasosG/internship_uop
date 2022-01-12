@@ -19,12 +19,12 @@
      <!-- small box -->
      <div class="small-box bg-btn-stat">
        <div class="inner">
-         <h3>58<sup style="font-size: 20px">%</sup></h3>
+         <h3>28<sup style="font-size: 20px"></sup></h3>
 
-         <p>Ποσοστό Περασμένων μαθημάτων</p>
+         <p>Αριθμός περασμένων μαθημάτων</p>
        </div>
        <div class="icon">
-         <i class="fas fa-percent"></i>
+         <i class="fas fa-chart-bar"></i>
 
        </div>
        <a href="#" class="small-box-footer">Περισσότερα <i class="fas fa-arrow-circle-right"></i></a>
@@ -67,12 +67,15 @@
  <div class="row">
    <!-- Left col -->
    <section class="col-lg-8 connectedSortable">
+     <div class="alert alert-success" role="alert">
+       Η περίοδος δήλωσης πρακτικής άσκησης είναι από 01/03/2021 έως 20/05/2021.
+     </div>
      <!-- Custom tabs (Charts with tabs)-->
      <div class="card">
        <div class="card-header">
          <h3 class="card-title">
-           <i class="fas fa-chart-pie mr-1"></i>
-           Έλεγχος έγκρισης πρακτικής
+           <i class="fas fa-book mr-1"></i>
+           Οδηγίες για πρακτική άσκηση
          </h3>
 
          <div class="card-tools">
@@ -107,12 +110,32 @@
          <div class="tab-content p-0">
 
            <div class="chart tab-pane active" id="revenue-chart">
+
+             <div>
+               Το γραφείο πρακτικής άσκησης δινει τη δυνατότητα στο φοιτητή να κάνει αίτηση για εκπόνηση της πρακτικής
+               του άσκησης με κριτήριο ότι έχει <span class="text-danger"> δηλώσει στο φοιτητολόγιο το κατάλληλο μάθημα
+               </span> που
+               αναγράφεται ως
+               "πρακτική άσκηση"
+               <br><br>
+             </div>
+
+
              Τα βήματα για την πρακτική άσκηση είναι:
              <ul class="pt-2">
-               <li> <a href=""> &nbsp;Βήμα 1: Συμπληρώστε το προφίλ σας στο πάνω δεξιά μέρος (υποχρεωτικό)</a></li>
-               <li> <a href=""> &nbsp;Βήμα 2: Διαβάστε για την διαδικασία πρακτικής άσκησης της σχολής σας</a></li>
-               <li> <a href=""> &nbsp;Βήμα 3: Κάντε αίτηση για πρακτική άσκηση</a></li>
-               <li> <a href=""> &nbsp;Βήμα 4: Δείτε τις αιτήσεις σας στη καρτέλα επιλεγμένες θέσεις (προτείνεται)</a>
+               <li> <a class="text-dark" href="student/profile"> &nbsp;Βήμα 1: Συμπληρώστε το προφίλ σας από τις
+                   βασικές επιλογές
+                   (υποχρεωτικό)</a></li>
+               <li> <a class="text-dark" href=""> &nbsp;Βήμα 2: Διαβάστε για την διαδικασία πρακτικής άσκησης της σχολής
+                   σας</a></li>
+               <li> <a class="text-dark" href="student/myinternship"> &nbsp;Βήμα 3: Κάντε αίτηση για πρακτική άσκηση</a>
+               </li>
+               <li> <a class="text-dark" href="student/positions"> &nbsp;Βήμα 4: Δείτε τις αιτήσεις σας στη καρτέλα
+                   επιλεγμένες θέσεις, καθώς και αν έχετε επιλεγεί για πρακτική σε κάποιο φορέα</a>
+               </li>
+               <li> <a class="text-dark" href="student/positions"> &nbsp;Βήμα 5: Αφού ολοκληρώσετε με επιτυχία την
+                   πρακτική σας, συμπληρώστε τα απογραφικά δελτία εισόσου / εξόδου
+                   (υποχρεωτικό)</a>
                </li>
              </ul>
 
@@ -121,7 +144,56 @@
        </div>
 
      </div>
-     <!-- /.card -->
+     <div class="card">
+       <div class="card-header">
+         <h3 class="card-title">
+           <i class="fas fa-folder-open mr-1"></i>
+           Αποτέλεσμα αίτησης πρακτικής άσκησης
+         </h3>
+
+         <div class="card-tools">
+           <!-- <ul class="nav nav-pills ml-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+              </li>
+            </ul> -->
+           <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+             <i class="fas fa-minus"></i>
+           </button>
+         </div>
+       </div>
+       <!-- <div class="card-body">
+         <div class="tab-content p-0">
+           <div class="chart tab-pane active" id="revenue-chart">
+             Τα κριτήρια για την έγκριση της πρακτικής άσκησης είναι τα εξής:
+             <ul class="pt-2">
+               <li>Τρέχον εξάμηνο Φοίτησης</li>
+               <li>Ποσοστό Περασμένων μαθημάτων</li>
+               <li>Μέσος όρος βαθμολογίας</li>
+               <li>Έλεγχος έγκρισης πρακτικής</li>
+             </ul>
+             Βάσει των παραπάνω κριτηρίων, δικαιείσαι πρακτική άσκηση. <i class="fas fa-2x fa-check text-success"></i>
+           </div>
+         </div>
+       </div> -->
+       <div class="card-body">
+         <div class="tab-content p-0">
+           <div class="chart tab-pane active" id="revenue-chart">
+             Η αίτησή σας για εκπόνηση πρακτικής άσκησης έχει γίνει δεκτή από το γραφείο πρακτικής άσκησης του τμήματός
+             σας καθώς πληρούσατε τις προϋποθέσεις εκπόνησης πρακτικής άσκησης. <i
+               class=" fas fa-2x fa-check text-success"></i>
+             <br>
+           </div>
+
+         </div>
+       </div>
+
+     </div>
+
+
    </section>
    <!-- /.Left col -->
    <!-- right col (We are only adding the ID to make the widgets sortable)-->

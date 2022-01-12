@@ -1,6 +1,6 @@
 <div class="wrapper">
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="assets/images/uop.png" alt="UOPLogo" height="100" width="103"
       style="opacity: 0.5;" />
     <br>
@@ -9,7 +9,7 @@
       <div class="app-child app-bounce2"></div>
       <div class="app-child app-bounce3"></div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Navbar -->
   <nav id="nav-bar" class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -164,8 +164,17 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-header">Βασικές Επιλογές</li>
-          <li class="nav-item menu-open">
-            <a href="/student/myinternship" class="nav-link active">
+          <li class="nav-item">
+            <a [routerLink]="['/student/profile']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Το προφίλ μου
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a [routerLink]="['/student/myinternship']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Η πρακτική μου
@@ -194,7 +203,7 @@
             <!-- </ul> -->
           </li>
           <li class="nav-item">
-            <a href="/student/positions" class="nav-link">
+            <a [routerLink]="['/student/positions']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Επιλεγμένες Θέσεις
@@ -202,15 +211,23 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fa fa-book"></i>
+              <p>
+                Δελτιά Απογραφής
+              </p>
+            </a>
+          </li>
           <li class="nav-header">Δευτερεύουσες Επιλογές</li>
           <li class="nav-item">
-            <a href="pages/kanban.html" class="nav-link">
+            <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
               <p>Εγχειρίδια</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="./student/profile/" class="nav-link">
+            <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
                 Σχετικά
@@ -377,7 +394,7 @@
           <app-about *ngIf="isAboutRoute()"></app-about>
           <app-manuals *ngIf="isManualsRoute()"></app-manuals>
           <app-calendar *ngIf="isCalendarRoute()"></app-calendar>
-
+          <app-sheets *ngIf="isSheetsRoute()"></app-sheets>
           <!-- /.col -->
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
