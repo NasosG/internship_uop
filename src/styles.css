@@ -618,20 +618,23 @@
 /* calendar css end */
 
 
-.dark-mode .btn-collapse-min{
-  color:white!important;
+.dark-mode .btn-collapse-min {
+  color: white !important;
 }
 
-.input-search, .btn-search-switch {
-  background-color:white!important;color: #464646!important;
+.input-search,
+.btn-search-switch {
+  background-color: white !important;
+  color: #464646 !important;
 }
 
-.dark-mode .input-search, .dark-mode .btn-search-switch {
-  background-color: #3f474e!important;
-  border: 1px solid #56606a!important;
+.dark-mode .input-search,
+.dark-mode .btn-search-switch {
+  background-color: #3f474e !important;
+  border: 1px solid #56606a !important;
   /* border: 1px solid #137474!important; */
   /* border: 1px solid #1a78d6!important; */
-  color: white!important;
+  color: white !important;
 }
 
 /* .dark-mode .main-header {  
@@ -640,3 +643,26 @@
 
    color: white!important; 
 }  */
+
+
+.or-separator label {
+  background-color: #fff;
+  padding: 0 0.4em;
+  position: relative;
+}
+
+.dark-mode .or-separator label {
+  color: white;
+  background-color: #1a1a1a !important;
+}
+
+.dark-mode .or-separator:before {
+  filter: invert(1);
+  -webkit-filter: invert(1);
+  background-color: #ffffff !important;
+}
+
+.dark-mode .or-separator:after {
+  color: white;
+  background-color: #ffffff !important;
+}

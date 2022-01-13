@@ -61,7 +61,7 @@ window.addEventListener("load", () => {
       toBeChanged.forEach(function (element) {
         element?.classList.remove("dark-mode-text");
       });
-      if (logo) logo.src = "assets/images/v110_3.png";
+      if (logo) logo.src = "assets/images/pelopas.png";
       
       navbar?.classList.remove("navbar-dark");
       navbar?.classList.add("navbar-light", "navbar-white");
