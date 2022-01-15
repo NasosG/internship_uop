@@ -131,7 +131,14 @@
                     <label for="inputName" class="col-sm-2 col-form-label">Όνομα&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Όνομα" value="Μαρία Ηλιάκη">
+                      <input type="email" class="form-control" id="inputName" placeholder="Όνομα" value="Μαρία">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label">Επώνυμο&nbsp;<span
+                        class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputName" placeholder="Όνομα" value="Ηλιάκη">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -171,7 +178,7 @@
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input class="form-control" type="date" id="date_of_birth" name="date_of_birth"
-                        placeholder="date of birth" required="" min="1900-01-01" max="2500-01-01">
+                        placeholder="date of birth" required="" min="1900-01-01" max="2500-01-01" value="1999-03-21">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -180,7 +187,7 @@
                     <div class="col-sm-10">
                       <select class="form-control" id="sex" name="sex">
                         <option value="0">Άνδρας</option>
-                        <option value="1">Γυναίκα</option>
+                        <option value="1" selected>Γυναίκα</option>
                       </select>
                     </div>
                   </div>
@@ -227,9 +234,11 @@
 
               <div class="tab-pane" id="sumbasiDetails">
                 <div class="alert alert-danger" role="alert">
-                  Τα παρακάτω στοιχεία είναι αυστηρά προσωπικά και αφορούν μόνο εσάς και όχι π.χ
+                  - Τα παρακάτω στοιχεία είναι αυστηρά προσωπικά και αφορούν μόνο εσάς και όχι π.χ
                   κάποιο άλλο πρόσωπο της
-                  οικογένειας σας.
+                  οικογένειας σας. <br>- Το ΑΜΚΑ αντλείται από τo φοιτητολόγιο. Σε περίπτωση που δεν συμφωνείτε
+                  επικοινωνήστε
+                  με την γραμματεία
                 </div>
                 <form class="form-horizontal">
                   <div class="form-group row">
@@ -238,12 +247,20 @@
                     <div class="col-sm-10">
                       <input type="email" class="form-control" id="inputName" placeholder="ΑΦΜ">
                     </div>
+
                   </div>
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">ΔΟΥ&nbsp;<span
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="mb-3 col-sm-10">
+                      <label for="formFile" class="form-label">Ανεβάστε φωτογραφία που να απεικονίζεται το ΑΦΜ</label>
+                      <input class="form-control" type="file" id="formFile">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputDOY" class="col-sm-2 col-form-label">ΔΟΥ&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="ΔΟΥ">
+                      <input type="text" class="form-control" id="inputDOY" placeholder="ΔΟΥ">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -254,7 +271,15 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">AMKA&nbsp;<span
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="mb-3 col-sm-10">
+                      <label for="formFile" class="form-label">Ανεβάστε φωτογραφία που να απεικονίζεται το IBAN
+                      </label>
+                      <input class="form-control" type="file" id="formFile">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">ΑΜΚΑ&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input class="form-control" type="text" id="amka" name="amka" placeholder="AMKA" required>
@@ -281,6 +306,10 @@
               </div>
 
               <div class="tab-pane" id="studentContact">
+                <div class="alert alert-danger" role="alert">
+                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που δεν συμφωνείτε
+                  επικοινωνήστε με την γραμματεία
+                </div>
                 <form class="form-horizontal">
                   <div class="fieldset-wrapper">
                     <!-- <div class="form-item form-type-checkbox form-item-profile-student-field-student-address-und-0-re-geocode-location">
@@ -298,9 +327,13 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputEmail" class="col-sm-2 col-form-label">Τηλέφωνο</label>
+                      <label for="edit-profile-student-field-student-address-und-0-phone"
+                        class="col-sm-2 col-form-label">Τηλέφωνο</label>
                       <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail" placeholder="">
+                        <input type="text" class="form-control"
+                          id="edit-profile-student-field-student-address-und-0-phone"
+                          name="profile_student[field_student_address][und][0][phone]" placeholder="" value="" size="31"
+                          maxlength="31">
                       </div>
                     </div>
                     <div class="form-group row form-type-textfield
@@ -603,15 +636,6 @@
                           <option value="cl">Χιλή</option>
                           <option value="hk">Χονγκ Κονγκ</option>
                         </select>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-2" for="edit-profile-student-field-student-address-und-0-phone">Αριθμός
-                        τηλεφώνου </label>
-                      <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-phone"
-                          name="profile_student[field_student_address][und][0][phone]" value="" size="31" maxlength="31"
-                          class="form-text form-control">
                       </div>
                     </div>
                     <div class="form-group row">

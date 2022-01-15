@@ -8,6 +8,10 @@ const routes: Routes = [{
   component: HomeComponent
 },
 {
+  path: 'terms',
+  component: HomeComponent
+},
+{
   path: 'student', 
   children: [{
     path: '',

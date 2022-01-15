@@ -14,7 +14,9 @@ import { AboutComponent } from './about/about.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { StudentHomeComponent } from './student-home/student-home.component';
 import { SheetsComponent } from './sheets/sheets.component';
-
+import { StudentLoginTermsComponent } from './student-login-terms/student-login-terms.component';
+import { HomeButtonsComponent } from './home-buttons/home-buttons.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,12 +29,15 @@ import { SheetsComponent } from './sheets/sheets.component';
     AboutComponent,
     CalendarComponent,
     StudentHomeComponent,
-    SheetsComponent
+    SheetsComponent,
+    StudentLoginTermsComponent,
+    HomeButtonsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

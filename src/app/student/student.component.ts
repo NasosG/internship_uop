@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import {BreakpointObserver} from '@angular/cdk/layout'
 
 @Component({
   selector: 'app-student',
@@ -7,8 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  
+  @Output()
+  readonly darkModeSwitched = new EventEmitter<boolean>();
+  constructor(private router: Router, private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
   }
@@ -44,4 +47,6 @@ export class StudentComponent implements OnInit {
   isSheetsRoute() {
     return this.router.url === '/student/sheets';
   } 
+
+  onDarkModeSwitched() {}
 }

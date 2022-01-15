@@ -42,7 +42,8 @@
   filter: invert(100%);
 }
 
-.dark-mode h3 {
+.dark-mode h3,
+.dark-mode h4 {
   color: white !important;
 }
 
@@ -91,6 +92,11 @@
 
 .dark-mode .list-group li {
   color: white !important;
+}
+
+.dark-mode .terms-box {
+  background-color: #40444b !important;
+  border: 2px solid rgb(134, 116, 116) !important;
 }
 
 .list-group li {
