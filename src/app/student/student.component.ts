@@ -48,5 +48,18 @@ export class StudentComponent implements OnInit {
     return this.router.url === '/student/sheets';
   } 
 
+  isSheetInputRoute() {
+    return this.router.url === '/student/input-sheet';
+  } 
+
+  isSheetOutputRoute() {
+    return this.router.url === '/student/output-sheet';
+  } 
+
+  isSheetInputPreviewRoute() {
+    return this.router.url === '/student/input-sheet-preview';
+  } 
+
+
   onDarkModeSwitched() {}
 }

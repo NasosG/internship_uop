@@ -17,6 +17,9 @@ import { SheetsComponent } from './sheets/sheets.component';
 import { StudentLoginTermsComponent } from './student-login-terms/student-login-terms.component';
 import { HomeButtonsComponent } from './home-buttons/home-buttons.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SheetInputComponent } from './sheet-input/sheet-input.component';
+import { SheetOutputComponent } from './sheet-output/sheet-output.component';
+import { SheetInputPreviewComponent } from './sheet-input-preview/sheet-input-preview.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +34,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     StudentHomeComponent,
     SheetsComponent,
     StudentLoginTermsComponent,
-    HomeButtonsComponent
+    HomeButtonsComponent,
+    SheetInputComponent,
+    SheetOutputComponent,
+    SheetInputPreviewComponent
   ],
   imports: [
     BrowserModule,

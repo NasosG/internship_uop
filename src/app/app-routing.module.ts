@@ -44,6 +44,18 @@ const routes: Routes = [{
   {
     path: 'sheets',
     component: StudentComponent
+  },
+  {
+    path: 'input-sheet',
+    component: StudentComponent
+  },
+  {
+    path: 'output-sheet',
+    component: StudentComponent
+  },
+  {
+    path: 'input-sheet-preview',
+    component: StudentComponent
   }]
 },
 // {
