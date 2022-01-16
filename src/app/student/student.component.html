@@ -84,7 +84,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-            Γεώργιος Π.
+            Μαρία Αλεξίου
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="dropdown-item">Reports</a>
@@ -111,13 +111,23 @@
       </ul>
 
       <li class="nav-item">
-        <span href="#" style="color: black;" class="nav-link" role="button">
+        <span href="#" style="color: black;" class="pr-0 mr-0 nav-link" role="button">
           <label class="theme-switch" style="height:30px;" for="ChangeTheme">
             <input type="checkbox" id="ChangeTheme" />
             <div class="slider round"></div>
           </label>
         </span>
+
       </li>
+      <li class="nav-item pl-0 ml-0">
+        <span href="#" style="color: #54555e; height:39px;" class="nav-link" role="button">
+
+          <span style="font-size:1.27em;"><i class="fa fa-moon"></i></span>
+
+        </span>
+
+      </li>
+
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -225,7 +235,7 @@
             <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-book"></i>
               <p>
-                Δελτίο Απογραφής
+                Δελτίο / Συμβάση
               </p>
             </a>
           </li>
@@ -377,6 +387,24 @@
                   <i class="nav-icon fas fa-ruler-combined"></i>
                   <p>Τρέχον Μέγεθος</p>
                   <span class="badge badge-info right">100%</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="pages/calendar.html" class="nav-link">
+              <i class="fas fa-adjust"></i>
+              <p> &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
+                <i class="fas fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">100%</span> -->
+              </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-moon"></i>
+                  <p>Λευκό/Μαύρο</p>
                 </a>
               </li>
             </ul>
