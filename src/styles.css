@@ -672,3 +672,21 @@
   color: white;
   background-color: #ffffff !important;
 }
+
+/* .moon-icon {
+  color: #54555e;
+  height: 39px;
+}
+
+.dark-mode .moon-icon {
+  color: white;
+  height: 39px;
+} */
+
+.text-steps {
+  color: black;
+}
+
+.dark-mode .text-steps {
+  color: white;
+}
