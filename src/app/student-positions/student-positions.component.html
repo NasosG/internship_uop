@@ -1,43 +1,76 @@
 <div class="container-fluid mt-5" style="max-width:90%;margin:auto;">
+  <h2 class="position-h2">Οι αιτήσεις μου</h2>
   <!-- Table -->
+  <table class="manage-table submissions responsive-table dark-div mt-3">
+    <tr>
+      <th>Αριθμός Πρωτοκόλλου</th>
+      <th> Ημερομηνία Πρωτοκόλλου </th>
+      <th> Κατάσταση</th>
+      <!-- <th> Θέση</th> -->
+      <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
+      <th></th>
+    </tr>
+    <tr class="dark-div submissions-div">
+      <td>34564953868</td>
+      <td>16/01/2022</td>
+      <td>Ενεργή</td>
+      <!-- <td>PHP Developer at Intrasoft</td> -->
+      <td class="action">
+        <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->
+        <a href="#"><i class="fa  fa-eye-slash"></i> Προβολή</a>
+        <!-- <a href="#" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a> -->
+      </td>
+    </tr>
+  </table>
   <div>
-    <p class="mb-4">Μπορείτε να δείτε τις θέσεις στις οποίες έχετε κάνει αίτηση στο παρακάτω πίνακα:</p>
-
-    <table class="manage-table resumes responsive-table dark-div">
+    <h2 class="mt-4 mb-2 position-h2">Οι θέσεις μου</h2>
+    <div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
+      Επιλέξτε τις θέσεις στις οποίες έχετε κάνει αίτηση κατά σειρά προτίμησης και έπειτα οριστικοποιήστε την αίτησή
+      σας.
+    </div>
+    <table class="manage-table resumes responsive-table dark-div mt-3">
       <tr>
         <th><i class="fas fa-sort"></i> Προτεραιότητα</th>
-        <th><i class="fa fa-user"></i> Όνομα</th>
+        <th><i class="fa fa-building"></i> Εταιρεία</th>
         <th><i class="fa fa-file"></i> Τίτλος</th>
         <th><i class="fa fa-map-marker"></i> Τοποθεσία</th>
         <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th>
         <th></th>
       </tr>
       <tr class="dark-div">
-        <td class="title"><a href="#"># 1</a></td>
-        <td class="title"><a href="#">Γιάννης Γεωργίου</a></td>
+        <td class="title"><a href="#"> <i style="font-size:1.4em;" class="fas fa-angle-up pr-2"></i>&nbsp;<i
+              style="font-size:1.4em;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
+              style="font-size:1.1em;">1</span></a>
+        </td>
+        <td class="title"><a href="#">Citrix</a></td>
         <td>Front End Web Developer</td>
         <td>Τρίπολη</td>
         <td>Ιανουάριος 04, 2022</td>
         <td class="action">
-          <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
-          <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a>
+          <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
+          <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a> -->
           <a href="#" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
         </td>
       </tr>
       <tr class="dark-div">
-        <td class="title"><a href="#"># 2</a></td>
-        <td class="title"><a href="#">Γιάννης Γεωργίου</a></td>
+        <td class="title"><a href="#"> <i style="font-size:1.4em;" class="fas fa-angle-up pr-2"></i>&nbsp;<i
+              style="font-size:1.4em;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
+              style="font-size:1.1em;">2</span></a>
+        </td>
+        <td class="title"><a href="#">Intrasoft</a></td>
         <td>Logo Designer</td>
         <td>Τρίπολη</td>
         <td>Αύγουστος 12, 2021</td>
         <td class="action">
-          <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
-          <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a>
+          <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
+          <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a> -->
           <a href="#" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
         </td>
       </tr>
     </table>
     <br>
-    <a href="#" class="button btn-primary">Δες νεες θεσεις πρακτικης</a>
+    <a href="#" class="button btn-primary">Προσωρινη Αποθηκευση Αιτησης</a>
+    <a href="#" (click)="myAlert()" class="ml-2 button btn-primary">Οριστικοποιηση
+      Αιτησης</a>
   </div>
 </div>

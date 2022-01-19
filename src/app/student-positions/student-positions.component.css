@@ -217,6 +217,32 @@ hr {
   height: 0;
 }
 
+.submissions {}
+
+table {
+  padding: 40px !important;
+}
+
+td {
+  padding: 20px !important;
+}
+
+.submissions tr th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px !important;
+  background-color: #62676b;
+}
+
+.submissions tr th i {
+  padding-top: 0px;
+  margin-bottom: 40px;
+  background-color: #62676b;
+}
+
+.submissions-div>td {
+  padding: 10px !important;
+}
 
 /* #Links
 ================================================== */
@@ -347,9 +373,10 @@ table.manage-table tr td {
 }
 
 table.manage-table tr:hover td {
-  border: 1px double rgba(80, 80, 80, 0.7);
-  border-left: none;
-  border-right: none;
+  /* 19/01/22 */
+  /* border: 1px double rgba(80, 80, 80, 0.7); */
+  /* border-left: none; */
+  /* border-right: none; */
   background-color: rgba(80, 80, 80, 0.05);
 }
 

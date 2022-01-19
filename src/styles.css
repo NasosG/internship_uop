@@ -690,3 +690,11 @@
 .dark-mode .text-steps {
   color: white;
 }
+
+.dark-mode .position-h2 {
+  color: white !important;
+}
+
+.submissions .table .td {
+  padding: 0 !important;
+}

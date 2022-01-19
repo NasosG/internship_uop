@@ -12,4 +12,7 @@ export class StudentPositionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  myAlert() {
+    confirm("Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Είστε σίγουροι ότι θέλετε να προχωρήσετε;");
+  }
 }
