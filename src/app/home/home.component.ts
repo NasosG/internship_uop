@@ -17,8 +17,15 @@ export class HomeComponent implements OnInit {
     return this.router.url === '/terms';
   }
 
+  isCompanyTermsRoute() {
+    return this.router.url === '/company-terms';
+  }
   isRoute() {
     return this.router.url === '/';
+  }
+
+  isCredentialsRoute() {
+    return this.router.url === '/credentials-generic';
   }
 
 }

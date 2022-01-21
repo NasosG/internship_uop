@@ -194,7 +194,7 @@
             <a [routerLink]="['/student/myinternship']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Η πρακτική μου
+                Θέσεις Πρακτικής
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
@@ -223,7 +223,7 @@
             <a [routerLink]="['/student/positions']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Επιλεγμένες Θέσεις
+                Οι αιτήσεις μου
                 <span class="right badge badge-danger">1</span>
               </p>
             </a>
@@ -419,7 +419,6 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-
           <app-student-home *ngIf="isStudentRoute()"></app-student-home>
           <app-student-profile *ngIf="isProfileRoute()"></app-student-profile>
           <app-student-internship *ngIf="isInternshipRoute()">

@@ -698,3 +698,11 @@
 .submissions .table .td {
   padding: 0 !important;
 }
+
+/* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+
+.my:focus {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  border-bottom: 2px solid rgb(0, 0, 0) !important;
+}

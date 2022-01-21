@@ -12,6 +12,14 @@ const routes: Routes = [{
   component: HomeComponent
 },
 {
+  path: 'company-terms',
+  component: HomeComponent
+},
+{
+  path: 'credentials-generic',
+  component: HomeComponent
+},
+{
   path: 'student', 
   children: [{
     path: '',

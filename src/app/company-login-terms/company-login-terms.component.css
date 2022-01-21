@@ -1,0 +1,67 @@
+.terms-box {
+  margin: auto;
+  display: block;
+  border-radius: 10px;
+  border: 3px solid #ddd;
+  background-color: #eee;
+  width: 500px;
+}
+
+a {
+  color: green;
+}
+
+a:hover {
+  color: #15975b !important;
+}
+
+.tacbox {
+  margin: auto;
+  display: block;
+  padding: 1em;
+  width: 500px;
+}
+
+input {
+  height: 2em;
+  width: 2em;
+  vertical-align: middle;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+.content {
+  width: 700px;
+  margin: auto;
+  border-radius: 5px;
+  border-radius: 20px;
+}
+
+#main-terms-div {
+  /* slide in animation */
+  animation-duration: 0.7s;
+  animation-name: slidein;
+  transition: all 0.7s ease-in-out;
+}
+
+hr {
+  height: 1px;
+  background-color: #ccc;
+  border: none;
+}
+
+@keyframes slidein {
+  from {
+    /* background-color: #fff; */
+    margin-left: 100%;
+    width: 100%;
+  }
+
+  to {
+    margin-left: 0%;
+    /* background-color: #fff; */
+    width: 100%;
+  }
+}

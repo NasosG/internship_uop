@@ -20,6 +20,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { SheetInputComponent } from './sheet-input/sheet-input.component';
 import { SheetOutputComponent } from './sheet-output/sheet-output.component';
 import { SheetInputPreviewComponent } from './sheet-input-preview/sheet-input-preview.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CompanyLoginTermsComponent } from './company-login-terms/company-login-terms.component';
+import { CredentialsGenericLoginComponent } from './credentials-generic-login/credentials-generic-login.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,13 +42,17 @@ import { SheetInputPreviewComponent } from './sheet-input-preview/sheet-input-pr
     HomeButtonsComponent,
     SheetInputComponent,
     SheetOutputComponent,
-    SheetInputPreviewComponent
+    SheetInputPreviewComponent,
+    CompanyLoginTermsComponent,
+    CredentialsGenericLoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

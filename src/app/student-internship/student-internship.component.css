@@ -7559,6 +7559,10 @@ label.upload-btn input[type="file"] {
     width: 100%;
   }
 
+  .search-container input {
+    width: 100% !important;
+  }
+
   input.ico-01 {
     background-position: 95% 20px;
   }

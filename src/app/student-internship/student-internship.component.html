@@ -1,5 +1,26 @@
-<div class="card mb-3">
-  <div class="card-header">
+<!-- <section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+
+      </div>
+      <div class="col-sm-6">
+        <div class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="/student">student</a></li>
+          <li class="breadcrumb-item active">profile</li>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
+
+  <i class="fas fa-search mr-1"></i>
+  Φιλτρα Αναζητησης &nbsp;<i style="font-size:16px;" class="fa fa-angle-down"></i><br>
+
+</button>
+<div id="demo" class="card mb-3 collapse">
+  <!-- <div class="card-header">
     <h3 class="pl-4 pb-3 card-title">
       <i class="fas fa-search mr-1"></i>
       Φίλτρα Αναζήτησης<br>
@@ -10,8 +31,8 @@
         <i style="font-size:24px;" class="fa fa-angle-down"></i>
       </button>
     </div>
-  </div>
-  <div class="pl-3 card-body">
+  </div> -->
+  <div class="pl-3 mt-3 card-body">
     <div class="tab-content p-0">
       <div class="chart tab-pane active" id="searchFilters">
         <div class="col-12">
@@ -113,6 +134,20 @@
     </div>
   </div>
 </div>
+
+<div class="topnav mt-4 pt-0">
+  <div class="search-container mt-0 pt-0 mb-3 pb-3" style="width:100%; margin:auto;">
+    <form action="">
+      <div class="container-fluid row">
+        <input type="search" class="my col-md-11" style=" margin-right:0;outline:none;" placeholder="Aναζήτηση..."
+          name="search">
+        <button class="ml-0" class="col-md-1" type="submit" style="margin-top:2px;"><i
+            class=" fa fa-search"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
   Προσθέστε έως 5 θέσεις για πρακτική άσκηση
 </div>
