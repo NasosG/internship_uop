@@ -1,0 +1,533 @@
+<div class="wrapper">
+  <!-- Preloader -->
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="assets/images/uop.png" alt="UOPLogo" height="100" width="103"
+      style="opacity: 0.5;" />
+    <br>
+    <div class="app-three-bounce">
+      <div class="app-child app-bounce1"></div>
+      <div class="app-child app-bounce2"></div>
+      <div class="app-child app-bounce3"></div>
+    </div>
+  </div> -->
+
+  <!-- Navbar -->
+  <nav id="nav-bar" class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="./student/" class="nav-link"> <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      <!-- <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" />
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li> -->
+
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-danger navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-lg fa-user-graduate"></i>
+            Μαρία Αλεξίου
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="#" class="dropdown-item">Reports</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">Logout</a>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-lg fa-globe"></i>
+            Γλώσσα
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="#" class="dropdown-item">Reports</a>
+            <a href="#" class="dropdown-item">Settings</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">Logout</a>
+          </div>
+        </li>
+      </ul>
+
+      <li class="nav-item">
+        <span href="#" style="color: black;" class="pr-0 mr-0 nav-link" role="button">
+          <label class="theme-switch" style="height:30px;" for="ChangeTheme">
+            <input type="checkbox" id="ChangeTheme" />
+            <div class="slider round"></div>
+          </label>
+        </span>
+
+      </li>
+      <li class="nav-item pl-0 ml-0">
+        <span href="#" class="nav-link moon-icon" role="button">
+          <span style="font-size:1.27em;"><i class="fa fa-moon"></i></span>
+        </span>
+
+      </li>
+
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="./student/" class="brand-link">
+      <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
+        style="opacity: 1" />
+      <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <!--<img src="assets/images/user2-160x160.jpg"-->
+          <!-- <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" /> -->
+        </div>
+        <div class="info">
+          <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
+          <a class="d-block">Ιδιότητα: Φοιτητής</a>
+        </div>
+      </div>
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <!-- <img src="assets/images/user2-160x160.jpg"> -->
+          <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
+        </div>
+        <div class="info">
+          <a routerLink="/student/profile" class="d-block">Μαρία Αλεξίου</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      <!-- <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar input-search" type="search" placeholder="Search"
+            aria-label="Search" />
+          <div class="input-group-append">
+            <button class="btn btn-sidebar btn-search-switch">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-header">Βασικές Επιλογές</li>
+          <li class="nav-item">
+            <a [routerLink]="['/student/profile']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Το προφίλ μου
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a [routerLink]="['/student/myinternship']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Θέσεις Πρακτικής
+                <!-- <i class="right fas fa-angle-left"></i> -->
+              </p>
+            </a>
+            <!-- <ul class="nav nav-treeview"> -->
+            <!-- <li class="nav-item">
+                <a href="./index.html" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v1</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index2.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v2</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v3</p>
+                </a>
+              </li> -->
+            <!-- </ul> -->
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/student/positions']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Οι αιτήσεις μου
+                <span class="right badge badge-danger">1</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fa fa-book"></i>
+              <p>
+                Δελτίο / Συμβάση
+              </p>
+            </a>
+          </li>
+          <li class="nav-header">Δευτερεύουσες Επιλογές</li>
+          <li class="nav-item">
+            <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fa fa-video"></i>
+              <p>Εγχειρίδια</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fa fa-credit-card"></i>
+              <p>
+                Σχετικά
+                <!-- <i class="fas fa-angle-left right"></i> -->
+              </p>
+            </a>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pages/mailbox/mailbox.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Inbox</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/mailbox/compose.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Compose</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/mailbox/read-mail.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Read</p>
+                </a>
+              </li>
+            </ul> -->
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-phone"></i>
+              <p>
+                Επικοινωνία
+                <!-- <i class="fas fa-angle-left right"></i> -->
+              </p>
+            </a>
+            <!-- <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pages/examples/invoice.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Invoice</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/profile.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Profile</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/e-commerce.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>E-commerce</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/projects.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Projects</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/project-add.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Project Add</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/project-edit.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Project Edit</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/project-detail.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Project Detail</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/contacts.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Contacts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/faq.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>FAQ</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/examples/contact-us.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Contact us</p>
+                </a>
+              </li>
+            </ul> -->
+          </li>
+          <!-- <li class="nav-item">
+            <a href="iframe.html" class="nav-link">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>Το ημερολόγιό μου</p>
+            </a>
+          </li> -->
+          <li class="nav-header">Προσβασιμότητα</li>
+          <li class="nav-item">
+            <a href="pages/calendar.html" class="nav-link">
+              <i class="nav-icon fas fa-ruler"></i>
+              <p>
+                Μέγεθος Κειμένου
+                <i class="fas fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">100%</span> -->
+              </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa fa-search-plus"></i>
+                  <p>Μεγέθυνση</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa fa-search-minus"></i>
+                  <p>Σμίκρυνση</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fa fa-search"></i>
+                  <p>Κανονικό</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index2.html" class="nav-link">
+                  <i class="nav-icon fas fa-ruler-combined"></i>
+                  <p>Τρέχον Μέγεθος</p>
+                  <span class="badge badge-info right">100%</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="pages/calendar.html" class="nav-link">
+              <i class="fas fa-adjust"></i>
+              <p> &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
+                <i class="fas fa-angle-left right"></i>
+                <!-- <span class="badge badge-info right">100%</span> -->
+              </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-moon"></i>
+                  <p>Λευκό/Μαύρο</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <app-home *ngIf="isDepartmentMangerRoute()"></app-home>
+
+          <!-- /.col -->
+          <!-- <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div> -->
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>150</h3>
+
+                <p>New Orders</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="#" class="small-box-footer"
+                >More info <i class="fas fa-arrow-circle-right"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                <p>Bounce Rate</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="#" class="small-box-footer"
+                >More info <i class="fas fa-arrow-circle-right"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>44</h3>
+
+                <p>User Registrations</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="#" class="small-box-footer"
+                >More info <i class="fas fa-arrow-circle-right"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>65</h3>
+
+                <p>Unique Visitors</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="#" class="small-box-footer"
+                >More info <i class="fas fa-arrow-circle-right"></i
+              ></a>
+            </div>
+          </div>
+        </div> -->
+      <div class="row">
+
+
+      </div>
+      <!-- </div> -->
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="m-auto" style="width:40%;">
+      <img src="./assets/images/logoespa.png" style="min-width:200px; width:100%;">
+    </div>
+    <strong>Copyright &copy; 2021-2022
+      <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 0.1
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->

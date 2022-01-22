@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { StudentComponent } from './student/student.component';
+import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
+import { HomeComponent } from './home-screen/home/home.component';
+import { StudentComponent } from './students/student/student.component';
 
 const routes: Routes = [{
   path: '', 
@@ -66,6 +67,13 @@ const routes: Routes = [{
     component: StudentComponent
   }]
 },
+{
+  path: 'department-manager',
+  children: [{
+    path: '',
+    component: DepartmentManagerComponent
+  }]
+}
 // {
 //   path: 'profile', 
 //   component: StudentProfileComponent

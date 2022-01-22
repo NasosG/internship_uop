@@ -12,19 +12,16 @@ export class CredentialsGenericLoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
-  passwordToggle() {
-    const checkbox = document.getElementById('pswd_show')!;
-    this.toggle(checkbox);
-  }
-rememberMe(){}
-  toggle(checkbox: HTMLElement) {    
-    const element = document.getElementById('password');
+
+  rememberMe() {}
+
+  passwordToggle() {    
+    const inputPassword = document.getElementById('password');
     const togglePasswordBtn = document.getElementById('togglePassword')!;
-    let passwordType = element?.getAttribute('type');
-    
+    let passwordType = inputPassword?.getAttribute('type');
+  
     const type = passwordType === 'password' ? 'text' : 'password';
-    element?.setAttribute('type', type);
+    inputPassword?.setAttribute('type', type);
     // toggle the eye / eye slash icon
     togglePasswordBtn.classList?.toggle('fa-eye-slash');
   }
