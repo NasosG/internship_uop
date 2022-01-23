@@ -72,7 +72,20 @@ const routes: Routes = [{
   children: [{
     path: '',
     component: DepartmentManagerComponent
-  }]
+  },
+  {
+    path: 'add-period',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'edit-period',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'student-applications',
+    component: DepartmentManagerComponent
+  }
+  ]
 }
 // {
 //   path: 'profile', 

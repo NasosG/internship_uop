@@ -1,0 +1,27 @@
+ <div class="pb-0 pt-3 mb-4 pl-3 " style="border:1px solid black; border-radius:6px;">
+    <p>Τμήμα: Πληροφορικής και Τηλεπικοινωνιών<br>Τμηματικός Υπεύθυνος/η: Νίκος Πλατής</p>
+</div>
+  
+   <table id="dep-manager-table" class="table table-bordered" style="background-color:white">
+    <thead>
+      <tr>
+        <th scope="col">Τίτλος</th>
+        <th scope="col">Κατάσταση Περιόδου</th>
+        <th scope="col">Έναρξη</th>
+        <th scope="col">Λήξη</th>
+        <th scope="col">Ενέργειες</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Δοκιμαστική Περίοδος</th>
+        <td>Σε αναμονή για συμμετοχή των φορέων</td>
+        <td>01/09/2021</td>
+        <td>30/09/2021</td>
+        <td class="action text-dark">
+          <a class="text-dark" [routerLink]="['/department-manager/edit-period']"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a><br>
+          <a [routerLink]="['delete-period']" class="delete text-danger"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>

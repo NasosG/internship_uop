@@ -706,3 +706,7 @@
   padding-top: 0 !important;
   border-bottom: 2px solid rgb(0, 0, 0) !important;
 }
+
+.dark-mode #dep-manager-table {
+  background-color: #343a40!important;
+}

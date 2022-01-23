@@ -16,4 +16,16 @@ export class DepartmentManagerComponent implements OnInit {
   isDepartmentMangerRoute(){
     return this.router.url === '/department-manager';
   }
+
+  isPeriodAddRoute(){
+    return this.router.url === '/department-manager/add-period';
+  }
+
+  isPeriodEditRoute() {
+    return this.router.url === '/department-manager/edit-period';
+  }
+
+  isStudentApplications() {
+    return this.router.url === '/department-manager/student-applications';
+  }
 }

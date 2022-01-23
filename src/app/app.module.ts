@@ -25,7 +25,11 @@ import { MatInputModule } from '@angular/material/input';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
-
+import { PeriodAddComponent } from './department-managers/period-add/period-add.component';
+import { PeriodEditComponent } from './department-managers/period-edit/period-edit.component';
+import { DepartmentManagerHeaderComponent } from './department-managers/department-manager-header/department-manager-header.component';
+import { StudentApplicationsComponent } from './department-managers/student-applications/student-applications.component';
+import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +51,10 @@ import { DepartmentManagerComponent } from './department-managers/department-man
     CompanyLoginTermsComponent,
     CredentialsGenericLoginComponent,
     DepartmentManagerComponent,
+    PeriodAddComponent,
+    PeriodEditComponent,
+    DepartmentManagerHeaderComponent,
+    StudentApplicationsComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +62,8 @@ import { DepartmentManagerComponent } from './department-managers/department-man
     NgbModule,
     MatSlideToggleModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
