@@ -11,15 +11,46 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  dtOptions : any = {};
+
+  ngOnInit() {
+    // this.dtOptions = {
+    //   pagingType: 'full_numbers',
+    //   pageLength: 8,
+    //   processing: true,
+    //   dom: 'Bfrtip',
+    //   buttons: [
+    //     'copy', 'csv', 'excel', 'print'
+    //   ]
+    // };
+  }
+
+  randomNumber() {
+     return Math.floor(Math.random() * 1000000);
   }
 
   ngAfterViewInit(): void {
-    $('#example').DataTable();
-      // $("#example1").DataTable({
-      //   "responsive": true, "lengthChange": false, "autoWidth": false,
-      //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example1').DataTable();
+  //   $('#example1').DataTable({
+  //   dom: 'Bfrtip',
+
+  //         select: true,
+  //           colReorder: true,
+  //             buttons: [
+
+  //               {
+  //                 extend: 'collection',
+  //                 text: 'Export',
+  //                 buttons: [
+  //                   'copy',
+  //                   'excel',
+  //                   'csv',
+  //                   'pdf',
+  //                   'print'
+  //                 ]
+  //               }
+  //             ]
+  // } );
       // $('#example2').DataTable({
       //   "paging": true,
       //   "lengthChange": false,
