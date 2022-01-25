@@ -185,6 +185,7 @@
 }
 
 .month.new {
+  animation: fadeIn 1s ease-out;
   -webkit-animation: fadeIn 1s ease-out;
   opacity: 1;
 }
@@ -643,11 +644,11 @@
   color: white !important;
 }
 
-/* .dark-mode .main-header {  
-  background-color: #3f474e!important;   
+/* .dark-mode .main-header {
+  background-color: #3f474e!important;
   border: 1px solid #56606a!important;
 
-   color: white!important; 
+   color: white!important;
 }  */
 
 
@@ -708,5 +709,5 @@
 }
 
 .dark-mode #dep-manager-table {
-  background-color: #343a40!important;
+  background-color: #343a40 !important;
 }

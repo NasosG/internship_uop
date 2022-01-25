@@ -13,9 +13,9 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
   }
-  
+
   ngAfterViewInit(): void {
-    // $('#example').DataTable();
+    $('#example').DataTable();
       // $("#example1").DataTable({
       //   "responsive": true, "lengthChange": false, "autoWidth": false,
       //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]

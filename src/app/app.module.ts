@@ -29,7 +29,7 @@ import { PeriodAddComponent } from './department-managers/period-add/period-add.
 import { PeriodEditComponent } from './department-managers/period-edit/period-edit.component';
 import { DepartmentManagerHeaderComponent } from './department-managers/department-manager-header/department-manager-header.component';
 import { StudentApplicationsComponent } from './department-managers/student-applications/student-applications.component';
-
+import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +62,8 @@ import { StudentApplicationsComponent } from './department-managers/student-appl
     NgbModule,
     MatSlideToggleModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
