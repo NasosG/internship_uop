@@ -19,7 +19,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="./student/" class="nav-link"> <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
+        <a href="./department-manager/" class="nav-link"> <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
       </li>
     </ul>
 
@@ -191,51 +191,25 @@
           </li>
 
           <li class="nav-item">
-            <a [routerLink]="['/student/myinternship']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/department-manager/student-applications']" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Αιτήσεις Φοιτητών  
+                Αιτήσεις Φοιτητών
                 <!-- <i class="right fas fa-angle-left"></i> -->
-              </p>
-            </a>
-            <!-- <ul class="nav nav-treeview"> -->
-            <!-- <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li> -->
-            <!-- </ul> -->
-          </li>
-          <!-- <li class="nav-item">
-            <a [routerLink]="['/student/positions']" [routerLinkActive]="['active']" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Οι αιτήσεις μου
-                <span class="right badge badge-danger">1</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
-              <i class="nav-icon fa fa-book"></i>
+            <a [routerLink]="['/department-manager/students-positions']" [routerLinkActive]="['active']"
+              class="nav-link">
+              <i class="nav-icon fas fa-"></i>
               <p>
-                Δελτίο / Συμβάση
+                Αντιστοίχιση Φοιτητών
+                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-          </li> -->
+          </li>
           <li class="nav-header">Δευτερεύουσες Επιλογές</li>
           <li class="nav-item">
             <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
@@ -419,7 +393,7 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <app-period-add *ngIf="isPeriodAddRoute()"></app-period-add>
+          <app-period-add *ngIf="isPeriodAddRoute() || isDepartmentMangerRoute()"></app-period-add>
           <app-period-edit *ngIf="isPeriodEditRoute()"></app-period-edit>
           <app-student-applications *ngIf="isStudentApplications()"></app-student-applications>
           <!-- /.col -->

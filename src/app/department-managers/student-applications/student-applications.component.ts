@@ -30,7 +30,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    $('#example1').DataTable();
+    $('#example').DataTable();
   //   $('#example1').DataTable({
   //   dom: 'Bfrtip',
 

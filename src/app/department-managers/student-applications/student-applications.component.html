@@ -11,26 +11,29 @@
           <div class="card-body">
             <button class="btn btn-primary">Excel</button>
             <br><br>
-            <table id="example1" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
+            <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
               <thead>
                 <tr>
-                  <th>Όνομα φοιτητή</th>
+                  <th>Όνομα</th>
                   <th>email</th>
                   <th>
-                    Αριθμός Πρωτοκόλλου</th>
-                  <th> Ημερομηνία Πρωτοκόλλου</th>
+                    Αρ. Πρωτοκόλλου</th>
+                  <th> Ημ. Πρωτοκόλλου</th>
                   <th> Κατάσταση </th>
+                  <th> Σκορ </th>
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Γιώργος</td>
+                  <td>Γιώργος Παπακώστας</td>
                   <td>pcst{{randomNumber()}}.uop.gr</td>
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>7.8</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -41,7 +44,9 @@
                     {{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>7.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -52,7 +57,9 @@
                   </td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>7.9</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -62,7 +69,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>5.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -72,7 +81,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>8.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -82,7 +93,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>7.0</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -92,7 +105,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>6.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -102,7 +117,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>5.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -112,7 +129,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ακυρωμένη</td>
+                  <td>4.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -122,7 +141,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>9.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -132,7 +153,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>7.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -142,7 +165,9 @@
                   <td>{{randomNumber()}}</td>
                   <td>25/01/2021</td>
                   <td>Ενεργή</td>
+                  <td>5.4</td>
                   <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
@@ -152,10 +177,10 @@
                   <th>Όνομα φοιτητή</th>
                   <th>email</th>
                   <th>
-                    Αριθμός Πρωτοκόλλου</th>
-                  <th> Ημερομηνία Πρωτοκόλλου</th>
+                    Αρ. Πρωτοκόλλου</th>
+                  <th> Ημ. Πρωτοκόλλου</th>
                   <th> Κατάσταση </th>
-
+                  <th> Σκορ </th>
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </tfoot>
