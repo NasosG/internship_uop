@@ -1,0 +1,144 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Αιτήσεις φοιτητών</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <button class="btn btn-primary">Excel</button>
+            <br><br>
+            <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
+              <thead>
+                <tr>
+                  <th>Φορέας</th>
+                  <th>Τίτλος</th>
+                  <th>Περιοχή</th>
+                  <th>Φοιτητές</th>
+                  <th class="text-center">Ενέργεια</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ARTENS</td>
+                  <td>Team Leader</td>
+                  <td>ΑΘΗΝΑΙΩΝ</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Φοιτητές</option>
+                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
+                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
+                    </select>
+                  </td>
+                  <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Επιλογή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>ARTENS</td>
+                  <td>Team Leader</td>
+                  <td>ΑΘΗΝΑΙΩΝ</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Φοιτητές</option>
+                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
+                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
+                    </select>
+                  </td>
+                  <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Επιλογή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>PACKACOM</td>
+                  <td>Team Leader</td>
+                  <td>ΑΘΗΝΑΙΩΝ</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Φοιτητές</option>
+                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
+                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
+                    </select>
+                  </td>
+                  <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Επιλογή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>POTATOLAND</td>
+                  <td>Team Leader</td>
+                  <td>ΑΘΗΝΑΙΩΝ</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Φοιτητές</option>
+                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
+                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
+                    </select>
+                  </td>
+                  <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Επιλογή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>MPANTABOSCLUB</td>
+                  <td>Team Leader</td>
+                  <td>ΑΘΗΝΑΙΩΝ</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Φοιτητές</option>
+                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
+                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
+                    </select>
+                  </td>
+                  <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Επιλογή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>INHOUSESOFT</td>
+                  <td>Ιχθυοπώλης</td>
+                  <td>ΜΑΝΗΣ</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Φοιτητές</option>
+                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
+                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
+                    </select>
+                  </td>
+                  <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Επιλογή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Φορέας</th>
+                  <th>Τίτλος</th>
+                  <th>Περιοχή</th>
+                  <th>
+                    Φοιτητές</th>
+                  <th class="text-center">Ενέργεια</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

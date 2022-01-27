@@ -13,11 +13,11 @@ export class DepartmentManagerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isDepartmentMangerRoute(){
+  isDepartmentMangerRoute() {
     return this.router.url === '/department-manager';
   }
 
-  isPeriodAddRoute(){
+  isPeriodAddRoute() {
     return this.router.url === '/department-manager/add-period';
   }
 
@@ -27,5 +27,9 @@ export class DepartmentManagerComponent implements OnInit {
 
   isStudentApplications() {
     return this.router.url === '/department-manager/student-applications';
+  }
+
+  isMatchStudentsRoute() {
+    return this.router.url === '/department-manager/match-students';
   }
 }
