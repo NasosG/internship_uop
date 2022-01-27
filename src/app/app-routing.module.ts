@@ -5,7 +5,7 @@ import { HomeComponent } from './home-screen/home/home.component';
 import { StudentComponent } from './students/student/student.component';
 
 const routes: Routes = [{
-  path: '', 
+  path: '',
   component: HomeComponent
 },
 {
@@ -21,7 +21,7 @@ const routes: Routes = [{
   component: HomeComponent
 },
 {
-  path: 'student', 
+  path: 'student',
   children: [{
     path: '',
     component: StudentComponent
@@ -34,11 +34,11 @@ const routes: Routes = [{
     path: 'myinternship',
     component: StudentComponent
   },
-  { 
+  {
     path: 'positions',
     component: StudentComponent
   },
-  { 
+  {
     path: 'about',
     component: StudentComponent
   },
@@ -84,13 +84,13 @@ const routes: Routes = [{
   {
     path: 'student-applications',
     component: DepartmentManagerComponent
+  },
+  {
+    path: 'match-students',
+    component: DepartmentManagerComponent
   }
   ]
 }
-// {
-//   path: 'profile', 
-//   component: StudentProfileComponent
-// }];
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, {enableTracing: true})],

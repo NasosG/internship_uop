@@ -30,6 +30,7 @@ import { PeriodEditComponent } from './department-managers/period-edit/period-ed
 import { DepartmentManagerHeaderComponent } from './department-managers/department-manager-header/department-manager-header.component';
 import { StudentApplicationsComponent } from './department-managers/student-applications/student-applications.component';
 import { DataTablesModule } from 'angular-datatables';
+import { StudentMatchComponent } from './department-managers/student-match/student-match.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { DataTablesModule } from 'angular-datatables';
     PeriodAddComponent,
     PeriodEditComponent,
     DepartmentManagerHeaderComponent,
-    StudentApplicationsComponent
+    StudentApplicationsComponent,
+    StudentMatchComponent
   ],
   imports: [
     BrowserModule,
