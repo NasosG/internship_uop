@@ -1,0 +1,190 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Αιτήσεις φοιτητών</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <button class="btn btn-primary">Excel</button>
+            <br><br>
+            <table id="example1" class="table table-bordered table-striped">
+              <!--datatable [dtOptions]="dtOptions">-->
+              <thead>
+                <tr>
+                  <th>Όνομα</th>
+                  <th>email</th>
+                  <th> Αρ. Πρωτοκόλλου</th>
+                  <th> Ημ. Πρωτοκόλλου</th>
+                  <th> Σκορ </th>
+                  <th> Επιλογή</th>
+                  <!-- <th class="text-center">Ενέργειες</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Γιώργος Παπακώστας</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>{{randomNumber()}}</td>
+                  <td>25/01/2021</td>
+                  <td>7.4/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>Μαρία</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>
+                    {{randomNumber()}}</td>
+                  <td>25/01/2021</td>
+                  <td>7.4/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center">
+                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
+                    <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>Γεωργία</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>{{randomNumber()}}
+                  </td>
+                  <td>25/01/2021</td>
+                  <td>4.4/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center"> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>Αλέξανδρος</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>{{randomNumber()}}</td>
+                  <td>25/01/2021</td>
+                  <td>5.5/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center"> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>Κωνσταντίνος</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>{{randomNumber()}}</td>
+                  <td>25/01/2021</td>
+                  <td>9.0/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center"> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>Μιχάλης</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>{{randomNumber()}}</td>
+                  <td>25/01/2021</td>
+                  <td>5.0/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center"> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+                <tr>
+                  <td>Ευάγγελος</td>
+                  <td>pcst{{randomNumber()}}.uop.gr</td>
+                  <td>{{randomNumber()}}</td>
+                  <td>25/01/2021</td>
+                  <td>8.4/10</td>
+                  <td>
+                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
+                      aria-label="Default select example">
+                      <option selected class="kl1 text-danger">ΟΧΙ</option>
+                      <option class="kl2 text-success">ΝΑΙ</option>
+                    </select>
+                  </td>
+                  <!-- <td class="action text-center"> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a> -->
+                  <!-- <a href="#" class="text-secondary"><i class="fa fa-edit"></i> Αποδοχή<br></a>
+                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                  </td> -->
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th> Όνομα φοιτητή</th>
+                  <th> email</th>
+                  <th> Αρ. Πρωτοκόλλου</th>
+                  <th> Ημ. Πρωτοκόλλου</th>
+                  <th> Σκορ </th>
+                  <th>Επιλογή</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <div class="m-auto pb-5" style="margin:auto; text-align:center;">
+    <button class="btn btn-primary w-25 m-auto p-2" (click)="fireTheWhole()"> ΟΡΙΣΤΙΚΟΠΟΙΗΣΗ ΕΠΙΛΟΓΩΝ</button>
+  </div>
+
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

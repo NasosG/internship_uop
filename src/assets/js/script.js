@@ -63,7 +63,7 @@ window.addEventListener("load", () => {
         element?.classList.remove("dark-mode-text");
       });
       if (logo) logo.src = "assets/images/pelopas.png";
-      
+
       navbar?.classList.remove("navbar-dark");
       navbar?.classList.add("navbar-light", "navbar-white");
     } catch (error) {
@@ -136,7 +136,7 @@ $(() => {
         element?.classList.remove("dark-mode-text");
       });
       if (logo) logo.src = "assets/images/pelopas.png";
-      
+
       navbar?.classList.remove("navbar-dark");
       navbar?.classList.add("navbar-light", "navbar-white");
     } catch (error) {
@@ -188,7 +188,7 @@ $(() => {
       left.addEventListener('click', function() { self.prevMonth(); });
 
       //Append the Elements
-      this.header.appendChild(this.title); 
+      this.header.appendChild(this.title);
       this.header.appendChild(right);
       this.header.appendChild(left);
       this.el.appendChild(this.header);
@@ -199,12 +199,12 @@ $(() => {
 
   Calendar.prototype.drawMonth = function() {
     let self = this;
-    
+
     this.events.forEach(function(ev) {
      ev.date = self.current.clone().date(Math.random() * (29 - 1) + 1);
     });
-    
-    
+
+
     if(this.month) {
       this.oldMonth = this.month;
       this.oldMonth.className = 'month out ' + (self.next ? 'next' : 'prev');
@@ -489,9 +489,9 @@ $(() => {
     { eventName: 'Startup Weekend', calendar: 'Other', color: 'green' }
   ];
 
-  
+
   function addDate(ev) {
-    
+
   }
 
   let calendar = new Calendar('#calendar', data);

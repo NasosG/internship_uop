@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
 import { HomeComponent } from './home-screen/home/home.component';
 import { StudentComponent } from './students/student/student.component';
+import { CompanyComponent } from './companies/company/company.component';
 
 const routes: Routes = [{
   path: '',
@@ -88,6 +89,30 @@ const routes: Routes = [{
   {
     path: 'match-students',
     component: DepartmentManagerComponent
+  }
+  ]
+},
+{
+  path: 'companies',
+  children: [{
+    path: '',
+    component: CompanyComponent
+  },
+  {
+    path: 'selected-students',
+    component: CompanyComponent
+  },
+  {
+    path: 'edit-period',
+    component: CompanyComponent
+  },
+  {
+    path: 'students-applications',
+    component: CompanyComponent
+  },
+  {
+    path: 'match-students',
+    component: CompanyComponent
   }
   ]
 }

@@ -31,6 +31,9 @@ import { DepartmentManagerHeaderComponent } from './department-managers/departme
 import { StudentApplicationsComponent } from './department-managers/student-applications/student-applications.component';
 import { DataTablesModule } from 'angular-datatables';
 import { StudentMatchComponent } from './department-managers/student-match/student-match.component';
+import { StudentsApplicationsComponent } from './companies/students-applications/students-applications.component';
+import { CompanyComponent } from './companies/company/company.component';
+import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,10 @@ import { StudentMatchComponent } from './department-managers/student-match/stude
     PeriodEditComponent,
     DepartmentManagerHeaderComponent,
     StudentApplicationsComponent,
-    StudentMatchComponent
+    StudentMatchComponent,
+    StudentsApplicationsComponent,
+    CompanyComponent,
+    SelectedStudentsComponent
   ],
   imports: [
     BrowserModule,
