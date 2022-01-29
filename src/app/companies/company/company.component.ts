@@ -20,4 +20,8 @@ export class CompanyComponent implements OnInit {
     return this.router.url === '/companies/selected-students';
   }
 
+  isContactRoute() {
+    return this.router.url === '/companies/contact'
+  }
+
 }

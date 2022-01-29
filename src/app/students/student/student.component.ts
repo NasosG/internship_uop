@@ -8,14 +8,13 @@ import {BreakpointObserver} from '@angular/cdk/layout'
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
-  
+
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
   constructor(private router: Router, private breakpointObserver: BreakpointObserver) { }
 
-  ngOnInit(): void {
-  }
-  
+  ngOnInit(): void { }
+
   isProfileRoute() {
     return this.router.url === '/student/profile';
   }
@@ -30,7 +29,7 @@ export class StudentComponent implements OnInit {
 
   isPositionsRoute() {
     return this.router.url === '/student/positions';
-  } 
+  }
 
   isAboutRoute() {
     return this.router.url === '/student/about';
@@ -38,28 +37,31 @@ export class StudentComponent implements OnInit {
 
   isManualsRoute() {
     return this.router.url === '/student/manuals';
-  } 
+  }
 
   isCalendarRoute() {
     return this.router.url === '/student/calendar';
-  } 
+  }
 
   isSheetsRoute() {
     return this.router.url === '/student/sheets';
-  } 
+  }
 
   isSheetInputRoute() {
     return this.router.url === '/student/input-sheet';
-  } 
+  }
 
   isSheetOutputRoute() {
     return this.router.url === '/student/output-sheet';
-  } 
+  }
 
   isSheetInputPreviewRoute() {
     return this.router.url === '/student/input-sheet-preview';
-  } 
+  }
 
+  isContactRoute() {
+    return this.router.url === '/student/contact'
+  }
 
   onDarkModeSwitched() {}
 }

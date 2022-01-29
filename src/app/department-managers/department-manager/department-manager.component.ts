@@ -32,4 +32,8 @@ export class DepartmentManagerComponent implements OnInit {
   isMatchStudentsRoute() {
     return this.router.url === '/department-manager/match-students';
   }
+
+  isContactRoute() {
+    return this.router.url === '/department-manager/contact'
+  }
 }

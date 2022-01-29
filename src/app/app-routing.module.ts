@@ -66,7 +66,12 @@ const routes: Routes = [{
   {
     path: 'input-sheet-preview',
     component: StudentComponent
-  }]
+  },
+  {
+    path: 'contact',
+    component: StudentComponent
+  }
+]
 },
 {
   path: 'department-manager',
@@ -88,6 +93,10 @@ const routes: Routes = [{
   },
   {
     path: 'match-students',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'contact',
     component: DepartmentManagerComponent
   }
   ]
@@ -112,6 +121,10 @@ const routes: Routes = [{
   },
   {
     path: 'match-students',
+    component: CompanyComponent
+  },
+  {
+    path: 'contact',
     component: CompanyComponent
   }
   ]

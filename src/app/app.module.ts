@@ -34,7 +34,7 @@ import { StudentMatchComponent } from './department-managers/student-match/stude
 import { StudentsApplicationsComponent } from './companies/students-applications/students-applications.component';
 import { CompanyComponent } from './companies/company/company.component';
 import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
-
+import { ContactComponent } from './generic-components/contact/contact.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +63,8 @@ import { SelectedStudentsComponent } from './companies/selected-students/selecte
     StudentMatchComponent,
     StudentsApplicationsComponent,
     CompanyComponent,
-    SelectedStudentsComponent
+    SelectedStudentsComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
