@@ -133,7 +133,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="./student/" class="brand-link">
+    <a href="./department-manager/" class="brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
       <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
@@ -158,7 +158,7 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a routerLink="/student/profile" class="d-block">Νίκος Πλατής</a>
+          <a class="d-block">Νίκος Πλατής</a>
         </div>
       </div>
 
@@ -255,7 +255,7 @@
             </ul> -->
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a [routerLink]="['/department-manager/contact']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
                 Επικοινωνία

@@ -15,7 +15,9 @@
   <section class="content">
     <div class="row">
       <div class="col-12" id="accordion">
-        <div *ngFor="let department of data" class="card {{department.cardColor}} card-outline">
+
+        <h1 class="universities">Σχολή Οικονομίας και Τεχνολογίας</h1>
+        <div *ngFor="let department of EconomicsTechnology" class="card {{department.cardColor}} card-outline">
           <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
             <div class="card-header">
               <h4 class="card-title w-100">
@@ -32,6 +34,164 @@
             </div>
           </div>
         </div>
+
+        <h1 class="universities">Σχολή Επιστημών Υγείας</h1>
+        <div *ngFor="let department of HealthSciences" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="universities">Σχολή Ανθρωπιστικών Επιστημών και Πολιτισμικών  Σπουδών</h1>
+        <div *ngFor="let department of HumanitiesCulturalStudies" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="universities">Σχολή Γεωπονίας και Τροφίμων</h1>
+        <div *ngFor="let department of AgricultureFood" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+
+        <h1 class="universities">Σχολή Διοίκησης</h1>
+        <div *ngFor="let department of Management" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+
+        <h1 class="universities">Σχολή Κοινωνικών και Πολιτικών Επιστημών</h1>
+        <div *ngFor="let department of SocialPolitical" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+
+        <h1 class="universities">Σχολή Καλών Τεχνών</h1>
+        <div *ngFor="let department of Arts" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+
+        <h1 class="universities">Σχολή Επιστημών Ανθρώπινης Κίνησης και Ποιότητας Ζωής</h1>
+        <div *ngFor="let department of HumanMovementQualityLife" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
+
+        <h1 class="universities">Σχολή Μηχανικών</h1>
+        <div *ngFor="let department of Engineering" class="card {{department.cardColor}} card-outline">
+          <a class="d-block w-100" data-toggle="collapse" href="#{{department.id}}">
+            <div class="card-header">
+              <h4 class="card-title w-100">
+                {{department.serialNumber}}. {{department.name}}
+              </h4>
+            </div>
+          </a>
+          <div id={{department.id}} class="collapse" data-parent="#accordion">
+            <div class="card-body">
+              {{department.address}} ,
+              {{department.phone}} ,
+              <a class="inline-anchor" href="mailto:{{department.email}}">{{department.email}}</a>,
+              <a class="inline-anchor" href="{{department.site}}">{{department.site}}</a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
