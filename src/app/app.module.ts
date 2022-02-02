@@ -35,6 +35,8 @@ import { StudentsApplicationsComponent } from './companies/students-applications
 import { CompanyComponent } from './companies/company/company.component';
 import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
 import { ContactComponent } from './generic-components/contact/contact.component';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +75,8 @@ import { ContactComponent } from './generic-components/contact/contact.component
     MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
-    DataTablesModule
+    DataTablesModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
