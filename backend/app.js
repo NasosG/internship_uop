@@ -1,20 +1,18 @@
 const express = require('express');
-
+const db = require("./services/studentService.js");
 const app = express();
+const cors = require('cors');
 
-app.use('/api/students', (req, res, next) => {
-  const data = [{
-    id: '1',
-    name: 'giorgos'
-  }, {
-    id: '2',
-    name: 'stathis'
-  }];
+const bodyParser = require('body-parser');
 
-  res.status(200).json({
-    message: 'students recovered successfully',
-    data: data
-  });
-});
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
+app.use(express.json());
+app.use(cors());
+
+app.get('/api/students', db.getStudents);
 
 module.exports = app;
