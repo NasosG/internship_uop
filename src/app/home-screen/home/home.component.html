@@ -17,13 +17,27 @@
         <app-credentials-generic-login *ngIf="isCredentialsRoute()"></app-credentials-generic-login>
       </div>
       <div class="col-12 col-md-5 allomiso">
-        <div id="languageDiv" class="lang">
+
+        <!-- <div id="languageDiv" class="lang">
           <select class="selectpicker" id="langSelectBox" data-width="fit">
             <option>&nbsp;🇬🇷&nbsp;Greek</option>
             <option>&nbsp;🇬🇧&nbsp;English</option>
           </select>
-        </div>
-        <div class="col-content">
+        </div> -->
+
+        <div>
+          <a href="#" class="nav-link dropdown-toggle selectpicker" style="color:white; position:absolute; right:100px; top: 10px;"
+           data-toggle="dropdown">
+            <i class="fas fa-lg fa-globe"></i>
+            Γλώσσα
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png" width="24"  height="24"> &nbsp; Ελληνικά</a></li>
+            <li><a href="#" class="dropdown-item"> <img src="../../../assets/images/englishIcon.png" width="24"  height="24"> &nbsp; Αγγλικά</a></li>
+          </ul>
+      </div>
+
+        <div style="text-align: justify;"class="col-content">
           <h2 class="pt-5"><br />Σκοπός</h2>
           <br />
           <p>
