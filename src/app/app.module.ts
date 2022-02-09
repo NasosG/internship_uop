@@ -19,6 +19,7 @@ import { SheetsComponent } from './students/sheets/sheets.component';
 import { StudentLoginTermsComponent } from './home-screen/student-login-terms/student-login-terms.component';
 import { HomeButtonsComponent } from './home-screen/home-buttons/home-buttons.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 import { SheetInputComponent } from './students/sheet-input/sheet-input.component';
 import { SheetOutputComponent } from './students/sheet-output/sheet-output.component';
 import { SheetInputPreviewComponent } from './students/sheet-input-preview/sheet-input-preview.component';
@@ -77,6 +78,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCardModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule

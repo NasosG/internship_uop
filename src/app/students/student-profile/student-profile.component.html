@@ -97,7 +97,6 @@
         <div class="card">
           <div class="card-header p-2">
             <ul class="nav nav-pills">
-
               <!-- <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Ενδιαφέροντα:</a></li>
               <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Επιπρόσθετα Στοιχεία: </a></li>
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Διακρίσεις-Βραβεία-Υποτροφίες:</a></li>
@@ -121,24 +120,34 @@
                 <!-- Post -->
               </div>
 
+              <!-- <form>
+                <mat-form-field>
+                  <input matInput type="text" name="title" required minlength="3" placeholder=""
+                    [value]="studentsSSOData[0].sn">
+                </mat-form-field>
+              </form> -->
+
+              <!-- {{ studentsSSOData | json }} -->
               <div class="tab-pane active" id="settings">
                 <div class="alert alert-danger" role="alert">
                   Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που δεν συμφωνείτε επικοινωνήστε με την
                   γραμματεία
                 </div>
-                <form class="form-horizontal">
+                <form #studentsForm="ngForm" class="form-horizontal">
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">Όνομα&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" name="name" placeholder="Όνομα">
+                      <input type="email" class="form-control" id="inputName" name="name" placeholder="Όνομα"
+                        [value]="studentsSSOData[0].givenname">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">Επώνυμο&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" name="surname" placeholder="Επώνυμο">
+                      <input type="email" class="form-control" id="inputName" name="surname" value="{{this.name}}"
+                        placeholder="Επώνυμο" [value]="studentsSSOData[0].sn">
                     </div>
                   </div>
 

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Student } from "./student.model";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
@@ -14,19 +14,25 @@ export class StudentsService {
     return this.studentsUpdated.asObservable();
   }
 
-  getStudents() {
+  getStudents() : Observable<Array<Student>> {
+    return this.http
+      .get<Array<Student>>('http://localhost:3000/api/students');
+      // .subscribe(postData => {
+      //   this.students = postData;
+      //   console.log(postData);
+      //   this.studentsUpdated.next([...this.students]);
+      // });
+  }
+
+  addStudent(title: string, content: string) {
+    const post: Student = { sn: title, givenname: content };
     this.http
-      .get<Student[]>('http://localhost:3000/api/students')
-      .subscribe((postData) => {
-        this.students = postData;
-        console.log(postData);
+      .post<{ message: string }>("http://localhost:3000/api/students", this.students)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        this.students.push(post);
         this.studentsUpdated.next([...this.students]);
       });
   }
-
-  // getStudents() {
-  //    this.http
-  //     .get<Student[]>('http://localhost:3000/api/students')
-  // }
-
 }
+

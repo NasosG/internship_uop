@@ -30,22 +30,6 @@ app.get('/', (request, response) => {
   response.send('<h2>hello from the server!</h2>');
 });
 
-app.get("/api/posts", (req, res, next) => {
-  const students = [{
-      id: "fadf12421l",
-      title: "First server-side post",
-      content: "This is coming from the server"
-    },
-    {
-      id: "ksajflaj132",
-      title: "Second server-side post",
-      content: "This is coming from the server!"
-    }
-  ];
-  res.status(200).json({
-    message: "Posts fetched successfully!",
-    posts: students
-  });
-});
+app.get("/api/login", db.getLoginStudent);
 
 module.exports = app;

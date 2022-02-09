@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-student-profile',
@@ -11,26 +11,22 @@ import { Observable, Subscription } from 'rxjs';
 
 export class StudentProfileComponent implements OnInit, OnDestroy {
 
-  @Input() studentsSSOData:Student[] = [];
+  // studentsSSOData!:Student[];
+  studentsSSOData: Student[] = [];
+  public name = "asd";
+  private studentSubscription!: Subscription;
 
-  constructor(public studentsService: StudentsService) {
-  }
+  // students!: Observable<any>;
+  constructor(public studentsService: StudentsService) { }
 
-  public stid = "";
-  private studentSubscription: Subscription | undefined;
-
-  ngOnInit(): void {
-    this.studentsService.getStudents();
-    this.studentSubscription = this.studentsService.getStudentUpdateListener()
-    .subscribe(
-      (students:Student[]) => {
-        this.studentsSSOData = students;
-        // this.studentsSSOData[0].name = students[0].name;
-        // console.log("studentsSSOData: " + this.studentsSSOData);
-        // console.log(students);
-      }
-    )
-
+  ngOnInit() {
+    this.studentsService.getStudents()
+    .subscribe((students: Student[]) => {
+      this.studentsSSOData = students;
+      console.log(this.studentsSSOData);
+      console.log(students);
+    });
+    // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
 
   ngOnDestroy(): void {
