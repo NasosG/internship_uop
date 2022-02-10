@@ -84,26 +84,28 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-            Μαρία Αλεξίου
+            {{studentsSSOData[0].givenname}} {{studentsSSOData[0].sn}}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
-            <a [routerLink]="['/student/profile']" class="nav-link"class="dropdown-item">Προφίλ</a>
+            <a [routerLink]="['/student/profile']" class="nav-link" class="dropdown-item">Προφίλ</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">Αποσύνδεση</a>
           </div>
         </li>
       </ul>
 
-     <div class="dropdown">
+      <div class="dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <i class="fas fa-lg fa-globe"></i>
           Γλώσσα
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png" width="24"  height="24"> &nbsp; Ελληνικά</a></li>
-          <li><a href="#" class="dropdown-item"> <img src="../../../assets/images/englishIcon.png" width="24"  height="24"> &nbsp; Αγγλικά</a></li>
+          <li><a href="#" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png" width="24" height="24">
+              &nbsp; Ελληνικά</a></li>
+          <li><a href="#" class="dropdown-item"> <img src="../../../assets/images/englishIcon.png" width="24"
+                height="24"> &nbsp; Αγγλικά</a></li>
         </ul>
-    </div>
+      </div>
 
       <li class="nav-item">
         <span href="#" style="color: black;" class="pr-0 mr-0 nav-link" role="button">
@@ -153,7 +155,8 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a routerLink="/student/profile" class="d-block">Μαρία Αλεξίου</a>
+          <a routerLink="/student/profile" class="d-block"> {{studentsSSOData[0].givenname}}
+            {{studentsSSOData[0].sn}}</a>
         </div>
       </div>
 

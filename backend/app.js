@@ -30,6 +30,4 @@ app.get('/', (request, response) => {
   response.send('<h2>hello from the server!</h2>');
 });
 
-app.get("/api/login", db.getLoginStudent);
-
 module.exports = app;

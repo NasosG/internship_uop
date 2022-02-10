@@ -11,22 +11,37 @@ import { Observable, Subscription, takeUntil } from 'rxjs';
 
 export class StudentProfileComponent implements OnInit, OnDestroy {
 
-  // studentsSSOData!:Student[];
   studentsSSOData: Student[] = [];
-  public name = "asd";
   private studentSubscription!: Subscription;
 
-  // students!: Observable<any>;
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit() {
     this.studentsService.getStudents()
     .subscribe((students: Student[]) => {
       this.studentsSSOData = students;
-      console.log(this.studentsSSOData);
-      console.log(students);
+      this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
+      this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
+      // console.log(this.studentsSSOData);
     });
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
+  }
+
+  // This function is used to get the AMKA of the student
+  private getSSN(str: string) : string {
+    const personalIdArray = str.split(":");
+    return personalIdArray[personalIdArray.length-1];
+  }
+
+  private reformatDateOfBirth(dateOfBirth: string) {
+    let startDate = dateOfBirth;
+
+    let year = startDate.substring(0, 4);
+    let month = startDate.substring(4, 6);
+    let day = startDate.substring(6, 8);
+
+    let displayDate = day + '/' + month + '/' + year;
+    return displayDate;
   }
 
   ngOnDestroy(): void {

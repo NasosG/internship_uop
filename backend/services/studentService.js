@@ -3,16 +3,7 @@ const pool = require("../db_config.js");
 
 const getStudents = async (request, response) => {
   try {
-    const results = await pool.query("SELECT sn, givenname FROM sso_users ");
-    response.status(200).json(results.rows);
-  } catch (error) {
-    console.error(error.message);
-  }
-};
-
-const getLoginStudent = async (request, response) => {
-  try {
-    const results = await pool.query("SELECT sn, givenname FROM sso_users LIMIT 1");
+    const results = await pool.query("SELECT * FROM sso_users where id='pcst19003'");
     response.status(200).json(results.rows);
   } catch (error) {
     console.error(error.message);
@@ -20,6 +11,5 @@ const getLoginStudent = async (request, response) => {
 };
 
 module.exports = {
-  getStudents,
-  getLoginStudent
+  getStudents
 };
