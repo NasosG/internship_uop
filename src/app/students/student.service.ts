@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class StudentsService {
-  private students: Student[] = [];
+  // private students: Student[] = [];
   // private studentsUpdated = new Subject<Student[]>();
 
   constructor(private http: HttpClient) {}

@@ -11,7 +11,8 @@
         </ol> -->
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
@@ -19,7 +20,6 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3">
-
         <!-- Profile Image -->
         <div class="card card-primary card-outline">
           <div class="card-body box-profile">
@@ -29,11 +29,18 @@
               <i class="fas fa-4x fa-user-graduate"></i>
             </div>
 
-            <h3 class="profile-username text-center">{{studentsSSOData[0].givenname}} {{studentsSSOData[0].sn}}
+            <h3 class="profile-username text-center">
+              {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}
             </h3>
 
-            <p *ngIf="studentsSSOData[0].edupersonprimaryaffiliation == 'student' " class="text-muted text-center">
-              Φοιτητής</p>
+            <p
+              *ngIf="
+                studentsSSOData[0].edupersonprimaryaffiliation == 'student'
+              "
+              class="text-muted text-center"
+            >
+              Φοιτητής
+            </p>
             <!-- <p *ngIf="studentsSSOData[0].edupersonprimaryaffiliation == 'affiliate' " class="text-muted text-center">
               Φοιτητής</p> -->
 
@@ -65,16 +72,19 @@
             <strong><i class="fas fa-book mr-1"></i> Εκπαίδευση</strong>
 
             <p class="text-muted">
-              B.S. in Computer Science from the University of Tennessee at Knoxville
+              B.S. in Computer Science from the University of Tennessee at
+              Knoxville
             </p>
 
-            <hr>
+            <hr />
 
-            <strong><i class="fas fa-map-marker-alt mr-1"></i> Τοποθεσία</strong>
+            <strong
+              ><i class="fas fa-map-marker-alt mr-1"></i> Τοποθεσία</strong
+            >
 
             <p class="text-muted">Τρίπολη, Αρκαδία</p>
 
-            <hr>
+            <hr />
 
             <strong><i class="fas fa-pencil-alt mr-1"></i> Ικανότητες</strong>
 
@@ -85,11 +95,13 @@
               <span class="tag tag-primary">Node.js</span>
             </p>
 
-            <hr>
+            <hr />
 
             <strong><i class="far fa-file-alt mr-1"></i> Ενδιαφέροντα</strong>
 
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+              fermentum enim neque.
             </p>
           </div>
           <!-- /.card-body -->
@@ -109,15 +121,27 @@
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ξένες Γλώσσες:</a></li>
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Εργασιακή Εμπειρία:</a></li>
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Εκπαίδευση:</a></li> -->
-              <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Βασικά Στοιχεία</a>
+              <li class="nav-item">
+                <a class="nav-link active" href="#settings" data-toggle="tab"
+                  >Βασικά Στοιχεία</a
+                >
               </li>
-              <li class="nav-item"><a class="nav-link" href="#sumbasiDetails" data-toggle="tab">Στοιχεία
-                  Σύμβασης</a></li>
-              <li class="nav-item"><a class="nav-link" href="#bio" data-toggle="tab">Βιογραφικό</a></li>
-              <li class="nav-item"><a class="nav-link" href="#studentContact" data-toggle="tab">Στοιχεία
-                  Επικοινωνίας</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="#sumbasiDetails" data-toggle="tab"
+                  >Στοιχεία Σύμβασης</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#bio" data-toggle="tab">Βιογραφικό</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#studentContact" data-toggle="tab"
+                  >Στοιχεία Επικοινωνίας</a
+                >
+              </li>
             </ul>
-          </div><!-- /.card-header -->
+          </div>
+          <!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane" id="activity">
@@ -134,62 +158,126 @@
               <!-- {{ studentsSSOData | json }} -->
               <div class="tab-pane active" id="settings">
                 <div class="alert alert-danger" role="alert">
-                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που δεν συμφωνείτε επικοινωνήστε με την
-                  γραμματεία
+                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
+                  δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
                 <form #studentsForm="ngForm" class="form-horizontal">
                   <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Όνομα&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputName" class="col-sm-2 col-form-label"
+                      >Όνομα&nbsp;<span class="text-danger">*</span></label
+                    >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" name="name" placeholder="Όνομα"
-                        [value]="studentsSSOData[0].givenname" readonly>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName"
+                        name="name"
+                        placeholder="Όνομα"
+                        [value]="studentsSSOData[0].givenname"
+                        readonly
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Επώνυμο&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputName" class="col-sm-2 col-form-label"
+                      >Επώνυμο&nbsp;<span class="text-danger">*</span></label
+                    >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" name="surname" placeholder="Επώνυμο"
-                        [value]="studentsSSOData[0].sn" readonly>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName"
+                        name="surname"
+                        placeholder="Επώνυμο"
+                        [value]="studentsSSOData[0].sn"
+                        readonly
+                      />
                     </div>
                   </div>
 
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Πατρός&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputName2" class="col-sm-2 col-form-label"
+                      >Όνομα Πατρός&nbsp;<span class="text-danger"
+                        >*</span
+                      ></label
+                    >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Όνομα Πατρός" value="">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName2"
+                        placeholder="Όνομα Πατρός"
+                        value=""
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Επώνυμο Πατρός&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Επώνυμο Πατρός&nbsp;<span class="text-danger"
+                        >*</span
+                      ></label
+                    >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Επώνυμο Πατρός" value="">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName2"
+                        placeholder="Επώνυμο Πατρός"
+                        value=""
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Μητρός&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputName2" class="col-sm-2 col-form-label"
+                      >Όνομα Μητρός&nbsp;<span class="text-danger"
+                        >*</span
+                      ></label
+                    >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Όνομα Μητρός" value="">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName2"
+                        placeholder="Όνομα Μητρός"
+                        value=""
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Επώνυμο Μητρός&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputName2" class="col-sm-2 col-form-label"
+                      >Επώνυμο Μητρός&nbsp;<span class="text-danger"
+                        >*</span
+                      ></label
+                    >
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Επώνυμο Μητρός" value="">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName2"
+                        placeholder="Επώνυμο Μητρός"
+                        value=""
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ημ. Γέννησης&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Ημ. Γέννησης&nbsp;<span class="text-danger"
+                        >*</span
+                      ></label
+                    >
                     <div class="col-sm-10">
-                      <input class="form-control" type="text" id="date_of_birth" name="date_of_birth"
-                        placeholder="date of birth" required readonly min="1900-01-01" max="2500-01-01"
-                        [value]="studentsSSOData[0].schacdateofbirth">
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="date_of_birth"
+                        name="date_of_birth"
+                        placeholder="Ημερομηνία Γέννησης"
+                        required
+                        readonly
+                        min="1900-01-01"
+                        max="2500-01-01"
+                        [value]="studentsSSOData[0].schacdateofbirth"
+                      />
                     </div>
                   </div>
                   <!-- <div class="form-group row">
@@ -203,13 +291,28 @@
                     </div>
                   </div> -->
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Φύλο&nbsp;<span
-                        class="text-danger">*</span></label>
-                    <div class="col-sm-10 ">
-                      <input *ngIf="studentsSSOData[0].schacgender == 1" type="text" id="sex" class="form-control"
-                        name="sex" value="Άνδρας" readonly>
-                      <input *ngIf="studentsSSOData[0].schacgender == 0" type="text" id="sex" name="sex"
-                        class="form-control" value="Γυναίκα" readonly>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Φύλο&nbsp;<span class="text-danger">*</span></label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        *ngIf="studentsSSOData[0].schacgender == 1"
+                        type="text"
+                        id="sex"
+                        class="form-control"
+                        name="sex"
+                        value="Άνδρας"
+                        readonly
+                      />
+                      <input
+                        *ngIf="studentsSSOData[0].schacgender == 0"
+                        type="text"
+                        id="sex"
+                        name="sex"
+                        class="form-control"
+                        value="Γυναίκα"
+                        readonly
+                      />
                     </div>
                   </div>
                   <!-- <div class="form-group row">
@@ -226,7 +329,6 @@
                     </div>
                   </div> -->
 
-
                   <!-- <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Εμπειρία</label>
                     <div class="col-sm-10">
@@ -242,12 +344,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group container-fluid row" style="width:280px; margin:auto;">
+                  <div
+                    class="form-group container-fluid row"
+                    style="width: 280px; margin: auto"
+                  >
                     <div class="col-sm-6">
-                      <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+                      <button type="submit" class="btn btn-primary">
+                        Αποθήκευση
+                      </button>
                     </div>
                     <div class="col-sm-6">
-                      <button type="submit" class="btn btn-secondary">Ακύρωση</button>
+                      <button
+                        type="text"
+                        (click)="resetFormFields()"
+                        class="btn btn-secondary"
+                      >
+                        Ακύρωση
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -255,56 +368,84 @@
 
               <div class="tab-pane" id="sumbasiDetails">
                 <div class="alert alert-danger" role="alert">
-                  - Τα παρακάτω στοιχεία είναι αυστηρά προσωπικά και αφορούν μόνο εσάς και όχι π.χ
-                  κάποιο άλλο πρόσωπο της
-                  οικογένειας σας. <br>- Το ΑΜΚΑ αντλείται από τo φοιτητολόγιο. Σε περίπτωση που δεν συμφωνείτε
-                  επικοινωνήστε
-                  με την γραμματεία
+                  - Τα παρακάτω στοιχεία είναι αυστηρά προσωπικά και αφορούν
+                  μόνο εσάς και όχι π.χ κάποιο άλλο πρόσωπο της οικογένειας σας.
+                  <br />- Το ΑΜΚΑ αντλείται από τo φοιτητολόγιο. Σε περίπτωση
+                  που δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
                 <form class="form-horizontal">
                   <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">ΑΦΜ&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputName" class="col-sm-2 col-form-label"
+                      >ΑΦΜ&nbsp;<span class="text-danger">*</span></label
+                    >
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="ΑΦΜ">
-                    </div>
-
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="mb-3 col-sm-10">
-                      <label for="formFile" class="form-label">Ανεβάστε φωτογραφία που να απεικονίζεται το ΑΦΜ</label>
-                      <input class="form-control" type="file" id="formFile">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputDOY" class="col-sm-2 col-form-label">ΔΟΥ&nbsp;<span
-                        class="text-danger">*</span></label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputDOY" placeholder="ΔΟΥ">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">IBAN&nbsp;<span
-                        class="text-danger">*</span></label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="IBAN">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName"
+                        placeholder="ΑΦΜ"
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="mb-3 col-sm-10">
-                      <label for="formFile" class="form-label">Ανεβάστε φωτογραφία που να απεικονίζεται το IBAN
+                      <label for="formFile" class="form-label"
+                        >Ανεβάστε φωτογραφία που να απεικονίζεται το ΑΦΜ</label
+                      >
+                      <input class="form-control" type="file" id="formFile" />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputDOY" class="col-sm-2 col-form-label"
+                      >ΔΟΥ&nbsp;<span class="text-danger">*</span></label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputDOY"
+                        placeholder="ΔΟΥ"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >IBAN&nbsp;<span class="text-danger">*</span></label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputName2"
+                        placeholder="IBAN"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="mb-3 col-sm-10">
+                      <label for="formFile" class="form-label"
+                        >Ανεβάστε φωτογραφία που να απεικονίζεται το IBAN
                       </label>
-                      <input class="form-control" type="file" id="formFile">
+                      <input class="form-control" type="file" id="formFile" />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">ΑΜΚΑ&nbsp;<span
-                        class="text-danger">*</span></label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >ΑΜΚΑ&nbsp;<span class="text-danger">*</span></label
+                    >
                     <div class="col-sm-10">
-                      <input class="form-control" type="text" id="amka" name="amka" placeholder="AMKA"
-                        [value]="this.studentsSSOData[0].schacpersonaluniqueid" readonly required>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="amka"
+                        name="amka"
+                        placeholder="AMKA"
+                        [value]="this.studentsSSOData[0].schacpersonaluniqueid"
+                        readonly
+                        required
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
@@ -316,12 +457,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group container-fluid row" style="width:280px; margin:auto;">
+                  <div
+                    class="form-group container-fluid row"
+                    style="width: 280px; margin: auto"
+                  >
                     <div class="col-sm-6">
-                      <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+                      <button type="submit" class="btn btn-primary">
+                        Αποθήκευση
+                      </button>
                     </div>
                     <div class="col-sm-6">
-                      <button type="submit" class="btn btn-secondary">Ακύρωση</button>
+                      <button
+                        type="text"
+                        (click)="resetFormFields()"
+                        class="btn btn-secondary"
+                      >
+                        Ακύρωση
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -329,8 +481,8 @@
 
               <div class="tab-pane" id="studentContact">
                 <div class="alert alert-danger" role="alert">
-                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που δεν συμφωνείτε
-                  επικοινωνήστε με την γραμματεία
+                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
+                  δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
                 <form class="form-horizontal">
                   <div class="fieldset-wrapper">
@@ -343,81 +495,137 @@
                        <div class="description">Check this box to delete this location.</div>
                        </div> -->
                     <div class="form-group row">
-                      <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                      <label for="inputEmail" class="col-sm-2 col-form-label"
+                        >Email <span style="color: red">*</span></label
+                      >
                       <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail" placeholder=""
-                          [value]="this.studentsSSOData[0].id + '@uop.gr'" required>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="inputEmail"
+                          placeholder=""
+                          [value]="this.studentsSSOData[0].id + '@uop.gr'"
+                          required
+                        />
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="edit-profile-student-field-student-address-und-0-phone"
-                        class="col-sm-2 col-form-label">Τηλέφωνο</label>
+                      <label
+                        for="edit-profile-student-field-student-address-und-0-phone"
+                        class="col-sm-2 col-form-label"
+                        >Τηλέφωνο</label
+                      >
                       <div class="col-sm-10">
-                        <input type="text" class="form-control"
+                        <input
+                          type="text"
+                          class="form-control"
                           id="edit-profile-student-field-student-address-und-0-phone"
-                          name="profile_student[field_student_address][und][0][phone]" placeholder="" value="" size="31"
-                          maxlength="31">
+                          name="profile_student[field_student_address][und][0][phone]"
+                          placeholder=""
+                          value=""
+                          size="31"
+                          maxlength="31"
+                        />
                       </div>
                     </div>
-                    <div class="form-group row form-type-textfield
-                      form-item-profile-student-field-student-address-und-0-street">
-                      <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-street">Οδός
+                    <div
+                      class="form-group row form-type-textfield form-item-profile-student-field-student-address-und-0-street"
+                    >
+                      <label
+                        class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-street"
+                        >Οδός
                       </label>
                       <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-street"
-                          name="profile_student[field_student_address][und][0][street]" value="" size="64"
-                          maxlength="255" class="form-text form-control">
+                        <input
+                          type="text"
+                          id="edit-profile-student-field-student-address-und-0-street"
+                          name="profile_student[field_student_address][und][0][street]"
+                          value=""
+                          size="64"
+                          maxlength="255"
+                          class="form-text form-control"
+                        />
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-additional">Περιοχή </label>
-                      <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-additional"
-                          name="profile_student[field_student_address][und][0][additional]" value="" size="64"
-                          maxlength="255" class="form-text form-control">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-city">Πόλη
+                      <label
+                        class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-additional"
+                        >Περιοχή
                       </label>
                       <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-city"
-                          name="profile_student[field_student_address][und][0][city]" value="" size="64" maxlength="255"
-                          class="form-text form-control">
+                        <input
+                          type="text"
+                          id="edit-profile-student-field-student-address-und-0-additional"
+                          name="profile_student[field_student_address][und][0][additional]"
+                          value=""
+                          size="64"
+                          maxlength="255"
+                          class="form-text form-control"
+                        />
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-postal-code">Ταχυδρομικός κώδικας </label>
-                      <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-postal-code"
-                          name="profile_student[field_student_address][und][0][postal_code]" value="" size="16"
-                          maxlength="16" class="form-text form-control">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-country">Χώρα
+                      <label
+                        class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-city"
+                        >Πόλη
                       </label>
                       <div class="col-sm-10">
-                        <select class="location_auto_country form-select ajax-processed"
+                        <input
+                          type="text"
+                          id="edit-profile-student-field-student-address-und-0-city"
+                          name="profile_student[field_student_address][und][0][city]"
+                          value=""
+                          size="64"
+                          maxlength="255"
+                          class="form-text form-control"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-postal-code"
+                        >Ταχυδρομικός κώδικας
+                      </label>
+                      <div class="col-sm-10">
+                        <input
+                          type="text"
+                          id="edit-profile-student-field-student-address-und-0-postal-code"
+                          name="profile_student[field_student_address][und][0][postal_code]"
+                          value=""
+                          size="16"
+                          maxlength="16"
+                          class="form-text form-control"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        class="col-sm-2 col-form-label"
+                        for="edit-profile-student-field-student-address-und-0-country"
+                        >Χώρα
+                      </label>
+                      <div class="col-sm-10">
+                        <select
+                          class="location_auto_country form-select ajax-processed"
                           id="edit-profile-student-field-student-address-und-0-country"
-                          name="profile_student[field_student_address][und][0][country]">
-                          <option value="">Επιλογή</option>
-                          <option value="xx">NOT LISTED</option>
-                          <option value="fj">Fiji</option>
-                          <option value="nr">Nauru</option>
-                          <option value="tl">Timor-Leste</option>
-                          <option value="to">Tonga</option>
+                          name="profile_student[field_student_address][und][0][country]"
+                        >
+                          <option value="xx">ΕΚΤΟΣ ΛΙΣΤΑΣ</option>
                           <option value="bl">Άγιος Βαρθολομαίος</option>
-                          <option value="vc">Άγιος Βικέντιος και Γρεναδίνες</option>
+                          <option value="vc">
+                            Άγιος Βικέντιος και Γρεναδίνες
+                          </option>
+
                           <option value="sm">Άγιος Μαρίνος</option>
                           <option value="sx">Άγιος Μαρτίνος</option>
                           <option value="mf">Άγιος Μαρτίνος Γαλλίας</option>
-                          <option value="kn">Άγιος Χριστόφορος και Νέβις</option>
+                          <option value="kn">
+                            Άγιος Χριστόφορος και Νέβις
+                          </option>
                           <option value="eg">Αίγυπτος</option>
                           <option value="sh">Αγία Ελένη</option>
                           <option value="lc">Αγία Λουκία</option>
@@ -427,13 +635,18 @@
                           <option value="ci">Ακτή Ελεφαντοστού</option>
                           <option value="al">Αλβανία</option>
                           <option value="dz">Αλγερία</option>
-                          <option value="vi">Αμερικανικές Παρθένοι Νήσοι</option>
+                          <option value="vi">
+                            Αμερικανικές Παρθένοι Νήσοι
+                          </option>
                           <option value="as">Αμερικανική Σαμόα</option>
+                          <option value="tl">Ανατολικό Τιμόρ</option>
                           <option value="ai">Ανγκουίλα</option>
                           <option value="ad">Ανδόρρα</option>
                           <option value="ag">Αντίγκουα και Μπαρμπούντα</option>
                           <option value="aq">Ανταρκτική</option>
-                          <option value="um">Απομακρυσμένες Νησίδες των ΗΠΑ</option>
+                          <option value="um">
+                            Απομακρυσμένες Νησίδες των ΗΠΑ
+                          </option>
                           <option value="ar">Αργεντινή</option>
                           <option value="am">Αρμενία</option>
                           <option value="aw">Αρούμπα</option>
@@ -452,7 +665,9 @@
                           <option value="bg">Βουλγαρία</option>
                           <option value="br">Βραζιλία</option>
                           <option value="vg">Βρετανικές Παρθένοι Νήσοι</option>
-                          <option value="io">Βρετανικό Έδαφος Ινδικού Ωκεανού</option>
+                          <option value="io">
+                            Βρετανικό Έδαφος Ινδικού Ωκεανού
+                          </option>
                           <option value="kp">Βόρεια Κορέα</option>
                           <option value="mp">Βόρειες Μαριάνες Νήσοι</option>
                           <option value="fr">Γαλλία</option>
@@ -486,7 +701,9 @@
                           <option value="zm">Ζάμπια</option>
                           <option value="zw">Ζιμπάμπουε</option>
                           <option value="ae">Ηνωμένα Αραβικά Εμιράτα</option>
-                          <option value="us">Ηνωμένες Πολιτείες της Αμερικής</option>
+                          <option value="us">
+                            Ηνωμένες Πολιτείες της Αμερικής
+                          </option>
                           <option value="gb">Ηνωμένο Βασίλειο</option>
                           <option value="jp">Ιαπωνία</option>
                           <option value="in">Ινδία</option>
@@ -508,7 +725,9 @@
                           <option value="kh">Καμπότζη</option>
                           <option value="ca">Καναδάς</option>
                           <option value="qa">Κατάρ</option>
-                          <option value="cf">Κεντροαφρικανική Δημοκρατία</option>
+                          <option value="cf">
+                            Κεντροαφρικανική Δημοκρατία
+                          </option>
                           <option value="kg">Κιργιζία</option>
                           <option value="ki">Κιριμπάτι</option>
                           <option value="co">Κολομβία</option>
@@ -562,17 +781,22 @@
                           <option value="bi">Μπουρούντι</option>
                           <option value="bt">Μπουτάν</option>
                           <option value="bn">Μπρουνέι</option>
+                          <option value="nr">Ναουρού</option>
                           <option value="nz">Νέα Ζηλανδία</option>
                           <option value="nc">Νέα Καληδονία</option>
                           <option value="ax">Νήσοι Ώλαντ</option>
                           <option value="ck">Νήσοι Κουκ</option>
                           <option value="mh">Νήσοι Μάρσαλ</option>
-                          <option value="gs">Νήσοι Νότια Γεωργία και Νότιες Σάντουιτς</option>
+                          <option value="gs">
+                            Νήσοι Νότια Γεωργία και Νότιες Σάντουιτς
+                          </option>
                           <option value="pn">Νήσοι Πίτκαιρν</option>
                           <option value="sb">Νήσοι Σολομώντα</option>
                           <option value="fo">Νήσοι Φερόες</option>
                           <option value="fk">Νήσοι Φώκλαντ</option>
-                          <option value="hm">Νήσοι Χερντ και Μακντόναλντ</option>
+                          <option value="hm">
+                            Νήσοι Χερντ και Μακντόναλντ
+                          </option>
                           <option value="im">Νήσος του Μαν</option>
                           <option value="ne">Νίγηρας</option>
                           <option value="na">Ναμίμπια</option>
@@ -653,9 +877,11 @@
                           <option value="cz">Τσεχία</option>
                           <option value="tn">Τυνησία</option>
                           <option value="tg">Τόγκο</option>
+                          <option value="to">Τόνγκα</option>
                           <option value="ye">Υεμένη</option>
                           <option value="ph">Φιλιππίνες</option>
                           <option value="fi">Φινλανδία</option>
+                          <option value="fj">Φίτζι</option>
                           <option value="cl">Χιλή</option>
                           <option value="hk">Χονγκ Κονγκ</option>
                         </select>
@@ -670,12 +896,23 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group container-fluid row" style="width:280px; margin:auto;">
+                    <div
+                      class="form-group container-fluid row"
+                      style="width: 280px; margin: auto"
+                    >
                       <div class="col-sm-6">
-                        <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+                        <button type="submit" class="btn btn-primary">
+                          Αποθήκευση
+                        </button>
                       </div>
                       <div class="col-sm-6">
-                        <button type="submit" class="btn btn-secondary">Ακύρωση</button>
+                        <button
+                          type="text"
+                          (click)="resetFormFields()"
+                          class="btn btn-secondary"
+                        >
+                          Ακύρωση
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -685,46 +922,87 @@
               <div class="tab-pane" id="bio">
                 <form class="form-horizontal">
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Εκπαίδευση</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Εκπαίδευση</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Εκπαίδευση"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Εκπαίδευση"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Εμπειρία</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Εμπειρία</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Εμπειρία"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Εμπειρία"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ξένες Γλώσσες</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Ξένες Γλώσσες</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Ξένες Γλώσσες"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Ξένες Γλώσσες"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Γνώσεις Η/Υ</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Γνώσεις Η/Υ</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Γνώσεις Η/Υ"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Γνώσεις Η/Υ"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Δια Βίου Μόρφωση</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Δια Βίου Μόρφωση</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Δια Βίου Μόρφωση"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Δια Βίου Μόρφωση"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Διακρίσεις-Βραβεία-Υποτροφίες</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Διακρίσεις-Βραβεία-Υποτροφίες</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience"
-                        placeholder="Διακρίσεις-Βραβεία-Υποτροφίες"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Διακρίσεις-Βραβεία-Υποτροφίες"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ενδιαφέροντα</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Ενδιαφέροντα</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Ενδιαφέροντα"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Ενδιαφέροντα"
+                      ></textarea>
                     </div>
                   </div>
                   <!-- <div class="form-group row">
@@ -734,9 +1012,15 @@
                     </div>
                   </div> -->
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ικανότητες</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label"
+                      >Ικανότητες</label
+                    >
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Ικανότητες"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="inputExperience"
+                        placeholder="Ικανότητες"
+                      ></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -748,26 +1032,38 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group container-fluid row" style="width:280px; margin:auto;">
+                  <div
+                    class="form-group container-fluid row"
+                    style="width: 280px; margin: auto"
+                  >
                     <div class="col-sm-6">
-                      <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+                      <button type="submit" class="btn btn-primary">
+                        Αποθήκευση
+                      </button>
                     </div>
                     <div class="col-sm-6">
-                      <button type="submit" class="btn btn-secondary">Ακύρωση</button>
+                      <button
+                        type="text"
+                        (click)="resetFormFields()"
+                        class="btn btn-secondary"
+                      >
+                        Ακύρωση
+                      </button>
                     </div>
                   </div>
                 </form>
               </div>
-
             </div>
             <!-- /.tab-content -->
-          </div><!-- /.card-body -->
+          </div>
+          <!-- /.card-body -->
         </div>
         <!-- /.card -->
       </div>
       <!-- /.col -->
     </div>
     <!-- /.row -->
-  </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
