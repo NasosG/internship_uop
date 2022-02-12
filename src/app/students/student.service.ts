@@ -24,13 +24,14 @@ export class StudentsService {
       // });
   }
 
-  // addStudent(title: string, content: string) {
-  //   const post: Student = { sn: title, givenname: content };
+  // this functions adds a new bio and details to a student
+  // addStudentBio(modelStudent: Student) {
+  //   const student: Student = modelStudent;
   //   this.http
-  //     .post<{ message: string }>("http://localhost:3000/api/students", this.students)
+  //     .post<{ message: string }>("http://localhost:3000/api/students/addBio", this.students)
   //     .subscribe(responseData => {
   //       console.log(responseData.message);
-  //       this.students.push(post);
+  //       this.students.push(student);
   //       // this.studentsUpdated.next([...this.students]);
   //     });
   // }
