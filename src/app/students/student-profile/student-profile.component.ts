@@ -47,7 +47,27 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   public resetFormFields() {
     $(':text:not("[readonly],[disabled]")').val('');
     $('textarea:not("[readonly],[disabled]")').val('');
-}
+  }
+
+  onSubmitStudentDetails(data: any){
+    console.log(data);
+    this.studentsService.updateStudentDetails(data);
+  }
+
+  onSubmitStudentContractDetails(data: any) {
+    console.log(data);
+    this.studentsService.updateStudentContractDetails(data);
+  }
+
+  onSubmitStudentBio(data: any) {
+    console.log(data);
+    this.studentsService.updateStudentBio(data);
+  }
+
+  onSubmitStudentContact(data: any) {
+    console.log(data);
+    this.studentsService.updateStudentContact(data);
+  }
 
   ngOnDestroy(): void {
     this.studentSubscription?.unsubscribe();

@@ -67,33 +67,23 @@
           <!-- /.card-header -->
           <div class="card-body">
             <strong><i class="fas fa-book mr-1"></i> Εκπαίδευση</strong>
-
             <p class="text-muted">
               B.S. in Computer Science from the University of Tennessee at
               Knoxville
             </p>
-
             <hr />
-
             <strong><i class="fas fa-map-marker-alt mr-1"></i> Τοποθεσία</strong>
-
             <p class="text-muted">Τρίπολη, Αρκαδία</p>
-
             <hr />
-
             <strong><i class="fas fa-pencil-alt mr-1"></i> Ικανότητες</strong>
-
             <p class="text-muted">
               <span class="tag tag-danger">C, </span>
               <span class="tag tag-info">Javascript, </span>
               <span class="tag tag-warning">PHP, </span>
               <span class="tag tag-primary">Node.js</span>
             </p>
-
             <hr />
-
             <strong><i class="far fa-file-alt mr-1"></i> Ενδιαφέροντα</strong>
-
             <p class="text-muted">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
               fermentum enim neque.
@@ -136,21 +126,20 @@
               <div class="tab-pane" id="activity">
                 <!-- Post -->
               </div>
-
               <!-- <form>
                 <mat-form-field>
                   <input matInput type="text" name="title" required minlength="3" placeholder=""
                     [value]="studentsSSOData[0].sn">
                 </mat-form-field>
               </form> -->
-
               <!-- {{ studentsSSOData | json }} -->
               <div class="tab-pane active" id="settings">
                 <div class="alert alert-danger" role="alert">
                   Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
                   δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
-                <form #studentsForm="ngForm" class="form-horizontal">
+                <form #studentsDetailsForm="ngForm" class="form-horizontal"
+                  (ngSubmit)="onSubmitStudentDetails(studentsDetailsForm.value)">
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">Όνομα&nbsp;<span
                         class="text-danger">*</span></label>
@@ -167,40 +156,43 @@
                         [value]="studentsSSOData[0].sn" readonly />
                     </div>
                   </div>
-
                   <div class="form-group row">
                     <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Πατρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Όνομα Πατρός" value="" />
+                      <input type="text" name="father_name" ngModel class="form-control" id="inputName2"
+                        placeholder="Όνομα Πατρός" value="" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Επώνυμο Πατρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Επώνυμο Πατρός" value="" />
+                      <input type="text" name="father_last_name" ngModel class="form-control" id="fatherLastName"
+                        placeholder="Επώνυμο Πατρός" value="" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Μητρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Όνομα Μητρός" value="" />
+                      <input type="text" name="mother_name" ngModel class="form-control" id="inputName2"
+                        placeholder="Όνομα Μητρός" value="" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputName2" class="col-sm-2 col-form-label">Επώνυμο Μητρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Επώνυμο Μητρός" value="" />
+                      <input type="text" name="mother_last_name" ngModel class="form-control" id="inputName2"
+                        placeholder="Επώνυμο Μητρός" value="" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Ημ. Γέννησης&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input class="form-control" type="text" id="date_of_birth" name="date_of_birth"
+                      <input class="form-control" type="text" id="date_of_birth" name="schacdateofbirth"
                         placeholder="Ημερομηνία Γέννησης" required readonly min="1900-01-01" max="2500-01-01"
                         [value]="studentsSSOData[0].schacdateofbirth" />
                     </div>
@@ -261,9 +253,9 @@
                       </button>
                     </div>
                     <div class="col-sm-6">
-                      <button type="text" (click)="resetFormFields()" class="btn btn-secondary">
+                      <a (click)="resetFormFields();" class="btn btn-secondary">
                         Ακύρωση
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </form>
@@ -276,12 +268,13 @@
                   <br />- Το ΑΜΚΑ αντλείται από τo φοιτητολόγιο. Σε περίπτωση
                   που δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
-                <form class="form-horizontal">
+                <form #studentContractDetailsForm="ngForm" class="form-horizontal"
+                  (ngSubmit)="onSubmitStudentContractDetails(studentContractDetailsForm.value)">
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">ΑΦΜ&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="ΑΦΜ" />
+                      <input type="text" name="ssn" ngModel class="form-control" id="inputName" placeholder="ΑΦΜ" />
                     </div>
                   </div>
                   <div class="form-group row">
@@ -295,14 +288,14 @@
                     <label for="inputDOY" class="col-sm-2 col-form-label">ΔΟΥ&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputDOY" placeholder="ΔΟΥ" />
+                      <input type="text" name="doy" ngModel class="form-control" id="inputDOY" placeholder="ΔΟΥ" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">IBAN&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="IBAN" />
+                      <input type="text" name="iban" ngModel class="form-control" id="inputName2" placeholder="IBAN" />
                     </div>
                   </div>
                   <div class="form-group row">
@@ -337,9 +330,9 @@
                       </button>
                     </div>
                     <div class="col-sm-6">
-                      <button type="text" (click)="resetFormFields()" class="btn btn-secondary">
+                      <a (click)="resetFormFields();" class="btn btn-secondary">
                         Ακύρωση
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </form>
@@ -350,7 +343,8 @@
                   Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
                   δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
-                <form class="form-horizontal">
+                <form #studentContactForm="ngForm" class="form-horizontal"
+                  (ngSubmit)="onSubmitStudentContact(studentContactForm.value)">
                   <div class="fieldset-wrapper">
                     <!-- <div class="form-item form-type-checkbox form-item-profile-student-field-student-address-und-0-re-geocode-location">
                         <input type="checkbox" id="edit-profile-student-field-student-address-und-0-re-geocode-location" name="profile_student[field_student_address][und][0][re_geocode_location]" value="1" class="form-checkbox">  <label class="option" for="edit-profile-student-field-student-address-und-0-re-geocode-location">Re geocode </label>
@@ -373,9 +367,8 @@
                         class="col-sm-2 col-form-label">Τηλέφωνο</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control"
-                          id="edit-profile-student-field-student-address-und-0-phone"
-                          name="profile_student[field_student_address][und][0][phone]" placeholder="" value="" size="31"
-                          maxlength="31" />
+                          id="edit-profile-student-field-student-address-und-0-phone" name="phone" ngModel
+                          placeholder="" value="" size="31" maxlength="31" />
                       </div>
                     </div>
                     <div
@@ -384,9 +377,8 @@
                         for="edit-profile-student-field-student-address-und-0-street">Οδός
                       </label>
                       <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-street"
-                          name="profile_student[field_student_address][und][0][street]" value="" size="64"
-                          maxlength="255" class="form-text form-control" />
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-street" name="address"
+                          ngModel value="" size="64" maxlength="255" class="form-text form-control" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -395,8 +387,7 @@
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-additional"
-                          name="profile_student[field_student_address][und][0][additional]" value="" size="64"
-                          maxlength="255" class="form-text form-control" />
+                          name="location" ngModel value="" size="64" maxlength="255" class="form-text form-control" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -404,9 +395,8 @@
                         for="edit-profile-student-field-student-address-und-0-city">Πόλη
                       </label>
                       <div class="col-sm-10">
-                        <input type="text" id="edit-profile-student-field-student-address-und-0-city"
-                          name="profile_student[field_student_address][und][0][city]" value="" size="64" maxlength="255"
-                          class="form-text form-control" />
+                        <input type="text" id="edit-profile-student-field-student-address-und-0-city" name="city"
+                          ngModel value="" size="64" maxlength="255" class="form-text form-control" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -415,8 +405,8 @@
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-postal-code"
-                          name="profile_student[field_student_address][und][0][postal_code]" value="" size="16"
-                          maxlength="16" class="form-text form-control" />
+                          name="post_address" ngModel value="" size="16" maxlength="16"
+                          class="form-text form-control" />
                       </div>
                     </div>
                     <div class="form-group row">
@@ -424,9 +414,8 @@
                         for="edit-profile-student-field-student-address-und-0-country">Χώρα
                       </label>
                       <div class="col-sm-10">
-                        <select class="location_auto_country form-select ajax-processed"
-                          id="edit-profile-student-field-student-address-und-0-country"
-                          name="profile_student[field_student_address][und][0][country]">
+                        <select name="country" ngModel class="location_auto_country form-select ajax-processed"
+                          id="edit-profile-student-field-student-address-und-0-country">
                           <option value="xx">ΕΚΤΟΣ ΛΙΣΤΑΣ</option>
                           <option value="bl">Άγιος Βαρθολομαίος</option>
                           <option value="vc">
@@ -716,9 +705,9 @@
                         </button>
                       </div>
                       <div class="col-sm-6">
-                        <button type="text" (click)="resetFormFields()" class="btn btn-secondary">
+                        <a (click)="resetFormFields();" class="btn btn-secondary">
                           Ακύρωση
-                        </button>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -726,7 +715,8 @@
               </div>
 
               <div class="tab-pane" id="bio">
-                <form class="form-horizontal">
+                <form #studentBioForm="ngForm" class="form-horizontal"
+                  (ngSubmit)="onSubmitStudentBio(studentBioForm.value)">
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Εκπαίδευση</label>
                     <div class="col-sm-10">
@@ -798,9 +788,9 @@
                       </button>
                     </div>
                     <div class="col-sm-6">
-                      <button type="text" (click)="resetFormFields()" class="btn btn-secondary">
+                      <a (click)="resetFormFields()" class="btn btn-secondary">
                         Ακύρωση
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </form>

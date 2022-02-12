@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class StudentsService {
-  // private students: Student[] = [];
+  private students: Student[] = [];
   // private studentsUpdated = new Subject<Student[]>();
 
   constructor(private http: HttpClient) {}
@@ -25,15 +25,53 @@ export class StudentsService {
   }
 
   // this functions adds a new bio and details to a student
-  // addStudentBio(modelStudent: Student) {
-  //   const student: Student = modelStudent;
-  //   this.http
-  //     .post<{ message: string }>("http://localhost:3000/api/students/addBio", this.students)
-  //     .subscribe(responseData => {
-  //       console.log(responseData.message);
-  //       this.students.push(student);
-  //       // this.studentsUpdated.next([...this.students]);
-  //     });
-  // }
+  updateStudentDetails(data: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentDetails/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
+  updateStudentContractDetails(data: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
+  updateStudentBio(data: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
+  updateStudentContact(data: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
 }
 
