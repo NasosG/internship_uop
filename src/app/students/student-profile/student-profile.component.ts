@@ -44,11 +44,6 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     return displayDate;
   }
 
-  public resetFormFields() {
-    $(':text:not("[readonly],[disabled]")').val('');
-    $('textarea:not("[readonly],[disabled]")').val('');
-  }
-
   onSubmitStudentDetails(data: any){
     console.log(data);
     this.studentsService.updateStudentDetails(data);

@@ -65,11 +65,13 @@ const updateStudentBio = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await pool.query("UPDATE student_users \
-     SET " + "father_name = $1, father_last_name = $2, mother_name = $3, mother_last_name = $4  WHERE id = $5",
-      [student.father_name, student.father_last_name, student.mother_name, student.mother_last_name, id]
+    const inserts = await pool.query("UPDATE student_users " +
+      "SET " +
+      "education = $1, experience = $2, languages = $3, computer_skills = $4, other_edu = $5, honors = $6, interests = $7, skills = $8 WHERE id = $9",
+      [student.education, student.experience, student.languages, student.computer_skills, student.other_edu, student.honors, student.interests, student.skills, id]
     );
 
+    // console.log(student);
     response
       .status(200)
       .json({
