@@ -49,6 +49,30 @@ export class StudentsService {
       });
   }
 
+  updateStudentContractSSNFile(file: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
+  updateStudentContractIbanFile(file: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
   updateStudentBio(data: any) {
     const id = 1;
     // const student: string = modelStudent;

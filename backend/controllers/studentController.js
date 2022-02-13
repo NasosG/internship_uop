@@ -1,5 +1,6 @@
 // database connection configuration
 const pool = require("../db_config.js");
+const studentService = require("../services/studentService.js");
 
 const getStudents = async (request, response) => {
   try {
@@ -85,6 +86,10 @@ const updateStudentBio = async (request, response, next) => {
   }
 };
 
+const updateStudentSSNFile = async (req, res) => {
+  console.log('FILE ADDED');
+};
+
 const updateStudentContact = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -113,7 +118,8 @@ module.exports = {
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
-  updateStudentContact
+  updateStudentContact,
+  updateStudentSSNFile
   // addStudentsBio
 };
 

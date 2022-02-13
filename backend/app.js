@@ -2,6 +2,7 @@ const express = require('express');
 const studentRoutes = require("./api-routes/studentRoutes.js");
 const app = express();
 const cors = require('cors');
+const multer = require('multer');
 
 const bodyParser = require('body-parser');
 
@@ -25,5 +26,36 @@ app.get('/', (request, response) => {
 });
 
 app.use('/api/students', studentRoutes);
+
+const storageSsn = multer.diskStorage({
+  destination: './uploads/ssns',
+  filename: function (request, file, cb) {
+    cb(null, Date.now() + '.' + file.mimetype.split('/')[1])
+  }
+})
+
+const storageIban = multer.diskStorage({
+  destination: './uploads/ibans',
+  filename: function (request, file, cb) {
+    cb(null, Date.now() + '.' + file.mimetype.split('/')[1])
+  }
+})
+
+const uploadSsn = multer({
+  storage: storageSsn
+});
+
+const uploadIban = multer({
+  storage: storageIban
+});
+
+app.post('/api/students/updateStudentSSNFile/:id', uploadSsn.single('file'), (request, response) => {
+  console.log('FILE ADDED SSN');
+});
+
+app.post('/api/students/updateStudentIbanFile/:id', uploadIban.single('file'), (request, response) => {
+  console.log('FILE ADDED IBAN');
+});
+
 
 module.exports = app;
