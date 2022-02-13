@@ -3,8 +3,12 @@ const pool = require("../db_config.js");
 
 const getStudents = async (request, response) => {
   try {
-    const results = await pool.query("SELECT * FROM sso_users where id='pcst19003'");
-    response.status(200).json(results.rows);
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users where id='pcst19003'");
+    const resultsStudents = await pool.query("SELECT * FROM student_users where id = '1'")
+    // const results3 = [resultsSSOUsers.rows, resultsStudents.rows];
+    const finalResults = resultsSSOUsers.rows.concat(resultsStudents.rows);
+    // console.log(finalResults);
+    response.status(200).json(finalResults);
   } catch (error) {
     console.error(error.message);
   }
