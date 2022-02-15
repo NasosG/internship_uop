@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@ang
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { Observable, Subscription, takeUntil } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-profile',
@@ -14,26 +15,26 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
 
-  @ViewChild('fileInput',{static: false}) fileInput: ElementRef | undefined;
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef | undefined;
   @ViewChild('fileInput2', { static: false }) fileInput2: ElementRef | undefined;
 
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit() {
     this.studentsService.getStudents()
-    .subscribe((students: Student[]) => {
-      this.studentsSSOData = students;
-      this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
-      this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
-      // console.log(this.studentsSSOData);
-    });
+      .subscribe((students: Student[]) => {
+        this.studentsSSOData = students;
+        this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
+        this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
+        // console.log(this.studentsSSOData);
+      });
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
 
   // This function is used to get the AMKA of the student
-  private getSSN(str: string) : string {
+  private getSSN(str: string): string {
     const personalIdArray = str.split(":");
-    return personalIdArray[personalIdArray.length-1];
+    return personalIdArray[personalIdArray.length - 1];
   }
 
   private reformatDateOfBirth(dateOfBirth: string) {
@@ -64,6 +65,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   onSubmitStudentDetails(data: any) {
     console.log(data);
     this.studentsService.updateStudentDetails(data);
+    this.onSave();
   }
 
   onSubmitStudentContractDetails(data: any) {
@@ -72,18 +74,33 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.studentsService.updateStudentContractDetails(data);
     this.studentsService.updateStudentContractSSNFile(fileSSN);
     this.studentsService.updateStudentContractIbanFile(fileIban);
+    this.onSave();
   }
 
   onSubmitStudentBio(data: any) {
     this.studentsService.updateStudentBio(data);
+    this.onSave();
   }
 
   onSubmitStudentContact(data: any) {
     this.studentsService.updateStudentContact(data);
+    this.onSave();
   }
 
   ngOnDestroy(): void {
     this.studentSubscription?.unsubscribe();
+  }
+
+  onSave() {
+    Swal.fire({
+      title: 'Ενημέρωση στοιχείων',
+      text: 'Τα στοιχεία σας ενημερώθηκαν επιτυχώς',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
   }
 
 }
