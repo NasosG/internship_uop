@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const jwt = require("jsonwebtoken");
 
 const bodyParser = require("body-parser");
 
@@ -40,68 +41,70 @@ const storageSsn = multer.diskStorage({
   destination: "./uploads/ssns",
   filename: function (request, file, cb) {
     cb(null, Date.now() + "." + file.mimetype.split("/")[1]);
-  },
+  }
 });
 
 const storageIban = multer.diskStorage({
   destination: "./uploads/ibans",
   filename: function (request, file, cb) {
     cb(null, Date.now() + "." + file.mimetype.split("/")[1]);
-  },
+  }
 });
 
 const uploadSsn = multer({
   storage: storageSsn,
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
-    if (
-      ext !== ".png" &&
-      ext !== ".jpg" &&
-      ext !== ".gif" &&
-      ext !== ".jpeg" &&
-      ext !== ".pdf" &&
-      ext !== ".webp"
-    ) {
+    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".pdf" && ext !== ".webp") {
       return callback(new Error("This file type is not valid"));
     }
     callback(null, true);
   },
-  limits: { fileSize: 244140625 },
+  limits: {
+    fileSize: 244140625
+  }
 });
 
 const uploadIban = multer({
   storage: storageIban,
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
-    if (
-      ext !== ".png" &&
-      ext !== ".jpg" &&
-      ext !== ".gif" &&
-      ext !== ".jpeg" &&
-      ext !== ".pdf" &&
-      ext !== ".webp"
-    ) {
+    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".pdf" && ext !== ".webp") {
       return callback(new Error("This file type is not valid"));
     }
     callback(null, true);
   },
-  limits: { fileSize: 244140625 },
+  limits: {
+    fileSize: 244140625
+  }
 });
 
 app.post(
-  "/api/students/updateStudentSSNFile/:id",
-  uploadSsn.single("file"),
-  (request, response) => {
+  "/api/students/updateStudentSSNFile/:id", uploadSsn.single("file"), (request, response) => {
     console.log("FILE ADDED SSN");
   }
 );
 
 app.post(
-  "/api/students/updateStudentIbanFile/:id",
-  uploadIban.single("file"),
-  (request, response) => {
+  "/api/students/updateStudentIbanFile/:id", uploadIban.single("file"), (request, response) => {
     console.log("FILE ADDED IBAN");
   }
 );
+
+app.post("/api/students/login:id", (request, response, next) => {
+  const fetchedId = request.params.id;
+  const token = jwt.sign({
+      userId: fetchedId
+    },
+    "secret_this_should_be_longer", {
+      expiresIn: "1h"
+    }
+  );
+  response.status(200).json({
+    token: token,
+    expiresIn: 3600,
+    userId: fetchedId
+  });
+});
 
 module.exports = app;
