@@ -19,7 +19,8 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="./student/" class="nav-link"> <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
+        <a href="./student/" class="nav-link">
+          <i style="font-size: 1.2em" class="fa fa-home"></i> Αρχική</a>
       </li>
     </ul>
 
@@ -84,12 +85,14 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-            {{studentsSSOData[0].givenname}} {{studentsSSOData[0].sn}}
+            {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
-            <a [routerLink]="['/student/profile']" class="nav-link" class="dropdown-item">Προφίλ</a>
+            <a [routerLink]="['/student/profile']" class="nav-link" class="dropdown-item fas fa-user">&nbsp; &nbsp;
+              Προφίλ</a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">Αποσύνδεση</a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-arrow-right"></i> &nbsp; Αποσύνδεση</a>
           </div>
         </li>
       </ul>
@@ -100,29 +103,31 @@
           Γλώσσα
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png" width="24" height="24">
-              &nbsp; Ελληνικά</a></li>
-          <li><a href="#" class="dropdown-item"> <img src="../../../assets/images/englishIcon.png" width="24"
-                height="24"> &nbsp; Αγγλικά</a></li>
+          <li>
+            <a href="#" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png" width="24" height="24" />
+              &nbsp; Ελληνικά</a>
+          </li>
+          <li>
+            <a href="#" class="dropdown-item">
+              <img src="../../../assets/images/englishIcon.png" width="24" height="24" />
+              &nbsp; Αγγλικά</a>
+          </li>
         </ul>
       </div>
 
       <li class="nav-item">
-        <span href="#" style="color: black;" class="pr-0 mr-0 nav-link" role="button">
-          <label class="theme-switch" style="height:30px;" for="ChangeTheme">
+        <span href="#" style="color: black" class="pr-0 mr-0 nav-link" role="button">
+          <label class="theme-switch" style="height: 30px" for="ChangeTheme">
             <input type="checkbox" id="ChangeTheme" />
             <div class="slider round"></div>
           </label>
         </span>
-
       </li>
       <li class="nav-item pl-0 ml-0">
         <span href="#" class="nav-link moon-icon" role="button">
-          <span style="font-size:1.27em;"><i class="fa fa-moon"></i></span>
+          <span style="font-size: 1.27em"><i class="fa fa-moon"></i></span>
         </span>
-
       </li>
-
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -155,8 +160,8 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a routerLink="/student/profile" class="d-block"> {{studentsSSOData[0].givenname}}
-            {{studentsSSOData[0].sn}}</a>
+          <a routerLink="/student/profile" class="d-block">
+            {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}</a>
         </div>
       </div>
 
@@ -182,9 +187,7 @@
           <li class="nav-item">
             <a [routerLink]="['/student/profile']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
-              <p>
-                Το προφίλ μου
-              </p>
+              <p>Το προφίλ μου</p>
             </a>
           </li>
 
@@ -229,9 +232,7 @@
           <li class="nav-item">
             <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-book"></i>
-              <p>
-                Δελτίο / Συμβάση
-              </p>
+              <p>Δελτίο / Συμβάση</p>
             </a>
           </li>
           <li class="nav-header">Δευτερεύουσες Επιλογές</li>
@@ -389,7 +390,8 @@
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="fas fa-adjust"></i>
-              <p> &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
+              <p>
+                &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
@@ -512,10 +514,7 @@
             </div>
           </div>
         </div> -->
-      <div class="row">
-
-
-      </div>
+      <div class="row"></div>
       <!-- </div> -->
       <!-- /.container-fluid -->
     </section>
@@ -523,15 +522,13 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <div class="m-auto" style="width:40%;">
-      <img src="./assets/images/logoespa.png" style="min-width:200px; width:100%;">
+    <div class="m-auto" style="width: 40%">
+      <img src="./assets/images/logoespa.png" style="min-width: 200px; width: 100%" />
     </div>
     <strong>Copyright &copy; 2021-2022
       <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 0.1
-    </div>
+    <div class="float-right d-none d-sm-inline-block"><b>Version</b> 0.1</div>
   </footer>
 
   <!-- Control Sidebar -->
