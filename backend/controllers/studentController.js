@@ -1,17 +1,17 @@
-// database connection configuration
-const pool = require("../db_config.js");
 const studentService = require("../services/studentService.js");
 
+/**
+ * Returns all students from sso and student users tables.
+ */
 const getStudents = async (request, response) => {
   try {
-    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users where id='pcst19003'");
-    const resultsStudents = await pool.query("SELECT * FROM student_users where id = '1'")
-    // const results3 = [resultsSSOUsers.rows, resultsStudents.rows];
-    const finalResults = resultsSSOUsers.rows.concat(resultsStudents.rows);
-    // console.log(finalResults);
-    response.status(200).json(finalResults);
+    const users = await studentService.getStudents();
+    response.status(200).json(users);
   } catch (error) {
     console.error(error.message);
+    response.send({
+      message: error.message
+    });
   }
 };
 
@@ -20,11 +20,8 @@ const updateStudentDetails = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await pool.query("UPDATE student_users \
-     SET " + "father_name = $1, father_last_name = $2, mother_name = $3, mother_last_name = $4  WHERE id = $5",
-      [student.father_name, student.father_last_name, student.mother_name, student.mother_last_name, id]
-    );
-
+    const inserts = await studentService.updateStudentDetails(student, id);
+    // console.log(inserts.rowCount);
     response
       .status(200)
       .json({
@@ -43,10 +40,7 @@ const updateStudentContractDetails = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await pool.query("UPDATE student_users \
-     SET " + "ssn = $1, doy = $2, iban = $3 WHERE id = $4",
-      [student.ssn, student.doy, student.iban, id]
-    );
+    const inserts = await studentService.updateStudentContractDetails(student, id);
 
     response
       .status(200)
@@ -66,13 +60,8 @@ const updateStudentBio = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await pool.query("UPDATE student_users " +
-      "SET " +
-      "education = $1, experience = $2, languages = $3, computer_skills = $4, other_edu = $5, honors = $6, interests = $7, skills = $8 WHERE id = $9",
-      [student.education, student.experience, student.languages, student.computer_skills, student.other_edu, student.honors, student.interests, student.skills, id]
-    );
+    const inserts = await studentService.updateStudentBio(student, id);
 
-    // console.log(student);
     response
       .status(200)
       .json({
@@ -86,19 +75,12 @@ const updateStudentBio = async (request, response, next) => {
   }
 };
 
-const updateStudentSSNFile = async (req, res) => {
-  console.log('FILE ADDED');
-};
-
 const updateStudentContact = async (request, response, next) => {
   try {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await pool.query("UPDATE student_users \
-     SET " + "phone = $1, address = $2, location = $3, city = $4, post_address = $5, country = $6  WHERE id = $7",
-      [student.phone, student.address, student.location, student.city, student.post_address, student.country, id]
-    );
+    const inserts = await studentService.updateStudentContact(student, id);
 
     response
       .status(200)
@@ -118,9 +100,7 @@ module.exports = {
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
-  updateStudentContact,
-  updateStudentSSNFile
-  // addStudentsBio
+  updateStudentContact
 };
 
 
@@ -147,4 +127,8 @@ module.exports = {
 //       message: error.message
 //     });
 //   }
+// };
+
+// const updateStudentSSNFile = async (req, res) => {
+//   console.log('FILE ADDED');
 // };
