@@ -23,7 +23,7 @@ const updateStudentDetails = async (student, id) => {
 
     return inserts;
   } catch (exception) {
-    throw Error('Error while updating students')
+    throw Error('Error while updating students');
   }
 };
 
