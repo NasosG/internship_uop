@@ -4,6 +4,8 @@ import {BreakpointObserver} from '@angular/cdk/layout'
 import { Observable, Subscription, takeUntil } from 'rxjs';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
+import { AuthService } from 'src/app/auth/auth.service';
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -13,8 +15,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
-
-
 
 
   isProfileRoute() {
@@ -70,9 +70,10 @@ export class StudentComponent implements OnInit, OnDestroy {
   studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
 
-  constructor(public studentsService: StudentsService, private router: Router, private breakpointObserver: BreakpointObserver) { }
+  constructor(public studentsService: StudentsService, private router: Router, private breakpointObserver: BreakpointObserver, public authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.login('pcst19003');
     this.studentsService.getStudents()
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;

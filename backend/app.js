@@ -91,7 +91,7 @@ app.post(
   }
 );
 
-app.post("/api/students/login:id", (request, response, next) => {
+app.post("/api/students/login/:id", (request, response, next) => {
   const fetchedId = request.params.id;
   const token = jwt.sign({
       userId: fetchedId
