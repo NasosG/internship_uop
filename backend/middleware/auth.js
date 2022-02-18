@@ -1,5 +1,13 @@
 const jwt = require("jsonwebtoken");
 
+/**
+ *
+ * function that verifies jwt token
+ *
+ * @param {*} request
+ * @param {*} response
+ * @param {*} next
+ */
 module.exports = (request, response, next) => {
   try {
     const secretString = "secret_this_should_be_longer";

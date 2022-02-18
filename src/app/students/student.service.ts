@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { Student } from "./student.model";
 import { Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { AuthService } from 'src/app/auth/auth.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class StudentsService {
   private students: Student[] = [];
   // private studentsUpdated = new Subject<Student[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public authService: AuthService) {}
 
   // getStudentUpdateListener() {
   //   return this.studentsUpdated.asObservable();

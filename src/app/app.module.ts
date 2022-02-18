@@ -38,7 +38,8 @@ import { StudentsApplicationsComponent } from './companies/students-applications
 import { CompanyComponent } from './companies/company/company.component';
 import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
 import { ContactComponent } from './generic-components/contact/contact.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {AuthInterceptor} from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
