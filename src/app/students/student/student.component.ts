@@ -53,6 +53,10 @@ export class StudentComponent implements OnInit, OnDestroy {
     return displayDate;
   }
 
+  onLogout() {
+    this.authService.logout();
+  }
+
   onDarkModeSwitched() { }
 
   isProfileRoute() {

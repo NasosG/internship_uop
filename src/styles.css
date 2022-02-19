@@ -711,3 +711,7 @@
 .dark-mode #dep-manager-table {
   background-color: #343a40 !important;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
