@@ -19,7 +19,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="./student/" class="nav-link">
+        <a [href]="['/student/' + this.authService.getSessionId()]" class="nav-link">
           <i style="font-size: 1.2em" class="fa fa-home"></i> Αρχική</a>
       </li>
     </ul>
@@ -88,7 +88,7 @@
             {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
-            <a [routerLink]="['/student/profile/' + this.getSessionId()]" class="nav-link"
+            <a [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="nav-link"
               class="dropdown-item fas fa-user">&nbsp; &nbsp;
               Προφίλ</a>
             <div class="dropdown-divider"></div>
@@ -161,7 +161,7 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a [routerLink]="['/student/profile/' + this.getSessionId()]" class="d-block">
+          <a [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="d-block">
             {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}</a>
         </div>
       </div>
@@ -186,7 +186,7 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">Βασικές Επιλογές</li>
           <li class="nav-item">
-            <a [routerLink]="['/student/profile/'+ this.getSessionId()]" [routerLinkActive]="['active']"
+            <a [routerLink]="['/student/profile/'+ this.authService.getSessionId()]" [routerLinkActive]="['active']"
               class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Το προφίλ μου</p>
@@ -194,7 +194,8 @@
           </li>
 
           <li class="nav-item">
-            <a [routerLink]="['/student/myinternship']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/student/myinternship/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Θέσεις Πρακτικής
@@ -223,7 +224,8 @@
             <!-- </ul> -->
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/student/positions']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/student/positions/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Οι αιτήσεις μου

@@ -24,7 +24,7 @@ const routes: Routes = [{
 {
   path: 'student',
   children: [{
-    path: '',
+    path: ':id',
     component: StudentComponent
   },
   {
@@ -32,11 +32,11 @@ const routes: Routes = [{
     component: StudentComponent
   },
   {
-    path: 'myinternship',
+    path: 'myinternship/:id',
     component: StudentComponent
   },
   {
-    path: 'positions',
+    path: 'positions/:id',
     component: StudentComponent
   },
   {
