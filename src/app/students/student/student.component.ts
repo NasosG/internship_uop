@@ -16,9 +16,13 @@ export class StudentComponent implements OnInit, OnDestroy {
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
 
+  private sessionId = 1;
+  getSessionId(): number {
+    return this.sessionId;
 
+  }
   isProfileRoute() {
-    return this.router.url === '/student/profile';
+    return this.router.url === '/student/profile/' + this.sessionId;
   }
 
   isStudentRoute() {

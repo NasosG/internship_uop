@@ -88,7 +88,8 @@
             {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
-            <a [routerLink]="['/student/profile']" class="nav-link" class="dropdown-item fas fa-user">&nbsp; &nbsp;
+            <a [routerLink]="['/student/profile/' + this.getSessionId()]" class="nav-link"
+              class="dropdown-item fas fa-user">&nbsp; &nbsp;
               Προφίλ</a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
@@ -160,7 +161,7 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a routerLink="/student/profile" class="d-block">
+          <a [routerLink]="['/student/profile/' + this.getSessionId()]" class="d-block">
             {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}</a>
         </div>
       </div>
@@ -185,7 +186,8 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">Βασικές Επιλογές</li>
           <li class="nav-item">
-            <a [routerLink]="['/student/profile']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/student/profile/'+ this.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Το προφίλ μου</p>
             </a>
