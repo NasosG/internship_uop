@@ -20,6 +20,8 @@ import { StudentLoginTermsComponent } from './home-screen/student-login-terms/st
 import { HomeButtonsComponent } from './home-screen/home-buttons/home-buttons.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 import { SheetInputComponent } from './students/sheet-input/sheet-input.component';
 import { SheetOutputComponent } from './students/sheet-output/sheet-output.component';
 import { SheetInputPreviewComponent } from './students/sheet-input-preview/sheet-input-preview.component';
@@ -40,6 +42,7 @@ import { SelectedStudentsComponent } from './companies/selected-students/selecte
 import { ContactComponent } from './generic-components/contact/contact.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthInterceptor} from './auth/auth.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -80,9 +83,12 @@ import {AuthInterceptor} from './auth/auth.interceptor';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatButtonModule,
+    MatTabsModule,
     DataTablesModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
