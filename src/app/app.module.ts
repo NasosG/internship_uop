@@ -21,6 +21,7 @@ import { HomeButtonsComponent } from './home-screen/home-buttons/home-buttons.co
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SheetInputComponent } from './students/sheet-input/sheet-input.component';
 import { SheetOutputComponent } from './students/sheet-output/sheet-output.component';
@@ -84,6 +85,7 @@ import { StudentContractComponent } from './students/student-contract/student-co
     NgbModule,
     MatSlideToggleModule,
     MatFormFieldModule,
+    MatRadioModule,
     MatInputModule,
     MatCardModule,
     MatButtonModule,
@@ -94,7 +96,7 @@ import { StudentContractComponent } from './students/student-contract/student-co
     FormsModule,
     BrowserAnimationsModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
