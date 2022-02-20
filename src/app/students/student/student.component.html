@@ -136,7 +136,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="./student/" class="brand-link">
+    <a [routerLink]="['/student/' + this.authService.getSessionId()]" class="brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
       <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
@@ -437,6 +437,7 @@
           <app-sheet-output *ngIf="isSheetOutputRoute()"></app-sheet-output>
           <app-sheet-input-preview *ngIf="isSheetInputPreviewRoute()"></app-sheet-input-preview>
           <app-contact *ngIf="isContactRoute()"></app-contact>
+          <student-contract *ngIf="isStudentContractRoute()"></student-contract>
           <!-- /.col -->
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

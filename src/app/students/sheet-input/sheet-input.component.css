@@ -1,1 +1,9 @@
-label {font-weight: normal !important;}
+label {
+  font-weight: normal !important;
+}
+
+/* mat-tab-group {
+  background-color: white;
+  border-radius: 20px;
+  padding-left: 14px;
+} */

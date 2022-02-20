@@ -106,4 +106,8 @@ export class StudentComponent implements OnInit, OnDestroy {
   isContactRoute() {
     return this.router.url === '/student/contact'
   }
+
+  isStudentContractRoute() {
+    return this.router.url === '/student/student-contract'
+  }
 }

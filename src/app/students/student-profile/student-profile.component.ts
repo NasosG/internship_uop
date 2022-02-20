@@ -100,6 +100,10 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      // Reload the Page
+      // To be changed in the future refresh strategy is not good
+      location.reload();
     });
   }
 

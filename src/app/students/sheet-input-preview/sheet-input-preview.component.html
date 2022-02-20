@@ -1,6 +1,6 @@
 <!-- <p >Παρακαλώ συμπληρώστε τα πεδία. Τα πεδία αυτά αφορούν μόνο εσάς αποκλειστικά.</p> -->
-<h4 class="text-danger">Καθεστώς Εργασίας</h4>
-<h4 class="text-danger">Ιδιωτικός Τομέας</h4>
+<h3 class="text-danger pt-3">Καθεστώς Εργασίας</h3>
+<h4 class="text-dark">Ιδιωτικός Τομέας</h4>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Απασχολούμαι με σύμβαση εργασίας πλήρους απασχόλησης και αορίστου χρόνου</label><br>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
@@ -9,7 +9,7 @@
   η εποχική απασχόληση)</label><br>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Απασχολούμαι με σύμβαση εργασίας μερικής απασχόλησης και αορίστου χρόνου</label><br>
-<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" [disabled]="isEnabled">
 <label for="vehicle1">&nbsp;Απασχολούμαι με σύμβαση εργασίας μερικής απασχόλησης και ορισμένου χρόνου
   (συμπεριλαμβάνεται
   η εποχική απασχόληση)</label><br>
@@ -18,7 +18,9 @@
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Απασχολούμαι αμειβόμενος/νη με εργόσημο</label><br>
 
-<h4 class="text-danger">Αυτοαπασχολούμενος στο Δημόσιο Τομέα</h4>
+<mat-divider></mat-divider>
+
+<h4 class="text-dark">Αυτοαπασχολούμενος στο Δημόσιο Τομέα</h4>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Απασχολούμαι με σύμβαση ιδιωτικού δικαίου αορίστου χρόνου</label><br>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
@@ -26,16 +28,19 @@
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Απασχολούμαι ως Μόνιμος Δημόσιος Υπάλληλος</label><br>
 
-<h4 class="text-danger">Αυτοαπασχολούμενος</h4>
+<mat-divider></mat-divider>
+
+<h4 class="text-dark">Αυτοαπασχολούμενος</h4>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Είμαι αυτοαπασχολούμενος</label><br>
-<p style=" padding:0px 0px 0px 20px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν έχουν
+<p style="padding:0px 0px 0px 20px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν έχουν
   πωλήσεις, παρεχόμενες υπηρεσίες ή κέρδη(περιλαμβάνονται και οι ελεύθεροι επαγγελματίες που δεν ασκούν δραστηριότητα
   <br>β) άτομα που βρίσκονται σε φάση έναρξης επαγγέλματος (π.χ έχουν παραγγείλει ή αγοράσει εξοπλισμό) και
   <br>γ) όσοι εργάζονται σε οικογενειακή επιχείρηση και αμείβονται ή όσοι εργάζονται σε οικογενειακή επιχείρηση και
   δεν
   αμείβονται αλλά ζουν μαζί στο ίδιο νοικοκυριό, δηλ συμβοηθούντα μέλη οικογενειακών επιχειρήσεων)<br></p>
-<h4 class="text-danger">Καθεστώς Εκπαίδευσης</h4>
+
+<h3 class="text-danger pt-3">Καθεστώς Εκπαίδευσης</h3>
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1">&nbsp;Συμμετέχω σε κάποιο άλλο πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης,
   επιδοτούμενο

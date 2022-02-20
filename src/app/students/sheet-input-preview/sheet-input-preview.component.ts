@@ -12,4 +12,5 @@ export class SheetInputPreviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isEnabled!: boolean;
 }

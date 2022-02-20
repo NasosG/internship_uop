@@ -68,6 +68,10 @@ const routes: Routes = [{
     component: StudentComponent
   },
   {
+    path: 'student-contract',
+    component: StudentComponent
+  },
+  {
     path: 'contact',
     component: StudentComponent
   }

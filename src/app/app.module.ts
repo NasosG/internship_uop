@@ -27,6 +27,7 @@ import { SheetOutputComponent } from './students/sheet-output/sheet-output.compo
 import { SheetInputPreviewComponent } from './students/sheet-input-preview/sheet-input-preview.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -41,8 +42,9 @@ import { CompanyComponent } from './companies/company/company.component';
 import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
 import { ContactComponent } from './generic-components/contact/contact.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {AuthInterceptor} from './auth/auth.interceptor';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StudentContractComponent } from './students/student-contract/student-contract.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StudentsApplicationsComponent,
     CompanyComponent,
     SelectedStudentsComponent,
-    ContactComponent
+    ContactComponent,
+    StudentContractComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCardModule,
     MatButtonModule,
     MatTabsModule,
+    MatListModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule,
