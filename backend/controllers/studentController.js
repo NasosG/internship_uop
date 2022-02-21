@@ -95,12 +95,54 @@ const updateStudentContact = async (request, response, next) => {
   }
 };
 
+const updateStudentEntrySheet = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+
+    const inserts = await studentService.updateStudentEntrySheet(student, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student entry sheet was updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+}
+
+const insertStudentEntrySheet = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+    // console.log(student);
+    const inserts = await studentService.insertStudentEntrySheet(student, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student entry sheet was inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+}
+
 module.exports = {
   getStudents,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
-  updateStudentContact
+  updateStudentContact,
+  updateStudentEntrySheet,
+  insertStudentEntrySheet
 };
 
 

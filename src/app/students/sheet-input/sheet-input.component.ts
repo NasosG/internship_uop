@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentsService } from '../student.service';
 
 @Component({
   selector: 'app-sheet-input',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SheetInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void { }
 
@@ -20,4 +21,15 @@ export class SheetInputComponent implements OnInit {
     windowPrint?.print();
     windowPrint?.close();
   }
+
+
+
+  onSubmitStudentEntrySheet(formData: FormData) {
+    console.log('geia xara')
+    console.log(formData);
+    this.studentsService.insertStudentEntrySheet(formData);
+    alert("eisai ok bro!");
+    //this.onSave();
+  }
+
 }

@@ -1,4 +1,7 @@
 // database connection configuration
+const {
+  map
+} = require("jquery");
 const pool = require("../db_config.js");
 
 const getStudents = async () => {
@@ -13,6 +16,15 @@ const getStudents = async () => {
     throw Error('Error while fetching students');
   }
 };
+
+// const getStudentEntrySheets = async () => {
+//   try {
+//     TODO CODE BELOW
+//     return finalStudentsResults;
+//   } catch (exception) {
+//     throw Error('Error while fetching students');
+//   }
+// };
 
 const updateStudentDetails = async (student, id) => {
   try {
@@ -58,12 +70,44 @@ const updateStudentContact = async (student, id) => {
   try {
     const inserts = await pool.query("UPDATE student_users \
      SET " + "phone = $1, address = $2, location = $3, city = $4, post_address = $5, country = $6  WHERE id = $7",
-      [student.phone, student.address, student.location, student.city, student.post_address, student.country, id]
-    );
+      [student.phone, student.address, student.location, student.city, student.post_address, student.country, id]);
 
     return inserts;
   } catch (exception) {
     throw Error('Error while updating students');
+  }
+};
+
+const updateStudentEntrySheet = async (form, id) => {
+  try {
+    some_id = 1 // dummy id -> to be changed
+
+    const inserts = await pool.query("UPDATE student_users \
+     SET " + "A1_1 = $1, A1_2 = $2, A1_3 = $3, A2_1 = $4, A2_2 = $5, A2_3 = $6, A2_4 = $7, A2_5 = $8, A2_6 = $9, A3_1 = $10, A3_2 = $11, " +
+      "A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
+      " WHERE entry_id = $17 ",
+      [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
+        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, some_id
+      ]);
+    return inserts;
+  } catch (exception) {
+    console.log(exception.message);
+    throw Error('Error while updating students entry form');
+  }
+};
+
+const insertStudentEntrySheet = async (form, id) => {
+  try {
+    const inserts = await pool.query("INSERT INTO entry_form" +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
+      [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
+        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1
+      ]);
+    return inserts;
+  } catch (exception) {
+    throw Error('Error while inserting students entry form');
   }
 };
 
@@ -72,5 +116,7 @@ module.exports = {
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
-  updateStudentContact
+  updateStudentContact,
+  updateStudentEntrySheet,
+  insertStudentEntrySheet
 };

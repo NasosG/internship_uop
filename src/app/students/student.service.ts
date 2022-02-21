@@ -3,6 +3,7 @@ import { Student } from "./student.model";
 import { Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
+import {EntryForm} from "./entry-form.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -91,6 +92,31 @@ export class StudentsService {
     // const student: string = modelStudent;
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
+  updateStudentEntrySheet(data: any) {
+    const id = 1;
+    // const student: string = modelStudent;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+        // this.students.push(student);
+        // this.studentsUpdated.next([...this.students]);
+      });
+  }
+
+  insertStudentEntrySheet(inputForm: any) {
+    const id = 1;
+    const form: EntryForm = inputForm;
+    // console.log(inputForm);
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEntrySheet/" + id, form)
       .subscribe(responseData => {
         console.log(responseData.message);
         // this.students.push(student);
