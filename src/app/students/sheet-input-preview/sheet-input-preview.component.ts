@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Utils } from 'src/app/MiscUtils';
 import { StudentsService } from '../student.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-sheet-input-preview',
   templateUrl: './sheet-input-preview.component.html',
@@ -7,7 +9,6 @@ import { StudentsService } from '../student.service';
 })
 export class SheetInputPreviewComponent implements OnInit {
 
-theCheckbox = true;
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void { }
@@ -34,7 +35,24 @@ theCheckbox = true;
   ];
 
   onSubmitStudentEntrySheet(formData: FormData) {
-    this.studentsService.insertStudentEntrySheet(formData);
+    //this.studentsService.insertStudentEntrySheet(formData);
+     this.onSaveInputSheetSwal(formData);
+  }
+
+  private onSaveInputSheetSwal(formData: FormData) {
+    Swal.fire({
+      title: 'Δημιουργία δελτίου εισόδου',
+      text: 'Είστε σίγουροι ότι θέλετε να καταχωρήσετε το δελτίο εισόδου; Αυτή η ενέργεια είναι μη αναστρέψιμη.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentsService.insertStudentEntrySheet(formData);
+      }
+    });
   }
 
 }
