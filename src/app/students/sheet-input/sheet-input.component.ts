@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {Subscription} from 'rxjs';
+import Swal from 'sweetalert2';
+import { EntryForm } from '../entry-form.model';
 import { StudentsService } from '../student.service';
 
 @Component({
@@ -7,6 +10,11 @@ import { StudentsService } from '../student.service';
   styleUrls: ['./sheet-input.component.css']
 })
 export class SheetInputComponent implements OnInit {
+
+  private studentSubscription!: Subscription;
+  public selectedIndex = 0;
+
+  @ViewChild('tabGroup') tabGroup: any | undefined;
 
   constructor(public studentsService: StudentsService) { }
 
@@ -22,14 +30,34 @@ export class SheetInputComponent implements OnInit {
     windowPrint?.close();
   }
 
-
-
   onSubmitStudentEntrySheet(formData: FormData) {
-    console.log('geia xara')
-    console.log(formData);
-    this.studentsService.insertStudentEntrySheet(formData);
-    alert("eisai ok bro!");
-    //this.onSave();
+     this.onSaveInputSheetSwal(formData);
+  }
+
+  public onSaveInputSheetSwal(formData: FormData) {
+    Swal.fire({
+      title: 'Δημιουργία δελτίου εισόδου',
+      text: 'Είστε σίγουροι ότι θέλετε να καταχωρήσετε το δελτίο εισόδου; Αυτή η ενέργεια είναι μη αναστρέψιμη.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentsService.insertStudentEntrySheet(formData);
+         Swal.fire({
+          title: 'Επιτυχής καταχώρηση',
+          text: 'Πηγαίνετε στη καρτέλα "προβολή" για δείτε και να εκτυπώσετε το προς υπογραφή δελτίο σας.',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        });
+      }
+
+    });
   }
 
 }

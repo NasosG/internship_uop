@@ -26,6 +26,12 @@ export class StudentsService {
       // });
   }
 
+  getStudentEntrySheets() : Observable<Array<EntryForm>> {
+    const id = 6;
+    return this.http
+      .get<Array<EntryForm>>('http://localhost:3000/api/students/getStudentEntrySheets/' + id);
+  }
+
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = 1;

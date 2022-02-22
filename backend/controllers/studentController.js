@@ -15,6 +15,19 @@ const getStudents = async (request, response) => {
   }
 };
 
+const getStudentEntrySheets = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const entrySheets = await studentService.getStudentEntrySheets(id);
+    response.status(200).json(entrySheets.rows);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -54,6 +67,8 @@ const updateStudentContractDetails = async (request, response, next) => {
     });
   }
 };
+
+
 
 const updateStudentBio = async (request, response, next) => {
   try {
@@ -137,6 +152,7 @@ const insertStudentEntrySheet = async (request, response, next) => {
 
 module.exports = {
   getStudents,
+  getStudentEntrySheets,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,

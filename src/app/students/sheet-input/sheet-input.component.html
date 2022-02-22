@@ -8,13 +8,11 @@
   </ul>
 </div>
 <br> -->
-<mat-tab-group>
+<mat-tab-group #tabGroup [selectedIndex]="selectedIndex">
   <mat-tab label="Επεξεργασία">
-    <app-sheet-input-preview></app-sheet-input-preview>
+    <app-sheet-input-edit></app-sheet-input-edit>
   </mat-tab>
   <mat-tab label="Προβολή">
     <app-sheet-input-preview id="inputSheetPreview"></app-sheet-input-preview>
-    <button [routerLink]="['../sheets']" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i> Πίσω</button>
-    <button (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button>
   </mat-tab>
 </mat-tab-group>

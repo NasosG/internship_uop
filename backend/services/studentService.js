@@ -1,7 +1,7 @@
 // database connection configuration
-const {
-  map
-} = require("jquery");
+// const {
+//   map
+// } = require("jquery");
 const pool = require("../db_config.js");
 
 const getStudents = async () => {
@@ -12,19 +12,19 @@ const getStudents = async () => {
     const finalStudentsResults = resultsSSOUsers.rows.concat(resultsStudents.rows);
 
     return finalStudentsResults;
-  } catch (exception) {
+  } catch (error) {
     throw Error('Error while fetching students');
   }
 };
 
-// const getStudentEntrySheets = async () => {
-//   try {
-//     TODO CODE BELOW
-//     return finalStudentsResults;
-//   } catch (exception) {
-//     throw Error('Error while fetching students');
-//   }
-// };
+const getStudentEntrySheets = async (id) => {
+  try {
+    const resultsEntrySheets = await pool.query("SELECT * FROM entry_form where id = $1", [id]);
+    return resultsEntrySheets;
+  } catch (error) {
+    throw Error('Error while fetching student entry sheet');
+  }
+};
 
 const updateStudentDetails = async (student, id) => {
   try {
@@ -34,7 +34,7 @@ const updateStudentDetails = async (student, id) => {
     );
 
     return inserts;
-  } catch (exception) {
+  } catch (error) {
     throw Error('Error while updating students');
   }
 };
@@ -47,7 +47,7 @@ const updateStudentContractDetails = async (student, id) => {
     );
 
     return inserts;
-  } catch (exception) {
+  } catch (error) {
     throw Error('Error while updating students');
   }
 };
@@ -61,7 +61,7 @@ const updateStudentBio = async (student, id) => {
     );
 
     return inserts;
-  } catch (exception) {
+  } catch (error) {
     throw Error('Error while updating students');
   }
 };
@@ -73,7 +73,7 @@ const updateStudentContact = async (student, id) => {
       [student.phone, student.address, student.location, student.city, student.post_address, student.country, id]);
 
     return inserts;
-  } catch (exception) {
+  } catch (error) {
     throw Error('Error while updating students');
   }
 };
@@ -91,8 +91,8 @@ const updateStudentEntrySheet = async (form, id) => {
         form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, some_id
       ]);
     return inserts;
-  } catch (exception) {
-    console.log(exception.message);
+  } catch (error) {
+    console.log(error.message);
     throw Error('Error while updating students entry form');
   }
 };
@@ -106,13 +106,14 @@ const insertStudentEntrySheet = async (form, id) => {
         form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1
       ]);
     return inserts;
-  } catch (exception) {
+  } catch (error) {
     throw Error('Error while inserting students entry form');
   }
 };
 
 module.exports = {
   getStudents,
+  getStudentEntrySheets,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
