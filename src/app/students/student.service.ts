@@ -27,9 +27,9 @@ export class StudentsService {
   }
 
   getStudentEntrySheets() : Observable<Array<EntryForm>> {
-    const id = 6;
+    const studentId = 1;
     return this.http
-      .get<Array<EntryForm>>('http://localhost:3000/api/students/getStudentEntrySheets/' + id);
+      .get<Array<EntryForm>>('http://localhost:3000/api/students/getStudentEntrySheets/' + studentId);
   }
 
   // this functions adds a new bio and details to a student
@@ -106,10 +106,10 @@ export class StudentsService {
   }
 
   updateStudentEntrySheet(data: any) {
-    const id = 1;
+    const studentId = 1;
     // const student: string = modelStudent;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + id, data)
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
       .subscribe(responseData => {
         console.log(responseData.message);
         // this.students.push(student);
@@ -118,11 +118,11 @@ export class StudentsService {
   }
 
   insertStudentEntrySheet(inputForm: any) {
-    const id = 1;
+    const studentId = 1;
     const form: EntryForm = inputForm;
     // console.log(inputForm);
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEntrySheet/" + id, form)
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEntrySheet/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
         // this.students.push(student);

@@ -12,8 +12,7 @@ import { StudentsService } from '../student.service';
 export class SheetInputComponent implements OnInit {
 
   private studentSubscription!: Subscription;
-  public selectedIndex = 0;
-
+  public isEditEnabled = true;
   @ViewChild('tabGroup') tabGroup: any | undefined;
 
   constructor(public studentsService: StudentsService) { }
@@ -54,9 +53,8 @@ export class SheetInputComponent implements OnInit {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'ΟΚ'
-        });
+        }).then( () => { /* not the best technique */ location.reload() } );
       }
-
     });
   }
 

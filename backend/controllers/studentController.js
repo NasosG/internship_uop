@@ -150,6 +150,21 @@ const insertStudentEntrySheet = async (request, response, next) => {
   }
 }
 
+const deleteEntryFormByStudentId = async (request, response) => {
+  const id = request.params.id;
+  try {
+    const results = await studentService.deleteEntryFormByStudentId(id);
+    response
+      .status(200)
+      .send(`entry form of student with ID: ${id} was deleted`);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getStudents,
   getStudentEntrySheets,
@@ -158,7 +173,8 @@ module.exports = {
   updateStudentBio,
   updateStudentContact,
   updateStudentEntrySheet,
-  insertStudentEntrySheet
+  insertStudentEntrySheet,
+  deleteEntryFormByStudentId
 };
 
 

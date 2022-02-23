@@ -12,6 +12,7 @@ router.post("/updateStudentContact/:id", checkAuth, studentController.updateStud
 router.post("/insertStudentEntrySheet/:id", checkAuth, studentController.insertStudentEntrySheet);
 router.post("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
+router.delete("/deleteEntryFormByStudentId/:id", studentController.deleteEntryFormByStudentId);
 // router.post("/updateStudentSSNFile/:id", studentController.updateStudentSSNFile);
 
 module.exports = router;

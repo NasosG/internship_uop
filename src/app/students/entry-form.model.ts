@@ -1,5 +1,4 @@
 export interface EntryForm {
-  id: number;
   A1_1: string;
   A1_2: string;
   A1_3: string;
@@ -16,4 +15,6 @@ export interface EntryForm {
   A5_1: string;
   A6_1: string;
   B1_1: string;
+  student_id: number;
+  id: number;
 }

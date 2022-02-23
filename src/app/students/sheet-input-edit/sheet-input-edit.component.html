@@ -1,6 +1,13 @@
 <!-- <p >Παρακαλώ συμπληρώστε τα πεδία. Τα πεδία αυτά αφορούν μόνο εσάς αποκλειστικά.</p> -->
 <!-- Όλες οι ερωτήσεις διαθέτουν ως προεπιλογή το ΟΧΙ. -->
-<form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal"
+<div *ngIf="this.entries[0]!=null">
+  <div class="alert alert-danger mt-3 mb-2" role="alert">
+    Το δελτίο εισόδου έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα <span
+      (click)="tabGroup.selectedIndex = 1">'Προβολή'</span> για να το υπογράψετε, να το αποθηκεύσετε και να το
+    εκτυπώσετε.
+  </div>
+</div>
+<form *ngIf="this.entries[0]==null" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal"
   (ngSubmit)="onSubmitStudentEntrySheet(studentEntryForm.value)">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
     Διαβάστε πολύ προσεκτικά τις ερωτήσεις-επεξηγήσεις και απαντήστε σε όλα τα ερωτήματα.

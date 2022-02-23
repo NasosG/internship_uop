@@ -19,7 +19,7 @@ const getStudents = async () => {
 
 const getStudentEntrySheets = async (id) => {
   try {
-    const resultsEntrySheets = await pool.query("SELECT * FROM entry_form where id = $1", [id]);
+    const resultsEntrySheets = await pool.query("SELECT * FROM entry_form where student_id = $1", [id]);
     return resultsEntrySheets;
   } catch (error) {
     throw Error('Error while fetching student entry sheet');
@@ -28,12 +28,12 @@ const getStudentEntrySheets = async (id) => {
 
 const updateStudentDetails = async (student, id) => {
   try {
-    const inserts = await pool.query("UPDATE student_users \
+    const updateResults = await pool.query("UPDATE student_users \
      SET " + "father_name = $1, father_last_name = $2, mother_name = $3, mother_last_name = $4  WHERE id = $5",
       [student.father_name, student.father_last_name, student.mother_name, student.mother_last_name, id]
     );
 
-    return inserts;
+    return updateResults;
   } catch (error) {
     throw Error('Error while updating students');
   }
@@ -41,12 +41,12 @@ const updateStudentDetails = async (student, id) => {
 
 const updateStudentContractDetails = async (student, id) => {
   try {
-    const inserts = await pool.query("UPDATE student_users \
+    const updateResults = await pool.query("UPDATE student_users \
      SET " + "ssn = $1, doy = $2, iban = $3 WHERE id = $4",
       [student.ssn, student.doy, student.iban, id]
     );
 
-    return inserts;
+    return updateResults;
   } catch (error) {
     throw Error('Error while updating students');
   }
@@ -54,13 +54,13 @@ const updateStudentContractDetails = async (student, id) => {
 
 const updateStudentBio = async (student, id) => {
   try {
-    const inserts = await pool.query("UPDATE student_users " +
+    const updateResults = await pool.query("UPDATE student_users " +
       "SET " +
       "education = $1, experience = $2, languages = $3, computer_skills = $4, other_edu = $5, honors = $6, interests = $7, skills = $8 WHERE id = $9",
       [student.education, student.experience, student.languages, student.computer_skills, student.other_edu, student.honors, student.interests, student.skills, id]
     );
 
-    return inserts;
+    return updateResults;
   } catch (error) {
     throw Error('Error while updating students');
   }
@@ -68,46 +68,55 @@ const updateStudentBio = async (student, id) => {
 
 const updateStudentContact = async (student, id) => {
   try {
-    const inserts = await pool.query("UPDATE student_users \
+    const updateResults = await pool.query("UPDATE student_users \
      SET " + "phone = $1, address = $2, location = $3, city = $4, post_address = $5, country = $6  WHERE id = $7",
       [student.phone, student.address, student.location, student.city, student.post_address, student.country, id]);
 
-    return inserts;
+    return updateResults;
   } catch (error) {
     throw Error('Error while updating students');
   }
 };
 
-const updateStudentEntrySheet = async (form, id) => {
+const updateStudentEntrySheet = async (form, studentId) => {
   try {
-    some_id = 1 // dummy id -> to be changed
-
-    const inserts = await pool.query("UPDATE student_users \
-     SET " + "A1_1 = $1, A1_2 = $2, A1_3 = $3, A2_1 = $4, A2_2 = $5, A2_3 = $6, A2_4 = $7, A2_5 = $8, A2_6 = $9, A3_1 = $10, A3_2 = $11, " +
-      "A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
-      " WHERE entry_id = $17 ",
+    const updateResults = await pool.query("UPDATE student_users \
+     SET " + "A1_1 = $1, A1_2 = $2, A1_3 = $3, A2_1 = $4, A2_2 = $5, A2_3 = $6, A2_4 = $7, A2_5 = $8, A2_6 = $9, " +
+      "A3_1 = $10, A3_2 = $11, A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
+      " WHERE student_id = $17 ",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
         form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, some_id
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
+        studentId
       ]);
-    return inserts;
+    return updateResults;
   } catch (error) {
     console.log(error.message);
     throw Error('Error while updating students entry form');
   }
 };
 
-const insertStudentEntrySheet = async (form, id) => {
+const insertStudentEntrySheet = async (form, studentId) => {
   try {
-    const inserts = await pool.query("INSERT INTO entry_form" +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
+    const insertResults = await pool.query("INSERT INTO entry_form" +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
         form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
       ]);
-    return inserts;
+    return insertResults;
   } catch (error) {
+    console.log('Error while inserting students entry form' + error.message);
     throw Error('Error while inserting students entry form');
+  }
+};
+
+const deleteEntryFormByStudentId = async (studentId) => {
+  try {
+    const deleteResults = await pool.query("DELETE FROM entry_form WHERE student_id = $1", [studentId]);
+    return deleteResults;
+  } catch (error) {
+    throw Error(`Error while deleting student ( student_id: ${studentId} ) entry form`);
   }
 };
 
@@ -119,5 +128,6 @@ module.exports = {
   updateStudentBio,
   updateStudentContact,
   updateStudentEntrySheet,
-  insertStudentEntrySheet
+  insertStudentEntrySheet,
+  deleteEntryFormByStudentId
 };
