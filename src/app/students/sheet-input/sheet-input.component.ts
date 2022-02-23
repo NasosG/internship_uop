@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { EntryForm } from '../entry-form.model';
 import { StudentsService } from '../student.service';
@@ -23,7 +23,7 @@ export class SheetInputComponent implements OnInit {
   printInputSheet() {
     const printContent = document.getElementById("inputSheetPreview");
     const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    windowPrint?.document.write( (printContent?.innerHTML==null) ? '' : printContent?.innerHTML );
+    windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
     windowPrint?.document.close();
     windowPrint?.focus();
     windowPrint?.print();
@@ -31,7 +31,7 @@ export class SheetInputComponent implements OnInit {
   }
 
   onSubmitStudentEntrySheet(formData: FormData) {
-     this.onSaveInputSheetSwal(formData);
+    this.onSaveInputSheetSwal(formData);
   }
 
   public onSaveInputSheetSwal(formData: FormData) {
@@ -46,9 +46,9 @@ export class SheetInputComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.studentsService.insertStudentEntrySheet(formData);
-         Swal.fire({
+        Swal.fire({
           title: 'Επιτυχής καταχώρηση',
-          text: 'Πηγαίνετε στη καρτέλα "προβολή" για δείτε και να εκτυπώσετε το προς υπογραφή δελτίο σας.',
+          text: 'Πηγαίνετε στη καρτέλα "Προβολή" για να δείτε και να εκτυπώσετε το προς υπογραφή δελτίο σας.',
           icon: 'success',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',
