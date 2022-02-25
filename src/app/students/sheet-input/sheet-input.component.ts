@@ -2,7 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { EntryForm } from '../entry-form.model';
+import {Student} from '../student.model';
 import { StudentsService } from '../student.service';
+import {StudentComponent} from '../student/student.component';
 
 @Component({
   selector: 'app-sheet-input',
@@ -15,14 +17,22 @@ export class SheetInputComponent implements OnInit {
   public isEditEnabled = true;
   @ViewChild('tabGroup') tabGroup: any | undefined;
 
+  studentsData: any;
+  studentName!: string;
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void { }
 
   printInputSheet() {
-    const printContent = document.getElementById("inputSheetPreview");
+    let currentDate = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
+    const printContent = document.getElementById("entrySheetPreviewContent");
     const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
     windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
+    windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: right;'>Υπογραφή</h3>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>"+ currentDate +"</h5><br><br><br>");
+    this.studentsData =  this.studentsService.students;
+    this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
+    windowPrint?.document.write("<h5 style='text-align: right;'>"+ this.studentName + "</h5>");
     windowPrint?.document.close();
     windowPrint?.focus();
     windowPrint?.print();

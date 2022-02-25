@@ -7,7 +7,8 @@ import {EntryForm} from "./entry-form.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
-  private students: Student[] = [];
+  public students: Student[] = [];
+  public fetchedStudentsObservable!:Observable<Array<Student>>;
   // private studentsUpdated = new Subject<Student[]>();
 
   constructor(private http: HttpClient, public authService: AuthService) {}
@@ -17,8 +18,12 @@ export class StudentsService {
   // }
 
   getStudents() : Observable<Array<Student>> {
-    return this.http
-      .get<Array<Student>>('http://localhost:3000/api/students');
+    const fetchedStudents =  this.http.get<Array<Student>>('http://localhost:3000/api/students');
+    this.fetchedStudentsObservable = fetchedStudents;
+    this.fetchedStudentsObservable.subscribe((students: Student[]) => {
+        this.students = students;
+    });
+    return fetchedStudents;
       // .subscribe(postData => {
       //   this.students = postData;
       //   console.log(postData);
