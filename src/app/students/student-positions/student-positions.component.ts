@@ -10,8 +10,7 @@ export class StudentPositionsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   myAlert() {
     Swal.fire({

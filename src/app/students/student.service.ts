@@ -11,7 +11,7 @@ export class StudentsService {
   public fetchedStudentsObservable!:Observable<Array<Student>>;
   // private studentsUpdated = new Subject<Student[]>();
 
-  constructor(private http: HttpClient, public authService: AuthService) {}
+  constructor(private http: HttpClient, public authService: AuthService) { }
 
   // getStudentUpdateListener() {
   //   return this.studentsUpdated.asObservable();
@@ -21,9 +21,10 @@ export class StudentsService {
     const fetchedStudents =  this.http.get<Array<Student>>('http://localhost:3000/api/students');
     this.fetchedStudentsObservable = fetchedStudents;
     this.fetchedStudentsObservable.subscribe((students: Student[]) => {
-        this.students = students;
+        this.students = [...students];
     });
     return fetchedStudents;
+
       // .subscribe(postData => {
       //   this.students = postData;
       //   console.log(postData);
@@ -57,8 +58,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -69,8 +68,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -81,8 +78,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -93,8 +88,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -105,8 +98,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -117,8 +108,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -130,8 +119,6 @@ export class StudentsService {
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEntrySheet/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
