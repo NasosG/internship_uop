@@ -37,10 +37,11 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
+const hostname = "localhost";
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
 const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
-server.listen(port, () => console.log("server running on port: http://localhost:3000"));
+server.listen(port, () => console.log(`Server running at http://${hostname}:${port}`));
