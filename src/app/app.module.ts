@@ -47,6 +47,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StudentContractComponent } from './students/student-contract/student-contract.component';
 import { SheetInputEditComponent } from './students/sheet-input-edit/sheet-input-edit.component';
+import { SheetOutputEditComponent } from './students/sheet-output-edit/sheet-output-edit.component';
+import { SheetOutputPreviewComponent } from './students/sheet-output-preview/sheet-output-preview.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { SheetInputEditComponent } from './students/sheet-input-edit/sheet-input
     SelectedStudentsComponent,
     ContactComponent,
     StudentContractComponent,
-    SheetInputEditComponent
+    SheetInputEditComponent,
+    SheetOutputEditComponent,
+    SheetOutputPreviewComponent
   ],
   imports: [
     BrowserModule,

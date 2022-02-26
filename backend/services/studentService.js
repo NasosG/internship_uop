@@ -120,6 +120,43 @@ const deleteEntryFormByStudentId = async (studentId) => {
   }
 };
 
+const updateStudentExitSheet = async (form, studentId) => {
+  try {
+    const updateResults = await pool.query("UPDATE student_users " +
+      "SET " +
+      "A1_1 = $2, A2_1 = $3, A2_2 = $4, A2_3 = $5, A2_4 = $6, A2_5 = $7, A2_6 = $8, A2_7 = $9, A2_8 = $10, A3_1 = $11, A3_2 = $12, A3_3 = $13, A4_1 = $14, A5_1 = $15, " +
+      "A6_1 = $16, A6_2 = $17, A6_3 = $18, B1_1 = $19, B1_2 = $20, B1_3 = $21, B1_4 = $22, B1_5 = $23, B1_6 = $24, B1_7 = $25, B1_8 = $26, C1_1 = $27 " +
+      "WHERE student_id = $1 ",
+      [studentId,
+        form.A1_1, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A2_7, form.A2_8,
+        form.A3_1, form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.A6_2, form.A6_3,
+        form.B1_1, form.B1_2, form.B1_3, form.B1_4, form.B1_5, form.B1_6, form.B1_7, form.B1_8, form.C1_1
+      ]);
+    return updateResults;
+  } catch (error) {
+    console.log(error.message);
+    throw Error('Error while updating students entry form');
+  }
+};
+
+const insertStudentExitSheet = async (form, studentId) => {
+  console.log(form);
+  try {
+    const insertResults = await pool.query("INSERT INTO exit_form" +
+      "(student_id, A1_1, A2_1, A2_2, A2_3, A2_4, A2_5, A2_6, A2_7, A2_8, A3_1, A3_2, A3_3, A4_1, A5_1, A6_1, A6_2, A6_3, B1_1, B1_2, B1_3, B1_4, B1_5, B1_6, B1_7, B1_8, C1_1 )" +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)",
+      [studentId,
+        form.A1_1, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A2_7, form.A2_8,
+        form.A3_1, form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.A6_2, form.A6_3,
+        form.B1_1, form.B1_2, form.B1_3, form.B1_4, form.B1_5, form.B1_6, form.B1_7, form.B1_8, form.C1_1
+      ]);
+    return insertResults;
+  } catch (error) {
+    console.log('Error while inserting students exit form' + error.message);
+    throw Error('Error while inserting students exit form');
+  }
+};
+
 module.exports = {
   getStudents,
   getStudentEntrySheets,
@@ -129,5 +166,7 @@ module.exports = {
   updateStudentContact,
   updateStudentEntrySheet,
   insertStudentEntrySheet,
-  deleteEntryFormByStudentId
+  deleteEntryFormByStudentId,
+  updateStudentExitSheet,
+  insertStudentExitSheet
 };

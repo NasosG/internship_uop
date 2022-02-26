@@ -69,7 +69,6 @@ const updateStudentContractDetails = async (request, response, next) => {
 };
 
 
-
 const updateStudentBio = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -150,6 +149,26 @@ const insertStudentEntrySheet = async (request, response, next) => {
   }
 }
 
+const insertStudentExitSheet = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+    // console.log(student);
+    const inserts = await studentService.insertStudentExitSheet(student, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student exit sheet was inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+}
+
 const deleteEntryFormByStudentId = async (request, response) => {
   const id = request.params.id;
   try {
@@ -174,6 +193,7 @@ module.exports = {
   updateStudentContact,
   updateStudentEntrySheet,
   insertStudentEntrySheet,
+  insertStudentExitSheet,
   deleteEntryFormByStudentId
 };
 

@@ -10,6 +10,7 @@ router.post("/updateStudentContractDetails/:id", checkAuth, studentController.up
 router.post("/updateStudentBio/:id", checkAuth, studentController.updateStudentBio);
 router.post("/updateStudentContact/:id", checkAuth, studentController.updateStudentContact);
 router.post("/insertStudentEntrySheet/:id", checkAuth, studentController.insertStudentEntrySheet);
+router.post("/insertStudentExitSheet/:id", checkAuth, studentController.insertStudentExitSheet);
 router.post("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
 router.delete("/deleteEntryFormByStudentId/:id", studentController.deleteEntryFormByStudentId);

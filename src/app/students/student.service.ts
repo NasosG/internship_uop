@@ -3,7 +3,8 @@ import { Student } from "./student.model";
 import { Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
-import {EntryForm} from "./entry-form.model";
+import { EntryForm } from "./entry-form.model";
+import { ExitForm } from "./exit-form.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -121,6 +122,15 @@ export class StudentsService {
         console.log(responseData.message);
       });
   }
-
+  insertStudentExitSheet(exitForm: any) {
+    const studentId = 1;
+    const form: ExitForm = exitForm;
+    // console.log(inputForm);
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentExitSheet/" + studentId, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
 }
 

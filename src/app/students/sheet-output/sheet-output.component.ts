@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {Subscription} from 'rxjs';
+import Swal from 'sweetalert2';
+import {StudentsService} from '../student.service';
 
 @Component({
   selector: 'app-sheet-output',
@@ -7,46 +10,59 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SheetOutputComponent implements OnInit {
 
-  constructor() { }
+  private studentSubscription!: Subscription;
+  public isEditEnabled = true;
+  @ViewChild('tabGroup') tabGroup: any | undefined;
+  studentsData: any;
+  studentName!: string;
+
+  constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void { }
 
-  public unemployedOption = [
-    { subCategory: 'A1.1', id: 'option1', name: 'option1', text: 'Είμαι εγγεγραμμένος/η άνεργος/η στο ΟΑΕΔ με κάρτα ανεργίας σε ισχύ (συμπεριλαμβάνονται και οι εποχικά εργαζόμενοι για το διάστημα που δεν εργάζονται)' },
-  ];
+  printOutputSheet() {
+    let currentDate = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
+    const printContent = document.getElementById("entrySheetPreviewContent");
+    this.studentsData = [...this.studentsService.students];
+    this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
+    const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
+    windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: right;'>Υπογραφή</h3>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>"+ currentDate +"</h5><br><br><br>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>"+ this.studentName + "</h5>");
+    windowPrint?.document.close();
+    windowPrint?.focus();
+    windowPrint?.print();
+    windowPrint?.close();
+  }
 
-  public privateSecOptions = [
-    { subCategory: 'A2.1', id: 'option2', name: 'option2', text: 'Είμαι εργαζόμενος/νη ή αυτοαπασχολούμενος/η' },
-    { subCategory: 'A2.2', id: 'option3', name: 'option3', text: 'Αν έχετε απαντήσει ΝΑΙ στην ερώτηση Α2, η θέση απασχόλησης που κατέχετε συγχρηματοδοτείται στο πλαίσιο προγράμματος του ΕΣΠΑ;' },
-    { subCategory: 'A2.3', id: 'option4', name: 'option4', text: 'Απασχολούμαι με σύμβαση εργασίας πλήρους απασχόλησης και αορίστου χρόνου' },
-    { subCategory: 'A2.4', id: 'option5', name: 'option5', text: 'Απασχολούμαι με σύμβαση εργασίας πλήρους απασχόλησης και ορισμένου χρόνου (συμπεριλαμβάνεται η εποχική απασχόληση)' },
-    { subCategory: 'A2.5', id: 'option6', name: 'option6', text: 'Απασχολούμαι με σύμβαση εργασίας μερικής απασχόλησης και αορίστου χρόνου' },
-    { subCategory: 'A2.6', id: 'option7', name: 'option7', text: 'Απασχολούμαι με σύμβαση εργασίας μερικής απασχόλησης και ορισμένου χρόνου (συμπεριλαμβάνεται η εποχική απασχόληση)' },
-    { subCategory: 'A2.7', id: 'option8', name: 'option8', text: 'Απασχολούμαι με εκ περιτροπής απασχόληση' },
-    { subCategory: 'A2.8', id: 'option9', name: 'option9', text: 'Απασχολούμαι αμειβόμενος/νη με εργόσημο' }
-  ];
+  onSubmitStudentEntrySheet(formData: FormData) {
+    this.onSaveInputSheetSwal(formData);
+  }
 
-  public publicSecOptions = [
-    { subCategory: 'A3.1', id: 'option10', name: 'option10', text: 'Απασχολούμαι με σύμβαση ιδιωτικού δικαίου αορίστου χρόνου' },
-    { subCategory: 'A3.2', id: 'option11', name: 'option11', text: 'Απασχολούμαι με σύμβαση ιδιωτικού δικαίου ορισμένου χρόνου' },
-    { subCategory: 'A3.3', id: 'option12', name: 'option12', text: 'Απασχολούμαι ως Μόνιμος Δημόσιος Υπάλληλος' }
-  ];
-
-  public noCategoryOptions = [
-    { subCategory: 'A6.1', id: 'option13', name: 'option13', text: 'Δεν ανήκω σε κάμια απο τις παραπάνω κατηγορίες (Δεν είμαι ούτε εγγεγραμένος/η άνεργος/η στον ΟΑΕΔ ούτε εργαζόμενος/η - αυτοαπασχολούμενος/η )' },
-    { subCategory: 'A6.2', id: 'option14', name: 'option14', text: 'Δεν είμαι εγγεγραμένος/νη στον ΟΑΕΔ, ούτε εργάζομαι, αλλά αναζητώ εργασία και είμαι άμεσα διαθέσιμος να εργαστώ' },
-    { subCategory: 'A6.3', id: 'option15', name: 'option15', text: 'Δεν εργάζομαι, δεν είμαι εγγεγραμένος άνεργος, δεν αναζητώ εργασία )' }
-  ];
-
-  public educationStatusOptions = [
-    { subCategory: 'B1.1', id: 'option16', name: 'option16', text: 'Συμμετέχετε σε κάποιο άλλο πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης, επιδοτούμενο ή μη; Αν ναι, σημειώστε σε ποια αποό τις παρακάτω κατηγορίες ανήκετε: Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε κάποιο άλλο πρόγραμμα εκπαίδευσης ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές όλων των εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά και Επαγγελματικά Λύκεια, σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε αποφοίτους της υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής κατάρτισης, συμμετέχοντες σε προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική εκπαίδευση ενηλίκων, επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά ασκούμενους Σχολών που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας εκπαίδευσης πλήρους φοίτησης' },
-    { subCategory: 'B1.2', id: 'option17', name: 'option17', text: 'Το πρόγραμμα εκαίδευσης ή κατάρτισης ή δια βίου μάθησης στο οποίο συμμετέχετε, συγχρηματοδοτείται στο πλαίσιο προγράμματος του ΕΣΠΑ; Επεξήγηση: Να απαντηθεί από όσους έχουν απαντήσει ΝΑΙ σε κάποιες από τις ερωτήσεις Β ' },
-    { subCategory: 'B1.3', id: 'option18', name: 'option18', text: 'Μαθητής/τρια πρωτοβάθμιας ή δευτεροβάθμιας εκπαίδευσης (Δημοτικό, Γυμνάσιο, Λύκειο. Συμπεριλαμβάνονται και τα Σχολεία Δεύτερης ευκαιρίας)' },
-    { subCategory: 'B1.4', id: 'option19', name: 'option19', text: 'Σπουδαστής/τρια σε Σχολή Επαγγελματικής Κατάρτισης ή σε ΙΕΚ ή σε Κολλέγιο ή σε Σχολές που εποπτεύονται από άλλα υπουργεία εκτός του Υπουργείου Παιδείας, όπως π.χ. η Ναυτική Ακαδημία, Τουριστικές Σχολές κλπ ' },
-    { subCategory: 'B1.5', id: 'option20', name: 'option20', text: 'Συμμετέχων/ουσα σε κάποιο πρόγραμμα συνεχιζόμενης επαγγελματικής κατάρτισης (π.χ ΚΕΚ)' },
-    { subCategory: 'B1.6', id: 'option21', name: 'option21', text: 'Είμαι Φοιτητής/τρια τριτοβάθμιας εκπαίδευσης πλήρους φοίτησης' },
-    { subCategory: 'B1.7', id: 'option22', name: 'option22', text: 'Συμμετέχω σε πρόγραμμα πρακτικής άσκησης με αμοιβή(ως φοιτητής τριτοβάθμιας εκπαίδευσης, σπουδαστής ΙΕΚ, τουριστικών σχολών, Ακαδιμίας Εμπορικού Ναυτικού κτλ)' },
-    { subCategory: 'B1.8', id: 'option23', name: 'option23', text: 'Μεταπτυχιακός Φοιτητής/τρια ή υποψήφιος/ια Διδάκτωρ' }
-  ]
+  public onSaveInputSheetSwal(formData: FormData) {
+    Swal.fire({
+      title: 'Δημιουργία δελτίου εισόδου',
+      text: 'Είστε σίγουροι ότι θέλετε να καταχωρήσετε το δελτίο εισόδου; Αυτή η ενέργεια είναι μη αναστρέψιμη.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentsService.insertStudentExitSheet(formData);
+        Swal.fire({
+          title: 'Επιτυχής καταχώρηση',
+          text: 'Πηγαίνετε στη καρτέλα "Προβολή" για να δείτε και να εκτυπώσετε το προς υπογραφή δελτίο σας.',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then( () => { /* not the best technique */  } );
+      }
+    });
+  }
 
 }
