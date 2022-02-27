@@ -211,6 +211,6 @@ module.exports = {
   deleteEntryFormByStudentId
 };
 
-// const updateStudentSSNFile = async (req, res) => {
+// const updateStudentSSNFile = async (request, response) => {
 //   console.log('FILE ADDED');
 // };

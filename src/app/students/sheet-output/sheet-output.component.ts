@@ -65,7 +65,7 @@ export class SheetOutputComponent implements OnInit {
     });
   }
 
-   public unemployedOption = [
+  public unemployedOption = [
     { subCategory: 'A1.1', id: 'A1_1', name: 'A1_1', text: 'Είμαι εγγεγραμμένος/η άνεργος/η στο ΟΑΕΔ με κάρτα ανεργίας σε ισχύ (συμπεριλαμβάνονται και οι εποχικά εργαζόμενοι για το διάστημα που δεν εργάζονται)' },
   ];
 
