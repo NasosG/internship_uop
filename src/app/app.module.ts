@@ -49,7 +49,8 @@ import { StudentContractComponent } from './students/student-contract/student-co
 import { SheetInputEditComponent } from './students/sheet-input-edit/sheet-input-edit.component';
 import { SheetOutputEditComponent } from './students/sheet-output-edit/sheet-output-edit.component';
 import { SheetOutputPreviewComponent } from './students/sheet-output-preview/sheet-output-preview.component';
-import { SheetInternshipEvaluationComponent } from './students/sheet-internship-evaluation/sheet-internship-evaluation.component';
+import { SheetEvaluationComponent } from './students/sheet-evaluation/sheet-evaluation.component';
+import { SheetEvaluationEditComponent } from './students/sheet-evaluation-edit/sheet-evaluation-edit.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { SheetInternshipEvaluationComponent } from './students/sheet-internship-
     SheetInputEditComponent,
     SheetOutputEditComponent,
     SheetOutputPreviewComponent,
-    SheetInternshipEvaluationComponent
+    SheetEvaluationComponent,
+    SheetEvaluationEditComponent
   ],
   imports: [
     BrowserModule,

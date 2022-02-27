@@ -1,0 +1,52 @@
+<!-- <div *ngIf="this.entries[0]!=null">
+  <div class="alert alert-danger mt-3 mb-2" role="alert">
+    Το δελτίο εισόδου έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα <span
+      (click)="tabGroup.selectedIndex = 1">'Προβολή'</span> για να το υπογράψετε, να το αποθηκεύσετε και να το
+    εκτυπώσετε.
+  </div>
+</div> -->
+<form ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal"
+  (ngSubmit)="onSubmitStudentEvaluationSheet(studentEvaluationForm.value)">
+  <div class="alert alert-danger mt-3 mb-3" role="alert">
+    Τα δεδομένα των απαντήσεών σας θα τύχουν επεξεργασίας από τις αρμόδιες υπηρεσίες (Ειδική Υπηρεσία Διαχείρισης Ε.Π.
+    «Ανάπτυξη Ανθρώπινου Δυναμικού, Εκπαίδευση & Δια βίου Μάθηση», (Ίδρυμα Ανώτατης Εκπαίδευσης)., για το σκοπό της
+    παρακολούθησης του προγράμματος, προκειμένου να εξαχθούν στατιστικά στοιχεία (δείκτες) και για το σκοπό των
+    προβλεπόμενων ερευνών και αξιολογήσεων, σύμφωνα με τις ισχύουσες νομοθετικές διατάξεις του ΕΚΤ.
+  </div>
+  <h4 class="text-danger mt-2 mb-3"> Ερωτήσεις πολλαπλής επιλογής</h4>
+  <div *ngFor="let option of evaluation" class="container-fluid row">
+    <div class="col-8">
+      <label for="{{option.id}}">
+        <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+      </label>
+    </div>
+    <div class="col-4 text-right">
+      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
+        <mat-radio-button [value]="1">ΑΝΕΠΑΡΚΩΣ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="2">ΜΕΤΡΙΑ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="3">ΚΑΛΑ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="4">ΠΟΛΥ ΚΑΛΑ</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <mat-divider class="mt-2 mb-3"></mat-divider>
+  <!-- text questions -->
+  <h4 class="text-danger mt-2 mb-3">Σχολιασμός</h4>
+  <div *ngFor="let option of evaluationText" class="">
+    <div class="col-12">
+      <label for="{{option.id}}">
+        <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+      </label>
+    </div>
+    <div class="col-12 text-right">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Αφήστε σχόλιο</mat-label>
+        <textarea name="{{option.id}}" ngModel id="{{option.id}}" matInput
+          placeholder="Αποτυπώστε τις παρατηρήσεις σας"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <button [routerLink]="['../sheets']" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i> Πίσω</button>
+  <button class="btn btn-primary">Αποθήκευση</button>
+</form>

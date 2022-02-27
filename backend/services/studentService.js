@@ -32,6 +32,15 @@ const getStudentExitSheets = async (id) => {
   }
 };
 
+const getStudentEvaluationSheets = async (id) => {
+  try {
+    const resultsEvaluationSheet = await pool.query("SELECT * FROM evaluation_form where student_id = $1", [id]);
+    return resultsEvaluationSheet.rows;
+  } catch (error) {
+    throw Error('Error while fetching student evaluation sheet');
+  }
+};
+
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -117,6 +126,21 @@ const insertStudentEntrySheet = async (form, studentId) => {
   }
 };
 
+const insertStudentEvaluationSheet = async (form, studentId) => {
+  try {
+    const insertResults = await pool.query("INSERT INTO evaluation_form" +
+      '(student_id, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, comments )' +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
+      [studentId, form.q1, form.q2, form.q3, form.q4, form.q5,
+        form.q6, form.q7, form.q8, form.q9, form.q10, form.comments
+      ]);
+    return insertResults;
+  } catch (error) {
+    console.log('Error while inserting students evaluation form' + error.message);
+    throw Error('Error while inserting students evaluation form');
+  }
+};
+
 const deleteEntryFormByStudentId = async (studentId) => {
   try {
     const deleteResults = await pool.query("DELETE FROM entry_form WHERE student_id = $1", [studentId]);
@@ -167,6 +191,7 @@ module.exports = {
   getStudents,
   getStudentEntrySheets,
   getStudentExitSheets,
+  getStudentEvaluationSheets,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
@@ -175,5 +200,6 @@ module.exports = {
   insertStudentEntrySheet,
   deleteEntryFormByStudentId,
   updateStudentExitSheet,
-  insertStudentExitSheet
+  insertStudentExitSheet,
+  insertStudentEvaluationSheet
 };

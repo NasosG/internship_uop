@@ -41,6 +41,19 @@ const getStudentExitSheets = async (request, response) => {
   }
 };
 
+const getStudentEvaluationSheets = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const exitSheets = await studentService.getStudentEvaluationSheets(id);
+    response.status(200).json(exitSheets);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -80,7 +93,6 @@ const updateStudentContractDetails = async (request, response, next) => {
     });
   }
 };
-
 
 const updateStudentBio = async (request, response, next) => {
   try {
@@ -182,6 +194,26 @@ const insertStudentExitSheet = async (request, response, next) => {
   }
 }
 
+const insertStudentEvaluationSheet = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+
+    const insertResults = await studentService.insertStudentEvaluationSheet(student, id);
+
+    response
+      .status(201)
+      .json({
+        message: 'Student evaluation sheet was inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+}
+
 const deleteEntryFormByStudentId = async (request, response) => {
   const id = request.params.id;
   try {
@@ -201,6 +233,7 @@ module.exports = {
   getStudents,
   getStudentEntrySheets,
   getStudentExitSheets,
+  getStudentEvaluationSheets,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
@@ -208,6 +241,7 @@ module.exports = {
   updateStudentEntrySheet,
   insertStudentEntrySheet,
   insertStudentExitSheet,
+  insertStudentEvaluationSheet,
   deleteEntryFormByStudentId
 };
 

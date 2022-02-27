@@ -5,11 +5,12 @@ import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { EntryForm } from "./entry-form.model";
 import { ExitForm } from "./exit-form.model";
+import { EvaluationForm } from "./evaluation-form.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
   public students: Student[] = [];
-  public fetchedStudentsObservable!:Observable<Array<Student>>;
+  public fetchedStudentsObservable!: Observable<Array<Student>>;
   // private studentsUpdated = new Subject<Student[]>();
 
   constructor(private http: HttpClient, public authService: AuthService) { }
@@ -18,28 +19,28 @@ export class StudentsService {
   //   return this.studentsUpdated.asObservable();
   // }
 
-  getStudents() : Observable<Array<Student>> {
-    const fetchedStudents =  this.http.get<Array<Student>>('http://localhost:3000/api/students');
+  getStudents(): Observable<Array<Student>> {
+    const fetchedStudents = this.http.get<Array<Student>>('http://localhost:3000/api/students');
     this.fetchedStudentsObservable = fetchedStudents;
     this.fetchedStudentsObservable.subscribe((students: Student[]) => {
-        this.students = [...students];
+      this.students = [...students];
     });
     return fetchedStudents;
 
-      // .subscribe(postData => {
-      //   this.students = postData;
-      //   console.log(postData);
-      //   this.studentsUpdated.next([...this.students]);
-      // });
+    // .subscribe(postData => {
+    //   this.students = postData;
+    //   console.log(postData);
+    //   this.studentsUpdated.next([...this.students]);
+    // });
   }
 
-  getStudentEntrySheets() : Observable<Array<EntryForm>> {
+  getStudentEntrySheets(): Observable<Array<EntryForm>> {
     const studentId = 1;
     return this.http
       .get<Array<EntryForm>>('http://localhost:3000/api/students/getStudentEntrySheets/' + studentId);
   }
 
-  getStudentExitSheets() : Observable<Array<ExitForm>> {
+  getStudentExitSheets(): Observable<Array<ExitForm>> {
     const studentId = 1;
     return this.http
       .get<Array<ExitForm>>('http://localhost:3000/api/students/getStudentExitSheets/' + studentId);
@@ -128,6 +129,7 @@ export class StudentsService {
         console.log(responseData.message);
       });
   }
+
   insertStudentExitSheet(exitForm: any) {
     const studentId = 1;
     const form: ExitForm = exitForm;
@@ -138,5 +140,15 @@ export class StudentsService {
         console.log(responseData.message);
       });
   }
-}
 
+  insertStudentEvaluationSheet(evaluationForm: any) {
+    const studentId = 1;
+    const form: EvaluationForm = evaluationForm;
+    // console.log(inputForm);
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEvaluationSheet/" + studentId, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+}
