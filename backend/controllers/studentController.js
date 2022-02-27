@@ -28,6 +28,19 @@ const getStudentEntrySheets = async (request, response) => {
   }
 };
 
+const getStudentExitSheets = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const exitSheets = await studentService.getStudentExitSheets(id);
+    response.status(200).json(exitSheets);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -187,6 +200,7 @@ const deleteEntryFormByStudentId = async (request, response) => {
 module.exports = {
   getStudents,
   getStudentEntrySheets,
+  getStudentExitSheets,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,

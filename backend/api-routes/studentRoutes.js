@@ -13,6 +13,7 @@ router.post("/insertStudentEntrySheet/:id", checkAuth, studentController.insertS
 router.post("/insertStudentExitSheet/:id", checkAuth, studentController.insertStudentExitSheet);
 router.put("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
+router.get("/getStudentExitSheets/:id", studentController.getStudentExitSheets);
 router.delete("/deleteEntryFormByStudentId/:id", studentController.deleteEntryFormByStudentId);
 // router.post("/updateStudentSSNFile/:id", studentController.updateStudentSSNFile);
 

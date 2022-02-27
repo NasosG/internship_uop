@@ -23,6 +23,15 @@ const getStudentEntrySheets = async (id) => {
   }
 };
 
+const getStudentExitSheets = async (id) => {
+  try {
+    const resultsExitSheet = await pool.query("SELECT * FROM exit_form where student_id = $1", [id]);
+    return resultsExitSheet.rows;
+  } catch (error) {
+    throw Error('Error while fetching student exit sheet');
+  }
+};
+
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -157,6 +166,7 @@ const insertStudentExitSheet = async (form, studentId) => {
 module.exports = {
   getStudents,
   getStudentEntrySheets,
+  getStudentExitSheets,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,

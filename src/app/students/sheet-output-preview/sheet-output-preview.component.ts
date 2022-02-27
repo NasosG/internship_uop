@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import {ExitForm} from '../exit-form.model';
+import {SheetOutputComponent} from '../sheet-output/sheet-output.component';
 
 @Component({
   selector: 'app-sheet-output-preview',
   templateUrl: './sheet-output-preview.component.html',
   styleUrls: ['./sheet-output-preview.component.css']
 })
-export class SheetOutputPreviewComponent implements OnInit {
+export class SheetOutputPreviewComponent extends SheetOutputComponent implements OnInit {
 
-  constructor() { }
+  public entryForms: ExitForm[] = [];
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    this.studentsService.getStudentExitSheets()
+      .subscribe((forms: ExitForm[]) => {
+        this.entryForms = forms;
+        console.log(this.entryForms);
+      });
   }
-
 }
