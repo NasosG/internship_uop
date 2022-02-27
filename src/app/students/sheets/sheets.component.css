@@ -606,3 +606,7 @@ table.manage-table td.action a:hover {
   }
 
 }
+
+button {
+  min-width: 318px;
+}

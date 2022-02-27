@@ -8,15 +8,12 @@ import {SheetOutputComponent} from '../sheet-output/sheet-output.component';
   styleUrls: ['./sheet-output-preview.component.css']
 })
 export class SheetOutputPreviewComponent extends SheetOutputComponent implements OnInit {
-
   public entryForms: ExitForm[] = [];
 
   override ngOnInit(): void {
     this.studentsService.getStudentExitSheets()
       .subscribe((forms: ExitForm[]) => {
         this.entryForms = forms;
-        console.log(this.entryForms);
       });
   }
-
 }
