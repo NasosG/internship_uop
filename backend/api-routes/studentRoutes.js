@@ -5,13 +5,13 @@ const checkAuth = require("../middleware/auth.js");
 
 /* Student Routes */
 router.get('/', studentController.getStudents);
-router.post("/updateStudentDetails/:id", checkAuth, studentController.updateStudentDetails);
-router.post("/updateStudentContractDetails/:id", checkAuth, studentController.updateStudentContractDetails);
-router.post("/updateStudentBio/:id", checkAuth, studentController.updateStudentBio);
-router.post("/updateStudentContact/:id", checkAuth, studentController.updateStudentContact);
+router.put("/updateStudentDetails/:id", checkAuth, studentController.updateStudentDetails);
+router.put("/updateStudentContractDetails/:id", checkAuth, studentController.updateStudentContractDetails);
+router.put("/updateStudentBio/:id", checkAuth, studentController.updateStudentBio);
+router.put("/updateStudentContact/:id", checkAuth, studentController.updateStudentContact);
 router.post("/insertStudentEntrySheet/:id", checkAuth, studentController.insertStudentEntrySheet);
 router.post("/insertStudentExitSheet/:id", checkAuth, studentController.insertStudentExitSheet);
-router.post("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
+router.put("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
 router.delete("/deleteEntryFormByStudentId/:id", studentController.deleteEntryFormByStudentId);
 // router.post("/updateStudentSSNFile/:id", studentController.updateStudentSSNFile);

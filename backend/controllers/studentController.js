@@ -1,7 +1,7 @@
 const studentService = require("../services/studentService.js");
 
 /**
- * Returns all students from sso and student users tables.
+ * Returns all students from SSO and student users tables.
  */
 const getStudents = async (request, response) => {
   try {
@@ -33,7 +33,7 @@ const updateStudentDetails = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await studentService.updateStudentDetails(student, id);
+    const updateResults = await studentService.updateStudentDetails(student, id);
     // console.log(inserts.rowCount);
     response
       .status(200)
@@ -53,7 +53,7 @@ const updateStudentContractDetails = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await studentService.updateStudentContractDetails(student, id);
+    const updateResults = await studentService.updateStudentContractDetails(student, id);
 
     response
       .status(200)
@@ -74,7 +74,7 @@ const updateStudentBio = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await studentService.updateStudentBio(student, id);
+    const updateResults = await studentService.updateStudentBio(student, id);
 
     response
       .status(200)
@@ -94,7 +94,7 @@ const updateStudentContact = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await studentService.updateStudentContact(student, id);
+    const updateResults = await studentService.updateStudentContact(student, id);
 
     response
       .status(200)
@@ -114,7 +114,7 @@ const updateStudentEntrySheet = async (request, response, next) => {
     const id = request.params.id;
     const student = request.body;
 
-    const inserts = await studentService.updateStudentEntrySheet(student, id);
+    const updateResults = await studentService.updateStudentEntrySheet(student, id);
 
     response
       .status(200)
@@ -133,11 +133,11 @@ const insertStudentEntrySheet = async (request, response, next) => {
   try {
     const id = request.params.id;
     const student = request.body;
-    // console.log(student);
-    const inserts = await studentService.insertStudentEntrySheet(student, id);
+
+    const insertResults = await studentService.insertStudentEntrySheet(student, id);
 
     response
-      .status(200)
+      .status(201)
       .json({
         message: 'Student entry sheet was inserted successfully'
       });
@@ -153,11 +153,11 @@ const insertStudentExitSheet = async (request, response, next) => {
   try {
     const id = request.params.id;
     const student = request.body;
-    // console.log(student);
-    const inserts = await studentService.insertStudentExitSheet(student, id);
+
+    const insertResults = await studentService.insertStudentExitSheet(student, id);
 
     response
-      .status(200)
+      .status(201)
       .json({
         message: 'Student exit sheet was inserted successfully'
       });
@@ -196,32 +196,6 @@ module.exports = {
   insertStudentExitSheet,
   deleteEntryFormByStudentId
 };
-
-
-// const addStudentsBio = async (request, response, next) => {
-//   try {
-//     const student = request.body;
-//     // console.log(student);
-//     console.log("edo" + student.father_name);
-
-//     const inserts = await pool.query("INSERT INTO student_users \
-//      VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)",
-//       [
-//         student.father_name, student.father_last_name, student.mother_name, student.mother_last_name, '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21',
-//       ]);
-
-//     response
-//       .status(201)
-//       .json({
-//         message: 'Student added successfully'
-//       });
-//   } catch (error) {
-//     console.error(error.message);
-//     response.send({
-//       message: error.message
-//     });
-//   }
-// };
 
 // const updateStudentSSNFile = async (req, res) => {
 //   console.log('FILE ADDED');

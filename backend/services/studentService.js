@@ -1,7 +1,4 @@
 // database connection configuration
-// const {
-//   map
-// } = require("jquery");
 const pool = require("../db_config.js");
 
 const getStudents = async () => {

@@ -44,7 +44,7 @@ export class StudentsService {
     const id = 1;
     // const student: string = modelStudent;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentDetails/" + id, data)
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
         // this.students.push(student);
@@ -56,7 +56,7 @@ export class StudentsService {
     const id = 1;
     // const student: string = modelStudent;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -86,7 +86,7 @@ export class StudentsService {
     const id = 1;
     // const student: string = modelStudent;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -96,7 +96,7 @@ export class StudentsService {
     const id = 1;
     // const student: string = modelStudent;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -106,7 +106,7 @@ export class StudentsService {
     const studentId = 1;
     // const student: string = modelStudent;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
