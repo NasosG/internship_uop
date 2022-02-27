@@ -1,5 +1,5 @@
 <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
-  <div id="entrySheetPreviewContent">
+  <div id="exitSheetPreviewContent">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
       Εκτυπώστε και υπογράψτε το δελτίο σας.
     </div>
@@ -22,69 +22,176 @@
     </div>
     <mat-divider class="mt-2 mb-2"></mat-divider>
     <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
-    <div *ngFor="let option of privateSecOptions" class="container-fluid row">
+    <div class="container-fluid row">
       <div class="col-10">
-        <label for="pr-sec-option1">
-          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        <label for="{{privateSecOptions[0].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[0].subCategory}})&nbsp;</span>{{privateSecOptions[0].text}}
         </label>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="{{privateSecOptions[0].id}}" ngModel id="{{privateSecOptions[0].id}}">
+          {{ entryForms[0].A2_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
-
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[1].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[1].subCategory}})&nbsp;</span>{{privateSecOptions[1].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[1].id}}" ngModel id="{{privateSecOptions[1].id}}">
+          {{ entryForms[0].A2_2 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[2].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[2].subCategory}})&nbsp;</span>{{privateSecOptions[2].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[2].id}}" ngModel id="{{privateSecOptions[2].id}}">
+          {{ entryForms[0].A2_3 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[3].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[3].subCategory}})&nbsp;</span>{{privateSecOptions[3].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[3].id}}" ngModel id="{{privateSecOptions[3].id}}">
+          {{ entryForms[0].A2_4 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[4].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[4].subCategory}})&nbsp;</span>{{privateSecOptions[4].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[4].id}}" ngModel id="{{privateSecOptions[4].id}}">
+          {{ entryForms[0].A2_5 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[5].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[5].subCategory}})&nbsp;</span>{{privateSecOptions[5].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[5].id}}" ngModel id="{{privateSecOptions[5].id}}">
+          {{ entryForms[0].A2_6 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[6].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[6].subCategory}})&nbsp;</span>{{privateSecOptions[6].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[6].id}}" ngModel id="{{privateSecOptions[6].id}}">
+          {{ entryForms[0].A2_7 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[7].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[7].subCategory}})&nbsp;</span>{{privateSecOptions[7].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[7].id}}" ngModel id="{{privateSecOptions[7].id}}">
+          {{ entryForms[0].A2_8 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
     <mat-divider class="mt-2 mb-2"></mat-divider>
 
     <h4 class="text-dark">Α3) Απασχολούμενος στο Δημόσιο Τομέα</h4>
-
-    <div *ngFor="let option of publicSecOptions" class="container-fluid row">
-      <div class="col-10 ">
-        <label for="pr-sec-option1">
-          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{publicSecOptions[0].id}}">
+          <span style="font-weight: 500;">{{publicSecOptions[0].subCategory}})&nbsp;</span>{{publicSecOptions[0].text}}
         </label>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="{{publicSecOptions[0].id}}" ngModel id="{{publicSecOptions[0].id}}">
+          {{ entryForms[0].A3_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
-
-
-
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{publicSecOptions[1].id}}">
+          <span style="font-weight: 500;">{{publicSecOptions[1].subCategory}})&nbsp;</span>{{publicSecOptions[1].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{publicSecOptions[1].id}}" ngModel id="{{publicSecOptions[1].id}}">
+          {{ entryForms[0].A3_2 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{publicSecOptions[2].id}}">
+          <span style="font-weight: 500;">{{publicSecOptions[2].subCategory}})&nbsp;</span>{{publicSecOptions[2].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{publicSecOptions[2].id}}" ngModel id="{{publicSecOptions[2].id}}">
+          {{ entryForms[0].A3_3 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
     <mat-divider class="mt-2 mb-2"></mat-divider>
 
     <h4 class="text-dark">Α4) Αυτοαπασχολούμενος</h4>
 
     <div class="container-fluid row">
       <div class="col-10 ">
-        <label for="A4_1"><span style="font-weight: 500;">A4.1)</span> Είμαι αυτοαπασχολούμενος</label><br>
-        <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν
-          έχουν
+        <label for="A4_1">
+          <span style="font-weight: 500;">A4.1)</span> Είμαι αυτοαπασχολούμενος
+        </label><br>
+        <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν έχουν
           πωλήσεις, παρεχόμενες υπηρεσίες ή κέρδη(περιλαμβάνονται και οι ελεύθεροι επαγγελματίες που δεν ασκούν
           δραστηριότητα
           <br>β) άτομα που βρίσκονται σε φάση έναρξης επαγγέλματος (π.χ έχουν παραγγείλει ή αγοράσει εξοπλισμό) και
           <br>γ) όσοι εργάζονται σε οικογενειακή επιχείρηση και αμείβονται ή όσοι εργάζονται σε οικογενειακή επιχείρηση
-          και
-          δεν
-          αμείβονται αλλά ζουν μαζί στο ίδιο νοικοκυριό, δηλ συμβοηθούντα μέλη οικογενειακών επιχειρήσεων)<br></p>
+          και δεν αμείβονται αλλά ζουν μαζί στο ίδιο νοικοκυριό, δηλ συμβοηθούντα μέλη οικογενειακών επιχειρήσεων)<br>
+        </p>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="A4_1" name="A4_1" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="A4_1" ngModel id="A4_1">
+          {{ entryForms[0].A4_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
 
     <mat-divider class="mt-2 mb-2"></mat-divider>
 
     <h4 class="text-dark">Α5) Άλλη σχέση εργασίας</h4>
-
     <div class="container-fluid row">
       <div class="col-10">
         <label for="A5_1"><span style="font-weight: 500;">A5.1)&nbsp;</span>Σχέση εργασίας (άλλη) που δεν
@@ -92,10 +199,9 @@
           κατηγορίες</label><br>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="A5_1" name="A5_1" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="A5_1" ngModel id="A5_1">
+          {{ entryForms[0].A5_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
 
@@ -103,36 +209,151 @@
     <mat-divider class="mt-2 mb-2"></mat-divider>
 
     <h4 class="text-dark">Α6) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
-
-    <div *ngFor="let option of noCategoryOptions" class="container-fluid row">
-      <div class="col-10 ">
-        <label for="{{option.id}}">
-          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{noCategoryOptions[0].id}}">
+          <span
+            style="font-weight: 500;">{{noCategoryOptions[0].subCategory}})&nbsp;</span>{{noCategoryOptions[0].text}}
         </label>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="{{noCategoryOptions[0].id}}" ngModel id="{{noCategoryOptions[0].id}}">
+          {{ entryForms[0].A6_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{noCategoryOptions[1].id}}">
+          <span
+            style="font-weight: 500;">{{noCategoryOptions[1].subCategory}})&nbsp;</span>{{noCategoryOptions[1].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{noCategoryOptions[1].id}}" ngModel id="{{noCategoryOptions[1].id}}">
+          {{ entryForms[0].A6_2 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{noCategoryOptions[2].id}}">
+          <span
+            style="font-weight: 500;">{{noCategoryOptions[2].subCategory}})&nbsp;</span>{{noCategoryOptions[2].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{noCategoryOptions[2].id}}" ngModel id="{{noCategoryOptions[2].id}}">
+          {{ entryForms[0].A6_3 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
 
     <mat-divider class="mt-2 mb-2"></mat-divider>
 
     <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
-
-    <div *ngFor="let option of educationStatusOptions" class="container-fluid row">
-      <div class="col-10 ">
-        <label for="{{option.id}}">
-          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[0].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[0].subCategory}})&nbsp;</span>{{educationStatusOptions[0].text}}
         </label>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="{{educationStatusOptions[0].id}}" ngModel id="{{educationStatusOptions[0].id}}">
+          {{ entryForms[0].B1_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[1].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[1].subCategory}})&nbsp;</span>{{educationStatusOptions[1].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[1].id}}" ngModel id="{{educationStatusOptions[1].id}}">
+          {{ entryForms[0].B1_2 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[2].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[2].subCategory}})&nbsp;</span>{{educationStatusOptions[2].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[2].id}}" ngModel id="{{educationStatusOptions[2].id}}">
+          {{ entryForms[0].B1_3 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[3].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[3].subCategory}})&nbsp;</span>{{educationStatusOptions[3].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[3].id}}" ngModel id="{{educationStatusOptions[3].id}}">
+          {{ entryForms[0].B1_4 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[4].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[4].subCategory}})&nbsp;</span>{{educationStatusOptions[4].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[4].id}}" ngModel id="{{educationStatusOptions[4].id}}">
+          {{ entryForms[0].B1_5 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[5].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[5].subCategory}})&nbsp;</span>{{educationStatusOptions[5].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[5].id}}" ngModel id="{{educationStatusOptions[5].id}}">
+          {{ entryForms[0].B1_6 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[6].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[6].subCategory}})&nbsp;</span>{{educationStatusOptions[6].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[6].id}}" ngModel id="{{educationStatusOptions[6].id}}">
+          {{ entryForms[0].B1_7 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{educationStatusOptions[7].id}}">
+          <span
+            style="font-weight: 500;">{{educationStatusOptions[7].subCategory}})&nbsp;</span>{{educationStatusOptions[7].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{educationStatusOptions[7].id}}" ngModel id="{{educationStatusOptions[7].id}}">
+          {{ entryForms[0].B1_8 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
 
@@ -142,15 +363,14 @@
 
     <div class="container-fluid row">
       <div class="col-10 C1_1">
-        <label for="pr-sec-option10"><span style="font-weight: 500;">Γ1.1)&nbsp;</span>Αποκτήθηκε εξειδίκευση μετά την
+        <label for="C1_1"><span style="font-weight: 500;">Γ1.1)&nbsp;</span>Αποκτήθηκε εξειδίκευση μετά την
           συμμετοχή σας στο πρόγραμμα;
           (πιστοποιητικό, δίπλωμα, πτυχίο κοκ)</label><br>
       </div>
       <div class="col-2 text-right">
-        <mat-radio-group id="C1_1" name="C1_1" ngModel required aria-label="Select an option">
-          <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-          <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-        </mat-radio-group>
+        <p name="C1_1" ngModel id="C1_1">
+          {{ entryForms[0].C1_1 == "0" ? 'OXI' : 'NAI'}}
+        </p>
       </div>
     </div>
   </div>

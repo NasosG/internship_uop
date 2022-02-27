@@ -22,7 +22,7 @@ export class SheetOutputComponent implements OnInit {
 
   printOutputSheet() {
     let currentDate = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
-    const printContent = document.getElementById("entrySheetPreviewContent");
+    const printContent = document.getElementById("exitSheetPreviewContent");
     this.studentsData = [...this.studentsService.students];
     this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
     const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
