@@ -149,7 +149,7 @@ const insertStudentExitSheet = async (form, studentId) => {
   console.log(form);
   try {
     const insertResults = await pool.query("INSERT INTO exit_form" +
-      "(student_id, A1_1, A2_1, A2_2, A2_3, A2_4, A2_5, A2_6, A2_7, A2_8, A3_1, A3_2, A3_3, A4_1, A5_1, A6_1, A6_2, A6_3, B1_1, B1_2, B1_3, B1_4, B1_5, B1_6, B1_7, B1_8, C1_1 )" +
+      '(student_id, "A1_1", "A2_1", "A2_2", "A2_3", "A2_4", "A2_5", "A2_6", "A2_7", "A2_8", "A3_1", "A3_2", "A3_3", "A4_1", "A5_1", "A6_1", "A6_2", "A6_3", "B1_1", "B1_2", "B1_3", "B1_4", "B1_5", "B1_6", "B1_7", "B1_8", "C1_1" )' +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)",
       [studentId,
         form.A1_1, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A2_7, form.A2_8,
