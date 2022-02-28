@@ -1,11 +1,10 @@
-<!-- <div *ngIf="this.entries[0]!=null">
+<div *ngIf="this.entries[0]!=null">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Το δελτίο εισόδου έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα <span
-      (click)="tabGroup.selectedIndex = 1">'Προβολή'</span> για να το υπογράψετε, να το αποθηκεύσετε και να το
-    εκτυπώσετε.
+    Η αξιολόγηση της πρακτικής άσκησης έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα 'Προβολή' για να την υπογράψετε, να την
+    αποθηκεύσετε και να την εκτυπώσετε.
   </div>
-</div> -->
-<form ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal"
+</div>
+<form *ngIf="this.entries[0]==null" ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal"
   (ngSubmit)="onSubmitStudentEvaluationSheet(studentEvaluationForm.value)">
   <div class="alert alert-danger mt-3 mb-3" role="alert">
     Τα δεδομένα των απαντήσεών σας θα τύχουν επεξεργασίας από τις αρμόδιες υπηρεσίες (Ειδική Υπηρεσία Διαχείρισης Ε.Π.
@@ -14,18 +13,29 @@
     προβλεπόμενων ερευνών και αξιολογήσεων, σύμφωνα με τις ισχύουσες νομοθετικές διατάξεις του ΕΚΤ.
   </div>
   <h4 class="text-danger mt-2 mb-3"> Ερωτήσεις πολλαπλής επιλογής</h4>
+  <div class="container-fluid row">
+    <div class="col xxl-8 col-xl-7 col-12">
+    </div>
+    <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
+      <span class="mr-3">1. ΑΝΕΠΑΡΚΩΣ</span>
+      <span class="mr-3">2. ΜΕΤΡΙΑ</span>
+      <span class="mr-3">3. ΚΑΛΑ</span>
+      <span class="mr-xl-3">4. ΠΟΛΥ ΚΑΛΑ</span>
+    </div>
+  </div>
+  <mat-divider class="mt-2 mb-3"></mat-divider>
   <div *ngFor="let option of evaluation" class="container-fluid row">
-    <div class="col-8">
+    <div class="col xxl-8 col-xl-7 col-12">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
       </label>
     </div>
-    <div class="col-4 text-right">
+    <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
       <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΑΝΕΠΑΡΚΩΣ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="2">ΜΕΤΡΙΑ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="3">ΚΑΛΑ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="4">ΠΟΛΥ ΚΑΛΑ</mat-radio-button>
+        <mat-radio-button [value]="1" class="mr-5">1</mat-radio-button>
+        <mat-radio-button [value]="2" class="mr-5">2</mat-radio-button>
+        <mat-radio-button [value]="3" class="mr-5">3</mat-radio-button>
+        <mat-radio-button [value]="4" class="mr-5">4</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>

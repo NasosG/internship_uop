@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { EvaluationForm } from '../evaluation-form.model';
 import { SheetEvaluationComponent } from '../sheet-evaluation/sheet-evaluation.component';
 
 @Component({
@@ -8,8 +9,13 @@ import { SheetEvaluationComponent } from '../sheet-evaluation/sheet-evaluation.c
   styleUrls: ['./sheet-evaluation-edit.component.css']
 })
 export class SheetEvaluationEditComponent extends SheetEvaluationComponent implements OnInit {
+  entries!: EvaluationForm[];
 
   override ngOnInit(): void {
+    this.studentService.getStudentEvaluationSheets()
+      .subscribe((forms: EvaluationForm[]) => {
+        this.entries = forms;
+      });
   }
 
   onSubmitStudentEvaluationSheet(formData: FormData) {

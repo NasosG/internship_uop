@@ -46,6 +46,12 @@ export class StudentsService {
       .get<Array<ExitForm>>('http://localhost:3000/api/students/getStudentExitSheets/' + studentId);
   }
 
+  getStudentEvaluationSheets(): Observable<Array<EvaluationForm>> {
+    const studentId = 1;
+    return this.http
+      .get<Array<EvaluationForm>>('http://localhost:3000/api/students/getStudentEvaluationSheets/' + studentId);
+  }
+
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = 1;

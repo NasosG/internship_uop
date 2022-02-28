@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { EvaluationForm } from '../evaluation-form.model';
 import { StudentsService } from '../student.service';
 
 @Component({
@@ -30,4 +32,26 @@ export class SheetEvaluationComponent implements OnInit {
     { subCategory: '11', id: 'comments', name: 'comments', text: 'Γενικά Σχόλια' },
 
   ];
+
+  private studentSubscription!: Subscription;
+  public isEditEnabled = true;
+  studentsData: any;
+  studentName!: string;
+
+  printEvaluationSheet() {
+    let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+    const printContent = document.getElementById("evaluationSheetPreviewContent");
+    this.studentsData = [...this.studentService.students];
+    this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
+    const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
+    windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: right;'>Υπογραφή</h3>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + currentDate + "</h5><br><br><br>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + this.studentName + "</h5>");
+    windowPrint?.document.close();
+    windowPrint?.focus();
+    windowPrint?.print();
+    windowPrint?.close();
+  }
+
 }

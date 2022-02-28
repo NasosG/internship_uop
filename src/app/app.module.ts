@@ -51,6 +51,7 @@ import { SheetOutputEditComponent } from './students/sheet-output-edit/sheet-out
 import { SheetOutputPreviewComponent } from './students/sheet-output-preview/sheet-output-preview.component';
 import { SheetEvaluationComponent } from './students/sheet-evaluation/sheet-evaluation.component';
 import { SheetEvaluationEditComponent } from './students/sheet-evaluation-edit/sheet-evaluation-edit.component';
+import { SheetEvaluationPreviewComponent } from './students/sheet-evaluation-preview/sheet-evaluation-preview.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { SheetEvaluationEditComponent } from './students/sheet-evaluation-edit/s
     SheetOutputEditComponent,
     SheetOutputPreviewComponent,
     SheetEvaluationComponent,
-    SheetEvaluationEditComponent
+    SheetEvaluationEditComponent,
+    SheetEvaluationPreviewComponent
   ],
   imports: [
     BrowserModule,
