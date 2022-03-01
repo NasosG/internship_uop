@@ -41,6 +41,15 @@ const getStudentEvaluationSheets = async (id) => {
   }
 };
 
+const getStudentPositions = async (id) => {
+  try {
+    const resultsStudentPositions = await pool.query("SELECT priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date FROM student_positions where student_id = $1", [id]);
+    return resultsStudentPositions.rows;
+  } catch (error) {
+    throw Error('Error while fetching student evaluation sheet');
+  }
+};
+
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -192,6 +201,7 @@ module.exports = {
   getStudentEntrySheets,
   getStudentExitSheets,
   getStudentEvaluationSheets,
+  getStudentPositions,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,

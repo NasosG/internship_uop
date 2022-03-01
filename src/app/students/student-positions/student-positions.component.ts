@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { StudentPositions } from '../student-positions.model';
+import { StudentsService } from '../student.service';
 
 @Component({
   selector: 'app-student-positions',
@@ -7,10 +9,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./student-positions.component.css']
 })
 export class StudentPositionsComponent implements OnInit {
+  studentPositions!: StudentPositions[];
 
-  constructor() { }
+  constructor(public studentsService: StudentsService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.studentsService.getStudentPositions()
+      .subscribe((forms: StudentPositions[]) => {
+        this.studentPositions = forms;
+        console.log(this.studentPositions);
+      });
+  }
 
   myAlert() {
     Swal.fire({

@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { EntryForm } from "./entry-form.model";
 import { ExitForm } from "./exit-form.model";
 import { EvaluationForm } from "./evaluation-form.model";
+import { StudentPositions } from "./student-positions.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -50,6 +51,12 @@ export class StudentsService {
     const studentId = 1;
     return this.http
       .get<Array<EvaluationForm>>('http://localhost:3000/api/students/getStudentEvaluationSheets/' + studentId);
+  }
+
+  getStudentPositions(): Observable<Array<StudentPositions>> {
+    const studentId = 1;
+    return this.http
+      .get<Array<StudentPositions>>('http://localhost:3000/api/students/getStudentPositions/' + studentId);
   }
 
   // this functions adds a new bio and details to a student

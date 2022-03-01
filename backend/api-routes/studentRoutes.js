@@ -15,6 +15,7 @@ router.put("/updateStudentEntrySheet/:id", checkAuth, studentController.updateSt
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
 router.get("/getStudentExitSheets/:id", studentController.getStudentExitSheets);
 router.get("/getStudentEvaluationSheets/:id", studentController.getStudentEvaluationSheets);
+router.get("/getStudentPositions/:id", studentController.getStudentPositions);
 router.post("/insertStudentEvaluationSheet/:id", checkAuth, studentController.insertStudentEvaluationSheet);
 router.delete("/deleteEntryFormByStudentId/:id", checkAuth, studentController.deleteEntryFormByStudentId);
 // router.post("/updateStudentSSNFile/:id", studentController.updateStudentSSNFile);

@@ -54,6 +54,19 @@ const getStudentEvaluationSheets = async (request, response) => {
   }
 };
 
+const getStudentPositions = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const studentPositions = await studentService.getStudentPositions(id);
+    response.status(200).json(studentPositions);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -234,6 +247,7 @@ module.exports = {
   getStudentEntrySheets,
   getStudentExitSheets,
   getStudentEvaluationSheets,
+  getStudentPositions,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,

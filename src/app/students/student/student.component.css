@@ -167,3 +167,7 @@ input:checked+.slider:before {
 .nav-link.active {
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
+
+#test {
+  text-align: center;
+}

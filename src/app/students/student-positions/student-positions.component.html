@@ -37,30 +37,15 @@
         <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th>
         <th><i class="fa fa-lightbulb"></i>Ενέργειες</th>
       </tr>
-      <tr class="dark-div">
+      <tr *ngFor="let position of studentPositions" class="dark-div">
         <td class="title"><a href="#"> <i style="font-size:1.4em;" class="fas fa-angle-up pr-2"></i>&nbsp;<i
               style="font-size:1.4em;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
-              style="font-size:1.1em;">1</span></a>
+              style="font-size:1.1em;">{{position.priority}}</span></a>
         </td>
-        <td class="title"><a href="#">Citrix</a></td>
-        <td>Front End Web Developer</td>
-        <td>Τρίπολη</td>
-        <td>Ιανουάριος 04, 2022</td>
-        <td class="action">
-          <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
-          <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a> -->
-          <a href="#" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
-        </td>
-      </tr>
-      <tr class="dark-div">
-        <td class="title"><a href="#"> <i style="font-size:1.4em;" class="fas fa-angle-up pr-2"></i>&nbsp;<i
-              style="font-size:1.4em;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
-              style="font-size:1.1em;">2</span></a>
-        </td>
-        <td class="title"><a href="#">Intrasoft</a></td>
-        <td>Logo Designer</td>
-        <td>Τρίπολη</td>
-        <td>Αύγουστος 12, 2021</td>
+        <td class="title">{{position.company}}</td>
+        <td>{{position.title}}</td>
+        <td>{{position.place}}</td>
+        <td>{{position.upload_date}}</td>
         <td class="action">
           <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
           <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a> -->
