@@ -51,6 +51,26 @@ export class StudentPositionsComponent implements OnInit {
     this.studentPositions[positionIndex+1] = swapObj;
   }
 
+  deletePosition(positionPriority: number): void {
+    console.log(positionPriority-1);
+    let positionIndex: number = (positionPriority - 1);
+
+    if (positionIndex == 0) {
+      this.studentPositions.splice(positionIndex, 1);
+      this.studentPositions.map(element => this.changePriority(element));
+    } else if (positionIndex == this.studentPositions.length - 1) {
+      this.studentPositions.pop();
+    } else /*position is somewhere in the middle*/ {
+      this.studentPositions.splice(positionIndex, 1);
+      this.studentPositions.map(element => { if (element.priority > positionIndex) this.changePriority(element) });
+    }
+  }
+
+  changePriority(element: StudentPositions) {
+	  --element.priority;
+	  return element;
+  }
+
   // isOutOfBounds(index: number, studentPositions: any[]): boolean {
   //   return (index + 1 >= studentPositions.length || index <= 0);
   // }

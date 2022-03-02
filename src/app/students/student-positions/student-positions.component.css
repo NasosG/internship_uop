@@ -411,6 +411,10 @@ table.manage-table td.action a {
   margin-left: 21px;
 }
 
+table.manage-table td.action a.delete {
+  cursor: pointer;
+}
+
 table.manage-table td.action a.delete i {
   left: -20px;
 }

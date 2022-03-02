@@ -43,7 +43,10 @@ const getStudentEvaluationSheets = async (id) => {
 
 const getStudentPositions = async (id) => {
   try {
-    const resultsStudentPositions = await pool.query("SELECT priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date FROM student_positions where student_id = $1", [id]);
+    const resultsStudentPositions = await pool.query("SELECT priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date \
+                                                      FROM student_positions \
+                                                      WHERE student_id = $1 \
+                                                      ORDER BY priority", [id]);
     return resultsStudentPositions.rows;
   } catch (error) {
     throw Error('Error while fetching student positions');
