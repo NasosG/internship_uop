@@ -10,6 +10,7 @@ import { StudentsService } from '../student.service';
 })
 export class StudentPositionsComponent implements OnInit {
   studentPositions!: StudentPositions[];
+  //sortedArray!: StudentPositions[];
 
   constructor(public studentsService: StudentsService) { }
 
@@ -19,9 +20,42 @@ export class StudentPositionsComponent implements OnInit {
         this.studentPositions = forms;
         console.log(this.studentPositions);
       });
+    // descending
+    //this.sortedArray = this.studentPositions.sort((a: any, b: any) => b.priority - a.priority);
+    //console.log(this.sortedArray);
   }
 
-  myAlert() {
+  swapUp(positionPriority: number): void {
+    //console.log(positionPriority);
+    //let result = this.studentPositions.findIndex(element => element.priority == positionPriority);
+    let positionIndex: number = (positionPriority - 1);
+    if (positionIndex <= 0) return;
+
+    const swap : number = this.studentPositions[positionIndex].priority;
+    const swapObj: StudentPositions = this.studentPositions[positionIndex];
+    this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex-1].priority;
+    this.studentPositions[positionIndex] = this.studentPositions[positionIndex-1];
+    this.studentPositions[positionIndex-1].priority = swap;
+    this.studentPositions[positionIndex-1] = swapObj;
+  }
+
+  swapDown(positionPriority: number): void {
+    let positionIndex: number = (positionPriority - 1);
+    if (positionIndex + 1 >= this.studentPositions.length) return;
+
+    const swap : number = this.studentPositions[positionIndex].priority;
+    const swapObj: StudentPositions = this.studentPositions[positionIndex];
+    this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex+1].priority;
+    this.studentPositions[positionIndex] = this.studentPositions[positionIndex+1];
+    this.studentPositions[positionIndex+1].priority = swap;
+    this.studentPositions[positionIndex+1] = swapObj;
+  }
+
+  // isOutOfBounds(index: number, studentPositions: any[]): boolean {
+  //   return (index + 1 >= studentPositions.length || index <= 0);
+  // }
+
+  submitAlert() {
     Swal.fire({
       title: 'Οριστικοποίηση Αίτησης',
       text: 'Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Είστε σίγουροι ότι θέλετε να προχωρήσετε;',

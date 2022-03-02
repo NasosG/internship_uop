@@ -1,5 +1,5 @@
 export interface StudentPositions {
-  priority: Number;
+  priority: number;
   company: string;
   title: string;
   place: string;

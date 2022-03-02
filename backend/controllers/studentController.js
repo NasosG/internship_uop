@@ -165,7 +165,7 @@ const updateStudentEntrySheet = async (request, response, next) => {
       message: error.message
     });
   }
-}
+};
 
 const insertStudentEntrySheet = async (request, response, next) => {
   try {
@@ -185,7 +185,7 @@ const insertStudentEntrySheet = async (request, response, next) => {
       message: error.message
     });
   }
-}
+};
 
 const insertStudentExitSheet = async (request, response, next) => {
   try {
@@ -205,7 +205,7 @@ const insertStudentExitSheet = async (request, response, next) => {
       message: error.message
     });
   }
-}
+};
 
 const insertStudentEvaluationSheet = async (request, response, next) => {
   try {
@@ -225,7 +225,7 @@ const insertStudentEvaluationSheet = async (request, response, next) => {
       message: error.message
     });
   }
-}
+};
 
 const deleteEntryFormByStudentId = async (request, response) => {
   const id = request.params.id;

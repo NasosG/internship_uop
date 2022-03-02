@@ -38,9 +38,11 @@
         <th><i class="fa fa-lightbulb"></i>Ενέργειες</th>
       </tr>
       <tr *ngFor="let position of studentPositions" class="dark-div">
-        <td class="title"><a href="#"> <i style="font-size:1.4em;" class="fas fa-angle-up pr-2"></i>&nbsp;<i
-              style="font-size:1.4em;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
-              style="font-size:1.1em;">{{position.priority}}</span></a>
+        <td class="title">
+          <a (click)="swapUp(position.priority)"> <i style="cursor:pointer;font-size:1.4em;"
+              class="fas fa-angle-up pr-2"></i></a>
+          <a (click)="swapDown(position.priority)">&nbsp;<i style="font-size:1.4em;cursor:pointer;"
+              class="fas fa-angle-down pr-3"></i>&nbsp;<span style="font-size:1.1em;">{{position.priority}}</span></a>
         </td>
         <td class="title">{{position.company}}</td>
         <td>{{position.title}}</td>
@@ -55,7 +57,7 @@
     </table>
     <br>
     <a href="#" class="button btn-primary">Προσωρινη Αποθηκευση Αιτησης</a>
-    <a (click)="myAlert()" class="ml-2 button btn-primary">Οριστικοποιηση
+    <a (click)="submitAlert()" class="ml-2 button btn-primary">Οριστικοποιηση
       Αιτησης</a>
   </div>
 </div>
