@@ -52,6 +52,7 @@ export class StudentPositionsComponent implements OnInit {
   }
 
   deletePosition(positionPriority: number): void {
+
     console.log(positionPriority-1);
     let positionIndex: number = (positionPriority - 1);
 
@@ -64,6 +65,9 @@ export class StudentPositionsComponent implements OnInit {
       this.studentPositions.splice(positionIndex, 1);
       this.studentPositions.map(element => { if (element.priority > positionIndex) this.changePriority(element) });
     }
+
+    this.studentsService.deleteStudentPosition(positionPriority);
+    this.studentsService.updateStudentPositionPriorities(positionPriority);
   }
 
   changePriority(element: StudentPositions) {

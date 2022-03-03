@@ -199,6 +199,31 @@ const insertStudentExitSheet = async (form, studentId) => {
   }
 };
 
+
+const updateStudentPositionPriorities = async (positionPriority) => {
+  try {
+    //console.log("UPDATE student_positions SET priority = priority - 1 WHERE priority > " + positionPriority);
+    const updateResults = await pool.query("UPDATE student_positions \
+     SET priority = priority - 1" +
+      " WHERE priority > $1",
+      [positionPriority]);
+    return updateResults;
+  } catch (error) {
+    console.log(error.message);
+    throw Error('Error while updating students positions priorities');
+  }
+};
+
+
+const deletePositionByStudentId = async (positionPriority) => {
+  try {
+    const deleteResults = await pool.query("DELETE FROM student_positions WHERE priority = $1", [positionPriority]);
+    return deleteResults;
+  } catch (error) {
+    throw Error(`Error while deleting student position ( student_id: ${positionPriority} )`);
+  }
+};
+
 module.exports = {
   getStudents,
   getStudentEntrySheets,
@@ -212,6 +237,8 @@ module.exports = {
   updateStudentEntrySheet,
   insertStudentEntrySheet,
   deleteEntryFormByStudentId,
+  deletePositionByStudentId,
+  updateStudentPositionPriorities,
   updateStudentExitSheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet

@@ -164,4 +164,22 @@ export class StudentsService {
         console.log(responseData.message);
       });
   }
+
+  deleteStudentPosition(positionPriority: number) {
+    this.http
+      .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionByStudentId/" + positionPriority)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  updateStudentPositionPriorities(positionPriority: number) {
+    const form: any = [{'priority': positionPriority, 'student_id' : '1'}];
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositionPriorities/" + positionPriority, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
 }
