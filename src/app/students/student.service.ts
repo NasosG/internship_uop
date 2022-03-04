@@ -174,9 +174,20 @@ export class StudentsService {
   }
 
   updateStudentPositionPriorities(positionPriority: number) {
-    const form: any = [{'priority': positionPriority, 'student_id' : '1'}];
+    const form: any = {'priority': positionPriority, 'student_id' : 1};
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositionPriorities/" + positionPriority, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  updateStudentPositions(positionsArray: Array<StudentPositions>) {
+    console.log('MALAKAS');
+    const studentId = 1;
+    const form: Array<StudentPositions> = positionsArray;
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositions/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });

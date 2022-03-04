@@ -20,14 +20,9 @@ export class StudentPositionsComponent implements OnInit {
         this.studentPositions = forms;
         console.log(this.studentPositions);
       });
-    // descending
-    //this.sortedArray = this.studentPositions.sort((a: any, b: any) => b.priority - a.priority);
-    //console.log(this.sortedArray);
   }
 
   swapUp(positionPriority: number): void {
-    //console.log(positionPriority);
-    //let result = this.studentPositions.findIndex(element => element.priority == positionPriority);
     let positionIndex: number = (positionPriority - 1);
     if (positionIndex <= 0) return;
 
@@ -51,6 +46,18 @@ export class StudentPositionsComponent implements OnInit {
     this.studentPositions[positionIndex+1] = swapObj;
   }
 
+  tempPositionsSave() {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Οι θέσεις αποθηκεύτηκαν προσωρινά',
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+    this.studentsService.updateStudentPositions(this.studentPositions);
+  }
+
   deletePosition(positionPriority: number): void {
 
     console.log(positionPriority-1);
@@ -66,8 +73,8 @@ export class StudentPositionsComponent implements OnInit {
       this.studentPositions.map(element => { if (element.priority > positionIndex) this.changePriority(element) });
     }
 
-    this.studentsService.deleteStudentPosition(positionPriority);
-    this.studentsService.updateStudentPositionPriorities(positionPriority);
+    //this.studentsService.deleteStudentPosition(positionPriority);
+    //this.studentsService.updateStudentPositionPriorities(positionPriority);
   }
 
   changePriority(element: StudentPositions) {
@@ -88,6 +95,19 @@ export class StudentPositionsComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentsService.updateStudentPositions(this.studentPositions);
+        Swal.fire({
+          title: 'Επιτυχής καταχώρηση',
+          text: 'Η αίτησή σας έχει δημιουργηθεί',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then(() => { /* not the best technique */ location.reload(); });
+      }
     });
   }
 

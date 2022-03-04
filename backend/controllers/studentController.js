@@ -150,8 +150,9 @@ const updateStudentContact = async (request, response, next) => {
 const updateStudentPositionPriorities = async (request, response, next) => {
   try {
     const id = request.params.id;
+    const body = request.body;
 
-    await studentService.updateStudentPositionPriorities(id);
+    await studentService.updateStudentPositionPriorities(id, body);
 
     response
       .status(200)
@@ -267,7 +268,7 @@ const deletePositionByStudentId = async (request, response) => {
     await studentService.deletePositionByStudentId(positionPriority);
     response
       .status(200)
-      .send(`student position with priority ${positionPriority}  was deleted`);
+      .send(`student position with priority ${positionPriority} was deleted`);
   } catch (error) {
     console.error(error.message);
     response.send({
@@ -275,6 +276,26 @@ const deletePositionByStudentId = async (request, response) => {
     });
   }
 };
+
+const updateStudentPositions = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const body = request.body;
+    await studentService.updateStudentPositions(id, body);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student positions were updated successfully'
+      });
+  } catch (error) {
+    console.log(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 
 module.exports = {
   getStudents,
@@ -288,6 +309,7 @@ module.exports = {
   updateStudentContact,
   updateStudentEntrySheet,
   updateStudentPositionPriorities,
+  updateStudentPositions,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,

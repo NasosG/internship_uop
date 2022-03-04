@@ -199,14 +199,12 @@ const insertStudentExitSheet = async (form, studentId) => {
   }
 };
 
-
-const updateStudentPositionPriorities = async (positionPriority) => {
+const updateStudentPositionPriorities = async (positionPriority, body) => {
   try {
-    //console.log("UPDATE student_positions SET priority = priority - 1 WHERE priority > " + positionPriority);
     const updateResults = await pool.query("UPDATE student_positions \
      SET priority = priority - 1" +
-      " WHERE priority > $1",
-      [positionPriority]);
+      " WHERE priority > $1 AND student_id = $2",
+      [positionPriority, body.student_id]);
     return updateResults;
   } catch (error) {
     console.log(error.message);
@@ -214,13 +212,44 @@ const updateStudentPositionPriorities = async (positionPriority) => {
   }
 };
 
-
 const deletePositionByStudentId = async (positionPriority) => {
   try {
     const deleteResults = await pool.query("DELETE FROM student_positions WHERE priority = $1", [positionPriority]);
     return deleteResults;
   } catch (error) {
     throw Error(`Error while deleting student position ( student_id: ${positionPriority} )`);
+  }
+};
+
+const deletePositionsByStudentId = async (studentId) => {
+  try {
+    const deleteResults = await pool.query("DELETE FROM student_positions WHERE student_id = $1", [studentId]);
+    return deleteResults;
+  } catch (error) {
+    throw Error(`Error while deleting student position ( student_id: ${studentId} )`);
+  }
+};
+
+const updateStudentPositions = async (studentId, body) => {
+  try {
+    console.log('asd');
+    await deletePositionsByStudentId(studentId);
+    for (let i = 0; i < body.length; i++) {
+      await insertStudentPositions(studentId, body[i]);
+    }
+  } catch (error) {
+    throw Error('Error while updating student positions');
+  }
+};
+
+const insertStudentPositions = async (studentId, body) => {
+  try {
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date) " +
+      " VALUES" +
+      " ($1, $2, $3, $4, $5, $6)",
+      [studentId, body.priority, body.company, body.title, body.place, body.upload_date]);
+  } catch (error) {
+    throw Error('Error while inserting student positions');
   }
 };
 
@@ -236,9 +265,11 @@ module.exports = {
   updateStudentContact,
   updateStudentEntrySheet,
   insertStudentEntrySheet,
+  insertStudentPositions,
   deleteEntryFormByStudentId,
   deletePositionByStudentId,
   updateStudentPositionPriorities,
+  updateStudentPositions,
   updateStudentExitSheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet
