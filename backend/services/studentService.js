@@ -53,6 +53,16 @@ const getStudentPositions = async (id) => {
   }
 };
 
+const getStudentApplications = async (studentId) => {
+  try {
+    return await pool.query("SELECT  id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status \
+                            FROM student_applications \
+                            WHERE student_id = $1 AND application_status = 'active'", [studentId]);
+  } catch (error) {
+    throw Error('Error while fetching student applications');
+  }
+};
+
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -270,6 +280,7 @@ module.exports = {
   getStudentEntrySheets,
   getStudentExitSheets,
   getStudentEvaluationSheets,
+  getStudentApplications,
   getStudentPositions,
   insertStudentEntrySheet,
   insertStudentPositions,

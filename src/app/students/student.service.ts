@@ -60,6 +60,12 @@ export class StudentsService {
       .get<Array<StudentPositions>>('http://localhost:3000/api/students/getStudentPositions/' + studentId);
   }
 
+  getStudentApplications(): Observable<Array<Application>> {
+    const studentId = 1;
+    return this.http
+      .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
+  }
+
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = 1;
@@ -194,7 +200,6 @@ export class StudentsService {
   }
 
   updateStudentPositions(positionsArray: Array<StudentPositions>) {
-    console.log('MALAKAS');
     const studentId = 1;
     const form: Array<StudentPositions> = positionsArray;
     this.http

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import {Application} from '../application.model';
 import { StudentPositions } from '../student-positions.model';
 import { StudentsService } from '../student.service';
 
@@ -10,16 +11,24 @@ import { StudentsService } from '../student.service';
 })
 export class StudentPositionsComponent implements OnInit {
   studentPositions!: StudentPositions[];
-  //sortedArray!: StudentPositions[];
+  studentApplications!: Application[];
 
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void {
-    this.studentsService.getStudentPositions()
-      .subscribe((forms: StudentPositions[]) => {
-        this.studentPositions = forms;
-        console.log(this.studentPositions);
-      });
+    // this.studentsService.getStudentPositions()
+    //   .subscribe((forms: StudentPositions[]) => {
+    //     this.studentPositions = forms;
+    //     console.log(this.studentPositions);
+    //   });
+    this.applicationsCreator( this.studentsService.getStudentPositions(), 0 );
+    this.applicationsCreator( this.studentsService.getStudentApplications(), 1 );
+  }
+
+  applicationsCreator(observablesArray: any, value: any) {
+    observablesArray.subscribe((forms: any[]) => {
+      (value == 0) ? this.studentPositions = forms : this.studentApplications = forms;
+    });
   }
 
   swapUp(positionPriority: number): void {

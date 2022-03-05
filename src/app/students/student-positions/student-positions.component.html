@@ -3,17 +3,19 @@
   <!-- Table -->
   <table class="manage-table submissions responsive-table dark-div mt-3">
     <tr>
-      <th>Αριθμός Πρωτοκόλλου</th>
-      <th>Ημερομηνία Πρωτοκόλλου </th>
+      <!-- <th>Αριθμός Πρωτοκόλλου</th>
+      <th>Ημερομηνία Πρωτοκόλλου </th> -->
+      <th>Αριθμός Αίτησης</th>
+      <th>Ημερομηνία Αίτησης </th>
       <th>Κατάσταση</th>
       <!-- <th> Θέση</th> -->
       <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
       <th>Ενέργειες</th>
     </tr>
     <tr class="dark-div submissions-div">
-      <td>34564953868</td>
-      <td>16/01/2022</td>
-      <td>Ενεργή</td>
+      <td>{{studentApplications[0].id}}</td>
+      <td>{{studentApplications[0].application_date}}</td>
+      <td>{{(studentApplications[0].application_status.trim() == 'active') ? 'Ενεργή' : 'Ανενεργή'}}</td>
       <!-- <td>PHP Developer at Intrasoft</td> -->
       <td class="action">
         <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->

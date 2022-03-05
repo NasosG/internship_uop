@@ -1,4 +1,5 @@
 export interface Application {
+  id: number;
   student_id: number;
   position_id: number;
   application_date: Date;
