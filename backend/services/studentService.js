@@ -43,7 +43,7 @@ const getStudentEvaluationSheets = async (id) => {
 
 const getStudentPositions = async (id) => {
   try {
-    const resultsStudentPositions = await pool.query("SELECT priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date \
+    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date \
                                                       FROM student_positions \
                                                       WHERE student_id = $1 \
                                                       ORDER BY priority", [id]);
@@ -153,6 +153,19 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
   }
 };
 
+const insertStudentApplication = async (body, studentId) => {
+  try {
+    // console.log(body);
+    await pool.query("INSERT INTO student_applications" +
+      '(student_id, positions, application_date, application_status )' +
+      " VALUES " + "($1, $2, now(), 'active')",
+      [studentId, body]);
+  } catch (error) {
+    console.log('Error while inserting application to student_applications' + error.message);
+    throw Error('Error while inserting application to student_applications');
+  }
+};
+
 const deleteEntryFormByStudentId = async (studentId) => {
   try {
     const deleteResults = await pool.query("DELETE FROM entry_form WHERE student_id = $1", [studentId]);
@@ -232,7 +245,6 @@ const deletePositionsByStudentId = async (studentId) => {
 
 const updateStudentPositions = async (studentId, body) => {
   try {
-    console.log('asd');
     await deletePositionsByStudentId(studentId);
     for (let i = 0; i < body.length; i++) {
       await insertStudentPositions(studentId, body[i]);
@@ -259,18 +271,19 @@ module.exports = {
   getStudentExitSheets,
   getStudentEvaluationSheets,
   getStudentPositions,
+  insertStudentEntrySheet,
+  insertStudentPositions,
+  insertStudentExitSheet,
+  insertStudentEvaluationSheet,
+  insertStudentApplication,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
   updateStudentContact,
   updateStudentEntrySheet,
-  insertStudentEntrySheet,
-  insertStudentPositions,
-  deleteEntryFormByStudentId,
-  deletePositionByStudentId,
   updateStudentPositionPriorities,
   updateStudentPositions,
   updateStudentExitSheet,
-  insertStudentExitSheet,
-  insertStudentEvaluationSheet
+  deleteEntryFormByStudentId,
+  deletePositionByStudentId
 };

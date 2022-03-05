@@ -26,24 +26,24 @@ export class StudentPositionsComponent implements OnInit {
     let positionIndex: number = (positionPriority - 1);
     if (positionIndex <= 0) return;
 
-    const swap : number = this.studentPositions[positionIndex].priority;
+    const swap: number = this.studentPositions[positionIndex].priority;
     const swapObj: StudentPositions = this.studentPositions[positionIndex];
-    this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex-1].priority;
-    this.studentPositions[positionIndex] = this.studentPositions[positionIndex-1];
-    this.studentPositions[positionIndex-1].priority = swap;
-    this.studentPositions[positionIndex-1] = swapObj;
+    this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex - 1].priority;
+    this.studentPositions[positionIndex] = this.studentPositions[positionIndex - 1];
+    this.studentPositions[positionIndex - 1].priority = swap;
+    this.studentPositions[positionIndex - 1] = swapObj;
   }
 
   swapDown(positionPriority: number): void {
     let positionIndex: number = (positionPriority - 1);
     if (positionIndex + 1 >= this.studentPositions.length) return;
 
-    const swap : number = this.studentPositions[positionIndex].priority;
+    const swap: number = this.studentPositions[positionIndex].priority;
     const swapObj: StudentPositions = this.studentPositions[positionIndex];
-    this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex+1].priority;
-    this.studentPositions[positionIndex] = this.studentPositions[positionIndex+1];
-    this.studentPositions[positionIndex+1].priority = swap;
-    this.studentPositions[positionIndex+1] = swapObj;
+    this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex + 1].priority;
+    this.studentPositions[positionIndex] = this.studentPositions[positionIndex + 1];
+    this.studentPositions[positionIndex + 1].priority = swap;
+    this.studentPositions[positionIndex + 1] = swapObj;
   }
 
   tempPositionsSave() {
@@ -59,10 +59,7 @@ export class StudentPositionsComponent implements OnInit {
   }
 
   deletePosition(positionPriority: number): void {
-
-    console.log(positionPriority-1);
     let positionIndex: number = (positionPriority - 1);
-
     if (positionIndex == 0) {
       this.studentPositions.splice(positionIndex, 1);
       this.studentPositions.map(element => this.changePriority(element));
@@ -78,8 +75,8 @@ export class StudentPositionsComponent implements OnInit {
   }
 
   changePriority(element: StudentPositions) {
-	  --element.priority;
-	  return element;
+    --element.priority;
+    return element;
   }
 
   // isOutOfBounds(index: number, studentPositions: any[]): boolean {
@@ -98,6 +95,7 @@ export class StudentPositionsComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.studentsService.updateStudentPositions(this.studentPositions);
+        this.studentsService.insertStudentApplication(this.studentPositions);
         Swal.fire({
           title: 'Επιτυχής καταχώρηση',
           text: 'Η αίτησή σας έχει δημιουργηθεί',

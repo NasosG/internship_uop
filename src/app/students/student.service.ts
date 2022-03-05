@@ -7,6 +7,7 @@ import { EntryForm } from "./entry-form.model";
 import { ExitForm } from "./exit-form.model";
 import { EvaluationForm } from "./evaluation-form.model";
 import { StudentPositions } from "./student-positions.model";
+import { Application } from "./application.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -165,6 +166,16 @@ export class StudentsService {
       });
   }
 
+  insertStudentApplication(positions: StudentPositions[]) {
+    const studentId = 1;
+    // console.log(inputForm);
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentApplication/" + studentId, positions)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
   deleteStudentPosition(positionPriority: number) {
     this.http
       .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionByStudentId/" + positionPriority)
@@ -174,7 +185,7 @@ export class StudentsService {
   }
 
   updateStudentPositionPriorities(positionPriority: number) {
-    const form: any = {'priority': positionPriority, 'student_id' : 1};
+    const form: any = { 'priority': positionPriority, 'student_id': 1 };
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositionPriorities/" + positionPriority, form)
       .subscribe(responseData => {

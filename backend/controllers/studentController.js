@@ -247,6 +247,26 @@ const insertStudentEvaluationSheet = async (request, response, next) => {
   }
 };
 
+const insertStudentApplication = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+
+    await studentService.insertStudentApplication(student, id);
+
+    response
+      .status(201)
+      .json({
+        message: 'Student application was inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const deleteEntryFormByStudentId = async (request, response) => {
   const id = request.params.id;
   try {
@@ -303,6 +323,10 @@ module.exports = {
   getStudentExitSheets,
   getStudentEvaluationSheets,
   getStudentPositions,
+  insertStudentEntrySheet,
+  insertStudentExitSheet,
+  insertStudentEvaluationSheet,
+  insertStudentApplication,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,
@@ -310,9 +334,6 @@ module.exports = {
   updateStudentEntrySheet,
   updateStudentPositionPriorities,
   updateStudentPositions,
-  insertStudentEntrySheet,
-  insertStudentExitSheet,
-  insertStudentEvaluationSheet,
   deleteEntryFormByStudentId,
   deletePositionByStudentId
 };

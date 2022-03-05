@@ -1,4 +1,6 @@
 export interface StudentPositions {
+  id: number;
+  student_id: number;
   priority: number;
   company: string;
   title: string;
