@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
-import {Application} from '../application.model';
+import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
 import { StudentsService } from '../student.service';
 
@@ -13,7 +14,7 @@ export class StudentPositionsComponent implements OnInit {
   studentPositions!: StudentPositions[];
   studentApplications!: Application[];
 
-  constructor(public studentsService: StudentsService) { }
+  constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
   ngOnInit(): void {
     // this.studentsService.getStudentPositions()
@@ -21,8 +22,8 @@ export class StudentPositionsComponent implements OnInit {
     //     this.studentPositions = forms;
     //     console.log(this.studentPositions);
     //   });
-    this.applicationsCreator( this.studentsService.getStudentPositions(), 0 );
-    this.applicationsCreator( this.studentsService.getStudentApplications(), 1 );
+    this.applicationsCreator(this.studentsService.getStudentPositions(), 0);
+    this.applicationsCreator(this.studentsService.getStudentApplications(), 1);
   }
 
   applicationsCreator(observablesArray: any, value: any) {
@@ -69,6 +70,16 @@ export class StudentPositionsComponent implements OnInit {
 
   deletePosition(positionPriority: number): void {
     let positionIndex: number = (positionPriority - 1);
+    if (this.studentPositions.length == 1) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Η αίτηση πρέπει να περιέχει τουλάχιστον μία θέση',
+        showConfirmButton: false,
+        timer: 2500
+      });
+      return;
+    }
     if (positionIndex == 0) {
       this.studentPositions.splice(positionIndex, 1);
       this.studentPositions.map(element => this.changePriority(element));
@@ -88,10 +99,6 @@ export class StudentPositionsComponent implements OnInit {
     return element;
   }
 
-  // isOutOfBounds(index: number, studentPositions: any[]): boolean {
-  //   return (index + 1 >= studentPositions.length || index <= 0);
-  // }
-
   submitAlert() {
     Swal.fire({
       title: 'Οριστικοποίηση Αίτησης',
@@ -105,6 +112,7 @@ export class StudentPositionsComponent implements OnInit {
       if (result.isConfirmed) {
         this.studentsService.updateStudentPositions(this.studentPositions);
         this.studentsService.insertStudentApplication(this.studentPositions);
+        this.studentsService.deleteStudentPositions(this.authService.getSessionId());
         Swal.fire({
           title: 'Επιτυχής καταχώρηση',
           text: 'Η αίτησή σας έχει δημιουργηθεί',
@@ -118,4 +126,41 @@ export class StudentPositionsComponent implements OnInit {
     });
   }
 
+  deleteApplication(applicationId: number) {
+    Swal.fire({
+      title: 'Διαγραφή Αίτησης',
+      text: 'Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Είστε σίγουροι ότι θέλετε να προχωρήσετε;',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentsService.deleteApplicationById(applicationId);
+        Swal.fire({
+          title: 'Διαγραφή αίτησης',
+          text: 'Η αίτησή σας έχει διαγραφεί και ορίζεται ως ανενεργή.',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then(() => { /* not the best technique */ location.reload(); });
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.studentsService.updateStudentPositions(this.studentPositions);
+  }
+
+  getActiveStatus() {
+    for (let i = 0; i < this.studentApplications.length; i++)
+      if (this.studentApplications[i].application_status) {
+        console.log("ola kala");
+        return false;
+      }
+    return true;
+  }
 }

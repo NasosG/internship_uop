@@ -22,7 +22,8 @@ router.get("/getStudentEvaluationSheets/:id", studentController.getStudentEvalua
 router.get("/getStudentPositions/:id", studentController.getStudentPositions);
 router.post("/insertStudentEvaluationSheet/:id", checkAuth, studentController.insertStudentEvaluationSheet);
 router.delete("/deleteEntryFormByStudentId/:id", checkAuth, studentController.deleteEntryFormByStudentId);
-router.delete("/deletePositionByStudentId/:id", checkAuth, studentController.deletePositionByStudentId);
+router.delete("/deletePositionsByStudentId/:id", checkAuth, studentController.deletePositionsByStudentId);
+router.delete("/deleteApplicationById/:id", checkAuth, studentController.deleteApplicationById);
 // router.post("/updateStudentSSNFile/:id", studentController.updateStudentSSNFile);
 
 module.exports = router;

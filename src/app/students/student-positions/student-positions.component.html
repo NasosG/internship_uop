@@ -1,30 +1,42 @@
 <div class="container-fluid mt-5" style="max-width:90%;margin:auto;">
-  <h2 class="position-h2">Οι αιτήσεις μου</h2>
+  <h2 *ngIf="this.studentApplications[0]!=null" class="position-h2">Οι αιτήσεις μου
+  </h2>
   <!-- Table -->
-  <table class="manage-table submissions responsive-table dark-div mt-3">
-    <tr>
-      <!-- <th>Αριθμός Πρωτοκόλλου</th>
-      <th>Ημερομηνία Πρωτοκόλλου </th> -->
-      <th>Αριθμός Αίτησης</th>
-      <th>Ημερομηνία Αίτησης </th>
-      <th>Κατάσταση</th>
-      <!-- <th> Θέση</th> -->
-      <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
-      <th>Ενέργειες</th>
-    </tr>
-    <tr class="dark-div submissions-div">
-      <td>{{studentApplications[0].id}}</td>
-      <td>{{studentApplications[0].application_date}}</td>
-      <td>{{(studentApplications[0].application_status.trim() == 'active') ? 'Ενεργή' : 'Ανενεργή'}}</td>
-      <!-- <td>PHP Developer at Intrasoft</td> -->
-      <td class="action">
-        <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->
-        <a href="#"><i class="fa  fa-eye-slash"></i> Προβολή</a>
-        <!-- <a href="#" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a> -->
-      </td>
-    </tr>
-  </table>
-  <div>
+  <div *ngIf="this.studentApplications[0]!=null">
+    <div class="alert alert-danger p-2 mt-2 " role="alert">Αν θέλετε να δημιουργήσετε εκ νέου αίτηση διαγράψτε τη παλιά
+      και ξανακάνετε τη διαδικασία από την αρχή</div>
+    <table class="manage-table submissions responsive-table dark-div mt-3">
+      <tr>
+        <!-- <th>Αριθμός Πρωτοκόλλου</th>
+          <th>Ημερομηνία Πρωτοκόλλου </th> -->
+        <th>Αριθμός Αίτησης</th>
+        <th>Ημερομηνία Αίτησης </th>
+        <th>Κατάσταση</th>
+        <!-- <th> Θέση</th> -->
+        <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
+        <th>Ενέργειες</th>
+      </tr>
+      <tr class="dark-div submissions-div">
+        <td>{{studentApplications[0].id}}</td>
+        <td>{{studentApplications[0].application_date}}</td>
+        <td><i class="fa fa-check" *ngIf="studentApplications[0].application_status"></i><i class="fa fa-times"
+            *ngIf="!studentApplications[0].application_status"></i>{{(studentApplications[0].application_status) ? ' Ενεργή' : ' Ανενεργή'}}
+        </td>
+        <td class="action">
+          <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->
+          <a href="#"><i class="fa  fa-eye"></i> Προβολή</a>
+          <a *ngIf="studentApplications[0].application_status" (click)="deleteApplication(studentApplications[0].id)"
+            class="delete"><i class="fa fa-trash-alt"></i>
+            Διαγραφή</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="alert alert-danger p-2" role="alert"
+    *ngIf="this.studentApplications[0]==null && this.studentPositions[0]==null">
+    Δεν υπάρχουν καταχωρημένες αιτήσεις. Πηγαίνετε στις «Θέσεις Πρακτικής» για να προσθέσετε θέσεις.
+  </div>
+  <div *ngIf="this.studentPositions[0]!=null && getActiveStatus()">
     <h2 class="mt-4 mb-2 position-h2">Οι θέσεις μου</h2>
     <div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
       Επιλέξτε τις θέσεις στις οποίες έχετε κάνει αίτηση κατά σειρά προτίμησης και έπειτα οριστικοποιήστε την αίτησή

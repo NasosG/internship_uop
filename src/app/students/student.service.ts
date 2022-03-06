@@ -182,9 +182,27 @@ export class StudentsService {
       });
   }
 
-  deleteStudentPosition(positionPriority: number) {
+  //Not currently used
+  // deleteStudentPosition(positionPriority: number) {
+  //   this.http
+  //     .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionByStudentId/" + positionPriority)
+  //     .subscribe(responseData => {
+  //       console.log(responseData.message);
+  //     });
+  // }
+
+
+  deleteStudentPositions(studenId: number) {
     this.http
-      .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionByStudentId/" + positionPriority)
+      .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionsByStudentId/" + studenId)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  deleteApplicationById(applicationId: number) {
+    this.http
+      .delete<{ message: string }>("http://localhost:3000/api/students/deleteApplicationById/" + applicationId)
       .subscribe(responseData => {
         console.log(responseData.message);
       });

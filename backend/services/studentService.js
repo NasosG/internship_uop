@@ -57,7 +57,7 @@ const getStudentApplications = async (studentId) => {
   try {
     return await pool.query("SELECT  id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status \
                             FROM student_applications \
-                            WHERE student_id = $1 AND application_status = 'active'", [studentId]);
+                            WHERE student_id = $1", [studentId]);
   } catch (error) {
     throw Error('Error while fetching student applications');
   }
@@ -168,7 +168,7 @@ const insertStudentApplication = async (body, studentId) => {
     // console.log(body);
     await pool.query("INSERT INTO student_applications" +
       '(student_id, positions, application_date, application_status )' +
-      " VALUES " + "($1, $2, now(), 'active')",
+      " VALUES " + "($1, $2, now(), 'true')",
       [studentId, body]);
   } catch (error) {
     console.log('Error while inserting application to student_applications' + error.message);
@@ -182,6 +182,15 @@ const deleteEntryFormByStudentId = async (studentId) => {
     return deleteResults;
   } catch (error) {
     throw Error(`Error while deleting student ( student_id: ${studentId} ) entry form`);
+  }
+};
+
+const deleteApplicationById = async (applicationId) => {
+  try {
+    const updateResults = await pool.query("UPDATE student_applications SET application_status='false' WHERE id = $1", [applicationId]);
+    return updateResults;
+  } catch (error) {
+    throw Error(`Error while updating application status to inactive ${applicationId} student_applications`);
   }
 };
 
@@ -235,14 +244,16 @@ const updateStudentPositionPriorities = async (positionPriority, body) => {
   }
 };
 
-const deletePositionByStudentId = async (positionPriority) => {
-  try {
-    const deleteResults = await pool.query("DELETE FROM student_positions WHERE priority = $1", [positionPriority]);
-    return deleteResults;
-  } catch (error) {
-    throw Error(`Error while deleting student position ( student_id: ${positionPriority} )`);
-  }
-};
+//Not currently used, real time deletion on student application table
+//
+// const deletePositionByStudentId = async (positionPriority) => {
+//   try {
+//     const deleteResults = await pool.query("DELETE FROM student_positions WHERE priority = $1", [positionPriority]);
+//     return deleteResults;
+//   } catch (error) {
+//     throw Error(`Error while deleting student position ( student_id: ${positionPriority} )`);
+//   }
+// };
 
 const deletePositionsByStudentId = async (studentId) => {
   try {
@@ -296,5 +307,6 @@ module.exports = {
   updateStudentPositions,
   updateStudentExitSheet,
   deleteEntryFormByStudentId,
-  deletePositionByStudentId
+  deleteApplicationById,
+  deletePositionsByStudentId
 };

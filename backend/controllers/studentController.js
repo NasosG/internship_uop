@@ -295,13 +295,28 @@ const deleteEntryFormByStudentId = async (request, response) => {
   }
 };
 
-const deletePositionByStudentId = async (request, response) => {
-  const positionPriority = request.params.id;
+const deletePositionsByStudentId = async (request, response) => {
+  const studentId = request.params.id;
   try {
-    await studentService.deletePositionByStudentId(positionPriority);
+    await studentService.deletePositionsByStudentId(studentId);
     response
       .status(200)
-      .send(`student position with priority ${positionPriority} was deleted`);
+      .send(`student position with priority ${studentId} was deleted`);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const deleteApplicationById = async (request, response) => {
+  const applicationId = request.params.id;
+  try {
+    await studentService.deleteApplicationById(applicationId);
+    response
+      .status(200)
+      .send(`student application ${applicationId} was deleted`);
   } catch (error) {
     console.error(error.message);
     response.send({
@@ -349,7 +364,8 @@ module.exports = {
   updateStudentPositionPriorities,
   updateStudentPositions,
   deleteEntryFormByStudentId,
-  deletePositionByStudentId
+  deletePositionsByStudentId,
+  deleteApplicationById
 };
 
 // const updateStudentSSNFile = async (request, response) => {
