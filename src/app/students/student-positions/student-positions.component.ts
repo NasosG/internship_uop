@@ -20,15 +20,14 @@ export class StudentPositionsComponent implements OnInit {
     // this.studentsService.getStudentPositions()
     //   .subscribe((forms: StudentPositions[]) => {
     //     this.studentPositions = forms;
-    //     console.log(this.studentPositions);
     //   });
     this.applicationsCreator(this.studentsService.getStudentPositions(), 0);
     this.applicationsCreator(this.studentsService.getStudentApplications(), 1);
   }
 
-  applicationsCreator(observablesArray: any, value: any) {
+  applicationsCreator(observablesArray: any, typeValue: any) {
     observablesArray.subscribe((forms: any[]) => {
-      (value == 0) ? this.studentPositions = forms : this.studentApplications = forms;
+      (typeValue == 0) ? this.studentPositions = forms : this.studentApplications = forms;
     });
   }
 
@@ -70,6 +69,7 @@ export class StudentPositionsComponent implements OnInit {
 
   deletePosition(positionPriority: number): void {
     let positionIndex: number = (positionPriority - 1);
+
     if (this.studentPositions.length == 1) {
       Swal.fire({
         position: 'center',
@@ -80,6 +80,7 @@ export class StudentPositionsComponent implements OnInit {
       });
       return;
     }
+
     if (positionIndex == 0) {
       this.studentPositions.splice(positionIndex, 1);
       this.studentPositions.map(element => this.changePriority(element));
@@ -157,10 +158,9 @@ export class StudentPositionsComponent implements OnInit {
 
   getActiveStatus() {
     for (let i = 0; i < this.studentApplications.length; i++)
-      if (this.studentApplications[i].application_status) {
-        console.log("ola kala");
+      if (this.studentApplications[i].application_status)
         return false;
-      }
+
     return true;
   }
 }

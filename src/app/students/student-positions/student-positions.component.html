@@ -1,14 +1,12 @@
 <div class="container-fluid mt-5" style="max-width:90%;margin:auto;">
   <h2 *ngIf="this.studentApplications[0]!=null" class="position-h2">Οι αιτήσεις μου
   </h2>
-  <!-- Table -->
   <div *ngIf="this.studentApplications[0]!=null">
     <div class="alert alert-danger p-2 mt-2 " role="alert">Αν θέλετε να δημιουργήσετε εκ νέου αίτηση διαγράψτε τη παλιά
       και ξανακάνετε τη διαδικασία από την αρχή</div>
+    <!-- Applications Table -->
     <table class="manage-table submissions responsive-table dark-div mt-3">
       <tr>
-        <!-- <th>Αριθμός Πρωτοκόλλου</th>
-          <th>Ημερομηνία Πρωτοκόλλου </th> -->
         <th>Αριθμός Αίτησης</th>
         <th>Ημερομηνία Αίτησης </th>
         <th>Κατάσταση</th>
@@ -16,17 +14,19 @@
         <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
         <th>Ενέργειες</th>
       </tr>
-      <tr class="dark-div submissions-div">
-        <td>{{studentApplications[0].id}}</td>
-        <td>{{studentApplications[0].application_date}}</td>
-        <td><i class="fa fa-check" *ngIf="studentApplications[0].application_status"></i><i class="fa fa-times"
-            *ngIf="!studentApplications[0].application_status"></i>{{(studentApplications[0].application_status) ? ' Ενεργή' : ' Ανενεργή'}}
+      <tr *ngFor="let application of studentApplications" class="dark-div submissions-div">
+        <td>{{application.id}}</td>
+        <td>{{application.application_date}}</td>
+        <td>
+          <i class="fa fa-check" *ngIf="application.application_status"></i>
+          <i class="fa fa-times" *ngIf="!application.application_status"></i>
+          {{(application.application_status) ? ' Ενεργή' : ' Ανενεργή'}}
         </td>
         <td class="action">
           <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->
           <a href="#"><i class="fa  fa-eye"></i> Προβολή</a>
-          <a *ngIf="studentApplications[0].application_status" (click)="deleteApplication(studentApplications[0].id)"
-            class="delete"><i class="fa fa-trash-alt"></i>
+          <a *ngIf="application.application_status" (click)="deleteApplication(application.id)" class="delete"><i
+              class="fa fa-trash-alt"></i>
             Διαγραφή</a>
         </td>
       </tr>
@@ -42,6 +42,7 @@
       Επιλέξτε τις θέσεις στις οποίες έχετε κάνει αίτηση κατά σειρά προτίμησης και έπειτα οριστικοποιήστε την αίτησή
       σας.
     </div>
+    <!-- Positions Table -->
     <table class="manage-table resumes responsive-table dark-div mt-3">
       <tr>
         <th><i class="fas fa-sort"></i> Προτεραιότητα</th>
@@ -63,8 +64,6 @@
         <td>{{position.place}}</td>
         <td>{{position.upload_date}}</td>
         <td class="action">
-          <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a>
-          <a href="#"><i class="fa  fa-eye-slash"></i> Απόκρυψη</a> -->
           <a (click)="deletePosition(position.priority)" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
         </td>
       </tr>

@@ -81,7 +81,6 @@ export class StudentsService {
 
   updateStudentContractDetails(data: any) {
     const id = 1;
-    // const student: string = modelStudent;
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
       .subscribe(responseData => {
@@ -91,7 +90,6 @@ export class StudentsService {
 
   updateStudentContractSSNFile(file: any) {
     const id = 1;
-    // const student: string = modelStudent;
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file)
       .subscribe(responseData => {
@@ -101,7 +99,6 @@ export class StudentsService {
 
   updateStudentContractIbanFile(file: any) {
     const id = 1;
-    // const student: string = modelStudent;
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file)
       .subscribe(responseData => {
@@ -111,7 +108,6 @@ export class StudentsService {
 
   updateStudentBio(data: any) {
     const id = 1;
-    // const student: string = modelStudent;
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
       .subscribe(responseData => {
@@ -121,7 +117,6 @@ export class StudentsService {
 
   updateStudentContact(data: any) {
     const id = 1;
-    // const student: string = modelStudent;
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
       .subscribe(responseData => {
@@ -131,7 +126,6 @@ export class StudentsService {
 
   updateStudentEntrySheet(data: any) {
     const studentId = 1;
-    // const student: string = modelStudent;
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
       .subscribe(responseData => {
@@ -153,7 +147,6 @@ export class StudentsService {
   insertStudentExitSheet(exitForm: any) {
     const studentId = 1;
     const form: ExitForm = exitForm;
-    // console.log(inputForm);
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentExitSheet/" + studentId, form)
       .subscribe(responseData => {
@@ -164,7 +157,6 @@ export class StudentsService {
   insertStudentEvaluationSheet(evaluationForm: any) {
     const studentId = 1;
     const form: EvaluationForm = evaluationForm;
-    // console.log(inputForm);
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEvaluationSheet/" + studentId, form)
       .subscribe(responseData => {
@@ -174,7 +166,6 @@ export class StudentsService {
 
   insertStudentApplication(positions: StudentPositions[]) {
     const studentId = 1;
-    // console.log(inputForm);
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentApplication/" + studentId, positions)
       .subscribe(responseData => {
@@ -182,7 +173,7 @@ export class StudentsService {
       });
   }
 
-  //Not currently used
+  // Not currently used
   // deleteStudentPosition(positionPriority: number) {
   //   this.http
   //     .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionByStudentId/" + positionPriority)

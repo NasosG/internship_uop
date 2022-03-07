@@ -244,7 +244,7 @@ const updateStudentPositionPriorities = async (positionPriority, body) => {
   }
 };
 
-//Not currently used, real time deletion on student application table
+// Not currently used, real time deletion on student application table
 //
 // const deletePositionByStudentId = async (positionPriority) => {
 //   try {
