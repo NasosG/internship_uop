@@ -31,10 +31,29 @@ export class StudentPositionsComponent implements OnInit {
     });
   }
 
-  swapUp(positionPriority: number): void {
+  async swapUp(positionPriority: number): Promise<void> {
     let positionIndex: number = (positionPriority - 1);
     if (positionIndex <= 0) return;
 
+    this.animate(positionPriority);
+    //this.animate(positionPriority-1);
+
+    await this.delay(600);
+    this.swapUpLogic(positionIndex);
+  }
+
+  async swapDown(positionPriority: number): Promise<void> {
+    let positionIndex: number = (positionPriority - 1);
+    if (positionIndex + 1 >= this.studentPositions.length) return;
+
+    this.animate(positionPriority);
+    //this.animate(positionPriority+1);
+
+    await this.delay(600);
+    this.swapDownLogic(positionIndex);
+  }
+
+  swapUpLogic(positionIndex: number): void {
     const swap: number = this.studentPositions[positionIndex].priority;
     const swapObj: StudentPositions = this.studentPositions[positionIndex];
     this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex - 1].priority;
@@ -43,16 +62,34 @@ export class StudentPositionsComponent implements OnInit {
     this.studentPositions[positionIndex - 1] = swapObj;
   }
 
-  swapDown(positionPriority: number): void {
-    let positionIndex: number = (positionPriority - 1);
-    if (positionIndex + 1 >= this.studentPositions.length) return;
-
+  swapDownLogic(positionIndex: number): void {
     const swap: number = this.studentPositions[positionIndex].priority;
     const swapObj: StudentPositions = this.studentPositions[positionIndex];
     this.studentPositions[positionIndex].priority = this.studentPositions[positionIndex + 1].priority;
     this.studentPositions[positionIndex] = this.studentPositions[positionIndex + 1];
     this.studentPositions[positionIndex + 1].priority = swap;
     this.studentPositions[positionIndex + 1] = swapObj;
+  }
+
+  animate(positionPriority: number): void {
+    $('#positionsTable > tr#row' + positionPriority)
+      .find('td')
+      .wrapInner('<div style="display: block;" />')
+      .parent()
+      .find('td > div')
+      // .fadeOut(400)
+      // .fadeIn(400);
+      .slideUp( 600 )
+      .slideDown( 600 );
+  }
+
+  /**
+   *
+   * @param ms time in milliseconds
+   * @returns Promise<void>
+   */
+  async delay(ms: number): Promise<void>{
+    await new Promise( resolve => setTimeout(resolve, ms) );
   }
 
   tempPositionsSave() {
@@ -156,7 +193,7 @@ export class StudentPositionsComponent implements OnInit {
     this.studentsService.updateStudentPositions(this.studentPositions);
   }
 
-  getActiveStatus() {
+  getActiveStatus(): boolean {
     for (let i = 0; i < this.studentApplications.length; i++)
       if (this.studentApplications[i].application_status)
         return false;

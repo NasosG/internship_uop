@@ -626,7 +626,6 @@ table.manage-table td.action a:hover {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {
-
   .resume-titlebar img {
     display: none;
   }
@@ -634,5 +633,4 @@ table.manage-table td.action a:hover {
   .resume-titlebar .resumes-list-content {
     margin-left: 0px;
   }
-
 }

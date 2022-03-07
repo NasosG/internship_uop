@@ -43,7 +43,7 @@
       σας.
     </div>
     <!-- Positions Table -->
-    <table class="manage-table resumes responsive-table dark-div mt-3">
+    <table id="positionsTable" class="manage-table resumes responsive-table dark-div mt-3">
       <tr>
         <th><i class="fas fa-sort"></i> Προτεραιότητα</th>
         <th><i class="fa fa-building"></i> Εταιρεία</th>
@@ -52,7 +52,7 @@
         <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th>
         <th><i class="fa fa-lightbulb"></i>Ενέργειες</th>
       </tr>
-      <tr *ngFor="let position of studentPositions" class="dark-div">
+      <tr id="{{'row' + position.priority}}" *ngFor="let position of studentPositions" class="dark-div">
         <td class="title">
           <a (click)="swapUp(position.priority)"> <i style="cursor:pointer;font-size:1.4em;"
               class="fas fa-angle-up pr-2"></i></a>
