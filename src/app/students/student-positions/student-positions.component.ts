@@ -240,7 +240,7 @@ export class StudentPositionsComponent implements OnInit {
                   '<td>' + element.title + '</td>' +
                   '<td>' + element.place + '</td>' +
                   '<td>' + element.upload_date + '</td>' +
-                 '</tr>' })}` +
+                 '</tr>' }).join('')}` +
     "</table>");
 
     windowPrint?.document.close();
