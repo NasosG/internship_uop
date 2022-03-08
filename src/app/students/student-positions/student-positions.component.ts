@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
+import {Student} from '../student.model';
 import { StudentsService } from '../student.service';
 
 @Component({
@@ -13,6 +14,8 @@ import { StudentsService } from '../student.service';
 export class StudentPositionsComponent implements OnInit {
   studentPositions!: StudentPositions[];
   studentApplications!: Application[];
+  studentsData!: Student[];
+  studentName!: string;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
@@ -199,5 +202,50 @@ export class StudentPositionsComponent implements OnInit {
         return false;
 
     return true;
+  }
+
+  printApplicationSheet(appIndex: number) {
+    this.studentsData = [...this.studentsService.students];
+    this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
+    const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    windowPrint?.document.write("<h3 style='text-align: center;'>" + this.studentName + "</h3><hr><br>");
+
+    windowPrint?.document.write(
+      "<h2>Αιτήσεις Φοιτητή/τριας</h2>"+
+      "<table border='1' cellpadding='10'>" +
+      "<tr>" +
+        "<th>Αριθμός Αίτησης</th>" +
+        "<th>Ημερομηνία Αίτησης</th>"+
+        "<th>Κατάσταση Αίτησης</th>"+
+      "</tr>" +
+      "<tr>" +
+       ` <td>${this.studentApplications[appIndex].id}</td>` +
+       ` <td>${this.studentApplications[appIndex].application_date}</td>` +
+       ` <td>${this.studentApplications[appIndex].application_status ? ' Ενεργή' : ' Ανενεργή'} </td>` +
+      "</tr>" +
+    "</table>" + "<br>" +
+    "<h2>Θέσεις Φοιτητή/τριας</h2>"+
+    "<table border='1' cellpadding='10'>" +
+      "<tr>" +
+        "<th>Προτεραιότητα</th>" +
+        "<th>Εταιρεία</th>"+
+        "<th>Τίτλος</th>"+
+        "<th>Τοποθεσία</th>"+
+        "<th>Ημερομηνία Δημοσίευσης</th>"+
+      "</tr>" +
+      ` ${this.studentApplications[appIndex].positions.map(element => {
+          return '<tr>' +
+                  '<td>' + element.priority + '</td>' +
+                  '<td>' + element.company + '</td>' +
+                  '<td>' + element.title + '</td>' +
+                  '<td>' + element.place + '</td>' +
+                  '<td>' + element.upload_date + '</td>' +
+                 '</tr>' })}` +
+    "</table>");
+
+    windowPrint?.document.close();
+    windowPrint?.focus();
+    windowPrint?.print();
+    windowPrint?.close();
   }
 }

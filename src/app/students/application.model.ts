@@ -4,4 +4,5 @@ export interface Application {
   position_id: number;
   application_date: Date;
   application_status: boolean;
+  positions: any[];
 }
