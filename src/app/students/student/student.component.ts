@@ -17,6 +17,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
+  fontSize: number =  100;
 
   constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService) { }
 
@@ -55,6 +56,19 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  changeFont(operator: string) {
+    operator === '+' ? this.fontSize+=10 : this.fontSize-=10; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    if (this.fontSize >= 200) this.fontSize = 200;
+    else if (this.fontSize <= 70) this.fontSize = 70;
+
+     document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
+  }
+
+  resetFont() {
+    this.fontSize = 100; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
   }
 
   onDarkModeSwitched() { }

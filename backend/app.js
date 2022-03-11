@@ -5,7 +5,8 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
-
+// for atlas login
+//const serverRequest = require("request");
 const bodyParser = require("body-parser");
 
 app.use(
@@ -106,5 +107,31 @@ app.post("/api/students/login/:id", (request, response, next) => {
     userId: fetchedId
   });
 });
+
+// dummy atlas login to be implemented
+// app.post('/atlas/login', (req, res) => {
+//   const myData = JSON.stringify(req.body);
+//   console.log(myData);
+//   serverRequest({
+//     url: 'http://submit-atlas.grnet.gr/Api/Offices/v1/Login',
+//     method: 'POST',
+//     body: myData,
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   }, (error, response, body) => {
+//     // console.log(error);
+//     console.log(response);
+
+//     if ( /*response.statusCode != undefined && */ (error || response.statusCode !== 200)) {
+//       return res.status(500).json({
+//         type: 'error',
+//         message: 'post not successful'
+//       });
+//     }
+//     res.send(body);
+//   });
+// });
+
 
 module.exports = app;
