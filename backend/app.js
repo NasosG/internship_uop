@@ -6,7 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 // for atlas login
-//const serverRequest = require("request");
+const axios = require("axios");
 const bodyParser = require("body-parser");
 
 app.use(
@@ -108,30 +108,48 @@ app.post("/api/students/login/:id", (request, response, next) => {
   });
 });
 
-// dummy atlas login to be implemented
-// app.post('/atlas/login', (req, res) => {
-//   const myData = JSON.stringify(req.body);
-//   console.log(myData);
-//   serverRequest({
-//     url: 'http://submit-atlas.grnet.gr/Api/Offices/v1/Login',
-//     method: 'POST',
-//     body: myData,
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   }, (error, response, body) => {
-//     // console.log(error);
-//     console.log(response);
+// test pilot atlas login
+app.post('/atlas/login', async (req, res) => {
+  const myData = JSON.stringify(req.body);
+  console.log(myData);
+  try {
 
-//     if ( /*response.statusCode != undefined && */ (error || response.statusCode !== 200)) {
-//       return res.status(500).json({
-//         type: 'error',
-//         message: 'post not successful'
-//       });
-//     }
-//     res.send(body);
-//   });
-// });
+    const resp = await axios({
+      url: 'http://studentpractice.pilotiko.gr/Api/Offices/v1/Login',
+      method: 'POST',
+      data: myData,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return res.status(200).json({
+      message: resp.data,
+      status: resp.status
+    });
+  } catch (error) {
+    if (error.response.status !== 200) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response.data);
+      console.log(error.response.status);
+
+      return res.status(400).json({
+        type: error.response.data,
+        status: error.response.status
+      });
+
+    } else if (error.request.status !== 200) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
+      console.log("2");
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message);
+    }
+  }
+});
 
 
 module.exports = app;
