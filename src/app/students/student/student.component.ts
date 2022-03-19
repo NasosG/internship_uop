@@ -4,6 +4,7 @@ import { Observable, Subscription, takeUntil } from 'rxjs';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-student',
@@ -20,7 +21,13 @@ export class StudentComponent implements OnInit, OnDestroy {
   fontSize: number =  100;
   private language!: string;
 
-  constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService) { }
+  constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService) {
+    translate.addLangs(['en', 'gr']);
+    translate.setDefaultLang('gr');
+
+    const browserLang = localStorage.getItem('language') || null;
+    translate.use((browserLang!=null) ? browserLang : 'gr');
+  }
 
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
@@ -75,9 +82,9 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   changeLang(language: string) {
-    //alert('yes it is ' + language);
     localStorage.setItem('language', language);
-    window.location.reload();
+    // window.location.reload();
+    this.translate.use(language);
   }
 
   onDarkModeSwitched() { }

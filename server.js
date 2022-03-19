@@ -38,6 +38,7 @@ const onListening = () => {
 };
 
 const hostname = "localhost";
+// use port 3000 unless there exists a preconfigured port
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 

@@ -20,7 +20,7 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a [href]="['/student/' + this.authService.getSessionId()]" class="nav-link">
-          <i style="font-size: 1.2em" class="fa fa-home"></i> Αρχική</a>
+          <i style="font-size: 1.2em" class="fa fa-home"></i> {{'HOME-PAGE-BTN' | translate}}</a>
       </li>
     </ul>
 
@@ -101,18 +101,18 @@
       <div class="dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <i class="fas fa-lg fa-globe"></i>
-          Γλώσσα
+          {{'LANGUAGE-BTN' | translate}}
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a (click)="changeLang('gr')" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png"
-                width="24" height="24" />
-              &nbsp; Ελληνικά</a>
+            <a (click)="changeLang('gr')" class="cursor-pointer dropdown-item"><img
+                src="../../../assets/images/greeceIcon.png" width="24" height="24" />
+              &nbsp; {{'LANGUAGE-SELECT-GR' | translate}}</a>
           </li>
           <li>
-            <a (click)="changeLang('en')" class="dropdown-item">
+            <a (click)="changeLang('en')" class="cursor-pointer dropdown-item">
               <img src="../../../assets/images/englishIcon.png" width="24" height="24" />
-              &nbsp; Αγγλικά</a>
+              &nbsp; {{'LANGUAGE-SELECT-EN' | translate}}</a>
           </li>
         </ul>
       </div>
@@ -140,7 +140,7 @@
     <a [routerLink]="['/student/' + this.authService.getSessionId()]" class="brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
-      <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
+      <span class="brand-text font-weight-light">{{'BRAND-SPAN' | translate}}</span>
     </a>
 
     <!-- Sidebar -->
