@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,24 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  private language!: string;
+
+  constructor(private router: Router, public translate: TranslateService) {
+    translate.addLangs(['en', 'gr']);
+    translate.setDefaultLang('gr');
+
+    const browserLang = localStorage.getItem('language') || null;
+    translate.use((browserLang!=null) ? browserLang : 'gr');
+  }
 
   ngOnInit(): void {
+     this.language = localStorage.getItem('language') || 'gr';
+  }
+
+  changeLang(language: string) {
+    localStorage.setItem('language', language);
+    // window.location.reload();
+    this.translate.use(language);
   }
 
   isTermsRoute() {
@@ -20,6 +36,7 @@ export class HomeComponent implements OnInit {
   isCompanyTermsRoute() {
     return this.router.url === '/company-terms';
   }
+
   isRoute() {
     return this.router.url === '/';
   }

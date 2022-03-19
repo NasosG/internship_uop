@@ -1,0 +1,27 @@
+{
+  "LANGUAGE-BTN": "Language",
+  "LANGUAGE-SELECT-GR": "Greek",
+  "LANGUAGE-SELECT-EN": "English",
+  "HOME": {
+    "TITLE": "University's Internship Office",
+    "LOGIN-TEXT": "Log in depending on your status",
+    "ENTER": "Login",
+    "CREDENTIALS-LOGIN": "Login with user credentials (Company - Agency)",
+    "OR": "or",
+    "PURPOSE": "The Purpose",
+    "PURPOSE-INTRO": "The programme \"Internship for Students of the University of Peloponnese, which is implemented within the framework of the Operational Programme Education and Lifelong Learning \" (E.P.E.D.B.M.) 2007-2013 and co-funded by the European Union (European Social Fund) and National Funds, significantly enhances the effort to link the University with the labour market. The benefits that the University of Peloponnese aims at through the implementation of the Internship are:",
+    "PURPOSE-LI1": "Familiarization of the student with the labour market (requirements of employment agencies, management of labour relations, acquisition of professional awareness and ethics, taking initiative)",
+    "PURPOSE-LI2": "Acquisition of work experience relevant to their field of study",
+    "PURPOSE-LI3": "Linking studies with professional employment and finding ways to Combine Different Sciences during their employment.",
+    "PURPOSE-LI4": "Highlighting the skills of the trainees",
+    "PURPOSE-LI5": "Professional networking of students and linking studies to the market labour market",
+    "LOGIN-TERMS-H4": "Before logging in, please register the internship course in the",
+    "STUDENT-REGISTRY": "Student Registry",
+    "STUDENT-LOGIN": "User Login",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "BACK-BTN": "Back ",
+    "CONTINUE-BTN": "Continue",
+    "SUBMIT-BTN": "Submit"
+  }
+}

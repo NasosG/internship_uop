@@ -42,7 +42,7 @@ import { StudentsApplicationsComponent } from './companies/students-applications
 import { CompanyComponent } from './companies/company/company.component';
 import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
 import { ContactComponent } from './generic-components/contact/contact.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StudentContractComponent } from './students/student-contract/student-contract.component';
@@ -52,6 +52,13 @@ import { SheetOutputPreviewComponent } from './students/sheet-output-preview/she
 import { SheetEvaluationComponent } from './students/sheet-evaluation/sheet-evaluation.component';
 import { SheetEvaluationEditComponent } from './students/sheet-evaluation-edit/sheet-evaluation-edit.component';
 import { SheetEvaluationPreviewComponent } from './students/sheet-evaluation-preview/sheet-evaluation-preview.component';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -106,7 +113,14 @@ import { SheetEvaluationPreviewComponent } from './students/sheet-evaluation-pre
     DataTablesModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

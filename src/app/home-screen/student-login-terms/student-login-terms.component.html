@@ -1,8 +1,9 @@
 <div id="content" class="content" role="main" id="a1">
   <div id="main-terms-div">
     <div class="mt-0" style="max-width:600px;margin:auto;">
-      <h4 style="color: #224957">Παρακαλώ πριν συνδεθείτε, δηλώστε πρώτα το μάθημα της πρακτικής άσκησης στο
-        <a href="https://e-secretary.uop.gr/unistudent/login.asp?lang=en-us&mnuID=student&autologoff=1">φοιτητολόγιο</a>
+      <h4 style="color: #224957">{{'HOME.LOGIN-TERMS-H4' | translate}}
+        <a
+          href="https://e-secretary.uop.gr/unistudent/login.asp?lang=en-us&mnuID=student&autologoff=1">{{'HOME.STUDENT-REGISTRY' | translate}}</a>
       </h4>
     </div>
 
@@ -16,10 +17,10 @@
     </div>
     <div class="modal-footer mt-4">
       <button type="button" [routerLink]="['/']" class="text-white btn btn-secondary"
-        data-bs-dismiss="modal">Πίσω</button>
+        data-bs-dismiss="modal">{{'HOME.BACK-BTN' | translate}}</button>
       <button type="button" class="text-white btn btn-primary">
         <a href="https://sso.uop.gr/login?service=https%3A%2F%2Fpraktiki.uop.gr%2Fcas%3Fdestination%3Diamstudent">
-          <span class="text-white">Συνέχεια</span>
+          <span class="text-white">{{'HOME.CONTINUE-BTN' | translate}}</span>
         </a>
       </button>
     </div>

@@ -18,10 +18,13 @@ export class StudentComponent implements OnInit, OnDestroy {
   studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
   fontSize: number =  100;
+  private language!: string;
 
   constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService) { }
 
   ngOnInit() {
+    this.language = localStorage.getItem('language') || 'gr';
+
     this.authService.login('pcst19003');
     this.studentsService.getStudents()
       .subscribe((students: Student[]) => {
@@ -69,6 +72,12 @@ export class StudentComponent implements OnInit, OnDestroy {
   resetFont() {
     this.fontSize = 100; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
     document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
+  }
+
+  changeLang(language: string) {
+    //alert('yes it is ' + language);
+    localStorage.setItem('language', language);
+    window.location.reload();
   }
 
   onDarkModeSwitched() { }
