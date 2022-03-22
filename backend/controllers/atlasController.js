@@ -2,7 +2,6 @@ const axios = require("axios");
 
 // test pilot atlas login
 const atlasLogin = async (uid = false, username = null, password = null) => {
-  //const myData = JSON.stringify(request.body);
   // TODO: this token will be retrieved by the db
   const accessToken = '';
   if (accessToken != null) return accessToken;
@@ -62,12 +61,11 @@ const getDepartmentIds = async (request, response) => {
     });
   } catch (error) {
     return response.status(400).json({
-      status: '400 bad request',
+      status: "400 bad request",
       message: "something went wrong while fetching academics"
     });
   }
 };
-
 
 const getPhysicalObjects = async (request, response) => {
   let accessToken = await atlasLogin();
@@ -89,18 +87,16 @@ const getPhysicalObjects = async (request, response) => {
     });
   } catch (error) {
     return response.status(400).json({
-      status: '400 bad request',
+      status: "400 bad request",
       message: "something went wrong while fetching academics"
     });
   }
 };
 
-
-const getPositionGroupDetails = async (request, response) => {
+const getPositionGroupDetails = async (urlId) => {
   let accessToken = await atlasLogin();
   try {
-    const stoixeia = getProviderDetails(5);
-    const urlId = 5;
+    //const urlId = 3;
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPositionGroupDetails?ID=' + urlId,
       method: 'GET',
@@ -110,24 +106,22 @@ const getPositionGroupDetails = async (request, response) => {
       }
     });
 
-    console.log(atlasResponse.data.Result);
-
-    return response.status(200).json({
+    return {
       message: atlasResponse.data.Result,
       status: atlasResponse.status
-    });
+    };
   } catch (error) {
-    return response.status(400).json({
-      status: '400 bad request',
+    return {
+      status: "400 bad request",
       message: "something went wrong while fetching academics"
-    });
+    };
   }
 };
 
-const getProviderDetails = async (request, response) => {
+const getProviderDetails = async (providerId) => {
   let accessToken = await atlasLogin();
   try {
-    const providerId = 196; // provider id for position with id 5
+    //const providerId = 191;
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetProviderDetails?ID=' + providerId,
       method: 'GET',
@@ -137,23 +131,21 @@ const getProviderDetails = async (request, response) => {
       }
     });
 
-    console.log(atlasResponse.data.Result);
-
-    return response.status(200).json({
+    return {
       message: atlasResponse.data.Result,
       status: atlasResponse.status
-    });
+    };
   } catch (error) {
-    return response.status(400).json({
-      status: '400 bad request',
-      message: "something went wrong while fetching academics"
-    });
+    // return response.status(400).json({
+    //   status: "400 bad request",
+    //   message: "something went wrong while fetching academics"
+    // });
   }
 };
 
 const getAvailablePositionGroups = async (request, response) => {
   let accessToken = await atlasLogin();
-  console.log("asdasdas" + accessToken);
+
   try {
     let myData = { 'Skip': '0', 'Take': '10' };
 
@@ -167,16 +159,26 @@ const getAvailablePositionGroups = async (request, response) => {
       }
     });
 
-    console.log(atlasResponse.data.Result);
+    let positionsMap = new Map();
+    for (const item of atlasResponse.data.Result.Pairs) {
+      let positionGroupId = item.PositionGroupID;
+      //let providerId = item.ProviderID;
 
-    return response.status(200).json({
-      message: atlasResponse.data.Result,
-      status: atlasResponse.status
-    });
+      let positionGroupResults = await getPositionGroupDetails(positionGroupId);
+      //let providerResults = await getProviderDetails(providerId);
+
+      //item.PositionGroupID = positionGroupResults.message;
+      //item.ProviderID = providerResults.message;
+
+      positionsMap['City'] = positionGroupResults.message.City;
+    }
+
+    //console.log(atlasResponse.data.Result);
+    return response.status(200).json(myarray);
   } catch (error) {
     console.log("ERROR" + error.message);
     return response.status(400).json({
-      status: '400 bad request',
+      status: "400 bad request",
       message: "something went wrong while fetching academics"
     });
   }
@@ -185,7 +187,5 @@ const getAvailablePositionGroups = async (request, response) => {
 module.exports = {
   getDepartmentIds,
   getPhysicalObjects,
-  getPositionGroupDetails,
   getAvailablePositionGroups,
-  getProviderDetails
 };

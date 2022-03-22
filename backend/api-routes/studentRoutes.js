@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
 const studentController = require("../controllers/studentController.js");
 const checkAuth = require("../middleware/auth.js");
 

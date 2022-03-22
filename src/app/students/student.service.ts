@@ -8,6 +8,7 @@ import { ExitForm } from "./exit-form.model";
 import { EvaluationForm } from "./evaluation-form.model";
 import { StudentPositions } from "./student-positions.model";
 import { Application } from "./application.model";
+import { AtlasPosition } from "./atlas-position.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -64,6 +65,12 @@ export class StudentsService {
     const studentId = 1;
     return this.http
       .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
+  }
+
+  getAtlasPositions(): Observable<AtlasPosition> {
+    // const studentId = 1;
+    return this.http
+      .get<AtlasPosition>('http://localhost:3000/api/atlas/getAvailablePositionGroups/');
   }
 
   // this functions adds a new bio and details to a student

@@ -18,7 +18,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 
 app.use((request, response, next) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
