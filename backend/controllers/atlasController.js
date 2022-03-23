@@ -147,7 +147,9 @@ const getAvailablePositionGroups = async (request, response) => {
   let accessToken = await atlasLogin();
 
   try {
-    let myData = { 'Skip': '0', 'Take': '10' };
+    let begin = request.params.begin;
+    // let end = parseInt(begin) + 10;
+    let myData = { 'Skip': begin, 'Take': 8 };
 
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetAvailablePositionGroups',
@@ -159,22 +161,28 @@ const getAvailablePositionGroups = async (request, response) => {
       }
     });
 
-    let positionsMap = new Map();
+    let positionsArray = [];
+
     for (const item of atlasResponse.data.Result.Pairs) {
       let positionGroupId = item.PositionGroupID;
-      //let providerId = item.ProviderID;
+      let providerId = item.ProviderID;
 
       let positionGroupResults = await getPositionGroupDetails(positionGroupId);
-      //let providerResults = await getProviderDetails(providerId);
+      let providerResults = await getProviderDetails(providerId);
 
       //item.PositionGroupID = positionGroupResults.message;
       //item.ProviderID = providerResults.message;
 
-      positionsMap['City'] = positionGroupResults.message.City;
+      positionsArray.push({
+        'city': positionGroupResults.message.City,
+        'title': positionGroupResults.message.Title,
+        'description': positionGroupResults.message.Description,
+        'name': providerResults.message.Name
+      });
     }
 
     //console.log(atlasResponse.data.Result);
-    return response.status(200).json(myarray);
+    return response.status(200).json(positionsArray);
   } catch (error) {
     console.log("ERROR" + error.message);
     return response.status(400).json({

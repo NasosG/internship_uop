@@ -67,10 +67,10 @@ export class StudentsService {
       .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
   }
 
-  getAtlasPositions(): Observable<AtlasPosition> {
-    // const studentId = 1;
+  getAtlasPositions(begin: number): Observable<Array<AtlasPosition>> {
+
     return this.http
-      .get<AtlasPosition>('http://localhost:3000/api/atlas/getAvailablePositionGroups/');
+      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAvailablePositionGroups/' + begin);
   }
 
   // this functions adds a new bio and details to a student

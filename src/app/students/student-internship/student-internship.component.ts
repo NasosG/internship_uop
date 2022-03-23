@@ -8,14 +8,26 @@ import {StudentsService} from '../student.service';
   styleUrls: ['./student-internship.component.css']
 })
 export class StudentInternshipComponent implements OnInit {
-  entries!: AtlasPosition;
+  begin: number = 0;
+  entries!: AtlasPosition[];
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void {
-    this.studentsService.getAtlasPositions()
-      .subscribe((positions: AtlasPosition) => {
+    this.studentsService.getAtlasPositions(this.begin)
+      .subscribe((positions: AtlasPosition[]) => {
         this.entries = positions;
-        alert("result: " +  positions.City);
+        // console.log("result: " +  this.entries[0].city);
+        // console.log("result: " +  this.entries[2].city);
+    });
+  }
+
+  fetchMorePositions(beginParam: number) {
+    this.begin += 8;
+    this.studentsService.getAtlasPositions(beginParam)
+      .subscribe((positions: AtlasPosition[]) => {
+        this.entries.push(...positions);
+        // console.log("result: " +  this.entries[12].city);
+        // console.log("result: " +  this.entries[14].city);
     });
   }
 
