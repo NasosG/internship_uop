@@ -3,7 +3,7 @@ const axios = require("axios");
 // test pilot atlas login
 const atlasLogin = async (uid = false, username = null, password = null) => {
   // TODO: this token will be retrieved by the db
-  const accessToken = '';
+  const accessToken = "";
   if (accessToken != null) return accessToken;
   if (username == null || password == null) return "";
 
@@ -32,7 +32,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
 
 
 const getDepartmentIds = async (request, response) => {
-  const UOPInstitutionID = 25;
+  const UOP_INSITUTION_ID = 25;
   let departments = new Map();
   let accessToken = await atlasLogin();
 
@@ -48,7 +48,7 @@ const getDepartmentIds = async (request, response) => {
 
     try {
       atlasResponse.data.Result.forEach((item) => {
-        if (item.InstitutionID == UOPInstitutionID)
+        if (item.InstitutionID == UOP_INSITUTION_ID)
           departments[item.ID] = item.Department;
       });
     } catch (error) {
@@ -93,12 +93,12 @@ const getPhysicalObjects = async (request, response) => {
   }
 };
 
-const getPositionGroupDetails = async (urlId) => {
+const getPositionGroupDetails = async (positionId) => {
   let accessToken = await atlasLogin();
   try {
-    //const urlId = 3;
+    //const positionId = 3;
     const atlasResponse = await axios({
-      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPositionGroupDetails?ID=' + urlId,
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPositionGroupDetails?ID=' + positionId,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -112,8 +112,8 @@ const getPositionGroupDetails = async (urlId) => {
     };
   } catch (error) {
     return {
-      status: "400 bad request",
-      message: "something went wrong while fetching academics"
+      message: "something went wrong while fetching academics",
+      status: "400 bad request"
     };
   }
 };
@@ -149,12 +149,12 @@ const getAvailablePositionGroups = async (request, response) => {
   try {
     let begin = request.params.begin;
     // let end = parseInt(begin) + 10;
-    let myData = { 'Skip': begin, 'Take': 8 };
+    let paginationData = { 'Skip': begin, 'Take': 8 };
 
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetAvailablePositionGroups',
       method: 'POST',
-      data: myData,
+      data: paginationData,
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken
@@ -172,12 +172,17 @@ const getAvailablePositionGroups = async (request, response) => {
 
       //item.PositionGroupID = positionGroupResults.message;
       //item.ProviderID = providerResults.message;
-
+      //console.log(providerResults.message);
+      //console.log(positionGroupResults.message);
       positionsArray.push({
         'city': positionGroupResults.message.City,
         'title': positionGroupResults.message.Title,
         'description': positionGroupResults.message.Description,
-        'name': providerResults.message.Name
+        'positionType': positionGroupResults.message.PositionType,
+        'name': providerResults.message.Name,
+        'providerContactEmail': providerResults.message.ContactEmail,
+        'providerContactName': providerResults.message.ContactName,
+        'providerContactPhone': providerResults.message.ContactPhone
       });
     }
 

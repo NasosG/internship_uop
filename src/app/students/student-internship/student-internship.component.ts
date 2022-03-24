@@ -8,6 +8,15 @@ import {StudentsService} from '../student.service';
   styleUrls: ['./student-internship.component.css']
 })
 export class StudentInternshipComponent implements OnInit {
+  jobTitle!: string;
+  jobDescription!: string;
+  jobCity!: string;
+  jobCompany!: string;
+  providerContactEmail!: string;
+  providerContactName!: string;
+  providerContactPhone!: string;
+  positionType!: string;
+
   begin: number = 0;
   entries!: AtlasPosition[];
   constructor(public studentsService: StudentsService) { }
@@ -16,9 +25,9 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasPositions(this.begin)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries = positions;
-        // console.log("result: " +  this.entries[0].city);
-        // console.log("result: " +  this.entries[2].city);
+        this.setJobsDetails(0); // TODO: find a way to do it outside of subscribe
     });
+    //this.setJobsDetails(0);
   }
 
   fetchMorePositions(beginParam: number) {
@@ -31,4 +40,18 @@ export class StudentInternshipComponent implements OnInit {
     });
   }
 
+  displayDescription(index: number) {
+    this.setJobsDetails(index);
+  }
+
+  setJobsDetails(index: number) {
+    this.jobTitle =  this.entries[index].title;
+    this.jobDescription = this.entries[index].description;
+    this.jobCity = this.entries[index].city;
+    this.jobCompany = this.entries[index].name;
+    this.positionType = this.entries[index].positionType;
+    this.providerContactEmail = this.entries[index].providerContactEmail;
+    this.providerContactName = this.entries[index].providerContactName;
+    this.providerContactPhone = this.entries[index].providerContactPhone;
+  }
 }

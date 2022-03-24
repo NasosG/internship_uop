@@ -156,7 +156,8 @@
       <h3 class="margin-bottom-25">Θέσεις Πρακτικής</h3>
       <ul class="job-list">
         <!-- <li *ngFor="let entry of this.entries" class="highlighted"><a href=""></a> -->
-        <li *ngFor="let entry of this.entries"><a href="">
+        <li *ngFor="let entry of this.entries; let i = index">
+          <a class="cursor-pointer" (click)="displayDescription(i)">
             <div class="dark-div">
               <img src="assets/images/job_offer.jpg" alt="">
               <div class="job-list-content">
@@ -194,15 +195,15 @@
             <li>
               <div class="dark-div job-description">
                 <a href="#">
-                  <h4>Junior/Graduate Assistant Accountant
+                  <h4>{{this.jobTitle}}
                     <!-- <span class="part-time">Internship</span> -->
                   </h4>
                 </a>
-                <span><i class="fa fa-briefcase"></i> Πρακτική Full-time</span>
-                <span><i class="fa fa-map-marker"></i> Τρίπολη</span>
-                <span><i class="far fa-building"></i>&nbsp;Intrasoft</span>
-                <div style="font-size:14px;  line-height: 150%;">
-                  Η καθημερινή υποστήριξη των λειτουργιών του τμήματος σε τομείς καταχώρησης
+                <span><i class="fa fa-briefcase"></i> {{this.positionType}}</span>
+                <span><i class="fa fa-map-marker"></i> {{this.jobCity}}</span>
+                <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
+                <div class="pt-2" style="font-size:14px; line-height: 150%;">
+                  <!-- Η καθημερινή υποστήριξη των λειτουργιών του τμήματος σε τομείς καταχώρησης
                   και τήρησης αρχείων.
                   Υποστήριξη στις λειτουργίες της οικονομικής διεύθυνσης της εταιρίας.
 
@@ -236,8 +237,19 @@
                     <li> - Ευχάριστο και φιλικό εργασιακό περιβάλλον</li>
                     <li> - Ευκαιρίες επαγγελματικής εξέλιξης και ανάπτυξης
                       Εξαιρετικό επαγγελματικό κλίμα</li>
-                  </ul>
+                  </ul> -->
+                  {{this.jobDescription}}
                 </div>
+                <table class="mt-2">
+                  <tr><i class="fa fa-user"></i> <strong> Όνομα Υπεύθυνου:</strong>
+                    {{this.providerContactEmail ? this.providerContactName : 'Δεν διατίθεται'}}
+                  </tr>
+                  <tr><i class="fa fa-phone"></i> <strong> Τηλέφωνο:
+                    </strong>{{this.providerContactEmail ? this.providerContactPhone : 'Δεν διατίθεται'}}
+                  </tr>
+                  <tr><i class="fa fa-envelope"></i> <strong> Email:</strong>
+                    {{this.providerContactEmail ? this.providerContactEmail : 'Δεν διατίθεται'}}</tr>
+                </table>
                 <a href="" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ ΘΕΣΗ</a>
               </div>
             </li>
