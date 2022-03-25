@@ -90,10 +90,10 @@
           <div class="dropdown-menu dropdown-menu-end">
             <a [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="nav-link"
               class="dropdown-item fas fa-user">&nbsp; &nbsp;
-              Προφίλ</a>
+              {{'STUDENT.PROFILE' | translate}}</a>
             <div class="dropdown-divider"></div>
             <a (click)="onLogout()" class="cursor-pointer dropdown-item">
-              <i class="fas fa-sign-out-alt"></i> &nbsp; Αποσύνδεση</a>
+              <i class="fas fa-sign-out-alt"></i> &nbsp; {{'STUDENT.LOGOUT' | translate}}</a>
           </div>
         </li>
       </ul>
@@ -190,7 +190,7 @@
             <a [routerLink]="['/student/profile/'+ this.authService.getSessionId()]" [routerLinkActive]="['active']"
               class="nav-link">
               <i class="nav-icon fas fa-user"></i>
-              <p>Το προφίλ μου</p>
+              <p>{{'STUDENT.SIDEBAR-PROFILE' | translate}}</p>
             </a>
           </li>
 
@@ -199,7 +199,7 @@
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Θέσεις Πρακτικής
+                {{'STUDENT.INTERNSHIP-POSITIONS' | translate}}
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
@@ -229,7 +229,7 @@
               class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Οι αιτήσεις μου
+                {{'STUDENT.SIDEBAR-APPLICATIONS' | translate}}
                 <!-- <span class="right badge badge-danger">1</span> -->
               </p>
             </a>
@@ -237,21 +237,21 @@
           <li class="nav-item">
             <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-book"></i>
-              <p>Δελτίο / Συμβάση</p>
+              <p> {{'STUDENT.SIDEBAR-SHEETS' | translate}}</p>
             </a>
           </li>
           <li class="nav-header">Δευτερεύουσες Επιλογές</li>
           <li class="nav-item">
             <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
-              <p>Εγχειρίδια</p>
+              <p>{{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
             </a>
           </li>
           <li class="nav-item">
             <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
-                Σχετικά
+                {{'STUDENT.SIDEBAR-ABOUT' | translate}}
                 <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
@@ -280,7 +280,7 @@
             <a [routerLink]="['/student/contact']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
-                Επικοινωνία
+                {{'STUDENT.SIDEBAR-CONTACT' | translate}}
                 <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
