@@ -96,7 +96,7 @@ const getPhysicalObjects = async (request, response) => {
 const getPositionGroupDetails = async (positionId) => {
   let accessToken = await atlasLogin();
   try {
-    //const positionId = 3;
+
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPositionGroupDetails?ID=' + positionId,
       method: 'GET',
@@ -121,7 +121,7 @@ const getPositionGroupDetails = async (positionId) => {
 const getProviderDetails = async (providerId) => {
   let accessToken = await atlasLogin();
   try {
-    //const providerId = 191;
+
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetProviderDetails?ID=' + providerId,
       method: 'GET',
@@ -170,10 +170,6 @@ const getAvailablePositionGroups = async (request, response) => {
       let positionGroupResults = await getPositionGroupDetails(positionGroupId);
       let providerResults = await getProviderDetails(providerId);
 
-      //item.PositionGroupID = positionGroupResults.message;
-      //item.ProviderID = providerResults.message;
-      //console.log(providerResults.message);
-      //console.log(positionGroupResults.message);
       positionsArray.push({
         'city': positionGroupResults.message.City,
         'title': positionGroupResults.message.Title,

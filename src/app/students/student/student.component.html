@@ -152,7 +152,7 @@
         </div>
         <div class="info">
           <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
-          <a class="d-block">Ιδιότητα: Φοιτητής</a>
+          <a class="d-block">{{'STUDENT.STATUS' | translate}}: {{'STUDENT.UNDERGRAD' | translate}}</a>
         </div>
       </div>
       <!-- Sidebar user panel (optional) -->
@@ -185,12 +185,12 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">Βασικές Επιλογές</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-MAIN-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/student/profile/'+ this.authService.getSessionId()]" [routerLinkActive]="['active']"
               class="nav-link">
               <i class="nav-icon fas fa-user"></i>
-              <p>{{'STUDENT.SIDEBAR-PROFILE' | translate}}</p>
+              <p> {{'STUDENT.SIDEBAR-PROFILE' | translate}}</p>
             </a>
           </li>
 
@@ -203,26 +203,6 @@
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-            <!-- <ul class="nav nav-treeview"> -->
-            <!-- <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li> -->
-            <!-- </ul> -->
           </li>
           <li class="nav-item">
             <a [routerLink]="['/student/positions/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
@@ -240,11 +220,11 @@
               <p> {{'STUDENT.SIDEBAR-SHEETS' | translate}}</p>
             </a>
           </li>
-          <li class="nav-header">Δευτερεύουσες Επιλογές</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
-              <p>{{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
+              <p> {{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
             </a>
           </li>
           <li class="nav-item">
@@ -284,68 +264,6 @@
                 <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
-            <!-- <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Invoice</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/e-commerce.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>E-commerce</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/contacts.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/faq.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/contact-us.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact us</p>
-                </a>
-              </li>
-            </ul> -->
           </li>
           <!-- <li class="nav-item">
             <a href="iframe.html" class="nav-link">
@@ -353,12 +271,12 @@
               <p>Το ημερολόγιό μου</p>
             </a>
           </li> -->
-          <li class="nav-header">Προσβασιμότητα</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="nav-icon fas fa-ruler"></i>
               <p>
-                Μέγεθος Κειμένου
+                {{'STUDENT.TEXT-SIZE' | translate}}
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
@@ -368,25 +286,25 @@
               <li class="nav-item">
                 <a (click)="changeFont('+')" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search-plus"></i>
-                  <p>Μεγέθυνση</p>
+                  <p>{{'STUDENT.ENLARGE' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a (click)="changeFont('-')" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search-minus"></i>
-                  <p>Σμίκρυνση</p>
+                  <p>{{'STUDENT.REDUCE' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a (click)="resetFont()" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search"></i>
-                  <p>Κανονικό</p>
+                  <p>{{'STUDENT.NORMAL' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link">
                   <i class="nav-icon fas fa-ruler-combined"></i>
-                  <p>Τρέχον Μέγεθος</p>
+                  <p>{{'STUDENT.CURRENT-SIZE' | translate}}</p>
                   <span id="fontSizeSpan" class="badge badge-info right">100%</span>
                 </a>
               </li>
@@ -396,7 +314,7 @@
             <a href="pages/calendar.html" class="nav-link">
               <i class="fas fa-adjust"></i>
               <p>
-                &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
+                &nbsp;&nbsp;&nbsp;{{'STUDENT.TEXT-CONTRAST' | translate}}
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
@@ -406,7 +324,7 @@
               <li class="nav-item">
                 <a id="darkmodeBtn" class="cursor-pointer nav-link">
                   <i class="nav-icon fas fa-moon"></i>
-                  <p>Λευκό/Μαύρο</p>
+                  <p>{{'STUDENT.BLACK-WHITE' | translate}}</p>
                 </a>
               </li>
             </ul>

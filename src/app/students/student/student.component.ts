@@ -73,7 +73,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     if (this.fontSize >= 200) this.fontSize = 200;
     else if (this.fontSize <= 70) this.fontSize = 70;
 
-     document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
+    document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
   }
 
   resetFont() {

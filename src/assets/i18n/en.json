@@ -37,12 +37,24 @@
   "STUDENT": {
     "PROFILE": "Profile",
     "LOGOUT": "Logout",
+    "STATUS": "Status",
+    "UNDERGRAD": "Undergraduate ",
     "SIDEBAR-PROFILE": "My Profile",
     "INTERNSHIP-POSITIONS": "Positions",
     "SIDEBAR-APPLICATIONS": "My Applications",
     "SIDEBAR-SHEETS": "Sheets / Contract",
     "SIDEBAR-MANUALS": "Manuals",
     "SIDEBAR-ABOUT": "About",
-    "SIDEBAR-CONTACT": "Contact"
+    "SIDEBAR-CONTACT": "Contact",
+    "SIDEBAR-MAIN-OPTIONS": "Main Options",
+    "SIDEBAR-SECONDARY-OPTIONS": "Secondary Options",
+    "SIDEBAR-ACCESSIBILITY": "Accessibility",
+    "TEXT-SIZE": "Text Size",
+    "ENLARGE": "Enlarge",
+    "REDUCE": "Reduce",
+    "NORMAL": "Normal",
+    "CURRENT-SIZE": "Current Size",
+    "TEXT-CONTRAST": "Text Contrast",
+    "BLACK-WHITE": "White / Black"
   }
 }

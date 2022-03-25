@@ -37,12 +37,24 @@
   "STUDENT": {
     "PROFILE": "Προφίλ",
     "LOGOUT": "Αποσύνδεση",
+    "STATUS": "Ιδιότητα",
+    "UNDERGRAD": "Φοιτητής",
     "SIDEBAR-PROFILE": "Το προφίλ μου",
     "INTERNSHIP-POSITIONS": "Θέσεις Πρακτικής",
     "SIDEBAR-APPLICATIONS": "Οι αιτήσεις μου",
     "SIDEBAR-SHEETS": "Δελτίο / Συμβάση",
     "SIDEBAR-MANUALS": "Εγχειρίδια",
     "SIDEBAR-ABOUT": "Σχετικά",
-    "SIDEBAR-CONTACT": "Επικοινωνία"
+    "SIDEBAR-CONTACT": "Επικοινωνία",
+    "SIDEBAR-MAIN-OPTIONS": "Βασικές Επιλογές",
+    "SIDEBAR-SECONDARY-OPTIONS": "Δευτερεύουσες Επιλογές",
+    "SIDEBAR-ACCESSIBILITY": "Προσβασιμότητα",
+    "TEXT-SIZE": "Μέγεθος Κειμένου",
+    "ENLARGE": "Μεγέθυνση",
+    "REDUCE": "Σμίκρυνση",
+    "NORMAL": "Κανονικό",
+    "CURRENT-SIZE": "Τρέχον Μέγεθος",
+    "TEXT-CONTRAST": "Αντίθεση Κειμένου",
+    "BLACK-WHITE": "Λευκό / Μαύρο"
   }
 }
