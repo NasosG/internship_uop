@@ -171,10 +171,14 @@ const getAvailablePositionGroups = async (request, response) => {
       let providerResults = await getProviderDetails(providerId);
 
       positionsArray.push({
+        'positionGroupLastUpdateString': item.PositionGroupLastUpdateString,
         'city': positionGroupResults.message.City,
         'title': positionGroupResults.message.Title,
         'description': positionGroupResults.message.Description,
         'positionType': positionGroupResults.message.PositionType,
+        'availablePositions': positionGroupResults.message.AvailablePositions,
+        'duration': positionGroupResults.message.Duration,
+        'physicalObjects': positionGroupResults.message.PhysicalObjects,
         'name': providerResults.message.Name,
         'providerContactEmail': providerResults.message.ContactEmail,
         'providerContactName': providerResults.message.ContactName,

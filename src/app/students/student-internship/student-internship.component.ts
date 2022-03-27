@@ -7,6 +7,7 @@ import {StudentsService} from '../student.service';
   templateUrl: './student-internship.component.html',
   styleUrls: ['./student-internship.component.css']
 })
+
 export class StudentInternshipComponent implements OnInit {
   jobTitle!: string;
   jobDescription!: string;
@@ -16,6 +17,10 @@ export class StudentInternshipComponent implements OnInit {
   providerContactName!: string;
   providerContactPhone!: string;
   positionType!: string;
+  jobDuration!: number;
+  jobAvailablePositions!: number;
+  jobPhysicalObjects!: string[];
+  jobLastUpdateString!: string;
 
   begin: number = 0;
   entries!: AtlasPosition[];
@@ -53,5 +58,9 @@ export class StudentInternshipComponent implements OnInit {
     this.providerContactEmail = this.entries[index].providerContactEmail;
     this.providerContactName = this.entries[index].providerContactName;
     this.providerContactPhone = this.entries[index].providerContactPhone;
+    this.jobDuration = this.entries[index].duration;
+    this.jobAvailablePositions = this.entries[index].availablePositions;
+    this.jobPhysicalObjects = this.entries[index].physicalObjects;
+    this.jobLastUpdateString = this.entries[index].positionGroupLastUpdateString;
   }
 }

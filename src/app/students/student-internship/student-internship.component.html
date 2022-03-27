@@ -168,6 +168,7 @@
                   <!-- <span><i class="fa fa-briefcase"></i> Full-time</span> -->
                   <span><i class="fa fa-map-marker"></i> {{entry.city}} </span>
                   <span><i class="far fa-building"></i>&nbsp;{{entry.name}}</span>
+                  <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{entry.duration}} μήνες</span>
                 </div>
               </div>
             </div>
@@ -199,9 +200,16 @@
                     <!-- <span class="part-time">Internship</span> -->
                   </h4>
                 </a>
+                <span><strong>Αντικείμενο Θέσης: </strong>{{this.jobPhysicalObjects}}</span>
+                <br>
+                <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
+                <br>
                 <span><i class="fa fa-briefcase"></i> {{this.positionType}}</span>
                 <span><i class="fa fa-map-marker"></i> {{this.jobCity}}</span>
                 <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
+                <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} μήνες</span>
+                <span><i class="fa fa-business-time" aria-hidden="true"></i>{{this.jobAvailablePositions}}
+                  διαθέσιμες θέσεις</span>
                 <div class="pt-2" style="font-size:14px; line-height: 150%;">
                   <!-- Η καθημερινή υποστήριξη των λειτουργιών του τμήματος σε τομείς καταχώρησης
                   και τήρησης αρχείων.
