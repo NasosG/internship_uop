@@ -68,9 +68,13 @@ export class StudentsService {
   }
 
   getAtlasPositions(begin: number): Observable<Array<AtlasPosition>> {
-
     return this.http
       .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAvailablePositionGroups/' + begin);
+  }
+
+  getAtlasNewestPositions(begin: number): Observable<Array<AtlasPosition>> {
+    return this.http
+      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasNewestPositionGroups/' + begin);
   }
 
   // this functions adds a new bio and details to a student

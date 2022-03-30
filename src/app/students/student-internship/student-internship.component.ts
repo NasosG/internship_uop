@@ -45,6 +45,17 @@ export class StudentInternshipComponent implements OnInit {
     });
   }
 
+  fetchNewestPositions() {
+    this.studentsService.getAtlasNewestPositions(this.begin)
+      .subscribe((positions: AtlasPosition[]) => {
+        this.entries.push(...positions);
+    });
+  }
+
+  fetchOldestPositions() {
+    //TODO the logic
+  }
+
   displayDescription(index: number) {
     this.setJobsDetails(index);
   }

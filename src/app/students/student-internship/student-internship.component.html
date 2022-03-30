@@ -39,10 +39,10 @@
             <div class="widget col-2 pl-2 pr-2">
               <h4>Ταξινόμηση</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;" class="chosen-select-no-single">
-                <option selected="selected" value="recent">Νεότερες</option>
-                <option value="oldest">Παλαιότερες</option>
-                <option value="abroad">Εξωτερικού Πρώτα</option>
-                <option value="local">Έλλαδας Πρώτα</option>
+                <option selected="selected" value="recent" (click)="fetchNewestPositions()">Νεότερες</option>
+                <option value="oldest" (click)="fetchOldestPositions()">Παλαιότερες</option>
+                <!-- <option value="abroad">Εξωτερικού Πρώτα</option> -->
+                <!-- <option value="local">Έλλαδας Πρώτα</option> -->
                 <!-- <option value="incomehigh">Απολαβές – Αύξουσα Σειρά</option>
         <option value="incomelow">Απολαβές – Φθίνουσα Σειρά</option> -->
               </select>
@@ -209,7 +209,8 @@
                 <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
                 <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} μήνες</span>
                 <span><i class="fa fa-business-time" aria-hidden="true"></i>{{this.jobAvailablePositions}}
-                  διαθέσιμες θέσεις</span>
+                  {{this.jobAvailablePositions == 1 ? 'διαθέσιμη θέση' : 'διαθέσιμες θέσεις'}}
+                </span>
                 <div class="pt-2" style="font-size:14px; line-height: 150%;">
                   <!-- Η καθημερινή υποστήριξη των λειτουργιών του τμήματος σε τομείς καταχώρησης
                   και τήρησης αρχείων.
