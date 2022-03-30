@@ -5,9 +5,9 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
   // TODO: this token will be retrieved by the db
   const accessToken = "";
   if (accessToken != null) return accessToken;
-  if (username == null || password == null) return "";
 
   try {
+    //if (username == null || password == null) return null;
     loginData = {
       'Username': username,
       'Password': password
@@ -25,7 +25,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
     return atlasResponse.data.Result.AuthToken;
   } catch (error) {
     console.log('Error', error.message);
-    return "";
+    return null;
     //console.log(atlasResponse.data.Message),
   }
 };
