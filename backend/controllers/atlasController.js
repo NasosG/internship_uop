@@ -1,16 +1,18 @@
 const axios = require("axios");
+const atlasService = require("../services/atlasService");
 
 // test pilot atlas login
 const atlasLogin = async (uid = false, username = null, password = null) => {
-  // TODO: this token will be retrieved by the db
-  const accessToken = "";
+  // credentials retrieved by the db
+  const credentials = await atlasService.getCredentials();
+  const accessToken = credentials.access_token;
   if (accessToken != null) return accessToken;
 
   try {
-    //if (username == null || password == null) return null;
+    if (credentials.username == null || credentials.password == null) return null;
     loginData = {
-      'Username': username,
-      'Password': password
+      'Username': credentials.username,
+      'Password': credentials.password
     };
 
     const atlasResponse = await axios({
@@ -93,8 +95,7 @@ const getPhysicalObjects = async (request, response) => {
   }
 };
 
-const getPositionGroupDetails = async (positionId) => {
-  let accessToken = await atlasLogin();
+const getPositionGroupDetails = async (positionId, accessToken) => {
   try {
 
     const atlasResponse = await axios({
@@ -118,8 +119,7 @@ const getPositionGroupDetails = async (positionId) => {
   }
 };
 
-const getProviderDetails = async (providerId) => {
-  let accessToken = await atlasLogin();
+const getProviderDetails = async (providerId, accessToken) => {
   try {
 
     const atlasResponse = await axios({
@@ -149,7 +149,10 @@ const getAvailablePositionGroups = async (request, response) => {
   try {
     let begin = request.params.begin;
     // let end = parseInt(begin) + 10;
-    let paginationData = { 'Skip': begin, 'Take': 8 };
+    let paginationData = {
+      'Skip': begin,
+      'Take': 8
+    };
 
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetAvailablePositionGroups',
@@ -167,8 +170,8 @@ const getAvailablePositionGroups = async (request, response) => {
       let positionGroupId = item.PositionGroupID;
       let providerId = item.ProviderID;
 
-      let positionGroupResults = await getPositionGroupDetails(positionGroupId);
-      let providerResults = await getProviderDetails(providerId);
+      let positionGroupResults = await getPositionGroupDetails(positionGroupId, accessToken);
+      let providerResults = await getProviderDetails(providerId, accessToken);
 
       positionsArray.push({
         'positionGroupLastUpdateString': item.PositionGroupLastUpdateString,
