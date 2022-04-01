@@ -3,8 +3,8 @@ const pool = require("../db_config.js");
 
 const getStudents = async () => {
   try {
-    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users where id='pcst19003'");
-    const resultsStudents = await pool.query("SELECT * FROM student_users where id = '1'")
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users WHERE id='pcst19003'");
+    const resultsStudents = await pool.query("SELECT * FROM student_users WHERE id = '1'");
     // const results3 = [resultsSSOUsers.rows, resultsStudents.rows];
     const finalStudentsResults = resultsSSOUsers.rows.concat(resultsStudents.rows);
 
@@ -122,8 +122,8 @@ const updateStudentEntrySheet = async (form, studentId) => {
       "A3_1 = $10, A3_2 = $11, A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
       " WHERE student_id = $17 ",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
+      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
         studentId
       ]);
     return updateResults;
@@ -138,8 +138,8 @@ const insertStudentEntrySheet = async (form, studentId) => {
     const insertResults = await pool.query("INSERT INTO entry_form" +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
+      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
       ]);
     return insertResults;
   } catch (error) {
