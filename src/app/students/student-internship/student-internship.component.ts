@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {AtlasPosition} from '../atlas-position.model';
 import {StudentsService} from '../student.service';
 
@@ -23,6 +23,7 @@ export class StudentInternshipComponent implements OnInit {
   jobLastUpdateString!: string;
 
   begin: number = 0;
+  limit: number = 6; // Number of results to fetch from the backend
   entries!: AtlasPosition[];
   constructor(public studentsService: StudentsService) { }
 
@@ -54,6 +55,20 @@ export class StudentInternshipComponent implements OnInit {
 
   fetchOldestPositions() {
     //TODO the logic
+  }
+
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event: any){
+    this.scrollFunction();
+  }
+
+  public scrollFunction() {
+    if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+      // const a:any = document.getElementById("pos");
+      $('#pos').addClass("fixed-right-desc");
+    } else {
+      // const a:any = document.getElementById("pos");
+       $('#pos').removeClass("fixed-right-desc");
+    }
   }
 
   displayDescription(index: number) {

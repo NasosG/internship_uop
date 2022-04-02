@@ -146,8 +146,8 @@ const getProviderDetails = async (providerId, accessToken) => {
 const getAvailablePositionGroupsUI = async (request, response) => {
   try {
     const offset = (request.params.begin != null) ? request.params.begin : 0;
-    console.log(offset);
-    const limit = 8; // Number of rows to fetch from the database
+    // console.log(offset);
+    const limit = 6; // Number of rows to fetch from the database
     const results = await atlasService.getAvailablePositionsUI(offset, limit);
     let positionsArray = [];
 

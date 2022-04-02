@@ -145,6 +145,10 @@ body.boxed {
   margin-bottom: 25px !important;
 }
 
+.margin-bottom-18 {
+  margin-bottom: 18px !important;
+}
+
 .margin-bottom-55 {
   margin-bottom: 55px !important;
 }
@@ -4027,6 +4031,10 @@ screen and (max-height: 300px) {
 }
 
 
+
+
+
+
 /* Icons */
 .resume-titlebar i,
 .job-description i,
@@ -4069,10 +4077,36 @@ screen and (max-height: 300px) {
   display: inline-block;
   margin-left: 35px;
   margin-top: 2px;
+
   width: 60px;
-  height: 130px;
+  height: 130px !important;
 }
 
+
+@media screen and (min-width: 1200px) {
+  .custom-height {
+    height: 88px;
+  }
+
+  .job-list img {
+    float: left;
+    display: inline-block;
+    margin-left: 35px;
+    margin-top: 2px;
+    padding-top: 13px !important;
+    padding-bottom: 56px !important;
+    width: 60px;
+    height: 130px !important;
+  }
+
+  .text-with-dots {
+    display: block;
+    max-width: 98%;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+}
 
 .resumes-list img {
   border-radius: 50%;
@@ -4093,6 +4127,21 @@ screen and (max-height: 300px) {
   display: inline-block;
 }
 
+@media screen and (min-width: 768px) {
+  .fixed-right-desc {
+    right: 8px;
+    position: fixed;
+    top: 50px;
+  }
+}
+
+@media screen and (min-width: 1668px) {
+  .fixed-right-desc {
+    right: 58px;
+    position: fixed;
+    top: 50px;
+  }
+}
 
 .resume-titlebar .resumes-list-content,
 .resumes-list .resumes-list-content,

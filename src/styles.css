@@ -702,7 +702,27 @@
 
 /* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
 
-.my:focus {
+.interns-positions-search {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  margin-right: 0 !important;
+  outline: none !important;
+  border-bottom: 2px solid rgb(255, 255, 255) !important;
+}
+
+.dark-mode .interns-positions-search {
+  color: white;
+  background-color: #343a40 !important;
+  border-bottom: 2px solid #343a40 !important;
+}
+
+.dark-mode .interns-positions-search:focus {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  border-bottom: 2px solid #3498db !important;
+}
+
+.interns-positions-search:focus {
   padding-bottom: 0 !important;
   padding-top: 0 !important;
   border-bottom: 2px solid rgb(0, 0, 0) !important;
@@ -715,3 +735,39 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+/* ------------------------------------------------------------------- */
+/* Job List and resumes list li dark mode start
+---------------------------------------------------------------------- */
+.dark-mode .resumes-list li,
+.dark-mode .job-list li {
+  background-color: #343a40 !important;
+  border-top: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.dark-mode .resumes-list li:last-child,
+.dark-mode .job-list li:last-child {
+  border-bottom: 1px solid #343a40 !important;
+}
+
+.dark-mode .resumes-list li:last-child,
+.dark-mode .job-list li:last-child {
+  border-bottom: 1px solid #343a40 !important;
+}
+
+.dark-mode .resumes-list li:nth-child(2n),
+.dark-mode .job-list li:nth-child(2n) {
+  background-color: #343a40 !important;
+}
+
+.dark-mode .resumes-list li.highlighted,
+.dark-mode .job-list li.highlighted {
+  background-color: #343a40 !important;
+  border-color: #e0da94 !important;
+  z-index: 100;
+}
+
+/* ------------------------------------------------------------------- */
+/* Job List and resumes list li dark mode end
+---------------------------------------------------------------------- */

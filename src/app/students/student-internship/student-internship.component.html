@@ -122,10 +122,8 @@
                 </li>
               </ul>
             </div>
-
             <!-- <button style="width: 180px;" class="mb-4 button btn-primary ">Αναζητηση&nbsp;<i
-        class="pl-2 fa fa-search"></i></button> -->
-
+                class="pl-2 fa fa-search"></i></button> -->
           </div>
         </div>
       </div>
@@ -137,8 +135,7 @@
   <div class="search-container mt-0 pt-0 mb-3 pb-3" style="width:100%; margin:auto;">
     <form action="">
       <div class="container-fluid row">
-        <input type="search" class="my col-md-11" style=" margin-right:0;outline:none;" placeholder="Aναζήτηση..."
-          name="search">
+        <input type="search" class="interns-positions-search col-md-11" placeholder="Aναζήτηση..." name="search">
         <button class="ml-0" class="col-md-1" type="submit" style="margin-top:2px;"><i
             class=" fa fa-search"></i></button>
       </div>
@@ -150,18 +147,18 @@
   Προσθέστε έως 5 θέσεις για πρακτική άσκηση
 </div>
 <div class="container-fluid row">
-  <!-- Recent Internships -->
-  <div class="col-12 col-md-6">
+  <!-- Internship Positions -->
+  <div class="col-12 col-md-7">
     <div class="padding-right">
-      <h3 class="margin-bottom-25">Θέσεις Πρακτικής</h3>
+      <h3 class="margin-bottom-18">Θέσεις Πρακτικής</h3>
       <ul class="job-list">
         <!-- <li *ngFor="let entry of this.entries" class="highlighted"><a href=""></a> -->
-        <li *ngFor="let entry of this.entries; let i = index">
+        <li class="custom-height" *ngFor="let entry of this.entries; let i = index">
           <a class="cursor-pointer" (click)="displayDescription(i)">
             <div class="dark-div">
-              <img src="assets/images/job_offer.jpg" alt="">
-              <div class="job-list-content">
-                <h4>{{entry.title}}
+              <img class="mr-2" src="assets/images/job_offer.jpg" alt="">
+              <div class="job-list-content" class="pt-2 pt-sm-4 pt-xl-2">
+                <h4 class="text-with-dots">{{entry.title}}
                   <!-- <span class="full-time">Internship</span> -->
                 </h4>
                 <div class="job-icons">
@@ -176,7 +173,7 @@
           <div class="clearfix"></div>
         </li>
       </ul>
-      <a (click)="this.fetchMorePositions(this.begin + 8)" class="button centered btn-primary"><i
+      <a (click)="this.fetchMorePositions(this.begin + this.limit)" class="button centered btn-primary"><i
           class="fa fa-plus-circle"></i>
         Περισσοτερες
         θεσεις</a>
@@ -185,8 +182,8 @@
   </div>
 
   <!-- Internship Description -->
-  <div class="col-12 col-md-6">
-    <h3 class="mb-4">Περιγραφή Θέσης</h3>
+  <div id="pos" class="col-12 col-md-4">
+    <h3 class="margin-bottom-18">Περιγραφή Θέσης</h3>
     <div class="clearfix"></div>
     <!-- Internship Description Container -->
     <div id="job-description" class="showbiz-container">
@@ -200,7 +197,8 @@
                     <!-- <span class="part-time">Internship</span> -->
                   </h4>
                 </a>
-                <span><strong>Αντικείμενο Θέσης: </strong>{{this.jobPhysicalObjects}}</span>
+                <span style="word-break: break-all;"><strong>Αντικείμενο Θέσης:
+                  </strong>{{this.jobPhysicalObjects}}</span>
                 <br>
                 <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
                 <br>
