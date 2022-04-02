@@ -143,17 +143,12 @@ const getProviderDetails = async (providerId, accessToken) => {
   }
 };
 
-const getAvailablePositionGroupsUI = async (request, response, begin) => {
-
+const getAvailablePositionGroupsUI = async (request, response) => {
   try {
-
-    // let paginationData = {
-    //   'Skip': begin,
-    //   'Take': end
-    // };
-
-    const results = await atlasService.getAvailablePositionsUI();
-
+    const offset = (request.params.begin != null) ? request.params.begin : 0;
+    console.log(offset);
+    const limit = 8; // Number of rows to fetch from the database
+    const results = await atlasService.getAvailablePositionsUI(offset, limit);
     let positionsArray = [];
 
     for (const item of results) {
@@ -166,20 +161,19 @@ const getAvailablePositionGroupsUI = async (request, response, begin) => {
         'availablePositions': item.available_positions,
         'duration': item.duration,
         'physicalObjects': item.physical_objects,
-        'name': 'dummyprov',
-        'providerContactEmail': 'dummyprov',
-        'providerContactName': 'dummyprov',
-        'providerContactPhone': 'dummyprov'
+        'name': item.name,
+        'providerContactEmail': item.contact_email,
+        'providerContactName': item.contact_name,
+        'providerContactPhone': item.contact_phone
       });
     }
 
-
     return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while fetching available positions from db: " + error.message);
     return {
       status: "400 bad request",
-      message: "something went wrong while fetching available positions: " + error.message
+      message: "something went wrong while fetching available positions from db: " + error.message
     };
   }
 };

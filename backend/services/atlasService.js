@@ -10,12 +10,15 @@ const getCredentials = async () => {
   }
 };
 
-const getAvailablePositionsUI = async () => {
+const getAvailablePositionsUI = async (offset, limit) => {
   try {
-    const results = await pool.query("SELECT * FROM atlas_position_group");
+    const results = await pool.query("SELECT * FROM atlas_position_group g "
+      + " INNER JOIN atlas_provider p "
+      + " ON g.provider_id = p.atlas_provider_id "
+      + " OFFSET $1 LIMIT $2", [offset, limit]);
     return results.rows;
   } catch (error) {
-    throw Error('Error while fetching credentials');
+    throw Error('Error while fetching positions/providers from postgres');
   }
 };
 
