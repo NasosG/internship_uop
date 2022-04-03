@@ -10,7 +10,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
 
   try {
     if (credentials.username == null || credentials.password == null) return null;
-    loginData = {
+    const loginData = {
       'Username': credentials.username,
       'Password': credentials.password
     };
@@ -26,9 +26,9 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
 
     return atlasResponse.data.Result.AuthToken;
   } catch (error) {
+    //console.log(atlasResponse.data.Message);
     console.log('Error', error.message);
     return null;
-    //console.log(atlasResponse.data.Message),
   }
 };
 
@@ -146,7 +146,6 @@ const getProviderDetails = async (providerId, accessToken) => {
 const getAvailablePositionGroupsUI = async (request, response) => {
   try {
     const offset = (request.params.begin != null) ? request.params.begin : 0;
-    // console.log(offset);
     const limit = 6; // Number of rows to fetch from the database
     const results = await atlasService.getAvailablePositionsUI(offset, limit);
     let positionsArray = [];
@@ -240,11 +239,9 @@ const insertPositionGroup = async (request, response) => {
 };
 
 const getAvailablePositionGroups = async (begin, end, accessToken) => {
-  // let accessToken = await atlasLogin();
-
   try {
     //let begin = request.params.begin;
-    // let end = parseInt(begin) + 10;
+    //let end = parseInt(begin) + 10;
     let paginationData = {
       'Skip': begin,
       'Take': end

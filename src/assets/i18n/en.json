@@ -55,6 +55,27 @@
     "NORMAL": "Normal",
     "CURRENT-SIZE": "Current Size",
     "TEXT-CONTRAST": "Text Contrast",
-    "BLACK-WHITE": "White / Black"
+    "BLACK-WHITE": "White / Black",
+    "HOME-STAT-BOX1": "Current semester",
+    "HOME-STAT-BOX2": "Number of past courses",
+    "HOME-STAT-BOX3": "Average grade",
+    "HOME-STAT-BOX4": "ECTS",
+    "SHOW-MORE": "Show More",
+    "INTERSNHIP-DECLARATION-PERIOD": "The internship declaration period is from",
+    "PERIOD-TO": "to",
+    "INTERNSHIP-INSTRUCTIONS": "Internship Instructions",
+    "INTERNSHIP-INTRO1": "The internship office enables the student to apply for the internship on the basis that he/she has",
+    "INTERNSHIP-INTRO2": " registered in the student record the appropriate course ",
+    "INTERNSHIP-INTRO3": " listed as \"Internship\"",
+    "INTERNSHIP-STEPS-INTRO": "The steps for the internship are as follow:",
+    "INTERNSHIP-STEP1": "Step 1: Complete your profile from the main options",
+    "INTERNSHIP-STEP2": "Step 2: Choose internships",
+    "INTERNSHIP-STEP3": "Step 3: View your application and finalise it",
+    "INTERNSHIP-STEP4": "Step 4: View and sign your contract, if it has been issued.",
+    "INTERNSHIP-STEP5": "Step 5: Fill in the entry form",
+    "INTERNSHIP-STEP6": "Step 6: After you have successfully completed your internship, fill in the exit form",
+    "INTERNSHIP-APP-RESULT-INTRO": "Internship application result",
+    "INTERNSHIP-APP-RESULT-PAR": "Your application for a traineeship has been accepted by the organisation you have chosen as you met the requirements.",
+    "CALENDAR-HOME": "Calendar"
   }
 }
