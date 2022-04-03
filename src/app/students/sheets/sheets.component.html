@@ -1,29 +1,27 @@
-<div class="container-fluid mt-2" style="max-width:90%;margin:auto;">
-  <div>
+<div class="container-fluid mt-2 sheets-container">
+  <div class="sheets-div">
     <h2>ΣΥΜΒΑΣΗ</h2>
     <h5 class="mb-4">Απαραίτητη προϋπόθεση για την έναρξη της πρακτικής άσκησης είναι η υπογραφή της σύμβασης εργασίας.
     </h5>
-
-    <button [routerLink]="['../student-contract']" class="btn btn-primary mb-4"><a></a> Συμβαση Εργασιας</button>
-
+    <!-- Option 1: Internship Contract -->
+    <button [routerLink]="['../student-contract']" class="btn btn-primary mb-4"> Συμβαση Εργασιας</button>
+    <!-- Option 2: Entry/Input Sheet -->
     <h2>ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ</h2>
     <h5 class="mb-4">
       <!-- Μετά τη συμπλήρωση του δελτίου, στη σελίδα: «ΠΡΟΒΟΛΗ», μπορεί να εκτυπωθεί ένα αρχείο PDF το
       οποίο πρέπει κάθε φοιτητής να τυπώσει, υπογράψει και παραδώσει στον τμηματικό υπεύθυνο.  -->
       Το δελτίο εισόδου θα πρέπει να περιέχει πληροφορίες που αφορούν την κατάσταση του φοιτητή πριν ξεκινήσει την
       πρακτική.</h5>
-
-    <button [routerLink]="['../input-sheet']" class="btn btn-primary mb-4"><a></a> Συμπληρωστε το Δελτιο
-      Εισοδου</button>
-
+    <button [routerLink]="['../input-sheet']" class="btn btn-primary mb-4"> Συμπληρωστε το Δελτιο Εισοδου</button>
+    <!-- Option 3: Exit/Output Sheet -->
     <h2>ΔΕΛΤΙΟ ΕΞΟΔΟΥ</h2>
     <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, συμπληρώστε το δελτίο εξόδου με βάση την κατάσταση που
       ίσχυε για εσάς αμέσως μετά την ολοκληρωση της πρακτικής άσκησης.</h5>
     <button [routerLink]="['../output-sheet']" class="btn btn-primary mb-4"> Συμπληρωστε το Δελτιο Εξοδου</button>
+    <!-- Option 4: Evaluation Form -->
     <h2>ΑΞΙΟΛΟΓΗΣΗ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ</h2>
     <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, μπορείτε να προβείτε στην αξιολόγησή της.</h5>
     <button [routerLink]="['../evaluation-form']" class="btn btn-primary mb-4"> Συμπληρωστε το Δελτιο
       Αξιολογησης</button>
-
   </div>
 </div>

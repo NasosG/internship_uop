@@ -771,3 +771,32 @@
 /* ------------------------------------------------------------------- */
 /* Job List and resumes list li dark mode end
 ---------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------- */
+/* Sheets Div Typography
+---------------------------------------------------------------------- */
+
+.sheets-div h1,
+.sheets-div h2,
+.sheets-div h3,
+.sheets-div h4,
+.sheets-div h5,
+.sheets-div h6 {
+  color: #333;
+  font-weight: 500;
+}
+
+.dark-mode .sheets-div h1,
+.dark-mode .sheets-div h2,
+.dark-mode .sheets-div h3,
+.dark-mode .sheets-div h4,
+.dark-mode .sheets-div h5,
+.dark-mode .sheets-div h6 {
+  color: white !important;
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------------- */
+/* End of Sheets Div Typography
+---------------------------------------------------------------------- */
