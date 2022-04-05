@@ -38,9 +38,10 @@
             <!-- Sorting -->
             <div class="widget col-2 pl-2 pr-2">
               <h4>Ταξινόμηση</h4>
-              <select data-placeholder="Choose Category" style="padding: 14px 18px;" class="chosen-select-no-single">
-                <option selected="selected" value="recent" (click)="fetchNewestPositions()">Νεότερες</option>
-                <option value="oldest" (click)="fetchOldestPositions()">Παλαιότερες</option>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;" (change)="fetchNewestPositions()"
+                class="chosen-select-no-single">
+                <option selected="selected" value="recent">Νεότερες</option>
+                <option value="oldest">Παλαιότερες</option>
                 <!-- <option value="abroad">Εξωτερικού Πρώτα</option> -->
                 <!-- <option value="local">Έλλαδας Πρώτα</option> -->
                 <!-- <option value="incomehigh">Απολαβές – Αύξουσα Σειρά</option>

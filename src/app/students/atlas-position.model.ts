@@ -10,7 +10,7 @@ export interface AtlasPosition {
   providerContactPhone: string,
   title: string,
   name: string,
-  positionGroupLastUpdateString: string,
+  positionGroupLastUpdateString: Date,
   // PositionGroupID: string,
   // Department: string,
   // DepartmentID: number,

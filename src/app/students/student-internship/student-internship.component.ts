@@ -46,7 +46,8 @@ export class StudentInternshipComponent implements OnInit {
     });
   }
 
-  fetchNewestPositions() {
+  public fetchNewestPositions() {
+    this.entries = [];
     this.studentsService.getAtlasNewestPositions(this.begin)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
@@ -87,6 +88,12 @@ export class StudentInternshipComponent implements OnInit {
     this.jobDuration = this.entries[index].duration;
     this.jobAvailablePositions = this.entries[index].availablePositions;
     this.jobPhysicalObjects = this.entries[index].physicalObjects;
-    this.jobLastUpdateString = this.entries[index].positionGroupLastUpdateString;
+    this.jobLastUpdateString = this.getPreferredTimestamp(this.entries[index].positionGroupLastUpdateString);
+  }
+
+  public getPreferredTimestamp(dateParam: any) {
+    let dateVal = new Date(dateParam);
+    let preferredTimestamp = dateVal.getDay() + "/" + dateVal.getMonth()+ "/" + dateVal.getFullYear() + " " + dateVal.getHours() + ":" + dateVal.getMinutes();
+    return preferredTimestamp;
   }
 }
