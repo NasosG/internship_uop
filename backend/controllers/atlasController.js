@@ -212,7 +212,39 @@ const getAtlasNewestPositionGroups = async (request, response) => {
   }
 };
 
+const getAtlasOldestPositionGroups = async (request, response) => {
+  try {
+    const offset = (request.params.begin != null) ? request.params.begin : 0;
+    const limit = 6; // Number of rows to fetch from the database
+    const results = await atlasService.getAtlasOldestPositionGroups(offset, limit);
+    let positionsArray = [];
 
+    for (const item of results) {
+      positionsArray.push({
+        'positionGroupLastUpdateString': item.last_update_string,
+        'city': item.city,
+        'title': item.title,
+        'description': item.description,
+        'positionType': item.position_type,
+        'availablePositions': item.available_positions,
+        'duration': item.duration,
+        'physicalObjects': item.physical_objects,
+        'name': item.name,
+        'providerContactEmail': item.contact_email,
+        'providerContactName': item.contact_name,
+        'providerContactPhone': item.contact_phone
+      });
+    }
+
+    return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions from db: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions from db: " + error.message
+    };
+  }
+};
 
 const insertPositionGroup = async (request, response) => {
   let accessToken = await atlasLogin();
@@ -339,5 +371,6 @@ module.exports = {
   getAvailablePositionGroupsUI,
   getAvailablePositionGroups,
   getAtlasNewestPositionGroups,
+  getAtlasOldestPositionGroups,
   insertPositionGroup
 };

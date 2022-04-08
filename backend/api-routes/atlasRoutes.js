@@ -5,6 +5,7 @@ const atlasController = require("../controllers/atlasController.js");
 
 // router.get('/getAvailablePositionGroups/:begin', atlasController.getAvailablePositionGroups);
 router.get('/getAtlasNewestPositionGroups/:begin', atlasController.getAtlasNewestPositionGroups);
+router.get('/getAtlasOldestPositionGroups/:begin', atlasController.getAtlasOldestPositionGroups);
 router.get('/getAvailablePositionGroups/:begin', atlasController.getAvailablePositionGroupsUI);
 router.get('/insertPositionGroup/', atlasController.insertPositionGroup);
 

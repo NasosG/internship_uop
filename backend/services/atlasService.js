@@ -34,6 +34,17 @@ const getAtlasNewestPositionGroups = async (offset, limit) => {
   }
 };
 
+const getAtlasOldestPositionGroups = async (offset, limit) => {
+  try {
+    const results = await pool.query("SELECT * FROM atlas_position_group g "
+      + " INNER JOIN atlas_provider p "
+      + " ON g.provider_id = p.atlas_provider_id "
+      + " ORDER BY last_update_string ASC OFFSET 0 LIMIT 6");
+    return results.rows;
+  } catch (error) {
+    throw Error('Error while fetching positions/providers from postgres');
+  }
+};
 
 const insertPositionGroup = async (data) => {
   try {
@@ -98,6 +109,7 @@ module.exports = {
   getCredentials,
   getAvailablePositionsUI,
   getAtlasNewestPositionGroups,
+  getAtlasOldestPositionGroups,
   insertPositionGroup,
   insertProvider
 };

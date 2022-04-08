@@ -77,6 +77,11 @@ export class StudentsService {
       .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasNewestPositionGroups/' + begin);
   }
 
+  getAtlasOldestPositions(begin: number): Observable<Array<AtlasPosition>> {
+    return this.http
+      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasOldestPositionGroups/' + begin);
+  }
+
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = 1;

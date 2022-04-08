@@ -46,16 +46,24 @@ export class StudentInternshipComponent implements OnInit {
     });
   }
 
-  public fetchNewestPositions() {
+  public fetchPositionsByDate(positionDates: any) {
+    console.log('positionDates ' + positionDates.value);
     this.entries = [];
+    positionDates.value === "recent" ? this.fetchNewestPositions() : this.fetchOldestPositions();
+  }
+
+  public fetchNewestPositions() {
     this.studentsService.getAtlasNewestPositions(this.begin)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
     });
   }
 
-  fetchOldestPositions() {
-    //TODO the logic
+  public fetchOldestPositions() {
+    this.studentsService.getAtlasOldestPositions(this.begin)
+      .subscribe((positions: AtlasPosition[]) => {
+        this.entries.push(...positions);
+    });
   }
 
   @HostListener('window:scroll', ['$event']) onScrollEvent($event: any){
