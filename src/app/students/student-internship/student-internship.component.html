@@ -51,7 +51,9 @@
             </div>
             <div class="widget col-2 pl-2 pr-2">
               <h4>Τμήμα</h4>
-              <select data-placeholder="Choose Category" style="padding: 14px 18px;" class="chosen-select-no-single">
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByDepartment($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="notime">Όλα τα τμήματα</option>
                 <option value="dit">Πληροφορικής και Τηλεπικοινωνιών</option>
                 <option value="economics">Τμήμα Οικονομικών Επιστημών</option>
                 <option value="filology">Τμήμα Φιλολογίας</option>
@@ -62,11 +64,38 @@
             <!-- Location -->
             <div class="widget col-2 pl-2 pr-2">
               <h4>Τοποθεσία</h4>
-              <form action="#" method="get">
-                <input type="text" placeholder="State / Province" value="" />
-                <input type="text" placeholder="Πόλη" value="" />
-              </form>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByCity($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="notime">Όλες οι πόλεις</option>
+                <option value="ΑΘΗΝΑΙΩΝ">ΑΘΗΝΑ</option>
+                <option value="ΠΑΤΡΑ">Πάτρα κτλ.</option>
+              </select>
+              <!-- <form action="#" method="get"> -->
+              <!-- <input type="text" placeholder="State / Province" value="" />
+                <input type="text" placeholder="Πόλη" value="" /> -->
+
+              <!-- </form> -->
             </div>
+            <div class="widget col-2 pl-2 pr-2">
+              <h4>Φορέας</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchFilteredPositions($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="notime">Όλοι οι φορείς</option>
+                <option value="recent">ιντρασοφτ</option>
+                <option value="oldest">ιντρακομ</option>
+              </select>
+            </div>
+            <div class="widget col-2 pl-2 pr-2">
+              <h4>Μήνες Απασχόλησης</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByDate($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="notime">Όλες οι επιλογές</option>
+                <option value="recent">Έως 6 μήνες</option>
+                <option value="oldest">Έως 12 μήνες</option>
+                <option value="oldest">Έως 24 μήνες</option>
+              </select>
+            </div>
+
             <!-- Work Hours -->
             <div class="widget col-2 pl-2 pr-2">
               <h4>Ώρες Εργασίας</h4>
@@ -86,7 +115,7 @@
               </ul>
             </div>
             <!-- Job Type -->
-            <div class="widget col-2 pl-2 pr-2">
+            <!-- <div class="widget col-2 pl-2 pr-2">
               <h4>Τύπος Εργασίας</h4>
               <ul class="checkboxes">
                 <li>
@@ -106,8 +135,8 @@
                   <label for="check-9">Υβριδικό σύστημα <span>(78)</span></label>
                 </li>
               </ul>
-            </div>
-            <div class="widget col-2 pl-2 pr-2">
+            </div> -->
+            <!-- <div class="widget col-2 pl-2 pr-2">
               <h4>Φορέας</h4>
               <ul class="checkboxes">
                 <li>
@@ -123,7 +152,7 @@
                   <label for="check-12">ΕΚΤΟΣ ΕΣΠΑ <span>(269)</span></label>
                 </li>
               </ul>
-            </div>
+            </div> -->
             <!-- <button style="width: 180px;" class="mb-4 button btn-primary ">Αναζητηση&nbsp;<i
                 class="pl-2 fa fa-search"></i></button> -->
           </div>
@@ -133,7 +162,9 @@
   </div>
 </div>
 
-<div class="topnav mt-4 pt-0">
+<!-- αναζήτηση με βάση συγκεκριμένο κωδικό θέσης στον άτλα (αν υπάρχει) -->
+<!-- πρέπει να κάνουμε μία συζήτηση για αυτό -->
+<!-- <div class="topnav mt-4 pt-0">
   <div class="search-container mt-0 pt-0 mb-3 pb-3" style="width:100%; margin:auto;">
     <form action="">
       <div class="container-fluid row">
@@ -143,7 +174,7 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->
 
 <div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
   Προσθέστε έως 5 θέσεις για πρακτική άσκηση
@@ -212,41 +243,6 @@
                   {{this.jobAvailablePositions == 1 ? 'διαθέσιμη θέση' : 'διαθέσιμες θέσεις'}}
                 </span>
                 <div class="pt-2" style="font-size:14px; line-height: 150%;">
-                  <!-- Η καθημερινή υποστήριξη των λειτουργιών του τμήματος σε τομείς καταχώρησης
-                  και τήρησης αρχείων.
-                  Υποστήριξη στις λειτουργίες της οικονομικής διεύθυνσης της εταιρίας.
-
-                  <strong><br><br>Καθήκοντα:</strong>
-                  <ul>
-                    Καταχωρήσεις δεδομένων & παραστατικών σε excel και ERP (Entersoft).
-                    Αρχειοθέτηση, φυσική και ηλεκτρονική.
-                    Έλεγχος παραστατικών και λογιστικών εγγράφων.
-                    Επικοινωνία με προμηθευτές και πελάτες, συμφωνία υπολοίπων.
-                    Έκδοση τιμολογίων πελατών.
-                    Διεκπεραίωση λογιστικών εργασιών που προκύπτουν από τις καθημερινές ανάγκες λειτουργίας της
-                    επιχείρησης.
-                  </ul>
-
-                  <strong><br>Γνώσεις, προϋπηρεσία & δεξιότητες:</strong>
-
-                  <ul class="list-style-type: circle;">
-                    <li> - Πτυχίο ΑΕΙ / ΤΕΙ / ΙΕΚ λογιστικής ή οικονομικής κατεύθυνσης.</li>
-                    <li> - Προϋπηρεσία από 0 έως 2 χρόνια. </li>
-                    <li> - Άριστος χειρισμός Η/Υ, MS Office, Internet.</li>
-                    <li> - Εξοικείωση με τη χρήση λογιστικών προγραμμάτων και συστημάτων ERP θα θεωρηθεί plus.
-                      Γνώση Αγγλικής γλώσσας.</li>
-                    <li> - Ανεπτυγμένες επικοινωνιακές και οργανωτικές δεξιότητες, έμφαση στη προσοχή και στη
-                      λεπτομέρεια,
-                      εχεμύθεια και υπευθυνότητα.</li>
-                  </ul>
-
-                  <strong><br>Τι προσφέρει η εταιρεία;</strong>
-
-                  <ul>
-                    <li> - Ευχάριστο και φιλικό εργασιακό περιβάλλον</li>
-                    <li> - Ευκαιρίες επαγγελματικής εξέλιξης και ανάπτυξης
-                      Εξαιρετικό επαγγελματικό κλίμα</li>
-                  </ul> -->
                   {{this.jobDescription}}
                 </div>
                 <table class="mt-2">

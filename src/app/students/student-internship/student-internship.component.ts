@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import {AtlasFilters} from '../atlas-filters.model';
 import {AtlasPosition} from '../atlas-position.model';
 import {StudentsService} from '../student.service';
 
@@ -21,6 +22,7 @@ export class StudentInternshipComponent implements OnInit {
   jobAvailablePositions!: number;
   jobPhysicalObjects!: string[];
   jobLastUpdateString!: string;
+  filters: AtlasFilters = new AtlasFilters();
 
   begin: number = 0;
   limit: number = 6; // Number of results to fetch from the backend
@@ -46,25 +48,47 @@ export class StudentInternshipComponent implements OnInit {
     });
   }
 
+  public fetchFilteredPositions(filterArray: any) {
+    // TODO
+    this.studentsService.getAtlasFilteredPositions(this.begin, filterArray)
+      .subscribe((positions: AtlasPosition[]) => {
+        this.entries.push(...positions);
+    });
+  }
+
   public fetchPositionsByDate(positionDates: any) {
     console.log('positionDates ' + positionDates.value);
     this.entries = [];
-    positionDates.value === "recent" ? this.fetchNewestPositions() : this.fetchOldestPositions();
+    positionDates.value === "recent" ? this.filters.publicationDate = 'newest' : this.filters.publicationDate = 'oldest';
+    this.fetchFilteredPositions(this.filters);
   }
 
-  public fetchNewestPositions() {
-    this.studentsService.getAtlasNewestPositions(this.begin)
-      .subscribe((positions: AtlasPosition[]) => {
-        this.entries.push(...positions);
-    });
+  public fetchPositionsByCity(cityValue: any) {
+    this.entries = [];
+    this.filters.location = cityValue.value;
+    this.fetchFilteredPositions(this.filters);
   }
 
-  public fetchOldestPositions() {
-    this.studentsService.getAtlasOldestPositions(this.begin)
-      .subscribe((positions: AtlasPosition[]) => {
-        this.entries.push(...positions);
-    });
+  public fetchPositionsByDepartment(depValue: any) {
+    console.log('depValue ' + depValue.value);
+    this.entries = [];
+    this.filters.publicationDate = depValue;
+    this.fetchFilteredPositions(this.filters);
   }
+
+  // public fetchNewestPositions() {
+  //   this.studentsService.getAtlasNewestPositions(this.begin)
+  //     .subscribe((positions: AtlasPosition[]) => {
+  //       this.entries.push(...positions);
+  //   });
+  // }
+
+  // public fetchOldestPositions() {
+  //   this.studentsService.getAtlasOldestPositions(this.begin)
+  //     .subscribe((positions: AtlasPosition[]) => {
+  //       this.entries.push(...positions);
+  //   });
+  // }
 
   @HostListener('window:scroll', ['$event']) onScrollEvent($event: any){
     this.scrollFunction();

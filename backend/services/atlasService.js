@@ -22,15 +22,29 @@ const getAvailablePositionsUI = async (offset, limit) => {
   }
 };
 
-const getAtlasNewestPositionGroups = async (offset, limit) => {
+const getAtlasFilteredPositions = async (offset, limit, filters) => {
+  // console.log("array is : " + filters.location);
   try {
-    const results = await pool.query("SELECT * FROM atlas_position_group g "
+    let queryStr = "SELECT * FROM atlas_position_group g "
       + " INNER JOIN atlas_provider p "
-      + " ON g.provider_id = p.atlas_provider_id "
-      + " ORDER BY last_update_string DESC OFFSET 0 LIMIT 6");
+      + " ON g.provider_id = p.atlas_provider_id ";
+
+    if (filters.location != null) {
+      queryStr += ` WHERE g.city = '${filters.location}'`;
+    }
+    if (filters.publicationDate != null) {
+      queryStr += " ORDER BY last_update_string ";
+      queryStr += filters.publicationDate == "newest" ? " DESC" : " ASC";
+    }
+    // TODO NEXT FILTERS
+    queryStr += " OFFSET 0 LIMIT 6";
+
+    // console.log("\n" + queryStr + "  " + "\n");
+
+    const results = await pool.query(queryStr);
     return results.rows;
   } catch (error) {
-    throw Error('Error while fetching positions/providers from postgres');
+    throw Error('Error while fetching filtered positions from postgres');
   }
 };
 
@@ -108,8 +122,8 @@ const insertProvider = async (data) => {
 module.exports = {
   getCredentials,
   getAvailablePositionsUI,
-  getAtlasNewestPositionGroups,
   getAtlasOldestPositionGroups,
+  getAtlasFilteredPositions,
   insertPositionGroup,
   insertProvider
 };

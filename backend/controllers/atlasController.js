@@ -97,7 +97,6 @@ const getPhysicalObjects = async (request, response) => {
 
 const getPositionGroupDetails = async (positionId, accessToken) => {
   try {
-
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPositionGroupDetails?ID=' + positionId,
       method: 'GET',
@@ -121,7 +120,6 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
 
 const getProviderDetails = async (providerId, accessToken) => {
   try {
-
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetProviderDetails?ID=' + providerId,
       method: 'GET',
@@ -217,6 +215,41 @@ const getAtlasOldestPositionGroups = async (request, response) => {
     const offset = (request.params.begin != null) ? request.params.begin : 0;
     const limit = 6; // Number of rows to fetch from the database
     const results = await atlasService.getAtlasOldestPositionGroups(offset, limit);
+    let positionsArray = [];
+
+    for (const item of results) {
+      positionsArray.push({
+        'positionGroupLastUpdateString': item.last_update_string,
+        'city': item.city,
+        'title': item.title,
+        'description': item.description,
+        'positionType': item.position_type,
+        'availablePositions': item.available_positions,
+        'duration': item.duration,
+        'physicalObjects': item.physical_objects,
+        'name': item.name,
+        'providerContactEmail': item.contact_email,
+        'providerContactName': item.contact_name,
+        'providerContactPhone': item.contact_phone
+      });
+    }
+
+    return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions from db: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions from db: " + error.message
+    };
+  }
+};
+
+const getAtlasFilteredPositions = async (request, response) => {
+  try {
+    let filters = request.body;
+    const offset = (request.params.begin != null) ? request.params.begin : 0;
+    const limit = 6; // Number of rows to fetch from the database
+    const results = await atlasService.getAtlasFilteredPositions(offset, limit, filters);
     let positionsArray = [];
 
     for (const item of results) {
@@ -372,5 +405,6 @@ module.exports = {
   getAvailablePositionGroups,
   getAtlasNewestPositionGroups,
   getAtlasOldestPositionGroups,
+  getAtlasFilteredPositions,
   insertPositionGroup
 };
