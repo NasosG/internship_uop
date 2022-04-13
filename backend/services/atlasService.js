@@ -23,7 +23,8 @@ const getAvailablePositionsUI = async (offset, limit) => {
 };
 
 const getAtlasFilteredPositions = async (offset, limit, filters) => {
-  // console.log("array is : " + filters.location);
+  console.log("array is : " + JSON.stringify(filters));
+  let moreThanOneFilters = false;
   try {
     let queryStr = "SELECT * FROM atlas_position_group g "
       + " INNER JOIN atlas_provider p "
@@ -31,13 +32,20 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
 
     if (filters.location != null) {
       queryStr += ` WHERE g.city = '${filters.location}'`;
+      moreThanOneFilters = true;
     }
-    if (filters.publicationDate != null) {
+    if (filters.monthsOfInternship != null) {
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.duration <= ";
+      queryStr += filters.monthsOfInternship == "months6" ? " 6"
+        : filters.monthsOfInternship == "months12" ? " 12" : " 24";
+    }
+    if (filters.publicationDate) {
       queryStr += " ORDER BY last_update_string ";
       queryStr += filters.publicationDate == "newest" ? " DESC" : " ASC";
     }
-    // TODO NEXT FILTERS
-    queryStr += " OFFSET 0 LIMIT 6";
+    // TODO NEXT FILTERS...
+
+    queryStr += " OFFSET " + offset + " LIMIT " + limit;
 
     // console.log("\n" + queryStr + "  " + "\n");
 

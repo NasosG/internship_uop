@@ -25,7 +25,7 @@ export class StudentInternshipComponent implements OnInit {
   filters: AtlasFilters = new AtlasFilters();
 
   begin: number = 0;
-  limit: number = 6; // Number of results to fetch from the backend
+  limit: number = 6; // Number of results to fetch from the back-end
   entries!: AtlasPosition[];
   constructor(public studentsService: StudentsService) { }
 
@@ -39,52 +39,65 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   fetchMorePositions(beginParam: number) {
-    this.begin += 8;
+    this.begin += this.limit;
+    const isFilterArrayEmpty = Object.values(this.filters).every(x => x === null || x === '');
+    if (!isFilterArrayEmpty) {
+      this.fetchMoreFilteredPositions(this.filters, beginParam);
+      return;
+    }
     this.studentsService.getAtlasPositions(beginParam)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
-        // console.log("result: " +  this.entries[12].city);
-        // console.log("result: " +  this.entries[14].city);
     });
   }
 
   public fetchFilteredPositions(filterArray: any) {
-    // TODO
+    // begin value needs to be refreshed (assigned to 0)
+    this.begin = 0;
     this.studentsService.getAtlasFilteredPositions(this.begin, filterArray)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
     });
   }
 
+  public fetchMoreFilteredPositions(filterArray: any, beginParam: number) {
+    this.studentsService.getAtlasFilteredPositions(beginParam, filterArray)
+      .subscribe((positions: AtlasPosition[]) => {
+        this.entries.push(...positions);
+    });
+  }
+
   public fetchPositionsByDate(positionDates: any) {
-    console.log('positionDates ' + positionDates.value);
     this.entries = [];
-    positionDates.value === "recent" ? this.filters.publicationDate = 'newest' : this.filters.publicationDate = 'oldest';
+    if (positionDates.value == "unselected") {
+      this.filters.publicationDate = "";
+    }
+    else {
+      positionDates.value === "recent" ? this.filters.publicationDate = 'newest' : this.filters.publicationDate = 'oldest';
+    }
     this.fetchFilteredPositions(this.filters);
   }
 
   public fetchPositionsByCity(cityValue: any) {
     this.entries = [];
-    this.filters.location = cityValue.value;
+    this.filters.location = cityValue.value == "unselected" ? null : cityValue.value;
+    this.fetchFilteredPositions(this.filters);
+  }
+
+  public fetchPositionsByMonths(months: any) {
+    this.entries = [];
+    this.filters.monthsOfInternship = months.value == "unselected" ? null : months.value;
     this.fetchFilteredPositions(this.filters);
   }
 
   public fetchPositionsByDepartment(depValue: any) {
-    console.log('depValue ' + depValue.value);
     this.entries = [];
-    this.filters.publicationDate = depValue;
+    this.filters.publicationDate = depValue.value == "unselected" ? null : depValue;
     this.fetchFilteredPositions(this.filters);
   }
 
   // public fetchNewestPositions() {
   //   this.studentsService.getAtlasNewestPositions(this.begin)
-  //     .subscribe((positions: AtlasPosition[]) => {
-  //       this.entries.push(...positions);
-  //   });
-  // }
-
-  // public fetchOldestPositions() {
-  //   this.studentsService.getAtlasOldestPositions(this.begin)
   //     .subscribe((positions: AtlasPosition[]) => {
   //       this.entries.push(...positions);
   //   });

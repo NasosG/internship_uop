@@ -40,7 +40,7 @@
               <h4>Ταξινόμηση</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByDate($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="notime">Χωρίς χρονικό περιορισμό</option>
+                <option selected="selected" value="unselected">Χωρίς χρονικό περιορισμό</option>
                 <option value="recent">Νεότερες</option>
                 <option value="oldest">Παλαιότερες</option>
                 <!-- <option value="abroad">Εξωτερικού Πρώτα</option> -->
@@ -53,7 +53,7 @@
               <h4>Τμήμα</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByDepartment($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="notime">Όλα τα τμήματα</option>
+                <option selected="selected" value="unselected">Όλα τα τμήματα</option>
                 <option value="dit">Πληροφορικής και Τηλεπικοινωνιών</option>
                 <option value="economics">Τμήμα Οικονομικών Επιστημών</option>
                 <option value="filology">Τμήμα Φιλολογίας</option>
@@ -66,9 +66,9 @@
               <h4>Τοποθεσία</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByCity($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="notime">Όλες οι πόλεις</option>
+                <option selected="selected" value="unselected">Όλες οι πόλεις</option>
                 <option value="ΑΘΗΝΑΙΩΝ">ΑΘΗΝΑ</option>
-                <option value="ΠΑΤΡΑ">Πάτρα κτλ.</option>
+                <option value="ΠΑΤΡΕΩΝ">Πάτρα κτλ.</option>
               </select>
               <!-- <form action="#" method="get"> -->
               <!-- <input type="text" placeholder="State / Province" value="" />
@@ -80,7 +80,7 @@
               <h4>Φορέας</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchFilteredPositions($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="notime">Όλοι οι φορείς</option>
+                <option selected="selected" value="unselected">Όλοι οι φορείς</option>
                 <option value="recent">ιντρασοφτ</option>
                 <option value="oldest">ιντρακομ</option>
               </select>
@@ -88,11 +88,11 @@
             <div class="widget col-2 pl-2 pr-2">
               <h4>Μήνες Απασχόλησης</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
-                (change)="fetchPositionsByDate($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="notime">Όλες οι επιλογές</option>
-                <option value="recent">Έως 6 μήνες</option>
-                <option value="oldest">Έως 12 μήνες</option>
-                <option value="oldest">Έως 24 μήνες</option>
+                (change)="fetchPositionsByMonths($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Όλες οι επιλογές</option>
+                <option value="months6">Έως 6 μήνες</option>
+                <option value="months12">Έως 12 μήνες</option>
+                <option value="months24">Έως 24 μήνες</option>
               </select>
             </div>
 
