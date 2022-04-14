@@ -96,12 +96,11 @@ export class StudentInternshipComponent implements OnInit {
     this.fetchFilteredPositions(this.filters);
   }
 
-  // public fetchNewestPositions() {
-  //   this.studentsService.getAtlasNewestPositions(this.begin)
-  //     .subscribe((positions: AtlasPosition[]) => {
-  //       this.entries.push(...positions);
-  //   });
-  // }
+  public fetchPositionsByWorkingHours(currentCheckbox: any) {
+    this.entries = [];
+    this.filters.workingHours = currentCheckbox.value == "unselected" ? "" : currentCheckbox.value;
+    this.fetchFilteredPositions(this.filters);
+  }
 
   @HostListener('window:scroll', ['$event']) onScrollEvent($event: any){
     this.scrollFunction();
@@ -142,60 +141,51 @@ export class StudentInternshipComponent implements OnInit {
     return preferredTimestamp;
   }
 
-
-
-  // selectAll(selectAllCheckbox: any) {
-  //   console.log(selectAllCheckbox);
-  //     let checkboxes: any = document.getElementsByName('check-boxes');
-  //     for (let checkbox of checkboxes) {
-  //         checkbox.checked = selectAllCheckbox.checked;
-  //     }
-  // }
-  //   selectOneOption(id: string) {
-//   	  let selectAllCheckbox: any = document.getElementById('select-all');
-//       let checkboxes: any = document.getElementsByName('check-boxes');
-//       let myself: any = document.getElementById(id);
-
-//       for (let checkbox of checkboxes) {
-//         //  selectAllCheckbox.checked = false;
-//          checkbox.checked = false;
-//       }
-
-//      // myself.checked = true;
-//   }
-    selectAll() {
-  	  let selectAllCheckbox: any = document.getElementById('select-all');
-      // let checkboxes: any = document.getElementsByName('check-boxes');
-      let check2: any = document.getElementById('check-2');
-      let check3: any = document.getElementById('check-3');
-      console.log(selectAllCheckbox);
-      check2.checked = selectAllCheckbox.checked;
-      check3.checked = selectAllCheckbox.checked;
-
-      this.entries = [];
-      this.filters.workingHours = "";
-      this.fetchFilteredPositions(this.filters);
-  }
-
-    selectOneOption(id: string) {
-  	  let selectAllCheckbox: any = document.getElementById('select-all');
-      // let checkboxes: any = document.getElementsByName('check-boxes');
-      let check: any = document.getElementById(id);
-      let check2: any = document.getElementById('check-2');
-      let check3: any = document.getElementById('check-3');
-
-      if (check.id == 'check-2') {
-        check2.checked = true;
-        check3.checked = false;
-      } else {
-        check3.checked = true;
-        check2.checked = false;
+  public selectAll() {
+      let selectAllCheckbox: any = document.getElementById('select-all');
+      let checkboxes: any = document.getElementsByName('check-boxes');
+      for (let checkbox of checkboxes) {
+          checkbox.checked = selectAllCheckbox.checked;
       }
-
-      selectAllCheckbox.checked = false;
-
-      this.entries = [];
-      this.filters.workingHours = check.value == "unselected" ? "" : check.value;
-      this.fetchFilteredPositions(this.filters);
+      this.fetchPositionsByWorkingHours(selectAllCheckbox);
   }
+
+  public selectOneOption(id: string) {
+    let selectAllCheckbox: any = document.getElementById('select-all');
+    let checkboxes: any = document.getElementsByName('check-boxes');
+    let currentCheckbox: any = document.getElementById(id);
+
+    for (let checkbox of checkboxes) {
+      selectAllCheckbox.checked = checkbox.checked = false;
+    }
+
+    currentCheckbox.checked = true;
+    this.fetchPositionsByWorkingHours(currentCheckbox);
+  }
+
+  // selectAll() {
+  // 	   let selectAllCheckbox: any = document.getElementById('select-all');
+  //     let check2: any = document.getElementById('check-2');
+  //     let check3: any = document.getElementById('check-3');
+  //     check2.checked = check3.checked = selectAllCheckbox.checked;
+  //     this.fetchPositionsByWorkingHours(selectAllCheckbox);
+  // }
+
+  // selectOneOption(id: string) {
+  //   let selectAllCheckbox: any = document.getElementById('select-all');
+  //   let check: any = document.getElementById(id);
+  //   let check2: any = document.getElementById('check-2');
+  //   let check3: any = document.getElementById('check-3');
+
+  //   if (check.id == 'check-2') {
+  //     check2.checked = true;
+  //     check3.checked = false;
+  //   } else {
+  //     check3.checked = true;
+  //     check2.checked = false;
+  //   }
+
+  //   selectAllCheckbox.checked = false;
+  //   this.fetchPositionsByWorkingHours(check);
+  // }
 }
