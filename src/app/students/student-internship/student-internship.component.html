@@ -101,16 +101,19 @@
               <h4>Ώρες Εργασίας</h4>
               <ul class="checkboxes">
                 <li>
-                  <input id="check-1" type="checkbox" name="check" value="check-1" checked>
-                  <label for="check-1">Όλα</label>
+                  <input id="select-all" type="checkbox" (click)="selectAll()" name="select-all" value="unselected"
+                    checked>
+                  <label for="select-all">Όλα</label>
                 </li>
                 <li>
-                  <input id="check-2" type="checkbox" name="check" value="check-2">
-                  <label for="check-2">Full-Time <span>(312)</span></label>
+                  <input id="check-2" type="checkbox" (click)="selectOneOption('check-2')" name="check-boxes"
+                    value="fulltime">
+                  <label for="check-2">Full-Time<span></span></label>
                 </li>
                 <li>
-                  <input id="check-3" type="checkbox" name="check" value="check-3">
-                  <label for="check-3">Part-Time <span>(269)</span></label>
+                  <input id="check-3" type="checkbox" (click)="selectOneOption('check-3')" name="check-boxes"
+                    name="check" value="parttime">
+                  <label for="check-3">Part-Time</label>
                 </li>
               </ul>
             </div>

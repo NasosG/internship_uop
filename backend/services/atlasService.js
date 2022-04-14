@@ -39,6 +39,10 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
       queryStr += filters.monthsOfInternship == "months6" ? " 6"
         : filters.monthsOfInternship == "months12" ? " 12" : " 24";
     }
+    if (filters.workingHours) {
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.position_type = ";
+      queryStr += filters.workingHours == "fulltime" ? "'Πλήρες ωράριο'" : "'Μερικό ωράριο'";
+    }
     if (filters.publicationDate) {
       queryStr += " ORDER BY last_update_string ";
       queryStr += filters.publicationDate == "newest" ? " DESC" : " ASC";
