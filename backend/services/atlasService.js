@@ -22,6 +22,15 @@ const getAvailablePositionsUI = async (offset, limit) => {
   }
 };
 
+const getInstitutions = async () => {
+  try {
+    const results = await pool.query("SELECT * FROM atlas_academics");
+    return results.rows;
+  } catch (error) {
+    throw Error('Error while fetching atlas_academics from postgres');
+  }
+};
+
 const getAtlasFilteredPositions = async (offset, limit, filters) => {
   console.log("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
@@ -30,10 +39,22 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
       + " INNER JOIN atlas_provider p "
       + " ON g.provider_id = p.atlas_provider_id ";
 
-    if (filters.location != null) {
-      queryStr += ` WHERE g.city = '${filters.location}'`;
+    // TODO: make query run faster maybe maybe filter the result more before joining
+    if (filters.institution) {
+      queryStr += "INNER JOIN position_has_academics pa ON pa.position_id = g.atlas_position_id ";
+      queryStr += "INNER JOIN atlas_academics ac ON ac.atlas_id = pa.academic_id ";
+      queryStr += ` WHERE pa.academic_id = '${filters.institution}'`;
       moreThanOneFilters = true;
     }
+
+    if (filters.location != null) {
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + ` g.city = '${filters.location}'`;
+      moreThanOneFilters = true;
+    }
+    // if (filters.location != null) {
+    //   queryStr += ` WHERE g.city = '${filters.location}'`;
+    //   moreThanOneFilters = true;
+    // }
     if (filters.monthsOfInternship != null) {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.duration <= ";
       queryStr += filters.monthsOfInternship == "months6" ? " 6"
@@ -75,10 +96,9 @@ const getAtlasOldestPositionGroups = async (offset, limit) => {
 const insertPositionGroup = async (data) => {
   try {
     for (const item of data) {
-      console.log(item.physicalObjects);
       await pool.query("INSERT INTO atlas_position_group" +
-        '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id)' +
-        " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+        '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id)' +
+        " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)",
         [item.description,
         item.city,
         item.title,
@@ -88,8 +108,18 @@ const insertPositionGroup = async (data) => {
         item.physicalObjects,
         item.providerId,
         item.lastUpdateString,
-        item.atlasPositionId
+        item.atlasPositionId,
+        item.atlasCityId,
+        item.atlasCountryId,
+        item.atlasPrefectureId
         ]);
+
+      // Insert academics into academics table
+      for (let academic of item.academics) {
+        await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
+          " VALUES ($1, $2)", [item.atlasPositionId, academic.academicsId]);
+      }
+
     }
     // return insertResults;
   } catch (error) {
@@ -120,22 +150,83 @@ const insertProvider = async (data) => {
   }
 };
 
-// const getProviders = (id) => {
-//   try {
-//     return pool.query("SELECT COUNT(*) FROM atlas_provider " +
-//       "WHERE atlas_provider_id = $1", [id]);
-//   } catch (error) {
-//     console.log('Error inserting io group[s]' + error.message);
-//     throw Error('Error inserting io group[s]');
-//   }
-// };
+const insertCities = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("INSERT INTO atlas_cities" +
+        '(atlas_id, name, prefecture_id)' +
+        " VALUES " + "($1, $2, $3)",
+        [item.ID, item.Name, item.PrefectureID]);
+    }
+  } catch (error) {
+    throw Error('Error while inserting cities');
+  }
+};
 
+const insertPrefectures = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("INSERT INTO atlas_prefectures" +
+        '(atlas_id, name)' +
+        " VALUES " + "($1, $2)",
+        [item.ID, item.Name]);
+    }
+  } catch (error) {
+    throw Error('Error while inserting prefectures');
+  }
+};
+
+const insertCountries = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("INSERT INTO atlas_countries" +
+        '(atlas_id, name)' +
+        " VALUES " + "($1, $2)",
+        [item.ID, item.Name]);
+    }
+  } catch (error) {
+    throw Error('Error while inserting countries');
+  }
+};
+
+const insertPhysicalObjects = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("INSERT INTO atlas_physical_objects" +
+        '(atlas_id, name)' +
+        " VALUES " + "($1, $2)",
+        [item.ID, item.Name]);
+    }
+  } catch (error) {
+    throw Error('Error while inserting physical objects');
+  }
+};
+
+
+const insertDepartmentIds = async (departmentArray, uopId) => {
+  try {
+    for (let item of departmentArray) {
+      await pool.query("INSERT INTO atlas_academics" +
+        '(atlas_id, institution_id, department)' +
+        " VALUES " + "($1, $2, $3)",
+        [item.id, uopId, item.department]);
+    }
+  } catch (error) {
+    throw Error('Error while inserting departments');
+  }
+};
 
 module.exports = {
   getCredentials,
   getAvailablePositionsUI,
   getAtlasOldestPositionGroups,
   getAtlasFilteredPositions,
+  getInstitutions,
   insertPositionGroup,
-  insertProvider
+  insertCities,
+  insertPrefectures,
+  insertCountries,
+  insertPhysicalObjects,
+  insertProvider,
+  insertDepartmentIds
 };

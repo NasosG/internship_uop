@@ -9,6 +9,7 @@ import { EvaluationForm } from "./evaluation-form.model";
 import { StudentPositions } from "./student-positions.model";
 import { Application } from "./application.model";
 import { AtlasPosition } from "./atlas-position.model";
+import {Department} from "./department.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -86,6 +87,11 @@ export class StudentsService {
     let filterData = JSON.parse(JSON.stringify(filterArray));
     return this.http
       .post<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasFilteredPositions/' + begin, filterData);
+  }
+
+   getAtlasInstitutions(): Observable<Array<Department>> {
+    return this.http
+      .get<Array<Department>>('http://localhost:3000/api/atlas/getInstitutions/');
   }
 
   // this functions adds a new bio and details to a student

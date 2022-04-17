@@ -32,12 +32,23 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
   }
 };
 
+const getInstitutions = async (request, response) => {
 
-const getDepartmentIds = async (request, response) => {
+  try {
+    const institutions = await atlasService.getInstitutions();
+    response.status(200).json(institutions);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const insertDepartmentIds = async (accessToken) => {
   const UOP_INSITUTION_ID = 25;
-  let departments = new Map();
-  let accessToken = await atlasLogin();
-
+  // let departments = new Map();
+  let departments = [];
   try {
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetAcademics',
@@ -51,47 +62,28 @@ const getDepartmentIds = async (request, response) => {
     try {
       atlasResponse.data.Result.forEach((item) => {
         if (item.InstitutionID == UOP_INSITUTION_ID)
-          departments[item.ID] = item.Department;
+          departments.push({
+            'id': item.ID,
+            'department': item.Department,
+          });
+        // departments[item.ID] = item.Department;
       });
     } catch (error) {
       console.log("error in populating department array: " + error.message);
     }
 
-    return response.status(200).json({
+    await atlasService.insertDepartmentIds(departments, UOP_INSITUTION_ID);
+
+    return {
       message: departments,
       status: atlasResponse.status
-    });
+    };
   } catch (error) {
-    return response.status(400).json({
+    console.log("An error occured while fetching academics");
+    return {
       status: "400 bad request",
       message: "something went wrong while fetching academics"
-    });
-  }
-};
-
-const getPhysicalObjects = async (request, response) => {
-  let accessToken = await atlasLogin();
-  try {
-    const atlasResponse = await axios({
-      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPhysicalObjects',
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'access_token': accessToken
-      }
-    });
-
-    console.log(atlasResponse.data.Result);
-
-    return response.status(200).json({
-      message: atlasResponse.data.Result,
-      status: atlasResponse.status
-    });
-  } catch (error) {
-    return response.status(400).json({
-      status: "400 bad request",
-      message: "something went wrong while fetching academics"
-    });
+    };
   }
 };
 
@@ -141,80 +133,88 @@ const getProviderDetails = async (providerId, accessToken) => {
   }
 };
 
+const insertCitiesFromAtlas = async (accessToken) => {
+  console.log("citiessssssssss");
+  try {
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetCities',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    await atlasService.insertCities(atlasResponse.data.Result);
+    return { message: "Success. Inserted cities to the database." };
+  } catch (error) {
+    return { message: "Failed to insert to the database." };
+  }
+};
+
+
+const insertPrefecturesFromAtlas = async (accessToken) => {
+  console.log("prefectures");
+  try {
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPrefectures',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    await atlasService.insertPrefectures(atlasResponse.data.Result);
+    return { message: "Success. Inserted prefectures to the database." };
+  } catch (error) {
+    return { message: "Failed to insert to the database." };
+  }
+};
+
+
+const insertCountriesFromAtlas = async (accessToken) => {
+  console.log("countries");
+  try {
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetCountries',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    await atlasService.insertCountries(atlasResponse.data.Result);
+    return { message: "Success. Inserted countries to the database." };
+  } catch (error) {
+    return { message: "Failed to insert to the database." };
+  }
+};
+
+const insertPhysicalObjsFromAtlas = async (accessToken) => {
+  try {
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPhysicalObjects',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    await atlasService.insertPhysicalObjects(atlasResponse.data.Result);
+    return { message: "Success. Inserted physical objects to the database." };
+  } catch (error) {
+    return { message: "Failed to insert to the database." };
+  }
+};
+
 const getAvailablePositionGroupsUI = async (request, response) => {
   try {
     const offset = (request.params.begin != null) ? request.params.begin : 0;
     const limit = 6; // Number of rows to fetch from the database
     const results = await atlasService.getAvailablePositionsUI(offset, limit);
-    let positionsArray = [];
-
-    for (const item of results) {
-      positionsArray.push({
-        'positionGroupLastUpdateString': item.last_update_string,
-        'city': item.city,
-        'title': item.title,
-        'description': item.description,
-        'positionType': item.position_type,
-        'availablePositions': item.available_positions,
-        'duration': item.duration,
-        'physicalObjects': item.physical_objects,
-        'name': item.name,
-        'providerContactEmail': item.contact_email,
-        'providerContactName': item.contact_name,
-        'providerContactPhone': item.contact_phone
-      });
-    }
-
-    return response.status(200).json(positionsArray);
-  } catch (error) {
-    console.log("error while fetching available positions from db: " + error.message);
-    return {
-      status: "400 bad request",
-      message: "something went wrong while fetching available positions from db: " + error.message
-    };
-  }
-};
-
-
-const getAtlasNewestPositionGroups = async (request, response) => {
-  try {
-    const offset = (request.params.begin != null) ? request.params.begin : 0;
-    const limit = 6; // Number of rows to fetch from the database
-    const results = await atlasService.getAtlasNewestPositionGroups(offset, limit);
-    let positionsArray = [];
-
-    for (const item of results) {
-      positionsArray.push({
-        'positionGroupLastUpdateString': item.last_update_string,
-        'city': item.city,
-        'title': item.title,
-        'description': item.description,
-        'positionType': item.position_type,
-        'availablePositions': item.available_positions,
-        'duration': item.duration,
-        'physicalObjects': item.physical_objects,
-        'name': item.name,
-        'providerContactEmail': item.contact_email,
-        'providerContactName': item.contact_name,
-        'providerContactPhone': item.contact_phone
-      });
-    }
-
-    return response.status(200).json(positionsArray);
-  } catch (error) {
-    console.log("error while fetching available positions from db: " + error.message);
-    return {
-      status: "400 bad request",
-      message: "something went wrong while fetching available positions from db: " + error.message
-    };
-  }
-};
-
-const getAtlasOldestPositionGroups = async (request, response) => {
-  try {
-    const offset = (request.params.begin != null) ? request.params.begin : 0;
-    const limit = 6; // Number of rows to fetch from the database
-    const results = await atlasService.getAtlasOldestPositionGroups(offset, limit);
     let positionsArray = [];
 
     for (const item of results) {
@@ -279,9 +279,26 @@ const getAtlasFilteredPositions = async (request, response) => {
   }
 };
 
-const insertPositionGroup = async (request, response) => {
+const insertTablesFromAtlas = async (request, response) => {
   let accessToken = await atlasLogin();
 
+  try {
+    // await insertDepartmentIds(accessToken);
+    // await insertCountriesFromAtlas(accessToken);
+    // await insertPrefecturesFromAtlas(accessToken);
+    // await insertCitiesFromAtlas(accessToken);
+    // await insertPhysicalObjsFromAtlas(accessToken);
+    const message = await insertPositionGroup(accessToken);
+    response.status(200).json(message);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const insertPositionGroup = async (accessToken) => {
   try {
     let begin = 0;
     const batchSize = 100;
@@ -299,6 +316,16 @@ const insertPositionGroup = async (request, response) => {
       let positionGroupResults = await getPositionGroupDetails(positionGroupId, accessToken);
       let providerResults = await getProviderDetails(providerId, accessToken);
 
+      let atlasAcademics = positionGroupResults.message.Academics;
+      let academics = [];
+      for (const key in atlasAcademics) {
+        // console.log(atlasAcademics[key]);
+        academics.push({
+          'department': atlasAcademics[key].Department,
+          'academicsId': atlasAcademics[key].ID
+        });
+      }
+
       positionsArray.push({
         'lastUpdateString': item.PositionGroupLastUpdateString.replace("μμ", "pm").replace("πμ", "am"),
         'city': positionGroupResults.message.City,
@@ -309,8 +336,14 @@ const insertPositionGroup = async (request, response) => {
         'duration': positionGroupResults.message.Duration,
         'physicalObjects': positionGroupResults.message.PhysicalObjects,
         'providerId': positionGroupResults.message.ProviderID,
-        'atlasPositionId': positionGroupResults.message.ID
+        'atlasPositionId': positionGroupResults.message.ID,
+        'atlasCityId': positionGroupResults.message.CityID,
+        'atlasCountryId': positionGroupResults.message.CountryID,
+        'atlasPrefectureId': positionGroupResults.message.PrefectureID,
+        'academics': academics
       });
+
+      academics = []; // reset the array just to be sure
 
       providersArray.push({
         'atlasProviderId': providerResults.message.ID,
@@ -330,13 +363,13 @@ const insertPositionGroup = async (request, response) => {
     await atlasService.insertPositionGroup(positionsArray);
 
     //console.log(atlasResponse.data.Result);
-    return response.status(200).json(positionsArray);
+    return { message: 'done' };
   } catch (error) {
-    console.log("ERROR" + error.message);
-    return response.status(400).json({
+    console.log("ERROR -> " + error.message);
+    return {
       status: "400 bad request",
       message: "something went wrong while fetching academics"
-    });
+    };
   }
 };
 
@@ -359,30 +392,6 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
       }
     });
 
-    // let positionsArray = [];
-
-    // for (const item of atlasResponse.data.Result.Pairs) {
-    //   let positionGroupId = item.PositionGroupID;
-    //   let providerId = item.ProviderID;
-
-    //   let positionGroupResults = await getPositionGroupDetails(positionGroupId, accessToken);
-    //   let providerResults = await getProviderDetails(providerId, accessToken);
-
-    // positionsArray.push({
-    //   'positionGroupLastUpdateString': item.PositionGroupLastUpdateString,
-    //   'city': positionGroupResults.message.City,
-    //   'title': positionGroupResults.message.Title,
-    //   'description': positionGroupResults.message.Description,
-    //   'positionType': positionGroupResults.message.PositionType,
-    //   'availablePositions': positionGroupResults.message.AvailablePositions,
-    //   'duration': positionGroupResults.message.Duration,
-    //   'physicalObjects': positionGroupResults.message.PhysicalObjects,
-    //   'name': providerResults.message.Name,
-    //   'providerContactEmail': providerResults.message.ContactEmail,
-    //   'providerContactName': providerResults.message.ContactName,
-    //   'providerContactPhone': providerResults.message.ContactPhone
-    // });
-    // }
     let positionsArray = atlasResponse.data.Result;
     return {
       message: positionsArray,
@@ -399,12 +408,10 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
 };
 
 module.exports = {
-  getDepartmentIds,
-  getPhysicalObjects,
   getAvailablePositionGroupsUI,
   getAvailablePositionGroups,
-  getAtlasNewestPositionGroups,
-  getAtlasOldestPositionGroups,
   getAtlasFilteredPositions,
+  getInstitutions,
+  insertTablesFromAtlas,
   insertPositionGroup
 };
