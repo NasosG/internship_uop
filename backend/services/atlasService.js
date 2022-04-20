@@ -27,7 +27,16 @@ const getInstitutions = async () => {
     const results = await pool.query("SELECT * FROM atlas_academics");
     return results.rows;
   } catch (error) {
-    throw Error('Error while fetching atlas_academics from postgres');
+    throw Error("Error while fetching atlas_academics from postgres");
+  }
+};
+
+const getCities = async () => {
+  try {
+    const results = await pool.query("SELECT atlas_id, name FROM atlas_cities order by name");
+    return results.rows;
+  } catch (error) {
+    throw Error("Error while fetching atlas_prefectures from postgres");
   }
 };
 
@@ -44,6 +53,8 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
       queryStr += "INNER JOIN position_has_academics pa ON pa.position_id = g.atlas_position_id ";
       queryStr += "INNER JOIN atlas_academics ac ON ac.atlas_id = pa.academic_id ";
       queryStr += ` WHERE pa.academic_id = '${filters.institution}'`;
+      // MAYBE USE THIS VERSION
+      // queryStr += ` AND pa.academic_id = '${filters.institution}'`;
       moreThanOneFilters = true;
     }
 
@@ -222,6 +233,7 @@ module.exports = {
   getAtlasOldestPositionGroups,
   getAtlasFilteredPositions,
   getInstitutions,
+  getCities,
   insertPositionGroup,
   insertCities,
   insertPrefectures,

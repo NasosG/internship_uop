@@ -10,6 +10,8 @@ import { StudentPositions } from "./student-positions.model";
 import { Application } from "./application.model";
 import { AtlasPosition } from "./atlas-position.model";
 import {Department} from "./department.model";
+import {Prefecture} from "./prefecture.model";
+import {City} from "./city.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -73,16 +75,6 @@ export class StudentsService {
       .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAvailablePositionGroups/' + begin);
   }
 
-  getAtlasNewestPositions(begin: number): Observable<Array<AtlasPosition>> {
-    return this.http
-      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasNewestPositionGroups/' + begin);
-  }
-
-  getAtlasOldestPositions(begin: number): Observable<Array<AtlasPosition>> {
-    return this.http
-      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasOldestPositionGroups/' + begin);
-  }
-
   getAtlasFilteredPositions(begin: number, filterArray: any): Observable<Array<AtlasPosition>> {
     let filterData = JSON.parse(JSON.stringify(filterArray));
     return this.http
@@ -92,6 +84,10 @@ export class StudentsService {
    getAtlasInstitutions(): Observable<Array<Department>> {
     return this.http
       .get<Array<Department>>('http://localhost:3000/api/atlas/getInstitutions/');
+  }
+
+  getAtlasCities(): Observable<Array<City>> {
+    return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getCities/');
   }
 
   // this functions adds a new bio and details to a student

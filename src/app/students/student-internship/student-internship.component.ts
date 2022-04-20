@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import {AtlasFilters} from '../atlas-filters.model';
 import {AtlasPosition} from '../atlas-position.model';
+import {City} from '../city.model';
 import {Department} from '../department.model';
+import {Prefecture} from '../prefecture.model';
 import {StudentsService} from '../student.service';
 
 @Component({
@@ -29,12 +31,18 @@ export class StudentInternshipComponent implements OnInit {
   limit: number = 6; // Number of results to fetch from the back-end
   entries!: AtlasPosition[];
   departments!: Department[];
+  // prefectures!: Prefecture[];
+  cities!: City[];
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void {
     this.studentsService.getAtlasInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
+    });
+    this.studentsService.getAtlasCities()
+      .subscribe((fetchedCities: City[]) => {
+        this.cities = fetchedCities;
     });
     this.studentsService.getAtlasPositions(this.begin)
       .subscribe((positions: AtlasPosition[]) => {

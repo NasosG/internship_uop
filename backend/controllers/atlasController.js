@@ -33,10 +33,21 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
 };
 
 const getInstitutions = async (request, response) => {
-
   try {
     const institutions = await atlasService.getInstitutions();
     response.status(200).json(institutions);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const getCities = async (request, response) => {
+  try {
+    const cities = await atlasService.getCities();
+    response.status(200).json(cities);
   } catch (error) {
     console.error(error.message);
     response.send({
@@ -412,6 +423,7 @@ module.exports = {
   getAvailablePositionGroups,
   getAtlasFilteredPositions,
   getInstitutions,
+  getCities,
   insertTablesFromAtlas,
   insertPositionGroup
 };
