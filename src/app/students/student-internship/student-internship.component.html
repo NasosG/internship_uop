@@ -63,7 +63,7 @@
               <h4>Τοποθεσία</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByCity($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Όλες οι πόλεις</option>
+                <option selected="selected" value="unselected">Όλοι οι Δήμοι</option>
                 <option *ngFor="let city of cities" value={{city.name}}>{{city.name}}
                 </option>
               </select>
@@ -75,12 +75,13 @@
             </div>
             <div class="widget col-2 pl-2 pr-2">
               <h4>Φορέας</h4>
-              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
-                (change)="fetchFilteredPositions($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Όλοι οι φορείς</option>
-                <option value="recent">ιντρασοφτ</option>
-                <option value="oldest">ιντρακομ</option>
-              </select>
+              <!-- <select data-placeholder="Choose Category" style="padding: 14px 18px;" -->
+              <!-- (change)="fetchFilteredPositions($event.target)" class="chosen-select-no-single"> -->
+              <!-- <option selected="selected" value="unselected">Όλοι οι φορείς</option> -->
+              <input type="text" placeholder="Φορέας" value="" />
+              <!-- <option value="recent">ιντρασοφτ</option>
+                <option value="oldest">ιντρακομ</option> -->
+              <!-- </select> -->
             </div>
             <div class="widget col-2 pl-2 pr-2">
               <h4>Μήνες Απασχόλησης</h4>
