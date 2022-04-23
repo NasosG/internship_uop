@@ -85,7 +85,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-            {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}
+            {{ studentsSSOData[0]?.givenname }} {{ studentsSSOData[0]?.sn }}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="nav-link"
@@ -163,7 +163,7 @@
         </div>
         <div class="info">
           <a [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="d-block">
-            {{ studentsSSOData[0].givenname }} {{ studentsSSOData[0].sn }}</a>
+            {{ studentsSSOData[0]?.givenname }} {{ studentsSSOData[0]?.sn }}</a>
         </div>
       </div>
 
