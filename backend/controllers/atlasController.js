@@ -241,7 +241,8 @@ const getAvailablePositionGroupsUI = async (request, response) => {
         'name': item.name,
         'providerContactEmail': item.contact_email,
         'providerContactName': item.contact_name,
-        'providerContactPhone': item.contact_phone
+        'providerContactPhone': item.contact_phone,
+        'atlasPositionId': item.atlas_position_id
       });
     }
 

@@ -277,14 +277,24 @@ const updateStudentPositions = async (studentId, body) => {
 
 const insertStudentPositions = async (studentId, body) => {
   try {
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date) " +
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) " +
       " VALUES" +
-      " ($1, $2, $3, $4, $5, $6)",
-      [studentId, body.priority, body.company, body.title, body.place, body.upload_date]);
+      " ($1, $2, $3, $4, $5, $6, $7)",
+      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id]);
   } catch (error) {
     throw Error('Error while inserting student positions');
   }
 };
+
+const findMaxPositions = async (studentId, positionId) => {
+  try {
+    await pool.query("SELECT MAX(priority) FROM student_positions WHERE student_id = $1 AND position_id = $2) ",
+      [studentId, positionId]);
+  } catch (error) {
+    throw Error('Error while finding student max priority');
+  }
+};
+
 
 module.exports = {
   getStudents,
@@ -293,6 +303,7 @@ module.exports = {
   getStudentEvaluationSheets,
   getStudentApplications,
   getStudentPositions,
+  findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,
   insertStudentExitSheet,

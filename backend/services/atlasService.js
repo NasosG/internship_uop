@@ -70,10 +70,15 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.duration <= ";
       queryStr += filters.monthsOfInternship == "months6" ? " 6"
         : filters.monthsOfInternship == "months12" ? " 12" : " 24";
+      moreThanOneFilters = true;
     }
     if (filters.workingHours) {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.position_type = ";
       queryStr += filters.workingHours == "fulltime" ? "'Πλήρες ωράριο'" : "'Μερικό ωράριο'";
+      moreThanOneFilters = true;
+    }
+    if (filters.provider) {
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " p.name ILIKE '%" + filters.provider + "%'";
     }
     if (filters.publicationDate) {
       queryStr += " ORDER BY last_update_string ";

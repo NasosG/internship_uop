@@ -13,6 +13,7 @@ router.put("/updateStudentContact/:id", checkAuth, studentController.updateStude
 router.post("/insertStudentEntrySheet/:id", checkAuth, studentController.insertStudentEntrySheet);
 router.post("/insertStudentExitSheet/:id", checkAuth, studentController.insertStudentExitSheet);
 router.post("/insertStudentApplication/:id", checkAuth, studentController.insertStudentApplication);
+router.post("/insertStudentPosition/:id", checkAuth, studentController.insertStudentPosition);
 router.put("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
 router.put("/updateStudentPositionPriorities/:id", checkAuth, studentController.updateStudentPositionPriorities);
 router.put("/updateStudentPositions/:id", checkAuth, studentController.updateStudentPositions);

@@ -13,6 +13,7 @@ import {StudentsService} from '../student.service';
 })
 
 export class StudentInternshipComponent implements OnInit {
+  jobPositionId!: number;
   jobTitle!: string;
   jobDescription!: string;
   jobCity!: string;
@@ -31,8 +32,11 @@ export class StudentInternshipComponent implements OnInit {
   limit: number = 6; // Number of results to fetch from the back-end
   entries!: AtlasPosition[];
   departments!: Department[];
-  // prefectures!: Prefecture[];
   cities!: City[];
+
+  timer!: any;      // Timer identifier
+  waitTime: number = 500;   // Wait time in milliseconds
+
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void {
@@ -135,6 +139,7 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   setJobsDetails(index: number) {
+    this.jobPositionId = this.entries[index].atlasPositionId;
     this.jobTitle =  this.entries[index].title;
     this.jobDescription = this.entries[index].description;
     this.jobCity = this.entries[index].city;
@@ -202,4 +207,27 @@ export class StudentInternshipComponent implements OnInit {
   //   selectAllCheckbox.checked = false;
   //   this.fetchPositionsByWorkingHours(check);
   // }
+
+  // Search for providers function
+  search(text: any) {
+    this.entries = [];
+    this.filters.provider = !text ? null : text;
+    // Make HTTP Request HERE
+    this.fetchFilteredPositions(this.filters);
+  }
+
+
+  searchFor(provider: any) {
+     // Clear timer
+     clearTimeout(this.timer);
+
+     // Wait for X ms and then process the request
+     this.timer = setTimeout(() => {
+        this.search(provider.value);
+     }, this.waitTime);
+  }
+
+  addPosition(positionId: number) {
+    this.studentsService.insertStudentPosition(positionId);
+  }
 }

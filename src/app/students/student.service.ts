@@ -81,7 +81,7 @@ export class StudentsService {
       .post<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasFilteredPositions/' + begin, filterData);
   }
 
-   getAtlasInstitutions(): Observable<Array<Department>> {
+  getAtlasInstitutions(): Observable<Array<Department>> {
     return this.http
       .get<Array<Department>>('http://localhost:3000/api/atlas/getInstitutions/');
   }
@@ -197,6 +197,14 @@ export class StudentsService {
       });
   }
 
+  insertStudentPosition(positionId: number) {
+    const studentId = 1;
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, positionId)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
   // Not currently used
   // deleteStudentPosition(positionPriority: number) {
   //   this.http

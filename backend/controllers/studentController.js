@@ -280,6 +280,33 @@ const insertStudentApplication = async (request, response, next) => {
   }
 };
 
+const insertStudentPosition = async (request, response, next) => {
+  try {
+    const studentId = request.params.id;
+    const body = request.body;
+    let numberOfPositions = 5;
+
+    const maxPriority = await studentService.findMaxPositions(studentId, body.positionId);
+
+    if (maxPriority <= numberOfPositions) {
+      // priority is +1 from the previous position (which we know by max priority)
+      body.priority = maxPriority + 1;
+      await studentService.insertStudentPositions(studentId, body);
+    }
+    else console.log("exei hnth tesh");
+    response
+      .status(201)
+      .json({
+        message: 'Student position was inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const deleteEntryFormByStudentId = async (request, response) => {
   const id = request.params.id;
   try {
@@ -356,6 +383,7 @@ module.exports = {
   insertStudentExitSheet,
   insertStudentEvaluationSheet,
   insertStudentApplication,
+  insertStudentPosition,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentBio,

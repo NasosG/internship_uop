@@ -4,4 +4,5 @@ export class AtlasFilters {
   institution!: string;
   monthsOfInternship!: string;
   workingHours!: string;
+  provider!: string;
 }

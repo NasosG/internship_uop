@@ -78,7 +78,7 @@
               <!-- <select data-placeholder="Choose Category" style="padding: 14px 18px;" -->
               <!-- (change)="fetchFilteredPositions($event.target)" class="chosen-select-no-single"> -->
               <!-- <option selected="selected" value="unselected">Όλοι οι φορείς</option> -->
-              <input type="text" placeholder="Φορέας" value="" />
+              <input type="text" placeholder="Φορέας" [value]="" (keyup)="searchFor($event.target)" autocomplete="on" />
               <!-- <option value="recent">ιντρασοφτ</option>
                 <option value="oldest">ιντρακομ</option> -->
               <!-- </select> -->
@@ -256,7 +256,7 @@
                   <tr><i class="fa fa-envelope"></i> <strong> Email:</strong>
                     {{this.providerContactEmail ? this.providerContactEmail : 'Δεν διατίθεται'}}</tr>
                 </table>
-                <a href="" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ ΘΕΣΗ</a>
+                <a (click)="addPosition(this.jobPositionId)" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ ΘΕΣΗ</a>
               </div>
             </li>
           </ul>
