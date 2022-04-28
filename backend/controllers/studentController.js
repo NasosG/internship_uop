@@ -284,16 +284,18 @@ const insertStudentPosition = async (request, response, next) => {
   try {
     const studentId = request.params.id;
     const body = request.body;
-    let numberOfPositions = 5;
-
+    let priority = 0;
+    const NUMBER_OF_POSITIONS = 5;
     const maxPriority = await studentService.findMaxPositions(studentId, body.positionId);
 
-    if (maxPriority <= numberOfPositions) {
+    if (maxPriority < NUMBER_OF_POSITIONS) {
       // priority is +1 from the previous position (which we know by max priority)
-      body.priority = maxPriority + 1;
-      await studentService.insertStudentPositions(studentId, body);
+      priority = maxPriority + 1;
+      //console.log(priority, maxPriority, body.positionId, studentId);
+      await studentService.insertStudentPositions(studentId, body.positionId, priority);
     }
-    else console.log("exei hnth tesh");
+    else console.log("Student can't choose more than 5 positions");
+
     response
       .status(201)
       .json({

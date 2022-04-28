@@ -228,6 +228,7 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   addPosition(positionId: number) {
+    console.log(positionId);
     this.studentsService.insertStudentPosition(positionId);
   }
 }

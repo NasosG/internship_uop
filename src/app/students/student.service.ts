@@ -198,9 +198,10 @@ export class StudentsService {
   }
 
   insertStudentPosition(positionId: number) {
+    console.log("ti kans" + positionId);
     const studentId = 1;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, positionId)
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, {positionId})
       .subscribe(responseData => {
         console.log(responseData.message);
       });

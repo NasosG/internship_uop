@@ -275,22 +275,51 @@ const updateStudentPositions = async (studentId, body) => {
   }
 };
 
-const insertStudentPositions = async (studentId, body) => {
+const insertStudentPositions = async (studentId, positionId, priority) => {
   try {
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) " +
-      " VALUES" +
-      " ($1, $2, $3, $4, $5, $6, $7)",
-      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id]);
+    const positionInfo = await pool.query("SELECT name as company, title, city, last_update_string FROM atlas_position_group pos"
+      + " INNER JOIN atlas_provider prov"
+      + " ON pos.provider_id = prov.atlas_provider_id"
+      + ` WHERE pos.atlas_position_id = ${positionId}`);
+
+    const res = await findIfPositionExists(studentId, positionId);
+    if (res.poscount > 0) {
+      console.log("Already exists");
+      throw Error('User has already chosen this position');
+    }
+
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) "
+      + " VALUES"
+      + " ($1, $2, $3, $4, $5, $6, $7)",
+      [studentId, priority, positionInfo.rows[0].company, positionInfo.rows[0].title, positionInfo.rows[0].city, positionInfo.rows[0].last_update_string, positionId]);
   } catch (error) {
     throw Error('Error while inserting student positions');
   }
 };
 
-const findMaxPositions = async (studentId, positionId) => {
+const findIfPositionExists = async (studentId, positionId) => {
   try {
-    await pool.query("SELECT MAX(priority) FROM student_positions WHERE student_id = $1 AND position_id = $2) ",
-      [studentId, positionId]);
+    const positionInfo = await pool.query("SELECT COUNT(*) as poscount "
+      + " FROM student_positions pos"
+      + ` WHERE pos.position_id = ${positionId}`
+      + ` AND pos.student_id = ${studentId}`);
+    return positionInfo.rows[0];
   } catch (error) {
+    throw Error('Error while position exists positions');
+  }
+};
+
+const findMaxPositions = async (studentId, positionId) => {
+  let maxPriority = 0;
+  try {
+    // const maxPriority = await pool.query("SELECT MAX(priority) as maxpriority FROM student_positions WHERE student_id = $1 AND position_id = $2",
+    //   [studentId, positionId]);
+    const maxPriority = await pool.query("SELECT MAX(priority) as maxpriority FROM student_positions WHERE student_id = $1",
+      [studentId]);
+
+    return maxPriority.rows[0].maxpriority;
+  } catch (error) {
+    if (!maxPriority) return 0;
     throw Error('Error while finding student max priority');
   }
 };
