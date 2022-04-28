@@ -275,7 +275,24 @@ const updateStudentPositions = async (studentId, body) => {
   }
 };
 
-const insertStudentPositions = async (studentId, positionId, priority) => {
+const insertStudentPositions = async (studentId, body) => {
+  try {
+    // const res = await findIfPositionExists(studentId, positionId);
+    // if (res.poscount > 0) {
+    //   console.log("Already exists");
+    //   throw Error('User has already chosen this position');
+    // }
+    console.log(body);
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) "
+      + " VALUES"
+      + " ($1, $2, $3, $4, $5, $6, $7)",
+      [studentId, priority, body.company, body.title, body.place, body.upload_date, position_id]);
+  } catch (error) {
+    throw Error('Error while inserting student positions');
+  }
+};
+
+const insertStudentPositionsFromUser = async (studentId, positionId, priority) => {
   try {
     const positionInfo = await pool.query("SELECT name as company, title, city, last_update_string FROM atlas_position_group pos"
       + " INNER JOIN atlas_provider prov"
@@ -335,6 +352,7 @@ module.exports = {
   findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,
+  insertStudentPositionsFromUser,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,
   insertStudentApplication,

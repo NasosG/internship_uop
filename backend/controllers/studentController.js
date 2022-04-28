@@ -292,7 +292,7 @@ const insertStudentPosition = async (request, response, next) => {
       // priority is +1 from the previous position (which we know by max priority)
       priority = maxPriority + 1;
       //console.log(priority, maxPriority, body.positionId, studentId);
-      await studentService.insertStudentPositions(studentId, body.positionId, priority);
+      await studentService.insertStudentPositionsFromUser(studentId, body.positionId, priority);
     }
     else console.log("Student can't choose more than 5 positions");
 
