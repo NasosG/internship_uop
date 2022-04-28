@@ -43,7 +43,7 @@ const getStudentEvaluationSheets = async (id) => {
 
 const getStudentPositions = async (id) => {
   try {
-    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date \
+    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date, position_id \
                                                       FROM student_positions \
                                                       WHERE student_id = $1 \
                                                       ORDER BY priority", [id]);
@@ -286,7 +286,7 @@ const insertStudentPositions = async (studentId, body) => {
     await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) "
       + " VALUES"
       + " ($1, $2, $3, $4, $5, $6, $7)",
-      [studentId, priority, body.company, body.title, body.place, body.upload_date, position_id]);
+      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id]);
   } catch (error) {
     throw Error('Error while inserting student positions');
   }
