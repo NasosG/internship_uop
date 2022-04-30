@@ -32,7 +32,11 @@
     "STEPS-FOR-INTERNSHIP": "ATTENTION! For students to carry out an internship at your institution, the following steps are required in the order listed below",
     "CREATE-ACCOUNT-STEP": "Create an account and post internships in the system",
     "POSITIONS-ATLAS-STEP": "The students of University of Peloponnese can see the positions you have posted in ATLAS and IF they choose you, you will be informed by email about how to access the praktiki.uop.gr system",
-    "SYSTEM-ACCESS": "After receiving a message by e-mail with login instructions to the system praktiki.uop.gr THEN and ONLY THEN you gain access to this system and you can select students for internship from the University of Peloponnese"
+    "SYSTEM-ACCESS": "After receiving a message by e-mail with login instructions to the system praktiki.uop.gr THEN and ONLY THEN you gain access to this system and you can select students for internship from the University of Peloponnese",
+    "CONTACT": "Contact"
+  },
+  "GENERIC": {
+    "CONTACT": "Contact"
   },
   "STUDENT": {
     "PROFILE": "Profile",

@@ -4,7 +4,6 @@ import {AtlasFilters} from '../atlas-filters.model';
 import {AtlasPosition} from '../atlas-position.model';
 import {City} from '../city.model';
 import {Department} from '../department.model';
-import {Prefecture} from '../prefecture.model';
 import {StudentsService} from '../student.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class StudentInternshipComponent implements OnInit {
   entries!: AtlasPosition[];
   departments!: Department[];
   cities!: City[];
-
   timer!: any;      // Timer identifier
   waitTime: number = 500;   // Wait time in milliseconds
 
