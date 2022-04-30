@@ -282,6 +282,7 @@ const insertStudentApplication = async (request, response, next) => {
 
 const insertStudentPosition = async (request, response, next) => {
   try {
+    let message = "";
     const studentId = request.params.id;
     const body = request.body;
     let priority = 0;
@@ -293,14 +294,15 @@ const insertStudentPosition = async (request, response, next) => {
       priority = maxPriority + 1;
       //console.log(priority, maxPriority, body.positionId, studentId);
       await studentService.insertStudentPositionsFromUser(studentId, body.positionId, priority);
+      message = "Student position was inserted successfully";
+    } else {
+      console.log("insertStudentPosition(), Student can't choose more than 5 positions");
+      message = "Student can't choose more than 5 positions";
     }
-    else console.log("Student can't choose more than 5 positions");
 
     response
       .status(201)
-      .json({
-        message: 'Student position was inserted successfully'
-      });
+      .json({ message: message });
   } catch (error) {
     console.error(error.message);
     response.send({

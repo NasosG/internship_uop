@@ -187,10 +187,22 @@ const deleteEntryFormByStudentId = async (studentId) => {
 
 const deleteApplicationById = async (applicationId) => {
   try {
+    const studentId = (await pool.query("SELECT student_id as stid FROM student_applications WHERE id = $1", [applicationId])).rows[0].stid;
+    console.log("stid " + studentId);
+    await deletePositionsbyStudentId(studentId);
     const updateResults = await pool.query("UPDATE student_applications SET application_status='false' WHERE id = $1", [applicationId]);
+
     return updateResults;
   } catch (error) {
     throw Error(`Error while updating application status to inactive ${applicationId} student_applications`);
+  }
+};
+
+const deletePositionsbyStudentId = async (studentId) => {
+  try {
+    await pool.query("DELETE FROM student_positions WHERE student_id = $1", [studentId]);
+  } catch (error) {
+    throw Error(`Error while deleting positions before setting app status to inactive`);
   }
 };
 
@@ -277,12 +289,7 @@ const updateStudentPositions = async (studentId, body) => {
 
 const insertStudentPositions = async (studentId, body) => {
   try {
-    // const res = await findIfPositionExists(studentId, positionId);
-    // if (res.poscount > 0) {
-    //   console.log("Already exists");
-    //   throw Error('User has already chosen this position');
-    // }
-    console.log(body);
+    // console.log(body);
     await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) "
       + " VALUES"
       + " ($1, $2, $3, $4, $5, $6, $7)",

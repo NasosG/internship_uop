@@ -198,14 +198,13 @@ export class StudentsService {
   }
 
   insertStudentPosition(positionId: number) {
-    console.log("ti kans" + positionId);
     const studentId = 1;
-    this.http
+
+    return this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, {positionId})
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+
   }
+
   // Not currently used
   // deleteStudentPosition(positionPriority: number) {
   //   this.http
@@ -215,10 +214,9 @@ export class StudentsService {
   //     });
   // }
 
-
-  deleteStudentPositions(studenId: number) {
+  deleteStudentPositions(studentId: number) {
     this.http
-      .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionsByStudentId/" + studenId)
+      .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionsByStudentId/" + studentId)
       .subscribe(responseData => {
         console.log(responseData.message);
       });

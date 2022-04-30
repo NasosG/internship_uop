@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import {AtlasFilters} from '../atlas-filters.model';
 import {AtlasPosition} from '../atlas-position.model';
 import {City} from '../city.model';
@@ -182,32 +183,6 @@ export class StudentInternshipComponent implements OnInit {
     this.fetchPositionsByWorkingHours(currentCheckbox);
   }
 
-  // selectAll() {
-  // 	   let selectAllCheckbox: any = document.getElementById('select-all');
-  //     let check2: any = document.getElementById('check-2');
-  //     let check3: any = document.getElementById('check-3');
-  //     check2.checked = check3.checked = selectAllCheckbox.checked;
-  //     this.fetchPositionsByWorkingHours(selectAllCheckbox);
-  // }
-
-  // selectOneOption(id: string) {
-  //   let selectAllCheckbox: any = document.getElementById('select-all');
-  //   let check: any = document.getElementById(id);
-  //   let check2: any = document.getElementById('check-2');
-  //   let check3: any = document.getElementById('check-3');
-
-  //   if (check.id == 'check-2') {
-  //     check2.checked = true;
-  //     check3.checked = false;
-  //   } else {
-  //     check3.checked = true;
-  //     check2.checked = false;
-  //   }
-
-  //   selectAllCheckbox.checked = false;
-  //   this.fetchPositionsByWorkingHours(check);
-  // }
-
   // Search for providers function
   search(text: any) {
     this.entries = [];
@@ -215,7 +190,6 @@ export class StudentInternshipComponent implements OnInit {
     // Make HTTP Request HERE
     this.fetchFilteredPositions(this.filters);
   }
-
 
   searchFor(provider: any) {
      // Clear timer
@@ -228,7 +202,57 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   addPosition(positionId: number) {
-    console.log(positionId);
-    this.studentsService.insertStudentPosition(positionId);
+    let message = "";
+    //this.studentsService.insertStudentPosition(positionId);
+
+    this.studentsService.insertStudentPosition(positionId).subscribe(responseData => {
+      message = responseData.message;
+      // console.log(message);
+
+      // check if student tries to choose more than 5 positions
+      if (message == "Student can't choose more than 5 positions") {
+        console.log("Can't choose more than 5 positions");
+        this.warnIllegalPositionNumber();
+        return;
+      }
+      // check if student tries to select the same position or another error occurrs
+      else if (message == "Error while inserting student positions") {
+        this.warnError();
+        return;
+      }
+
+      this.addedPositionSuccess();
+    });
   }
+
+  private addedPositionSuccess(): void {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: "Η θέση προστέθηκε",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  private warnError(): void {
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: "Κάτι πήγε στραβά. Ίσως έχετε ήδη επιλέξει την ίδια θέση.",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  private warnIllegalPositionNumber(): void {
+    Swal.fire({
+      position: 'center',
+      icon: 'info',
+      title: "Can't choose more than 5 positions",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
 }
