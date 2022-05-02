@@ -41,6 +41,20 @@ const getStudentApplications = async (request, response) => {
   }
 };
 
+const getStudentActiveApplication = async (request, response) => {
+  try {
+    console.log("asd");
+    const id = request.params.id;
+    const applications = await studentService.getStudentActiveApplication(id);
+    response.status(200).json(applications.rows[0].count);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const getStudentExitSheets = async (request, response) => {
   try {
     const id = request.params.id;
@@ -383,6 +397,7 @@ module.exports = {
   getStudentEvaluationSheets,
   getStudentPositions,
   getStudentApplications,
+  getStudentActiveApplication,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,

@@ -30,6 +30,7 @@ export class StudentInternshipComponent implements OnInit {
 
   begin: number = 0;
   limit: number = 6; // Number of results to fetch from the back-end
+  isAppActive: boolean = false;
   entries!: AtlasPosition[];
   departments!: Department[];
   cities!: City[];
@@ -51,6 +52,12 @@ export class StudentInternshipComponent implements OnInit {
       .subscribe((positions: AtlasPosition[]) => {
         this.entries = positions;
         this.setJobsDetails(0); // TODO: find a way to do it outside of subscribe
+    });
+    this.studentsService.getStudentActiveApplication()
+      .subscribe((num : number) => {
+        console.log("active apps number: " + num);
+        // if one or more apps from this student are active
+        if (num >= 1) this.isAppActive = true;
     });
     //this.setJobsDetails(0);
   }
@@ -237,7 +244,7 @@ export class StudentInternshipComponent implements OnInit {
     Swal.fire({
       position: 'center',
       icon: 'error',
-      title: "Κάτι πήγε στραβά. Ίσως έχετε ήδη επιλέξει την ίδια θέση.",
+      title: "Δεν μπορείτε να επιλέξετε την ίδια θέση.",
       showConfirmButton: false,
       timer: 1500
     });
@@ -247,10 +254,22 @@ export class StudentInternshipComponent implements OnInit {
     Swal.fire({
       position: 'center',
       icon: 'info',
-      title: "Can't choose more than 5 positions",
+      title: "Δε μπορείτε να επιλέξετε πάνω από 5 θέσεις",
       showConfirmButton: false,
       timer: 1500
     });
+  }
+
+
+  checkIfActiveAppExists() {
+    this.studentsService.getStudentActiveApplication()
+    .subscribe((num : number) => {
+      console.log(num);
+      // if (num == 1) return true;
+      // else return false;
+    });
+
+    return false;
   }
 
 }

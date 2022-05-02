@@ -70,6 +70,14 @@ export class StudentsService {
       .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
   }
 
+  // get active
+  getStudentActiveApplication(): Observable<number> {
+    const studentId = 1;
+    console.log("tou xrhsth: " + this.authService.getSessionId());
+    return this.http
+      .get<number>('http://localhost:3000/api/students/getStudentActiveApplication/' + studentId);
+  }
+
   getAtlasPositions(begin: number): Observable<Array<AtlasPosition>> {
     return this.http
       .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAvailablePositionGroups/' + begin);

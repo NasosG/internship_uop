@@ -63,6 +63,17 @@ const getStudentApplications = async (studentId) => {
   }
 };
 
+const getStudentActiveApplication = async (studentId) => {
+  try {
+    return await pool.query("SELECT COUNT(*) as count \
+                            FROM student_applications \
+                            WHERE student_id = $1 \
+                            AND application_status = 'true'", [studentId]);
+  } catch (error) {
+    throw Error('Error while fetching student applications');
+  }
+};
+
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -165,7 +176,6 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
 
 const insertStudentApplication = async (body, studentId) => {
   try {
-    // console.log(body);
     await pool.query("INSERT INTO student_applications" +
       '(student_id, positions, application_date, application_status )' +
       " VALUES " + "($1, $2, now(), 'true')",
@@ -356,6 +366,7 @@ module.exports = {
   getStudentEvaluationSheets,
   getStudentApplications,
   getStudentPositions,
+  getStudentActiveApplication,
   findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,
