@@ -144,4 +144,8 @@ export class StudentComponent implements OnInit, OnDestroy {
   isEvaluationSheetRoute() {
     return this.router.url === '/student/evaluation-form'
   }
+
+  isPracticeEnableRoute() {
+    return this.router.url === '/student/enable_intern/' + this.authService.getSessionId();
+  }
 }

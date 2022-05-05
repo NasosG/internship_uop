@@ -43,7 +43,7 @@ const getStudentApplications = async (request, response) => {
 
 const getStudentActiveApplication = async (request, response) => {
   try {
-    console.log("asd");
+    // console.log("student active app");
     const id = request.params.id;
     const applications = await studentService.getStudentActiveApplication(id);
     response.status(200).json(applications.rows[0].count);

@@ -187,8 +187,8 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">{{'STUDENT.SIDEBAR-MAIN-OPTIONS' | translate}}</li>
           <li class="nav-item">
-            <a [routerLink]="['/student/profile/'+ this.authService.getSessionId()]" [routerLinkActive]="['active']"
-              class="nav-link">
+            <a [routerLink]="['/student/enable_intern/'+ this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p> {{'STUDENT.SIDEBAR-PROFILE' | translate}}</p>
             </a>
@@ -358,6 +358,7 @@
           <app-contact *ngIf="isContactRoute()"></app-contact>
           <app-sheet-evaluation *ngIf="isEvaluationSheetRoute()"></app-sheet-evaluation>
           <student-contract *ngIf="isStudentContractRoute()"></student-contract>
+          <app-practice-enable *ngIf="isPracticeEnableRoute()"></app-practice-enable>
           <!-- /.col -->
           <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

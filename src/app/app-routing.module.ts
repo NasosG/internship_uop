@@ -32,6 +32,10 @@ const routes: Routes = [{
     component: StudentComponent
   },
   {
+    path: 'enable_intern/:id',
+    component: StudentComponent
+  },
+  {
     path: 'myinternship/:id',
     component: StudentComponent
   },

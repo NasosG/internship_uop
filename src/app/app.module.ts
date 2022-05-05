@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +29,7 @@ import { SheetInputPreviewComponent } from './students/sheet-input-preview/sheet
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatStepperModule } from '@angular/material/stepper';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -52,8 +53,9 @@ import { SheetOutputPreviewComponent } from './students/sheet-output-preview/she
 import { SheetEvaluationComponent } from './students/sheet-evaluation/sheet-evaluation.component';
 import { SheetEvaluationEditComponent } from './students/sheet-evaluation-edit/sheet-evaluation-edit.component';
 import { SheetEvaluationPreviewComponent } from './students/sheet-evaluation-preview/sheet-evaluation-preview.component';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PracticeEnableComponent } from './students/practice-enable/practice-enable.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -96,7 +98,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetOutputPreviewComponent,
     SheetEvaluationComponent,
     SheetEvaluationEditComponent,
-    SheetEvaluationPreviewComponent
+    SheetEvaluationPreviewComponent,
+    PracticeEnableComponent
   ],
   imports: [
     BrowserModule,
@@ -110,9 +113,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatButtonModule,
     MatTabsModule,
     MatListModule,
+    MatStepperModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
