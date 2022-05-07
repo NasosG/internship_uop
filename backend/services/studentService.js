@@ -1,4 +1,5 @@
 // database connection configuration
+const { addSyntheticLeadingComment } = require("typescript");
 const pool = require("../db_config.js");
 
 const getStudents = async () => {

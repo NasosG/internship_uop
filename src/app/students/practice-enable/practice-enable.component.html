@@ -27,8 +27,8 @@
       <ng-template matStepLabel>Βασικά στοιχεία</ng-template>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Όνομα</mat-label>
-        <input matInput class="inactive-field" placeholder="Όνομα" name="name" [ngModel]="studentsSSOData[0].givenname"
-          formControlName="nameCtrl" readonly required>
+        <input matInput class="inactive-field" placeholder="Όνομα" id="name" name="name"
+          [ngModel]="studentsSSOData[0].givenname" formControlName="nameCtrl" readonly required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Επώνυμο</mat-label>
@@ -63,8 +63,8 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Φύλο</mat-label>
-        <input matInput class="inactive-field" placeholder="Φύλο" [ngModel]="gender" formControlName="genderCtrl"
-          readonly required>
+        <input matInput class="inactive-field" name="sex" placeholder="Φύλο" [ngModel]="gender"
+          formControlName="genderCtrl" readonly required>
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Επόμενο</button>
@@ -127,7 +127,7 @@
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
-        <button mat-button matStepperNext>Επόμενο</button>
+        <button mat-button matStepperNext (click)="updateStudentsAllDetails()">Επόμενο</button>
       </div>
     </form>
   </mat-step>
