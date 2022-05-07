@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {Student} from '../student.model';
-import {StudentsService} from '../student.service';
+import { Student } from '../student.model';
+import { StudentsService } from '../student.service';
 
 @Component({
   selector: 'app-practice-enable',
@@ -14,10 +14,13 @@ import {StudentsService} from '../student.service';
  */
 export class PracticeEnableComponent implements OnInit {
 
+   @ViewChild('fileInput', { static: false }) fileInput: ElementRef | undefined;
   isLinear = true;
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
+  thirdFormGroup!: FormGroup;
   studentsSSOData: Student[] = [];
+  gender!: String;
 
   constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder) {}
 
@@ -25,9 +28,9 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.getStudents()
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
+        this.gender = this.studentsSSOData[0].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα';
         this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
         this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
-        // console.log(this.studentsSSOData);
       });
     this.firstFormGroup = this._formBuilder.group({
       nameCtrl: ['', Validators.required],
@@ -40,7 +43,17 @@ export class PracticeEnableComponent implements OnInit {
       genderCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
+      ssnControl: ['', Validators.required],
+      ssnFile: ['', Validators.required],
+      doyControl: ['', Validators.required],
+      amkaControl: ['', Validators.required],
+      ibanControl: ['', Validators.required],
+      ibanFile: ['', Validators.required]
+    });
+    this.thirdFormGroup = this._formBuilder.group({
+      emailCtrl: ['', Validators.required],
+      // phoneCtrl: ['', Validators.required]
+      phoneCtrl: []
     });
   }
 

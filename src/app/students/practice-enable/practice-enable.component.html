@@ -27,13 +27,13 @@
       <ng-template matStepLabel>Βασικά στοιχεία</ng-template>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Όνομα</mat-label>
-        <input matInput placeholder="Όνομα" name="name" [ngModel]="studentsSSOData[0].givenname"
-          formControlName="nameCtrl" required>
+        <input matInput class="inactive-field" placeholder="Όνομα" name="name" [ngModel]="studentsSSOData[0].givenname"
+          formControlName="nameCtrl" readonly required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Επώνυμο</mat-label>
-        <input matInput placeholder="Επώνυμο<" name="surname" [ngModel]="studentsSSOData[0].sn"
-          formControlName="surnameCtrl" required>
+        <input matInput class="inactive-field" placeholder="Επώνυμο" name="surname" [ngModel]="studentsSSOData[0].sn"
+          formControlName="surnameCtrl" readonly required>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Όνομα Πατρός</mat-label>
@@ -57,16 +57,14 @@
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Ημερομηνία Γέννησης</mat-label>
-        <input matInput placeholder="Ημερομηνία Γέννησης" [ngModel]="studentsSSOData[0].schacdateofbirth"
-          formControlName="dobCtrl" name="schacdateofbirth" readonly min="1900-01-01" max="2800-01-01" required>
+        <input matInput class="inactive-field" placeholder="Ημερομηνία Γέννησης"
+          [ngModel]="studentsSSOData[0].schacdateofbirth" formControlName="dobCtrl" name="schacdateofbirth" readonly
+          min="1900-01-01" max="2800-01-01" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Φύλο</mat-label>
-        <!-- <input matInput *ngIf="studentsSSOData[0].schacgender == 1" type="text" id="sex" formControlName="genderCtrl"
-          name="sex" value="Άνδρας" readonly />
-        <input matInput *ngIf="studentsSSOData[0].schacgender == 0" type="text" id="sex" formControlName="genderCtrl"
-          name="sex" value="Γυναίκα" readonly /> -->
-        <input matInput placeholder="Φύλο" value="asd" formControlName="genderCtrl" required>
+        <input matInput class="inactive-field" placeholder="Φύλο" [ngModel]="gender" formControlName="genderCtrl"
+          readonly required>
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Επόμενο</button>
@@ -76,9 +74,37 @@
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Στοιχεία Σύμβασης</ng-template>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>ΑΦΜ</mat-label>
+        <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[1].ssn" id="inputName" placeholder="ΑΦΜ"
+          formControlName="ssnControl" required>
+      </mat-form-field><br>
       <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+        <mat-label>ΔΟΥ</mat-label>
+        <input matInput name="doy" ngModel [ngModel]="studentsSSOData[1].doy" id="inputDOY" placeholder="ΔΟΥ*"
+          formControlName="doyControl" required>
+      </mat-form-field><br>
+      <mat-form-field appearance="fill">
+        <mat-label>IBAN</mat-label>
+        <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[1].iban" ngModel placeholder="ΔΟΥ*"
+          formControlName="ibanControl" required>
+      </mat-form-field><br>
+      <mat-form-field appearance="fill">
+        <mat-label>ΑΜΚΑ</mat-label>
+        <input matInput ngModel [ngModel]="studentsSSOData[0].schacpersonaluniqueid" id="amka" name="amka"
+          placeholder="ΑΜΚΑ*" formControlName="amkaControl" required>
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε φωτογραφία που να απεικονίζεται το ΑΦΜ</h6>
+      <mat-form-field>
+        <ngx-mat-file-input formControlName="ssnFile" placeholder="Φωτογραφία ΑΦΜ"></ngx-mat-file-input>
+        <!-- <mat-icon matSuffix>insert_photo</mat-icon> -->
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε φωτογραφία που να απεικονίζεται το IBAN</h6>
+      <mat-form-field>
+        <ngx-mat-file-input formControlName="ibanFile" placeholder="Φωτογραφία ΙΒΑΝ"></ngx-mat-file-input>
+        <!-- <mat-icon matSuffix>insert_photo</mat-icon> -->
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
@@ -86,12 +112,18 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
       <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="emailCtrl" type="email" id="inputEmail"
+          [ngModel]="this.studentsSSOData[0].id + '@uop.gr'" placeholder="email" required>
+      </mat-form-field><br>
+      <mat-form-field appearance="fill">
+        <mat-label>Τηλέφωνο</mat-label>
+        <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
+          [ngModel]="studentsSSOData[1].phone" size="31" maxlength="31" />
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
