@@ -14,9 +14,6 @@ import { StudentsService } from '../student.service';
  * @title enable practice with vertical stepper
  */
 export class PracticeEnableComponent implements OnInit {
-
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef | undefined;
-  @ViewChild('fileInput2', { static: false }) fileInput2: ElementRef | undefined;
   isLinear = true;
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
@@ -54,12 +51,11 @@ export class PracticeEnableComponent implements OnInit {
     });
     this.thirdFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
-      // phoneCtrl: ['', Validators.required]
       phoneCtrl: []
     });
   }
 
-  // This function is used to get the AMKA of the student
+  // This function is used to get the AMKA number of the student
   private getSSN(str: string): string {
     const personalIdArray = str.split(":");
     return personalIdArray[personalIdArray.length - 1];
@@ -77,30 +73,35 @@ export class PracticeEnableComponent implements OnInit {
 
   // Used to update student general, contract and contact details
   updateStudentsAllDetails() {
-    // let generalDetailsData : any[] = [];
     const generalDetailsData : any = {
         father_name: this.firstFormGroup.get('fatherNameCtrl')?.value,
         father_last_name: this.firstFormGroup.get('fatherSurnameCtrl')?.value,
         mother_name: this.firstFormGroup.get('motherNameCtrl')?.value,
         mother_last_name: this.firstFormGroup.get('motherSurnameCtrl')?.value
     };
+    const contractsData : any = {
+        ssn: this.secondFormGroup.get('ssnControl')?.value,
+        doy: this.secondFormGroup.get('doyControl')?.value,
+        iban: this.secondFormGroup.get('ibanControl')?.value
+        // ssnFile
+        // ibanFile
+    };
 
-    console.log(generalDetailsData);
-    //var formData: any = new FormData();
-    //formData.append("name", this.firstFormGroup.get('name')?.value);
-    //formData.append("avatar", this.form.get('avatar').value);
     this.onSubmitStudentDetails(generalDetailsData);
+    this.onSubmitStudentContractDetails(contractsData);
+    // this.onSubmitStudentContact();
+    this.onSave();
   }
 
   fileUploadSSN(): FormData {
-    const imageBlob = this.fileInput?.nativeElement.files[0];
+    const imageBlob = this.secondFormGroup.get('ssnFile')?.value.files[0];
     const file = new FormData();
     file.set('file', imageBlob);
     return file;
   }
 
   fileUploadIban(): FormData {
-    const imageBlob = this.fileInput2?.nativeElement.files[0];
+    const imageBlob = this.secondFormGroup.get('ibanFile')?.value.files[0];
     const file = new FormData();
     file.set('file', imageBlob);
     return file;
@@ -109,7 +110,6 @@ export class PracticeEnableComponent implements OnInit {
   onSubmitStudentDetails(data: any) {
     console.log(data);
     this.studentsService.updateStudentDetails(data);
-    this.onSave();
   }
 
   onSubmitStudentContractDetails(data: any) {
@@ -133,11 +133,12 @@ export class PracticeEnableComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
-    }).then((result) => {
+    });
+    // .then((result) => {
       // Reload the Page
       // To be changed in the future refresh strategy is not good
-      location.reload();
-    });
+      //location.reload();
+    // });
   }
 
 }

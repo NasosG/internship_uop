@@ -18,7 +18,7 @@
   <!-- /.container-fluid -->
 </section>
 <div class="alert alert-danger" role="alert">
-  Κάποια στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
+  Μέρος των στοιχείων αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
   δεν συμφωνείτε επικοινωνήστε με την γραμματεία
 </div>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
@@ -28,37 +28,37 @@
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Όνομα</mat-label>
         <input matInput class="inactive-field" placeholder="Όνομα" id="name" name="name"
-          [ngModel]="studentsSSOData[0].givenname" formControlName="nameCtrl" readonly required>
+          [ngModel]="studentsSSOData[0]?.givenname" formControlName="nameCtrl" readonly required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Επώνυμο</mat-label>
-        <input matInput class="inactive-field" placeholder="Επώνυμο" name="surname" [ngModel]="studentsSSOData[0].sn"
+        <input matInput class="inactive-field" placeholder="Επώνυμο" name="surname" [ngModel]="studentsSSOData[0]?.sn"
           formControlName="surnameCtrl" readonly required>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Όνομα Πατρός</mat-label>
-        <input matInput placeholder="Όνομα Πατρός" name="father_name" ngModel [ngModel]="studentsSSOData[1].father_name"
-          formControlName="fatherNameCtrl" required>
+        <input matInput placeholder="Όνομα Πατρός" name="father_name" ngModel
+          [ngModel]="studentsSSOData[1]?.father_name" formControlName="fatherNameCtrl" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Επώνυμο Πατρός</mat-label>
         <input matInput placeholder="Επώνυμο Πατρός" name="father_last_name" ngModel
-          [ngModel]="studentsSSOData[1].father_last_name" formControlName="fatherSurnameCtrl" required>
+          [ngModel]="studentsSSOData[1]?.father_last_name" formControlName="fatherSurnameCtrl" required>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Όνομα Μητρός</mat-label>
-        <input matInput placeholder="Όνομα Μητρός" name="mother_name" ngModel [ngModel]="studentsSSOData[1].mother_name"
-          formControlName="motherNameCtrl" required>
+        <input matInput placeholder="Όνομα Μητρός" name="mother_name" ngModel
+          [ngModel]="studentsSSOData[1]?.mother_name" formControlName="motherNameCtrl" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Επώνυμο Μητρός</mat-label>
         <input matInput placeholder="Επώνυμο Μητρός" name="mother_last_name"
-          [ngModel]="studentsSSOData[1].mother_last_name" formControlName="motherSurnameCtrl" required>
+          [ngModel]="studentsSSOData[1]?.mother_last_name" formControlName="motherSurnameCtrl" required>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Ημερομηνία Γέννησης</mat-label>
         <input matInput class="inactive-field" placeholder="Ημερομηνία Γέννησης"
-          [ngModel]="studentsSSOData[0].schacdateofbirth" formControlName="dobCtrl" name="schacdateofbirth" readonly
+          [ngModel]="studentsSSOData[0]?.schacdateofbirth" formControlName="dobCtrl" name="schacdateofbirth" readonly
           min="1900-01-01" max="2800-01-01" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -76,22 +76,22 @@
       <ng-template matStepLabel>Στοιχεία Σύμβασης</ng-template>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>ΑΦΜ</mat-label>
-        <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[1].ssn" id="inputName" placeholder="ΑΦΜ"
+        <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[1]?.ssn" id="inputName" placeholder="ΑΦΜ"
           formControlName="ssnControl" required>
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>ΔΟΥ</mat-label>
-        <input matInput name="doy" ngModel [ngModel]="studentsSSOData[1].doy" id="inputDOY" placeholder="ΔΟΥ*"
+        <input matInput name="doy" ngModel [ngModel]="studentsSSOData[1]?.doy" id="inputDOY" placeholder="ΔΟΥ*"
           formControlName="doyControl" required>
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>IBAN</mat-label>
-        <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[1].iban" ngModel placeholder="ΔΟΥ*"
+        <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[1]?.iban" ngModel placeholder="ΔΟΥ*"
           formControlName="ibanControl" required>
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>ΑΜΚΑ</mat-label>
-        <input matInput ngModel [ngModel]="studentsSSOData[0].schacpersonaluniqueid" id="amka" name="amka"
+        <input matInput ngModel [ngModel]="studentsSSOData[0]?.schacpersonaluniqueid" id="amka" name="amka"
           placeholder="ΑΜΚΑ*" formControlName="amkaControl" required>
       </mat-form-field>
       <br><br>
@@ -118,12 +118,12 @@
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput formControlName="emailCtrl" type="email" id="inputEmail"
-          [ngModel]="this.studentsSSOData[0].id + '@uop.gr'" placeholder="email" required>
+          [ngModel]="this.studentsSSOData[0]?.id + '@uop.gr'" placeholder="email" required>
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>Τηλέφωνο</mat-label>
         <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
-          [ngModel]="studentsSSOData[1].phone" size="31" maxlength="31" />
+          [ngModel]="studentsSSOData[1]?.phone" size="31" maxlength="31" />
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
