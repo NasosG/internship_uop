@@ -115,16 +115,36 @@
   <mat-step [stepControl]="thirdFormGroup">
     <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
-      <mat-form-field appearance="fill">
+      <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput formControlName="emailCtrl" type="email" id="inputEmail"
           [ngModel]="this.studentsSSOData[0]?.id + '@uop.gr'" placeholder="email" required>
-      </mat-form-field><br>
+      </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Τηλέφωνο</mat-label>
         <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
           [ngModel]="studentsSSOData[1]?.phone" size="31" maxlength="31" />
+      </mat-form-field><br>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Οδός</mat-label>
+        <input matInput formControlName="addressCtrl" id="address" name="address" ngModel
+          [ngModel]="studentsSSOData[1]?.address" size="64" maxlength="255">
       </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Περιοχή</mat-label>
+        <input matInput type="text" id="location" name="location" ngModel [ngModel]="studentsSSOData[1]?.location"
+          size="64" maxlength="255" formControlName="locationCtrl" placeholder="Περιοχή" />
+      </mat-form-field><br>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Πόλη</mat-label>
+        <input matInput type="text" id="city" name="city" ngModel formControlName="cityCtrl"
+          [ngModel]="studentsSSOData[1]?.city" size="64" maxlength="255" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Ταχυδρομικός κώδικας</mat-label>
+        <input matInput type="text" id="postal-code" name="post_address" ngModel
+          [ngModel]="studentsSSOData[1]?.post_address" size="16" maxlength="16" formControlName="postalCodeCtrl" />
+      </mat-form-field><br>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
         <button mat-button matStepperNext (click)="updateStudentsAllDetails()">Επόμενο</button>
