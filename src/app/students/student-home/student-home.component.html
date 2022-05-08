@@ -117,62 +117,112 @@
              </div>
              {{'STUDENT.INTERNSHIP-STEPS-INTRO'| translate}}
              <ul class="pt-2">
-               <li> <a class="text-steps" href="student/profile"> &nbsp;{{'STUDENT.INTERNSHIP-STEP1'| translate}}</a>
+               <li> <a class="text-steps" [href]="['student/enable_intern/' + this.authService.getSessionId()]">
+                   &nbsp;{{'STUDENT.INTERNSHIP-STEP1'| translate}}</a>
                </li>
-               <li> <a class="text-steps" href="student/myinternship">
+               <li> <a class="text-steps" [href]="['student/profile/' + this.authService.getSessionId()]">
                    &nbsp;{{'STUDENT.INTERNSHIP-STEP2'| translate}}</a>
                </li>
-               <li> <a class="text-steps" href="student/positions"> &nbsp;{{'STUDENT.INTERNSHIP-STEP3'| translate}}</a>
+               <li> <a class="text-steps" [href]="['student/myinternship/' + this.authService.getSessionId()]">
+                   &nbsp;{{'STUDENT.INTERNSHIP-STEP3'| translate}}</a>
                </li>
-               <li> <a class="text-steps" href="student/positions"> &nbsp;{{'STUDENT.INTERNSHIP-STEP4'| translate}}</a>
+               <li> <a class="text-steps" [href]="['student/positions/' + this.authService.getSessionId()]">
+                   &nbsp;{{'STUDENT.INTERNSHIP-STEP4'| translate}}</a>
                </li>
-               <li> <a class="text-steps" href="student/positions"> &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
+               <li> <a class="text-steps" href="student/student-contract">
+                   &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
                </li>
-               <li> <a class="text-steps" href="student/positions"> &nbsp;{{'STUDENT.INTERNSHIP-STEP6'| translate}}</a>
+               <li> <a class="text-steps" href="student/input-sheet">
+                   &nbsp;{{'STUDENT.INTERNSHIP-STEP6'| translate}}</a>
+               </li>
+               <li> <a class="text-steps" href="student/output-sheet">
+                   &nbsp;{{'STUDENT.INTERNSHIP-STEP7'| translate}}</a>
                </li>
              </ul>
            </div>
          </div>
        </div>
      </div>
-     <div class="card">
+
+     <div *ngIf="this.studentsSSOData[1]?.phase == null" class="card">
        <div class="card-header">
          <h3 class="card-title">
            <i class="fas fa-folder-open mr-1"></i>
            {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
          </h3>
          <div class="card-tools">
-           <!-- <ul class="nav nav-pills ml-auto">
-              <li class="nav-item">
-                <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-              </li>
-            </ul> -->
            <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
              <i class="fas fa-minus"></i>
            </button>
          </div>
        </div>
-       <!-- <div class="card-body">
-         <div class="tab-content p-0">
-           <div class="chart tab-pane active" id="revenue-chart">
-             Τα κριτήρια για την έγκριση της πρακτικής άσκησης είναι τα εξής:
-             <ul class="pt-2">
-               <li>Τρέχον εξάμηνο Φοίτησης</li>
-               <li>Ποσοστό Περασμένων μαθημάτων</li>
-               <li>Μέσος όρος βαθμολογίας</li>
-               <li>Έλεγχος έγκρισης πρακτικής</li>
-             </ul>
-             Βάσει των παραπάνω κριτηρίων, δικαιείσαι πρακτική άσκηση. <i class="fas fa-2x fa-check text-success"></i>
-           </div>
-         </div>
-       </div> -->
        <div class="card-body">
          <div class="tab-content p-0">
            <div class="chart tab-pane active" id="revenue-chart">
-             {{'STUDENT.INTERNSHIP-APP-RESULT-PAR'| translate}} <i class=" fas fa-2x fa-check text-success"></i>
+             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-NULL-PAR'| translate}}
+             <br>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div *ngIf="this.studentsSSOData[1]?.phase == 0" class="card">
+       <div class="card-header">
+         <h3 class="card-title">
+           <i class="fas fa-folder-open mr-1"></i>
+           {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
+         </h3>
+         <div class="card-tools">
+           <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+             <i class="fas fa-minus"></i>
+           </button>
+         </div>
+       </div>
+       <div class="card-body">
+         <div class="tab-content p-0">
+           <div class="chart tab-pane active" id="revenue-chart">
+             <i style="color: #dc3545;" class=" fas fa-lg fa-times"></i>&nbsp;
+             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-0-PAR'| translate}}
+           </div>
+         </div>
+       </div>
+     </div>
+     <div *ngIf="this.studentsSSOData[1]?.phase == 1" class="card">
+       <div class="card-header">
+         <h3 class="card-title">
+           <i class="fas fa-folder-open mr-1"></i>
+           {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
+         </h3>
+         <div class="card-tools">
+           <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+             <i class="fas fa-minus"></i>
+           </button>
+         </div>
+       </div>
+       <div class="card-body">
+         <div class="tab-content p-0">
+           <div class="chart tab-pane active" id="revenue-chart">
+             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-1-PAR'| translate}} <i class=" fas fa-2x fa-check text-success"></i>
+             <br>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div *ngIf="this.studentsSSOData[1]?.phase == 2" class="card">
+       <div class="card-header">
+         <h3 class="card-title">
+           <i class="fas fa-folder-open mr-1"></i>
+           {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
+         </h3>
+         <div class="card-tools">
+           <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+             <i class="fas fa-minus"></i>
+           </button>
+         </div>
+       </div>
+       <div class="card-body">
+         <div class="tab-content p-0">
+           <div class="chart tab-pane active" id="revenue-chart">
+             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-2-PAR'| translate}} <i class=" fas fa-2x fa-check text-success"></i>
              <br>
            </div>
          </div>

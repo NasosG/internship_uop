@@ -32,4 +32,5 @@ export interface Student {
   country: string;
   computer_skills: string;
   address: string;
+  phase: number;
 }

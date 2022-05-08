@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription, takeUntil } from 'rxjs';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { AuthService } from 'src/app/auth/auth.service';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-student',
@@ -16,7 +16,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
 
-  studentsSSOData: Student[] = [];
+ public studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
   fontSize: number =  100;
   private language!: string;

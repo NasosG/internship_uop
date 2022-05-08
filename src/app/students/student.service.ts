@@ -257,4 +257,15 @@ export class StudentsService {
       });
   }
 
+  updatePhase(phase: number) {
+    const studentId = 1;
+    const phaseJson : any = {'phase' : phase};
+    console.log(phaseJson);
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/students/updatePhase/" + studentId, phaseJson)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
 }

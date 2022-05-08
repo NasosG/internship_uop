@@ -11,6 +11,7 @@ router.put("/updateStudentDetails/:id", checkAuth, studentController.updateStude
 router.put("/updateStudentContractDetails/:id", checkAuth, studentController.updateStudentContractDetails);
 router.put("/updateStudentBio/:id", checkAuth, studentController.updateStudentBio);
 router.put("/updateStudentContact/:id", checkAuth, studentController.updateStudentContact);
+router.put("/updatePhase/:id", checkAuth, studentController.updatePhase);
 router.post("/insertStudentEntrySheet/:id", checkAuth, studentController.insertStudentEntrySheet);
 router.post("/insertStudentExitSheet/:id", checkAuth, studentController.insertStudentExitSheet);
 router.post("/insertStudentApplication/:id", checkAuth, studentController.insertStudentApplication);

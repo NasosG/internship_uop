@@ -214,6 +214,27 @@ const updateStudentEntrySheet = async (request, response, next) => {
   }
 };
 
+
+const updatePhase = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const phaseNumber = request.body.phase;
+
+    await studentService.updatePhase(phaseNumber, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student phase updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const insertStudentEntrySheet = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -410,6 +431,7 @@ module.exports = {
   updateStudentEntrySheet,
   updateStudentPositionPriorities,
   updateStudentPositions,
+  updatePhase,
   deleteEntryFormByStudentId,
   deletePositionsByStudentId,
   deleteApplicationById

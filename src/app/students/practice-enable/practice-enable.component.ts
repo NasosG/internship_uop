@@ -108,6 +108,7 @@ export class PracticeEnableComponent implements OnInit {
     this.onSubmitStudentDetails(generalDetailsData);
     this.onSubmitStudentContractDetails(contractsData, contractFiles);
     this.onSubmitStudentContact(contactDetails);
+    this.setPhase(1);
     this.onSave();
   }
 
@@ -121,6 +122,10 @@ export class PracticeEnableComponent implements OnInit {
   onSubmitStudentDetails(data: any) {
     console.log(data);
     this.studentsService.updateStudentDetails(data);
+  }
+
+  setPhase(phase: number) {
+    this.studentsService.updatePhase(phase);
   }
 
   onSubmitStudentContractDetails(data: any, contractFiles: {ssnFile: any; ibanFile: any;}) {

@@ -145,6 +145,18 @@ const updateStudentEntrySheet = async (form, studentId) => {
   }
 };
 
+
+const updatePhase = async (phase, studentId) => {
+  try {
+    const insertResults = await pool.query("UPDATE student_users \
+                                            SET phase = $1 WHERE id = $2 ", [phase, studentId]);
+    return insertResults;
+  } catch (error) {
+    console.log('Error while updating students phase' + error.message);
+    throw Error('Error while updating students phase');
+  }
+};
+
 const insertStudentEntrySheet = async (form, studentId) => {
   try {
     const insertResults = await pool.query("INSERT INTO entry_form" +
@@ -232,7 +244,7 @@ const updateStudentExitSheet = async (form, studentId) => {
     return updateResults;
   } catch (error) {
     console.log(error.message);
-    throw Error('Error while updating students entry form');
+    throw Error('Error while updating students exit form');
   }
 };
 
@@ -383,6 +395,7 @@ module.exports = {
   updateStudentPositionPriorities,
   updateStudentPositions,
   updateStudentExitSheet,
+  updatePhase,
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId
