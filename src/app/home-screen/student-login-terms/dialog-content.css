@@ -1,0 +1,12 @@
+a {
+  color: green;
+  outline: none;
+}
+
+a:hover {
+  color: #15975b;
+}
+
+.revision {
+  font-weight: bold;
+}

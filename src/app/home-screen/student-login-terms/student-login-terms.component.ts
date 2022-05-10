@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-student-login-terms',
@@ -7,9 +8,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentLoginTermsComponent implements OnInit {
 
-  constructor() { }
+ constructor(public dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
+  ngOnInit(): void { }
+}
+
+@Component({
+  selector: 'dialog-content-example-dialog',
+  templateUrl: './dialog-content-example-dialog.html',
+  styleUrls: ['./dialog-content.css']
+})
+export class DialogContentExampleDialog {
+
+  constructor(public dialogRef: MatDialogRef<DialogContentExampleDialog>) { }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }

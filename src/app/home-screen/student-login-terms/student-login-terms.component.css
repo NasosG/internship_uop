@@ -19,11 +19,24 @@ a:hover {
   color: #15975b !important;
 }
 
+.terms-anchor {
+  color: green;
+  cursor: pointer;
+}
+
+.terms-anchor:hover {
+  color: #15975b !important;
+}
+
 .tacbox {
   margin: auto;
   display: block;
   padding: 1em;
   width: 500px;
+}
+
+.tacbox-bold {
+  font-weight: bold;
 }
 
 input {

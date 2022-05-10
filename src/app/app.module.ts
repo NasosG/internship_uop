@@ -31,6 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -116,6 +117,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatTabsModule,
     MatListModule,
     MatStepperModule,
+    MatDialogModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule,
