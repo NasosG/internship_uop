@@ -1,5 +1,5 @@
 // database connection configuration
-const { addSyntheticLeadingComment } = require("typescript");
+// const { addSyntheticLeadingComment } = require("typescript");
 const pool = require("../db_config.js");
 
 const getStudents = async () => {
@@ -134,8 +134,8 @@ const updateStudentEntrySheet = async (form, studentId) => {
       "A3_1 = $10, A3_2 = $11, A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
       " WHERE student_id = $17 ",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
+        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
         studentId
       ]);
     return updateResults;
@@ -162,8 +162,8 @@ const insertStudentEntrySheet = async (form, studentId) => {
     const insertResults = await pool.query("INSERT INTO entry_form" +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
+        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
       ]);
     return insertResults;
   } catch (error) {
@@ -313,9 +313,9 @@ const updateStudentPositions = async (studentId, body) => {
 const insertStudentPositions = async (studentId, body) => {
   try {
     // console.log(body);
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) "
-      + " VALUES"
-      + " ($1, $2, $3, $4, $5, $6, $7)",
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) " +
+      " VALUES" +
+      " ($1, $2, $3, $4, $5, $6, $7)",
       [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id]);
   } catch (error) {
     throw Error('Error while inserting student positions');
@@ -324,10 +324,10 @@ const insertStudentPositions = async (studentId, body) => {
 
 const insertStudentPositionsFromUser = async (studentId, positionId, priority) => {
   try {
-    const positionInfo = await pool.query("SELECT name as company, title, city, last_update_string FROM atlas_position_group pos"
-      + " INNER JOIN atlas_provider prov"
-      + " ON pos.provider_id = prov.atlas_provider_id"
-      + ` WHERE pos.atlas_position_id = ${positionId}`);
+    const positionInfo = await pool.query("SELECT name as company, title, city, last_update_string FROM atlas_position_group pos" +
+      " INNER JOIN atlas_provider prov" +
+      " ON pos.provider_id = prov.atlas_provider_id" +
+      ` WHERE pos.atlas_position_id = ${positionId}`);
 
     const res = await findIfPositionExists(studentId, positionId);
     if (res.poscount > 0) {
@@ -335,9 +335,9 @@ const insertStudentPositionsFromUser = async (studentId, positionId, priority) =
       throw Error('User has already chosen this position');
     }
 
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) "
-      + " VALUES"
-      + " ($1, $2, $3, $4, $5, $6, $7)",
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) " +
+      " VALUES" +
+      " ($1, $2, $3, $4, $5, $6, $7)",
       [studentId, priority, positionInfo.rows[0].company, positionInfo.rows[0].title, positionInfo.rows[0].city, positionInfo.rows[0].last_update_string, positionId]);
   } catch (error) {
     throw Error('Error while inserting student positions');
@@ -346,10 +346,10 @@ const insertStudentPositionsFromUser = async (studentId, positionId, priority) =
 
 const findIfPositionExists = async (studentId, positionId) => {
   try {
-    const positionInfo = await pool.query("SELECT COUNT(*) as poscount "
-      + " FROM student_positions pos"
-      + ` WHERE pos.position_id = ${positionId}`
-      + ` AND pos.student_id = ${studentId}`);
+    const positionInfo = await pool.query("SELECT COUNT(*) as poscount " +
+      " FROM student_positions pos" +
+      ` WHERE pos.position_id = ${positionId}` +
+      ` AND pos.student_id = ${studentId}`);
     return positionInfo.rows[0];
   } catch (error) {
     throw Error('Error while position exists positions');

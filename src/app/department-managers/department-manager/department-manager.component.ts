@@ -1,17 +1,89 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
+import { DepManager } from '../dep-manager.model';
+import { DepManagerService } from '../dep-manager.service.service';
 
 @Component({
   selector: 'app-department-manager',
   templateUrl: './department-manager.component.html',
   styleUrls: ['./department-manager.component.css']
 })
-export class DepartmentManagerComponent implements OnInit {
+export class DepartmentManagerComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router) { }
 
-  ngOnInit(): void {
+  public depManagerData: DepManager[] = [];
+  private studentSubscription!: Subscription;
+  fontSize: number = 100;
+  private language!: string;
+
+  constructor(public depManagerService: DepManagerService, private router: Router, public authService: AuthService, public translate: TranslateService) {
+    translate.addLangs(['en', 'gr']);
+    translate.setDefaultLang('gr');
+
+    const browserLang = localStorage.getItem('language') || null;
+    translate.use((browserLang != null) ? browserLang : 'gr');
   }
+
+  ngOnInit() {
+    this.language = localStorage.getItem('language') || 'gr';
+
+    // this.authService.login('');
+    this.depManagerService.getDepManager()
+      .subscribe((depManager: DepManager[]) => {
+        this.depManagerData = depManager;
+        this.depManagerData[0].schacdateofbirth = this.reformatDateOfBirth(this.depManagerData[0].schacdateofbirth);
+        // console.log(this.depManagerData);
+      });
+    // this.studentSubscription = this.studentsService.getStudentUpdateListener()
+  }
+
+  ngOnDestroy(): void {
+    this.studentSubscription?.unsubscribe();
+  }
+
+  private reformatDateOfBirth(dateOfBirth: string) {
+    let startDate = dateOfBirth;
+
+    let year = startDate.substring(0, 4);
+    let month = startDate.substring(4, 6);
+    let day = startDate.substring(6, 8);
+
+    let displayDate = day + '/' + month + '/' + year;
+    return displayDate;
+  }
+
+  onLogout() {
+    this.authService.logout();
+  }
+
+  changeFont(operator: string) {
+    operator === '+' ? this.fontSize += 10 : this.fontSize -= 10; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    if (this.fontSize >= 200) this.fontSize = 200;
+    else if (this.fontSize <= 70) this.fontSize = 70;
+
+    document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
+  }
+
+  resetFont() {
+    this.fontSize = 100; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
+  }
+
+  changeLang(language: string) {
+    localStorage.setItem('language', language);
+    // window.location.reload();
+    this.translate.use(language);
+  }
+
+
+
+
+
+
+
 
   isDepartmentMangerRoute() {
     return this.router.url === '/department-manager';

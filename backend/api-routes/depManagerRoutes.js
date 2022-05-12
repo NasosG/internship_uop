@@ -1,0 +1,9 @@
+const express = require('express');
+const router = express.Router();
+const checkAuth = require("../middleware/auth.js");
+const depManagerController = require("../controllers/depManagerController.js");
+
+router.get("/getDepManagerById/:id", depManagerController.getDepManagerById);
+
+
+module.exports = router;

@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
 const atlasRoutes = require("./api-routes/atlasRoutes.js");
+const depManagerRoutes = require("./api-routes/depManagerRoutes.js");
 
 app.use(
   bodyParser.urlencoded({
@@ -39,6 +40,7 @@ app.get("/", (request, response) => {
 
 app.use("/api/students", studentRoutes);
 app.use("/api/atlas", atlasRoutes);
+app.use("/api/depmanager", depManagerRoutes);
 
 const storageSsn = multer.diskStorage({
   destination: "./uploads/ssns",
@@ -97,11 +99,11 @@ app.post(
 app.post("/api/students/login/:id", (request, response, next) => {
   const fetchedId = request.params.id;
   const token = jwt.sign({
-    userId: fetchedId
-  },
+      userId: fetchedId
+    },
     "secret_this_should_be_longer", {
-    expiresIn: "1h"
-  }
+      expiresIn: "1h"
+    }
   );
   response.status(200).json({
     token: token,

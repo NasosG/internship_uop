@@ -16,9 +16,9 @@ export class StudentComponent implements OnInit, OnDestroy {
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
 
- public studentsSSOData: Student[] = [];
+  public studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
-  fontSize: number =  100;
+  fontSize: number = 100;
   private language!: string;
 
   constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService) {
@@ -26,7 +26,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     translate.setDefaultLang('gr');
 
     const browserLang = localStorage.getItem('language') || null;
-    translate.use((browserLang!=null) ? browserLang : 'gr');
+    translate.use((browserLang != null) ? browserLang : 'gr');
   }
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   changeFont(operator: string) {
-    operator === '+' ? this.fontSize+=10 : this.fontSize-=10; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    operator === '+' ? this.fontSize += 10 : this.fontSize -= 10; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
     if (this.fontSize >= 200) this.fontSize = 200;
     else if (this.fontSize <= 70) this.fontSize = 70;
 
