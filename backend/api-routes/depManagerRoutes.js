@@ -4,6 +4,7 @@ const checkAuth = require("../middleware/auth.js");
 const depManagerController = require("../controllers/depManagerController.js");
 
 router.get("/getDepManagerById/:id", depManagerController.getDepManagerById);
+router.post("/insertPeriod/:id", depManagerController.insertPeriod);
 
 
 module.exports = router;

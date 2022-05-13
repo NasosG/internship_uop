@@ -12,6 +12,27 @@ const getDepManagerById = async (request, response) => {
   }
 };
 
+// TODO test and make it work
+const insertPeriod = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const period = request.body;
+    const insertResults = await depManagerService.insertPeriod(period, id);
+
+    response
+      .status(201)
+      .json({
+        message: 'Period inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
-  getDepManagerById
+  getDepManagerById,
+  insertPeriod
 };

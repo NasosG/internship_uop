@@ -35,7 +35,22 @@ const splitScholarsPersonalData = (x) => {
   return splitArray[splitArray.length - 2];
 }
 
+
+const insertPeriod = async (body, id) => {
+  try {
+    const insertResults = await pool.query("INSERT INTO period" +
+      '(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to)' +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7)",
+      [body.sso_user_id, body.available_positions, body.pyear, body.semester, body.phase_state, body.date_from, body.date_to]);
+    return insertResults;
+  } catch (error) {
+    console.log('Error while inserting period time' + error.message);
+    throw Error('Error while inserting period time');
+  }
+};
+
 module.exports = {
   getDepManagerById,
-  getDepartmentNameByNumber
+  getDepartmentNameByNumber,
+  insertPeriod
 };
