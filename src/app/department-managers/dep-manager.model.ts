@@ -12,6 +12,7 @@ export interface DepManager {
   schacdateofbirth: string;
   schacpersonaluniqueid: string;
   phase: number;
-  // schacpersonaluniquecode:"urn: mace: terena.org: schac: personalUniqueCode: gr: uop.gr: 98: 2022201902003",
+  department: string;
+  // schacpersonaluniquecode:"urn: mace: terena.org: schac: personalUniqueCode: gr: uop.gr: 98: 2021208605102",
 }
 

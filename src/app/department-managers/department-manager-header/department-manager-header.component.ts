@@ -8,7 +8,27 @@ import { DepManagerService } from '../dep-manager.service.service';
   styleUrls: ['./department-manager-header.component.css']
 })
 export class DepartmentManagerHeaderComponent implements OnInit {
-  depManagerData!: DepManager[];
+
+  public depManagerData!: DepManager;
+  // private studentSubscription!: Subscription;
+  fontSize: number = 100;
+  private language!: string;
+
+  constructor(public depManagerService: DepManagerService) {
+  }
+
+  ngOnInit() {
+    this.language = localStorage.getItem('language') || 'gr';
+
+    // this.authService.login('');
+    this.depManagerService.getDepManager()
+      .subscribe((depManager: DepManager) => {
+        this.depManagerData = depManager;
+        this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+        // console.log(this.depManagerData);
+      });
+    // this.studentSubscription = this.studentsService.getStudentUpdateListener()
+  }
 
   private reformatDateOfBirth(dateOfBirth: string) {
     let startDate = dateOfBirth;
@@ -20,16 +40,5 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     let displayDate = day + '/' + month + '/' + year;
     return displayDate;
   }
-
-  constructor(public depManagerService: DepManagerService) { }
-
-  ngOnInit(): void {
-    this.depManagerService.getDepManager()
-      .subscribe((depManager: DepManager[]) => {
-        this.depManagerData = depManager;
-        this.depManagerData[0].schacdateofbirth = this.reformatDateOfBirth(this.depManagerData[0].schacdateofbirth);
-        // console.log(this.depManagerData);
-      });
-  }
-
 }
+

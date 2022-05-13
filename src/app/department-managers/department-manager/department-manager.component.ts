@@ -14,7 +14,7 @@ import { DepManagerService } from '../dep-manager.service.service';
 export class DepartmentManagerComponent implements OnInit, OnDestroy {
 
 
-  public depManagerData: DepManager[] = [];
+  public depManagerData!: DepManager;
   private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
@@ -32,9 +32,9 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
 
     // this.authService.login('');
     this.depManagerService.getDepManager()
-      .subscribe((depManager: DepManager[]) => {
+      .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
-        this.depManagerData[0].schacdateofbirth = this.reformatDateOfBirth(this.depManagerData[0].schacdateofbirth);
+        this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
         // console.log(this.depManagerData);
       });
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()

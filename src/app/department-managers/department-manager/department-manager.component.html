@@ -84,7 +84,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-            {{ depManagerData[0]?.givenname }} {{ depManagerData[0]?.sn }}
+            {{ depManagerData?.givenname }} {{ depManagerData?.sn }}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="cursor-pointer dropdown-item">
@@ -155,8 +155,8 @@
         </div>
         <div class="info">
           <a class="d-block"
-            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ depManagerData[0]?.givenname?.charAt(0)}}.
-            {{ depManagerData[0]?.sn}}</a>
+            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ depManagerData?.givenname?.charAt(0)}}.
+            {{ depManagerData?.sn}}</a>
         </div>
       </div>
 
