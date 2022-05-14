@@ -16,36 +16,42 @@
       <div class="tab-content p-0">
         <div class="chart tab-pane active" id="revenue-chart">
           <h5 class="font-weight-normal pt-2 pb-2">Στοιχεία περιόδου</h5>
-          <form>
+          <form ngNativeValidate #periodForm="ngForm" (ngSubmit)="onSubmitPeriodForm(periodForm.value)">
             <div class="form-group row">
-              <label for="staticEmail" class="col-sm-2 col-form-label">Tίτλος Περιόδου</label>
+              <label for="staticEmail" class="col-sm-2 col-form-label">Εξάμηνο</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="staticEmail" placeholder="Tίτλος Περιόδου" value="">
+                <select class="custom-select" id="semester" name="semester" ngModel>
+                  <option selected>Επιλέξτε εξάμηνο</option>
+                  <option value="1">Χειμερινό</option>
+                  <option value="2">Εαρινό</option>
+                </select>
+                <!-- <input type="text" class="form-control" id="staticEmail" placeholder="Tίτλος Περιόδου" value=""> -->
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
               <div class="col-sm-10">
-                <input type="date" class="form-control" id="inputPassword" placeholder="Έναρξη">
+                <input type="date" name="date_from" ngModel id="date_from" class="form-control" placeholder="Έναρξη">
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
               <div class="col-sm-10">
-                <input type="date" class="form-control" id="inputPassword" placeholder="Λήξη">
+                <input type="date" name="date_to" ngModel id="date_to" class="form-control" placeholder="Λήξη">
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Αριθμός θέσεων</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" id="inputPassword" placeholder="Αριθμός θέσεων">
+                <input type="number" name="available_positions" ngModel id="available_positions" class="form-control"
+                  placeholder="Αριθμός θέσεων">
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Κατάσταση Περιόδου</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">Φάση περιόδου</label>
               <div class="btn-group dropup col-sm-10">
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>Επιλέξτε...</option>
+                <select class="custom-select" name="phase_state" ngModel id="phase_state">
+                  <option selected>Επιλέξτε φάση περιόδου</option>
                   <option value="1">Σε αναμονή για συμμετοχή των φορέων</option>
                   <option value="2">Σε αναμονή για συμμετοχή των φοιτητών</option>
                   <option value="3">Σε αναμονή για ολοκλήρωση αιτήσεων</option>
