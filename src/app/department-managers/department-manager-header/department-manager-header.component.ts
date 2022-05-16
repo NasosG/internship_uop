@@ -15,6 +15,8 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   // private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
+  dateFrom: string = "";
+  dateTo: string = "";
 
   phaseArray =["no-state",
   "Σε αναμονή για συμμετοχή των φορέων",
@@ -37,8 +39,14 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     this.depManagerService.getPeriodByUserId()
     .subscribe((periodData: Period) => {
         this.periodData = periodData;
-        // console.log(this.depManagerData);
+        this.dateFrom = this.changeDateFormat(periodData.date_from);
+        this.dateTo = this.changeDateFormat(periodData.date_to);
       });
+  }
+
+  changeDateFormat(dateStr:any) {
+    let dArr = dateStr.split("-");  // ex input "2010-01-18"
+    return dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2); //ex out: "18/01/10"
   }
 
   private reformatDateOfBirth(dateOfBirth: string) {

@@ -15,8 +15,8 @@ const getDepManagerById = async (request, response) => {
 const getPeriodByUserId = async (request, response) => {
   try {
     const id = request.params.id;
-    const users = await depManagerService.getPeriodByUserId(id);
-    response.status(200).json(users);
+    const period = await depManagerService.getPeriodByUserId(id);
+    response.status(200).json(period);
   } catch (error) {
     response.send({
       message: error.message
@@ -24,12 +24,13 @@ const getPeriodByUserId = async (request, response) => {
   }
 };
 
-// TODO test and make it work
 const insertPeriod = async (request, response, next) => {
   try {
+
     const id = request.params.id;
     const period = request.body;
-    const insertResults = await depManagerService.insertPeriod(period, id);
+    console.log(period.date_from.split('-')[0]);
+    await depManagerService.insertPeriod(period, id);
 
     response
       .status(201)

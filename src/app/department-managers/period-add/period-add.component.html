@@ -4,13 +4,15 @@
       Η περίοδος δήλωσης πρακτικής άσκησης είναι από 01/03/2021 έως 20/05/2021.
     </div> -->
   <!-- add period -->
-  <div class="card">
-    <div class="card-header">
+  <button id="toggleVisibilityAddPeriod" (click)="toggleShow()" class="btn btn-secondary mb-3" type="button"> <i
+      class="fas fa-plus mr-1"></i>Δημιουργία νέας περιόδου</button>
+  <div *ngIf="isShown" class="card">
+    <!-- <div class="card-header">
       <h3 class="card-title">
         <i class="fas fa-plus mr-1"></i>
         Δημιουργία νέας περιόδου
       </h3>
-    </div>
+    </div> -->
 
     <div class="card-body">
       <div class="tab-content p-0">
@@ -20,8 +22,8 @@
             <div class="form-group row">
               <label for="staticEmail" class="col-sm-2 col-form-label">Εξάμηνο</label>
               <div class="col-sm-10">
-                <select class="custom-select" id="semester" name="semester" ngModel>
-                  <option selected>Επιλέξτε εξάμηνο</option>
+                <select required class="custom-select" id="semester" name="semester" [(ngModel)]='ngSelect'>
+                  <option value="">Επιλέξτε εξάμηνο</option>
                   <option value="1">Χειμερινό</option>
                   <option value="2">Εαρινό</option>
                 </select>
@@ -31,27 +33,28 @@
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
               <div class="col-sm-10">
-                <input type="date" name="date_from" ngModel id="date_from" class="form-control" placeholder="Έναρξη">
+                <input type="date" name="date_from" ngModel id="date_from" class="form-control" placeholder="Έναρξη"
+                  required>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
               <div class="col-sm-10">
-                <input type="date" name="date_to" ngModel id="date_to" class="form-control" placeholder="Λήξη">
+                <input type="date" name="date_to" ngModel id="date_to" class="form-control" placeholder="Λήξη" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Αριθμός θέσεων</label>
               <div class="col-sm-10">
                 <input type="number" name="available_positions" ngModel id="available_positions" class="form-control"
-                  placeholder="Αριθμός θέσεων">
+                  placeholder="Αριθμός θέσεων" required>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Φάση περιόδου</label>
               <div class="btn-group dropup col-sm-10">
-                <select class="custom-select" name="phase_state" ngModel id="phase_state">
-                  <option selected>Επιλέξτε φάση περιόδου</option>
+                <select class="custom-select" name="phase_state" [(ngModel)]='ngSelectPhase' id="phase_state" required>
+                  <option value="" selected>Επιλέξτε φάση περιόδου</option>
                   <option value="1">Σε αναμονή για συμμετοχή των φορέων</option>
                   <option value="2">Σε αναμονή για συμμετοχή των φοιτητών</option>
                   <option value="3">Σε αναμονή για ολοκλήρωση αιτήσεων</option>

@@ -2,8 +2,14 @@
    <p>Τμήμα: {{depManagerData?.department}}<br>Τμηματικός Υπεύθυνος/η:
      {{depManagerData?.givenname}} {{ depManagerData?.sn}}</p>
  </div>
-
- <table id="dep-manager-table" class="table table-bordered" style="background-color:white">
+ <div *ngIf="periodData.semester == null" ngNativeValidate id="dep-manager-no-period" class="alert alert-danger"
+   role="alert">
+   Δεν
+   υπάρχουν καταχωρημένες περιόδοι. Δημιουργήστε μία νέα περίοδο από το παρακάτω μενού
+ </div>
+ <h4 *ngIf="periodData.semester != null"> Τρέχουσα Περίοδος </h4>
+ <table *ngIf="periodData.semester != null" ngNativeValidate id="dep-manager-table" class="table table-bordered"
+   style="background-color:white">
    <thead>
      <tr>
        <th scope="col">Εξάμηνο</th>
@@ -16,10 +22,11 @@
    </thead>
    <tbody>
      <tr>
-       <th scope="row">{{periodData?.semester == 1 ? "Εαρινό Εξάμηνο" : "Χειμερινό Εξάμηνο"}} 2022</th>
+       <th scope="row">{{periodData?.semester == 1 ? "Εαρινό Εξάμηνο" : "Χειμερινό Εξάμηνο"}} {{periodData?.pyear}}
+       </th>
        <td>{{phaseArray[(periodData?.semester)!]}}</td>
-       <td>{{periodData?.date_from}}</td>
-       <td>{{periodData?.date_to}}</td>
+       <td>{{dateFrom}}</td>
+       <td>{{dateTo}}</td>
        <td>{{periodData?.available_positions}} </td>
        <td class="action text-dark">
          <a class="text-dark" [routerLink]="['/department-manager/edit-period']"><i class="fa fa-pencil-alt"></i>

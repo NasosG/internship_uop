@@ -35,7 +35,6 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-        // console.log(this.depManagerData);
       });
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
@@ -77,12 +76,6 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     // window.location.reload();
     this.translate.use(language);
   }
-
-
-
-
-
-
 
 
   isDepartmentMangerRoute() {

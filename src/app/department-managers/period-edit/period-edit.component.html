@@ -20,25 +20,34 @@
             <div class="form-group row">
               <label for="staticEmail" class="col-sm-2 col-form-label">Tίτλος Περιόδου</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="staticEmail" placeholder="Tίτλος Περιόδου" value="">
+                <select [value]="periodData?.semester" required class="custom-select" id="semester" name="semester"
+                  [(ngModel)]='ngSelect'>
+                  <option value="">Επιλέξτε εξάμηνο</option>
+                  <option value="1">Χειμερινό</option>
+                  <option value="2">Εαρινό</option>
+                </select>
+                <!-- <input type="text" class="form-control" id="staticEmail" placeholder="Tίτλος Περιόδου" value=""> -->
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
+              <label for="date_from" class="col-sm-2 col-form-label">Έναρξη</label>
               <div class="col-sm-10">
-                <input type="date" class="form-control" id="inputPassword" placeholder="Έναρξη">
+                <input type="date" class="form-control" name="date_from" ngModel id="date_from"
+                  [value]="periodData?.date_from" placeholder="dd-mm-yyyy">
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
+              <label for="date_to" class="col-sm-2 col-form-label">Λήξη</label>
               <div class="col-sm-10">
-                <input type="date" class="form-control" id="inputPassword" placeholder="Λήξη">
+                <input type="date" name="date_to" ngModel id="date_to" class="form-control"
+                  [value]="periodData?.date_to" placeholder="Λήξη">
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Αριθμός θέσεων</label>
+              <label for="available_positions" class="col-sm-2 col-form-label">Αριθμός θέσεων</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" id="inputPassword" placeholder="Αριθμός θέσεων">
+                <input type="number" name="available_positions" ngModel id="available_positions" class="form-control"
+                  [value]="periodData?.available_positions" placeholder="Αριθμός θέσεων">
               </div>
             </div>
             <!-- Example single danger button -->
@@ -46,15 +55,18 @@
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Φάση Περιόδου</label>
               <div class="btn-group dropup col-sm-10">
-                <select class="custom-select" id="inputGroupSelect01">
+                <select class="custom-select" [value]="periodData?.phase_state" name="phase_state"
+                  [(ngModel)]='ngSelectPhase' id="phase_state" id="inputGroupSelect01">
                   <option selected>Choose...</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="1">Σε αναμονή για συμμετοχή των φορέων</option>
+                  <option value="2">Σε αναμονή για συμμετοχή των φοιτητών</option>
+                  <option value="3">Σε αναμονή για ολοκλήρωση αιτήσεων</option>
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary">Επεξεργασία</button>
+            <button [routerLink]="['../']" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i>
+              Πίσω</button>
+            <button class="btn btn-primary">Αποθήκευση</button>
           </form>
         </div>
       </div>
