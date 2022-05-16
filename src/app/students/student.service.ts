@@ -70,10 +70,10 @@ export class StudentsService {
       .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
   }
 
-  // get active
+  // get active application
   getStudentActiveApplication(): Observable<number> {
     const studentId = 1;
-    console.log("tou xrhsth: " + this.authService.getSessionId());
+    console.log("of user: " + this.authService.getSessionId());
     return this.http
       .get<number>('http://localhost:3000/api/students/getStudentActiveApplication/' + studentId);
   }

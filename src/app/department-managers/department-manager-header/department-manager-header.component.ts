@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service.service';
+import {Period} from '../period.model';
 
 @Component({
   selector: 'app-department-manager-header',
@@ -10,9 +11,15 @@ import { DepManagerService } from '../dep-manager.service.service';
 export class DepartmentManagerHeaderComponent implements OnInit {
 
   public depManagerData!: DepManager;
+  public periodData!: Period;
   // private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
+
+  phaseArray =["no-state",
+  "Σε αναμονή για συμμετοχή των φορέων",
+  "Σε αναμονή για συμμετοχή των φοιτητών",
+  "Σε αναμονή για ολοκλήρωση αιτήσεων"];
 
   constructor(public depManagerService: DepManagerService) {
   }
@@ -27,7 +34,11 @@ export class DepartmentManagerHeaderComponent implements OnInit {
         this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
         // console.log(this.depManagerData);
       });
-    // this.studentSubscription = this.studentsService.getStudentUpdateListener()
+    this.depManagerService.getPeriodByUserId()
+    .subscribe((periodData: Period) => {
+        this.periodData = periodData;
+        // console.log(this.depManagerData);
+      });
   }
 
   private reformatDateOfBirth(dateOfBirth: string) {
@@ -40,5 +51,6 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     let displayDate = day + '/' + month + '/' + year;
     return displayDate;
   }
+
 }
 

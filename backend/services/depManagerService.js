@@ -1,7 +1,4 @@
 // database connection configuration
-const {
-  async
-} = require("rxjs");
 const pool = require("../db_config.js");
 
 
@@ -13,9 +10,9 @@ const getDepManagerById = async (id) => {
     const departmentDetails = await getDepartmentNameByNumber(departmentNumber);
     const department = {
       "department": departmentDetails.rows[0].department
-    }
-    let departmentManageDetails = Object.assign(finalDepManagerResults, department);
-    return departmentManageDetails;
+    };
+    let departmentManagerDetails = Object.assign(finalDepManagerResults, department);
+    return departmentManagerDetails;
   } catch (error) {
     throw Error('Error while fetching Department Manager');
   }
@@ -33,7 +30,7 @@ const getDepartmentNameByNumber = async (depNumber) => {
 const splitScholarsPersonalData = (x) => {
   const splitArray = x.split(':');
   return splitArray[splitArray.length - 2];
-}
+};
 
 
 const insertPeriod = async (body, id) => {
@@ -49,8 +46,26 @@ const insertPeriod = async (body, id) => {
   }
 };
 
+
+const getPeriodByUserId = async (id) => {
+  try {
+    const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
+     to_char(\"date_from\", 'DD/MM/YYYY') as date_from, to_char(\"date_to\", 'DD/MM/YYYY') as date_to FROM period \
+      WHERE sso_user_id = $1 \
+      ORDER BY id DESC \
+      LIMIT 1", [id]);
+    const periodResults = period.rows[0];
+    let periodResultsObj = Object.assign(periodResults);
+    return periodResultsObj;
+  } catch (error) {
+    throw Error('Error while fetching period');
+  }
+};
+
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
+  getPeriodByUserId,
   insertPeriod
 };

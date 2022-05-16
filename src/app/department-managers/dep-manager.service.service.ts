@@ -12,18 +12,30 @@ export class DepManagerService {
 
   public managerArray: DepManager[] = [];
   public manager!: DepManager;
+  public period!: Period;
   public fetchedManagerArrayObservable!: Observable<Array<DepManager>>;
   public fetchedManagerObservable!: Observable<DepManager>;
+  public fetchedPeriodObservable!: Observable<Period>;
   constructor(private http: HttpClient, public authService: AuthService) { }
 
   getDepManager(): Observable<DepManager> {
     const id = 2;
-    const fetchedmanager = this.http.get<DepManager>("http://localhost:3000/api/depmanager/getDepManagerById/" + id);
-    this.fetchedManagerObservable = fetchedmanager;
+    const fetchedManager = this.http.get<DepManager>("http://localhost:3000/api/depmanager/getDepManagerById/" + id);
+    this.fetchedManagerObservable = fetchedManager;
     this.fetchedManagerObservable.subscribe((managers: DepManager) => {
       this.manager = managers;
     });
-    return fetchedmanager;
+    return fetchedManager;
+  }
+
+  getPeriodByUserId(): Observable<Period> {
+    const id = 2;
+    const fetchedPeriod = this.http.get<Period>("http://localhost:3000/api/depmanager/getPeriodByUserId/" + id);
+    this.fetchedPeriodObservable = fetchedPeriod;
+    this.fetchedPeriodObservable.subscribe((periods: Period) => {
+      this.period = periods;
+    });
+    return fetchedPeriod;
   }
 
   insertPeriod(inputForm: any) {
