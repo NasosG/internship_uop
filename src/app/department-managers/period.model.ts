@@ -1,4 +1,5 @@
 export interface Period {
+  id: number,
   sso_user_id: number,
   available_positions: number,
   pyear: number,

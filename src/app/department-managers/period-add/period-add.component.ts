@@ -48,7 +48,7 @@ export class PeriodAddComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
-    }).then(() => {location.reload();});
+    }).then(() => { location.reload(); });
   }
 
   private onFieldEmptyAlert() {

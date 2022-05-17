@@ -41,13 +41,14 @@ const insertPeriod = async (body, id) => {
       [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to]);
     return insertResults;
   } catch (error) {
-    console.log('Error while inserting period time' + error.message);
+    console.log('Error while inserting period time ' + error.message);
     throw Error('Error while inserting period time');
   }
 };
 
 const updatePeriodById = async (body, id) => {
   try {
+    console.log(body);
     let pyear = body.date_from.split('-')[0];
     const updateResults = await pool.query("UPDATE period" +
       " SET available_positions = $1, pyear = $2, semester = $3, phase_state = $4, date_from= $5, date_to = $6" +
@@ -55,7 +56,7 @@ const updatePeriodById = async (body, id) => {
       [body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, id]);
     return updateResults;
   } catch (error) {
-    console.log('Error while updating period time' + error.message);
+    console.log('Error while updating period time ' + error.message);
     throw Error('Error while updating period time');
   }
 };

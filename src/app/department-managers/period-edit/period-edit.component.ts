@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import {DepManager} from '../dep-manager.model';
 import {DepManagerService} from '../dep-manager.service.service';
 import {Period} from '../period.model';
@@ -34,6 +35,10 @@ export class PeriodEditComponent implements OnInit {
       });
   }
 
+  onSubmitPeriodEditForm(formData: FormData) {
+    this.depManagerService.updatePeriodById(formData, this.periodData.id);
+    this.onSavePeriodAlert();
+  }
 
   private reformatDateOfBirth(dateOfBirth: string) {
     let startDate = dateOfBirth;
@@ -46,4 +51,15 @@ export class PeriodEditComponent implements OnInit {
     return displayDate;
   }
 
+  private onSavePeriodAlert() {
+    Swal.fire({
+      title: 'Επεξεργασία Περιόδου',
+      text: 'Τα στοιχεία της περιόδου άλλαξαν επιτυχώς',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then(() => { location.reload(); });
+  }
 }

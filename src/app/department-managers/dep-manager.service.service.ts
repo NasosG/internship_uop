@@ -49,4 +49,13 @@ export class DepManagerService {
       });
   }
 
+  updatePeriodById(inputForm: any, periodId: number) {
+    const form: Period = inputForm;
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/depmanager/updatePeriodById/" + periodId, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
 }
