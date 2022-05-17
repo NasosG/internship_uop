@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service.service';
 import {Period} from '../period.model';
@@ -23,8 +24,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   "Σε αναμονή για συμμετοχή των φοιτητών",
   "Σε αναμονή για ολοκλήρωση αιτήσεων"];
 
-  constructor(public depManagerService: DepManagerService) {
-  }
+  constructor(public depManagerService: DepManagerService) { }
 
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
@@ -34,7 +34,6 @@ export class DepartmentManagerHeaderComponent implements OnInit {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-        // console.log(this.depManagerData);
       });
     this.depManagerService.getPeriodByUserId()
     .subscribe((periodData: Period) => {
@@ -42,6 +41,35 @@ export class DepartmentManagerHeaderComponent implements OnInit {
         this.dateFrom = this.changeDateFormat(periodData.date_from);
         this.dateTo = this.changeDateFormat(periodData.date_to);
       });
+  }
+
+  deletePeriodById() {
+    this.deletePeriod(this.periodData.id);
+  }
+
+  deletePeriod(periodId: number) {
+    Swal.fire({
+      title: 'Διαγραφή Περιόδου',
+      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε σε διαγραφή περιόδου;',
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.depManagerService.deletePeriodById(periodId);
+        Swal.fire({
+          title: 'Διαγραφή περιόδου',
+          text: 'Η περίοδος έχει διαγραφεί.',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then(() => { location.reload(); });
+      }
+    });
   }
 
   changeDateFormat(dateStr:any) {

@@ -58,4 +58,12 @@ export class DepManagerService {
       });
   }
 
+  deletePeriodById(periodId: number) {
+    this.http
+      .delete<{ message: string }>("http://localhost:3000/api/depmanager/deletePeriodById/" + periodId)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
 }

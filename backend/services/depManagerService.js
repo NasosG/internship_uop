@@ -66,6 +66,7 @@ const getPeriodByUserId = async (id) => {
     const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to FROM period \
       WHERE sso_user_id = $1 \
+      AND is_active = 'true' \
       ORDER BY id DESC \
       LIMIT 1", [id]);
     const periodResults = period.rows[0];
@@ -76,11 +77,22 @@ const getPeriodByUserId = async (id) => {
   }
 };
 
+const deletePeriodById = async (id) => {
+  try {
+    await pool.query("UPDATE period \
+                      SET is_active = 'false' \
+                      WHERE id = $1", [id]);
+  } catch (error) {
+    console.log('Error while deleting period ' + error.message);
+    throw Error('Error while deleting period');
+  }
+};
 
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
   getPeriodByUserId,
   insertPeriod,
-  updatePeriodById
+  updatePeriodById,
+  deletePeriodById
 };

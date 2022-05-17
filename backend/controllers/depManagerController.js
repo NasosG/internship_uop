@@ -62,9 +62,28 @@ const updatePeriodById = async (request, response, next) => {
   }
 };
 
+const deletePeriodById = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    await depManagerService.deletePeriodById(id);
+
+    response
+      .status(201)
+      .json({
+        message: 'Period deleted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
   insertPeriod,
-  updatePeriodById
+  updatePeriodById,
+  deletePeriodById
 };
