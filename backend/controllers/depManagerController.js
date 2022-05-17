@@ -26,10 +26,8 @@ const getPeriodByUserId = async (request, response) => {
 
 const insertPeriod = async (request, response, next) => {
   try {
-
     const id = request.params.id;
     const period = request.body;
-    console.log(period.date_from.split('-')[0]);
     await depManagerService.insertPeriod(period, id);
 
     response
