@@ -36,8 +36,8 @@ const insertPeriod = async (body, id) => {
   try {
     let pyear = body.date_from.split('-')[0];
     const insertResults = await pool.query("INSERT INTO period" +
-      "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to)" +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7)",
+      "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, is_active)" +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, 'true')",
       [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to]);
     return insertResults;
   } catch (error) {
