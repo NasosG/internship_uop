@@ -43,8 +43,28 @@ const insertPeriod = async (request, response, next) => {
   }
 };
 
+const updatePeriodById = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const period = request.body;
+    await depManagerService.updatePeriodById(period, id);
+
+    response
+      .status(201)
+      .json({
+        message: 'Period updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
-  insertPeriod
+  insertPeriod,
+  updatePeriodById
 };

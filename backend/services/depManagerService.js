@@ -32,7 +32,6 @@ const splitScholarsPersonalData = (splitString) => {
   return splitArray[splitArray.length - 2];
 };
 
-
 const insertPeriod = async (body, id) => {
   try {
     let pyear = body.date_from.split('-')[0];
@@ -47,6 +46,19 @@ const insertPeriod = async (body, id) => {
   }
 };
 
+const updatePeriodById = async (body, id) => {
+  try {
+    let pyear = body.date_from.split('-')[0];
+    const updateResults = await pool.query("UPDATE period" +
+      " SET available_positions = $1, pyear = $2, semester = $3, phase_state = $4, date_from= $5, date_to = $6" +
+      " WHERE id = $7",
+      [body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, id]);
+    return updateResults;
+  } catch (error) {
+    console.log('Error while updating period time' + error.message);
+    throw Error('Error while updating period time');
+  }
+};
 
 const getPeriodByUserId = async (id) => {
   try {
@@ -68,5 +80,6 @@ module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
   getPeriodByUserId,
-  insertPeriod
+  insertPeriod,
+  updatePeriodById
 };
