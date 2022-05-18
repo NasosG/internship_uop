@@ -12,6 +12,7 @@ import { AtlasPosition } from "./atlas-position.model";
 import {Department} from "./department.model";
 import {Prefecture} from "./prefecture.model";
 import {City} from "./city.model";
+import {Period} from "../department-managers/period.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -96,6 +97,10 @@ export class StudentsService {
 
   getAtlasCities(): Observable<Array<City>> {
     return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getCities/');
+  }
+
+  getPhase(departmentId: number): Observable<Period> {
+    return this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
   }
 
   // this functions adds a new bio and details to a student

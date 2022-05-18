@@ -7,6 +7,7 @@ const checkAuth = require("../middleware/auth.js");
 router.get('/', studentController.getStudents);
 router.get("/getStudentApplications/:id", studentController.getStudentApplications);
 router.get("/getStudentActiveApplication/:id", studentController.getStudentActiveApplication);
+router.get("/getPhase/:id", studentController.getPhase);
 router.put("/updateStudentDetails/:id", checkAuth, studentController.updateStudentDetails);
 router.put("/updateStudentContractDetails/:id", checkAuth, studentController.updateStudentContractDetails);
 router.put("/updateStudentBio/:id", checkAuth, studentController.updateStudentBio);

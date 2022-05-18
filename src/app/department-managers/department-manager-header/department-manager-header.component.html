@@ -14,8 +14,8 @@
      <tr>
        <th scope="col">Εξάμηνο</th>
        <th scope="col">Φάση Περιόδου</th>
-       <th scope="col">Έναρξη</th>
-       <th scope="col">Λήξη</th>
+       <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
+       <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
        <th scope="col">Αριθμός θέσεων</th>
        <th scope="col">Ενέργειες</th>
      </tr>
@@ -24,7 +24,7 @@
      <tr>
        <th scope="row">{{periodData?.semester == 1 ? "Εαρινό Εξάμηνο" : "Χειμερινό Εξάμηνο"}} {{periodData?.pyear}}
        </th>
-       <td>{{phaseArray[(periodData?.semester)!]}}</td>
+       <td>{{phaseArray[(periodData?.phase_state)!]}}</td>
        <td>{{dateFrom}}</td>
        <td>{{dateTo}}</td>
        <td>{{periodData?.available_positions}} </td>

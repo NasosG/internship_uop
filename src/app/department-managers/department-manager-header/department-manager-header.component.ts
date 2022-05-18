@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Utils} from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service.service';
@@ -20,9 +21,9 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   dateTo: string = "";
 
   phaseArray =["no-state",
-  "Σε αναμονή για συμμετοχή των φορέων",
-  "Σε αναμονή για συμμετοχή των φοιτητών",
-  "Σε αναμονή για ολοκλήρωση αιτήσεων"];
+  "1. Φάση ελέγχου επιλεξιμότητας.",
+  "2. Φάση επιλογής φοιτητών",
+  "3. Δήλωση προτίμησης από τους φοιτητές"];
 
   constructor(public depManagerService: DepManagerService) { }
 
@@ -33,13 +34,13 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
-        this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+        this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
     this.depManagerService.getPeriodByUserId()
     .subscribe((periodData: Period) => {
         this.periodData = periodData;
-        this.dateFrom = this.changeDateFormat(periodData.date_from);
-        this.dateTo = this.changeDateFormat(periodData.date_to);
+        this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+        this.dateTo = Utils.changeDateFormat(periodData.date_to);
       });
   }
 
@@ -70,22 +71,6 @@ export class DepartmentManagerHeaderComponent implements OnInit {
         }).then(() => { location.reload(); });
       }
     });
-  }
-
-  changeDateFormat(dateStr:any) {
-    let dArr = dateStr.split("-");  // ex input "2010-01-18"
-    return dArr[2]+ "/" +dArr[1]+ "/" +dArr[0].substring(2); //ex out: "18/01/10"
-  }
-
-  private reformatDateOfBirth(dateOfBirth: string) {
-    let startDate = dateOfBirth;
-
-    let year = startDate.substring(0, 4);
-    let month = startDate.substring(4, 6);
-    let day = startDate.substring(6, 8);
-
-    let displayDate = day + '/' + month + '/' + year;
-    return displayDate;
   }
 
 }

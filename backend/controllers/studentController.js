@@ -15,6 +15,19 @@ const getStudents = async (request, response) => {
   }
 };
 
+const getPhase = async (request, response) => {
+  try {
+    const departmentId = request.params.id;
+    const period = await studentService.getPhase(departmentId);
+    response.status(200).json(period);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const getStudentEntrySheets = async (request, response) => {
   try {
     const id = request.params.id;
@@ -419,6 +432,7 @@ module.exports = {
   getStudentPositions,
   getStudentApplications,
   getStudentActiveApplication,
+  getPhase,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Utils} from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import {DepManager} from '../dep-manager.model';
 import {DepManagerService} from '../dep-manager.service.service';
@@ -27,7 +28,7 @@ export class PeriodEditComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
-        this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+        this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
     this.depManagerService.getPeriodByUserId()
       .subscribe((periodData: Period) => {
@@ -38,17 +39,6 @@ export class PeriodEditComponent implements OnInit {
   onSubmitPeriodEditForm(formData: FormData) {
     this.depManagerService.updatePeriodById(formData, this.periodData.id);
     this.onSavePeriodAlert();
-  }
-
-  private reformatDateOfBirth(dateOfBirth: string) {
-    let startDate = dateOfBirth;
-
-    let year = startDate.substring(0, 4);
-    let month = startDate.substring(4, 6);
-    let day = startDate.substring(6, 8);
-
-    let displayDate = day + '/' + month + '/' + year;
-    return displayDate;
   }
 
   private onSavePeriodAlert() {

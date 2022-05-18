@@ -65,7 +65,7 @@
     "HOME-STAT-BOX3": "Average grade",
     "HOME-STAT-BOX4": "ECTS",
     "SHOW-MORE": "Show More",
-    "INTERSNHIP-DECLARATION-PERIOD": "The internship declaration period is from",
+    "INTERSNHIP-DECLARATION-PERIOD": "Phase",
     "PERIOD-TO": "to",
     "INTERNSHIP-INSTRUCTIONS": "Internship Instructions",
     "INTERNSHIP-INTRO1": "The internship office enables the student to apply for the internship on the basis that he/she has",
@@ -84,6 +84,9 @@
     "INTERNSHIP-APP-RESULT-PHASE-0-PAR": "Your application for an internship has been rejected by the internship office of your department because you did not meet the requirements for an internship. As long as you continue your studies at the institution, you will have the opportunity to reapply in the next academic semester.",
     "INTERNSHIP-APP-RESULT-PHASE-1-PAR": "Your application has been registered. You will be checked and if you meet the requirements for an internship, your full access to the system will be activated.",
     "INTERNSHIP-APP-RESULT-PHASE-2-PAR": "Your application for a traineeship has been accepted by the organisation you have chosen as you met the requirements.",
+    "PHASE-1": "1. You are currently in the expression of interest phase.",
+    "PHASE-2": "2. It is the student selection phase",
+    "PHASE-3": "3. Declaration of preference by students",
     "CALENDAR-HOME": "Calendar"
   }
 }

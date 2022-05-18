@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import {Utils} from 'src/app/MiscUtils';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service.service';
 
@@ -12,7 +13,6 @@ import { DepManagerService } from '../dep-manager.service.service';
   styleUrls: ['./department-manager.component.css']
 })
 export class DepartmentManagerComponent implements OnInit, OnDestroy {
-
 
   public depManagerData!: DepManager;
   private studentSubscription!: Subscription;
@@ -34,24 +34,13 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
-        this.depManagerData.schacdateofbirth = this.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+        this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
 
   ngOnDestroy(): void {
     this.studentSubscription?.unsubscribe();
-  }
-
-  private reformatDateOfBirth(dateOfBirth: string) {
-    let startDate = dateOfBirth;
-
-    let year = startDate.substring(0, 4);
-    let month = startDate.substring(4, 6);
-    let day = startDate.substring(6, 8);
-
-    let displayDate = day + '/' + month + '/' + year;
-    return displayDate;
   }
 
   onLogout() {
@@ -76,7 +65,6 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     // window.location.reload();
     this.translate.use(language);
   }
-
 
   isDepartmentMangerRoute() {
     return this.router.url === '/department-manager';

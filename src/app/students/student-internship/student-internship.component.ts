@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import {Utils} from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import {AtlasFilters} from '../atlas-filters.model';
 import {AtlasPosition} from '../atlas-position.model';
@@ -157,13 +158,7 @@ export class StudentInternshipComponent implements OnInit {
     this.jobDuration = this.entries[index].duration;
     this.jobAvailablePositions = this.entries[index].availablePositions;
     this.jobPhysicalObjects = this.entries[index].physicalObjects;
-    this.jobLastUpdateString = this.getPreferredTimestamp(this.entries[index].positionGroupLastUpdateString);
-  }
-
-  public getPreferredTimestamp(dateParam: any) {
-    let dateVal = new Date(dateParam);
-    let preferredTimestamp = dateVal.getDay() + "/" + dateVal.getMonth()+ "/" + dateVal.getFullYear() + " " + dateVal.getHours() + ":" + dateVal.getMinutes();
-    return preferredTimestamp;
+    this.jobLastUpdateString = Utils.getPreferredTimestamp(this.entries[index].positionGroupLastUpdateString);
   }
 
   public selectAll() {

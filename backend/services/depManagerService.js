@@ -34,6 +34,7 @@ const splitScholarsPersonalData = (splitString) => {
 
 const insertPeriod = async (body, id) => {
   try {
+    await deactivateAllPeriods();
     let pyear = body.date_from.split('-')[0];
     const insertResults = await pool.query("INSERT INTO period" +
       "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, is_active)" +
@@ -43,6 +44,16 @@ const insertPeriod = async (body, id) => {
   } catch (error) {
     console.log('Error while inserting period time ' + error.message);
     throw Error('Error while inserting period time');
+  }
+};
+
+const deactivateAllPeriods = async () => {
+  try {
+    const insertResults = await pool.query("UPDATE period \
+                                            SET is_active = 'false'");
+    return insertResults;
+  } catch (error) {
+    throw Error('Error while deactivating periods');
   }
 };
 
@@ -67,7 +78,6 @@ const getPeriodByUserId = async (id) => {
      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to FROM period \
       WHERE sso_user_id = $1 \
       AND is_active = 'true' \
-      ORDER BY id DESC \
       LIMIT 1", [id]);
     const periodResults = period.rows[0];
     let periodResultsObj = Object.assign(periodResults);

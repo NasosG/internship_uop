@@ -370,6 +370,24 @@ const findMaxPositions = async (studentId, positionId) => {
   }
 };
 
+const getPhase = async (studentId, positionId) => {
+  let maxPriority = 0;
+  try {
+    const depManagerId = await pool.query("SELECT prd.*  \
+                                           FROM period prd \
+                                           INNER JOIN sso_users usr \
+                                           ON usr.uuid = prd.sso_user_id \
+                                           WHERE usr.department_id = $1 \
+                                           AND usr.edupersonprimaryaffiliation = 'faculty' \
+                                           AND prd.is_active = 'true'", [studentId]);
+
+    return depManagerId.rows[0];
+  } catch (error) {
+    if (!maxPriority) return 0;
+    throw Error('Error while finding student max priority');
+  }
+};
+
 
 module.exports = {
   getStudents,
@@ -379,6 +397,7 @@ module.exports = {
   getStudentApplications,
   getStudentPositions,
   getStudentActiveApplication,
+  getPhase,
   findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,
