@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import {Utils} from 'src/app/MiscUtils';
 import { DepManager } from '../dep-manager.model';
-import { DepManagerService } from '../dep-manager.service.service';
+import { DepManagerService } from '../dep-manager.service';
 
 @Component({
   selector: 'app-department-manager',

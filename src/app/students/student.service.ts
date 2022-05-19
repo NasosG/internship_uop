@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Student } from "./student.model";
-import { Observable, Subject } from "rxjs";
+import { mergeMap, Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { EntryForm } from "./entry-form.model";
@@ -17,9 +17,10 @@ import {Period} from "../department-managers/period.model";
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
   public students: Student[] = [];
+  public period!: Period;
   public fetchedStudentsObservable!: Observable<Array<Student>>;
   // private studentsUpdated = new Subject<Student[]>();
-
+  public fetchedPeriodObservable!: Observable<Period>;
   constructor(private http: HttpClient, public authService: AuthService) { }
 
   // getStudentUpdateListener() {
@@ -39,6 +40,10 @@ export class StudentsService {
     //   console.log(postData);
     //   this.studentsUpdated.next([...this.students]);
     // });
+  }
+
+    getFetchedPeriodObservable(): Observable<Period> {
+    return this.fetchedPeriodObservable;
   }
 
   getStudentEntrySheets(): Observable<Array<EntryForm>> {
@@ -100,9 +105,49 @@ export class StudentsService {
   }
 
   getPhase(departmentId: number): Observable<Period> {
-    return this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
+// fetchedPeriodObservable
+  const fetchedPeriod = this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
+    this.fetchedPeriodObservable = fetchedPeriod;
+    this.fetchedPeriodObservable.subscribe((periods: Period) => {
+      this.period = periods;
+    });
+    return fetchedPeriod;
+    // return this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
   }
 
+  getPeriod() : any {
+    if (!this.period) return null;
+    return this.period;
+  }
+
+  // public fetchStudentsAndPeriod() {
+  //   let studentPeriodArray: any;
+  //   let fetchedStudents: any[];
+  //   let fetchedPeriod;
+  //     this.getStudents()
+  //     .subscribe((students: Student[]) => {
+  //       fetchedStudents = students;
+  //        this.getPhase(fetchedStudents[0]?.department_id)
+  //         .subscribe((period: Period) => {
+  //           fetchedPeriod = period;
+  //           studentPeriodArray = Object.assign({"student" : fetchedStudents}, {"period": period});
+  //           console.log("asd" + studentPeriodArray["period"].date_from);
+  //           this.period =  studentPeriodArray["period"];
+  //           console.log( "asd" + this.period.date_from);
+  //           return this.period;
+  //         });
+  //     });
+  // }
+  public fetchStudentsAndPeriod(): Observable<Period> {
+    let studentPeriodArray: any;
+    let fetchedStudents: any[];
+    let fetchedPeriod;
+    const period = this.getStudents()
+    .pipe(
+        mergeMap(result => this.getPhase(result[0]?.department_id))
+     )
+    return period;
+  }
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = 1;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Utils} from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import {DepManager} from '../dep-manager.model';
-import {DepManagerService} from '../dep-manager.service.service';
+import {DepManagerService} from '../dep-manager.service';
 import {Period} from '../period.model';
 
 @Component({

@@ -5,11 +5,13 @@ import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import {Utils} from 'src/app/MiscUtils';
+import {Period} from 'src/app/department-managers/period.model';
 
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
-  styleUrls: ['./student.component.css']
+  styleUrls: ['./student.component.css'],
 })
 export class StudentComponent implements OnInit, OnDestroy {
 
@@ -20,6 +22,14 @@ export class StudentComponent implements OnInit, OnDestroy {
   private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
+  period!: Period;
+  dateFrom!: string;
+  dateTo!: string;
+  isDeclarationEnabled!: boolean;
+  areOptionsEnabled!: boolean;
+  private INTEREST_EXPRESSION_PHASE: number = 1;
+  private STUDENT_SELECTION_PHASE: number = 2;
+  private PREFERENCE_DECLARATION_PHASE: number = 3;
 
   constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -33,14 +43,25 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.language = localStorage.getItem('language') || 'gr';
 
     this.authService.login('pcst19003');
-    this.studentsService.getStudents()
+    this.fetchStudentAndPeriod();
+  }
+
+  public fetchStudentAndPeriod() {
+      this.studentsService.getStudents()
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
-        this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
+        this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
         this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
         // console.log(this.studentsSSOData);
+         this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
+          .subscribe((period: Period) => {
+            this.period = period;
+            this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
+            this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+            this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
+            this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[1].phase > 1;
+          });
       });
-    // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
 
   ngOnDestroy(): void {
@@ -51,17 +72,6 @@ export class StudentComponent implements OnInit, OnDestroy {
   private getSSN(str: string): string {
     const personalIdArray = str.split(":");
     return personalIdArray[personalIdArray.length - 1];
-  }
-
-  private reformatDateOfBirth(dateOfBirth: string) {
-    let startDate = dateOfBirth;
-
-    let year = startDate.substring(0, 4);
-    let month = startDate.substring(4, 6);
-    let day = startDate.substring(6, 8);
-
-    let displayDate = day + '/' + month + '/' + year;
-    return displayDate;
   }
 
   onLogout() {

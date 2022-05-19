@@ -257,7 +257,7 @@
                     {{this.providerContactEmail ? this.providerContactEmail : 'Δεν διατίθεται'}}</tr>
                 </table>
                 <a *ngIf="!this.isAppActive" (click)="addPosition(this.jobPositionId)"
-                  class="button btn-primary">ΠΡΟΣΘΕΣΤΕ
+                  [class.disabled]="!areOptionsEnabled ? true : null" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ
                   ΘΕΣΗ</a>
               </div>
             </li>

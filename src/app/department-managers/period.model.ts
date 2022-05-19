@@ -6,5 +6,6 @@ export interface Period {
   semester: number,
   phase_state: number,
   date_from: Date,
-  date_to: Date
+  date_to: Date,
+  is_active: boolean
 }

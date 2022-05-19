@@ -1,4 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
+import {async} from '@angular/core/testing';
+import {Period} from 'src/app/department-managers/period.model';
 import {Utils} from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import {AtlasFilters} from '../atlas-filters.model';
@@ -38,9 +40,17 @@ export class StudentInternshipComponent implements OnInit {
   timer!: any;      // Timer identifier
   waitTime: number = 500;   // Wait time in milliseconds
 
+  areOptionsEnabled!: boolean;
+  private INTEREST_EXPRESSION_PHASE: number = 1;
+  private STUDENT_SELECTION_PHASE: number = 2;
+  private PREFERENCE_DECLARATION_PHASE: number = 3;
+  public is_active: number = 0 ;
+  period: Period|undefined;
+  isDeclarationEnabled!: boolean;
+
   constructor(public studentsService: StudentsService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.studentsService.getAtlasInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
@@ -60,8 +70,23 @@ export class StudentInternshipComponent implements OnInit {
         // if one or more apps from this student are active
         if (num >= 1) this.isAppActive = true;
     });
+    console.log("active " + this.is_active);
     //this.setJobsDetails(0);
+    let fetchedPeriod = this.studentsService.getPeriod();
+    if (fetchedPeriod)
+      console.log("prd " + this.studentsService.getPeriod().available_positions);
+    else {
+      // TODO FETCH STUDENT phase also
+       this.studentsService.fetchStudentsAndPeriod().subscribe((period: Period) => {
+          this.period = period;
+          this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
+          this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE ;
+          console.log("period" + this.period.date_from);
+      });
+
+    }
   }
+
 
   fetchMorePositions(beginParam: number) {
     this.begin += this.limit;

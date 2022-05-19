@@ -189,7 +189,7 @@
           <li class="nav-header">{{'STUDENT.SIDEBAR-MAIN-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/student/enable_intern/'+ this.authService.getSessionId()]"
-              [routerLinkActive]="['active']" class="nav-link">
+              [routerLinkActive]="['active']" [class.disabled]="!isDeclarationEnabled ? true : null" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p> {{'STUDENT.SIDEBAR-PROFILE' | translate}}</p>
             </a>
@@ -216,9 +216,13 @@
             </a>
           </li>
           <li class="nav-item">
+            <!--
+              the right choice
+              <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']"
+              [class.disabled]="!areOptionsEnabled ? true : null" class="nav-link"> -->
             <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-book"></i>
-              <p> {{'STUDENT.SIDEBAR-SHEETS' | translate}}</p>
+              <p> {{'STUDENT.SIDEBAR-SHEETS' | translate}} </p>
             </a>
           </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { DepManagerService } from '../dep-manager.service.service';
+import { DepManagerService } from '../dep-manager.service';
 
 @Component({
   selector: 'app-period-add',
