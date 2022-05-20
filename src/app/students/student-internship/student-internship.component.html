@@ -256,8 +256,8 @@
                   <tr><i class="fa fa-envelope"></i> <strong> Email:</strong>
                     {{this.providerContactEmail ? this.providerContactEmail : 'Δεν διατίθεται'}}</tr>
                 </table>
-                <a *ngIf="!this.isAppActive" (click)="addPosition(this.jobPositionId)"
-                  [class.disabled]="!areOptionsEnabled ? true : null" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ
+                <a *ngIf="!this.isAppActive" id="addPositionsBtn" (click)="addPosition(this.jobPositionId)"
+                  [class.disabled]="!canStudentSubmitApp ? true : null" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ
                   ΘΕΣΗ</a>
               </div>
             </li>

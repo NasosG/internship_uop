@@ -7,6 +7,7 @@ import {AtlasFilters} from '../atlas-filters.model';
 import {AtlasPosition} from '../atlas-position.model';
 import {City} from '../city.model';
 import {Department} from '../department.model';
+import {Student} from '../student.model';
 import {StudentsService} from '../student.service';
 
 @Component({
@@ -40,17 +41,18 @@ export class StudentInternshipComponent implements OnInit {
   timer!: any;      // Timer identifier
   waitTime: number = 500;   // Wait time in milliseconds
 
-  areOptionsEnabled!: boolean;
+  canStudentSubmitApp!: boolean;
   private INTEREST_EXPRESSION_PHASE: number = 1;
   private STUDENT_SELECTION_PHASE: number = 2;
   private PREFERENCE_DECLARATION_PHASE: number = 3;
   public is_active: number = 0 ;
   period: Period|undefined;
   isDeclarationEnabled!: boolean;
+  studentsSSOData!: Student[];
 
   constructor(public studentsService: StudentsService) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.studentsService.getAtlasInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
@@ -72,19 +74,32 @@ export class StudentInternshipComponent implements OnInit {
     });
     console.log("active " + this.is_active);
     //this.setJobsDetails(0);
-    let fetchedPeriod = this.studentsService.getPeriod();
+    let fetchedPeriod = this.studentsService?.getPeriod();
     if (fetchedPeriod)
-      console.log("prd " + this.studentsService.getPeriod().available_positions);
+      this.setStudentCanSubmit(fetchedPeriod);
+      // console.log("prd " + this.studentsService?.getPeriod().available_positions);
     else {
-      // TODO FETCH STUDENT phase also
-       this.studentsService.fetchStudentsAndPeriod().subscribe((period: Period) => {
-          this.period = period;
-          this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
-          this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE ;
-          console.log("period" + this.period.date_from);
-      });
-
+      this.fetchStudentAndPeriod();
     }
+  }
+
+  public fetchStudentAndPeriod() {
+      this.studentsService.getStudents()
+      .subscribe((students: Student[]) => {
+        this.studentsSSOData = students;
+        console.log(this.studentsSSOData);
+         this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
+          .subscribe((period: Period) => {
+            this.period = period;
+            this.setStudentCanSubmit(period);
+            //this.canStudentSubmitApp =  period.is_active && period.phase_state > this.STUDENT_SELECTION_PHASE && this.studentsSSOData[1].phase > 1;
+            console.log(this.period + " opts enabled " + this.canStudentSubmitApp);
+          });
+      });
+  }
+
+  setStudentCanSubmit(period: Period) {
+    this.canStudentSubmitApp =  period.is_active && period.phase_state == this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[1].phase > 1;
   }
 
 
@@ -230,6 +245,11 @@ export class StudentInternshipComponent implements OnInit {
     let message = "";
     //this.studentsService.insertStudentPosition(positionId);
 
+    if (!this.canStudentSubmitApp) {
+      (document.getElementById("addPositionsBtn") as HTMLButtonElement).textContent = "ΧΩΡΙΣ ΔΥΝΑΤΟΤΗΤΑ ΠΡΟΣΘΗΚΗΣ ΘΕΣΗΣ";
+      return;
+
+    }
     this.studentsService.insertStudentPosition(positionId).subscribe(responseData => {
       message = responseData.message;
       // console.log(message);

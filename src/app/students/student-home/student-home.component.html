@@ -67,11 +67,14 @@
  <div class="row">
    <!-- Left col -->
    <section class="col-lg-8 connectedSortable">
-     <div class="alert alert-success" role="alert">
+     <div *ngIf="this.period?.is_active" class="alert alert-success" role="alert">
        {{'STUDENT.INTERSNHIP-DECLARATION-PERIOD'| translate}}
        {{phaseArray[period?.phase_state!] | translate}}: {{dateFrom}}
        {{'STUDENT.PERIOD-TO'| translate}}
        {{dateTo}}.
+     </div>
+     <div *ngIf="!this.period?.is_active" class="alert alert-danger" role="alert">
+       {{'STUDENT.NO-INTERNSHIP-PERIOD'| translate}}
      </div>
      <!-- Custom tabs (Charts with tabs)-->
      <div class="card">
