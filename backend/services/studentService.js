@@ -2,14 +2,25 @@
 // const { addSyntheticLeadingComment } = require("typescript");
 const pool = require("../db_config.js");
 
-const getStudents = async () => {
+const getAllStudents = async () => {
   try {
-    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users WHERE id='pcst19003'");
-    const resultsStudents = await pool.query("SELECT * FROM student_users WHERE id = '1'");
-    // const results3 = [resultsSSOUsers.rows, resultsStudents.rows];
-    const finalStudentsResults = resultsSSOUsers.rows.concat(resultsStudents.rows);
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+                                              INNER JOIN student_users \
+                                              ON sso_users.uuid = student_users.sso_uid \
+                                              WHERE sso_users.edupersonprimaryaffiliation='student'" );
+    return resultsSSOUsers.rows;
+  } catch (error) {
+    throw Error('Error while fetching students');
+  }
+};
 
-    return finalStudentsResults;
+const getStudentById = async (id) => {
+  try {
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+                                              INNER JOIN student_users \
+                                              ON sso_users.uuid = student_users.sso_uid \
+                                              WHERE sso_users.uuid=$1", [id]);
+    return resultsSSOUsers.rows;
   } catch (error) {
     throw Error('Error while fetching students');
   }
@@ -390,7 +401,8 @@ const getPhase = async (studentId, positionId) => {
 
 
 module.exports = {
-  getStudents,
+  getAllStudents,
+  getStudentById,
   getStudentEntrySheets,
   getStudentExitSheets,
   getStudentEvaluationSheets,

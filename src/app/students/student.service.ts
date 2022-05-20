@@ -28,7 +28,8 @@ export class StudentsService {
   // }
 
   getStudents(): Observable<Array<Student>> {
-    const fetchedStudents = this.http.get<Array<Student>>('http://localhost:3000/api/students');
+    let id = 1;
+    const fetchedStudents = this.http.get<Array<Student>>('http://localhost:3000/api/students/getStudentById/' + id);
     this.fetchedStudentsObservable = fetchedStudents;
     this.fetchedStudentsObservable.subscribe((students: Student[]) => {
       this.students = [...students];

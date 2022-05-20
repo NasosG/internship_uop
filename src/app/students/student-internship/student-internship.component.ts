@@ -92,14 +92,14 @@ export class StudentInternshipComponent implements OnInit {
           .subscribe((period: Period) => {
             this.period = period;
             this.setStudentCanSubmit(period);
-            //this.canStudentSubmitApp =  period.is_active && period.phase_state > this.STUDENT_SELECTION_PHASE && this.studentsSSOData[1].phase > 1;
+            //this.canStudentSubmitApp =  period.is_active && period.phase_state > this.STUDENT_SELECTION_PHASE && this.studentsSSOData[0].phase > 1;
             console.log(this.period + " opts enabled " + this.canStudentSubmitApp);
           });
       });
   }
 
   setStudentCanSubmit(period: Period) {
-    this.canStudentSubmitApp =  period.is_active && period.phase_state == this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[1].phase > 1;
+    this.canStudentSubmitApp =  period.is_active && period.phase_state == this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
   }
 
 

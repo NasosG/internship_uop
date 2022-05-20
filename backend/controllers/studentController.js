@@ -3,10 +3,23 @@ const studentService = require("../services/studentService.js");
 /**
  * Returns all students from SSO and student users tables.
  */
-const getStudents = async (request, response) => {
+const getAllStudents = async (request, response) => {
   try {
-    const users = await studentService.getStudents();
-    response.status(200).json(users);
+    const students = await studentService.getAllStudents();
+    response.status(200).json(students);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const getStudentById = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const student = await studentService.getStudentById(studentId);
+    response.status(200).json(student);
   } catch (error) {
     console.error(error.message);
     response.send({
@@ -425,7 +438,8 @@ const updateStudentPositions = async (request, response) => {
 
 
 module.exports = {
-  getStudents,
+  getAllStudents,
+  getStudentById,
   getStudentEntrySheets,
   getStudentExitSheets,
   getStudentEvaluationSheets,

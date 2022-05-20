@@ -68,23 +68,23 @@
           <div class="card-body">
             <strong><i class="fas fa-book mr-1"></i> Εκπαίδευση</strong>
             <p class="text-muted">
-              {{ studentsSSOData[1].education }}
+              {{ studentsSSOData[0].education }}
             </p>
             <hr />
             <strong><i class="fas fa-map-marker-alt mr-1"></i> Τοποθεσία</strong>
             <p class="text-muted">
-              {{ studentsSSOData[1].address }}, {{ studentsSSOData[1].city }}
+              {{ studentsSSOData[0].address }}, {{ studentsSSOData[0].city }}
             </p>
             <hr />
             <strong><i class="fas fa-pencil-alt mr-1"></i> Ικανότητες</strong>
             <p class="text-muted">
-              <span class="tag tag-danger">{{ studentsSSOData[1].skills }}
+              <span class="tag tag-danger">{{ studentsSSOData[0].skills }}
               </span>
             </p>
             <hr />
             <strong><i class="far fa-file-alt mr-1"></i> Ενδιαφέροντα</strong>
             <p class="text-muted">
-              {{ studentsSSOData[1].interests }}
+              {{ studentsSSOData[0].interests }}
             </p>
           </div>
           <!-- /.card-body -->
@@ -158,7 +158,7 @@
                     <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Πατρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="father_name" ngModel [ngModel]="studentsSSOData[1].father_name"
+                      <input type="text" name="father_name" ngModel [ngModel]="studentsSSOData[0].father_name"
                         class="form-control" id="inputName2" placeholder="Όνομα Πατρός" />
                     </div>
                   </div>
@@ -166,7 +166,7 @@
                     <label for="inputExperience" class="col-sm-2 col-form-label">Επώνυμο Πατρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="father_last_name" ngModel [ngModel]="studentsSSOData[1].father_last_name"
+                      <input type="text" name="father_last_name" ngModel [ngModel]="studentsSSOData[0].father_last_name"
                         class="form-control" id="fatherLastName" placeholder="Επώνυμο Πατρός" />
                     </div>
                   </div>
@@ -174,7 +174,7 @@
                     <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Μητρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="mother_name" ngModel [ngModel]="studentsSSOData[1].mother_name"
+                      <input type="text" name="mother_name" ngModel [ngModel]="studentsSSOData[0].mother_name"
                         class="form-control" id="inputName2" placeholder="Όνομα Μητρός" value="" />
                     </div>
                   </div>
@@ -182,7 +182,7 @@
                     <label for="inputName2" class="col-sm-2 col-form-label">Επώνυμο Μητρός&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="mother_last_name" ngModel [ngModel]="studentsSSOData[1].mother_last_name"
+                      <input type="text" name="mother_last_name" ngModel [ngModel]="studentsSSOData[0].mother_last_name"
                         class="form-control" id="inputName2" placeholder="Επώνυμο Μητρός" value="" />
                     </div>
                   </div>
@@ -275,7 +275,7 @@
                     <label for="inputName" class="col-sm-2 col-form-label">ΑΦΜ&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="ssn" ngModel class="form-control" [ngModel]="studentsSSOData[1].ssn"
+                      <input type="text" name="ssn" ngModel class="form-control" [ngModel]="studentsSSOData[0].ssn"
                         id="inputName" placeholder="ΑΦΜ" required />
                     </div>
                   </div>
@@ -290,7 +290,7 @@
                     <label for="inputDOY" class="col-sm-2 col-form-label">ΔΟΥ&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="doy" ngModel [ngModel]="studentsSSOData[1].doy" class="form-control"
+                      <input type="text" name="doy" ngModel [ngModel]="studentsSSOData[0].doy" class="form-control"
                         id="inputDOY" placeholder="ΔΟΥ" required />
                     </div>
                   </div>
@@ -298,7 +298,7 @@
                     <label for="inputExperience" class="col-sm-2 col-form-label">IBAN&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" name="iban" [ngModel]="studentsSSOData[1].iban" ngModel class="form-control"
+                      <input type="text" name="iban" [ngModel]="studentsSSOData[0].iban" ngModel class="form-control"
                         id="inputName2" placeholder="IBAN" required />
                     </div>
                   </div>
@@ -372,7 +372,7 @@
                       <div class="col-sm-10">
                         <input type="text" class="form-control"
                           id="edit-profile-student-field-student-address-und-0-phone" name="phone" ngModel
-                          placeholder="" [ngModel]="studentsSSOData[1].phone" required value="" size="31"
+                          placeholder="" [ngModel]="studentsSSOData[0].phone" required value="" size="31"
                           maxlength="31" />
                       </div>
                     </div>
@@ -383,7 +383,7 @@
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-street" name="address"
-                          ngModel [ngModel]="studentsSSOData[1].address" value="" size="64" maxlength="255"
+                          ngModel [ngModel]="studentsSSOData[0].address" value="" size="64" maxlength="255"
                           class="form-text form-control" />
                       </div>
                     </div>
@@ -393,7 +393,7 @@
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-additional"
-                          name="location" ngModel [ngModel]="studentsSSOData[1].location" size="64" maxlength="255"
+                          name="location" ngModel [ngModel]="studentsSSOData[0].location" size="64" maxlength="255"
                           class="form-text form-control" />
                       </div>
                     </div>
@@ -403,7 +403,7 @@
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-city" name="city"
-                          ngModel value="" [ngModel]="studentsSSOData[1].city" size="64" maxlength="255"
+                          ngModel value="" [ngModel]="studentsSSOData[0].city" size="64" maxlength="255"
                           class="form-text form-control" />
                       </div>
                     </div>
@@ -413,7 +413,7 @@
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-postal-code"
-                          name="post_address" ngModel [ngModel]="studentsSSOData[1].post_address" value="" size="16"
+                          name="post_address" ngModel [ngModel]="studentsSSOData[0].post_address" value="" size="16"
                           maxlength="16" class="form-text form-control" />
                       </div>
                     </div>
@@ -422,7 +422,7 @@
                         for="edit-profile-student-field-student-address-und-0-country">Χώρα
                       </label>
                       <div class="col-sm-10">
-                        <select name="country" ngModel [ngModel]="studentsSSOData[1].country"
+                        <select name="country" ngModel [ngModel]="studentsSSOData[0].country"
                           class="location_auto_country form-select ajax-processed"
                           id="edit-profile-student-field-student-address-und-0-country">
                           <option value="xx">ΕΚΤΟΣ ΛΙΣΤΑΣ</option>
@@ -729,21 +729,21 @@
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Εκπαίδευση</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="education" ngModel [ngModel]="studentsSSOData[1].education"
+                      <textarea class="form-control" name="education" ngModel [ngModel]="studentsSSOData[0].education"
                         id="inputExperience" placeholder="Εκπαίδευση"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Εμπειρία</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="experience" ngModel [ngModel]="studentsSSOData[1].experience"
+                      <textarea class="form-control" name="experience" ngModel [ngModel]="studentsSSOData[0].experience"
                         id="inputExperience" placeholder="Εμπειρία"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Ξένες Γλώσσες</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="languages" ngModel [ngModel]="studentsSSOData[1].languages"
+                      <textarea class="form-control" name="languages" ngModel [ngModel]="studentsSSOData[0].languages"
                         id="inputExperience" placeholder="Ξένες Γλώσσες"></textarea>
                     </div>
                   </div>
@@ -751,28 +751,28 @@
                     <label for="inputExperience" class="col-sm-2 col-form-label">Γνώσεις Η/Υ</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="computer_skills" ngModel
-                        [ngModel]="studentsSSOData[1].computer_skills" id="inputExperience"
+                        [ngModel]="studentsSSOData[0].computer_skills" id="inputExperience"
                         placeholder="Γνώσεις Η/Υ"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Δια Βίου Μόρφωση</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="other_edu" ngModel [ngModel]="studentsSSOData[1].other_edu"
+                      <textarea class="form-control" name="other_edu" ngModel [ngModel]="studentsSSOData[0].other_edu"
                         id="inputExperience" placeholder="Δια Βίου Μόρφωση"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Διακρίσεις-Βραβεία-Υποτροφίες</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="honors" ngModel [ngModel]="studentsSSOData[1].honors"
+                      <textarea class="form-control" name="honors" ngModel [ngModel]="studentsSSOData[0].honors"
                         id="inputExperience" placeholder="Διακρίσεις-Βραβεία-Υποτροφίες"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Ενδιαφέροντα</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="interests" ngModel [ngModel]="studentsSSOData[1].interests"
+                      <textarea class="form-control" name="interests" ngModel [ngModel]="studentsSSOData[0].interests"
                         id="inputExperience" placeholder="Ενδιαφέροντα"></textarea>
                     </div>
                   </div>
@@ -785,7 +785,7 @@
                   <div class="form-group row">
                     <label for="inputExperience" class="col-sm-2 col-form-label">Ικανότητες</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="skills" ngModel [ngModel]="studentsSSOData[1].skills"
+                      <textarea class="form-control" name="skills" ngModel [ngModel]="studentsSSOData[0].skills"
                         id="inputExperience" placeholder="Ικανότητες"></textarea>
                     </div>
                   </div>
