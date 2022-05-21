@@ -149,6 +149,7 @@ export class StudentsService {
      )
     return period;
   }
+
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = this.authService.getSessionId();

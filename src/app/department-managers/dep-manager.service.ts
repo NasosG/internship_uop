@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from "rxjs";
+import { mergeMap, Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
@@ -43,8 +43,15 @@ export class DepManagerService {
   }
 
   getStudentsApplyPhase(): Observable<Student[]> {
-    const id = 98;
-    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + id);
+    const fetchedStudent =  this.getDepManager()
+    .pipe(
+        mergeMap(result => this.getStudentsApplyPhaseByDeptId(result?.department_id))
+     )
+    return fetchedStudent;
+  }
+
+  getStudentsApplyPhaseByDeptId(deptId: number): Observable<Student[]> {
+    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + deptId);
     // this.fetchedStudentObservable = fetchedStudent;
     // this.fetchedStudentObservable.subscribe((students: Student[]) => {
     //   this.students = students;

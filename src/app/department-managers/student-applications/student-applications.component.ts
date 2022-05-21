@@ -17,70 +17,75 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   // dataSource = ELEMENT_DATA;
-  constructor( public depManagerService: DepManagerService,private chRef: ChangeDetectorRef) { }
+  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef) { }
 
   dtOptions : any = {};
 
   ngOnInit() {
-    // this.dtOptions = {
-    //   pagingType: 'full_numbers',
-    //   pageLength: 8,
-    //   processing: true,
-    //   dom: 'Bfrtip',
-    //   buttons: [
-    //     'copy', 'csv', 'excel', 'print'
-    //   ]
-    // };
-
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
         console.log(students);
-        // You'll have to wait that changeDetection occurs and projects data into
-      // the HTML template, you can ask Angular to that for you ;-)
+
+      // Have to wait that changeDetection occurs and projects data into the HTML template)
       this.chRef.detectChanges();
 
-      // Now you can use jQuery DataTables :
+      // Use of jQuery DataTables
       const table: any = $('#example');
-      this.table = table.DataTable();
-        // this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+      this.table = table.DataTable({
+        lengthMenu: [
+            [10, 25, 50, -1],
+            [10, 25, 50, 'All']
+        ],
+        lengthChange: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+        responsive: true,
+        select: true,
+        pagingType: 'full_numbers',
+        processing: true
+        // pageLength: 8,
+        // dom: 'Bfrtip',
+              // buttons: [
+              //   {
+              //     extend: 'collection',
+              //     text: 'Export',
+              //     buttons: [
+              //       'copy',
+              //       'excel',
+              //       'csv',
+              //       'pdf',
+              //       'print'
+              //     ]
+              //   }
+              // ]
+        });
       });
+
+      // this.dtOptions = {
+      //   pagingType: 'full_numbers',
+      //   pageLength: 8,
+      //   processing: true,
+      //   dom: 'Bfrtip',
+      //   buttons: [ 'copy', 'csv', 'excel', 'print' ]
+      // };
   }
 
-exportToExcel()
-{
-  // const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table?.nativeElement);
-  const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet((document.getElementById("example") as HTMLElement));
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  exportToExcel(){
+    // const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table?.nativeElement);
+    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet((document.getElementById("example") as HTMLElement));
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  /* save to file */
-  XLSX.writeFile(wb, 'SheetJS.xlsx');
-
-}
+    /* save to file */
+    XLSX.writeFile(wb, 'SheetJS.xlsx');
+  }
 
   ngAfterViewInit(): void {
     // $('#example').DataTable();
-  //   $('#example1').DataTable({
-  //   dom: 'Bfrtip',
-
-  //         select: true,
-  //           colReorder: true,
-  //             buttons: [
-
-  //               {
-  //                 extend: 'collection',
-  //                 text: 'Export',
-  //                 buttons: [
-  //                   'copy',
-  //                   'excel',
-  //                   'csv',
-  //                   'pdf',
-  //                   'print'
-  //                 ]
-  //               }
-  //             ]
-  // } );
       // $('#example2').DataTable({
       //   "paging": true,
       //   "lengthChange": false,
