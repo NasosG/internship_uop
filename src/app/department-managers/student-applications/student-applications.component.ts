@@ -43,22 +43,16 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         responsive: true,
         select: true,
         pagingType: 'full_numbers',
-        processing: true
-        // pageLength: 8,
-        // dom: 'Bfrtip',
-              // buttons: [
-              //   {
-              //     extend: 'collection',
-              //     text: 'Export',
-              //     buttons: [
-              //       'copy',
-              //       'excel',
-              //       'csv',
-              //       'pdf',
-              //       'print'
-              //     ]
-              //   }
-              // ]
+        processing: true,
+        language: {
+          // lengthMenu: 'Show _MENU_ entries'
+          // // lengthMenu: 'Display _MENU_ records per page',
+          // zeroRecords: 'Nothing found - sorry',
+          // info: 'Showing page _PAGE_ of _PAGES_',
+          // infoEmpty: 'No records available',
+          // infoFiltered: '(filtered from _MAX_ total records)',
+        },
+        // pageLength: 8
         });
       });
 
@@ -71,18 +65,53 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
       // };
   }
 
-  exportToExcel(){
+  exportToExcel() {
+    const excelFileName: string = "StudentPhase1.xlsx";
     // const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table?.nativeElement);
-    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet((document.getElementById("example") as HTMLElement));
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet((document.getElementById("example") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    /* save to file */
-    XLSX.writeFile(wb, 'SheetJS.xlsx');
+    /* Save to file */
+    XLSX.writeFile(wb, excelFileName);
   }
 
   ngAfterViewInit(): void {
     // $('#example').DataTable();
+  }
+
+  printDataTable() {
+    let currentDate = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
+    const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    windowPrint?.document.write("<h5 style='text-align: right;'>"+ currentDate +"</h5><br>");
+    windowPrint?.document.write("<table style=\"width: 100%;\"> \
+        <thead style=\"color:white; background-color:#2d4154;\"> \
+          <tr> \
+            <th>Όνομα</th> \
+            <th>email</th> \
+            <th></th> \
+            <th> Κατάσταση </th> \
+          </tr> \
+        </thead>");
+
+    let i = 0;
+    for (let student of this.studentsData) {
+      windowPrint?.document.write(
+      // print the rows - another color for the odd lines - could be done with i % 2 != 0
+      // but with bitwise operator it was a bit faster
+        "<tr " + ( (i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">" ) +
+                "<td>" + student.sn + " " + student.givenname + "</td>" +
+                "<td>" + student.id + "@uop.gr" + "</td>" +
+                "<td>" + student.sn + "</td>" +
+                "<td>" + 'Ενεργή' + "</td>" +
+      "</tr>");
+      i++;
+    }
+    windowPrint?.document.write("</table>")
+    windowPrint?.document.close();
+    windowPrint?.focus();
+    windowPrint?.print();
+    windowPrint?.close();
   }
 
 }
