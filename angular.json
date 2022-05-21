@@ -50,12 +50,7 @@
               "node_modules/admin-lte/plugins/pdfmake/vfs_fonts.js",
               "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.html5.min.js",
               "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.print.min.js",
-              "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.colVis.min.js",
-              "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
-              "node_modules/datatables.net-buttons/js/buttons.colVis.js",
-              "node_modules/datatables.net-buttons/js/buttons.flash.js",
-              "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js"
+              "node_modules/admin-lte/plugins/datatables-buttons/js/buttons.colVis.min.js"
             ]
           },
           "configurations": {
