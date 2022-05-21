@@ -43,15 +43,15 @@ export class DepManagerService {
   }
 
   getStudentsApplyPhase(): Observable<Student[]> {
-    const fetchedStudent =  this.getDepManager()
+    const fetchedStudent = this.getDepManager()
     .pipe(
         mergeMap(result => this.getStudentsApplyPhaseByDeptId(result?.department_id))
      )
     return fetchedStudent;
   }
 
-  getStudentsApplyPhaseByDeptId(deptId: number): Observable<Student[]> {
-    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + deptId);
+  getStudentsApplyPhaseByDeptId(departmentId: number): Observable<Student[]> {
+    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + departmentId);
     // this.fetchedStudentObservable = fetchedStudent;
     // this.fetchedStudentObservable.subscribe((students: Student[]) => {
     //   this.students = students;
@@ -62,7 +62,6 @@ export class DepManagerService {
   insertPeriod(inputForm: any) {
     const depManagerId = 2;
     const form: Period = inputForm;
-    // console.log(inputForm);
     this.http
       .post<{ message: string }>("http://localhost:3000/api/depmanager/insertPeriod/" + depManagerId, form)
       .subscribe(responseData => {
@@ -86,5 +85,4 @@ export class DepManagerService {
         console.log(responseData.message);
       });
   }
-
 }

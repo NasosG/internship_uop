@@ -1,11 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import {Student} from 'src/app/students/student.model';
- import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx';
 import {DepManagerService} from '../dep-manager.service';
-
-
-
 
 @Component({
   selector: 'app-student-applications',
@@ -27,7 +24,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         this.studentsData = students;
         console.log(students);
 
-      // Have to wait that changeDetection occurs and projects data into the HTML template)
+      // Have to wait till the changeDetection occurs. Then, project data into the HTML template
       this.chRef.detectChanges();
 
       // Use of jQuery DataTables
@@ -86,15 +83,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // $('#example').DataTable();
-      // $('#example2').DataTable({
-      //   "paging": true,
-      //   "lengthChange": false,
-      //   "searching": false,
-      //   "ordering": true,
-      //   "info": true,
-      //   "autoWidth": false,
-      //   "responsive": true,
-      // });
   }
 
 }
