@@ -18,6 +18,7 @@ export class DepManagerService {
   public fetchedManagerObservable!: Observable<DepManager>;
   public fetchedPeriodObservable!: Observable<Period>;
   public fetchedStudentObservable!: Observable<Student>;
+  students!: Student;
 
   constructor(private http: HttpClient, public authService: AuthService) { }
 
@@ -41,13 +42,13 @@ export class DepManagerService {
     return fetchedPeriod;
   }
 
-  getStudentsApplyPhase(): Observable<Student> {
+  getStudentsApplyPhase(): Observable<Student[]> {
     const id = 98;
-    const fetchedStudent = this.http.get<Student>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + id);
-    this.fetchedStudentObservable = fetchedStudent;
-    this.fetchedPeriodObservable.subscribe((periods: Period) => {
-      this.period = periods;
-    });
+    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + id);
+    // this.fetchedStudentObservable = fetchedStudent;
+    // this.fetchedStudentObservable.subscribe((students: Student[]) => {
+    //   this.students = students;
+    // });
     return fetchedStudent;
   }
 

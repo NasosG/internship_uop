@@ -9,28 +9,29 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <!-- <button class="btn btn-primary">Excel</button> -->
+            <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
+                style='font-size:24px'></i> Excel</button>
             <br><br>
-            <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
-              <!-- <table id="example" class="table table-bordered table-striped"> -->
+            <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+            <table id="example" #example class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Όνομα</th>
                   <th>email</th>
-                  <th>Φορέας</th>
-                  <th>
+                  <!-- <th>Φορέας</th> -->
+                  <!-- <th>
                     Αρ. Πρωτοκόλλου</th>
-                  <th> Ημ. Πρωτοκόλλου</th>
+                  <th> Ημ. Πρωτοκόλλου</th> -->
                   <th> Κατάσταση </th>
-                  <th> Σκορ </th>
+                  <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Γιώργος Παπακώστας</td>
-                  <td>pcsttipota.uop.gr</td>
-                  <td>
+                <tr *ngFor="let studenta of studentsData">
+                  <td>{{studenta.givenname}} {{studenta.sn}}</td>
+                  <td>{{studenta.id}}.uop.gr</td>
+                  <!-- <td>
                     <ul>
                       <li>Aofsointr Inc</li>
                       <li>BOsointr Inc</li>
@@ -40,15 +41,15 @@
                     </ul>
                   </td>
                   <td>tipota</td>
-                  <td>25/01/2021</td>
+                  <td>25/01/2021</td> -->
                   <td>Ενεργή</td>
-                  <td>7.8</td>
+                  <!-- <td>7.8</td> -->
                   <td class="action text-center">
                     <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td>Μαρία</td>
                   <td>pcsttipota.uop.gr</td>
                   <td>
@@ -67,51 +68,19 @@
                     <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
                   </td>
-                </tr>
-                <tr>
-                  <td>Γεωργία</td>
-                  <td>pcsttipota.uop.gr</td>
-                  <td>
-                    <ul>
-                      <li>Bofsointr Inc</li>
-                      <li>BOsointr Inc</li>
-                      <li>COsointr Inc</li>
-                    </ul>
-                  </td>
-                  <td>tipota
-                  </td>
-                  <td>25/01/2021</td>
-                  <td>Ενεργή</td>
-                  <td>7.9</td>
-                  <td class="action text-center">
-                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Αλέξανδρος</td>
-                  <td>pcst.uop.gr</td>
-                  <td>Aofsointr Inc</td>
-                  <td>tipota</td>
-                  <td>25/01/2021</td>
-                  <td>Ενεργή</td>
-                  <td>5.4</td>
-                  <td class="action text-center">
-                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
+                </tr> -->
+
               </tbody>
               <tfoot>
                 <tr>
                   <th>Όνομα φοιτητή</th>
                   <th>email</th>
-                  <th> Φορέας</th>
+                  <!-- <th> Φορέας</th>
                   <th>
                     Αρ. Πρωτοκόλλου</th>
-                  <th> Ημ. Πρωτοκόλλου</th>
+                  <th> Ημ. Πρωτοκόλλου</th> -->
                   <th> Κατάσταση </th>
-                  <th> Σκορ </th>
+                  <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </tfoot>
