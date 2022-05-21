@@ -14,23 +14,24 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   dtOptions : any = {};
 
   ngOnInit() {
-    // this.dtOptions = {
-    //   pagingType: 'full_numbers',
-    //   pageLength: 8,
-    //   processing: true,
-    //   dom: 'Bfrtip',
-    //   buttons: [
-    //     'copy', 'csv', 'excel', 'print'
-    //   ]
-    // };
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 8,
+      processing: true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
   }
 
   randomNumber() {
-     return Math.floor(Math.random() * 1000000);
+     //return Math.floor(Math.random() * 1000000);
   }
 
   ngAfterViewInit(): void {
-    $('#example').DataTable();
+
+    // $('#example').DataTable();
   //   $('#example1').DataTable({
   //   dom: 'Bfrtip',
 

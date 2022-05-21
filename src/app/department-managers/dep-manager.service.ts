@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
 import { Period } from './period.model';
+import { Student } from '../students/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class DepManagerService {
   public fetchedManagerArrayObservable!: Observable<Array<DepManager>>;
   public fetchedManagerObservable!: Observable<DepManager>;
   public fetchedPeriodObservable!: Observable<Period>;
+  public fetchedStudentObservable!: Observable<Student>;
+
   constructor(private http: HttpClient, public authService: AuthService) { }
 
   getDepManager(): Observable<DepManager> {
@@ -36,6 +39,16 @@ export class DepManagerService {
       this.period = periods;
     });
     return fetchedPeriod;
+  }
+
+  getStudentsApplyPhase(): Observable<Student> {
+    const id = 98;
+    const fetchedStudent = this.http.get<Student>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + id);
+    this.fetchedStudentObservable = fetchedStudent;
+    this.fetchedPeriodObservable.subscribe((periods: Period) => {
+      this.period = periods;
+    });
+    return fetchedStudent;
   }
 
   insertPeriod(inputForm: any) {

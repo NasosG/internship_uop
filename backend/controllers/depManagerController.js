@@ -12,6 +12,17 @@ const getDepManagerById = async (request, response) => {
   }
 };
 
+
+const getStudentsApplyPhase = async (request, response) => {
+  try {
+    const deptId = request.params.id;
+    const users = await depManagerService.getStudentsApplyPhase(deptId);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};
+
 const getPeriodByUserId = async (request, response) => {
   try {
     const id = request.params.id;
@@ -83,6 +94,7 @@ const deletePeriodById = async (request, response, next) => {
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
+  getStudentsApplyPhase,
   insertPeriod,
   updatePeriodById,
   deletePeriodById

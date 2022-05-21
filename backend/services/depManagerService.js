@@ -27,6 +27,19 @@ const getDepartmentNameByNumber = async (depNumber) => {
   }
 };
 
+const getStudentsApplyPhase = async (deptId) => {
+  try {
+    const students = await pool.query("SELECT * FROM sso_users \
+                                      INNER JOIN student_users \
+                                      ON sso_users.uuid = student_users.sso_uid \
+                                      WHERE sso_users.edupersonprimaryaffiliation='student' \
+                                      AND sso_users.department_id = $1", [deptId]);
+    return students.rows;
+  } catch (error) {
+    throw Error('Error while fetching students from phase 1 for this department');
+  }
+};
+
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -102,6 +115,7 @@ module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
   getPeriodByUserId,
+  getStudentsApplyPhase,
   insertPeriod,
   updatePeriodById,
   deletePeriodById
