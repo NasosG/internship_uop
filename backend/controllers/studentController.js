@@ -1,4 +1,26 @@
 const studentService = require("../services/studentService.js");
+const jwt = require("jsonwebtoken");
+// app.post("/api/students/login/:id", (request, response, next) => {
+const login = async (request, response, next) => {
+  const uname = request.body.username;
+  const userId = await studentService.loginStudent(uname);
+  console.log(userId);
+
+  if (userId == null) response.status(401).send({ message: 'Unauthorized' });
+
+  const token = jwt.sign({
+    userId: userId
+  },
+    "secret_this_should_be_longer", {
+    expiresIn: "1h"
+  }
+  );
+  response.status(200).json({
+    token: token,
+    expiresIn: 3600,
+    userId: userId
+  });
+};
 
 /**
  * Returns all students from SSO and student users tables.
@@ -462,7 +484,9 @@ module.exports = {
   updatePhase,
   deleteEntryFormByStudentId,
   deletePositionsByStudentId,
-  deleteApplicationById
+  deleteApplicationById,
+  //dummy login
+  login
 };
 
 // const updateStudentSSNFile = async (request, response) => {

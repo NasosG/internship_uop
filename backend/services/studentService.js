@@ -26,6 +26,24 @@ const getStudentById = async (id) => {
   }
 };
 
+// dummy login with username only for testing purposes
+const loginStudent = async (username) => {
+  console.log(username);
+  try {
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+                                              INNER JOIN student_users \
+                                              ON sso_users.uuid = student_users.sso_uid \
+                                              WHERE sso_users.edupersonprimaryaffiliation = 'student' \
+                                              AND sso_users.id=$1", [username]);
+    if (resultsSSOUsers.rowCount >= 1) {
+      return resultsSSOUsers.rows[0].uuid;
+    }
+    return null;
+  } catch (error) {
+    throw Error('Error while logging in');
+  }
+};
+
 const getStudentEntrySheets = async (id) => {
   try {
     const resultsEntrySheets = await pool.query("SELECT * FROM entry_form where student_id = $1", [id]);
@@ -428,5 +446,7 @@ module.exports = {
   updatePhase,
   deleteEntryFormByStudentId,
   deleteApplicationById,
-  deletePositionsByStudentId
+  deletePositionsByStudentId,
+  // dummy login
+  loginStudent
 };

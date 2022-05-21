@@ -39,28 +39,35 @@ export class StudentComponent implements OnInit, OnDestroy {
     translate.use((browserLang != null) ? browserLang : 'gr');
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
 
-    this.authService.login('pcst19003');
+//  this.authService.login('pcst19009');
     this.fetchStudentAndPeriod();
   }
 
+  // ngAfterViewInit(): void { }
+
   public fetchStudentAndPeriod() {
-      this.studentsService.getStudents()
-      .subscribe((students: Student[]) => {
-        this.studentsSSOData = students;
-        this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
-        this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
-        // console.log(this.studentsSSOData);
-         this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
-          .subscribe((period: Period) => {
-            this.period = period;
-            this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
-            this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
-            this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
-            this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
-          });
+     this.authService.login('pcst19003')
+       .subscribe((response) => {
+        this.authService.setToken(response.token);
+        this.authService.setSessionId(response.userId);
+        console.log(response);
+        this.studentsService.getStudents()
+          .subscribe((students: Student[]) => {
+            this.studentsSSOData = students;
+            this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
+            this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
+            this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
+            .subscribe((period: Period) => {
+              this.period = period;
+              this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
+              this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+              this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
+              this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
+            });
+        });
       });
   }
 

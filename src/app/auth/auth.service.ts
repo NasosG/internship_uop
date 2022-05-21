@@ -18,14 +18,23 @@ export class AuthService {
     return this.sessionId;
   }
 
+  public setToken(p: string|undefined) {
+    this.token = p;
+  }
+
+  public setSessionId(p: number) {
+    this.sessionId = p;
+  }
+
   login(username: string) {
-    const id = 1;
-    this.http.post<{ token: string, userId: number }>('http://localhost:3000/api/students/login/' + id, username)
-      .subscribe((response) => {
-        this.token = response.token;
-        this.sessionId = response.userId;
-        console.log(response);
-      });
+    // const id = 1;
+    // this.http.post<{ token: string, userId: number }>('http://localhost:3000/api/students/login/' + id, username)
+    return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/students/login',{"username": username});
+      // .subscribe((response) => {
+      //   this.token=response.token;
+      //   this.sessionId=response.userId;
+      //   console.log(response);
+      // });
   }
 
   logout() {

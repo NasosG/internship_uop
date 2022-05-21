@@ -28,7 +28,7 @@ export class StudentsService {
   // }
 
   getStudents(): Observable<Array<Student>> {
-    let id = 1;
+    let id = this.authService.getSessionId();
     const fetchedStudents = this.http.get<Array<Student>>('http://localhost:3000/api/students/getStudentById/' + id);
     this.fetchedStudentsObservable = fetchedStudents;
     this.fetchedStudentsObservable.subscribe((students: Student[]) => {
@@ -43,43 +43,43 @@ export class StudentsService {
     // });
   }
 
-    getFetchedPeriodObservable(): Observable<Period> {
+  getFetchedPeriodObservable(): Observable<Period> {
     return this.fetchedPeriodObservable;
   }
 
   getStudentEntrySheets(): Observable<Array<EntryForm>> {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     return this.http
       .get<Array<EntryForm>>('http://localhost:3000/api/students/getStudentEntrySheets/' + studentId);
   }
 
   getStudentExitSheets(): Observable<Array<ExitForm>> {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     return this.http
       .get<Array<ExitForm>>('http://localhost:3000/api/students/getStudentExitSheets/' + studentId);
   }
 
   getStudentEvaluationSheets(): Observable<Array<EvaluationForm>> {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     return this.http
       .get<Array<EvaluationForm>>('http://localhost:3000/api/students/getStudentEvaluationSheets/' + studentId);
   }
 
   getStudentPositions(): Observable<Array<StudentPositions>> {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     return this.http
       .get<Array<StudentPositions>>('http://localhost:3000/api/students/getStudentPositions/' + studentId);
   }
 
   getStudentApplications(): Observable<Array<Application>> {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     return this.http
       .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
   }
 
   // get active application
   getStudentActiveApplication(): Observable<number> {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     console.log("of user: " + this.authService.getSessionId());
     return this.http
       .get<number>('http://localhost:3000/api/students/getStudentActiveApplication/' + studentId);
@@ -151,7 +151,7 @@ export class StudentsService {
   }
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
-    const id = 1;
+    const id = this.authService.getSessionId();
     // const student: string = modelStudent;
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentDetails/" + id, data)
@@ -163,7 +163,7 @@ export class StudentsService {
   }
 
   updateStudentContractDetails(data: any) {
-    const id = 1;
+    const id = this.authService.getSessionId();
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
       .subscribe(responseData => {
@@ -172,7 +172,7 @@ export class StudentsService {
   }
 
   updateStudentContractSSNFile(file: any) {
-    const id = 1;
+    const id = this.authService.getSessionId();
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file)
       .subscribe(responseData => {
@@ -181,7 +181,7 @@ export class StudentsService {
   }
 
   updateStudentContractIbanFile(file: any) {
-    const id = 1;
+    const id = this.authService.getSessionId();
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file)
       .subscribe(responseData => {
@@ -190,7 +190,7 @@ export class StudentsService {
   }
 
   updateStudentBio(data: any) {
-    const id = 1;
+    const id = this.authService.getSessionId();
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
       .subscribe(responseData => {
@@ -199,7 +199,7 @@ export class StudentsService {
   }
 
   updateStudentContact(data: any) {
-    const id = 1;
+    const id = this.authService.getSessionId();
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
       .subscribe(responseData => {
@@ -208,7 +208,7 @@ export class StudentsService {
   }
 
   updateStudentEntrySheet(data: any) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
       .subscribe(responseData => {
@@ -217,7 +217,7 @@ export class StudentsService {
   }
 
   insertStudentEntrySheet(inputForm: any) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     const form: EntryForm = inputForm;
     // console.log(inputForm);
     this.http
@@ -228,7 +228,7 @@ export class StudentsService {
   }
 
   insertStudentExitSheet(exitForm: any) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     const form: ExitForm = exitForm;
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentExitSheet/" + studentId, form)
@@ -238,7 +238,7 @@ export class StudentsService {
   }
 
   insertStudentEvaluationSheet(evaluationForm: any) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     const form: EvaluationForm = evaluationForm;
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEvaluationSheet/" + studentId, form)
@@ -248,7 +248,7 @@ export class StudentsService {
   }
 
   insertStudentApplication(positions: StudentPositions[]) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentApplication/" + studentId, positions)
       .subscribe(responseData => {
@@ -257,7 +257,7 @@ export class StudentsService {
   }
 
   insertStudentPosition(positionId: number) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
 
     return this.http
       .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, {positionId})
@@ -290,7 +290,8 @@ export class StudentsService {
   }
 
   updateStudentPositionPriorities(positionPriority: number) {
-    const form: any = { 'priority': positionPriority, 'student_id': 1 };
+    let id = this.authService.getSessionId();
+    const form: any = { 'priority': positionPriority, 'student_id': id };
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositionPriorities/" + positionPriority, form)
       .subscribe(responseData => {
@@ -299,7 +300,7 @@ export class StudentsService {
   }
 
   updateStudentPositions(positionsArray: Array<StudentPositions>) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     const form: Array<StudentPositions> = positionsArray;
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositions/" + studentId, form)
@@ -309,7 +310,7 @@ export class StudentsService {
   }
 
   updatePhase(phase: number) {
-    const studentId = 1;
+    const studentId = this.authService.getSessionId();
     const phaseJson : any = {'phase' : phase};
     console.log(phaseJson);
     this.http

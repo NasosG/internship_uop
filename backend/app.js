@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -96,21 +96,7 @@ app.post(
   }
 );
 
-app.post("/api/students/login/:id", (request, response, next) => {
-  const fetchedId = request.params.id;
-  const token = jwt.sign({
-      userId: fetchedId
-    },
-    "secret_this_should_be_longer", {
-      expiresIn: "1h"
-    }
-  );
-  response.status(200).json({
-    token: token,
-    expiresIn: 3600,
-    userId: fetchedId
-  });
-});
+
 
 
 module.exports = app;
