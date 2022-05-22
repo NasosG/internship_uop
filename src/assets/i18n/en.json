@@ -89,5 +89,9 @@
     "PHASE-2": "2. It is the student selection phase",
     "PHASE-3": "3. Declaration of preference by students",
     "CALENDAR-HOME": "Calendar"
+  },
+  "DEPT-MANAGER": {
+    "SHOW-RESULTS": "Show",
+    "ENTRIES": "entries"
   }
 }

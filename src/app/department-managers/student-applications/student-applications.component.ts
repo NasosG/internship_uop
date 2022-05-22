@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
 import {Student} from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
@@ -14,7 +15,8 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   // dataSource = ELEMENT_DATA;
-  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef) { }
+  selected = '';
+  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService) { }
 
   dtOptions : any = {};
 
@@ -22,8 +24,9 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
-        console.log(students);
-
+        for (let i = 0; i < students.length; i++) {
+          this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+        }
       // Have to wait till the changeDetection occurs. Then, project data into the HTML template
       this.chRef.detectChanges();
 
@@ -46,6 +49,8 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         processing: true,
         language: {
           // lengthMenu: 'Show _MENU_ entries'
+          // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
+            // : "Επίδειξη","ENTRIES": "εγγραφών ανά σελίδα"
           // // lengthMenu: 'Display _MENU_ records per page',
           // zeroRecords: 'Nothing found - sorry',
           // info: 'Showing page _PAGE_ of _PAGES_',
@@ -65,10 +70,56 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
       // };
   }
 
+  // This function is used to get the AM of the student
+  private getAM(str: string): string {
+    const personalIdArray = str.split(":");
+    return personalIdArray[personalIdArray.length - 1];
+  }
+
   exportToExcel() {
-    const excelFileName: string = "StudentPhase1.xlsx";
+    let studentsDataJson:any = [];
+    for (const item of this.studentsData) {
+      studentsDataJson.push({
+        // "edupersonaffiliation": item.edupersonaffiliation,
+        "Επώνυμο": item.sn,
+        // "edupersonprimaryaffiliation": item.edupersonprimaryaffiliation,
+        "edupersonorgdn": item.edupersonorgdn,
+        "Όνομα": item.givenname,
+        "edupersonentitlement": item.edupersonentitlement,
+        "schacpersonaluniquecode": item.schacpersonaluniquecode,
+        "schacgender": item.schacgender==1?'Άνδρας' : 'Γυναίκα',
+        "schacyearofbirth": item.schacyearofbirth,
+        "schacdateofbirth": item.schacdateofbirth,
+        "ΑΦΜ": item.schacpersonaluniquecode,
+        "department_id": item.department_id,
+        "father_name": item.father_name,
+        "father_last_name": item.father_last_name,
+        "mother_name": item.mother_name,
+        "mother_last_name": item.mother_last_name,
+        "ssn": item.ssn,
+        "doy": item.doy,
+        "iban": item.iban,
+        "education": item.education,
+        "experience": item.experience,
+        "languages": item.languages,
+        "computer_skills": item.computer_skills,
+        "other_edu": item.other_edu,
+        "honors": item.honors,
+        "interests": item.interests,
+        "skills": item.skills,
+        "phone": item.phone,
+        "address": item.address,
+        "location": item.location,
+        "city": item.city,
+        "post_address": item.post_address,
+        "country": item.country,
+        "phase": item.phase
+      });
+    }
+
+    const excelFileName: string = "StudentsPhase1.xlsx";
     // const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table?.nativeElement);
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet((document.getElementById("example") as HTMLElement));
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("example") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 

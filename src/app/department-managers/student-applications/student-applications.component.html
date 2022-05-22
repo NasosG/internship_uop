@@ -19,21 +19,44 @@
             <table id="example" #example class="table table-bordered table-striped">
               <thead>
                 <tr>
+                  <th>Αποδοχή αιτήσεων</th>
                   <th>Όνομα</th>
+                  <th>Πατρώνυμο</th>
+                  <th>ΑΜ</th>
                   <th>email</th>
+                  <th>Έγγραφα</th>
                   <!-- <th>Φορέας</th> -->
                   <!-- <th>
                     Αρ. Πρωτοκόλλου</th>
                   <th> Ημ. Πρωτοκόλλου</th> -->
-                  <th> Κατάσταση </th>
+
                   <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let studenta of studentsData">
-                  <td>{{studenta.givenname}} {{studenta.sn}}</td>
-                  <td>{{studenta.id}}.uop.gr</td>
+                <tr *ngFor="let student of studentsData">
+                  <td>
+                    <p style="display:none">
+                      {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
+                    <mat-form-field id="{{student.id}}" style="width:100%;" appearance="standard">
+                      <mat-label>Προς επιλογή</mat-label>
+                      <mat-select>
+                        <!-- <mat-option>Επιλέξτε...</mat-option> -->
+                        <mat-option value="option1">Αποδοχή</mat-option>
+                        <mat-option value="option2">Απόρριψη</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>{{student.givenname}} {{student.sn}}</td>
+                  <td>{{student.father_name}}</td>
+                  <td>{{student.schacpersonaluniquecode}}</td>
+                  <td>{{student.id}}.uop.gr</td>
+                  <th>
+                    <button class="btn btn-primary mr-3"> <i class="fa fa-download" aria-hidden="true"></i> Iban
+                    </button>
+                    <button class="btn btn-primary"> <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ </button>
+                  </th>
                   <!-- <td>
                     <ul>
                       <li>Aofsointr Inc</li>
@@ -45,11 +68,11 @@
                   </td>
                   <td>tipota</td>
                   <td>25/01/2021</td> -->
-                  <td>Ενεργή</td>
+
                   <!-- <td>7.8</td> -->
                   <td class="action text-center">
                     <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                    <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                   </td>
                 </tr>
                 <!-- <tr>
@@ -76,13 +99,17 @@
               </tbody>
               <tfoot>
                 <tr>
+                  <th>Αποδοχή αιτήσεων</th>
                   <th>Όνομα φοιτητή</th>
+                  <th>Πατρώνυμο</th>
+                  <th>ΑΜ</th>
                   <th>email</th>
+                  <th>Έγγραφα</th>
                   <!-- <th> Φορέας</th>
                   <th>
                     Αρ. Πρωτοκόλλου</th>
                   <th> Ημ. Πρωτοκόλλου</th> -->
-                  <th> Κατάσταση </th>
+                  <!-- <th> Κατάσταση </th> -->
                   <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>

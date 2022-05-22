@@ -6,7 +6,7 @@ export interface Student {
   edupersonprimaryaffiliation: string;
   edupersonorgdn: string;
   edupersonentitlement: string;
-  // schacpersonaluniquecode:"urn: mace: terena.org: schac: personalUniqueCode: gr: uop.gr: 98: 2022201902003",
+  schacpersonaluniquecode: string,
   schacgender: number;
   schacyearofbirth: number;
   schacdateofbirth: string;
