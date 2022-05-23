@@ -20,11 +20,14 @@
               <thead>
                 <tr>
                   <th>Αποδοχή αιτήσεων</th>
+
                   <th>Όνομα</th>
                   <th>Πατρώνυμο</th>
                   <th>ΑΜ</th>
+                  <th>Τμήμα</th>
                   <th>email</th>
                   <th>Έγγραφα</th>
+
                   <!-- <th>Φορέας</th> -->
                   <!-- <th>
                     Αρ. Πρωτοκόλλου</th>
@@ -51,12 +54,16 @@
                   <td>{{student.givenname}} {{student.sn}}</td>
                   <td>{{student.father_name}}</td>
                   <td>{{student.schacpersonaluniquecode}}</td>
+                  <td>{{department}}</td>
                   <td>{{student.id}}.uop.gr</td>
-                  <th>
-                    <button class="btn btn-primary mr-3"> <i class="fa fa-download" aria-hidden="true"></i> Iban
+                  <td class="reponsive-text-center-td">
+                    <button class="btn btn-primary mr-3 td-button-responsive"> <i class="fa fa-download"
+                        aria-hidden="true"></i> Iban
                     </button>
-                    <button class="btn btn-primary"> <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ </button>
-                  </th>
+                    <button class="btn btn-primary td-button-responsive"> <i class="fa fa-download"
+                        aria-hidden="true"></i> ΑΦΜ
+                    </button>
+                  </td>
                   <!-- <td>
                     <ul>
                       <li>Aofsointr Inc</li>
@@ -103,6 +110,7 @@
                   <th>Όνομα φοιτητή</th>
                   <th>Πατρώνυμο</th>
                   <th>ΑΜ</th>
+                  <th>Τμήμα</th>
                   <th>email</th>
                   <th>Έγγραφα</th>
                   <!-- <th> Φορέας</th>

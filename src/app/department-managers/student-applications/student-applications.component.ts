@@ -1,8 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
+import {Utils} from 'src/app/MiscUtils';
 import {Student} from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
+import {DepManager} from '../dep-manager.model';
 import {DepManagerService} from '../dep-manager.service';
 
 @Component({
@@ -14,6 +16,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('example') table: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
+  department!: string;
   // dataSource = ELEMENT_DATA;
   selected = '';
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService) { }
@@ -21,6 +24,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   dtOptions : any = {};
 
   ngOnInit() {
+      this.depManagerService.getDepManager().subscribe((depManager: DepManager) => {
+        this.department = depManager.department;
+      });
+
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -80,45 +87,44 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     let studentsDataJson:any = [];
     for (const item of this.studentsData) {
       studentsDataJson.push({
-        // "edupersonaffiliation": item.edupersonaffiliation,
         "Επώνυμο": item.sn,
-        // "edupersonprimaryaffiliation": item.edupersonprimaryaffiliation,
-        "edupersonorgdn": item.edupersonorgdn,
         "Όνομα": item.givenname,
-        "edupersonentitlement": item.edupersonentitlement,
-        "schacpersonaluniquecode": item.schacpersonaluniquecode,
-        "schacgender": item.schacgender==1?'Άνδρας' : 'Γυναίκα',
-        "schacyearofbirth": item.schacyearofbirth,
-        "schacdateofbirth": item.schacdateofbirth,
-        "ΑΦΜ": item.schacpersonaluniquecode,
-        "department_id": item.department_id,
-        "father_name": item.father_name,
-        "father_last_name": item.father_last_name,
-        "mother_name": item.mother_name,
-        "mother_last_name": item.mother_last_name,
-        "ssn": item.ssn,
-        "doy": item.doy,
-        "iban": item.iban,
-        "education": item.education,
-        "experience": item.experience,
-        "languages": item.languages,
-        "computer_skills": item.computer_skills,
-        "other_edu": item.other_edu,
+        "ΑΜ": item.schacpersonaluniquecode,
+        "Φύλο": item.schacgender == 1 ? 'Άνδρας' : 'Γυναίκα',
+        "Έτος γέννησης": item.schacyearofbirth,
+        "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.schacdateofbirth),
+        "Πατρώνυμο": item.father_name,
+        "Επώνυμο πατέρα": item.father_last_name,
+        "Μητρώνυμο": item.mother_name,
+        "Επώνυμο μητέρας": item.mother_last_name,
+        "ΑΦΜ": item.ssn,
+        "ΔΟΥ": item.doy,
+        "IBAN": item.iban,
+        "Εκπαίδευση": item.education,
+        "Εμπειρία": item.experience,
+        "Γλώσσες": item.languages,
+        "Γνώσεις Η/Υ": item.computer_skills,
+        "Άλλη εκπαίδευση": item.other_edu,
         "honors": item.honors,
-        "interests": item.interests,
+        "Ενδιαφέροντα": item.interests,
         "skills": item.skills,
-        "phone": item.phone,
-        "address": item.address,
-        "location": item.location,
-        "city": item.city,
-        "post_address": item.post_address,
-        "country": item.country,
-        "phase": item.phase
+        "Τηλέφωνο": item.phone,
+        "Διεύθυνση": item.address,
+        "Τοποοθεσία": item.location,
+        "Πόλη": item.city,
+        "ΤΚ": item.post_address,
+        "Χώρα": item.country,
+        "Φάση": item.phase
+        // "edupersonaffiliation": item.edupersonaffiliation,
+        // "edupersonprimaryaffiliation": item.edupersonprimaryaffiliation,
+        // "edupersonorgdn": item.edupersonorgdn,
+        // "edupersonentitlement": item.edupersonentitlement,
+        // "department_id": item.department_id,
       });
     }
 
     const excelFileName: string = "StudentsPhase1.xlsx";
-    // const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(this.table?.nativeElement);
+    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table?.nativeElement);
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("example") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');

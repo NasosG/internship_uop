@@ -66,7 +66,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     this.translate.use(language);
   }
 
-  isDepartmentMangerRoute() {
+  isDepartmentManagerRoute() {
     return this.router.url === '/department-manager';
   }
 
