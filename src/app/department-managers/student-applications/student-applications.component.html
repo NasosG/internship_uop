@@ -24,7 +24,6 @@
                   <th>Όνομα</th>
                   <th>Πατρώνυμο</th>
                   <th>ΑΜ</th>
-                  <th>Τμήμα</th>
                   <th>email</th>
                   <th>Έγγραφα</th>
 
@@ -38,23 +37,25 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let student of studentsData">
+                <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
                   <td>
                     <p style="display:none">
                       {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
-                    <mat-form-field id="{{student.id}}" style="width:100%;" appearance="standard">
+                    <mat-form-field id="{{student.sso_uid}}" name="phase" style="width:100%;" appearance="standard">
                       <mat-label>Προς επιλογή</mat-label>
-                      <mat-select>
+                      <mat-select value="{{student.phase == 2 ? 'option1' : student.phase == 1 ? '' : 'option2'}}"
+                        name="phase">
                         <!-- <mat-option>Επιλέξτε...</mat-option> -->
-                        <mat-option value="option1">Αποδοχή</mat-option>
-                        <mat-option value="option2">Απόρριψη</mat-option>
+                        <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
+                        </mat-option>
+                        <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
+                        </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </td>
                   <td>{{student.givenname}} {{student.sn}}</td>
                   <td>{{student.father_name}}</td>
                   <td>{{student.schacpersonaluniquecode}}</td>
-                  <td>{{department}}</td>
                   <td>{{student.id}}.uop.gr</td>
                   <td class="reponsive-text-center-td">
                     <button class="btn btn-primary mr-3 td-button-responsive"> <i class="fa fa-download"
@@ -78,7 +79,7 @@
 
                   <!-- <td>7.8</td> -->
                   <td class="action text-center">
-                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
+                    <a (click)="openDialog(idx)" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
                     <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                   </td>
                 </tr>
@@ -110,7 +111,6 @@
                   <th>Όνομα φοιτητή</th>
                   <th>Πατρώνυμο</th>
                   <th>ΑΜ</th>
-                  <th>Τμήμα</th>
                   <th>email</th>
                   <th>Έγγραφα</th>
                   <!-- <th> Φορέας</th>

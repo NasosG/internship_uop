@@ -100,6 +100,18 @@ const getPeriodByUserId = async (id) => {
   }
 };
 
+
+const updatePhaseByStudentId = async (phase, studentId) => {
+  try {
+    const insertResults = await pool.query("UPDATE student_users \
+                                            SET phase = $1 WHERE sso_uid = $2 ", [phase, studentId]);
+    return insertResults;
+  } catch (error) {
+    console.log('Error while updating students phase' + error.message);
+    throw Error('Error while updating students phase');
+  }
+};
+
 const deletePeriodById = async (id) => {
   try {
     await pool.query("UPDATE period \
@@ -118,5 +130,6 @@ module.exports = {
   getStudentsApplyPhase,
   insertPeriod,
   updatePeriodById,
+  updatePhaseByStudentId,
   deletePeriodById
 };

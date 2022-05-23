@@ -12,7 +12,6 @@ const getDepManagerById = async (request, response) => {
   }
 };
 
-
 const getStudentsApplyPhase = async (request, response) => {
   try {
     const deptId = request.params.id;
@@ -91,11 +90,32 @@ const deletePeriodById = async (request, response, next) => {
   }
 };
 
+const updatePhaseByStudentId = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const phaseNumber = request.body.phase;
+
+    await depManagerService.updatePhaseByStudentId(phaseNumber, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student phase updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
   getStudentsApplyPhase,
   insertPeriod,
   updatePeriodById,
+  updatePhaseByStudentId,
   deletePeriodById
 };

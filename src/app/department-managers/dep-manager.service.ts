@@ -85,4 +85,14 @@ export class DepManagerService {
         console.log(responseData.message);
       });
   }
+
+  updatePhaseByStudentId(phase: number, studentId: number) {
+    const phaseJson : any = {'phase' : phase};
+    console.log(phaseJson);
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/depmanager/updatePhaseByStudentId/" + studentId, phaseJson)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
 }

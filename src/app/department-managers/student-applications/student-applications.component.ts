@@ -1,10 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {TranslateService} from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
 import {Utils} from 'src/app/MiscUtils';
 import {Student} from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
-import {DepManager} from '../dep-manager.model';
+
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {DepManagerService} from '../dep-manager.service';
 
 @Component({
@@ -16,18 +18,14 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('example') table: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
-  department!: string;
   // dataSource = ELEMENT_DATA;
   selected = '';
-  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService) { }
+  ngSelect = "";
+  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions : any = {};
 
   ngOnInit() {
-      this.depManagerService.getDepManager().subscribe((depManager: DepManager) => {
-        this.department = depManager.department;
-      });
-
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -67,14 +65,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         // pageLength: 8
         });
       });
-
-      // this.dtOptions = {
-      //   pagingType: 'full_numbers',
-      //   pageLength: 8,
-      //   processing: true,
-      //   dom: 'Bfrtip',
-      //   buttons: [ 'copy', 'csv', 'excel', 'print' ]
-      // };
   }
 
   // This function is used to get the AM of the student
@@ -110,16 +100,12 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         "skills": item.skills,
         "Τηλέφωνο": item.phone,
         "Διεύθυνση": item.address,
-        "Τοποοθεσία": item.location,
+        "Τοποθεσία": item.location,
         "Πόλη": item.city,
         "ΤΚ": item.post_address,
-        "Χώρα": item.country,
-        "Φάση": item.phase
-        // "edupersonaffiliation": item.edupersonaffiliation,
-        // "edupersonprimaryaffiliation": item.edupersonprimaryaffiliation,
+        "Χώρα": item.country == "gr" ? 'Eλλάδα' : item.country,
+        "Αποτελέσματα": (item.phase == 2 ? 'Επιλέχτηκε' : item.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε')
         // "edupersonorgdn": item.edupersonorgdn,
-        // "edupersonentitlement": item.edupersonentitlement,
-        // "department_id": item.department_id,
       });
     }
 
@@ -144,10 +130,11 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     windowPrint?.document.write("<table style=\"width: 100%;\"> \
         <thead style=\"color:white; background-color:#2d4154;\"> \
           <tr> \
-            <th>Όνομα</th> \
+            <th>Όνοματεπώνυμο</th> \
+            <th>Πατρώνυμο</th> \
+            <th>ΑΜ</th> \
             <th>email</th> \
-            <th></th> \
-            <th> Κατάσταση </th> \
+            <th>Κατάσταση</th> \
           </tr> \
         </thead>");
 
@@ -158,9 +145,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
       // but with bitwise operator it was a bit faster
         "<tr " + ( (i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">" ) +
                 "<td>" + student.sn + " " + student.givenname + "</td>" +
+                "<td>" + student.father_name + "</td>" +
+                "<td>" + student.schacpersonaluniquecode + "</td>" +
                 "<td>" + student.id + "@uop.gr" + "</td>" +
-                "<td>" + student.sn + "</td>" +
-                "<td>" + 'Ενεργή' + "</td>" +
+                "<td>" + (student.phase == 2 ? 'Επιλέχτηκε' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε') + "</td>" +
       "</tr>");
       i++;
     }
@@ -171,5 +159,46 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     windowPrint?.close();
   }
 
+
+  onSubmitSelect(option: string, studentId: number) {
+    // this.validateFormData(formData);
+    let phase;
+    if (option == "option1")
+      phase = 2;
+    else phase = -1;
+    console.log("phatsa" + phase + "stId" + (studentId));
+    this.depManagerService.updatePhaseByStudentId(phase, studentId);
+    // this.onSavePeriodAlert();
+  }
+
+
+
+  openDialog(idx:any) {
+    // console.log(idx);
+    const dialogRef = this.dialog.open(StudentAppsPreviewDialog, {
+      // width: '350px',
+      data: {studentsData: this.studentsData, index: idx}
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
+  }
+
+}
+
+@Component({
+  selector: 'dialog-content-example-dialog',
+  templateUrl: 'student-apps-preview-dialog.html',
+  styleUrls: ['student-apps-preview-dialog.css']
+})
+export class StudentAppsPreviewDialog {
+
+  public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAppsPreviewDialog>) { }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
 }
 
