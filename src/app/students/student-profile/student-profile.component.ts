@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
-import { Observable, Subscription, takeUntil } from 'rxjs';
+import { mergeMap, Observable, Subscription, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -76,22 +76,20 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.studentsService.updateStudentContractDetails(data);
 
     this.studentsService.updateStudentContractSSNFile(fileSSN)
-      .subscribe((responseData: {message: any;}) => {
-        console.log("ssn " + responseData.message)
-        if (responseData.message === "ERROR") {
-          err = true;
-          // this.onErr();
-        }
-        // inline subscribe to wait till the other one finishes
-        this.studentsService.updateStudentContractIbanFile(fileIban)
-          .subscribe((responseData: {message: any;}) => {
-          console.log("iban " + responseData.message)
-          if (responseData.message === "ERROR") {
-            err = true;
-          }});
-          if (err) this.onErr();
+    .subscribe((responseData: {message: any;}) => {
+      console.log("ssn " + responseData.message);
+      if (responseData.message === "ERROR") {
+        err = true;
+        this.onErr();
+      }
+    }).pipe(
+        mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
+        .subscribe((responseIbanData: {message: any;}) => {
+          // console.log("iban " + responseIbanData.message);
+          if (err || responseIbanData.message === "ERROR") this.onErr();
           else this.onSave();
-      });
+        }))
+     );
   }
 
   onSubmitStudentBio(data: any) {
@@ -135,7 +133,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     }).then((result) => {
       // Reload the Page
       // To be changed in the future refresh strategy is not good
-      location.reload();
+      // location.reload();
     });
   }
 

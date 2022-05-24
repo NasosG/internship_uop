@@ -1,7 +1,8 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
-
+// Importing Utilities module
+const util = require('util');
 getCurrentDate = () => {
   let today = new Date();
   let year = today.getFullYear().toString();
@@ -63,8 +64,8 @@ const uploadSsn = multer({
     fileSize: 244140625
   }
 });
-let iban = (uploadIban.single("file"));
-let ssn = (uploadSsn.single("file"));
+let iban = util.promisify(uploadIban.single("file"));
+let ssn = util.promisify(uploadSsn.single("file"));
 
 // module.exports = uploadIban.single("file");
 

@@ -457,64 +457,77 @@ const updateStudentPositions = async (request, response) => {
   }
 };
 
-// needs refactoring
-const insertSSNFile = (request, response, next) => {
-  const id = request.params.id;
-
-  upload.ssn(request, response, (err) => {
+const validateFile = async (request, response, err, fileType) => {
+  try {
     if (err instanceof multer.MulterError) {
       // A Multer error occurred when uploading.
-      console.log("Multer error occurred");
-      if (err.message.includes('This file type is not valid')) {
-        console.log("The file type was not valid for SSN upload");
+
+      // File type not valid
+      if (err.message.includes("This file type is not valid")) {
+        throw new Error("Multer error: The file type was not valid for" + fileType + "upload");
       }
 
+      throw new Error("A generic Multer error occurred");
     } else if (err) {
       // An unknown error occurred when uploading.
-      console.log("An unknown error occurred");
-      if (err.message.includes('This file type is not valid')) {
-        console.log("The file type was not valid for SSN upload");
-        // console.log(error.message);
-        response
-          .status(201)
-          .json({
-            message: 'ERROR'
-          });
+
+      // File type not valid
+      if (err.message.includes("This file type is not valid")) {
+        throw new Error("Unkown Error: The file type was not valid for" + fileType + " upload");
       }
+
+      throw new Error("An unknown error occurred");
     }
-  });
+    response
+      .status(201)
+      .json({
+        message: "FILE ADDED"
+      });
+  } catch (error) {
+    // return (err.message);
+    console.log(err.message);
+    response.status(201).json({
+      message: 'ERROR'
+    });
+  }
 };
 
-// TODO MAKE IT WORK
-const insertIbanFile = (request, response, next) => {
+const insertSSNFile = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    await upload.ssn(request, response, (err) => validateFile(request, response, err, "SSN"));
+    response
+      .status(201)
+      .json({
+        message: "FILE ADDED SSN"
+      });
+
+  } catch (err) {
+    console.log(err);
+    response
+      .status(201)
+      .json({
+        message: "ERROR"
+      });
+  }
+};
+
+const insertIbanFile = async (request, response, next) => {
   try {
     const id = request.params.id;
 
-    upload.iban(request, response, function (err) {
-      if (err instanceof multer.MulterError) {
-        // A Multer error occurred when uploading.
-        console.log("Multer error occurred");
-        if (err.message.includes('This file type is not valid')) {
-          console.log("The file type was not valid for iban upload");
-        }
-      } else if (err) {
-        // An unknown error occurred when uploading.
-        console.log("An unknown error occurred");
-        if (err.message.includes('This file type is not valid')) {
-          console.log("The file type was not valid for iban upload");
-        }
-      }
-    });
+    await upload.iban(request, response, (err) => validateFile(request, response, err, "IBAN"));
     // console.log("FILE ADDED SSN");
     response
       .status(201)
       .json({
-        message: 'FILE ADDED IBAN'
+        message: "FILE ADDED IBAN"
       });
   } catch (error) {
     console.error(error.message);
-    response.status(400).json({
-      message: "File IBAN insertion failed!"
+    response.status(201).json({
+      // message: "File IBAN insertion failed!"
+      message: "ERROR"
     });
   }
 };
