@@ -2,10 +2,10 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const multer = require("multer");
 const path = require("path");
 // const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
+
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
 const atlasRoutes = require("./api-routes/atlasRoutes.js");
@@ -42,61 +42,15 @@ app.use("/api/students", studentRoutes);
 app.use("/api/atlas", atlasRoutes);
 app.use("/api/depmanager", depManagerRoutes);
 
-const storageSsn = multer.diskStorage({
-  destination: "./uploads/ssns",
-  filename: function (request, file, cb) {
-    cb(null, Date.now() + "." + file.mimetype.split("/")[1]);
-  }
-});
-
-const storageIban = multer.diskStorage({
-  destination: "./uploads/ibans",
-  filename: function (request, file, cb) {
-    cb(null, Date.now() + "." + file.mimetype.split("/")[1]);
-  }
-});
-
-const uploadSsn = multer({
-  storage: storageSsn,
-  fileFilter: function (req, file, callback) {
-    var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".pdf" && ext !== ".webp") {
-      return callback(new Error("This file type is not valid"));
-    }
-    callback(null, true);
-  },
-  limits: {
-    fileSize: 244140625
-  }
-});
-
-const uploadIban = multer({
-  storage: storageIban,
-  fileFilter: function (req, file, callback) {
-    var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".pdf" && ext !== ".webp") {
-      return callback(new Error("This file type is not valid"));
-    }
-    callback(null, true);
-  },
-  limits: {
-    fileSize: 244140625
-  }
-});
-
-app.post(
-  "/api/students/updateStudentSSNFile/:id", uploadSsn.single("file"), (request, response) => {
-    console.log("FILE ADDED SSN");
-  }
-);
-
-app.post(
-  "/api/students/updateStudentIbanFile/:id", uploadIban.single("file"), (request, response) => {
-    console.log("FILE ADDED IBAN");
-  }
-);
-
-
-
+// app.post(
+//   "/api/students/updateStudentSSNFile/:id", upload.ssn, (request, response) => {
+//     console.log("FILE ADDED SSN");
+//   }
+// );
+// app.post(
+//   "/api/students/updateStudentIbanFile/:id", upload.iban, (request, response) => {
+//     console.log("FILE ADDED iban");
+//   }
+// );
 
 module.exports = app;

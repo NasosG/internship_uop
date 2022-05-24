@@ -1,5 +1,8 @@
 const studentService = require("../services/studentService.js");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const upload = require("../middleware/file.js");
+
 // app.post("/api/students/login/:id", (request, response, next) => {
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -454,6 +457,67 @@ const updateStudentPositions = async (request, response) => {
   }
 };
 
+// needs refactoring
+const insertSSNFile = (request, response, next) => {
+  const id = request.params.id;
+
+  upload.ssn(request, response, (err) => {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.log("Multer error occurred");
+      if (err.message.includes('This file type is not valid')) {
+        console.log("The file type was not valid for SSN upload");
+      }
+
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log("An unknown error occurred");
+      if (err.message.includes('This file type is not valid')) {
+        console.log("The file type was not valid for SSN upload");
+        // console.log(error.message);
+        response
+          .status(201)
+          .json({
+            message: 'ERROR'
+          });
+      }
+    }
+  });
+};
+
+// TODO MAKE IT WORK
+const insertIbanFile = (request, response, next) => {
+  try {
+    const id = request.params.id;
+
+    upload.iban(request, response, function (err) {
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        console.log("Multer error occurred");
+        if (err.message.includes('This file type is not valid')) {
+          console.log("The file type was not valid for iban upload");
+        }
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        console.log("An unknown error occurred");
+        if (err.message.includes('This file type is not valid')) {
+          console.log("The file type was not valid for iban upload");
+        }
+      }
+    });
+    // console.log("FILE ADDED SSN");
+    response
+      .status(201)
+      .json({
+        message: 'FILE ADDED IBAN'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(400).json({
+      message: "File IBAN insertion failed!"
+    });
+  }
+};
 
 module.exports = {
   getAllStudents,
@@ -482,9 +546,7 @@ module.exports = {
   deletePositionsByStudentId,
   deleteApplicationById,
   //dummy login
-  login
+  login,
+  insertSSNFile,
+  insertIbanFile
 };
-
-// const updateStudentSSNFile = async (request, response) => {
-//   console.log('FILE ADDED');
-// };

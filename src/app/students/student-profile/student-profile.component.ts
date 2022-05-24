@@ -14,6 +14,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
 
   studentsSSOData: Student[] = [];
   private studentSubscription!: Subscription;
+  public error = false;
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef | undefined;
   @ViewChild('fileInput2', { static: false }) fileInput2: ElementRef | undefined;
@@ -69,12 +70,28 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   }
 
   onSubmitStudentContractDetails(data: any) {
+    let err = false;
     const fileSSN = this.fileUploadSSN();
     const fileIban = this.fileUploadIban();
     this.studentsService.updateStudentContractDetails(data);
-    this.studentsService.updateStudentContractSSNFile(fileSSN);
-    this.studentsService.updateStudentContractIbanFile(fileIban);
-    this.onSave();
+
+    this.studentsService.updateStudentContractSSNFile(fileSSN)
+      .subscribe((responseData: {message: any;}) => {
+        console.log("ssn " + responseData.message)
+        if (responseData.message === "ERROR") {
+          err = true;
+          // this.onErr();
+        }
+        // inline subscribe to wait till the other one finishes
+        this.studentsService.updateStudentContractIbanFile(fileIban)
+          .subscribe((responseData: {message: any;}) => {
+          console.log("iban " + responseData.message)
+          if (responseData.message === "ERROR") {
+            err = true;
+          }});
+          if (err) this.onErr();
+          else this.onSave();
+      });
   }
 
   onSubmitStudentBio(data: any) {
@@ -96,6 +113,21 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       title: 'Ενημέρωση στοιχείων',
       text: 'Τα στοιχεία σας ενημερώθηκαν επιτυχώς',
       icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      // Reload the Page
+      // To be changed in the future refresh strategy is not good
+      location.reload();
+    });
+  }
+  onErr() {
+    Swal.fire({
+      title: 'Ενημέρωση στοιχείων',
+      text: 'Μη έγκυρος τύπος αρχείων.',
+      icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',

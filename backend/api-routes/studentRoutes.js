@@ -30,6 +30,10 @@ router.post("/insertStudentEvaluationSheet/:id", checkAuth, studentController.in
 router.delete("/deleteEntryFormByStudentId/:id", checkAuth, studentController.deleteEntryFormByStudentId);
 router.delete("/deletePositionsByStudentId/:id", checkAuth, studentController.deletePositionsByStudentId);
 router.delete("/deleteApplicationById/:id", checkAuth, studentController.deleteApplicationById);
+
+
+router.post("/updateStudentSSNFile/:id", studentController.insertSSNFile);
+router.post("/updateStudentIbanFile/:id", studentController.insertIbanFile);
 // router.post("/updateStudentSSNFile/:id", studentController.updateStudentSSNFile);
 
 module.exports = router;

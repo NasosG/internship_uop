@@ -172,22 +172,24 @@ export class StudentsService {
       });
   }
 
-  updateStudentContractSSNFile(file: any) {
+  updateStudentContractSSNFile(file: any): any {
     const id = this.authService.getSessionId();
-    this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file)
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+    return this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file);
+      // .subscribe(responseData => {
+        // console.log("ssn " + responseData.message);
+        // return responseData.message;
+      // });
   }
 
-  updateStudentContractIbanFile(file: any) {
+  updateStudentContractIbanFile(file: any): any {
     const id = this.authService.getSessionId();
-    this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file)
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+     return this.http
+      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file);
+      // .subscribe(responseData => {
+      //   console.log(responseData.message);
+      //   return responseData.message;
+      // });
   }
 
   updateStudentBio(data: any) {
