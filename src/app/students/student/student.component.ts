@@ -5,8 +5,8 @@ import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
-import {Utils} from 'src/app/MiscUtils';
-import {Period} from 'src/app/department-managers/period.model';
+import { Utils } from 'src/app/MiscUtils';
+import { Period } from 'src/app/department-managers/period.model';
 
 @Component({
   selector: 'app-student',
@@ -139,7 +139,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   isSheetInputRoute() {
-    return this.router.url === '/student/input-sheet';
+    return this.router.url === '/student/input-sheet/' + this.authService.getSessionId();
   }
 
   isSheetOutputRoute() {
@@ -147,7 +147,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   isSheetInputPreviewRoute() {
-    return this.router.url === '/student/input-sheet-preview';
+    return this.router.url === '/student/input-sheet-preview/' + this.authService.getSessionId();
   }
 
   isContactRoute() {

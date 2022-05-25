@@ -18,18 +18,20 @@ export class AuthService {
     return this.sessionId;
   }
 
-  public setToken(p: string|undefined) {
-    this.token = p;
+  public setToken(tokenParam: string|undefined) {
+    if (!this.token)
+      this.token = tokenParam;
   }
 
-  public setSessionId(p: number) {
-    this.sessionId = p;
+  public setSessionId(sessionIdParam: number) {
+    if (!this.sessionId)
+      this.sessionId = sessionIdParam;
   }
 
   login(username: string) {
     // const id = 1;
     // this.http.post<{ token: string, userId: number }>('http://localhost:3000/api/students/login/' + id, username)
-    return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/students/login',{"username": username});
+    return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/students/login', {"username": username});
       // .subscribe((response) => {
       //   this.token=response.token;
       //   this.sessionId=response.userId;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 // import {flatMap, interval, mergeMap, takeWhile} from 'rxjs';
-import {AuthService} from 'src/app/auth/auth.service';
-import {Period} from 'src/app/department-managers/period.model';
-import {Student} from '../student.model';
-import {StudentsService} from '../student.service';
-import {Utils} from '../../MiscUtils'
+import { AuthService } from 'src/app/auth/auth.service';
+import { Period } from 'src/app/department-managers/period.model';
+import { Student } from '../student.model';
+import { StudentsService } from '../student.service';
+import { Utils } from '../../MiscUtils'
 
 @Component({
   selector: 'app-student-home',
@@ -17,7 +17,7 @@ export class StudentHomeComponent implements OnInit {
   dateFrom!: string;
   dateTo!: string;
 
-  phaseArray =["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-3"];
+  phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-3"];
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
@@ -45,7 +45,4 @@ export class StudentHomeComponent implements OnInit {
     //       this.dateTo = this.reformatDate(this.period.date_to);
     //     });
   }
-
-
-
 }

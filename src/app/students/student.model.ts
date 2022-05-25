@@ -1,7 +1,7 @@
 export interface Student {
   id: string;
   sso_uid: number;
-  student_uid: number;
+  // student_uid: number;
   sn: string;
   givenname: string;
   edupersonaffiliation: string;

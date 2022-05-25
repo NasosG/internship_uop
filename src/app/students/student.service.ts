@@ -9,10 +9,10 @@ import { EvaluationForm } from "./evaluation-form.model";
 import { StudentPositions } from "./student-positions.model";
 import { Application } from "./application.model";
 import { AtlasPosition } from "./atlas-position.model";
-import {Department} from "./department.model";
-import {Prefecture} from "./prefecture.model";
-import {City} from "./city.model";
-import {Period} from "../department-managers/period.model";
+import { Department } from "./department.model";
+import { Prefecture } from "./prefecture.model";
+import { City } from "./city.model";
+import { Period } from "../department-managers/period.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {

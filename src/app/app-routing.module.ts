@@ -60,7 +60,7 @@ const routes: Routes = [{
     component: StudentComponent
   },
   {
-    path: 'input-sheet',
+    path: 'input-sheet/:id',
     component: StudentComponent
   },
   {
@@ -68,7 +68,7 @@ const routes: Routes = [{
     component: StudentComponent
   },
   {
-    path: 'input-sheet-preview',
+    path: 'input-sheet-preview/:id',
     component: StudentComponent
   },
   {
