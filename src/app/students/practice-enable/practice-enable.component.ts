@@ -17,7 +17,8 @@ export class PracticeEnableComponent implements OnInit {
   isLinear = true;
   firstFormGroup!: FormGroup;
   secondFormGroup!: FormGroup;
-  thirdFormGroup!: FormGroup;
+  contactFormGroup!: FormGroup;
+  specialDataFormGroup!: FormGroup;
   studentsSSOData: Student[] = [];
   gender!: String;
 
@@ -49,13 +50,18 @@ export class PracticeEnableComponent implements OnInit {
       ssnFile: ['', Validators.required],
       ibanFile: ['', Validators.required]
     });
-    this.thirdFormGroup = this._formBuilder.group({
+    this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
       phoneCtrl: [],
       addressCtrl: [],
       locationCtrl:[],
       cityCtrl: [],
       postalCodeCtrl: []
+    });
+    this.specialDataFormGroup = this._formBuilder.group({
+      ameaCatCtrl: ['', Validators.required],
+      workingCatCtrl: ['', Validators.required],
+      armyCatCtrl: ['', Validators.required]
     });
   }
 
@@ -75,12 +81,21 @@ export class PracticeEnableComponent implements OnInit {
     return displayDate;
   }
 
+ checkIfFieldEmpty(givenFormGroup: FormGroup, field: string) : boolean {
+    const fieldValue = givenFormGroup.get(field)?.value;
+    return fieldValue && fieldValue != null && fieldValue != '';
+  }
 
   /**
    * Used to update student general, contract and contact details,
    * as a controller function
    */
   updateStudentsAllDetails() {
+    // check if the only required field in the last stepper is empty
+    // to check if a more generic implementation can implemented
+    if (!this.checkIfFieldEmpty(this.contactFormGroup,'emailCtrl')) {
+      return;
+    }
     const generalDetailsData : any = {
         father_name: this.firstFormGroup.get('fatherNameCtrl')?.value,
         father_last_name: this.firstFormGroup.get('fatherSurnameCtrl')?.value,
@@ -97,11 +112,11 @@ export class PracticeEnableComponent implements OnInit {
         ibanFile: this.secondFormGroup.get('ibanFile')?.value
     };
     const contactDetails: any =  {
-      phone: this.thirdFormGroup.get('phoneCtrl')?.value,
-      address: this.thirdFormGroup.get('addressCtrl')?.value,
-      location:this.thirdFormGroup.get('locationCtrl')?.value,
-      city: this.thirdFormGroup.get('cityCtrl')?.value,
-      post_address: this.thirdFormGroup.get('postalCodeCtrl')?.value,
+      phone: this.contactFormGroup.get('phoneCtrl')?.value,
+      address: this.contactFormGroup.get('addressCtrl')?.value,
+      location:this.contactFormGroup.get('locationCtrl')?.value,
+      city: this.contactFormGroup.get('cityCtrl')?.value,
+      post_address: this.contactFormGroup.get('postalCodeCtrl')?.value,
       country: 'gr'
     }
 

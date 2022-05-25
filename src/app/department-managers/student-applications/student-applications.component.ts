@@ -166,7 +166,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     if (option == "option1")
       phase = 2;
     else phase = -1;
-    console.log("phatsa" + phase + "stId" + (studentId));
+    console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
     // this.onSavePeriodAlert();
   }

@@ -17,9 +17,12 @@
   </div>
   <!-- /.container-fluid -->
 </section>
-<div class="alert alert-danger" role="alert">
-  Μέρος των στοιχείων αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
-  δεν συμφωνείτε επικοινωνήστε με την γραμματεία
+<div class="alert alert-danger pb-0" role="alert">
+  <ul>
+    <li>Μέρος των στοιχείων αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
+      δεν συμφωνείτε επικοινωνήστε με την γραμματεία</li>
+    <li>Υπενθυμίζεται ότι η ηλεκτρονική αίτηση επέχει θέση υπεύθυνης δήλωσης</li>
+  </ul>
 </div>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
@@ -91,8 +94,8 @@
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>ΑΜΚΑ</mat-label>
-        <input matInput ngModel [ngModel]="studentsSSOData[0]?.schacpersonaluniqueid" id="amka" name="amka"
-          placeholder="ΑΜΚΑ*" formControlName="amkaControl" required>
+        <input matInput class="inactive-field" ngModel [ngModel]="studentsSSOData[0]?.schacpersonaluniqueid" id="amka"
+          name="amka" placeholder="ΑΜΚΑ*" formControlName="amkaControl" required readonly>
       </mat-form-field>
       <br><br>
       <h6>Ανεβάστε φωτογραφία που να απεικονίζεται το ΑΦΜ</h6>
@@ -112,8 +115,47 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="thirdFormGroup">
-    <form [formGroup]="thirdFormGroup">
+  <mat-step [stepControl]="specialDataFormGroup">
+    <form [formGroup]="specialDataFormGroup">
+      <ng-template matStepLabel>Ειδικά στοιχεία</ng-template>
+      <p class="pt-2 pb-0 mb-0"> Ανήκω σε: Άτομα με Αναπηρίες (ΑμεΑ) κατηγορίας 5</p>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Επιλέξτε</mat-label>
+        <mat-select formControlName="ameaCatCtrl" required>
+          <!-- <mat-option>-- None --</mat-option> -->
+          <mat-option value="option1">ΝΑΙ</mat-option>
+          <mat-option value="option2">ΟΧΙ</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <p class="pb-0 mb-0">Έχω σύμβαση εργασίας με ιδιωτικό/δημόσιο τομέα</p>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Επιλέξτε</mat-label>
+        <mat-select formControlName="workingCatCtrl" required>
+          <!-- <mat-option>-- None --</mat-option> -->
+          <mat-option value="option1">ΝΑΙ</mat-option>
+          <mat-option value="option2">ΟΧΙ</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <p class="pb-0 mb-0">Υπηρετώ στον στρατό</p>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Επιλέξτε</mat-label>
+        <mat-select formControlName="armyCatCtrl" required>
+          <!-- <mat-option>-- None --</mat-option> -->
+          <mat-option value="option1">ΝΑΙ</mat-option>
+          <mat-option value="option2">ΟΧΙ</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <div>
+        <button mat-button matStepperPrevious>Προηγούμενο</button>
+        <button mat-button matStepperNext>Επόμενο</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="contactFormGroup">
+    <form [formGroup]="contactFormGroup">
       <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Email</mat-label>
@@ -148,6 +190,7 @@
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
         <button mat-button matStepperNext (click)="updateStudentsAllDetails()">Επόμενο</button>
+        <!-- <button mat-button matStepperNext>Επόμενο</button> -->
       </div>
     </form>
   </mat-step>
