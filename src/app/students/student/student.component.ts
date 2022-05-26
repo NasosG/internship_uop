@@ -135,19 +135,19 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   isSheetsRoute() {
-    return this.router.url === '/student/sheets';
+    return this.router.url === '/student/sheets/' + this.authService.getSessionId();
   }
 
   isSheetInputRoute() {
-    return this.router.url === '/student/input-sheet/' + this.authService.getSessionId();
+    return this.router.url === '/student/sheets/input-sheet/' + this.authService.getSessionId();
   }
 
   isSheetOutputRoute() {
-    return this.router.url === '/student/output-sheet';
+    return this.router.url === '/student/sheets/output-sheet/' + this.authService.getSessionId();
   }
 
   isSheetInputPreviewRoute() {
-    return this.router.url === '/student/input-sheet-preview/' + this.authService.getSessionId();
+    return this.router.url === '/student/sheets/input-sheet-preview/' + this.authService.getSessionId();
   }
 
   isContactRoute() {
@@ -159,7 +159,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   isEvaluationSheetRoute() {
-    return this.router.url === '/student/evaluation-form'
+    return this.router.url === '/student/sheets/evaluation-form/' + this.authService.getSessionId()
   }
 
   isPracticeEnableRoute() {

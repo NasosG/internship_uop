@@ -163,8 +163,9 @@
           <img src="assets/images/default_256.jpg" class="img-circle elevation-2" alt="User Image" />
         </div>
         <div class="info">
-          <a [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="d-block">
-            {{ studentsSSOData[0]?.givenname }} {{ studentsSSOData[0]?.sn }}</a>
+          <a style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+            [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="d-block">
+            {{ studentsSSOData[0]?.givenname?.charAt(0) }}. {{ studentsSSOData[0]?.sn }}</a>
         </div>
       </div>
 
@@ -218,9 +219,10 @@
           <li class="nav-item">
 
             <!-- the right choice -->
-            <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']"
-              [class.disabled]="!areOptionsEnabled ? true : null" class="nav-link">
-              <!-- <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']" class="nav-link"> -->
+            <!-- <a [routerLink]="['/student/sheets']" [routerLinkActive]="['active']"
+              [class.disabled]="!areOptionsEnabled ? true : null" class="nav-link"> -->
+            <a [routerLink]="['/student/sheets/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fa fa-book"></i>
               <p> {{'STUDENT.SIDEBAR-SHEETS' | translate}} </p>
             </a>

@@ -107,7 +107,7 @@ const getStudentActiveApplication = async (studentId) => {
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
-     SET " + "father_name = $1, father_last_name = $2, mother_name = $3, mother_last_name = $4  WHERE sso_uid = $5",
+     SET " + "father_name = $1, father_last_name = $2, mother_name = $3, mother_last_name = $4 WHERE sso_uid = $5",
       [student.father_name, student.father_last_name, student.mother_name, student.mother_last_name, id]
     );
 

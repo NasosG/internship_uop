@@ -57,23 +57,28 @@ const routes: Routes = [{
   },
   {
     path: 'sheets',
-    component: StudentComponent
-  },
-  {
-    path: 'input-sheet/:id',
-    component: StudentComponent
-  },
-  {
-    path: 'output-sheet',
-    component: StudentComponent
-  },
-  {
-    path: 'input-sheet-preview/:id',
-    component: StudentComponent
-  },
-  {
-    path: 'evaluation-form',
-    component: StudentComponent
+    component: StudentComponent,
+    children: [
+    {
+      path: ':id',
+      component: StudentComponent
+    },
+    {
+      path: 'input-sheet/:id',
+      component: StudentComponent
+    },
+    {
+      path: 'output-sheet/:id',
+      component: StudentComponent
+    },
+    {
+      path: 'input-sheet-preview/:id',
+      component: StudentComponent
+    },
+    {
+      path: 'evaluation-form/:id',
+      component: StudentComponent
+    }]
   },
   {
     path: 'student-contract',
