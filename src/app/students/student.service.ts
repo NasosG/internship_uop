@@ -106,8 +106,8 @@ export class StudentsService {
   }
 
   getPhase(departmentId: number): Observable<Period> {
-// fetchedPeriodObservable
-  const fetchedPeriod = this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
+    // fetchedPeriodObservable
+    const fetchedPeriod = this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
       this.period = periods;
@@ -116,7 +116,7 @@ export class StudentsService {
     // return this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
   }
 
-  getPeriod() : any {
+  getPeriod(): any {
     if (!this.period) return null;
     return this.period;
   }
@@ -144,9 +144,9 @@ export class StudentsService {
     let fetchedStudents: any[];
     let fetchedPeriod;
     const period = this.getStudents()
-    .pipe(
+      .pipe(
         mergeMap(result => this.getPhase(result[0]?.department_id))
-     )
+      )
     return period;
   }
 
@@ -176,20 +176,20 @@ export class StudentsService {
     const id = this.authService.getSessionId();
     return this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file);
-      // .subscribe(responseData => {
-        // console.log("ssn " + responseData.message);
-        // return responseData.message;
-      // });
+    // .subscribe(responseData => {
+    // console.log("ssn " + responseData.message);
+    // return responseData.message;
+    // });
   }
 
   updateStudentContractIbanFile(file: any): any {
     const id = this.authService.getSessionId();
-     return this.http
+    return this.http
       .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file);
-      // .subscribe(responseData => {
-      //   console.log(responseData.message);
-      //   return responseData.message;
-      // });
+    // .subscribe(responseData => {
+    //   console.log(responseData.message);
+    //   return responseData.message;
+    // });
   }
 
   updateStudentBio(data: any) {
@@ -205,6 +205,15 @@ export class StudentsService {
     const id = this.authService.getSessionId();
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  updateStudentSpecialDetails(data: any) {
+    const id = this.authService.getSessionId();
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentSpecialDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -263,7 +272,7 @@ export class StudentsService {
     const studentId = this.authService.getSessionId();
 
     return this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, {positionId})
+      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, { positionId })
 
   }
 
@@ -314,7 +323,7 @@ export class StudentsService {
 
   updatePhase(phase: number) {
     const studentId = this.authService.getSessionId();
-    const phaseJson : any = {'phase' : phase};
+    const phaseJson: any = { 'phase': phase };
     console.log(phaseJson);
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updatePhase/" + studentId, phaseJson)

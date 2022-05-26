@@ -1,7 +1,7 @@
 export interface Student {
   id: string;
   sso_uid: number;
-  // student_uid: number;
+  student_uid: number;
   sn: string;
   givenname: string;
   edupersonaffiliation: string;
@@ -36,4 +36,7 @@ export interface Student {
   computer_skills: string;
   address: string;
   phase: number;
+  military_training: boolean
+  working_state: boolean
+  amea_cat: boolean
 }

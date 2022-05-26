@@ -22,6 +22,7 @@ router.post("/insertStudentPosition/:id", checkAuth, studentController.insertStu
 router.put("/updateStudentEntrySheet/:id", checkAuth, studentController.updateStudentEntrySheet);
 router.put("/updateStudentPositionPriorities/:id", checkAuth, studentController.updateStudentPositionPriorities);
 router.put("/updateStudentPositions/:id", checkAuth, studentController.updateStudentPositions);
+router.put("/updateStudentSpecialDetails/:id", checkAuth, studentController.updateStudentSpecialDetails);
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
 router.get("/getStudentExitSheets/:id", studentController.getStudentExitSheets);
 router.get("/getStudentEvaluationSheets/:id", studentController.getStudentEvaluationSheets);

@@ -9,11 +9,16 @@ const login = async (request, response, next) => {
   const userId = await studentService.loginStudent(uname);
   // console.log(userId);
 
-  if (userId == null) response.status(401).json({ message: 'Unauthorized' });
+  if (userId == null) response.status(401).json({
+    message: 'Unauthorized'
+  });
 
-  const token = jwt.sign({ userId: userId },
-    "secret_this_should_be_longer",
-    { expiresIn: "1h" });
+  const token = jwt.sign({
+      userId: userId
+    },
+    "secret_this_should_be_longer", {
+      expiresIn: "1h"
+    });
   response.status(200).json({
     token: token,
     expiresIn: 3600,
@@ -221,6 +226,26 @@ const updateStudentContact = async (request, response, next) => {
   }
 };
 
+const updateStudentSpecialDetails = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+
+    const updateResults = await studentService.updateStudentSpecialDetails(student, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student contact updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentPositionPriorities = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -384,7 +409,9 @@ const insertStudentPosition = async (request, response, next) => {
 
     response
       .status(201)
-      .json({ message: message });
+      .json({
+        message: message
+      });
   } catch (error) {
     console.error(error.message);
     response.send({
@@ -551,6 +578,7 @@ module.exports = {
   updateStudentContractDetails,
   updateStudentBio,
   updateStudentContact,
+  updateStudentSpecialDetails,
   updateStudentEntrySheet,
   updateStudentPositionPriorities,
   updateStudentPositions,

@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { mergeMap } from 'rxjs';
+import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
@@ -22,14 +24,14 @@ export class PracticeEnableComponent implements OnInit {
   studentsSSOData: Student[] = [];
   gender!: String;
 
-  constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder) {}
+  constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.studentsService.getStudents()
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
         this.gender = this.studentsSSOData[0].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα';
-        this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
+        this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
         this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
       });
     this.firstFormGroup = this._formBuilder.group({
@@ -54,7 +56,7 @@ export class PracticeEnableComponent implements OnInit {
       emailCtrl: ['', Validators.required],
       phoneCtrl: [],
       addressCtrl: [],
-      locationCtrl:[],
+      locationCtrl: [],
       cityCtrl: [],
       postalCodeCtrl: []
     });
@@ -71,17 +73,7 @@ export class PracticeEnableComponent implements OnInit {
     return personalIdArray[personalIdArray.length - 1];
   }
 
-  private reformatDateOfBirth(dateOfBirth: string) {
-    let startDate = dateOfBirth;
-    let year = startDate.substring(0, 4);
-    let month = startDate.substring(4, 6);
-    let day = startDate.substring(6, 8);
-
-    let displayDate = day + '/' + month + '/' + year;
-    return displayDate;
-  }
-
- checkIfFieldEmpty(givenFormGroup: FormGroup, field: string) : boolean {
+  checkIfFieldEmpty(givenFormGroup: FormGroup, field: string): boolean {
     const fieldValue = givenFormGroup.get(field)?.value;
     return fieldValue && fieldValue != null && fieldValue != '';
   }
@@ -93,36 +85,43 @@ export class PracticeEnableComponent implements OnInit {
   updateStudentsAllDetails() {
     // check if the only required field in the last stepper is empty
     // to check if a more generic implementation can implemented
-    if (!this.checkIfFieldEmpty(this.contactFormGroup,'emailCtrl')) {
+    if (!this.checkIfFieldEmpty(this.contactFormGroup, 'emailCtrl')) {
       return;
     }
-    const generalDetailsData : any = {
-        father_name: this.firstFormGroup.get('fatherNameCtrl')?.value,
-        father_last_name: this.firstFormGroup.get('fatherSurnameCtrl')?.value,
-        mother_name: this.firstFormGroup.get('motherNameCtrl')?.value,
-        mother_last_name: this.firstFormGroup.get('motherSurnameCtrl')?.value
+    const generalDetailsData: any = {
+      father_name: this.firstFormGroup.get('fatherNameCtrl')?.value,
+      father_last_name: this.firstFormGroup.get('fatherSurnameCtrl')?.value,
+      mother_name: this.firstFormGroup.get('motherNameCtrl')?.value,
+      mother_last_name: this.firstFormGroup.get('motherSurnameCtrl')?.value
     };
-    const contractsData : any = {
-        ssn: this.secondFormGroup.get('ssnControl')?.value,
-        doy: this.secondFormGroup.get('doyControl')?.value,
-        iban: this.secondFormGroup.get('ibanControl')?.value,
+    const contractsData: any = {
+      ssn: this.secondFormGroup.get('ssnControl')?.value,
+      doy: this.secondFormGroup.get('doyControl')?.value,
+      iban: this.secondFormGroup.get('ibanControl')?.value,
     };
-    const contractFiles : any = {
-        ssnFile: this.secondFormGroup.get('ssnFile')?.value,
-        ibanFile: this.secondFormGroup.get('ibanFile')?.value
+    const contractFiles: any = {
+      ssnFile: this.secondFormGroup.get('ssnFile')?.value,
+      ibanFile: this.secondFormGroup.get('ibanFile')?.value
     };
-    const contactDetails: any =  {
+    const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
       address: this.contactFormGroup.get('addressCtrl')?.value,
-      location:this.contactFormGroup.get('locationCtrl')?.value,
+      location: this.contactFormGroup.get('locationCtrl')?.value,
       city: this.contactFormGroup.get('cityCtrl')?.value,
       post_address: this.contactFormGroup.get('postalCodeCtrl')?.value,
       country: 'gr'
+    };
+
+    const specialDetails: any = {
+      military_training: this.specialDataFormGroup.get('armyCatCtrl')?.value,
+      working_state: this.specialDataFormGroup.get('workingCatCtrl')?.value,
+      amea_cat: this.specialDataFormGroup.get('ameaCatCtrl')?.value
     }
 
     this.onSubmitStudentDetails(generalDetailsData);
     this.onSubmitStudentContractDetails(contractsData, contractFiles);
     this.onSubmitStudentContact(contactDetails);
+    this.onSubmitStudentSpecialDetails(specialDetails);
     this.setPhase(1);
     this.onSave();
   }
@@ -139,16 +138,36 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updateStudentDetails(data);
   }
 
+  onSubmitStudentSpecialDetails(data: any) {
+    this.studentsService.updateStudentSpecialDetails(data);
+  }
+
   setPhase(phase: number) {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: {ssnFile: any; ibanFile: any;}) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any; }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
     this.studentsService.updateStudentContractDetails(data);
-    this.studentsService.updateStudentContractSSNFile(fileSSN);
-    this.studentsService.updateStudentContractIbanFile(fileIban);
+    // this.studentsService.updateStudentContractSSNFile(fileSSN);
+    // this.studentsService.updateStudentContractIbanFile(fileIban);
+    let err = false;
+    this.studentsService.updateStudentContractSSNFile(fileSSN)
+      .subscribe((responseData: { message: any; }) => {
+        console.log("ssn " + responseData.message);
+        if (responseData.message === "ERROR") {
+          err = true;
+          this.onErr();
+        }
+      }).pipe(
+        mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
+          .subscribe((responseIbanData: { message: any; }) => {
+            // console.log("iban " + responseIbanData.message);
+            if (err || responseIbanData.message === "ERROR") this.onErr();
+            else this.onSave();
+          }))
+      );
   }
 
   onSubmitStudentContact(data: any) {
@@ -165,11 +184,18 @@ export class PracticeEnableComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     });
-    // .then((result) => {
-      // Reload the Page
-      // To be changed in the future refresh strategy is not good
-      //location.reload();
-    // });
+  }
+
+  onErr() {
+    Swal.fire({
+      title: 'Ενημέρωση στοιχείων',
+      text: 'Μη έγκυρος τύπος αρχείων.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
   }
 
 }
