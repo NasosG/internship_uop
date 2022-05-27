@@ -21,8 +21,9 @@ const storageIban = multer.diskStorage({
     return cb(null, path);
   },
   filename: function (request, file, cb) {
+    const studentId = request.params.id;
     // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
-    const fileName = "student_" + "IBAN";
+    const fileName = "student" + studentId + "_" + "IBAN";
     cb(null, fileName + "." + file.mimetype.split("/")[1]);
   }
 });
@@ -50,7 +51,8 @@ const storageSsn = multer.diskStorage({
     return cb(null, path);
   },
   filename: function (request, file, cb) {
-    const fileName = "student_" + "SSN";
+    const studentId = request.params.id;
+    const fileName = "student" + studentId + "_" + "SSN";
     // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
     cb(null, fileName + "." + file.mimetype.split("/")[1]);
   }
