@@ -31,6 +31,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         this.studentsData = students;
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+          this.studentsData[i].schacpersonaluniqueid = this.getAM(students[i].schacpersonaluniqueid);
         }
         // Have to wait till the changeDetection occurs. Then, project data into the HTML template
         this.chRef.detectChanges();
@@ -92,8 +93,9 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         "ΤΚ": item.post_address,
         "Διεύθυνση": item.address,
         "Τοποθεσία": item.location,
-        "Χώρα": item.country == "gr",
+        "Χώρα": item.country == "gr" ? 'Ελλάδα' : item.country,
         "ΑΦΜ": item.ssn,
+        "AMKA": item.schacpersonaluniqueid,
         "ΔΟΥ": item.doy,
         "IBAN": item.iban,
         "Εκπαίδευση": item.education,
@@ -134,9 +136,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         <thead style=\"color:white; background-color:#2d4154;\"> \
           <tr> \
             <th>Όνοματεπώνυμο</th> \
-            <th>Πατρώνυμο</th> \
             <th>ΑΜ</th> \
-            <th>email</th> \
+            <th>Υπηρετώ στρατό</th> \
+            <th>ΑΜΕΑ κατ. 5</th> \
+            <th>Σύμβαση εργασίας</th> \
             <th>Κατάσταση</th> \
           </tr> \
         </thead>");
@@ -148,9 +151,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         // but with bitwise operator it was a bit faster
         "<tr " + ((i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">") +
         "<td>" + student.sn + " " + student.givenname + "</td>" +
-        "<td>" + student.father_name + "</td>" +
         "<td>" + student.schacpersonaluniquecode + "</td>" +
-        "<td>" + student.id + "@uop.gr" + "</td>" +
+        "<td>" + (student.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
+        "<td>" + (student.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
+        "<td>" + (student.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
         "<td>" + (student.phase == 2 ? 'Επιλέχτηκε' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε') + "</td>" +
         "</tr>");
       i++;

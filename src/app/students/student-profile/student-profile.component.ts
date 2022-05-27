@@ -76,20 +76,20 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.studentsService.updateStudentContractDetails(data);
 
     this.studentsService.updateStudentContractSSNFile(fileSSN)
-    .subscribe((responseData: {message: any;}) => {
-      console.log("ssn " + responseData.message);
-      if (responseData.message === "ERROR") {
-        err = true;
-        this.onErr();
-      }
-    }).pipe(
+      .subscribe((responseData: { message: any; }) => {
+        console.log("ssn " + responseData.message);
+        if (responseData.message === "ERROR") {
+          err = true;
+          this.onErr();
+        }
+      }).pipe(
         mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
-        .subscribe((responseIbanData: {message: any;}) => {
-          // console.log("iban " + responseIbanData.message);
-          if (err || responseIbanData.message === "ERROR") this.onErr();
-          else this.onSave();
-        }))
-     );
+          .subscribe((responseIbanData: { message: any; }) => {
+            // console.log("iban " + responseIbanData.message);
+            if (err || responseIbanData.message === "ERROR") this.onErr();
+            else this.onSave();
+          }))
+      );
   }
 
   onSubmitStudentBio(data: any) {
@@ -124,7 +124,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   onErr() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
-      text: 'Μη έγκυρος τύπος αρχείων.',
+      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',

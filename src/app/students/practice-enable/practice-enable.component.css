@@ -9,3 +9,8 @@
 .inactive-field {
   color: rgb(143, 143, 143)
 }
+
+.fa-icon:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
