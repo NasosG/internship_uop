@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require('fs');
 // Importing Utilities module
 const util = require('util');
+
 getCurrentDate = () => {
   let today = new Date();
   let year = today.getFullYear().toString();
@@ -20,7 +21,9 @@ const storageIban = multer.diskStorage({
     return cb(null, path);
   },
   filename: function (request, file, cb) {
-    cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
+    // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
+    const fileName = "student" + studentId + "IBAN";
+    cb(null, fileName + "." + file.mimetype.split("/")[1]);
   }
 });
 
@@ -47,7 +50,9 @@ const storageSsn = multer.diskStorage({
     return cb(null, path);
   },
   filename: function (request, file, cb) {
-    cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
+    const fileName = "student" + studentId + "SSN";
+    // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
+    cb(null, fileName + "." + file.mimetype.split("/")[1]);
   }
 });
 

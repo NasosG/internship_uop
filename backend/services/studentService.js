@@ -28,7 +28,6 @@ const getStudentById = async (id) => {
 
 // dummy login with username only for testing purposes
 const loginStudent = async (username) => {
-  console.log(username);
   try {
     const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
                                               INNER JOIN student_users \
@@ -175,8 +174,8 @@ const updateStudentEntrySheet = async (form, studentId) => {
       "A3_1 = $10, A3_2 = $11, A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
       " WHERE student_id = $17 ",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
+      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
         studentId
       ]);
     return updateResults;
@@ -202,8 +201,8 @@ const insertStudentEntrySheet = async (form, studentId) => {
     const insertResults = await pool.query("INSERT INTO entry_form" +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
+      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
       ]);
     return insertResults;
   } catch (error) {
@@ -429,6 +428,16 @@ const getPhase = async (studentId, positionId) => {
   }
 };
 
+const insertFileDataBySSOUid = async (studentId, docType, filePath, fileName) => {
+  // console.log(fileExtension);
+  try {
+    await pool.query("INSERT INTO sso_user_files(sso_uid, file_name, file_path, doc_type, date_uploaded) \
+                      VALUES ($1, $2, $3, $4, now())", [studentId, fileName, filePath, docType]);
+  } catch (error) {
+    throw Error("Error while inserting file data for: " + docType + "student: " + studentId);
+  }
+};
+
 
 module.exports = {
   getAllStudents,
@@ -461,5 +470,6 @@ module.exports = {
   deleteApplicationById,
   deletePositionsByStudentId,
   // dummy login
-  loginStudent
+  loginStudent,
+  insertFileDataBySSOUid
 };
