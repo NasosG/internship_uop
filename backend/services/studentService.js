@@ -429,7 +429,7 @@ const getPhase = async (studentId, positionId) => {
 };
 
 const insertFileDataBySSOUid = async (studentId, docType, filePath, fileName) => {
-  // console.log(fileExtension);
+  console.log("asd");
   try {
     await pool.query("INSERT INTO sso_user_files(sso_uid, file_name, file_path, doc_type, date_uploaded) \
                       VALUES ($1, $2, $3, $4, now())", [studentId, fileName, filePath, docType]);
@@ -437,7 +437,6 @@ const insertFileDataBySSOUid = async (studentId, docType, filePath, fileName) =>
     throw Error("Error while inserting file data for: " + docType + "student: " + studentId);
   }
 };
-
 
 module.exports = {
   getAllStudents,

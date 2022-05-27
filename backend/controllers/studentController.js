@@ -520,6 +520,27 @@ const validateFile = async (request, response, err, fileType) => {
   }
 };
 
+const insertToDB = async (request, response, ssoUserId, fileType, filePath, fileName) => {
+  let form = new formidable.IncomingForm();
+  let fileExtension;
+  await new Promise(function (resolve, reject) {
+    form.parse(request, (err, fields, files) => {
+      if (err) {
+        console.log("An error on form parsing occurred");
+        reject(err);
+        return;
+      }
+      let mimetype = files.file.mimetype;
+      fileExtension = mimetype.split("/")[1];
+      console.log("In form.parse method, file extension is: " + fileExtension);
+      resolve(fileExtension);
+    });
+  });
+  console.log(fileExtension);
+  fileName += '.' + fileExtension;
+  await studentService.insertFileDataBySSOUid(ssoUserId, fileType, filePath, fileName);
+};
+
 const insertSSNFile = async (request, response, next) => {
   try {
     const ssoUserId = request.params.id;
@@ -527,27 +548,9 @@ const insertSSNFile = async (request, response, next) => {
     const userType = "student";
     let fileName = userType + ssoUserId + "_" + docType;
     const filePath = `./uploads/ssns/${ssoUserId}`;
-    let form = new formidable.IncomingForm();
-    let fileExtension;
 
-    await new Promise(function (resolve, reject) {
-      form.parse(request, (err, fields, files) => {
-        if (err) {
-          console.log("An error on form parsing occurred");
-          reject(err);
-          return;
-        }
-        let mimetype = files.file.mimetype;
-        fileExtension = mimetype.split("/")[1];
-        console.log("In form.parse method, file extension is: " + fileExtension);
-        resolve(fileExtension);
-      });
-    });
-
-    console.log(fileExtension);
-    fileName += '.' + fileExtension;
-    await studentService.insertFileDataBySSOUid(ssoUserId, "SSN", filePath, fileName);
-    // await upload.ssn(request, response, (err) => validateFile(request, response, err, "SSN"));
+    insertToDB(request, response, ssoUserId, "SSN", filePath, fileName);
+    await upload.ssn(request, response, (err) => validateFile(request, response, err, "SSN"));
     response
       .status(201)
       .json({
@@ -570,8 +573,10 @@ const insertIbanFile = async (request, response, next) => {
     const docType = "IBAN";
     const userType = "student";
     const fileName = userType + ssoUserId + "_" + docType;
-    // let u = request.file.originalname;
-    console.log(fileName);
+    const filePath = `./uploads/ibans/${ssoUserId}`;
+
+    insertToDB(request, response, ssoUserId, "IBAN", filePath, fileName);
+    await upload.iban(request, response, (err) => validateFile(request, response, err, "IBAN"));
     // await studentService.insertFileDataBySSOUid(ssoUserId, "IBAN");
     // await upload.iban(request, response, (err) => validateFile(request, response, err, "IBAN"));
     // console.log("FILE ADDED SSN");
