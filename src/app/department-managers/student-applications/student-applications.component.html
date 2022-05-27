@@ -19,19 +19,19 @@
             <table id="example" #example class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Αποδοχή αιτήσεων</th>
-
-                  <th>Όνομα</th>
-                  <th>Πατρώνυμο</th>
+                  <th>Επιλογή</th>
+                  <th>Ονοματεπώνυμο</th>
+                  <!-- <th>Πατρώνυμο</th> -->
                   <th>ΑΜ</th>
-                  <th>email</th>
+                  <!-- <th>email</th> -->
+                  <th>Υπηρετώ στο στρατό</th>
+                  <th>AMEA κατηγορίας 5</th>
+                  <th>Σύμβαση εργασίας</th>
                   <th>Έγγραφα</th>
-
                   <!-- <th>Φορέας</th> -->
                   <!-- <th>
                     Αρ. Πρωτοκόλλου</th>
                   <th> Ημ. Πρωτοκόλλου</th> -->
-
                   <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>
@@ -54,9 +54,12 @@
                     </mat-form-field>
                   </td>
                   <td>{{student.givenname}} {{student.sn}}</td>
-                  <td>{{student.father_name}}</td>
+                  <!-- <td>{{student.father_name}}</td> -->
                   <td>{{student.schacpersonaluniquecode}}</td>
-                  <td>{{student.id}}.uop.gr</td>
+                  <!-- <td>{{student.id}}.uop.gr</td> -->
+                  <td>{{student.military_training == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                  <td>{{student.amea_cat == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                  <td>{{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
                   <td class="reponsive-text-center-td">
                     <button class="btn btn-primary mr-3 td-button-responsive"> <i class="fa fa-download"
                         aria-hidden="true"></i> Iban
@@ -79,7 +82,8 @@
 
                   <!-- <td>7.8</td> -->
                   <td class="action text-center">
-                    <a (click)="openDialog(idx)" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
+                    <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                        class="fa fa-eye"></i> Προβολή<br></a>
                     <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                   </td>
                 </tr>
@@ -107,11 +111,14 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Αποδοχή αιτήσεων</th>
-                  <th>Όνομα φοιτητή</th>
-                  <th>Πατρώνυμο</th>
+                  <th>Επιλογή</th>
+                  <th>Ονοματεπώνυμο</th>
+                  <!-- <th>Πατρώνυμο</th> -->
                   <th>ΑΜ</th>
-                  <th>email</th>
+                  <!-- <th>email</th> -->
+                  <th>Υπηρετώ στο στρατό</th>
+                  <th>AMEA κατηγορίας 5</th>
+                  <th>Σύμβαση εργασίας</th>
                   <th>Έγγραφα</th>
                   <!-- <th> Φορέας</th>
                   <th>
