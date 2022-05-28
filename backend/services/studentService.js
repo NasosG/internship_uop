@@ -1,6 +1,7 @@
 // database connection configuration
 // const { addSyntheticLeadingComment } = require("typescript");
 const pool = require("../db_config.js");
+const MiscUtils = require("../MiscUtils.js");
 
 const getAllStudents = async () => {
   try {
@@ -440,14 +441,18 @@ const getPhase = async (studentId, positionId) => {
   }
 };
 
-const insertOrUpdateMetadataBySSOUid = async (studentId, docType, filePath, fileName) => {
+const insertOrUpdateMetadataBySSOUid = async (studentId, docType, filePath, fileName, fileExtension) => {
   try {
     const filesData = await getFileMetadataByStudentId(studentId, docType);
 
+    if (!MiscUtils.FILE_TYPES.includes(fileExtension)) {
+      return 'Incorrect File Type';
+    }
+
     if (filesData.rowCount != 0) {
-      await updateFileDataBySSOUid(studentId, docType, filePath, fileName);
+      await updateFileDataBySSOUid(studentId, docType, filePath, fileName, fileExtension);
     } else {
-      await insertFileMetadataBySSOUid(studentId, docType, filePath, fileName);
+      await insertFileMetadataBySSOUid(studentId, docType, filePath, fileName, fileExtension);
     }
 
   } catch (error) {

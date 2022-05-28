@@ -4,6 +4,7 @@ const fs = require('fs');
 // Importing Utilities module
 const util = require('util');
 const fsExtra = require('fs-extra');
+const MiscUtils = require("../MiscUtils.js");
 
 getCurrentDate = () => {
   let today = new Date();
@@ -19,15 +20,19 @@ const storageIban = multer.diskStorage({
     const studentId = req.params.id;
     const fileDir = "./uploads/ibans/";
     const path = fileDir + studentId;
+
+    // remove all files before inserting the new one
+    // in order to always keep the one last file student has posted
     fsExtra.emptyDirSync(fileDir);
+
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
   },
   filename: function (request, file, cb) {
     const studentId = request.params.id;
-    // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
     const fileName = "student" + studentId + "_" + "IBAN";
-    cb(null, fileName + "." + file.mimetype.split("/")[1]);
+    const formattedExtension = MiscUtils.formatDocExtension(file.mimetype.split("/")[1]);
+    cb(null, fileName + "." + formattedExtension);
   }
 });
 
@@ -35,7 +40,7 @@ const uploadIban = multer({
   storage: storageIban,
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".pdf" && ext !== ".webp") {
+    if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
     callback(null, true);
@@ -51,15 +56,20 @@ const storageSsn = multer.diskStorage({
     const studentId = req.params.id;
     const fileDir = "./uploads/ssns/";
     const path = fileDir + studentId;
+
+    // remove all files before inserting the new one
+    // in order to always keep the one last file student has posted
     fsExtra.emptyDirSync(fileDir);
+
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
   },
   filename: function (request, file, cb) {
     const studentId = request.params.id;
     const fileName = "student" + studentId + "_" + "SSN";
+    const formattedExtension = MiscUtils.formatDocExtension(file.mimetype.split("/")[1]);
     // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
-    cb(null, fileName + "." + file.mimetype.split("/")[1]);
+    cb(null, fileName + "." + formattedExtension);
   }
 });
 
@@ -67,7 +77,7 @@ const uploadSsn = multer({
   storage: storageSsn,
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg" && ext !== ".pdf" && ext !== ".webp") {
+    if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
     callback(null, true);

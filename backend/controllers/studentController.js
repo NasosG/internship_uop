@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const upload = require("../middleware/file.js");
 const formidable = require('formidable');
+const MiscUtils = require("../MiscUtils.js");
 
 // app.post("/api/students/login/:id", (request, response, next) => {
 const login = async (request, response, next) => {
@@ -523,6 +524,7 @@ const validateFile = async (request, response, err, fileType) => {
 const insertToDB = async (request, response, ssoUserId, fileType, filePath, fileName) => {
   let form = new formidable.IncomingForm();
   let fileExtension;
+
   await new Promise(function (resolve, reject) {
     form.parse(request, (err, fields, files) => {
       if (err) {
@@ -536,9 +538,11 @@ const insertToDB = async (request, response, ssoUserId, fileType, filePath, file
       resolve(fileExtension);
     });
   });
-  console.log(fileExtension);
+
+  fileExtension = MiscUtils.formatDocExtension(fileExtension);
   fileName += '.' + fileExtension;
-  await studentService.insertOrUpdateMetadataBySSOUid(ssoUserId, fileType, filePath, fileName);
+
+  await studentService.insertOrUpdateMetadataBySSOUid(ssoUserId, fileType, filePath, fileName, fileExtension);
 };
 
 const insertSSNFile = async (request, response, next) => {
@@ -601,7 +605,7 @@ const sendFile = async (request, response) => {
     const docType = request.body.doctype;
     // let dirType = (docType == 'IBAN') ? 'ibans' : 'ssns';
 
-    let metadata = await studentService.getFileMetadataByStudentId(id, docType).rows[0];
+    let metadata = (await studentService.getFileMetadataByStudentId(id, docType)).rows[0];
 
     response
       .status(200)
