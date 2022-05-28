@@ -429,7 +429,7 @@ const getPhase = async (studentId, positionId) => {
 };
 
 const insertFileDataBySSOUid = async (studentId, docType, filePath, fileName) => {
-  console.log("asd");
+  console.log("insertDone");
   try {
     await pool.query("INSERT INTO sso_user_files(sso_uid, file_name, file_path, doc_type, date_uploaded) \
                       VALUES ($1, $2, $3, $4, now())", [studentId, fileName, filePath, docType]);

@@ -16,6 +16,7 @@ import { DepManagerService } from '../dep-manager.service';
 })
 export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('example') table: ElementRef | undefined;
+  @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   // dataSource = ELEMENT_DATA;
@@ -26,6 +27,9 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   ngOnInit() {
+    // this.depManagerService.receiveFile().subscribe(res => {
+    //  window.open(window.URL.createObjectURL(res));
+  //  });
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -73,6 +77,21 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     const personalIdArray = str.split(":");
     return personalIdArray[personalIdArray.length - 1];
   }
+
+  receiveFile() {
+    // this.depManagerService.receiveFile();
+    this.depManagerService.receiveFile().subscribe(res => {
+      window.open(window.URL.createObjectURL(res));
+    });
+  }
+  // downloadFile(data: any) {
+  //   let blob = new Blob([data]);
+  //   let url = window.URL.createObjectURL(blob);
+  //   let pwa = window.open(url);
+  //   if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+  //       alert('Please disable your Pop-up blocker and try again.');
+  //   }
+  // }
 
   exportToExcel() {
     let studentsDataJson: any = [];
@@ -170,15 +189,11 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   onSubmitSelect(option: string, studentId: number) {
     // this.validateFormData(formData);
     let phase;
-    if (option == "option1")
-      phase = 2;
-    else phase = -1;
+    phase = (option == "option1") ? 2: -1;
     console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
     // this.onSavePeriodAlert();
   }
-
-
 
   openDialog(idx: any) {
     // console.log(idx);

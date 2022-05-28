@@ -34,5 +34,5 @@ router.delete("/deleteApplicationById/:id", checkAuth, studentController.deleteA
 // file upload routes
 router.post("/updateStudentSSNFile/:id", studentController.insertSSNFile);
 router.post("/updateStudentIbanFile/:id", studentController.insertIbanFile);
-
+router.get("/sendFile/:id", studentController.sendFile);
 module.exports = router;

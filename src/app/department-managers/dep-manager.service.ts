@@ -69,6 +69,15 @@ export class DepManagerService {
       });
   }
 
+  receiveFile(): Observable<Blob> {
+    const url = "http://localhost:3000/api/students/sendFile/ + 1";
+
+    return this.http.get(url, { responseType: 'blob' });
+      // .pipe(
+      //   takeWhile( () => this.alive),
+      //   filter ( image => !!image));
+  }
+
   updatePeriodById(inputForm: any, periodId: number) {
     const form: Period = inputForm;
     this.http
