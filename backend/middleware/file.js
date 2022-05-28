@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require('fs');
 // Importing Utilities module
 const util = require('util');
+const fsExtra = require('fs-extra');
 
 getCurrentDate = () => {
   let today = new Date();
@@ -16,7 +17,9 @@ const storageIban = multer.diskStorage({
   // destination: "./uploads/ibans",
   destination: (req, file, cb) => {
     const studentId = req.params.id;
-    const path = `./uploads/ibans/${studentId}`;
+    const fileDir = "./uploads/ibans/";
+    const path = fileDir + studentId;
+    fsExtra.emptyDirSync(fileDir);
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
   },
@@ -46,7 +49,9 @@ const storageSsn = multer.diskStorage({
   // destination: "./uploads/ssns",
   destination: (req, file, cb) => {
     const studentId = req.params.id;
-    const path = `./uploads/ssns/${studentId}`;
+    const fileDir = "./uploads/ssns/";
+    const path = fileDir + studentId;
+    fsExtra.emptyDirSync(fileDir);
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
   },

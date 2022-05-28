@@ -538,7 +538,7 @@ const insertToDB = async (request, response, ssoUserId, fileType, filePath, file
   });
   console.log(fileExtension);
   fileName += '.' + fileExtension;
-  await studentService.insertFileDataBySSOUid(ssoUserId, fileType, filePath, fileName);
+  await studentService.insertOrUpdateMetadataBySSOUid(ssoUserId, fileType, filePath, fileName);
 };
 
 const insertSSNFile = async (request, response, next) => {
@@ -549,8 +549,9 @@ const insertSSNFile = async (request, response, next) => {
     let fileName = userType + ssoUserId + "_" + docType;
     const filePath = `./uploads/ssns/${ssoUserId}`;
 
-    insertToDB(request, response, ssoUserId, "SSN", filePath, fileName);
-    await upload.ssn(request, response, (err) => validateFile(request, response, err, "SSN"));
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.ssn(request, response, (err) => validateFile(request, response, err, docType));
+
     response
       .status(201)
       .json({
@@ -575,11 +576,9 @@ const insertIbanFile = async (request, response, next) => {
     const fileName = userType + ssoUserId + "_" + docType;
     const filePath = `./uploads/ibans/${ssoUserId}`;
 
-    insertToDB(request, response, ssoUserId, "IBAN", filePath, fileName);
-    await upload.iban(request, response, (err) => validateFile(request, response, err, "IBAN"));
-    // await studentService.insertFileDataBySSOUid(ssoUserId, "IBAN");
-    // await upload.iban(request, response, (err) => validateFile(request, response, err, "IBAN"));
-    // console.log("FILE ADDED SSN");
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.iban(request, response, (err) => validateFile(request, response, err, docType));
+
     response
       .status(201)
       .json({
@@ -588,7 +587,6 @@ const insertIbanFile = async (request, response, next) => {
   } catch (error) {
     console.error(error.message);
     response.status(201).json({
-      // message: "File IBAN insertion failed!"
       message: "ERROR"
     });
   }
@@ -598,12 +596,17 @@ const insertIbanFile = async (request, response, next) => {
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
+    let initialPath = 'C:/Users/losNasos/Documents/workspace/uop_innternsip/';
+    // let initialPath = 'C:/xampp/htdocs/internship_uop/uploads/';
     const docType = request.body.doctype;
-    let dirType = (docType == 'IBAN') ? 'ibans' : 'ssns';
+    // let dirType = (docType == 'IBAN') ? 'ibans' : 'ssns';
+
+    let metadata = await studentService.getFileMetadataByStudentId(id, docType).rows[0];
 
     response
       .status(200)
-      .sendFile('C:/xampp/htdocs/internship_uop/uploads/' + dirType + '/' + 1 + '/20220526.png');
+      .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);
+
   } catch (error) {
     console.error(error.message);
     response.send({
