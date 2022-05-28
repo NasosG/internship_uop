@@ -598,9 +598,12 @@ const insertIbanFile = async (request, response, next) => {
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
-    // const student = request.body;
+    const docType = request.body.doctype;
+    let dirType = (docType == 'IBAN') ? 'ibans' : 'ssns';
 
-    response.status(200).sendFile('C:/xampp/htdocs/internship_uop/uploads/ibans/1/20220526.png');
+    response
+      .status(200)
+      .sendFile('C:/xampp/htdocs/internship_uop/uploads/' + dirType + '/' + 1 + '/20220526.png');
   } catch (error) {
     console.error(error.message);
     response.send({

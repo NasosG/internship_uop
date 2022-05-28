@@ -69,10 +69,9 @@ export class DepManagerService {
       });
   }
 
-  receiveFile(): Observable<Blob> {
-    const url = "http://localhost:3000/api/students/sendFile/ + 1";
-
-    return this.http.get(url, { responseType: 'blob' });
+  receiveFile(studentId: number, docType: string): Observable<Blob> {
+    const url = "http://localhost:3000/api/students/sendFile/" + studentId;
+    return this.http.post(url, {'doctype': docType },{ responseType: 'blob' });
       // .pipe(
       //   takeWhile( () => this.alive),
       //   filter ( image => !!image));

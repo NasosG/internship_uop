@@ -61,11 +61,12 @@
                   <td>{{student.amea_cat == true ? 'ΝΑΙ' : 'OXI'}}</td>
                   <td>{{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
                   <td class="reponsive-text-center-td">
-                    <button (click)="receiveFile()" class="btn btn-primary mr-3 td-button-responsive"> <i
-                        class="fa fa-download" aria-hidden="true"></i> Iban
+                    <button (click)="receiveFile(student.sso_uid, 'IBAN')"
+                      class="btn btn-primary mr-3 td-button-responsive"> <i class="fa fa-download"
+                        aria-hidden="true"></i> Iban
                     </button>
-                    <button class="btn btn-primary td-button-responsive"> <i class="fa fa-download"
-                        aria-hidden="true"></i> ΑΦΜ
+                    <button (click)="receiveFile(student.sso_uid, 'SSN')" class="btn btn-primary td-button-responsive">
+                      <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
                     </button>
                   </td>
                   <!-- <td>

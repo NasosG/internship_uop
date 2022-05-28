@@ -78,9 +78,9 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     return personalIdArray[personalIdArray.length - 1];
   }
 
-  receiveFile() {
+  receiveFile(studentId: number, docType: string) {
     // this.depManagerService.receiveFile();
-    this.depManagerService.receiveFile().subscribe(res => {
+    this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
   }
