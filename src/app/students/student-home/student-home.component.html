@@ -151,27 +151,6 @@
        </div>
      </div>
 
-     <div *ngIf="this.studentsSSOData[0]?.phase == null" class="card">
-       <div class="card-header">
-         <h3 class="card-title">
-           <i class="fas fa-folder-open mr-1"></i>
-           {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
-         </h3>
-         <div class="card-tools">
-           <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
-             <i class="fas fa-minus"></i>
-           </button>
-         </div>
-       </div>
-       <div class="card-body">
-         <div class="tab-content p-0">
-           <div class="chart tab-pane active" id="revenue-chart">
-             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-NULL-PAR'| translate}}
-             <br>
-           </div>
-         </div>
-       </div>
-     </div>
      <div *ngIf="this.studentsSSOData[0]?.phase == 0" class="card">
        <div class="card-header">
          <h3 class="card-title">
@@ -187,8 +166,29 @@
        <div class="card-body">
          <div class="tab-content p-0">
            <div class="chart tab-pane active" id="revenue-chart">
-             <i style="color: #dc3545;" class=" fas fa-lg fa-times"></i>&nbsp;
              {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-0-PAR'| translate}}
+             <br>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div *ngIf="this.studentsSSOData[0]?.phase == -1" class="card">
+       <div class="card-header">
+         <h3 class="card-title">
+           <i class="fas fa-folder-open mr-1"></i>
+           {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
+         </h3>
+         <div class="card-tools">
+           <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+             <i class="fas fa-minus"></i>
+           </button>
+         </div>
+       </div>
+       <div class="card-body">
+         <div class="tab-content p-0">
+           <div class="chart tab-pane active" id="revenue-chart">
+             <i style="color: #dc3545;" class=" fas fa-lg fa-times"></i>&nbsp;
+             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-MINUS1-PAR'| translate}}
            </div>
          </div>
        </div>
