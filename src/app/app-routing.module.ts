@@ -115,6 +115,10 @@ const routes: Routes = [{
   {
     path: 'contact',
     component: DepartmentManagerComponent
+  },
+  {
+    path: 'students-approved',
+    component: DepartmentManagerComponent
   }
   ]
 },

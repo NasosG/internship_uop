@@ -10,11 +10,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
 
 @Component({
-  selector: 'app-student-applications',
-  templateUrl: './student-applications.component.html',
-  styleUrls: ['./student-applications.component.css']
+  selector: 'app-students-approved',
+  templateUrl: './students-approved.component.html',
+  styleUrls: ['./students-approved.component.css']
 })
-export class StudentApplicationsComponent implements OnInit, AfterViewInit {
+export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   @ViewChild('example') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
@@ -55,9 +55,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
           autoWidth: false,
           responsive: true,
           select: true,
+          orderable:true,
+          columnDefs: [ { orderable: false, targets: [4] } ],
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [ { orderable: false, targets: [6, 7] } ],
           language: {
             // lengthMenu: 'Show _MENU_ entries'
             // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
@@ -196,32 +197,4 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     // this.onSavePeriodAlert();
   }
 
-  openDialog(idx: any) {
-    // console.log(idx);
-    const dialogRef = this.dialog.open(StudentAppsPreviewDialog, {
-      // width: '350px',
-      data: { studentsData: this.studentsData, index: idx }
-    });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
-  }
-
 }
-
-@Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: 'student-apps-preview-dialog.html',
-  styleUrls: ['student-apps-preview-dialog.css']
-})
-export class StudentAppsPreviewDialog {
-
-  public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAppsPreviewDialog>) { }
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-}
-

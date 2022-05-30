@@ -42,6 +42,7 @@ import { DepartmentManagerHeaderComponent } from './department-managers/departme
 import { StudentApplicationsComponent } from './department-managers/student-applications/student-applications.component';
 import { DataTablesModule } from 'angular-datatables';
 import { StudentMatchComponent } from './department-managers/student-match/student-match.component';
+import { StudentsApprovedComponent } from './department-managers/students-approved/students-approved.component';
 import { StudentsApplicationsComponent } from './companies/students-applications/students-applications.component';
 import { CompanyComponent } from './companies/company/company.component';
 import { SelectedStudentsComponent } from './companies/selected-students/selected-students.component';
@@ -102,7 +103,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetEvaluationComponent,
     SheetEvaluationEditComponent,
     SheetEvaluationPreviewComponent,
-    PracticeEnableComponent
+    PracticeEnableComponent,
+    StudentsApprovedComponent
   ],
   imports: [
     BrowserModule,

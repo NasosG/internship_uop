@@ -86,6 +86,10 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     return this.router.url === '/department-manager/match-students';
   }
 
+  isStudentsAprrovedRoute() {
+    return this.router.url === '/department-manager/students-approved';
+  }
+
   isContactRoute() {
     return this.router.url === '/department-manager/contact'
   }

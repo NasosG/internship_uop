@@ -1,0 +1,74 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Έγκυροι φοιτητές</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
+                style='font-size:24px'></i> Excel</button>
+            &nbsp;
+            <button class="btn btn-primary" (click)="printDataTable()"><i class='fas fa-print'
+                style='font-size:24px'></i> Print</button>
+            <br><br>
+            <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+            <table id="example" #example class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th name="first">Αρ.Κατάταξης</th>
+                  <th>Ονοματεπώνυμο</th>
+                  <!-- <th>Πατρώνυμο</th> -->
+                  <th>ΑΜ</th>
+                  <!-- <th>email</th> -->
+                  <th>Σκορ</th>
+                  <th class="text-center">Ενέργειες</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                  <td class="title" style="max-width:100px;">
+                    <a> <i style="cursor:pointer;font-size:1.4em;" class="fas fa-angle-up pr-2"></i></a>
+                    <a>&nbsp;<i style="font-size:1.4em;cursor:pointer;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
+                        style="font-size:1.1em;">1</span></a>
+                  </td>
+                  <td>{{student.givenname}} {{student.sn}}</td>
+                  <!-- <td>{{student.father_name}}</td> -->
+                  <td>{{student.schacpersonaluniquecode}}</td>
+                  <td class="title">
+                    1
+                  </td>
+                  <td class="action text-center">
+                    <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
+                      Προβολή<br></a>
+                    <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Αρ.Κατάταξης</th>
+                  <th>Ονοματεπώνυμο</th>
+                  <!-- <th>Πατρώνυμο</th> -->
+                  <th>ΑΜ</th>
+                  <!-- <th>email</th> -->
+                  <th>Σκορ</th>
+                  <th class="text-center">Ενέργειες</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
