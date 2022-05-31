@@ -59,6 +59,12 @@ export class DepManagerService {
     return fetchedStudent;
   }
 
+  getRankedStudentsByDeptId(departmentId: number): Observable<Student[]> {
+    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getRankedStudentsByDeptId/" + departmentId);
+
+    return fetchedStudent;
+  }
+
   insertPeriod(inputForm: any) {
     const depManagerId = 2;
     const form: Period = inputForm;

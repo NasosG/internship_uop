@@ -33,6 +33,7 @@ const getStudentsApplyPhase = async (deptId) => {
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
+                                      AND student_users.phase <> '0' \
                                       AND sso_users.department_id = $1", [deptId]);
     return students.rows;
   } catch (error) {
@@ -48,6 +49,20 @@ const getStudentsPhase2 = async (deptId) => {
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
                                       AND sso_users.department_id = $1 \
                                       AND student_users.phase = '2' ", [deptId]);
+    return students.rows;
+  } catch (error) {
+    throw Error('Error while fetching students from phase 2 for this department');
+  }
+};
+
+const getRankedStudentsByDeptId = async (deptId) => {
+  try {
+    const students = await pool.query("SELECT * FROM students_approved_rank \
+                                      INNER JOIN sso_users \
+                                      ON students_approved_rank.sso_uid = sso_users.uuid \
+                                      INNER JOIN student_users \
+                                      ON sso_users.uuid = student_users.sso_uid \
+                                      WHERE sso_users.department_id = $1", [deptId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students from phase 2 for this department');
@@ -73,8 +88,6 @@ const insertPeriod = async (body, id) => {
     throw Error('Error while inserting period time');
   }
 };
-
-
 
 const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
   try {
@@ -159,9 +172,9 @@ const deletePeriodById = async (id) => {
   }
 };
 
-const deleteApprovedStudentsRank = async (id) => {
+const deleteApprovedStudentsRank = async (departmentId) => {
   try {
-    await pool.query("delete FROM students_approved_rank WHERE department_id = $1 ", [id]);
+    await pool.query("DELETE FROM students_approved_rank WHERE department_id = $1 ", [departmentId]);
   } catch (error) {
     console.log('Error while deleting approved students ' + error.message);
     throw Error('Error while deleting approved students');
@@ -173,6 +186,7 @@ module.exports = {
   getDepartmentNameByNumber,
   getPeriodByUserId,
   getStudentsApplyPhase,
+  getRankedStudentsByDeptId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
+import {mergeMap} from 'rxjs';
 
 @Component({
   selector: 'app-students-approved',
@@ -27,7 +28,11 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   ngOnInit() {
-    this.depManagerService.getStudentsApplyPhase()
+     this.depManagerService.getDepManager()
+      .pipe(
+        mergeMap((result: {department_id: number;}) =>
+        this.depManagerService.getRankedStudentsByDeptId(result?.department_id))
+      )
       .subscribe((students: Student[]) => {
         this.studentsData = students;
         for (let i = 0; i < students.length; i++) {
