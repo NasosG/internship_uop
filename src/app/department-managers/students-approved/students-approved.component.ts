@@ -27,9 +27,6 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   ngOnInit() {
-    // this.depManagerService.receiveFile().subscribe(res => {
-    //  window.open(window.URL.createObjectURL(res));
-  //  });
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -86,14 +83,6 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
       window.open(window.URL.createObjectURL(res));
     });
   }
-  // downloadFile(data: any) {
-  //   let blob = new Blob([data]);
-  //   let url = window.URL.createObjectURL(blob);
-  //   let pwa = window.open(url);
-  //   if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-  //       alert('Please disable your Pop-up blocker and try again.');
-  //   }
-  // }
 
   exportToExcel() {
     let studentsDataJson: any = [];

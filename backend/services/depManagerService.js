@@ -82,14 +82,13 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
       return;
     }
     const getStudentsPhase = await getStudentsPhase2(departmentId);
-    await deleteApprovedStudentsRank(98);
+    await deleteApprovedStudentsRank(departmentId);
     let i = 1;
     for (students of getStudentsPhase) {
       await pool.query("INSERT INTO students_approved_rank " +
         "(sso_uid, department_id, score, ranking)" +
         " VALUES " + "($1, $2, $3, $4)",
         [students.sso_uid, departmentId, 6.3, i++]);
-      // console.log(students.sso_uid);
     }
   } catch (error) {
     console.log('Error while inserting Approved students rank ' + error.message);

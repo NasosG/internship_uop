@@ -57,9 +57,9 @@ const insertPeriod = async (request, response, next) => {
 
 const insertApprovedStudentsRank = async (request, response, next) => {
   try {
+    const departmentId = request.params.id;
     const period = request.body.phase;
-    const depid = request.params.id;
-    await depManagerService.insertApprovedStudentsRank(depid, period);
+    await depManagerService.insertApprovedStudentsRank(departmentId, period);
     response
       .status(201)
       .json({
