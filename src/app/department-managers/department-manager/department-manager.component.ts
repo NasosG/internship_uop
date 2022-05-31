@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import {Utils} from 'src/app/MiscUtils';
+import { Utils } from 'src/app/MiscUtils';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
 

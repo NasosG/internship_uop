@@ -44,9 +44,9 @@ export class DepManagerService {
 
   getStudentsApplyPhase(): Observable<Student[]> {
     const fetchedStudent = this.getDepManager()
-    .pipe(
+      .pipe(
         mergeMap(result => this.getStudentsApplyPhaseByDeptId(result?.department_id))
-     )
+      )
     return fetchedStudent;
   }
 
@@ -69,12 +69,20 @@ export class DepManagerService {
       });
   }
 
+  insertApprovedStudentsRank(depId: number, phase: number) {
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertApprovedStudentsRank/" + depId, { 'phase': phase })
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
   receiveFile(studentId: number, docType: string): Observable<Blob> {
     const url = "http://localhost:3000/api/students/sendFile/" + studentId;
-    return this.http.post(url, {'doctype': docType },{ responseType: 'blob' });
-      // .pipe(
-      //   takeWhile( () => this.alive),
-      //   filter ( image => !!image));
+    return this.http.post(url, { 'doctype': docType }, { responseType: 'blob' });
+    // .pipe(
+    //   takeWhile( () => this.alive),
+    //   filter ( image => !!image));
   }
 
   updatePeriodById(inputForm: any, periodId: number) {
@@ -95,7 +103,7 @@ export class DepManagerService {
   }
 
   updatePhaseByStudentId(phase: number, studentId: number) {
-    const phaseJson : any = {'phase' : phase};
+    const phaseJson: any = { 'phase': phase };
     console.log(phaseJson);
     this.http
       .put<{ message: string }>("http://localhost:3000/api/depmanager/updatePhaseByStudentId/" + studentId, phaseJson)

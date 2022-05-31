@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Utils} from 'src/app/MiscUtils';
+import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
-import {DepManager} from '../dep-manager.model';
-import {DepManagerService} from '../dep-manager.service';
-import {Period} from '../period.model';
+import { DepManager } from '../dep-manager.model';
+import { DepManagerService } from '../dep-manager.service';
+import { Period } from '../period.model';
 
 @Component({
   selector: 'app-period-edit',
@@ -16,12 +16,12 @@ export class PeriodEditComponent implements OnInit {
   public periodData!: Period;
   public ngSelect: String = "";
   public ngSelectPhase: String = "";
-  phaseArray =["no-state",
-  "Σε αναμονή για συμμετοχή των φορέων",
-  "Σε αναμονή για συμμετοχή των φοιτητών",
-  "Σε αναμονή για ολοκλήρωση αιτήσεων"];
+  phaseArray = ["no-state",
+    "Σε αναμονή για συμμετοχή των φορέων",
+    "Σε αναμονή για συμμετοχή των φοιτητών",
+    "Σε αναμονή για ολοκλήρωση αιτήσεων"];
 
-  constructor(public depManagerService: DepManagerService) {}
+  constructor(public depManagerService: DepManagerService) { }
 
   ngOnInit() {
     // this.authService.login('');
@@ -39,6 +39,10 @@ export class PeriodEditComponent implements OnInit {
   onSubmitPeriodEditForm(formData: FormData) {
     this.depManagerService.updatePeriodById(formData, this.periodData.id);
     this.onSavePeriodAlert();
+  }
+
+  insertPhase2StudentsRank() {
+    this.depManagerService.insertApprovedStudentsRank(this.depManagerData.department_id, this.periodData.phase_state);
   }
 
   private onSavePeriodAlert() {

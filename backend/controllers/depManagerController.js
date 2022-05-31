@@ -18,7 +18,9 @@ const getStudentsApplyPhase = async (request, response) => {
     const users = await depManagerService.getStudentsApplyPhase(deptId);
     response.status(200).json(users);
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(404).json({
+      message: error.message
+    });
   }
 };
 
@@ -44,6 +46,24 @@ const insertPeriod = async (request, response, next) => {
       .status(201)
       .json({
         message: 'Period inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const insertApprovedStudentsRank = async (request, response, next) => {
+  try {
+    const period = request.body.phase;
+    const depid = request.params.id;
+    await depManagerService.insertApprovedStudentsRank(depid, period);
+    response
+      .status(201)
+      .json({
+        message: 'Approved students rank inserted successfully'
       });
   } catch (error) {
     console.error(error.message);
@@ -115,6 +135,7 @@ module.exports = {
   getPeriodByUserId,
   getStudentsApplyPhase,
   insertPeriod,
+  insertApprovedStudentsRank,
   updatePeriodById,
   updatePhaseByStudentId,
   deletePeriodById

@@ -40,6 +40,20 @@ const getStudentsApplyPhase = async (deptId) => {
   }
 };
 
+const getStudentsPhase2 = async (deptId) => {
+  try {
+    const students = await pool.query("SELECT * FROM sso_users \
+                                      INNER JOIN student_users \
+                                      ON sso_users.uuid = student_users.sso_uid \
+                                      WHERE sso_users.edupersonprimaryaffiliation='student' \
+                                      AND sso_users.department_id = $1 \
+                                      AND student_users.phase = '2' ", [deptId]);
+    return students.rows;
+  } catch (error) {
+    throw Error('Error while fetching students from phase 2 for this department');
+  }
+};
+
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -57,6 +71,29 @@ const insertPeriod = async (body, id) => {
   } catch (error) {
     console.log('Error while inserting period time ' + error.message);
     throw Error('Error while inserting period time');
+  }
+};
+
+
+
+const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
+  try {
+    if (genericPeriod < 3) {
+      return;
+    }
+    const getStudentsPhase = await getStudentsPhase2(departmentId);
+    await deleteApprovedStudentsRank(98);
+    let i = 1;
+    for (students of getStudentsPhase) {
+      await pool.query("INSERT INTO students_approved_rank " +
+        "(sso_uid, department_id, score, ranking)" +
+        " VALUES " + "($1, $2, $3, $4)",
+        [students.sso_uid, departmentId, 6.3, i++]);
+      // console.log(students.sso_uid);
+    }
+  } catch (error) {
+    console.log('Error while inserting Approved students rank ' + error.message);
+    throw Error('Error while inserting Approved students rank');
   }
 };
 
@@ -123,12 +160,22 @@ const deletePeriodById = async (id) => {
   }
 };
 
+const deleteApprovedStudentsRank = async (id) => {
+  try {
+    await pool.query("delete FROM students_approved_rank WHERE department_id = $1 ", [id]);
+  } catch (error) {
+    console.log('Error while deleting approved students ' + error.message);
+    throw Error('Error while deleting approved students');
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
   getPeriodByUserId,
   getStudentsApplyPhase,
   insertPeriod,
+  insertApprovedStudentsRank,
   updatePeriodById,
   updatePhaseByStudentId,
   deletePeriodById

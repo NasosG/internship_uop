@@ -352,31 +352,30 @@
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
             </a>
-
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a (click)="changeFont('+')" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search-plus"></i>
-                  <p>Μεγέθυνση</p>
+                  <p>{{'STUDENT.ENLARGE' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a (click)="changeFont('-')" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search-minus"></i>
-                  <p>Σμίκρυνση</p>
+                  <p>{{'STUDENT.REDUCE' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a (click)="resetFont()" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search"></i>
-                  <p>Κανονικό</p>
+                  <p>{{'STUDENT.NORMAL' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a class="nav-link">
                   <i class="nav-icon fas fa-ruler-combined"></i>
-                  <p>Τρέχον Μέγεθος</p>
-                  <span class="badge badge-info right">100%</span>
+                  <p>{{'STUDENT.CURRENT-SIZE' | translate}}</p>
+                  <span id="fontSizeSpan" class="badge badge-info right">100%</span>
                 </a>
               </li>
             </ul>
@@ -384,7 +383,8 @@
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="fas fa-adjust"></i>
-              <p> &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
+              <p>
+                &nbsp;&nbsp;&nbsp;{{'STUDENT.TEXT-CONTRAST' | translate}}
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
@@ -392,9 +392,9 @@
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="darkmodeBtn" class="cursor-pointer nav-link">
                   <i class="nav-icon fas fa-moon"></i>
-                  <p>Λευκό/Μαύρο</p>
+                  <p>{{'STUDENT.BLACK-WHITE' | translate}}</p>
                 </a>
               </li>
             </ul>
@@ -406,7 +406,7 @@
     <!-- /.sidebar -->
   </aside>
 
-  <div class="content-wrapper">
+  <div id="content-wrapper" class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
