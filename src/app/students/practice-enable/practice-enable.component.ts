@@ -189,7 +189,7 @@ export class PracticeEnableComponent implements OnInit {
   onErr() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
-      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif',
+      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif .doc .docx',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
