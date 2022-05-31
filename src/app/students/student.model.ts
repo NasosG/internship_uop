@@ -36,7 +36,9 @@ export interface Student {
   computer_skills: string;
   address: string;
   phase: number;
-  military_training: boolean
-  working_state: boolean
-  amea_cat: boolean
+  military_training: boolean;
+  working_state: boolean;
+  amea_cat: boolean;
+  score?: number; // may be null
+  ranking?: number; // may be null
 }
