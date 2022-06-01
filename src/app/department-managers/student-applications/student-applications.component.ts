@@ -197,15 +197,15 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(idx: any) {
-    // console.log(idx);
+    console.log(idx);
     const dialogRef = this.dialog.open(StudentAppsPreviewDialog, {
       // width: '350px',
       data: { studentsData: this.studentsData, index: idx }
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

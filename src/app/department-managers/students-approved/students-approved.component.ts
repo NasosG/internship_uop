@@ -8,7 +8,9 @@ import * as XLSX from 'xlsx';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
-import {mergeMap} from 'rxjs';
+import { mergeMap } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-students-approved',
@@ -93,6 +95,8 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     let studentsDataJson: any = [];
     for (const item of this.studentsData) {
       studentsDataJson.push({
+        "Κατάταξη": item.ranking,
+        "Σκορ": item.score,
         "Επώνυμο": item.sn,
         "Όνομα": item.givenname,
         "Πατρώνυμο": item.father_name,
@@ -150,12 +154,10 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     windowPrint?.document.write("<table style=\"width: 100%;\"> \
         <thead style=\"color:white; background-color:#2d4154;\"> \
           <tr> \
+           <th>Αρ. Κατάταξης</th> \
             <th>Όνοματεπώνυμο</th> \
             <th>ΑΜ</th> \
-            <th>Υπηρετώ στρατό</th> \
-            <th>ΑΜΕΑ κατ. 5</th> \
-            <th>Σύμβαση εργασίας</th> \
-            <th>Κατάσταση</th> \
+            <th>Σκορ</th> \
           </tr> \
         </thead>");
 
@@ -165,12 +167,10 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         // print the rows - another color for the odd lines - could be done with i % 2 != 0
         // but with bitwise operator it was a bit faster
         "<tr " + ((i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">") +
+         "<td>" + student.ranking + "</td>" +
         "<td>" + student.sn + " " + student.givenname + "</td>" +
         "<td>" + student.schacpersonaluniquecode + "</td>" +
-        "<td>" + (student.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
-        "<td>" + (student.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
-        "<td>" + (student.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
-        "<td>" + (student.phase == 2 ? 'Επιλέχτηκε' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε') + "</td>" +
+        "<td>" + student.score + "</td>" +
         "</tr>");
       i++;
     }
@@ -191,4 +191,27 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     // this.onSavePeriodAlert();
   }
 
+  openDialog(idx: any) {
+    const dialogRef = this.dialog.open(StudentAppsPreviewDialog, {
+      // width: '350px',
+      data: { studentsData: this.studentsData, index: idx }
+    });
+  }
+
 }
+
+@Component({
+  selector: 'dialog-content-example-dialog',
+  templateUrl: 'student-approved-preview-dialog.html',
+  styleUrls: ['student-approved-preview-dialog.css']
+})
+export class StudentAppsPreviewDialog {
+
+  public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAppsPreviewDialog>) { }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+}
+
