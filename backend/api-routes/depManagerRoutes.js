@@ -12,5 +12,6 @@ router.post("/insertApprovedStudentsRank/:id", depManagerController.insertApprov
 router.put("/updatePhaseByStudentId/:id", depManagerController.updatePhaseByStudentId);
 router.put("/updatePeriodById/:id", depManagerController.updatePeriodById);
 router.delete("/deletePeriodById/:id", depManagerController.deletePeriodById);
+router.put("/updateStudentRanking/:id", depManagerController.updateStudentRanking);
 
 module.exports = router;

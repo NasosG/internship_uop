@@ -181,6 +181,38 @@ const deleteApprovedStudentsRank = async (departmentId) => {
   }
 };
 
+const deleteRankingByStudentId = async (departmentId) => {
+  try {
+    const deleteResults = await pool.query("DELETE FROM students_approved_rank WHERE department_id = $1", [departmentId]);
+    return deleteResults;
+  } catch (error) {
+    throw Error(`Error while deleting students approved rank ( department_id: ${departmentId} )`);
+  }
+};
+
+const updateStudentRanking = async (department_id, body) => {
+  try {
+    await deleteRankingByStudentId(department_id);
+    for (let i = 0; i < body.length; i++) {
+      await insertRankingPositions(department_id, body[i]);
+    }
+  } catch (error) {
+    throw Error('Error while updating student positions');
+  }
+};
+
+const insertRankingPositions = async (department_id, body) => {
+  try {
+    // console.log(body);
+    await pool.query("INSERT INTO students_approved_rank (sso_uid, department_id, score, ranking) " +
+      " VALUES" +
+      " ($1, $2, $3, $4) ",
+      [body.uuid, department_id, body.score, body.ranking]);
+  } catch (error) {
+    throw Error('Error while inserting students approved rank');
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -191,5 +223,6 @@ module.exports = {
   insertApprovedStudentsRank,
   updatePeriodById,
   updatePhaseByStudentId,
+  updateStudentRanking,
   deletePeriodById
 };

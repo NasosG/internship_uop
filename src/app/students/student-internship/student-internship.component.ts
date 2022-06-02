@@ -74,13 +74,13 @@ export class StudentInternshipComponent implements OnInit {
     });
     console.log("active " + this.is_active);
     //this.setJobsDetails(0);
-    let fetchedPeriod = this.studentsService?.getPeriod();
-    if (fetchedPeriod)
-      this.setStudentCanSubmit(fetchedPeriod);
+    //let fetchedPeriod = this.studentsService?.getPeriod();
+    //if (fetchedPeriod)
+      //this.setStudentCanSubmit(fetchedPeriod);
       // console.log("prd " + this.studentsService?.getPeriod().available_positions);
-    else {
+    //else {
       this.fetchStudentAndPeriod();
-    }
+    //}
   }
 
   public fetchStudentAndPeriod() {
@@ -99,7 +99,10 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   setStudentCanSubmit(period: Period) {
-    this.canStudentSubmitApp =  period.is_active && period.phase_state == this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
+    console.log(period.is_active);
+    console.log(period.phase_state == this.PREFERENCE_DECLARATION_PHASE);
+    console.log(this.studentsSSOData[0].phase > 1);
+    this.canStudentSubmitApp = period.is_active && period.phase_state == this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
   }
 
 

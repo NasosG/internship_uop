@@ -6,6 +6,10 @@
   <p><span>Ονοματεπώνυμο</span>: {{ this.data.studentsData[this.data.index].givenname}}
     {{ this.data.studentsData[this.data.index].sn}}
   </p>
+  <p class="title">
+    <span>ΑΜΕΑ ΚΑΤ 5</span>:
+    {{this.data.studentsData[this.data.index].amea_cat == true ? 'ΝΑΙ' : 'OXI'}}
+  </p>
   <p><span>Πατρώνυμο</span>: {{ this.data.studentsData[this.data.index].father_name}}</p>
   <p><span>Μητρώνυμο</span>: {{ this.data.studentsData[this.data.index].mother_name}}</p>
   <p><span>Επώνυμο πατέρα</span>: {{ this.data.studentsData[this.data.index].father_last_name}}</p>

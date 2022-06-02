@@ -117,4 +117,13 @@ export class DepManagerService {
         console.log(responseData.message);
       });
   }
+
+  updateStudentRanking(positionsArray: Array<Student>, departmentId: number) {
+    const form: Array<Student> = positionsArray;
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/depmanager/updateStudentRanking/" + departmentId, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
 }

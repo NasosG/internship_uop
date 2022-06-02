@@ -25,6 +25,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   // dataSource = ELEMENT_DATA;
   selected = '';
   ngSelect = "";
+  depId: any;
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -158,6 +159,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
             <th>Όνοματεπώνυμο</th> \
             <th>ΑΜ</th> \
             <th>Σκορ</th> \
+            <th>ΑΜΕΑ</th> \
           </tr> \
         </thead>");
 
@@ -171,6 +173,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "<td>" + student.sn + " " + student.givenname + "</td>" +
         "<td>" + student.schacpersonaluniquecode + "</td>" +
         "<td>" + student.score + "</td>" +
+        "<td>" + (student.amea_cat == true ? 'ΝΑΙ' : 'OXI') + "</td>" +
         "</tr>");
       i++;
     }
@@ -196,6 +199,73 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
       // width: '350px',
       data: { studentsData: this.studentsData, index: idx }
     });
+  }
+
+  async swapUp(studentRanking?: number): Promise<void> {
+    if (!studentRanking) return;
+    let positionIndex: number = (studentRanking - 1);
+    if (positionIndex <= 0) return;
+
+    this.animate(studentRanking);
+    console.log(positionIndex);
+    //this.animate(positionPriority-1);
+
+    await this.delay(600);
+    this.swapUpLogic(positionIndex);
+    this.depManagerService.updateStudentRanking(this.studentsData, 98);
+  }
+
+  async swapDown(studentRanking?: number): Promise<void> {
+    if (!studentRanking) return;
+    let positionIndex: number = (studentRanking - 1);
+    if (positionIndex + 1 >= this.studentsData.length) return;
+
+    this.animate(studentRanking);
+    console.log(positionIndex);
+    //this.animate(positionPriority+1);
+
+    await this.delay(600);
+    this.swapDownLogic(positionIndex);
+    this.depManagerService.updateStudentRanking(this.studentsData, 98);
+  }
+
+  swapUpLogic(positionIndex: number): void {
+    const tempRank: any = this.studentsData[positionIndex].ranking;
+    const tempObj: Student = this.studentsData[positionIndex];
+    this.studentsData[positionIndex].ranking = this.studentsData[positionIndex - 1].ranking;
+    this.studentsData[positionIndex] = this.studentsData[positionIndex - 1];
+    this.studentsData[positionIndex - 1].ranking = tempRank;
+    this.studentsData[positionIndex - 1] = tempObj;
+  }
+
+  swapDownLogic(positionIndex: number): void {
+    const tempRank: any = this.studentsData[positionIndex].ranking;
+    const tempObj: Student = this.studentsData[positionIndex];
+    this.studentsData[positionIndex].ranking = this.studentsData[positionIndex + 1].ranking;
+    this.studentsData[positionIndex] = this.studentsData[positionIndex + 1];
+    this.studentsData[positionIndex + 1].ranking = tempRank;
+    this.studentsData[positionIndex + 1] = tempObj;
+  }
+
+  animate(positionPriority: number): void {
+    $('#example tr#row' + positionPriority)
+      .find('td')
+      .wrapInner('<div style="display: block;" />')
+      .parent()
+      .find('td > div')
+      // .fadeOut(400)
+      // .fadeIn(400);
+      .slideUp( 600 )
+      .slideDown( 600 );
+  }
+
+  /**
+   *
+   * @param ms time in milliseconds
+   * @returns Promise<void>
+   */
+  async delay(ms: number): Promise<void>{
+    await new Promise( resolve => setTimeout(resolve, ms) );
   }
 
 }

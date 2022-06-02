@@ -25,14 +25,18 @@
                   <th>ΑΜ</th>
                   <!-- <th>email</th> -->
                   <th>Σκορ</th>
+                  <th>ΑΜΕΑ ΚΑΤ5</th>
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                <tr id="{{'row' + student.ranking}}" *ngFor="let student of studentsData ; let idx=index"
+                  [attr.data-index]="idx">
                   <td class="title" style="max-width:100px;">
-                    <a> <i style="cursor:pointer;font-size:1.4em;" class="fas fa-angle-up pr-2"></i></a>
-                    <a>&nbsp;<i style="font-size:1.4em;cursor:pointer;" class="fas fa-angle-down pr-3"></i>&nbsp;<span
+                    <a (click)="swapUp(student.ranking)"> <i style="cursor:pointer;font-size:1.4em;"
+                        class="fas fa-angle-up pr-2"></i></a>
+                    <a (click)="swapDown(student.ranking)">&nbsp;<i style="font-size:1.4em;cursor:pointer;"
+                        class="fas fa-angle-down pr-3"></i>&nbsp;<span
                         style="font-size:1.1em;">{{student.ranking}}</span></a>
                   </td>
                   <td>{{student.givenname}} {{student.sn}}</td>
@@ -40,6 +44,9 @@
                   <td>{{student.schacpersonaluniquecode}}</td>
                   <td class="title">
                     {{student.score}}
+                  </td>
+                  <td class="title">
+                    {{student.amea_cat == true ? 'ΝΑΙ' : 'OXI'}}
                   </td>
                   <td class="action text-center">
                     <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
@@ -57,6 +64,7 @@
                   <th>ΑΜ</th>
                   <!-- <th>email</th> -->
                   <th>Σκορ</th>
+                  <th>ΑΜΕΑ ΚΑΤ5</th>
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </tfoot>

@@ -104,6 +104,25 @@ const updatePeriodById = async (request, response, next) => {
   }
 };
 
+const updateStudentRanking = async (request, response) => {
+  try {
+    const departmentId = request.params.id;
+    const body = request.body;
+    await depManagerService.updateStudentRanking(departmentId, body);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student rankings were updated successfully'
+      });
+  } catch (error) {
+    console.log(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const deletePeriodById = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -151,5 +170,6 @@ module.exports = {
   insertApprovedStudentsRank,
   updatePeriodById,
   updatePhaseByStudentId,
+  updateStudentRanking,
   deletePeriodById
 };
