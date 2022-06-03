@@ -22,6 +22,10 @@ export class DepManagerService {
 
   constructor(private http: HttpClient, public authService: AuthService) { }
 
+  getDepartmentId() {
+    return this.manager.department_id;
+  }
+
   getDepManager(): Observable<DepManager> {
     const id = 2;
     const fetchedManager = this.http.get<DepManager>("http://localhost:3000/api/depmanager/getDepManagerById/" + id);

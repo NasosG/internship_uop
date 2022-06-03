@@ -212,7 +212,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
 
     await this.delay(600);
     this.swapUpLogic(positionIndex);
-    this.depManagerService.updateStudentRanking(this.studentsData, 98);
+    this.depManagerService.updateStudentRanking(this.studentsData, this.depManagerService.getDepartmentId());
   }
 
   async swapDown(studentRanking?: number): Promise<void> {
@@ -226,7 +226,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
 
     await this.delay(600);
     this.swapDownLogic(positionIndex);
-    this.depManagerService.updateStudentRanking(this.studentsData, 98);
+    this.depManagerService.updateStudentRanking(this.studentsData, this.depManagerService.getDepartmentId());
   }
 
   swapUpLogic(positionIndex: number): void {
