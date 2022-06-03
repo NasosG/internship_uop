@@ -90,8 +90,9 @@ const insertPeriod = async (body, id) => {
 };
 
 const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
+  const STUDENT_SELECTION_PHASE = 2;
   try {
-    if (genericPeriod < 3) {
+    if (genericPeriod < STUDENT_SELECTION_PHASE) {
       return;
     }
     const getStudentsPhase = await getStudentsPhase2(departmentId);
