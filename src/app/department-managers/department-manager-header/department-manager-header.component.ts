@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Utils} from 'src/app/MiscUtils';
+import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import {Period} from '../period.model';
+import { Period } from '../period.model';
 
 @Component({
   selector: 'app-department-manager-header',
@@ -20,10 +20,10 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   dateFrom: string = "";
   dateTo: string = "";
 
-  phaseArray =["no-state",
-  "1. Φάση ελέγχου επιλεξιμότητας.",
-  "2. Φάση επιλογής φοιτητών",
-  "3. Δήλωση προτίμησης από τους φοιτητές"];
+  phaseArray = ["no-state",
+    "1. Φάση ελέγχου επιλεξιμότητας.",
+    "2. Φάση επιλογής φοιτητών",
+    "3. Δήλωση προτίμησης από τους φοιτητές"];
 
   constructor(public depManagerService: DepManagerService) { }
 
@@ -37,7 +37,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
     this.depManagerService.getPeriodByUserId()
-    .subscribe((periodData: Period) => {
+      .subscribe((periodData: Period) => {
         this.periodData = periodData;
         this.dateFrom = Utils.changeDateFormat(periodData.date_from);
         this.dateTo = Utils.changeDateFormat(periodData.date_to);

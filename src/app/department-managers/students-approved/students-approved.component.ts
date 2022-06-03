@@ -31,10 +31,10 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   ngOnInit() {
-     this.depManagerService.getDepManager()
+    this.depManagerService.getDepManager()
       .pipe(
-        mergeMap((result: {department_id: number;}) =>
-        this.depManagerService.getRankedStudentsByDeptId(result?.department_id))
+        mergeMap((result: { department_id: number; }) =>
+          this.depManagerService.getRankedStudentsByDeptId(result?.department_id))
       )
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -60,8 +60,8 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
           autoWidth: false,
           responsive: true,
           select: true,
-          orderable:true,
-          columnDefs: [ { orderable: false, targets: [4] } ],
+          orderable: true,
+          columnDefs: [{ orderable: false, targets: [5] }],
           pagingType: 'full_numbers',
           processing: true,
           language: {
@@ -169,7 +169,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         // print the rows - another color for the odd lines - could be done with i % 2 != 0
         // but with bitwise operator it was a bit faster
         "<tr " + ((i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">") +
-         "<td>" + student.ranking + "</td>" +
+        "<td>" + student.ranking + "</td>" +
         "<td>" + student.sn + " " + student.givenname + "</td>" +
         "<td>" + student.schacpersonaluniquecode + "</td>" +
         "<td>" + student.score + "</td>" +
@@ -188,7 +188,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   onSubmitSelect(option: string, studentId: number) {
     // this.validateFormData(formData);
     let phase;
-    phase = (option == "option1") ? 2: -1;
+    phase = (option == "option1") ? 2 : -1;
     console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
     // this.onSavePeriodAlert();
@@ -255,8 +255,8 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
       .find('td > div')
       // .fadeOut(400)
       // .fadeIn(400);
-      .slideUp( 600 )
-      .slideDown( 600 );
+      .slideUp(600)
+      .slideDown(600);
   }
 
   /**
@@ -264,8 +264,8 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
    * @param ms time in milliseconds
    * @returns Promise<void>
    */
-  async delay(ms: number): Promise<void>{
-    await new Promise( resolve => setTimeout(resolve, ms) );
+  async delay(ms: number): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

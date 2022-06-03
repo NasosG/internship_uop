@@ -324,7 +324,7 @@ export class StudentsService {
   updatePhase(phase: number) {
     const studentId = this.authService.getSessionId();
     const phaseJson: any = { 'phase': phase };
-    console.log(phaseJson);
+    console.log("phase " + phaseJson);
     this.http
       .put<{ message: string }>("http://localhost:3000/api/students/updatePhase/" + studentId, phaseJson)
       .subscribe(responseData => {

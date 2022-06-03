@@ -103,7 +103,8 @@
           title="Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
         </i></h6>
       <mat-form-field>
-        <ngx-mat-file-input formControlName="ssnFile" placeholder="Φωτογραφία ΑΦΜ"></ngx-mat-file-input>
+        <ngx-mat-file-input (change)="validateFiles('ssnFile')" formControlName="ssnFile" placeholder="Φωτογραφία ΑΦΜ">
+        </ngx-mat-file-input>
         <!-- <mat-icon matSuffix>insert_photo</mat-icon> -->
       </mat-form-field>
       <br><br>
@@ -112,7 +113,8 @@
           title="Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
         </i></h6>
       <mat-form-field>
-        <ngx-mat-file-input formControlName="ibanFile" placeholder="Φωτογραφία ΙΒΑΝ"></ngx-mat-file-input>
+        <ngx-mat-file-input (change)="validateFiles('ibanFile')" formControlName="ibanFile"
+          placeholder="Φωτογραφία ΙΒΑΝ"></ngx-mat-file-input>
         <!-- <mat-icon matSuffix>insert_photo</mat-icon> -->
       </mat-form-field>
       <div>
@@ -206,7 +208,7 @@
       προϋποθέσεις για πραγματοποίηση πρακτικής άσκησης, θα ενεργοποιήθει η πρόσβαση σας στο σύστημα.</p>
     <div>
       <!-- <button mat-button matStepperPrevious>Πίσω</button> -->
-      <button mat-button (click)="stepper.reset()">Καθαρισμός Φόρμας</button>
+      <!-- <button mat-button (click)="stepper.reset()">Καθαρισμός Φόρμας</button> -->
     </div>
   </mat-step>
 </mat-stepper>

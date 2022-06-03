@@ -166,7 +166,7 @@ const deletePeriodById = async (id) => {
   try {
     await pool.query("UPDATE period \
                       SET is_active = 'false' \
-                      WHERE sso_uid = $1", [id]);
+                      WHERE id = $1", [id]);
   } catch (error) {
     console.log('Error while deleting period ' + error.message);
     throw Error('Error while deleting period');

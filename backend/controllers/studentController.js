@@ -16,11 +16,11 @@ const login = async (request, response, next) => {
   });
 
   const token = jwt.sign({
-    userId: userId
-  },
+      userId: userId
+    },
     "secret_this_should_be_longer", {
-    expiresIn: "1h"
-  });
+      expiresIn: "1h"
+    });
   response.status(200).json({
     token: token,
     expiresIn: 3600,
@@ -293,6 +293,7 @@ const updatePhase = async (request, response, next) => {
   try {
     const id = request.params.id;
     const phaseNumber = request.body.phase;
+    console.log("phase number" + phaseNumber + "-ID" + id);
 
     await studentService.updatePhase(phaseNumber, id);
 
@@ -600,7 +601,8 @@ const insertIbanFile = async (request, response, next) => {
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
-    let initialPath = 'C:/Users/losNasos/Documents/workspace/uop_innternsip/';
+    let initialPath = 'C:/internship_uop/';
+    // let initialPath = 'C:/Users/losNasos/Documents/workspace/uop_innternsip/';
     // let initialPath = 'C:/xampp/htdocs/internship_uop/uploads/';
     const docType = request.body.doctype;
     // let dirType = (docType == 'IBAN') ? 'ibans' : 'ssns';

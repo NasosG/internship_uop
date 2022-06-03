@@ -134,7 +134,6 @@ export class PracticeEnableComponent implements OnInit {
   }
 
   onSubmitStudentDetails(data: any) {
-    console.log(data);
     this.studentsService.updateStudentDetails(data);
   }
 
@@ -154,19 +153,9 @@ export class PracticeEnableComponent implements OnInit {
     // this.studentsService.updateStudentContractIbanFile(fileIban);
     let err = false;
     this.studentsService.updateStudentContractSSNFile(fileSSN)
-      .subscribe((responseData: { message: any; }) => {
-        console.log("ssn " + responseData.message);
-        if (responseData.message === "ERROR") {
-          err = true;
-          this.onErr();
-        }
-      }).pipe(
+      .pipe(
         mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
-          .subscribe((responseIbanData: { message: any; }) => {
-            // console.log("iban " + responseIbanData.message);
-            if (err || responseIbanData.message === "ERROR") this.onErr();
-            else this.onSave();
-          }))
+        )
       );
   }
 
@@ -196,6 +185,31 @@ export class PracticeEnableComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     });
+  }
+
+  validateFiles(docType: string) {
+    let ssnFile = this.secondFormGroup.get(docType)?.value;
+    if (ssnFile == null) {
+      return;
+    }
+    let fileName = ssnFile._fileNames;
+    let ext = fileName.match(/\.([^\.]+)$/)[1];
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+      case 'pdf':
+      case 'png':
+      case 'doc':
+      case 'docx':
+      case 'gif':
+      case 'webp':
+        console.log('Allowed file format');
+        break;
+      default:
+        this.onErr();
+        this.secondFormGroup.get(docType)?.setValue(null);
+        break;
+    }
   }
 
 }

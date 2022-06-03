@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { mergeMap, Observable, Subscription, takeUntil } from 'rxjs';
@@ -19,7 +19,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef | undefined;
   @ViewChild('fileInput2', { static: false }) fileInput2: ElementRef | undefined;
 
-  constructor(public studentsService: StudentsService) { }
+  constructor(public studentsService: StudentsService, public renderer: Renderer2) { }
 
   ngOnInit() {
     this.studentsService.getStudents()
@@ -76,20 +76,21 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.studentsService.updateStudentContractDetails(data);
 
     this.studentsService.updateStudentContractSSNFile(fileSSN)
-      .subscribe((responseData: { message: any; }) => {
-        console.log("ssn " + responseData.message);
-        if (responseData.message === "ERROR") {
-          err = true;
-          this.onErr();
-        }
-      }).pipe(
+      // .subscribe((responseData: { message: any; }) => {
+      //   console.log("ssn " + responseData.message);
+      //   if (responseData.message === "ERROR") {
+      //     err = true;
+      //     this.onErr();
+      //   }
+      // })
+      .pipe(
         mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
-          .subscribe((responseIbanData: { message: any; }) => {
-            // console.log("iban " + responseIbanData.message);
-            if (err || responseIbanData.message === "ERROR") this.onErr();
-            else this.onSave();
-          }))
-      );
+          // .subscribe((responseIbanData: { message: any; }) => {
+          //   // console.log("iban " + responseIbanData.message);
+          //   if (err || responseIbanData.message === "ERROR") this.onErr();
+          //   else this.onSave();
+          // }))
+        ));
   }
 
   onSubmitStudentBio(data: any) {
@@ -135,6 +136,56 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       // To be changed in the future refresh strategy is not good
       // location.reload();
     });
+  }
+
+  validateSsnFIle(docType: string) {
+    let elementValue = this.fileInput?.nativeElement.files[0].name;
+    if (elementValue == null) {
+      return;
+    }
+    let fileName = elementValue;
+    let ext = fileName.match(/\.([^\.]+)$/)[1];
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+      case 'pdf':
+      case 'png':
+      case 'doc':
+      case 'docx':
+      case 'gif':
+      case 'webp':
+        console.log('Allowed file format');
+        break;
+      default:
+        this.onErr();
+        this.renderer?.setProperty(this.fileInput?.nativeElement, 'value', '');
+        break;
+    }
+  }
+
+  validateIbanFIle(docType: string) {
+    let elementValue = this.fileInput2?.nativeElement.files[0].name;
+    if (elementValue == null) {
+      return;
+    }
+    let fileName = elementValue;
+    let ext = fileName.match(/\.([^\.]+)$/)[1];
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+      case 'pdf':
+      case 'png':
+      case 'doc':
+      case 'docx':
+      case 'gif':
+      case 'webp':
+        console.log('Allowed file format');
+        break;
+      default:
+        this.onErr();
+        this.renderer?.setProperty(this.fileInput2?.nativeElement, 'value', '');
+        break;
+    }
   }
 
 }
