@@ -9,130 +9,53 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <button class="btn btn-primary">Excel</button>
+            <button class="btn btn-primary"><i class='fas fa-file-export' style='font-size:24px'></i> Excel</button>
+            &nbsp;
+            <button class="btn btn-primary"><i class='fas fa-print' style='font-size:24px'></i> Print</button>
             <br><br>
-            <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions">
+            <table id="example" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Φορέας</th>
-                  <th>Τίτλος</th>
-                  <th>Περιοχή</th>
-                  <th>Φοιτητές</th>
-                  <th class="text-center">Ενέργεια</th>
+                  <th>Oναματεπώνυμο</th>
+                  <th>ΑΜ</th>
+                  <th>Επιλογές Φοιτητή</th>
+                  <th>Αποδοχή Φορέα</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>ARTENS</td>
-                  <td>Team Leader</td>
-                  <td>ΑΘΗΝΑΙΩΝ</td>
+                  <td>Αθανάσιος Γαλάτης</td>
+                  <td>201658489</td>
                   <td>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Φοιτητές</option>
-                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
-                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
-                    </select>
+                    <ol>
+                      <li>
+                        intrasoft
+                      </li>
+                      <li>
+                        citrix
+                      </li>
+                      <li>
+                        intrasoft23
+                      </li>
+                      <li>
+                        intrasoft5
+                      </li>
+                      <li>
+                        intrasoftsaf
+                      </li>
+                    </ol>
                   </td>
-                  <td class="action text-center">
-                    <a style="cursor:pointer;" (click)="editStudent()" class="text-secondary"><i class="fa fa-edit"></i>
-                      Επιλογή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>ARTENS</td>
-                  <td>Team Leader</td>
-                  <td>ΑΘΗΝΑΙΩΝ</td>
                   <td>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Φοιτητές</option>
-                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
-                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
-                    </select>
-                  </td>
-                  <td class="action text-center">
-                    <a style="cursor:pointer;" (click)="editStudent()" class="text-secondary"><i class="fa fa-edit"></i>
-                      Επιλογή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>PACKACOM</td>
-                  <td>Manager</td>
-                  <td>ΑΘΗΝΑΙΩΝ</td>
-                  <td>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Φοιτητές</option>
-                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
-                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
-                    </select>
-                  </td>
-                  <td class="action text-center">
-                    <a style="cursor:pointer;" (click)="editStudent()" class="text-secondary"><i class="fa fa-edit"></i>
-                      Επιλογή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>POTATOLAND</td>
-                  <td>Πωλητής</td>
-                  <td>ΑΘΗΝΑΙΩΝ</td>
-                  <td>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Φοιτητές</option>
-                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
-                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
-                    </select>
-                  </td>
-                  <td class="action text-center">
-                    <a style="cursor:pointer;" (click)="editStudent()" class="text-secondary"><i class="fa fa-edit"></i>
-                      Επιλογή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>MPANTABOSCLUB</td>
-                  <td>Developer</td>
-                  <td>ΑΘΗΝΑΙΩΝ</td>
-                  <td>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Φοιτητές</option>
-                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
-                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
-                    </select>
-                  </td>
-                  <td class="action text-center">
-                    <a style="cursor:pointer;" (click)="editStudent()" class="text-secondary"><i class="fa fa-edit"></i>
-                      Επιλογή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>INHOUSESOFT</td>
-                  <td>Ιχθυοπώλης</td>
-                  <td>ΜΑΝΗΣ</td>
-                  <td>
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected>Φοιτητές</option>
-                      <option value="1">Μιχαήλ Καζαφανιώτης</option>
-                      <option value="2">Ρασκόλνικοφ Γεωργίου</option>
-                    </select>
-                  </td>
-                  <td class="action text-center">
-                    <a style="cursor:pointer;" (click)="editStudent()" class="text-secondary"><i class="fa fa-edit"></i>
-                      Επιλογή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
+                    2. citrix
                   </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Φορέας</th>
-                  <th>Τίτλος</th>
-                  <th>Περιοχή</th>
-                  <th>
-                    Φοιτητές</th>
-                  <th class="text-center">Ενέργεια</th>
+                  <th>Oναματεπώνυμο</th>
+                  <th>ΑΜ</th>
+                  <th>Επιλογές Φοιτητή</th>
+                  <th>Αποδοχή Φορέα</th>
                 </tr>
               </tfoot>
             </table>

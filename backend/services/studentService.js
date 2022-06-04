@@ -383,7 +383,7 @@ const insertStudentPositionsFromUser = async (studentId, positionId, priority) =
       ` WHERE pos.atlas_position_id = ${positionId}`);
 
     const res = await findIfPositionExists(studentId, positionId);
-    if (res.poscount > 0) {
+    if (parseInt(res.poscount) > 0) {
       console.log("Already exists");
       throw Error('User has already chosen this position');
     }

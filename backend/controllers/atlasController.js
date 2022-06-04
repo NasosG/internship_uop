@@ -157,9 +157,13 @@ const insertCitiesFromAtlas = async (accessToken) => {
     });
 
     await atlasService.insertCities(atlasResponse.data.Result);
-    return { message: "Success. Inserted cities to the database." };
+    return {
+      message: "Success. Inserted cities to the database."
+    };
   } catch (error) {
-    return { message: "Failed to insert to the database." };
+    return {
+      message: "Failed to insert to the database."
+    };
   }
 };
 
@@ -177,9 +181,13 @@ const insertPrefecturesFromAtlas = async (accessToken) => {
     });
 
     await atlasService.insertPrefectures(atlasResponse.data.Result);
-    return { message: "Success. Inserted prefectures to the database." };
+    return {
+      message: "Success. Inserted prefectures to the database."
+    };
   } catch (error) {
-    return { message: "Failed to insert to the database." };
+    return {
+      message: "Failed to insert to the database."
+    };
   }
 };
 
@@ -197,9 +205,13 @@ const insertCountriesFromAtlas = async (accessToken) => {
     });
 
     await atlasService.insertCountries(atlasResponse.data.Result);
-    return { message: "Success. Inserted countries to the database." };
+    return {
+      message: "Success. Inserted countries to the database."
+    };
   } catch (error) {
-    return { message: "Failed to insert to the database." };
+    return {
+      message: "Failed to insert to the database."
+    };
   }
 };
 
@@ -215,9 +227,13 @@ const insertPhysicalObjsFromAtlas = async (accessToken) => {
     });
 
     await atlasService.insertPhysicalObjects(atlasResponse.data.Result);
-    return { message: "Success. Inserted physical objects to the database." };
+    return {
+      message: "Success. Inserted physical objects to the database."
+    };
   } catch (error) {
-    return { message: "Failed to insert to the database." };
+    return {
+      message: "Failed to insert to the database."
+    };
   }
 };
 
@@ -266,6 +282,7 @@ const getAtlasFilteredPositions = async (request, response) => {
 
     for (const item of results) {
       positionsArray.push({
+        'atlasPositionId': item.atlas_position_id,
         'positionGroupLastUpdateString': item.last_update_string,
         'city': item.city,
         'title': item.title,
@@ -375,7 +392,9 @@ const insertPositionGroup = async (accessToken) => {
     await atlasService.insertPositionGroup(positionsArray);
 
     //console.log(atlasResponse.data.Result);
-    return { message: 'done' };
+    return {
+      message: 'done'
+    };
   } catch (error) {
     console.log("ERROR -> " + error.message);
     return {

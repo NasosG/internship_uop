@@ -29,7 +29,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // this.depManagerService.receiveFile().subscribe(res => {
     //  window.open(window.URL.createObjectURL(res));
-  //  });
+    //  });
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -57,7 +57,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [ { orderable: false, targets: [6, 7] } ],
+          columnDefs: [{ orderable: false, targets: [6, 7] }],
           language: {
             // lengthMenu: 'Show _MENU_ entries'
             // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
@@ -190,7 +190,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   onSubmitSelect(option: string, studentId: number) {
     // this.validateFormData(formData);
     let phase;
-    phase = (option == "option1") ? 2: -1;
+    phase = (option == "option1") ? 2 : -1;
     console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
     // this.onSavePeriodAlert();

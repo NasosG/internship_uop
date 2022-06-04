@@ -23,7 +23,8 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   phaseArray = ["no-state",
     "1. Φάση ελέγχου επιλεξιμότητας.",
     "2. Φάση επιλογής φοιτητών",
-    "3. Δήλωση προτίμησης από τους φοιτητές"];
+    "3. Δήλωση προτίμησης από τους φοιτητές",
+    "4. Επιλογή φοιτητών από φορείς"];
 
   constructor(public depManagerService: DepManagerService) { }
 

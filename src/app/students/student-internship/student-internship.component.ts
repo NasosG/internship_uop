@@ -1,14 +1,14 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import {async} from '@angular/core/testing';
-import {Period} from 'src/app/department-managers/period.model';
-import {Utils} from 'src/app/MiscUtils';
+import { async } from '@angular/core/testing';
+import { Period } from 'src/app/department-managers/period.model';
+import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
-import {AtlasFilters} from '../atlas-filters.model';
-import {AtlasPosition} from '../atlas-position.model';
-import {City} from '../city.model';
-import {Department} from '../department.model';
-import {Student} from '../student.model';
-import {StudentsService} from '../student.service';
+import { AtlasFilters } from '../atlas-filters.model';
+import { AtlasPosition } from '../atlas-position.model';
+import { City } from '../city.model';
+import { Department } from '../department.model';
+import { Student } from '../student.model';
+import { StudentsService } from '../student.service';
 
 @Component({
   selector: 'app-student-internship',
@@ -45,8 +45,8 @@ export class StudentInternshipComponent implements OnInit {
   private INTEREST_EXPRESSION_PHASE: number = 1;
   private STUDENT_SELECTION_PHASE: number = 2;
   private PREFERENCE_DECLARATION_PHASE: number = 3;
-  public is_active: number = 0 ;
-  period: Period|undefined;
+  public is_active: number = 0;
+  period: Period | undefined;
   isDeclarationEnabled!: boolean;
   studentsSSOData!: Student[];
 
@@ -56,39 +56,39 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
-    });
+      });
     this.studentsService.getAtlasCities()
       .subscribe((fetchedCities: City[]) => {
         this.cities = fetchedCities;
-    });
+      });
     this.studentsService.getAtlasPositions(this.begin)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries = positions;
         this.setJobsDetails(0); // TODO: find a way to do it outside of subscribe
-    });
+      });
     this.studentsService.getStudentActiveApplication()
-      .subscribe((num : number) => {
+      .subscribe((num: number) => {
         console.log("active apps number: " + num);
         // if one or more apps from this student are active
         if (num >= 1) this.isAppActive = true;
-    });
+      });
     console.log("active " + this.is_active);
     //this.setJobsDetails(0);
     //let fetchedPeriod = this.studentsService?.getPeriod();
     //if (fetchedPeriod)
-      //this.setStudentCanSubmit(fetchedPeriod);
-      // console.log("prd " + this.studentsService?.getPeriod().available_positions);
+    //this.setStudentCanSubmit(fetchedPeriod);
+    // console.log("prd " + this.studentsService?.getPeriod().available_positions);
     //else {
-      this.fetchStudentAndPeriod();
+    this.fetchStudentAndPeriod();
     //}
   }
 
   public fetchStudentAndPeriod() {
-      this.studentsService.getStudents()
+    this.studentsService.getStudents()
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
         console.log(this.studentsSSOData);
-         this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
+        this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
           .subscribe((period: Period) => {
             this.period = period;
             this.setStudentCanSubmit(period);
@@ -116,7 +116,7 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasPositions(beginParam)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
-    });
+      });
   }
 
   public fetchFilteredPositions(filterArray: any) {
@@ -125,14 +125,14 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasFilteredPositions(this.begin, filterArray)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
-    });
+      });
   }
 
   public fetchMoreFilteredPositions(filterArray: any, beginParam: number) {
     this.studentsService.getAtlasFilteredPositions(beginParam, filterArray)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
-    });
+      });
   }
 
   public fetchPositionsByDate(positionDates: any) {
@@ -170,7 +170,7 @@ export class StudentInternshipComponent implements OnInit {
     this.fetchFilteredPositions(this.filters);
   }
 
-  @HostListener('window:scroll', ['$event']) onScrollEvent($event: any){
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
     this.scrollFunction();
   }
 
@@ -180,7 +180,7 @@ export class StudentInternshipComponent implements OnInit {
       $('#pos').addClass("fixed-right-desc");
     } else {
       // const a:any = document.getElementById("pos");
-       $('#pos').removeClass("fixed-right-desc");
+      $('#pos').removeClass("fixed-right-desc");
     }
   }
 
@@ -190,7 +190,7 @@ export class StudentInternshipComponent implements OnInit {
 
   setJobsDetails(index: number) {
     this.jobPositionId = this.entries[index].atlasPositionId;
-    this.jobTitle =  this.entries[index].title;
+    this.jobTitle = this.entries[index].title;
     this.jobDescription = this.entries[index].description;
     this.jobCity = this.entries[index].city;
     this.jobCompany = this.entries[index].name;
@@ -205,12 +205,12 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   public selectAll() {
-      let selectAllCheckbox: any = document.getElementById('select-all');
-      let checkboxes: any = document.getElementsByName('check-boxes');
-      for (let checkbox of checkboxes) {
-          checkbox.checked = selectAllCheckbox.checked;
-      }
-      this.fetchPositionsByWorkingHours(selectAllCheckbox);
+    let selectAllCheckbox: any = document.getElementById('select-all');
+    let checkboxes: any = document.getElementsByName('check-boxes');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = selectAllCheckbox.checked;
+    }
+    this.fetchPositionsByWorkingHours(selectAllCheckbox);
   }
 
   public selectOneOption(id: string) {
@@ -235,13 +235,13 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   searchFor(provider: any) {
-     // Clear timer
-     clearTimeout(this.timer);
+    // Clear timer
+    clearTimeout(this.timer);
 
-     // Wait for X ms and then process the request
-     this.timer = setTimeout(() => {
-        this.search(provider.value);
-     }, this.waitTime);
+    // Wait for X ms and then process the request
+    this.timer = setTimeout(() => {
+      this.search(provider.value);
+    }, this.waitTime);
   }
 
   addPosition(positionId: number) {
@@ -306,11 +306,11 @@ export class StudentInternshipComponent implements OnInit {
 
   checkIfActiveAppExists() {
     this.studentsService.getStudentActiveApplication()
-    .subscribe((num : number) => {
-      console.log(num);
-      // if (num == 1) return true;
-      // else return false;
-    });
+      .subscribe((num: number) => {
+        console.log(num);
+        // if (num == 1) return true;
+        // else return false;
+      });
 
     return false;
   }

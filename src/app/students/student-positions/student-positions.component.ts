@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Period } from 'src/app/department-managers/period.model';
+import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
-import {Student} from '../student.model';
+import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 
 @Component({
@@ -16,6 +18,9 @@ export class StudentPositionsComponent implements OnInit {
   studentApplications!: Application[];
   studentsData!: Student[];
   studentName!: string;
+  period!: Period;
+  dateFrom!: string;
+  dateTo!: string;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
@@ -26,6 +31,17 @@ export class StudentPositionsComponent implements OnInit {
     //   });
     this.applicationsCreator(this.studentsService.getStudentPositions(), 0);
     this.applicationsCreator(this.studentsService.getStudentApplications(), 1);
+    this.studentsService.getStudents()
+      .subscribe((students: Student[]) => {
+        this.studentsData = students;
+
+        this.studentsService.getPhase(this.studentsData[0]?.department_id)
+          .subscribe((period: Period) => {
+            this.period = period;
+            // this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
+            // this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+          });
+      });
   }
 
   applicationsCreator(observablesArray: any, typeValue: any) {
@@ -82,8 +98,8 @@ export class StudentPositionsComponent implements OnInit {
       .find('td > div')
       // .fadeOut(400)
       // .fadeIn(400);
-      .slideUp( 600 )
-      .slideDown( 600 );
+      .slideUp(600)
+      .slideDown(600);
   }
 
   /**
@@ -91,8 +107,8 @@ export class StudentPositionsComponent implements OnInit {
    * @param ms time in milliseconds
    * @returns Promise<void>
    */
-  async delay(ms: number): Promise<void>{
-    await new Promise( resolve => setTimeout(resolve, ms) );
+  async delay(ms: number): Promise<void> {
+    await new Promise(resolve => setTimeout(resolve, ms));
   }
 
   tempPositionsSave() {
@@ -211,37 +227,38 @@ export class StudentPositionsComponent implements OnInit {
     windowPrint?.document.write("<h3 style='text-align: center;'>" + this.studentName + "</h3><hr><br>");
 
     windowPrint?.document.write(
-      "<h2>Αιτήσεις Φοιτητή/τριας</h2>"+
+      "<h2>Αιτήσεις Φοιτητή/τριας</h2>" +
       "<table border='1' cellpadding='10'>" +
       "<tr>" +
-        "<th>Αριθμός Αίτησης</th>" +
-        "<th>Ημερομηνία Αίτησης</th>"+
-        "<th>Κατάσταση Αίτησης</th>"+
+      "<th>Αριθμός Αίτησης</th>" +
+      "<th>Ημερομηνία Αίτησης</th>" +
+      "<th>Κατάσταση Αίτησης</th>" +
       "</tr>" +
       "<tr>" +
-       ` <td>${this.studentApplications[appIndex].id}</td>` +
-       ` <td>${this.studentApplications[appIndex].application_date}</td>` +
-       ` <td>${this.studentApplications[appIndex].application_status ? ' Ενεργή' : ' Ανενεργή'} </td>` +
+      ` <td>${this.studentApplications[appIndex].id}</td>` +
+      ` <td>${this.studentApplications[appIndex].application_date}</td>` +
+      ` <td>${this.studentApplications[appIndex].application_status ? ' Ενεργή' : ' Ανενεργή'} </td>` +
       "</tr>" +
-    "</table>" + "<br>" +
-    "<h2>Θέσεις Φοιτητή/τριας</h2>"+
-    "<table border='1' cellpadding='10'>" +
+      "</table>" + "<br>" +
+      "<h2>Θέσεις Φοιτητή/τριας</h2>" +
+      "<table border='1' cellpadding='10'>" +
       "<tr>" +
-        "<th>Προτεραιότητα</th>" +
-        "<th>Εταιρεία</th>"+
-        "<th>Τίτλος</th>"+
-        "<th>Τοποθεσία</th>"+
-        "<th>Ημερομηνία Δημοσίευσης</th>"+
+      "<th>Προτεραιότητα</th>" +
+      "<th>Εταιρεία</th>" +
+      "<th>Τίτλος</th>" +
+      "<th>Τοποθεσία</th>" +
+      "<th>Ημερομηνία Δημοσίευσης</th>" +
       "</tr>" +
       ` ${this.studentApplications[appIndex].positions.map(element => {
-          return '<tr>' +
-                  '<td>' + element.priority + '</td>' +
-                  '<td>' + element.company + '</td>' +
-                  '<td>' + element.title + '</td>' +
-                  '<td>' + element.place + '</td>' +
-                  '<td>' + element.upload_date + '</td>' +
-                 '</tr>' }).join('')}` +
-    "</table>");
+        return '<tr>' +
+          '<td>' + element.priority + '</td>' +
+          '<td>' + element.company + '</td>' +
+          '<td>' + element.title + '</td>' +
+          '<td>' + element.place + '</td>' +
+          '<td>' + element.upload_date + '</td>' +
+          '</tr>'
+      }).join('')}` +
+      "</table>");
 
     windowPrint?.document.close();
     windowPrint?.focus();
