@@ -5,12 +5,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
-
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
 import { mergeMap } from 'rxjs';
-
-
 
 @Component({
   selector: 'app-students-approved',
