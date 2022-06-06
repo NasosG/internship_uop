@@ -20,7 +20,7 @@ export abstract class Utils  {
 
   public static reformatDateToEULocaleStr(date: Date): string {
     let newDate = new Date(date);
-    return (newDate.getDate() + "/" + newDate.getMonth() + "/" + newDate.getFullYear());
+    return (newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear());
   }
 
   public static getPreferredTimestamp(dateParam: any): string {

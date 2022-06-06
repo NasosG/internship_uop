@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
 import { Period } from './period.model';
 import { Student } from '../students/student.model';
+import {ActiveApplication} from './active-application.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class DepManagerService {
   public managerArray: DepManager[] = [];
   public manager!: DepManager;
   public period!: Period;
+  public activeApplications!: ActiveApplication[];
   public fetchedManagerArrayObservable!: Observable<Array<DepManager>>;
   public fetchedManagerObservable!: Observable<DepManager>;
   public fetchedPeriodObservable!: Observable<Period>;
@@ -67,6 +69,11 @@ export class DepManagerService {
     const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getRankedStudentsByDeptId/" + departmentId);
 
     return fetchedStudent;
+  }
+
+  getStudentActiveApplications(departmentId: number): Observable<Array<ActiveApplication>> {
+    return this.http
+      .get<Array<ActiveApplication>>("http://localhost:3000/api/depmanager/getStudentActiveApplications/" + departmentId);
   }
 
   insertPeriod(inputForm: any) {

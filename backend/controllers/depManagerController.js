@@ -48,6 +48,19 @@ const getRankedStudentsByDeptId = async (request, response) => {
   }
 };
 
+const getStudentActiveApplications = async (request, response) => {
+  try {
+    const deptId = request.params.id;
+    const users = await depManagerService.getStudentActiveApplications(deptId);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
+
 const insertPeriod = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -166,6 +179,7 @@ module.exports = {
   getPeriodByUserId,
   getStudentsApplyPhase,
   getRankedStudentsByDeptId,
+  getStudentActiveApplications,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

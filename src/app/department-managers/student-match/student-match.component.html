@@ -9,13 +9,18 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <button class="btn btn-primary"><i class='fas fa-file-export' style='font-size:24px'></i> Excel</button>
+            <button (click)="exportToExcel()" class="btn btn-primary"><i class='fas fa-file-export'
+                style='font-size:24px'></i> Excel</button>
             &nbsp;
-            <button class="btn btn-primary"><i class='fas fa-print' style='font-size:24px'></i> Print</button>
+            <button (click)="printDataTable()" class="btn btn-primary"><i class='fas fa-print'
+                style='font-size:24px'></i>
+              Print</button>
             <br><br>
             <table id="studentsTable" #studentsTable class="table table-bordered table-striped">
               <thead>
                 <tr>
+                  <th>Αριθμός Αίτησης</th>
+                  <th>Ημερομηνία Αίτησης</th>
                   <th>Oναματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή</th>
@@ -23,27 +28,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Αθανάσιος Γαλάτης</td>
-                  <td>201658489</td>
+                <tr *ngFor="let activeApplication of activeApplications">
+                  <td>{{activeApplication.app_id}}</td>
+                  <td>{{activeApplication.applicationDateStr}}</td>
+                  <td>{{activeApplication.firstname}} {{activeApplication.lastname}}</td>
+                  <td>{{activeApplication.reg_code}}</td>
                   <td>
-                    <ol>
-                      <li>
-                        intrasoft
-                      </li>
-                      <li>
-                        citrix
-                      </li>
-                      <li>
-                        intrasoft23
-                      </li>
-                      <li>
-                        intrasoft5
-                      </li>
-                      <li>
-                        intrasoftsaf
-                      </li>
-                    </ol>
+                    <div *ngFor="let position of activeApplication.positions; let idx=index" [attr.data-index]="idx">
+                      {{idx + 1}}. {{position.company}}
+                    </div>
                   </td>
                   <td>
                     2. citrix
@@ -52,6 +45,8 @@
               </tbody>
               <tfoot>
                 <tr>
+                  <th>Αριθμός Αίτησης</th>
+                  <th>Ημερομηνία Αίτησης</th>
                   <th>Oναματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή</th>

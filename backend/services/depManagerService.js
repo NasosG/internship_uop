@@ -69,6 +69,17 @@ const getRankedStudentsByDeptId = async (deptId) => {
   }
 };
 
+const getStudentActiveApplications = async (deptId) => {
+  try {
+    const applications = await pool.query("SELECT * FROM active_applications \
+                                      WHERE department_id = $1", [deptId]);
+    return applications.rows;
+  } catch (error) {
+    throw Error('Error while fetching student active applications');
+  }
+};
+
+
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -220,6 +231,7 @@ module.exports = {
   getPeriodByUserId,
   getStudentsApplyPhase,
   getRankedStudentsByDeptId,
+  getStudentActiveApplications,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,
