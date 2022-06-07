@@ -376,6 +376,7 @@ const insertPositionGroup = async (accessToken) => {
 
       providersArray.push({
         'atlasProviderId': providerResults.message.ID,
+        'afm': providerResults.message.AFM,
         'name': providerResults.message.Name,
         'providerContactEmail': providerResults.message.ContactEmail,
         'providerContactName': providerResults.message.ContactName,
@@ -399,7 +400,7 @@ const insertPositionGroup = async (accessToken) => {
     console.log("ERROR -> " + error.message);
     return {
       status: "400 bad request",
-      message: "something went wrong while fetching academics"
+      message: "something went wrong while inserting position groups"
     };
   }
 };

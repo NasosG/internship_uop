@@ -151,13 +151,14 @@ const insertProvider = async (data) => {
       // if (getProviders(item.atlasProviderId) > 0) { }
       // else
       await pool.query("INSERT INTO atlas_provider" +
-        '(name, contact_email, contact_name, contact_phone, atlas_provider_id)' +
-        " VALUES " + "($1, $2, $3, $4, $5)",
+        '(name, contact_email, contact_name, contact_phone, atlas_provider_id, afm)' +
+        " VALUES " + "($1, $2, $3, $4, $5, $6)",
         [item.name,
         item.providerContactEmail,
         item.providerContactName,
         item.providerContactPhone,
-        item.atlasProviderId
+        item.atlasProviderId,
+        item.afm
         ]);
     }
   } catch (error) {
