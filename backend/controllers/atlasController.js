@@ -354,34 +354,42 @@ const insertPositionGroup = async (accessToken) => {
           'academicsId': atlasAcademics[key].ID
         });
       }
+      try {
+        let positionPushed = false;
 
-      positionsArray.push({
-        'lastUpdateString': item.PositionGroupLastUpdateString.replace("μμ", "pm").replace("πμ", "am"),
-        'city': positionGroupResults.message.City,
-        'title': positionGroupResults.message.Title,
-        'description': positionGroupResults.message.Description,
-        'positionType': positionGroupResults.message.PositionType,
-        'availablePositions': positionGroupResults.message.AvailablePositions,
-        'duration': positionGroupResults.message.Duration,
-        'physicalObjects': positionGroupResults.message.PhysicalObjects,
-        'providerId': positionGroupResults.message.ProviderID,
-        'atlasPositionId': positionGroupResults.message.ID,
-        'atlasCityId': positionGroupResults.message.CityID,
-        'atlasCountryId': positionGroupResults.message.CountryID,
-        'atlasPrefectureId': positionGroupResults.message.PrefectureID,
-        'academics': academics
-      });
+        positionsArray.push({
+          'lastUpdateString': item.PositionGroupLastUpdateString.replace("μμ", "pm").replace("πμ", "am"),
+          'city': positionGroupResults.message.City,
+          'title': positionGroupResults.message.Title,
+          'description': positionGroupResults.message.Description,
+          'positionType': positionGroupResults.message.PositionType,
+          'availablePositions': positionGroupResults.message.AvailablePositions,
+          'duration': positionGroupResults.message.Duration,
+          'physicalObjects': positionGroupResults.message.PhysicalObjects,
+          'providerId': positionGroupResults.message.ProviderID,
+          'atlasPositionId': positionGroupResults.message.ID,
+          'atlasCityId': positionGroupResults.message.CityID,
+          'atlasCountryId': positionGroupResults.message.CountryID,
+          'atlasPrefectureId': positionGroupResults.message.PrefectureID,
+          'academics': academics
+        });
 
-      academics = []; // reset the array just to be sure
+        positionPushed = true;
+        academics = []; // reset the array just to be sure
 
-      providersArray.push({
-        'atlasProviderId': providerResults.message.ID,
-        'afm': providerResults.message.AFM,
-        'name': providerResults.message.Name,
-        'providerContactEmail': providerResults.message.ContactEmail,
-        'providerContactName': providerResults.message.ContactName,
-        'providerContactPhone': providerResults.message.ContactPhone
-      });
+        providersArray.push({
+          'atlasProviderId': providerResults.message.ID,
+          'afm': providerResults.message.AFM,
+          'name': providerResults.message.Name,
+          'providerContactEmail': providerResults.message.ContactEmail,
+          'providerContactName': providerResults.message.ContactName,
+          'providerContactPhone': providerResults.message.ContactPhone
+        });
+      } catch (ex) {
+        console.log("Failed to fetch provider or position group: " + ex.message);
+        if (positionPushed) positionsArray.pop();
+        continue;
+      }
     }
 
     // remove duplicates from provider's array
