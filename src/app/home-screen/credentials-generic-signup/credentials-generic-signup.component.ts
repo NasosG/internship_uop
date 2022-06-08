@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-credentials-generic-login',
-  templateUrl: './credentials-generic-login.component.html',
-  styleUrls: ['./credentials-generic-login.component.css']
+  selector: 'app-credentials-generic-signup',
+  templateUrl: './credentials-generic-signup.component.html',
+  styleUrls: ['./credentials-generic-signup.component.css']
 })
+export class CredentialsGenericSignupComponent implements OnInit {
 
-export class CredentialsGenericLoginComponent implements OnInit {
-
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -25,4 +24,5 @@ export class CredentialsGenericLoginComponent implements OnInit {
     // toggle the eye / eye slash icon
     togglePasswordBtn.classList?.toggle('fa-eye-slash');
   }
+
 }

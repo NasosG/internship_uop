@@ -22,6 +22,10 @@ const routes: Routes = [{
   component: HomeComponent
 },
 {
+  path: 'credentials-generic-signup',
+  component: HomeComponent
+},
+{
   path: 'student',
   children: [{
     path: ':id',
