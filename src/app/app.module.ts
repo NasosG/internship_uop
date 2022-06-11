@@ -61,6 +61,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PracticeEnableComponent } from './students/practice-enable/practice-enable.component';
 import { CredentialsGenericSignupComponent } from './home-screen/credentials-generic-signup/credentials-generic-signup.component';
+import { HomeHeaderComponent } from './home-screen/home-header/home-header.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -106,7 +107,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetEvaluationPreviewComponent,
     PracticeEnableComponent,
     StudentsApprovedComponent,
-    CredentialsGenericSignupComponent
+    CredentialsGenericSignupComponent,
+    HomeHeaderComponent
   ],
   imports: [
     BrowserModule,

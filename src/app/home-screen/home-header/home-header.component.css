@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #e5e5e5;
+  font-size: 14px;
+}
+
+.minor-heading {
+  width: 197px;
+  color: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 18px;
+  text-align: center;
+}
+
+.main-heading {
+  width: 449px;
+  color: rgba(34, 73, 87, 1);
+  font-family: Lexend Deca;
+  font-weight: Regular;
+  font-size: 48px;
+}
+
+.uop-logo-blue {
+  width: 94px;
+  height: 91px;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+button:active {
+  opacity: 0.7;
+}
+
+
+@media only screen and (max-width: 799px) {
+  .div-company {
+    padding-left: 17px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .allomiso {
+    margin-top: 50px;
+  }
+}

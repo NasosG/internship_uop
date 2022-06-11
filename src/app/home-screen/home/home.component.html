@@ -4,12 +4,9 @@
       <div class="col-12 col-md-7 left-col">
         <br />
         <input type="checkbox" id="ChangeTheme" />
-        <div class="v3_60">
-          <h1 id="mainHeading" class="main-heading">{{ 'HOME.TITLE' | translate }}</h1>
-          <br />
-          <img id="uopLogo" src="../../../assets/images/pelopas.png" class="uop-logo-blue" />
-          <br /><br />
-          <span *ngIf="isRoute()" id="minorHeading" class="minor-heading">{{ 'HOME.LOGIN-TEXT' | translate }}</span>
+        <div *ngIf="isRoute()" class="v3_60">
+          <app-home-header></app-home-header>
+          <span id="minorHeading" class="minor-heading">{{ 'HOME.LOGIN-TEXT' | translate }}</span>
         </div>
         <app-home-buttons *ngIf="isRoute()"></app-home-buttons>
         <app-student-login-terms *ngIf="isTermsRoute()"></app-student-login-terms>
