@@ -19,7 +19,7 @@ export class CompanyService {
   private readonly baseUrl = "http://localhost:3000/api/company";
 
   public getCompaniesByAfm(afm: string): Observable<Array<Company>> {
-    const fetchedCompanies = this.http.get<Array<Company>>("http://localhost:3000/api/company/getProviderByAfm/" + afm);
+    const fetchedCompanies = this.http.get<Array<Company>>(this.baseUrl + "/getProviderByAfm/" + afm);
 
     // this.fetchedCompanyArrayObservable = fetchedCompanies;
     // this.fetchedCompanyArrayObservable.subscribe((companies: Company[]) => {
