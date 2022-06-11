@@ -23,12 +23,9 @@ const insertCompanyUsers = async (request, response, next) => {
 const getProviderByAfm = async (request, response) => {
   try {
     const afm = request.params.afm;
-    const providerAfm = await companyService.getProviderByAfm(afm);
-    response
-      .status(201)
-      .json({
-        message: providerAfm.rows
-      });
+    const providers = await companyService.getProviderByAfm(afm);
+    response.status(200).json(providers);
+
   } catch (error) {
     console.error(error.message);
     response.status(404)
@@ -36,7 +33,7 @@ const getProviderByAfm = async (request, response) => {
         message: error.message
       });
   }
-}
+};
 
 module.exports = {
   insertCompanyUsers,

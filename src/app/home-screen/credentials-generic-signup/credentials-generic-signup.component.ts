@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Company } from '../../companies/company.model';
+import { CompanyService } from '../../companies/company.service';
 
 @Component({
   selector: 'app-credentials-generic-signup',
@@ -6,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./credentials-generic-signup.component.css']
 })
 export class CredentialsGenericSignupComponent implements OnInit {
+  @ViewChild('AFMInput') afmInput!: ElementRef;
+  companiesArray: Company[] = [];
 
-  constructor() { }
+  constructor(public companyService: CompanyService) { }
 
   ngOnInit(): void {
   }
@@ -25,4 +29,17 @@ export class CredentialsGenericSignupComponent implements OnInit {
     togglePasswordBtn.classList?.toggle('fa-eye-slash');
   }
 
+  onBlur(): void {
+    console.log('Focus Is Lost for this Element');
+    let vatRegValue = this.afmInput?.nativeElement.value;
+      this.companyService.getCompaniesByAfm(vatRegValue)
+      .subscribe((providers: Company[]) => {
+        this.companiesArray = providers;
+        console.log(this.companiesArray);
+      });
+  }
+
+  onSubmitCompanyDetails(val: any) {
+
+  }
 }

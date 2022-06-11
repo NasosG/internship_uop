@@ -29,11 +29,11 @@ const insertProviders = async (body) => {
 const getProviderByAfm = async (afm) => {
   try {
     const providerByAfm = await pool.query("SELECT * FROM atlas_provider WHERE afm = $1 ", [afm]);
-    return providerByAfm;
+    return providerByAfm.rows;
   } catch (error) {
     throw Error('Error while fetching afm');
   }
-}
+};
 
 
 module.exports = {
