@@ -1,7 +1,8 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Company } from '../../companies/company.model';
 import { CompanyService } from '../../companies/company.service';
+import {CompanySelectionDialogComponent} from '../company-selection-dialog/company-selection-dialog.component';
 
 
 @Component({
@@ -53,33 +54,15 @@ export class CredentialsGenericSignupComponent implements OnInit {
   }
 
   openDialog(data: Company[]) {
-    const dialogRef = this.dialog.open(CompanySelectionDialog, {
+    const dialogRef = this.dialog.open(CompanySelectionDialogComponent, {
       // width: '350px',
       data: { providers: data }
     });
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result);
     });
   }
 
-
-}
-
-@Component({
-  selector: 'company-selection-dialog',
-  templateUrl: 'company-selection-dialog.html',
-  styleUrls: ['company-selection-dialog.css']
-})
-export class CompanySelectionDialog {
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public dialogRef: MatDialogRef<CompanySelectionDialog>) { }
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
 }
