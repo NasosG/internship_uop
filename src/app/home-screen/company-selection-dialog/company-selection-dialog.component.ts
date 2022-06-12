@@ -9,6 +9,7 @@ import { Company } from '../../companies/company.model';
 })
 export class CompanySelectionDialogComponent implements OnInit {
   selectedRow!: number;
+  selectedRowsArrayIndex!: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
@@ -21,7 +22,8 @@ export class CompanySelectionDialogComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  changeSelectedRow(id: number) {
+  changeSelectedRow(id: number, index: number) {
     this.selectedRow = id;
+    this.selectedRowsArrayIndex = index;
   }
 }

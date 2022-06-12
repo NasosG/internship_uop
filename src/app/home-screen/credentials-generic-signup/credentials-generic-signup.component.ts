@@ -13,6 +13,7 @@ import {CompanySelectionDialogComponent} from '../company-selection-dialog/compa
 export class CredentialsGenericSignupComponent implements OnInit {
   @ViewChild('AFMInput') afmInput!: ElementRef;
   companiesArray: Company[] = [];
+  companiesArrayTemp: Company[] = [];
 
   constructor(public companyService: CompanyService, public dialog: MatDialog) { }
 
@@ -42,6 +43,7 @@ export class CredentialsGenericSignupComponent implements OnInit {
           this.companiesArray = providers;
         }
         else if (providers.length > 1) {
+          this.companiesArrayTemp = providers;
           console.log('Multiple companies with the same AFM detected')
           this.openDialog(providers);
         }
@@ -62,6 +64,8 @@ export class CredentialsGenericSignupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result);
+      this.companiesArray = [];
+      this.companiesArray[0] = this.companiesArrayTemp[result];
     });
   }
 
