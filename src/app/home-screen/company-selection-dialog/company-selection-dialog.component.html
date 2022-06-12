@@ -1,5 +1,5 @@
 <h2>Επιλογή Εταιρείας/Φορέα</h2>
-<table class="table">
+<table id="tbl" class="table">
   <thead>
     <tr>
       <th scope="col">Α.Α.</th>
@@ -9,7 +9,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr cdkFocusInitial class="hovered" *ngFor="let option of this.data.providers; let i=index">
+    <tr id="{{'tr'+option.id}}" (click)="changeSelectedRow(option.id)"
+      [ngClass]="{'selected': selectedRow === option.id}" class="hovered"
+      *ngFor="let option of this.data.providers; let i=index">
       <td scope="row">{{i + 1}}</td>
       <td scope="row">{{option.name}}</td>
       <td scope="row">{{option.contact_phone}}</td>
@@ -17,5 +19,6 @@
   </tbody>
 </table>
 <div mat-dialog-actions>
-  <button class="btn btn-primary" mat-button (click)="onCancel()">Πίσω</button>
+  <button class="btn btn-secondary" mat-button (click)="onCancel()">Πίσω</button>
+  <button class="btn btn-primary" mat-button [mat-dialog-close]="selectedRow">Ok</button>
 </div>

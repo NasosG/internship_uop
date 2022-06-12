@@ -8,6 +8,7 @@ import { Company } from '../../companies/company.model';
   styleUrls: ['./company-selection-dialog.component.css']
 })
 export class CompanySelectionDialogComponent implements OnInit {
+  selectedRow!: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
@@ -18,8 +19,9 @@ export class CompanySelectionDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  ngOnInit(): void { }
 
-  ngOnInit(): void {
+  changeSelectedRow(id: number) {
+    this.selectedRow = id;
   }
-
 }
