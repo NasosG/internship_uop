@@ -36,4 +36,13 @@ export class CompanyService {
         console.log(responseData.message);
       });
   }
+
+  loginCompany(companyDetails: any) {
+    console.log("2 " + {companyDetails});
+    this.http
+      .post<{ message: string }>(this.baseUrl + "/insertCompanyUser/", companyDetails )
+       .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
 }

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { Company } from '../../companies/company.model';
 import { CompanyService } from '../../companies/company.service';
-import {CompanySelectionDialogComponent} from '../company-selection-dialog/company-selection-dialog.component';
+import { CompanySelectionDialogComponent } from '../company-selection-dialog/company-selection-dialog.component';
 
 
 @Component({
@@ -57,7 +57,8 @@ export class CredentialsGenericSignupComponent implements OnInit {
     this.companyService.insertCompany(data);
     // this.onSave();
   }
- onSave() {
+
+  onSave() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
       text: 'Τα στοιχεία σας ενημερώθηκαν επιτυχώς',
@@ -67,11 +68,10 @@ export class CredentialsGenericSignupComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-      // Reload the Page
-      // To be changed in the future refresh strategy is not good
       location.reload();
     });
   }
+
   openDialog(data: Company[]) {
     const dialogRef = this.dialog.open(CompanySelectionDialogComponent, {
       // width: '350px',

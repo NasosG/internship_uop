@@ -54,9 +54,33 @@ const getProviderByAfm = async (afm) => {
   }
 };
 
+const userAlreadyExists = async (username, password) => {
+  try {
+    let usernameFoundResult = await pool.query("SELECT * FROM generic_users WHERE username = $1 AND password = $2", [username, password]);
+    return usernameFoundResult;
+  } catch (error) {
+    throw Error('Error while checking if username already exists');
+  }
+};
+
+const companyLogin = async (username, password) => {
+  try {
+    const userAlreadyExists = await userAlreadyExists(username, password);
+    if (!userAlreadyExists.rowCount == 0) {
+      console.log('invalid credentials');
+      return;
+    }
+
+
+    return userAlreadyExists.rows[0].g_user_id;
+  } catch (error) {
+    throw Error('Error while logging in');
+  }
+};
 
 module.exports = {
   insertCompanyUsers,
   insertProviders,
-  getProviderByAfm
+  getProviderByAfm,
+  companyLogin
 };

@@ -16,11 +16,11 @@ const login = async (request, response, next) => {
   });
 
   const token = jwt.sign({
-      userId: userId
-    },
+    userId: userId
+  },
     "secret_this_should_be_longer", {
-      expiresIn: "1h"
-    });
+    expiresIn: "1h"
+  });
   response.status(200).json({
     token: token,
     expiresIn: 3600,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-credentials-generic-login',
@@ -7,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class CredentialsGenericLoginComponent implements OnInit {
+  @ViewChild('username') usernameInput!: ElementRef;
+  @ViewChild('password') passwordInput!: ElementRef;
 
-  constructor() {}
+  constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
   }
@@ -24,5 +27,9 @@ export class CredentialsGenericLoginComponent implements OnInit {
     inputPassword?.setAttribute('type', type);
     // toggle the eye / eye slash icon
     togglePasswordBtn.classList?.toggle('fa-eye-slash');
+  }
+
+  login() {
+    this.authService.loginWithPassword(this.usernameInput?.nativeElement.value, this.passwordInput?.nativeElement.value);
   }
 }

@@ -39,6 +39,15 @@ export class AuthService {
       // });
   }
 
+  loginWithPassword(username: string, password: string) {
+    return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/company/login', {"username": username, "password": password});
+      // .subscribe((response) => {
+      //   this.token=response.token;
+      //   this.sessionId=response.userId;
+      //   console.log(response);
+      // });
+  }
+
   logout() {
     // clear token
     this.token = '';
