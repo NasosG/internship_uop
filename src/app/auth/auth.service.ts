@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private isAuthenticated = false;
   private token: string | undefined;
   private sessionId = 0;
+  private shown: boolean = false;
+  private authStatusListener = new Subject<Boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -14,8 +18,20 @@ export class AuthService {
     return this.token;
   }
 
+  getShown() {
+    return this.shown;
+  }
+
+  setShown(value:boolean) {
+    this.shown = value;
+  }
+
   getSessionId(): number {
     return this.sessionId;
+  }
+
+  getIsAuthenticated(): Boolean {
+    return this.isAuthenticated;
   }
 
   public setToken(tokenParam: string|undefined) {
@@ -32,27 +48,31 @@ export class AuthService {
     // const id = 1;
     // this.http.post<{ token: string, userId: number }>('http://localhost:3000/api/students/login/' + id, username)
     return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/students/login', {"username": username});
-      // .subscribe((response) => {
-      //   this.token=response.token;
-      //   this.sessionId=response.userId;
-      //   console.log(response);
-      // });
   }
 
   loginWithPassword(username: string, password: string) {
-    return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/company/login', {"username": username, "password": password});
-      // .subscribe((response) => {
-      //   this.token=response.token;
-      //   this.sessionId=response.userId;
-      //   console.log(response);
-      // });
+    console.log(username + "|" + password);
+    this.shown = true;
+    this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/company/login', {"username": username, "password": password})
+     .subscribe((response) => {
+        this.token = response.token;
+        this.sessionId = response.userId;
+        if (this.token) {
+          this.isAuthenticated = true;
+          this.authStatusListener.next(true);
+          this.router.navigate(['/companies']);
+        }
+      }, error => {
+        alert("Λάθος στοιχεία χρήστη");
+        location.reload();
+    });
   }
 
   logout() {
     // clear token
     this.token = '';
-    // this.isAuthenticated = false;
-    // this.authStatusListener.next(false);
+    this.isAuthenticated = false;
+    this.authStatusListener.next(false);
     // clearTimeout(this.tokenTimer);
     // this.clearAuthData();
 

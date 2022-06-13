@@ -33,6 +33,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -63,6 +64,7 @@ import { PracticeEnableComponent } from './students/practice-enable/practice-ena
 import { CredentialsGenericSignupComponent } from './home-screen/credentials-generic-signup/credentials-generic-signup.component';
 import { HomeHeaderComponent } from './home-screen/home-header/home-header.component';
 import { CompanySelectionDialogComponent } from './home-screen/company-selection-dialog/company-selection-dialog.component';
+import { UopLoadingScreenComponent } from './generic-components/uop-loading-screen/uop-loading-screen.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -110,7 +112,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentsApprovedComponent,
     CredentialsGenericSignupComponent,
     HomeHeaderComponent,
-    CompanySelectionDialogComponent
+    CompanySelectionDialogComponent,
+    UopLoadingScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -128,6 +131,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatStepperModule,
     MatDialogModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule,

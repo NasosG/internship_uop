@@ -63,16 +63,16 @@ const userAlreadyExists = async (username, password) => {
   }
 };
 
-const companyLogin = async (username, password) => {
+const loginCompany = async (username, password) => {
   try {
-    const userAlreadyExists = await userAlreadyExists(username, password);
-    if (!userAlreadyExists.rowCount == 0) {
+    const userAlreadyExist = await userAlreadyExists(username, password);
+    if (userAlreadyExist.rowCount == 0) {
       console.log('invalid credentials');
       return;
     }
 
 
-    return userAlreadyExists.rows[0].g_user_id;
+    return userAlreadyExist.rows[0].g_user_id;
   } catch (error) {
     throw Error('Error while logging in');
   }
@@ -82,5 +82,5 @@ module.exports = {
   insertCompanyUsers,
   insertProviders,
   getProviderByAfm,
-  companyLogin
+  loginCompany
 };

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-credentials-generic-login',
@@ -10,10 +11,16 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class CredentialsGenericLoginComponent implements OnInit {
   @ViewChild('username') usernameInput!: ElementRef;
   @ViewChild('password') passwordInput!: ElementRef;
+  isLoading: boolean = false;
+  shown: boolean = false;
+  color: string = 'accent';
 
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
+    if (!this.authService.getIsAuthenticated()) {
+      this.onSave();
+    }
   }
 
   rememberMe() {}
@@ -29,7 +36,20 @@ export class CredentialsGenericLoginComponent implements OnInit {
     togglePasswordBtn.classList?.toggle('fa-eye-slash');
   }
 
+  onSave() {
+    Swal.fire({
+      title: 'Ενημέρωση στοιχείων',
+      text: 'Έκανες λάθος',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    })
+  }
+
   login() {
+    this.isLoading = true;
     this.authService.loginWithPassword(this.usernameInput?.nativeElement.value, this.passwordInput?.nativeElement.value);
   }
 }

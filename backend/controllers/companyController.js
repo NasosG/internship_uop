@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const companyService = require("../services/companyService");
 
 const insertCompanyUsers = async (request, response, next) => {
@@ -43,21 +44,24 @@ const login = async (request, response) => {
   const password = request.body.password;
   const userId = await companyService.loginCompany(username, password);
 
-  if (userId == null) response.status(401).json({
-    message: 'Unauthorized'
-  });
+  if (userId == null)
+    response.status(401).json({
+      message: 'Unauthorized'
+    });
+  else {
+    const token = jwt.sign({
+      userId: userId
+    },
+      "secret_this_should_be_longer", {
+      expiresIn: "1h"
+    });
 
-  const token = jwt.sign({
-    userId: userId
-  },
-    "secret_this_should_be_longer", {
-    expiresIn: "1h"
-  });
-  response.status(200).json({
-    token: token,
-    expiresIn: 3600,
-    userId: userId
-  });
+    response.status(200).json({
+      token: token,
+      expiresIn: 3600,
+      userId: userId
+    });
+  }
 };
 
 module.exports = {
