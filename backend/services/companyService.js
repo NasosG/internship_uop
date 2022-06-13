@@ -6,10 +6,19 @@ const pool = require("../db_config.js");
 
 const insertCompanyUsers = async (body) => {
   try {
+    const users = await checkIfUsernameAlreadyExists(body.username);
+
+    if (users.rowCount > 0) {
+      console.log("Username already exists");
+      return false;
+    }
+
     await pool.query("INSERT INTO generic_users (username, password, atlas_account, user_type, company_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5)",
       [body.username, body.password, 'false', 'company', null]);
+
+    return true;
   } catch (error) {
     throw Error('Error while inserting company users');
   }
@@ -25,6 +34,16 @@ const insertProviders = async (body) => {
     throw Error('Error while inserting providers');
   }
 };
+
+const checkIfUsernameAlreadyExists = async (username) => {
+  try {
+    let usernameFoundResult = await pool.query("SELECT * FROM generic_users WHERE username = $1", [username]);
+    return usernameFoundResult;
+  } catch (error) {
+    throw Error('Error while checking if username already exists');
+  }
+};
+
 
 const getProviderByAfm = async (afm) => {
   try {

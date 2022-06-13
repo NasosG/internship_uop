@@ -2,9 +2,12 @@ const companyService = require("../services/companyService");
 
 const insertCompanyUsers = async (request, response, next) => {
   try {
+    console.log("!" + request.body);
     const company = request.body;
-    await companyService.insertCompanyUsers(company);
-    await companyService.insertProviders(company);
+    const accountCreated = await companyService.insertCompanyUsers(company);
+    if (accountCreated) {
+      await companyService.insertProviders(company);
+    }
 
     response
       .status(201)

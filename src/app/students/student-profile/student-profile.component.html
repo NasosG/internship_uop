@@ -266,11 +266,8 @@
                   <br />- Το ΑΜΚΑ αντλείται από τo φοιτητολόγιο. Σε περίπτωση
                   που δεν συμφωνείτε επικοινωνήστε με την γραμματεία
                 </div>
-                <form ngNativeValidate #studentContractDetailsForm="ngForm" class="form-horizontal" (ngSubmit)="
-                    onSubmitStudentContractDetails(
-                      studentContractDetailsForm.value
-                    )
-                  ">
+                <form ngNativeValidate #studentContractDetailsForm="ngForm" class="form-horizontal"
+                  (ngSubmit)="onSubmitStudentContractDetails(studentContractDetailsForm.value)">
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">ΑΦΜ&nbsp;<span
                         class="text-danger">*</span></label>
