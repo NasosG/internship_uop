@@ -58,7 +58,7 @@ export class CredentialsGenericSignupComponent implements OnInit {
       });
   }
 
-  onSubmitCompanyDetails(data:any) {
+  onSubmitCompanyDetails(data: any) {
     let passwordsMatch = this.validatePasswords();
     if (!passwordsMatch) return;
     console.log(data);
@@ -73,7 +73,6 @@ export class CredentialsGenericSignupComponent implements OnInit {
         console.log("error");
         this.onError();
     });
-    // this.onSave();
   }
 
   //check if passwords are the same
@@ -103,20 +102,6 @@ export class CredentialsGenericSignupComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     })
-  }
-
-   onSave() {
-    Swal.fire({
-      title: 'Ενημέρωση στοιχείων',
-      text: 'Τα στοιχεία σας ενημερώθηκαν επιτυχώς',
-      icon: 'success',
-      showCancelButton: false,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'ΟΚ'
-    }).then((result) => {
-      location.reload();
-    });
   }
 
   openDialog(data: Company[]) {
