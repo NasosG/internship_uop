@@ -18,9 +18,9 @@ export class CredentialsGenericLoginComponent implements OnInit {
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
-    if (!this.authService.getIsAuthenticated()) {
-      this.onSave();
-    }
+    // if (!this.authService.getIsAuthenticated()) {
+    //   this.onSave();
+    // }
   }
 
   rememberMe() {}
