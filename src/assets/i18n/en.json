@@ -38,7 +38,8 @@
     "CONTACT": "Contact"
   },
   "GENERIC": {
-    "CONTACT": "Contact"
+    "CONTACT": "Contact",
+    "PASSWORDS-NOT-MATCH": "Passwords do not match"
   },
   "STUDENT": {
     "PROFILE": "Profile",

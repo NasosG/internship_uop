@@ -122,6 +122,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       location.reload();
     });
   }
+
   onErr() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',

@@ -1,5 +1,7 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { Company } from '../../companies/company.model';
 import { CompanyService } from '../../companies/company.service';
@@ -13,13 +15,17 @@ import { CompanySelectionDialogComponent } from '../company-selection-dialog/com
 })
 export class CredentialsGenericSignupComponent implements OnInit {
   @ViewChild('AFMInput') afmInput!: ElementRef;
+  @ViewChild('password') password!: ElementRef;
+  @ViewChild('repeatPassword') repeatPassword!: ElementRef;
+
+  isLoading: boolean = false;
+  passwordsNotMatch: string = "";
   companiesArray: Company[] = [];
   companiesArrayTemp: Company[] = [];
 
-  constructor(public companyService: CompanyService, public dialog: MatDialog) { }
+  constructor(public companyService: CompanyService, public dialog: MatDialog, public authService: AuthService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   rememberMe() { }
 
@@ -53,12 +59,53 @@ export class CredentialsGenericSignupComponent implements OnInit {
   }
 
   onSubmitCompanyDetails(data:any) {
+    let passwordsMatch = this.validatePasswords();
+    if (!passwordsMatch) return;
     console.log(data);
-    this.companyService.insertCompany(data);
+    this.companyService.insertCompany(data)
+    .subscribe(responseData => {
+        this.isLoading = true;
+        console.log(responseData.message);
+        this.authService.loginWithPassword(data.username, data.password);
+      },
+      (error: HttpErrorResponse) => {
+        // Handle error
+        console.log("error");
+        this.onError();
+    });
     // this.onSave();
   }
 
-  onSave() {
+  //check if passwords are the same
+  checkIfPasswordsMatch() {
+    if (this.password?.nativeElement.value == this.repeatPassword?.nativeElement.value) {
+        this.passwordsNotMatch = "";
+    } else {
+        this.passwordsNotMatch = "GENERIC.PASSWORDS-NOT-MATCH";
+    }
+  }
+
+  validatePasswords() {
+    if (this.passwordsNotMatch != null && this.passwordsNotMatch != "") {
+      alert("Passwords do not match");
+      return false;
+    }
+    return true;
+  }
+
+  onError() {
+    Swal.fire({
+      title: 'Σφάλμα',
+      text: 'Το username χρησιμοποείται ήδη',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    })
+  }
+
+   onSave() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
       text: 'Τα στοιχεία σας ενημερώθηκαν επιτυχώς',

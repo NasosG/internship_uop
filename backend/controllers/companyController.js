@@ -3,11 +3,18 @@ const companyService = require("../services/companyService");
 
 const insertCompanyUsers = async (request, response, next) => {
   try {
-    console.log("!" + request.body);
     const company = request.body;
     const accountCreated = await companyService.insertCompanyUsers(company);
     if (accountCreated) {
       await companyService.insertProviders(company);
+    }
+    else {
+      console.error('not created');
+      response.status(409)
+        .json({
+          message: 'not created'
+        });
+      return;
     }
 
     response
