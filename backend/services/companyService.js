@@ -4,6 +4,17 @@ const {
 } = require("rxjs");
 const pool = require("../db_config.js");
 
+const getProviderById = async (id) => {
+  try {
+    const companies = await pool.query("SELECT * FROM generic_users gu \
+                                        INNER JOIN atlas_provider pr ON gu.company_id = pr.id \
+                                        WHERE gu.g_user_id = $1", [id]);
+    return companies.rows[0];
+  } catch (error) {
+    throw Error('Error while fetching company users');
+  }
+};
+
 const insertCompanyUsers = async (body) => {
   try {
     const users = await checkIfUsernameAlreadyExists(body.username);
@@ -16,7 +27,7 @@ const insertCompanyUsers = async (body) => {
     await pool.query("INSERT INTO generic_users (username, password, atlas_account, user_type, company_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5)",
-      [body.username, body.password, 'false', 'company', null]);
+      [body.username, body.password, 'false', 'company', body.id]);
 
     return true;
   } catch (error) {
@@ -82,5 +93,6 @@ module.exports = {
   insertCompanyUsers,
   insertProviders,
   getProviderByAfm,
+  getProviderById,
   loginCompany
 };

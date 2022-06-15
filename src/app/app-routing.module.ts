@@ -129,23 +129,23 @@ const routes: Routes = [{
 {
   path: 'companies',
   children: [{
-    path: '',
+    path: ':id',
     component: CompanyComponent
   },
   {
-    path: 'selected-students',
+    path: 'selected-students/:id',
     component: CompanyComponent
   },
   {
-    path: 'edit-period',
+    path: 'edit-period/:id',
     component: CompanyComponent
   },
   {
-    path: 'students-applications',
+    path: 'students-applications/:id',
     component: CompanyComponent
   },
   {
-    path: 'match-students',
+    path: 'match-students/:id',
     component: CompanyComponent
   },
   {

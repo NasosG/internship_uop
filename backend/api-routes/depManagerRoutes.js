@@ -12,7 +12,7 @@ router.post("/insertPeriod/:id", depManagerController.insertPeriod);
 router.post("/insertApprovedStudentsRank/:id", depManagerController.insertApprovedStudentsRank);
 router.put("/updatePhaseByStudentId/:id", depManagerController.updatePhaseByStudentId);
 router.put("/updatePeriodById/:id", depManagerController.updatePeriodById);
-router.delete("/deletePeriodById/:id", depManagerController.deletePeriodById);
 router.put("/updateStudentRanking/:id", depManagerController.updateStudentRanking);
+router.delete("/deletePeriodById/:id", depManagerController.deletePeriodById);
 
 module.exports = router;

@@ -36,6 +36,12 @@ export class CompanyService {
       // });
   }
 
+  getProviderById(): Observable<Company> {
+    const providerId = this.authService.getSessionId();
+    return this.http
+      .get<Company>(this.baseUrl + "/getProviderById/" + providerId );
+  }
+
   loginCompany(companyDetails: any) {
     this.http
       .post<{ message: string }>(this.baseUrl + "/insertCompanyUser/", companyDetails )

@@ -46,6 +46,23 @@ const getProviderByAfm = async (request, response) => {
   }
 };
 
+const getProviderById = async (request, response) => {
+  try {
+    console.log("Asd " + request.params.id);
+    const companyId = request.params.id;
+    const providers = await companyService.getProviderById(companyId);
+    console.log("Asd " + providers);
+    response.status(200).json(providers);
+
+  } catch (error) {
+    console.error(error.message);
+    response.status(404)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 const login = async (request, response) => {
   const username = request.body.username;
   const password = request.body.password;
@@ -74,5 +91,6 @@ const login = async (request, response) => {
 module.exports = {
   insertCompanyUsers,
   getProviderByAfm,
+  getProviderById,
   login
 };

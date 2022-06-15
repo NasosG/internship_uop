@@ -60,7 +60,7 @@ export class AuthService {
         if (this.token) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
-          this.router.navigate(['/companies']);
+          this.router.navigate(['/companies/' + this.sessionId]);
         }
       }, error => {
         alert("Λάθος στοιχεία χρήστη");
