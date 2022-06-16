@@ -27,6 +27,12 @@ export class AuthService {
   }
 
   getSessionId(): number {
+    if (!this.sessionId) {
+      let userId: any = localStorage.getItem("sessionId");
+      let userIdNumber = Number.parseInt(userId);
+      this.sessionId = userIdNumber;
+    }
+
     return this.sessionId;
   }
 
@@ -60,12 +66,19 @@ export class AuthService {
         if (this.token) {
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          this.saveAuthData(this.token, /*expirationDate,*/ this.sessionId);
           this.router.navigate(['/companies/' + this.sessionId]);
         }
       }, error => {
         alert("Λάθος στοιχεία χρήστη");
         location.reload();
     });
+  }
+
+  private saveAuthData(token: string, /*expirationDate: Date,*/ userId: number) {
+    localStorage.setItem("token", token);
+    //localStorage.setItem("expiration", expirationDate.toISOString());
+    localStorage.setItem("sessionId", userId.toString());
   }
 
   logout() {
