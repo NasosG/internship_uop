@@ -65,6 +65,7 @@ import { CredentialsGenericSignupComponent } from './home-screen/credentials-gen
 import { HomeHeaderComponent } from './home-screen/home-header/home-header.component';
 import { CompanySelectionDialogComponent } from './home-screen/company-selection-dialog/company-selection-dialog.component';
 import { UopLoadingScreenComponent } from './generic-components/uop-loading-screen/uop-loading-screen.component';
+import { PositionUploadComponent } from './companies/position-upload/position-upload.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -113,7 +114,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CredentialsGenericSignupComponent,
     HomeHeaderComponent,
     CompanySelectionDialogComponent,
-    UopLoadingScreenComponent
+    UopLoadingScreenComponent,
+    PositionUploadComponent
   ],
   imports: [
     BrowserModule,

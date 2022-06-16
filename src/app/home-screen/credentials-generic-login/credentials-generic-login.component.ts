@@ -15,7 +15,7 @@ export class CredentialsGenericLoginComponent implements OnInit {
   shown: boolean = false;
   color: string = 'accent';
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
     // if (!this.authService.getIsAuthenticated()) {
@@ -23,7 +23,7 @@ export class CredentialsGenericLoginComponent implements OnInit {
     // }
   }
 
-  rememberMe() {}
+  rememberMe() { }
 
   passwordToggle() {
     const inputPassword = document.getElementById('password');
@@ -51,5 +51,9 @@ export class CredentialsGenericLoginComponent implements OnInit {
   login() {
     this.isLoading = true;
     this.authService.loginWithPassword(this.usernameInput?.nativeElement.value, this.passwordInput?.nativeElement.value);
+  }
+
+  submitOnEnter() {
+    this.login();
   }
 }

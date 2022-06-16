@@ -7,8 +7,7 @@ const insertCompanyUsers = async (request, response, next) => {
     const accountCreated = await companyService.insertCompanyUsers(company);
     if (accountCreated) {
       await companyService.insertProviders(company);
-    }
-    else {
+    } else {
       console.error('not created');
       response.status(409)
         .json({
@@ -48,10 +47,8 @@ const getProviderByAfm = async (request, response) => {
 
 const getProviderById = async (request, response) => {
   try {
-    console.log("Asd " + request.params.id);
     const companyId = request.params.id;
     const providers = await companyService.getProviderById(companyId);
-    console.log("Asd " + providers);
     response.status(200).json(providers);
 
   } catch (error) {
@@ -74,11 +71,11 @@ const login = async (request, response) => {
     });
   else {
     const token = jwt.sign({
-      userId: userId
-    },
+        userId: userId
+      },
       "secret_this_should_be_longer", {
-      expiresIn: "1h"
-    });
+        expiresIn: "1h"
+      });
 
     response.status(200).json({
       token: token,

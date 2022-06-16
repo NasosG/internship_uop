@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,16 +7,48 @@ import Swal from 'sweetalert2';
   styleUrls: ['./students-applications.component.css']
 })
 export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
+  @ViewChild('appTable') table: ElementRef | undefined;
 
-  constructor() { }
+  constructor(private chRef: ChangeDetectorRef) { }
 
   dtOptions: any = {};
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.chRef.detectChanges();
 
-  randomNumber() {
-    return Math.floor(Math.random() * 1000000);
+    // Use of jQuery DataTables
+    const table: any = $('#appTable');
+    this.table = table.DataTable({
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All']
+      ],
+      lengthChange: true,
+      paging: true,
+      searching: true,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      responsive: true,
+      select: true,
+      pagingType: 'full_numbers',
+      processing: true,
+      columnDefs: [{ orderable: false, targets: [3, 5, 6] }],
+      language: {
+        // lengthMenu: 'Show _MENU_ entries'
+        // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
+        // : "Επίδειξη","ENTRIES": "εγγραφών ανά σελίδα"
+        // // lengthMenu: 'Display _MENU_ records per page',
+        // zeroRecords: 'Nothing found - sorry',
+        // info: 'Showing page _PAGE_ of _PAGES_',
+        // infoEmpty: 'No records available',
+        // infoFiltered: '(filtered from _MAX_ total records)',
+      },
+      // pageLength: 8
+    });
   }
+
+
 
   changeSelectedColor() {
     // var alphas = new Array;
@@ -43,7 +75,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    $('#example1').DataTable();
+    // $('#example1').DataTable();
 
     $('.kl').change(function () {
       if ($(this).val() === "ΟΧΙ") {
@@ -60,8 +92,8 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
   fireTheWhole() {
     Swal.fire({
-      title: 'Επιλογή θέσεων',
-      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στη προσθήκη φοιτητών;',
+      title: 'Αποδοχή Φοιτητών',
+      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην επιλογή των φοιτητών;',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
