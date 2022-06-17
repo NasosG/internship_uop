@@ -15,8 +15,8 @@ export class PositionUploadComponent implements OnInit {
 
   fireTheWhole() {
     Swal.fire({
-      title: 'Οριστικοποίηση θέσεων',
-      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην οριστικοποίηση των θέσεων για πρακτική άσκηση;',
+      title: 'Ανάρτηση Θέσεων',
+      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην τελική ανάρτηση των θέσεων για πρακτική άσκηση;',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
