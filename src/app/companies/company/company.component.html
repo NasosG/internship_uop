@@ -10,7 +10,6 @@
       <div class="app-child app-bounce3"></div>
     </div>
   </div> -->
-
   <!-- Navbar -->
   <nav id="nav-bar" class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -19,8 +18,8 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a [routerLink]="['/companies/students-applications/' + this.authService.getSessionId()]" class="nav-link"> <i
-            style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
+        <a [routerLink]="['/companies/' + this.authService.getSessionId()]" class="nav-link"> <i
+            style="font-size:1.2em;" class="fa fa-home"></i> {{'HOME-PAGE-BTN' | translate}}</a>
       </li>
     </ul>
 
@@ -89,7 +88,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="cursor-pointer dropdown-item">
-              <i class="fas fa-sign-out-alt"></i>&nbsp; Αποσύνδεση</a>
+              <i class="fas fa-sign-out-alt"></i>&nbsp; {{'STUDENT.LOGOUT' | translate}}</a>
           </div>
         </li>
       </ul>
@@ -97,13 +96,19 @@
       <div class="dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <i class="fas fa-lg fa-globe"></i>
-          Γλώσσα
+          {{'LANGUAGE-BTN' | translate}}
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#" class="dropdown-item"><img src="../../../assets/images/greeceIcon.png" width="24" height="24">
-              &nbsp; Ελληνικά</a></li>
-          <li><a href="#" class="dropdown-item"> <img src="../../../assets/images/englishIcon.png" width="24"
-                height="24"> &nbsp; Αγγλικά</a></li>
+          <li>
+            <a (click)="changeLang('gr')" class="cursor-pointer dropdown-item"><img
+                src="../../../assets/images/greeceIcon.png" width="24" height="24" />
+              &nbsp; {{'LANGUAGE-SELECT-GR' | translate}}</a>
+          </li>
+          <li>
+            <a (click)="changeLang('en')" class="cursor-pointer dropdown-item">
+              <img src="../../../assets/images/englishIcon.png" width="24" height="24" />
+              &nbsp; {{'LANGUAGE-SELECT-EN' | translate}}</a>
+          </li>
         </ul>
       </div>
 
@@ -133,7 +138,7 @@
     <a [routerLink]="['/companies/'+ this.authService.getSessionId()]" class="brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
-      <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
+      <span class="brand-text font-weight-light">{{'BRAND-SPAN' | translate}}</span>
     </a>
 
     <!-- Sidebar -->
@@ -145,17 +150,17 @@
         </div>
         <div class="info ml-4">
           <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
-          <a class="d-block">Φορέας/Εταιρεία</a>
+          <a class="d-block">{{'COMPANY.COMPANY' | translate}} / {{'COMPANY.CARRIER' | translate}}</a>
         </div>
       </div>
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <!-- <img src="assets/images/user2-160x160.jpg"> -->
-          <img src="assets/images/aofsointrInc.png" class="img-circle elevation-2" alt="User Image" />
-        </div>
-        <div class="info">
-          <a class="d-block">Aofsointr Inc</a>
+        <!-- <div class="image"> -->
+        <!-- <img src="assets/images/user2-160x160.jpg"> -->
+        <!-- <img src="assets/images/aofsointrInc.png" class="img-circle elevation-2" alt="User Image" />
+        </div> -->
+        <div class="info ml-4">
+          <a class="d-block fas fa-business-time">&nbsp; intrasoft</a>
         </div>
       </div>
 
@@ -177,7 +182,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">Βασικές Επιλογές</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-MAIN-OPTIONS' | translate}}</li>
           <!-- <li class="nav-item">
             <a [routerLink]="['/department-manager/add-period']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-calendar"></i>
@@ -186,13 +191,22 @@
               </p>
             </a>
           </li> -->
-
+          <li class="nav-item">
+            <a [routerLink]="['/companies/students-positions/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-tasks"></i>
+              <p>
+                {{'COMPANY.POSITIONS' | translate}}
+                <!-- <i class="right fas fa-angle-left"></i> -->
+              </p>
+            </a>
+          </li>
           <li class="nav-item">
             <a [routerLink]="['/companies/students-applications/' + this.authService.getSessionId()]"
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Αιτήσεις Φοιτητών
+                {{'COMPANY.STUDENT-APPLICATIONS' | translate}}
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
@@ -202,23 +216,23 @@
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
-                Επιλεγμένοι Φοιτητές
+                {{'COMPANY.CHOSEN-STUDENTS' | translate}}
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
           </li>
-          <li class="nav-header">Δευτερεύουσες Επιλογές</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
-              <p>Εγχειρίδια</p>
+              <p>{{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
             </a>
           </li>
           <li class="nav-item">
             <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
-                Σχετικά
+                {{'STUDENT.SIDEBAR-ABOUT' | translate}}
                 <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
@@ -244,10 +258,11 @@
             </ul> -->
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/companies/contact']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/companies/contact/'+ this.authService.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
-                Επικοινωνία
+                {{'STUDENT.SIDEBAR-CONTACT' | translate}}
                 <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
@@ -258,41 +273,40 @@
               <p>Το ημερολόγιό μου</p>
             </a>
           </li> -->
-          <li class="nav-header">Προσβασιμότητα</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="nav-icon fas fa-ruler"></i>
               <p>
-                Μέγεθος Κειμένου
+                {{'STUDENT.TEXT-SIZE' | translate}}
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
             </a>
-
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a (click)="changeFont('+')" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search-plus"></i>
-                  <p>Μεγέθυνση</p>
+                  <p>{{'STUDENT.ENLARGE' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a (click)="changeFont('-')" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search-minus"></i>
-                  <p>Σμίκρυνση</p>
+                  <p>{{'STUDENT.REDUCE' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a (click)="resetFont()" class="cursor-pointer nav-link">
                   <i class="nav-icon fa fa-search"></i>
-                  <p>Κανονικό</p>
+                  <p>{{'STUDENT.NORMAL' | translate}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a class="nav-link">
                   <i class="nav-icon fas fa-ruler-combined"></i>
-                  <p>Τρέχον Μέγεθος</p>
-                  <span class="badge badge-info right">100%</span>
+                  <p>{{'STUDENT.CURRENT-SIZE' | translate}}</p>
+                  <span id="fontSizeSpan" class="badge badge-info right">100%</span>
                 </a>
               </li>
             </ul>
@@ -300,7 +314,8 @@
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="fas fa-adjust"></i>
-              <p> &nbsp;&nbsp;&nbsp;Αντίθεση Κειμένου
+              <p>
+                &nbsp;&nbsp;&nbsp;{{'STUDENT.TEXT-CONTRAST' | translate}}
                 <i class="fas fa-angle-left right"></i>
                 <!-- <span class="badge badge-info right">100%</span> -->
               </p>
@@ -308,9 +323,9 @@
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a id="darkmodeBtn" class="cursor-pointer nav-link">
                   <i class="nav-icon fas fa-moon"></i>
-                  <p>Λευκό/Μαύρο</p>
+                  <p>{{'STUDENT.BLACK-WHITE' | translate}}</p>
                 </a>
               </li>
             </ul>
@@ -321,8 +336,7 @@
     </div>
     <!-- /.sidebar -->
   </aside>
-
-  <div class="content-wrapper">
+  <div id="content-wrapper" class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -335,12 +349,11 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <!-- <app-period-add *ngIf="isPeriodAddRoute() || isDepartmentMangerRoute()"></app-period-add> -->
-        <!-- <app-period-edit *ngIf="isPeriodEditRoute()"></app-period-edit> -->
+        <app-company-home *ngIf="homeScreen()"></app-company-home>
+        <app-position-upload *ngIf="isPositionUploaded()"></app-position-upload>
         <companies-students-applications *ngIf="isStudentApplications()"></companies-students-applications>
         <app-selected-students *ngIf="isSelectedStudentsRoute()"></app-selected-students>
         <app-contact *ngIf="isContactRoute()"></app-contact>
-        <!-- <app-student-match *ngIf="isMatchStudentsRoute()"></app-student-match> -->
       </div>
     </section>
     <!-- /.content -->

@@ -99,5 +99,18 @@
   "DEPT-MANAGER": {
     "SHOW-RESULTS": "Show",
     "ENTRIES": "entries"
+  },
+  "COMPANY": {
+    "CARRIER": "Carrier",
+    "COMPANY": "Company",
+    "POSITIONS": "Internship Positons",
+    "STUDENT-APPLICATIONS": "Student Applications",
+    "CHOSEN-STUDENTS": "Chosen Students",
+    "INSTRUCTIONS": "Instructions for posting a position and accepting a student",
+    "STEPS-INTRO": "In case you have not posted an internship position on the ATLAS platform you can post a position from this system. If you have posted a post on the atlas, proceed to step 2",
+    "STEPS": "The steps for the internship are as follow:",
+    "STEP1": "Step 1: Post internships positions by filling in all the fields",
+    "STEP2": "Step 2: See the students who have chosen you and accept the ones you want",
+    "STEP3": "Step 3: View of the selected students"
   }
 }

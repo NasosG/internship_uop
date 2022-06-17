@@ -1,1 +1,75 @@
-<p>position-upload works!</p>
+<section class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Θέσεις Πρακτικής</h3> <br>
+          </div>
+          <div class="card-body">
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Τίτλος θέσης</mat-label>
+                <input matInput>
+              </mat-form-field>
+            </div>
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Περιγραφή Θέσης</mat-label>
+                <textarea matInput></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Ωράριο</mat-label>
+                <mat-select>
+                  <mat-option value="one">Πλήρες Ωράριο</mat-option>
+                  <mat-option value="two">Μερικό Ωράριο</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Διάρκεια</mat-label>
+                <mat-select>
+                  <mat-option value="one">Έως 6 μήνες</mat-option>
+                  <mat-option value="two">Έως 12 μήνες</mat-option>
+                  <mat-option value="two">Έως 24 μήνες</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Περιοχή θέσης</mat-label>
+                <input matInput>
+              </mat-form-field>
+            </div>
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Διαθέσιμες Θέσεις</mat-label>
+                <mat-select>
+                  <mat-option value="one">1</mat-option>
+                  <mat-option value="two">2</mat-option>
+                  <mat-option value="two">3</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm">
+              <mat-form-field appearance="fill">
+                <mat-label>Τμήμα</mat-label>
+                <mat-select>
+                  <mat-option value="one">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</mat-option>
+                  <mat-option value="two">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ</mat-option>
+                  <mat-option value="two">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-auto pb-5" style="margin:auto; text-align:center;">
+    <button class="btn btn-primary" (click)="fireTheWhole()"> ΟΡΙΣΤΙΚΟΠΟΙΗΣΗ ΕΠΙΛΟΓΩΝ</button>
+  </div>
+</section>

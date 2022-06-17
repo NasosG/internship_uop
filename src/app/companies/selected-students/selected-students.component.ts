@@ -6,35 +6,13 @@ import Swal from 'sweetalert2';
   templateUrl: './selected-students.component.html',
   styleUrls: ['./selected-students.component.css']
 })
-export class SelectedStudentsComponent implements OnInit, AfterViewInit {
+export class SelectedStudentsComponent implements OnInit {
 
   constructor() { }
 
   dtOptions: any = {};
 
   ngOnInit() { }
-
-  randomNumber() {
-    return Math.floor(Math.random() * 1000000);
-  }
-
-  changeSelectedColor() { }
-
-  ngAfterViewInit(): void {
-    $('#example1').DataTable();
-
-    $('.kl').change(function () {
-      if ($(this).val() === "ΟΧΙ") {
-        $(this).addClass("text-danger");
-        $(this).removeClass("text-success");
-      }
-      else {
-        $(this).toggleClass("text-success");
-        $(this).removeClass("text-danger");
-      }
-    })
-  }
-
 
   fireTheWhole() {
     Swal.fire({

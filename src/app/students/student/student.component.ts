@@ -14,7 +14,6 @@ import { Period } from 'src/app/department-managers/period.model';
   styleUrls: ['./student.component.css'],
 })
 export class StudentComponent implements OnInit, OnDestroy {
-
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
 
@@ -42,15 +41,15 @@ export class StudentComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
 
-//  this.authService.login('pcst19009');
+    //  this.authService.login('pcst19009');
     this.fetchStudentAndPeriod();
   }
 
   // ngAfterViewInit(): void { }
 
   public fetchStudentAndPeriod() {
-     this.authService.login('pcst19003')
-       .subscribe((response) => {
+    this.authService.login('pcst19003')
+      .subscribe((response) => {
         this.authService.setToken(response.token);
         this.authService.setSessionId(response.userId);
         console.log(response);
@@ -60,14 +59,14 @@ export class StudentComponent implements OnInit, OnDestroy {
             this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
             this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
             this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
-            .subscribe((period: Period) => {
-              this.period = period;
-              this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
-              this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
-              this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
-              this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
-            });
-        });
+              .subscribe((period: Period) => {
+                this.period = period;
+                this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
+                this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+                this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
+                this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
+              });
+          });
       });
   }
 

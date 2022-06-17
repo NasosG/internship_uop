@@ -1,0 +1,39 @@
+<div class="alert alert-danger" role="alert">
+  Δεν είναι η τρέχουσα περίοδος Πρακτικής Άσκησης.
+</div>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-book mr-1"></i>
+      {{'COMPANY.INSTRUCTIONS'| translate}}
+    </h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="tab-content p-0">
+
+      <div class="chart tab-pane active" id="revenue-chart">
+        <div>
+          {{'COMPANY.STEPS-INTRO'|translate}}
+          <br><br>
+        </div>
+        {{'COMPANY.STEPS'| translate}}
+        <ul class="pt-2">
+          <li> <a class="text-steps" [href]="['companies/students-positions/' + this.authService.getSessionId()]">
+              &nbsp;{{'COMPANY.STEP1'| translate}}</a>
+          </li>
+          <li> <a class="text-steps" [href]="['companies/students-applications/' + this.authService.getSessionId()]">
+              &nbsp;{{'COMPANY.STEP2'| translate}}</a>
+          </li>
+          <li> <a class="text-steps" [href]="['companies/selected-students/' + this.authService.getSessionId()]">
+              &nbsp;{{'COMPANY.STEP3'| translate}} </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

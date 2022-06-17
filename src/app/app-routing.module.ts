@@ -63,26 +63,26 @@ const routes: Routes = [{
     path: 'sheets',
     component: StudentComponent,
     children: [
-    {
-      path: ':id',
-      component: StudentComponent
-    },
-    {
-      path: 'input-sheet/:id',
-      component: StudentComponent
-    },
-    {
-      path: 'output-sheet/:id',
-      component: StudentComponent
-    },
-    {
-      path: 'input-sheet-preview/:id',
-      component: StudentComponent
-    },
-    {
-      path: 'evaluation-form/:id',
-      component: StudentComponent
-    }]
+      {
+        path: ':id',
+        component: StudentComponent
+      },
+      {
+        path: 'input-sheet/:id',
+        component: StudentComponent
+      },
+      {
+        path: 'output-sheet/:id',
+        component: StudentComponent
+      },
+      {
+        path: 'input-sheet-preview/:id',
+        component: StudentComponent
+      },
+      {
+        path: 'evaluation-form/:id',
+        component: StudentComponent
+      }]
   },
   {
     path: 'student-contract',
@@ -133,11 +133,7 @@ const routes: Routes = [{
     component: CompanyComponent
   },
   {
-    path: 'selected-students/:id',
-    component: CompanyComponent
-  },
-  {
-    path: 'edit-period/:id',
+    path: 'students-positions/:id',
     component: CompanyComponent
   },
   {
@@ -145,11 +141,11 @@ const routes: Routes = [{
     component: CompanyComponent
   },
   {
-    path: 'match-students/:id',
+    path: 'selected-students/:id',
     component: CompanyComponent
   },
   {
-    path: 'contact',
+    path: 'contact/:id',
     component: CompanyComponent
   }
   ]
