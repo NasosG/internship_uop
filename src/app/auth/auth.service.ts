@@ -81,13 +81,19 @@ export class AuthService {
     localStorage.setItem("sessionId", userId.toString());
   }
 
+  private clearAuthData() {
+    localStorage.removeItem("token");
+    //localStorage.setItem("expiration", expirationDate.toISOString());
+    localStorage.removeItem("sessionId");
+  }
+
   logout() {
     // clear token
     this.token = '';
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
     // clearTimeout(this.tokenTimer);
-    // this.clearAuthData();
+    this.clearAuthData();
 
     this.router.navigate(["/"]);
   }

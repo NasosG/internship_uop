@@ -258,7 +258,8 @@ const getAvailablePositionGroupsUI = async (request, response) => {
         'providerContactEmail': item.contact_email,
         'providerContactName': item.contact_name,
         'providerContactPhone': item.contact_phone,
-        'atlasPositionId': item.atlas_position_id
+        'atlasPositionId': item.atlas_position_id,
+        'afm': item.afm
       });
     }
 

@@ -1,9 +1,10 @@
 
 import { Injectable } from '@angular/core';
 import { mergeMap, Observable, Subject } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { Company } from "./company.model";
+import {ActiveApplicationsRanked} from './active-applications-ranked.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,13 @@ export class CompanyService {
     //   this.companyArray = [...companies];
     // });
     return fetchedCompanies;
+  }
+
+  public getStudentActiveApplications(companyName: string, companyAFM: string): Observable<Array<ActiveApplicationsRanked>> {
+    const params = new HttpParams()
+      .set('companyName', companyName)
+      .set('companyAFM', companyAFM);
+    return this.http.get<Array<ActiveApplicationsRanked>>(this.baseUrl + "/getStudentActiveApplications", { params });
   }
 
   insertCompany(companyDetails: any) {

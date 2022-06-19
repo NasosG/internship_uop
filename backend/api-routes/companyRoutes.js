@@ -4,6 +4,7 @@ const companyController = require("../controllers/companyController.js");
 
 router.get("/getProviderByAfm/:afm", companyController.getProviderByAfm);
 router.get("/getProviderById/:id", companyController.getProviderById);
+router.get("/getStudentActiveApplications/", companyController.getStudentActiveApplications);
 router.post("/insertCompanyUser/", companyController.insertCompanyUsers);
 router.post("/login/", companyController.login);
 

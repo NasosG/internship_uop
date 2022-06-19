@@ -20,17 +20,19 @@
                   <th>Τμήμα</th>
                   <th>email</th>
                   <th>Σκορ</th>
+                  <th>Ημερομηνία Αίτησης</th>
                   <th>Ενέργειες</th>
                   <th> Επιλογή</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Γραμματειακή Υποστήριξη</td>
-                  <td>Αθανάσιος Μητρόπουλος</td>
-                  <td>Διαχείρηση περιβαλλοντος</td>
+                <tr *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
+                  <td>{{app.app_id}}</td>
+                  <td>{{app.firstname}} {{app.lastname}}</td>
+                  <td>{{app.department_id}}</td>
                   <td>psct19003@uop.gr</td>
-                  <td>8.3</td>
+                  <td>{{app.score}}</td>
+                  <td>18/06/2022</td>
                   <td>
                     <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
                       Προβολή<br></a></td>
@@ -42,12 +44,13 @@
                     </select>
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td>Ανάπτυξη Εφαρμογών</td>
                   <td>Αθανάσιος Γαλάτης</td>
                   <td>Επιστήμη Υπολογιστών</td>
                   <td>psct19009@uop.gr</td>
                   <td>8.6</td>
+                  <td>18/06/2022</td>
                   <td>
                     <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
                       Προβολή<br></a></td>
@@ -58,7 +61,7 @@
                       <option class="kl2 text-success">ΝΑΙ</option>
                     </select>
                   </td>
-                </tr>
+                </tr> -->
               </tbody>
               <tfoot>
                 <tr>
@@ -67,6 +70,7 @@
                   <th>Τμήμα</th>
                   <th>email</th>
                   <th>Σκορ</th>
+                  <th>Ημερομηνία Αίτησης</th>
                   <th>Ενέργειες</th>
                   <th> Επιλογή</th>
                 </tr>

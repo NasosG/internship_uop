@@ -11,7 +11,8 @@ export interface AtlasPosition {
   title: string,
   name: string,
   positionGroupLastUpdateString: Date,
-  atlasPositionId: number
+  atlasPositionId: number,
+  afm?: string
   // PositionGroupID: string,
   // Department: string,
   // DepartmentID: number,

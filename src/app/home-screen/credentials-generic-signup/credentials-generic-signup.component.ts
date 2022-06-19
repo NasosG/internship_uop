@@ -61,12 +61,16 @@ export class CredentialsGenericSignupComponent implements OnInit {
   onSubmitCompanyDetails(data: any) {
     let passwordsMatch = this.validatePasswords();
     if (!passwordsMatch) return;
-    console.log(data);
-    this.companyService.insertCompany(data)
+    const id = {
+      "id": this.companiesArray[0].id
+    };
+    let allData = Object.assign(data, id);
+    console.log(allData);
+    this.companyService.insertCompany(allData)
     .subscribe(responseData => {
         this.isLoading = true;
         console.log(responseData.message);
-        this.authService.loginWithPassword(data.username, data.password);
+        this.authService.loginWithPassword(allData.username, allData.password);
       },
       (error: HttpErrorResponse) => {
         // Handle error
@@ -115,6 +119,7 @@ export class CredentialsGenericSignupComponent implements OnInit {
       console.log(result);
       this.companiesArray = [];
       this.companiesArray[0] = this.companiesArrayTemp[result];
+      console.log(this.companiesArray[0]);
     });
   }
 

@@ -6,7 +6,13 @@ const insertCompanyUsers = async (request, response, next) => {
     const company = request.body;
     const accountCreated = await companyService.insertCompanyUsers(company);
     if (accountCreated) {
-      await companyService.insertProviders(company);
+      if (company.id == null || company.id == "") {
+        await companyService.insertProviders(company);
+
+        // TODO: in this situation either
+        // 1. remove insert query from above and put in underneath - if id exists insert hat one or else make a new provider and insert that id.
+        // 2. update previous inserted provided and insert the right id of the newly created provider.
+      }
     } else {
       console.error('not created');
       response.status(409)
@@ -60,6 +66,20 @@ const getProviderById = async (request, response) => {
   }
 };
 
+const getStudentActiveApplications = async (request, response) => {
+  try {
+    const companyName = request.query.companyName;
+    const companyAFM = request.query.companyAFM;
+    //console.log(companyName + " " + companyAFM);
+    const users = await companyService.getStudentActiveApplications(companyName, companyAFM);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 const login = async (request, response) => {
   const username = request.body.username;
   const password = request.body.password;
@@ -71,11 +91,11 @@ const login = async (request, response) => {
     });
   else {
     const token = jwt.sign({
-        userId: userId
-      },
+      userId: userId
+    },
       "secret_this_should_be_longer", {
-        expiresIn: "1h"
-      });
+      expiresIn: "1h"
+    });
 
     response.status(200).json({
       token: token,
@@ -89,5 +109,6 @@ module.exports = {
   insertCompanyUsers,
   getProviderByAfm,
   getProviderById,
+  getStudentActiveApplications,
   login
 };

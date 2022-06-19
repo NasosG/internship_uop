@@ -73,7 +73,7 @@ const getStudentEvaluationSheets = async (id) => {
 
 const getStudentPositions = async (id) => {
   try {
-    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date, position_id \
+    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date, position_id, afm \
                                                       FROM student_positions \
                                                       WHERE student_id = $1 \
                                                       ORDER BY priority", [id]);
@@ -187,8 +187,8 @@ const updateStudentEntrySheet = async (form, studentId) => {
       "A3_1 = $10, A3_2 = $11, A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
       " WHERE student_id = $17 ",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
+      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
         studentId
       ]);
     return updateResults;
@@ -215,8 +215,8 @@ const insertStudentEntrySheet = async (form, studentId) => {
     const insertResults = await pool.query("INSERT INTO entry_form" +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
+      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
       ]);
     return insertResults;
   } catch (error) {
@@ -242,6 +242,7 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
 
 const insertStudentApplication = async (body, studentId) => {
   try {
+
     await pool.query("INSERT INTO student_applications" +
       '(student_id, positions, application_date, application_status )' +
       " VALUES " + "($1, $2, now(), 'true')",
@@ -366,18 +367,18 @@ const updateStudentPositions = async (studentId, body) => {
 const insertStudentPositions = async (studentId, body) => {
   try {
     // console.log(body);
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) " +
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm) " +
       " VALUES" +
-      " ($1, $2, $3, $4, $5, $6, $7)",
-      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id]);
+      " ($1, $2, $3, $4, $5, $6, $7, $8)",
+      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id, body.afm]);
   } catch (error) {
-    throw Error('Error while inserting student positions');
+    throw Error('Error while inserting student positions' + body.afm);
   }
 };
 
 const insertStudentPositionsFromUser = async (studentId, positionId, priority) => {
   try {
-    const positionInfo = await pool.query("SELECT name as company, title, city, last_update_string FROM atlas_position_group pos" +
+    const positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM atlas_position_group pos" +
       " INNER JOIN atlas_provider prov" +
       " ON pos.provider_id = prov.atlas_provider_id" +
       ` WHERE pos.atlas_position_id = ${positionId}`);
@@ -388,10 +389,10 @@ const insertStudentPositionsFromUser = async (studentId, positionId, priority) =
       throw Error('User has already chosen this position');
     }
 
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id) " +
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm) " +
       " VALUES" +
-      " ($1, $2, $3, $4, $5, $6, $7)",
-      [studentId, priority, positionInfo.rows[0].company, positionInfo.rows[0].title, positionInfo.rows[0].city, positionInfo.rows[0].last_update_string, positionId]);
+      " ($1, $2, $3, $4, $5, $6, $7, $8)",
+      [studentId, priority, positionInfo.rows[0].company, positionInfo.rows[0].title, positionInfo.rows[0].city, positionInfo.rows[0].last_update_string, positionId, positionInfo.rows[0].afm]);
   } catch (error) {
     throw Error('Error while inserting student positions');
   }

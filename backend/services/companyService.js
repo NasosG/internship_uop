@@ -15,6 +15,18 @@ const getProviderById = async (id) => {
   }
 };
 
+const getStudentActiveApplications = async (companyName, companyAFM) => {
+  try {
+    const applications = await pool.query("SELECT * FROM active_applications_ranked \
+                                            WHERE (positions[1]->>'company')::varchar = $1 \
+                                            AND (positions[1]->>'afm')::varchar = $2", [companyName, companyAFM]);
+    return applications.rows;
+  } catch (error) {
+    throw Error('Error while fetching student active applications');
+  }
+};
+
+
 const insertCompanyUsers = async (body) => {
   try {
     const users = await checkIfUsernameAlreadyExists(body.username);
@@ -82,7 +94,6 @@ const loginCompany = async (username, password) => {
       return;
     }
 
-
     return userAlreadyExist.rows[0].g_user_id;
   } catch (error) {
     throw Error('Error while logging in');
@@ -94,5 +105,6 @@ module.exports = {
   insertProviders,
   getProviderByAfm,
   getProviderById,
+  getStudentActiveApplications,
   loginCompany
 };
