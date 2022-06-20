@@ -1,6 +1,7 @@
 const app = require("./backend/app");
 const debug = require("debug")("node-angular");
 const http = require("http");
+require('dotenv').config();
 
 const normalizePort = val => {
   let port = parseInt(val, 10);
@@ -21,11 +22,9 @@ const onError = error => {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
       process.exit(1);
-      break;
     case "EADDRINUSE":
       console.error(bind + " is already in use");
       process.exit(1);
-      break;
     default:
       throw error;
   }
@@ -37,7 +36,7 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
-const hostname = "localhost";
+const hostname = process.env.HOST || "localhost";
 // use port 3000 unless there exists a preconfigured port
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
@@ -45,4 +44,4 @@ app.set("port", port);
 const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
-server.listen(port, () => console.log(`Server running at http://${hostname}:${port}`));
+server.listen(port, hostname, () => console.log(`Server running at http://${hostname}:${port}`));

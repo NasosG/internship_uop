@@ -5,6 +5,8 @@ const cors = require("cors");
 const path = require("path");
 // const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
+const mssql = require("./secretariat_db_config.js");
+const msql = require('mssql');
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -35,9 +37,25 @@ app.use((request, response, next) => {
   next();
 });
 
-app.get("/", (request, response) => {
+app.get("/", async (request, response) => {
   response.send("<h2>hello from the server!</h2>");
+  await testMSSQL();
 });
+
+const testMSSQL = async () => {
+  try {
+    console.log("in");
+    // let mspool = await msql.connect(mssql.sqlConfig);
+
+    // make sure that any items are correctly URL encoded in the connection string
+    await msql.connect('Server=ip,port;Database=dbName;User Id=dbUsername;Password=password;Encrypt=false');
+    // const result = await msql.query("...the query");;
+    // console.log(result);
+  } catch (error) {
+    // ... error checks
+    console.log("error: " + error);
+  }
+};
 
 app.use("/api/students", studentRoutes);
 app.use("/api/atlas", atlasRoutes);
