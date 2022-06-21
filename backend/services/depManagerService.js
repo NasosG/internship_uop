@@ -1,6 +1,7 @@
 // database connection configuration
 const pool = require("../db_config.js");
-
+const mssql = require("../secretariat_db_config.js");
+const msql = require('mssql');
 
 const getDepManagerById = async (id) => {
   try {
@@ -85,6 +86,11 @@ const splitScholarsPersonalData = (splitString) => {
   return splitArray[splitArray.length - 2];
 };
 
+const splitStudentsAM = (splitString) => {
+  const splitArray = splitString.split(':');
+  return splitArray[splitArray.length - 1];
+};
+
 const insertPeriod = async (body, id) => {
   try {
     await deactivateAllPeriods();
@@ -110,16 +116,38 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
     await deleteApprovedStudentsRank(departmentId);
     let i = 1;
     for (students of getStudentsPhase) {
+      const procedureResults = await testMSSQL(560, splitStudentsAM(students.schacpersonaluniquecode));
+      // console.log(procedureResults.Grade);
       await pool.query("INSERT INTO students_approved_rank " +
         "(sso_uid, department_id, score, ranking)" +
         " VALUES " + "($1, $2, $3, $4)",
-        [students.sso_uid, departmentId, 6.3, i++]);
+        [students.sso_uid, departmentId, procedureResults.Grade == null ? 6.3 : procedureResults.Grade, i++]);
     }
   } catch (error) {
     console.log('Error while inserting Approved students rank ' + error.message);
     throw Error('Error while inserting Approved students rank');
   }
 };
+
+const testMSSQL = async (depId, studentAM) => {
+  try {
+    // console.log("testMSSQL");
+    // console.log(mssql);
+    // make sure that any items are correctly URL encoded in the connection string
+    let mspool = await msql.connect(mssql);
+
+    const result = await mspool.request()
+      .input('DepId', msql.Int, depId)
+      .input('am', msql.VarChar(100), studentAM)
+      .execute('usp_GetStudentFactorPraktiki');
+    //console.log(result.recordset[0]);
+    return result.recordset[0];
+  } catch (error) {
+    // error checks
+    console.log("error: " + error);
+  }
+};
+
 
 const deactivateAllPeriods = async () => {
   try {
