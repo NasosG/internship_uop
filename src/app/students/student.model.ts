@@ -41,4 +41,8 @@ export interface Student {
   amea_cat: boolean;
   score?: number; // may be null
   ranking?: number; // may be null
+  Grade?: number;
+  Semester?: number;
+  Ects?: number;
+  Praktiki?: number;
 }

@@ -4,22 +4,7 @@
      <!-- small box -->
      <div class="small-box bg-btn-stat">
        <div class="inner">
-         <h3>8ο</h3>
-         <p>{{'STUDENT.HOME-STAT-BOX1'|translate}}</p>
-       </div>
-       <div class="icon">
-         <i class="fas fa-calendar-alt"></i>
-       </div>
-       <a href="#" class="small-box-footer">{{'STUDENT.SHOW-MORE'|translate}} <i
-           class="fas fa-arrow-circle-right"></i></a>
-     </div>
-   </div>
-   <!-- ./col -->
-   <div class="col-lg-3 col-6">
-     <!-- small box -->
-     <div class="small-box bg-btn-stat">
-       <div class="inner">
-         <h3>28<sup style="font-size: 20px"></sup></h3>
+         <h3>{{studentsSSOData[0].Praktiki == 0 ? 'ΟΧΙ' : 'NAI'}}<sup style="font-size: 20px"></sup></h3>
          <p>{{'STUDENT.HOME-STAT-BOX2'|translate}}</p>
        </div>
        <div class="icon">
@@ -34,7 +19,22 @@
      <!-- small box -->
      <div class="small-box bg-btn-stat">
        <div class="inner">
-         <h3>7,1</h3>
+         <h3>{{studentsSSOData[0].Semester}}ο</h3>
+         <p>{{'STUDENT.HOME-STAT-BOX1'|translate}}</p>
+       </div>
+       <div class="icon">
+         <i class="fas fa-calendar-alt"></i>
+       </div>
+       <a href="#" class="small-box-footer">{{'STUDENT.SHOW-MORE'|translate}} <i
+           class="fas fa-arrow-circle-right"></i></a>
+     </div>
+   </div>
+   <!-- ./col -->
+   <div class="col-lg-3 col-6">
+     <!-- small box -->
+     <div class="small-box bg-btn-stat">
+       <div class="inner">
+         <h3>{{studentsSSOData[0].Grade}}</h3>
          <p>{{'STUDENT.HOME-STAT-BOX3'|translate}}</p>
        </div>
        <div class="icon">
@@ -49,7 +49,7 @@
      <!-- small box -->
      <div class="small-box bg-btn-stat">
        <div class="inner">
-         <h3>114</h3>
+         <h3>{{studentsSSOData[0].Ects}}</h3>
          <p>{{'STUDENT.HOME-STAT-BOX4'|translate}}</p>
        </div>
        <div class="icon">

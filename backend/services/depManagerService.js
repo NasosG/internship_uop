@@ -2,6 +2,7 @@
 const pool = require("../db_config.js");
 const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
+const MiscUtils = require("../MiscUtils.js");
 
 const getDepManagerById = async (id) => {
   try {
@@ -116,12 +117,19 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
     await deleteApprovedStudentsRank(departmentId);
     let i = 1;
     for (students of getStudentsPhase) {
-      const procedureResults = await testMSSQL(560, splitStudentsAM(students.schacpersonaluniquecode));
-      // console.log(procedureResults.Grade);
+      const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[students.department_id], splitStudentsAM(students.schacpersonaluniquecode));
+      // console.log(procedureResults.Grade + " | " + MiscUtils.departmentsMap[students.department_id]);
+      let calculatedScore = 0;
+      if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
+        console.error("some student details fetched from procedure were null");
+        //continue;
+      } else {
+        calculatedScore = calculateScore(procedureResults);
+      }
       await pool.query("INSERT INTO students_approved_rank " +
         "(sso_uid, department_id, score, ranking)" +
         " VALUES " + "($1, $2, $3, $4)",
-        [students.sso_uid, departmentId, procedureResults.Grade == null ? 6.3 : procedureResults.Grade, i++]);
+        [students.sso_uid, departmentId, calculatedScore, i++]);
     }
   } catch (error) {
     console.log('Error while inserting Approved students rank ' + error.message);
@@ -129,7 +137,16 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
   }
 };
 
-const testMSSQL = async (depId, studentAM) => {
+const calculateScore = (procedureResults) => {
+  const ECTS_PER_SEMESTER = 30;
+  // all weights sum must be equal to 1
+  const weightGrade = 0.6;
+  const weightSemester = 0.4;
+  let semesterLimited = (procedureResults.Semester > 14) ? 14 : procedureResults.Semester;
+  return ((procedureResults.Grade * weightGrade) + ((procedureResults.Ects / (semesterLimited * ECTS_PER_SEMESTER) * 10) * weightSemester)).toFixed(3);
+};
+
+const getStudentFactorProcedure = async (depId, studentAM) => {
   try {
     // console.log("testMSSQL");
     // console.log(mssql);
