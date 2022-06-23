@@ -17,4 +17,5 @@ export interface ActiveApplicationsRanked {
   mother_name: string;
   mother_last_name: string;
   score: number;
+  mail?: string;
 }

@@ -45,4 +45,5 @@ export interface Student {
   Semester?: number;
   Ects?: number;
   Praktiki?: number;
+  mail?: string;
 }

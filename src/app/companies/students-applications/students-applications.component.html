@@ -25,14 +25,18 @@
                   <th> Επιλογή</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
-                  <td>{{app.app_id}}</td>
+              <!-- <tbody> -->
+              <tbody *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
+                <!-- <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2"> -->
+                <!-- <tr *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx"> -->
+                <!-- <td>{{app.positions}}</td> -->
+                <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2">
+                  <td>{{position.title}}</td>
                   <td>{{app.firstname}} {{app.lastname}}</td>
                   <td>{{app.department_id}}</td>
-                  <td>psct19003@uop.gr</td>
+                  <td>{{app.mail}}</td>
                   <td>{{app.score}}</td>
-                  <td>18/06/2022</td>
+                  <td>{{app.application_date}}</td>
                   <td>
                     <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
                       Προβολή<br></a></td>
@@ -44,7 +48,10 @@
                     </select>
                   </td>
                 </tr>
-                <!-- <tr>
+              </tbody>
+              <!-- </tr> -->
+
+              <!-- <tr>
                   <td>Ανάπτυξη Εφαρμογών</td>
                   <td>Αθανάσιος Γαλάτης</td>
                   <td>Επιστήμη Υπολογιστών</td>
@@ -62,7 +69,7 @@
                     </select>
                   </td>
                 </tr> -->
-              </tbody>
+              <!-- </tbody> -->
               <tfoot>
                 <tr>
                   <th>Θέσεις</th>
