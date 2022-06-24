@@ -8,7 +8,7 @@
             <h3 class="card-title">Αιτήσεις φοιτητών</h3>
           </div>
           <!-- /.card-header -->
-          <div class="card-body">
+          <div class="card-body table-responsive">
             <button class="btn btn-primary">Excel</button>
             <br><br>
             <table id="appTable" #appTable class="table table-bordered table-striped">
@@ -25,11 +25,7 @@
                   <th> Επιλογή</th>
                 </tr>
               </thead>
-              <!-- <tbody> -->
               <tbody *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
-                <!-- <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2"> -->
-                <!-- <tr *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx"> -->
-                <!-- <td>{{app.positions}}</td> -->
                 <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2">
                   <td>{{position.title}}</td>
                   <td>{{app.firstname}} {{app.lastname}}</td>
@@ -39,17 +35,17 @@
                   <td>{{app.application_date}}</td>
                   <td>
                     <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
-                      Προβολή<br></a></td>
+                      Προβολή<br></a>
+                  </td>
                   <td>
-                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
-                      aria-label="Default select example">
+                    <select id="{{'sel' + idx + idx2}}" class="kl form-select text-danger"
+                      (change)="changeSelectedColor('sel' + idx + idx2)" aria-label="Default select example">
                       <option selected class="kl1 text-danger">ΟΧΙ</option>
                       <option class="kl2 text-success">ΝΑΙ</option>
                     </select>
                   </td>
                 </tr>
               </tbody>
-              <!-- </tr> -->
 
               <!-- <tr>
                   <td>Ανάπτυξη Εφαρμογών</td>

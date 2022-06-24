@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ActiveApplicationsRanked } from '../active-applications-ranked.model';
 import { Company } from '../company.model';
@@ -13,7 +13,9 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('appTable') table: ElementRef | undefined;
   company!: Company;
   apps: ActiveApplicationsRanked[] = [];
-  constructor(private chRef: ChangeDetectorRef, public companyService: CompanyService) { }
+  @ViewChild('kl') kl: ElementRef | undefined;
+
+  constructor(private chRef: ChangeDetectorRef, public companyService: CompanyService, private renderer: Renderer2) { }
 
   dtOptions: any = { };
 
@@ -51,43 +53,32 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
 
 
-  changeSelectedColor() {
-    // var alphas = new Array;
-    // const inputField = (<HTMLInputElement>document.getElementsByClassName("kl")[0]);
-
-    // for (let i=0; i<inputField.value.length; i++) {
-    //   let inputValue = (<HTMLInputElement>document.getElementsByClassName("kl")[i]).value
-
-    //   alert(inputValue );
-    //   if (inputValue == "ΟΧΙ") {
-    //     inputField.classList?.add("text-danger");
-    //     inputField.classList?.remove("text-success");
-    //   }
-    //   else {
-    //     inputField.classList?.add("text-success");
-    //     inputField.classList?.remove("text-danger");
-    //   }
-    // }
-
-    // let inputValue = (<HTMLInputElement>document.getElementsByClassName("kl")[0]).value;
+  changeSelectedColor(idx:any) {
     // alert (inputValue);
-
+    const inputField = <HTMLInputElement>document.getElementById(idx);
+    if (inputField.value === "ΟΧΙ") {
+      inputField.classList?.add("text-danger");
+      inputField.classList?.remove("text-success");
+    } else {
+      inputField.classList?.add("text-success");
+      inputField.classList?.remove("text-danger");
+    }
   }
 
 
   ngAfterViewInit(): void {
     // $('#example1').DataTable();
-
-    $('.kl').change(function () {
-      if ($(this).val() === "ΟΧΙ") {
-        $(this).addClass("text-danger");
-        $(this).removeClass("text-success");
-      }
-      else {
-        $(this).toggleClass("text-success");
-        $(this).removeClass("text-danger");
-      }
-    })
+    // console.log("emp1");
+    // $('.kl').change(function () {
+    //   if ($(this).val() === "ΟΧΙ") {
+    //     $(this).addClass("text-danger");
+    //     $(this).removeClass("text-success");
+    //   }
+    //   else {
+    //     $(this).toggleClass("text-success");
+    //     $(this).removeClass("text-danger");
+    //   }
+    // })
   }
 
 
