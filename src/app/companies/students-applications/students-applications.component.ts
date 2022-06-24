@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ActiveApplicationsRanked } from '../active-applications-ranked.model';
 import { Company } from '../company.model';
@@ -13,49 +13,48 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('appTable') table: ElementRef | undefined;
   company!: Company;
   apps: ActiveApplicationsRanked[] = [];
-  @ViewChild('kl') kl: ElementRef | undefined;
 
-  constructor(private chRef: ChangeDetectorRef, public companyService: CompanyService, private renderer: Renderer2) { }
+  constructor(private chRef: ChangeDetectorRef, public companyService: CompanyService) { }
 
   dtOptions: any = { };
 
   ngOnInit() {
-    this.companyService.getProviderById()
+    this.companyService
+      .getProviderById()
       .subscribe((company: Company) => {
         this.company = company;
         console.log(this.company);
 
-        this.companyService.getStudentActiveApplications(this.company.name, this.company.afm).subscribe((apps: ActiveApplicationsRanked[]) => {
-          this.apps = apps;
-          this.chRef.detectChanges();
-          const table: any = $('#appTable');
-          this.table = table.DataTable({
-            lengthMenu: [
-              [10, 25, 50, -1],
-              [10, 25, 50, 'All']
-            ],
-            lengthChange: true,
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true,
-            autoWidth: false,
-            responsive: true,
-            select: true,
-            pagingType: 'full_numbers',
-            processing: true,
-            columnDefs: [{ orderable: false, targets: [3, 5, 6, 7] }],
-            language: {}
-          });
+        this.companyService
+          .getStudentActiveApplications(this.company.name, this.company.afm)
+          .subscribe((apps: ActiveApplicationsRanked[]) => {
+            this.apps = apps;
+            this.chRef.detectChanges();
+            const table: any = $('#appTable');
+            this.table = table.DataTable({
+              lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, 'All']
+              ],
+              lengthChange: true,
+              paging: true,
+              searching: true,
+              ordering: true,
+              info: true,
+              autoWidth: false,
+              responsive: true,
+              select: true,
+              pagingType: 'full_numbers',
+              processing: true,
+              columnDefs: [{ orderable: false, targets: [3, 5, 6, 7] }],
+              language: {}
+            });
         });
       });
   }
 
-
-
-  changeSelectedColor(idx:any) {
-    // alert (inputValue);
-    const inputField = <HTMLInputElement>document.getElementById(idx);
+  changeSelectedColor(selectElementId: string) {
+    const inputField = <HTMLInputElement>document.getElementById(selectElementId);
     if (inputField.value === "ΟΧΙ") {
       inputField.classList?.add("text-danger");
       inputField.classList?.remove("text-success");
@@ -65,24 +64,9 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngAfterViewInit(): void { }
 
-  ngAfterViewInit(): void {
-    // $('#example1').DataTable();
-    // console.log("emp1");
-    // $('.kl').change(function () {
-    //   if ($(this).val() === "ΟΧΙ") {
-    //     $(this).addClass("text-danger");
-    //     $(this).removeClass("text-success");
-    //   }
-    //   else {
-    //     $(this).toggleClass("text-success");
-    //     $(this).removeClass("text-danger");
-    //   }
-    // })
-  }
-
-
-  fireTheWhole() {
+  submitApplications() {
     Swal.fire({
       title: 'Αποδοχή Φοιτητών',
       text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην επιλογή των φοιτητών;',
@@ -93,5 +77,4 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'ΟΚ'
     });
   }
-
 }
