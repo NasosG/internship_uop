@@ -148,8 +148,7 @@ const calculateScore = (procedureResults) => {
 
 const getStudentFactorProcedure = async (depId, studentAM) => {
   try {
-    // console.log("testMSSQL");
-    // console.log(mssql);
+    //console.log(mssql);
     // make sure that any items are correctly URL encoded in the connection string
     let mspool = await msql.connect(mssql);
 
@@ -194,7 +193,7 @@ const updatePeriodById = async (body, id) => {
 const getPeriodByUserId = async (id) => {
   try {
     const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
-     to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to FROM period \
+      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to FROM period \
       WHERE sso_user_id = $1 \
       AND is_active = 'true' \
       LIMIT 1", [id]);

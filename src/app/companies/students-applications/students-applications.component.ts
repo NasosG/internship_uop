@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import { ActiveApplicationsRanked } from '../active-applications-ranked.model';
 import { Company } from '../company.model';
 import { CompanyService } from '../company.service';
+import * as XLSX from 'xlsx';
+import {Utils} from 'src/app/MiscUtils';
 
 @Component({
   selector: 'companies-students-applications',
@@ -76,5 +78,33 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     });
+  }
+
+  exportToExcel() {
+    let positionsDataJson: any = [];
+
+    for (const item of this.apps) {
+      for (let position of item.positions) {
+        positionsDataJson.push({
+          "θεση": position.title,
+          "Επώνυμο": item.lastname,
+          "Όνομα": item.firstname,
+          "Πατρώνυμο": item.father_name,
+          "Μητρώνυμο": item.mother_name,
+          "Επώνυμο πατέρα": item.father_last_name,
+          "Επώνυμο μητέρας": item.mother_last_name,
+          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.date_of_birth)
+        })
+      }
+    }
+
+    const excelFileName: string = "Positions.xlsx";
+    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table?.nativeElement);
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(positionsDataJson) //table_to_sheet((document.getElementById("example") as HTMLElement));
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* Save to file */
+    XLSX.writeFile(wb, excelFileName);
   }
 }

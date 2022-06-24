@@ -9,7 +9,11 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive">
-            <button class="btn btn-primary">Excel</button>
+            <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
+                style='font-size:24px'></i> Excel</button>
+            &nbsp;
+            <!-- <button class="btn btn-primary" (click)="printDataTable()"><i class='fas fa-print'
+                style='font-size:24px'></i> Print</button> -->
             <br><br>
             <table id="appTable" #appTable class="table table-bordered table-striped">
               <!--datatable [dtOptions]="dtOptions">-->

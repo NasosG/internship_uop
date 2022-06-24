@@ -22,6 +22,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   // dataSource = ELEMENT_DATA;
   selected = '';
   ngSelect = "";
+
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
