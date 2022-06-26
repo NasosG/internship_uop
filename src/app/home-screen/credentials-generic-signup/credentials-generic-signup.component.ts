@@ -61,8 +61,10 @@ export class CredentialsGenericSignupComponent implements OnInit {
   onSubmitCompanyDetails(data: any) {
     let passwordsMatch = this.validatePasswords();
     if (!passwordsMatch) return;
-    const id = {
-      "id": this.companiesArray[0].id
+
+    let id = null;
+    id = {
+      "id": (this.companiesArray.length > 0) ? this.companiesArray[0].id : null
     };
     let allData = Object.assign(data, id);
     console.log(allData);

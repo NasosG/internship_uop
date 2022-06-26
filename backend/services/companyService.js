@@ -27,8 +27,9 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
 };
 
 
-const insertCompanyUsers = async (body) => {
+const insertCompanyUsers = async (body, newlyCreatedProviderId) => {
   try {
+    if (newlyCreatedProviderId != null) body.id = newlyCreatedProviderId;
     const users = await checkIfUsernameAlreadyExists(body.username);
 
     if (users.rowCount > 0) {
@@ -49,12 +50,12 @@ const insertCompanyUsers = async (body) => {
 
 const insertProviders = async (body) => {
   try {
-    await pool.query("INSERT INTO atlas_provider (name, contact_email, contact_phone, afm, contact_name) " +
-      " VALUES" +
-      " ($1, $2, $3, $4, $5)",
-      [body.name, body.contact_email, body.contact_phone, body.afm, body.contact_name]);
+    const queryText = 'INSERT INTO atlas_provider (name, contact_email, contact_phone, afm, contact_name) VALUES ($1, $2, $3, $4, $5) RETURNING id ';
+    const result = await pool.query(queryText, [body.name, body.contact_email, body.contact_phone, body.afm, body.contact_name]);
+
+    return result.rows[0].id;
   } catch (error) {
-    throw Error('Error while inserting providers');
+    throw Error('Error while inserting providers' + error.message);
   }
 };
 

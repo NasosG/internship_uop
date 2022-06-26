@@ -112,9 +112,10 @@ const getAtlasOldestPositionGroups = async (offset, limit) => {
 const insertPositionGroup = async (data) => {
   try {
     for (const item of data) {
+      //console.log(item);
       await pool.query("INSERT INTO atlas_position_group" +
-        '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id)' +
-        " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)",
+        '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id, start_date, start_date_string, end_date, end_date_string)' +
+        " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
         [item.description,
         item.city,
         item.title,
@@ -127,7 +128,11 @@ const insertPositionGroup = async (data) => {
         item.atlasPositionId,
         item.atlasCityId,
         item.atlasCountryId,
-        item.atlasPrefectureId
+        item.atlasPrefectureId,
+        item.StartDate,
+        item.StartDateString,
+        item.EndDate,
+        item.EndDateString
         ]);
 
       // Insert academics into academics table

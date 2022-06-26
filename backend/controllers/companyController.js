@@ -4,14 +4,17 @@ const companyService = require("../services/companyService");
 const insertCompanyUsers = async (request, response, next) => {
   try {
     const company = request.body;
-    const accountCreated = await companyService.insertCompanyUsers(company);
+    let newlyCreatedProviderId = null;
+    // If id doesn't exist first make a new provider and then make an account
+    if (company.id == null || company.id == "") {
+      newlyCreatedProviderId = await companyService.insertProviders(company);
+    }
+    const accountCreated = await companyService.insertCompanyUsers(company, newlyCreatedProviderId);
+
     if (accountCreated) {
       if (company.id == null || company.id == "") {
-        await companyService.insertProviders(company);
-
-        // TODO: in this situation either
-        // 1. remove insert query from above and put in underneath - if id exists insert hat one or else make a new provider and insert that id.
-        // 2. update previous inserted provided and insert the right id of the newly created provider.
+        console.log('company id is still null ERROR');
+        // await companyService.insertProviders(company);
       }
     } else {
       console.error('not created');

@@ -372,9 +372,13 @@ const insertPositionGroup = async (accessToken) => {
           'atlasCityId': positionGroupResults.message.CityID,
           'atlasCountryId': positionGroupResults.message.CountryID,
           'atlasPrefectureId': positionGroupResults.message.PrefectureID,
+          'EndDate': positionGroupResults.message.EndDate,
+          'EndDateString': positionGroupResults.message.EndDateString,
+          'StartDate': positionGroupResults.message.StartDate,
+          'StartDateString': positionGroupResults.message.StartDateString,
           'academics': academics
         });
-
+        console.log(positionGroupResults.message);
         positionPushed = true;
         academics = []; // reset the array just to be sure
 

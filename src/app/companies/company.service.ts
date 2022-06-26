@@ -57,4 +57,8 @@ export class CompanyService {
         console.log(responseData.message);
       });
   }
+
+  insertAssignment() {
+    //TODO
+  }
 }

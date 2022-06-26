@@ -69,6 +69,11 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void { }
 
   submitApplications() {
+
+    this.onSubmitSwal();
+  }
+
+  onSubmitSwal() {
     Swal.fire({
       title: 'Αποδοχή Φοιτητών',
       text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην επιλογή των φοιτητών;',

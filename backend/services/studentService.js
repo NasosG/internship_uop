@@ -56,10 +56,12 @@ const getStudentById = async (id) => {
                                               INNER JOIN student_users \
                                               ON sso_users.uuid = student_users.sso_uid \
                                               WHERE sso_users.uuid = $1", [id]);
-    const student = resultsSSOUsers.rows[0];
-    const studentDetailsProcedure = await getStudentsSecretaryDetails(student.department_id, student.schacpersonaluniquecode);
-    let studentDetails = Object.assign(student, studentDetailsProcedure);
-    return [studentDetails];
+    const student = resultsSSOUsers.rows;
+    // const student = resultsSSOUsers.rows[0];
+    // const studentDetailsProcedure = await getStudentsSecretaryDetails(student.department_id, student.schacpersonaluniquecode);
+    // let studentDetails = Object.assign(student, studentDetailsProcedure);
+    // return [studentDetails];
+    return student;
   } catch (error) {
     throw Error('Error while fetching students');
   }
