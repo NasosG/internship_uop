@@ -22,6 +22,18 @@ const getAvailablePositionsUI = async (offset, limit) => {
   }
 };
 
+const getAvailablePositionsUIUnion = async (offset, limit) => {
+  try {
+    const results = await pool.query("SELECT * FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+      + " INNER JOIN atlas_provider p "
+      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id "
+      + " OFFSET $1 LIMIT $2", [offset, limit]);
+    return results.rows;
+  } catch (error) {
+    throw Error('Error while fetching positions/providers from postgres');
+  }
+};
+
 const getInstitutions = async () => {
   try {
     const results = await pool.query("SELECT * FROM atlas_academics");
@@ -44,10 +56,13 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
   console.log("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
   try {
-    let queryStr = "SELECT * FROM atlas_position_group g "
+    //let queryStr = "SELECT * FROM atlas_position_group g "
+    let queryStr = "SELECT * FROM"
+      + " (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
       + " INNER JOIN atlas_provider p "
-      + " ON g.provider_id = p.atlas_provider_id ";
-
+      //old working before union added
+      //+ " ON g.provider_id = p.atlas_provider_id ";
+      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id)";
     // TODO: make query run faster maybe maybe filter the result more before joining
     if (filters.institution) {
       queryStr += "INNER JOIN position_has_academics pa ON pa.position_id = g.atlas_position_id ";
@@ -241,6 +256,7 @@ const insertDepartmentIds = async (departmentArray, uopId) => {
 module.exports = {
   getCredentials,
   getAvailablePositionsUI,
+  getAvailablePositionsUIUnion,
   getAtlasOldestPositionGroups,
   getAtlasFilteredPositions,
   getInstitutions,

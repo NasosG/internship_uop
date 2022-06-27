@@ -7,4 +7,5 @@ export interface StudentPositions {
   place: string;
   upload_date: Date;
   position_id: number;
+  internal_position_id: number;
 }

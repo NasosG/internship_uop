@@ -1,4 +1,5 @@
 export interface AtlasPosition {
+  id: number,
   city: string,
   description: string,
   positionType: string,

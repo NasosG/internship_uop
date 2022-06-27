@@ -241,11 +241,13 @@ const getAvailablePositionGroupsUI = async (request, response) => {
   try {
     const offset = (request.params.begin != null) ? request.params.begin : 0;
     const limit = 6; // Number of rows to fetch from the database
+    // const results = await atlasService.getAvailablePositionsUI(offset, limit);
     const results = await atlasService.getAvailablePositionsUI(offset, limit);
     let positionsArray = [];
 
     for (const item of results) {
       positionsArray.push({
+        'id': item.id,
         'positionGroupLastUpdateString': item.last_update_string,
         'city': item.city,
         'title': item.title,
@@ -283,6 +285,7 @@ const getAtlasFilteredPositions = async (request, response) => {
 
     for (const item of results) {
       positionsArray.push({
+        'id': item.id,
         'atlasPositionId': item.atlas_position_id,
         'positionGroupLastUpdateString': item.last_update_string,
         'city': item.city,

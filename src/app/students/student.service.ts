@@ -268,12 +268,14 @@ export class StudentsService {
       });
   }
 
-  insertStudentPosition(positionId: number) {
+  insertStudentPosition(positionId: number, atlas: boolean) {
     const studentId = this.authService.getSessionId();
-
-    return this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, { positionId })
-
+    if (atlas)
+      return this.http
+        .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, { positionId });
+    else
+      return this.http
+        .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, { 'internal_position_id': positionId });
   }
 
   // Not currently used

@@ -407,43 +407,61 @@ const updateStudentPositions = async (studentId, body) => {
 const insertStudentPositions = async (studentId, body) => {
   try {
     // console.log(body);
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm) " +
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id) " +
       " VALUES" +
-      " ($1, $2, $3, $4, $5, $6, $7, $8)",
-      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id, body.afm]);
+      " ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id, body.afm, body.internal_position_id]);
   } catch (error) {
     throw Error('Error while inserting student positions' + body.afm);
   }
 };
 
-const insertStudentPositionsFromUser = async (studentId, positionId, priority) => {
+const insertStudentPositionsFromUser = async (studentId, positionId, priority, atlas) => {
   try {
-    const positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM atlas_position_group pos" +
-      " INNER JOIN atlas_provider prov" +
-      " ON pos.provider_id = prov.atlas_provider_id" +
-      ` WHERE pos.atlas_position_id = ${positionId}`);
-
-    const res = await findIfPositionExists(studentId, positionId);
+    // const positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM atlas_position_group pos" +
+    //   " INNER JOIN atlas_provider prov" +
+    //   " ON pos.provider_id = prov.atlas_provider_id" +
+    //   ` WHERE pos.atlas_position_id = ${positionId}`);
+    console.log(positionId);
+    const positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM"
+      + " (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) pos"
+      + " INNER JOIN atlas_provider prov "
+      + " ON pos.provider_id = prov.atlas_provider_id OR (pos.atlas_position_id IS NULL AND pos.provider_id = prov.id)"
+      + ` WHERE (pos.atlas_position_id IS NULL AND pos.id = ${positionId}) or  pos.atlas_position_id = ${positionId} `);
+    console.log("12312312312");
+    const res = await findIfPositionExists(studentId, positionId, atlas);
+    console.log("asdasda");
     if (parseInt(res.poscount) > 0) {
       console.log("Already exists");
       throw Error('User has already chosen this position');
     }
+    console.log("1231231231asdasdas2");
+    let posId = atlas ? positionId : null;
+    let internalPosId = !atlas ? positionId : null;
 
-    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm) " +
+    await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id) " +
       " VALUES" +
-      " ($1, $2, $3, $4, $5, $6, $7, $8)",
-      [studentId, priority, positionInfo.rows[0].company, positionInfo.rows[0].title, positionInfo.rows[0].city, positionInfo.rows[0].last_update_string, positionId, positionInfo.rows[0].afm]);
+      " ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [studentId, priority, positionInfo.rows[0].company, positionInfo.rows[0].title, positionInfo.rows[0].city, positionInfo.rows[0].last_update_string, posId, positionInfo.rows[0].afm, internalPosId]);
   } catch (error) {
-    throw Error('Error while inserting student positions');
+    throw Error('Error while inserting student positions from user');
   }
 };
 
-const findIfPositionExists = async (studentId, positionId) => {
+const findIfPositionExists = async (studentId, positionId, atlas) => {
   try {
-    const positionInfo = await pool.query("SELECT COUNT(*) as poscount " +
-      " FROM student_positions pos" +
-      ` WHERE pos.position_id = ${positionId}` +
-      ` AND pos.student_id = ${studentId}`);
+    const positionInfo = null;
+    console.log("ASd");
+    if (atlas)
+      positionInfo = await pool.query("SELECT COUNT(*) as poscount " +
+        " FROM student_positions pos" +
+        ` WHERE pos.position_id = ${positionId}` +
+        ` AND pos.student_id = ${studentId}`);
+    else
+      positionInfo = await pool.query("SELECT COUNT(*) as poscount " +
+        " FROM student_positions pos" +
+        ` WHERE pos.internal_position_id = ${positionId}` +
+        ` AND pos.student_id = ${studentId}`);
     return positionInfo.rows[0];
   } catch (error) {
     throw Error('Error while position exists positions');
