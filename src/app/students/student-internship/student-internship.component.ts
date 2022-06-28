@@ -255,11 +255,8 @@ export class StudentInternshipComponent implements OnInit {
       return;
 
     }
-    let internal_position_id = null;
     let atlas = true;
     if (!positionId) {
-      alert("asd");
-      alert(jobInternalPositionId);
       positionId = jobInternalPositionId;
       atlas = false;
     }

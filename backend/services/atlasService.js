@@ -12,7 +12,7 @@ const getCredentials = async () => {
 
 const getAvailablePositionsUI = async (offset, limit) => {
   try {
-    const results = await pool.query("SELECT * FROM atlas_position_group g "
+    const results = await pool.query("SELECT *, g.id as g_position_id FROM atlas_position_group g "
       + " INNER JOIN atlas_provider p "
       + " ON g.provider_id = p.atlas_provider_id "
       + " OFFSET $1 LIMIT $2", [offset, limit]);
@@ -24,9 +24,9 @@ const getAvailablePositionsUI = async (offset, limit) => {
 
 const getAvailablePositionsUIUnion = async (offset, limit) => {
   try {
-    const results = await pool.query("SELECT * FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+    const results = await pool.query("SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
       + " INNER JOIN atlas_provider p "
-      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id "
+      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
       + " OFFSET $1 LIMIT $2", [offset, limit]);
     return results.rows;
   } catch (error) {
@@ -57,7 +57,7 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
   let moreThanOneFilters = false;
   try {
     //let queryStr = "SELECT * FROM atlas_position_group g "
-    let queryStr = "SELECT * FROM"
+    let queryStr = "SELECT *, g.id as g_position_id FROM"
       + " (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
       + " INNER JOIN atlas_provider p "
       //old working before union added
