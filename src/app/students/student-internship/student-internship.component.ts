@@ -30,6 +30,7 @@ export class StudentInternshipComponent implements OnInit {
   jobAvailablePositions!: number;
   jobPhysicalObjects!: string[];
   jobLastUpdateString!: string;
+  jobInternalPositionId!: number;
   filters: AtlasFilters = new AtlasFilters();
 
   begin: number = 0;
@@ -202,6 +203,7 @@ export class StudentInternshipComponent implements OnInit {
     this.jobAvailablePositions = this.entries[index].availablePositions;
     this.jobPhysicalObjects = this.entries[index].physicalObjects;
     this.jobLastUpdateString = Utils.getPreferredTimestamp(this.entries[index].positionGroupLastUpdateString);
+    this.jobInternalPositionId = this.entries[index].id;
   }
 
   public selectAll() {
@@ -244,7 +246,7 @@ export class StudentInternshipComponent implements OnInit {
     }, this.waitTime);
   }
 
-  addPosition(positionId: number) {
+  addPosition(positionId: number, jobInternalPositionId: number) {
     let message = "";
     //this.studentsService.insertStudentPosition(positionId);
 
@@ -253,7 +255,12 @@ export class StudentInternshipComponent implements OnInit {
       return;
 
     }
-    this.studentsService.insertStudentPosition(positionId).subscribe(responseData => {
+    let atlas = true;
+    if (!positionId) {
+      positionId = jobInternalPositionId;
+      atlas = false;
+    }
+    this.studentsService.insertStudentPosition(positionId, atlas).subscribe(responseData => {
       message = responseData.message;
       // console.log(message);
 
