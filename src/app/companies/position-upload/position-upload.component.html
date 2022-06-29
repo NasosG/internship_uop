@@ -66,6 +66,44 @@
                     <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
                   </select>
                 </div>
+                <div class="form-group col-md-4">
+                  <label for="positions">Τμήμα</label>
+                  <select id="positions" class="form-control">
+                    <option selected>Επιλογή...</option>
+                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</option>
+                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ
+                    </option>
+                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="positions">Τμήμα</label>
+                  <select id="positions" class="form-control">
+                    <option selected>Επιλογή...</option>
+                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</option>
+                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ
+                      ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ</option>
+                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="positions">Τμήμα</label><br>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Toppings</mat-label>
+                    <mat-select [formControl]="physicalObjectForm" multiple>
+                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!-- <select id="positions" class="form-control">
+                    <option selected>Επιλογή...</option>
+                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ
+                    </option>
+                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ
+                      ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ</option>
+                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ
+                      ΠΟΛΙΤΙΚΗΣ</option>
+                  </select> -->
+                </div>
               </div>
             </form>
           </div>

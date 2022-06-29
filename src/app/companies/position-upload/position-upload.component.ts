@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,10 +8,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./position-upload.component.css']
 })
 export class PositionUploadComponent implements OnInit {
-
+  physicalObjectForm = new FormControl('');
+  list: string[] = ['option1', 'option2', 'option3', 'option4', 'option5', 'option6'];
   constructor() { }
 
   ngOnInit(): void {
+    let element: any = document.getElementById("multiple-selected");
+    element.selectpicker();
   }
 
   fireTheWhole() {
