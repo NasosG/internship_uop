@@ -9,87 +9,56 @@
           <div class="card-body">
             <form>
               <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="title">Τίτλος θέσης</label>
-                  <input type="text" class="form-control" id="title" placeholder="Τίτλος θέσης">
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <label for="title"></label>
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Τίτλος θέσης</mat-label>
+                    <input matInput placeholder="Τίτλος θέσης" value="">
+                  </mat-form-field>
                 </div>
-                <div class="form-group col-md-8">
-                  <label for="description">Περιγραφή Θέσης</label>
-                  <textarea class="form-control" id="description" rows="1"></textarea>
+                <div class="form-group col-md-8 mb-0 pb-0">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Περιγραφή Θέσης</mat-label>
+                    <textarea id="description" rows="4" matInput placeholder="Περιγραφή"></textarea>
+                  </mat-form-field>
                 </div>
               </div>
               <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="part-time">Ωράριο</label>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="part-time">Ωράριο</label>
                   <select id="part-time" class="form-control">
                     <option selected>Επιλογή...</option>
                     <option value="1">Πλήρες Ωράριο</option>
                     <option value="1">Μερικό Ωράριο</option>
-                  </select>
+                  </select> -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Ωράριο</mat-label>
+                    <mat-select [formControl]="physicalObjectForm" multiple>
+                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
-                <div class="form-group col-md-4">
-                  <label for="time">Διάρκεια</label>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="time">Διάρκεια</label>
                   <select id="time" class="form-control">
                     <option selected>Επιλογή...</option>
                     <option value="1">Έως 6 μήνες</option>
                     <option value="1">Έως 12 μήνες</option>
                     <option value="1">Έως 24 μήνες</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="town">Πόλη</label>
-                  <input type="text" class="form-control" id="town" placeholder="Πόλη">
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="address">Διέυθυνση</label>
-                  <input type="text" class="form-control" id="address" placeholder="Διέυθυνση Εργασίας">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="positions">Διαθέσιμες Θέσεις</label>
-                  <select id="positions" class="form-control">
-                    <option selected>Επιλογή...</option>
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="1">5</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="positions">Τμήμα</label>
-                  <select id="positions" class="form-control">
-                    <option selected>Επιλογή...</option>
-                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</option>
-                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ</option>
-                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="positions">Τμήμα</label>
-                  <select id="positions" class="form-control">
-                    <option selected>Επιλογή...</option>
-                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</option>
-                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ
-                    </option>
-                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="positions">Τμήμα</label>
-                  <select id="positions" class="form-control">
-                    <option selected>Επιλογή...</option>
-                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</option>
-                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ
-                      ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ</option>
-                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="positions">Τμήμα</label><br>
+                  </select> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Toppings</mat-label>
+                    <mat-label>Διάρκεια</mat-label>
+                    <mat-select [formControl]="physicalObjectForm" multiple>
+                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="positions">Τμήμα</label><br> -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Αντικείμενο</mat-label>
                     <mat-select [formControl]="physicalObjectForm" multiple>
                       <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}</mat-option>
                     </mat-select>
@@ -105,6 +74,81 @@
                   </select> -->
                 </div>
               </div>
+              <div class="form-row">
+                <!-- <div class="form-group col-md-4 mb-0 pb-0">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Διέυθυνση</mat-label>
+                    <input matInput placeholder="Τίτλος θέσης" id="address" placeholder="Διέυθυνση Εργασίας" value="">
+                  </mat-form-field>
+                </div> -->
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="positions">Διαθέσιμες Θέσεις</label>
+                  <select id="positions" class="form-control">
+                    <option selected>Επιλογή...</option>
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                    <option value="1">4</option>
+                    <option value="1">5</option>
+                  </select>-->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Διαθέσιμες Θέσεις</mat-label>
+                    <mat-select [formControl]="physicalObjectForm">
+                      <mat-option *ngFor="let positionsNumber of listPositionsNumber" [value]="positionsNumber">
+                        {{positionsNumber}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="positions">Τμήμα</label>
+                  <select id="positions" class="form-control">
+                    <option selected>Επιλογή...</option>
+                    <option value="1">ΠΛΗΡΟΦΟΡΙΚΗΣ ΚΑΙ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ</option>
+                    <option value="1">ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ</option>
+                    <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
+                  </select> -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Τμήμα</mat-label>
+                    <mat-select [formControl]="physicalObjectForm">
+                      <mat-option *ngFor="let item of departments" [value]="item.department">{{item.department}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="town">Πόλη</label>
+                  <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Χώρα</mat-label>
+                    <mat-select [formControl]="physicalObjectForm" multiple>
+                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="town">Πόλη</label>
+                  <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Πόλη</mat-label>
+                    <mat-select [formControl]="physicalObjectForm" multiple>
+                      <mat-option *ngFor="let topping of cities" [value]="topping">{{topping.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-md-4 mb-0 pb-0">
+                  <!-- <label for="town">Πόλη</label>
+                  <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Δήμος</mat-label>
+                    <mat-select [formControl]="physicalObjectForm" multiple>
+                      <mat-option *ngFor="let prefecture of prefectures" [value]="prefecture.name">{{prefecture.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -112,6 +156,6 @@
     </div>
   </div>
   <div class="m-auto pb-5" style="margin:auto; text-align:center;">
-    <button class="btn btn-primary" (click)="fireTheWhole()"> Ανάρτηση θέσεων</button>
+    <button class="btn btn-primary" (click)="uploadPosition()"> Ανάρτηση θέσεων</button>
   </div>
 </section>

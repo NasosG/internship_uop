@@ -105,6 +105,10 @@ export class StudentsService {
     return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getCities/');
   }
 
+  getAtlasPrefectures(): Observable<Array<City>> {
+    return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getPrefectures/');
+  }
+
   getPhase(departmentId: number): Observable<Period> {
     // fetchedPeriodObservable
     const fetchedPeriod = this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);

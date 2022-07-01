@@ -48,6 +48,15 @@ const getCities = async () => {
     const results = await pool.query("SELECT atlas_id, name FROM atlas_cities order by name");
     return results.rows;
   } catch (error) {
+    throw Error("Error while fetching atlas_cities from postgres");
+  }
+};
+
+const getPrefectures = async () => {
+  try {
+    const results = await pool.query("SELECT atlas_id, name FROM atlas_prefectures order by name");
+    return results.rows;
+  } catch (error) {
     throw Error("Error while fetching atlas_prefectures from postgres");
   }
 };
@@ -261,6 +270,7 @@ module.exports = {
   getAtlasFilteredPositions,
   getInstitutions,
   getCities,
+  getPrefectures,
   insertPositionGroup,
   insertCities,
   insertPrefectures,

@@ -10,5 +10,6 @@ router.get('/insertPositionGroup/', atlasController.insertPositionGroup);
 router.get('/getInstitutions', atlasController.getInstitutions);
 router.get('/insertTablesFromAtlas', atlasController.insertTablesFromAtlas);
 router.get('/getCities', atlasController.getCities);
+router.get('/getPrefectures', atlasController.getPrefectures);
 
 module.exports = router;

@@ -56,6 +56,18 @@ const getCities = async (request, response) => {
   }
 };
 
+const getPrefectures = async (request, response) => {
+  try {
+    const cities = await atlasService.getPrefectures();
+    response.status(200).json(cities);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const insertDepartmentIds = async (accessToken) => {
   const UOP_INSITUTION_ID = 25;
   // let departments = new Map();
@@ -461,6 +473,7 @@ module.exports = {
   getAtlasFilteredPositions,
   getInstitutions,
   getCities,
+  getPrefectures,
   insertTablesFromAtlas,
   insertPositionGroup
 };
