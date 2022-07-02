@@ -68,6 +68,30 @@ const getPrefectures = async (request, response) => {
   }
 };
 
+const getCountries = async (request, response) => {
+  try {
+    const cities = await atlasService.getCountries();
+    response.status(200).json(cities);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const getPhysicalObjects = async (request, response) => {
+  try {
+    const physicalObjects = await atlasService.getPhysicalObjects();
+    response.status(200).json(physicalObjects);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const insertDepartmentIds = async (accessToken) => {
   const UOP_INSITUTION_ID = 25;
   // let departments = new Map();
@@ -474,6 +498,8 @@ module.exports = {
   getInstitutions,
   getCities,
   getPrefectures,
+  getCountries,
+  getPhysicalObjects,
   insertTablesFromAtlas,
   insertPositionGroup
 };

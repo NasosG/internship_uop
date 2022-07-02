@@ -58,6 +58,10 @@ export class CompanyService {
       });
   }
 
+  insertNewPosition() {
+   //TODO: NEW POSITION INSERTION
+  }
+
   insertAssignment() {
     //TODO
   }

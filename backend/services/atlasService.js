@@ -61,6 +61,24 @@ const getPrefectures = async () => {
   }
 };
 
+const getCountries = async () => {
+  try {
+    const results = await pool.query("SELECT atlas_id, name FROM atlas_countries order by name");
+    return results.rows;
+  } catch (error) {
+    throw Error("Error while fetching atlas_countries from postgres");
+  }
+};
+
+const getPhysicalObjects = async () => {
+  try {
+    const results = await pool.query("SELECT atlas_id, name FROM atlas_physical_objects");
+    return results.rows;
+  } catch (error) {
+    throw Error("Error while fetching atlas_countries from postgres");
+  }
+};
+
 const getAtlasFilteredPositions = async (offset, limit, filters) => {
   console.log("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
@@ -271,6 +289,8 @@ module.exports = {
   getInstitutions,
   getCities,
   getPrefectures,
+  getCountries,
+  getPhysicalObjects,
   insertPositionGroup,
   insertCities,
   insertPrefectures,

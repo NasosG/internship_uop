@@ -13,6 +13,8 @@ import { Department } from "./department.model";
 import { Prefecture } from "./prefecture.model";
 import { City } from "./city.model";
 import { Period } from "../department-managers/period.model";
+import { Country } from "./country.model";
+import { PhysicalObject } from "./physical-object.model";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -108,6 +110,15 @@ export class StudentsService {
   getAtlasPrefectures(): Observable<Array<City>> {
     return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getPrefectures/');
   }
+
+  getAtlasCountries(): Observable<Array<Country>> {
+    return this.http.get<Array<Country>>('http://localhost:3000/api/atlas/getCountries/');
+  }
+
+  getAtlasPhysicalObjects(): Observable<Array<PhysicalObject>> {
+    return this.http.get<Array<PhysicalObject>>('http://localhost:3000/api/atlas/getPhysicalObjects/');
+  }
+
 
   getPhase(departmentId: number): Observable<Period> {
     // fetchedPeriodObservable

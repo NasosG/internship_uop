@@ -7,7 +7,7 @@
             <h3 class="card-title">Θέσεις Πρακτικής</h3>
           </div>
           <div class="card-body">
-            <form>
+            <form [formGroup]="companyInsertFormGroup">
               <div class="form-row">
                 <div class="form-group col-md-4 mb-0 pb-0">
                   <label for="title"></label>
@@ -33,8 +33,8 @@
                   </select> -->
                   <mat-form-field appearance="outline">
                     <mat-label>Ωράριο</mat-label>
-                    <mat-select [formControl]="physicalObjectForm" multiple>
-                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}
+                    <mat-select [formControl]="physicalObjectForm">
+                      <mat-option *ngFor="let jobType of jobTypes" [value]="jobType">{{jobType}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -47,20 +47,23 @@
                     <option value="1">Έως 12 μήνες</option>
                     <option value="1">Έως 24 μήνες</option>
                   </select> -->
-                  <mat-form-field appearance="outline">
-                    <mat-label>Διάρκεια</mat-label>
-                    <mat-select [formControl]="physicalObjectForm" multiple>
-                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}
-                      </mat-option>
-                    </mat-select>
+                  <mat-form-field style="margin-bottom:0px; padding-bottom:0px;" class="mb-0 pb-0" appearance="outline">
+                    <mat-label>Διάρκεια (σε μήνες)</mat-label>
+                    <input #duration matInput type="number" (keyup)="onKeyUpValidateFields('duration')"
+                      placeholder="Τίτλος θέσης" value="" />
                   </mat-form-field>
+                  <p style="margin-top:0px; padding-top:0px;" class="mt-0 pt-0 text-red" *ngIf="errorDuration">
+                    *Η διάρκεια θα πρέπει να βρίσκεται μεταξύ του 1 και του 12
+                  </p>
                 </div>
                 <div class="form-group col-md-4 mb-0 pb-0">
                   <!-- <label for="positions">Τμήμα</label><br> -->
                   <mat-form-field appearance="outline">
                     <mat-label>Αντικείμενο</mat-label>
                     <mat-select [formControl]="physicalObjectForm" multiple>
-                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}</mat-option>
+                      <mat-option *ngFor="let physicalObject of physicalObjects" [value]="physicalObject.name">
+                        {{physicalObject.name}}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <!-- <select id="positions" class="form-control">
@@ -120,8 +123,9 @@
                   <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
                   <mat-form-field appearance="outline">
                     <mat-label>Χώρα</mat-label>
-                    <mat-select [formControl]="physicalObjectForm" multiple>
-                      <mat-option *ngFor="let topping of list" [value]="topping">{{topping}}
+                    <mat-select formControlName="country">
+                      <mat-option *ngFor="let country of countries" [value]="country.name">
+                        {{country.name}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -131,7 +135,7 @@
                   <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
                   <mat-form-field appearance="outline">
                     <mat-label>Πόλη</mat-label>
-                    <mat-select [formControl]="physicalObjectForm" multiple>
+                    <mat-select [formControl]="physicalObjectForm">
                       <mat-option *ngFor="let topping of cities" [value]="topping">{{topping.name}}
                       </mat-option>
                     </mat-select>
@@ -142,7 +146,7 @@
                   <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
                   <mat-form-field appearance="outline">
                     <mat-label>Δήμος</mat-label>
-                    <mat-select [formControl]="physicalObjectForm" multiple>
+                    <mat-select [formControl]="physicalObjectForm">
                       <mat-option *ngFor="let prefecture of prefectures" [value]="prefecture.name">{{prefecture.name}}
                       </mat-option>
                     </mat-select>
