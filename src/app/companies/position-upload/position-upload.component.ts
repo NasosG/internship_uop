@@ -21,7 +21,7 @@ export class PositionUploadComponent implements OnInit, AfterViewInit {
   listPositionsNumber: string[] = ['1', '2', '3', '4', '5'];
   departments: Department[] | undefined;
   cities: City[] | undefined;
-  prefectures: City[] | undefined;
+  prefectures: Prefecture[] | undefined;
   countries!: Country[];
   physicalObjects: PhysicalObject[] | undefined;
   selectedCountry: string = 'Greece';
@@ -33,7 +33,15 @@ export class PositionUploadComponent implements OnInit, AfterViewInit {
 
   constructor(private studentsService: StudentsService, private companyService: CompanyService, private formBuilder: FormBuilder) {
     this.companyInsertFormGroup = new FormGroup({
-      country: new FormControl()
+      country: new FormControl(),
+      description: new FormControl(),
+      title: new FormControl(),
+      position_type: new FormControl(),
+      duration: new FormControl(),
+      physical_objects: new FormControl(),
+      available_positions: new FormControl(),
+      city: new FormControl(),
+      prefecture: new FormControl()
     });
   }
 
@@ -63,6 +71,14 @@ export class PositionUploadComponent implements OnInit, AfterViewInit {
 
     this.companyInsertFormGroup = this._formBuilder.group({
       country: ['', Validators.required],
+      description: ['', Validators.required],
+      title: ['', Validators.required],
+      position_type: ['', Validators.required],
+      duration: ['', Validators.required],
+      physical_objects: ['', Validators.required],
+      available_positions: ['', Validators.required],
+      city: ['', Validators.required],
+      prefecture: ['', Validators.required]
     });
   }
 
@@ -88,7 +104,7 @@ export class PositionUploadComponent implements OnInit, AfterViewInit {
     }
   }
 
-  uploadPosition() {
+  onSubmitUploadPosition(companyDetails: any) {
     Swal.fire({
       title: 'Ανάρτηση Θέσεων',
       text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην τελική ανάρτηση των θέσεων για πρακτική άσκηση;',
@@ -99,9 +115,9 @@ export class PositionUploadComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
         if (result.dismiss === Swal.DismissReason.cancel) {
-          console.log("Redirect for cancel");
+          console.log("User pressed Cancel");
         } else {
-          this.companyService.insertNewPosition();
+          this.companyService.insertNewPosition(companyDetails);
         }
     });
   }

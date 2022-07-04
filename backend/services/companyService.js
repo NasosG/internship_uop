@@ -101,9 +101,49 @@ const loginCompany = async (username, password) => {
   }
 };
 
+
+const insertInternalPositionGroup = async (data, providerId) => {
+  try {
+    // console.log(data);
+    await pool.query("INSERT INTO internal_position_group" +
+      '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id, start_date, start_date_string, end_date, end_date_string)' +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, current_timestamp, $9, $10, $11, $12, $13, $14, $15, $16)",
+      [data.description,
+      data.city,
+      data.title,
+      data.position_type,
+      data.available_positions,
+      data.duration,
+      data.physical_objects,
+        providerId,
+        null,
+        null,
+      data.country,
+      data.prefecture,
+        null,
+        null,
+        null,
+        null
+      ]);
+
+    // Insert academics into academics table
+    // for (let academic of item.academics) {
+    //   await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
+    //     " VALUES ($1, $2)", [item.atlasPositionId, academic.academicsId]);
+    // }
+
+    // }
+    // return insertResults;
+  } catch (error) {
+    console.log('Error while inserting position group[s]' + error.message);
+    throw Error('Error while inserting position group[s]');
+  }
+};
+
 module.exports = {
   insertCompanyUsers,
   insertProviders,
+  insertInternalPositionGroup,
   getProviderByAfm,
   getProviderById,
   getStudentActiveApplications,

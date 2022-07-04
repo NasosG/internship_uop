@@ -58,8 +58,24 @@ export class CompanyService {
       });
   }
 
-  insertNewPosition() {
+  insertNewPosition(companyDetails: any) {
+    const providerId = this.authService.getSessionId();
+    console.log(providerId);
    //TODO: NEW POSITION INSERTION
+    // console.log("company " + companyDetails.country);
+    // console.log("descr " + companyDetails.description);
+    // console.log("title " + companyDetails.title);
+    // console.log("postype " + companyDetails.position_type);
+    // console.log("duration " + companyDetails.duration);
+    // console.log("pho " + companyDetails.physical_objects);
+    // console.log("apos " + companyDetails.available_positions);
+    // console.log("city " + companyDetails.city);
+    // console.log("prefecturet " + companyDetails.prefecture);
+     this.http
+      .post<{ message: string }>(this.baseUrl + "/insertInternalPosition/" + providerId, companyDetails )
+       .subscribe(responseData => {
+        console.log(responseData.message);
+      });
   }
 
   insertAssignment() {
