@@ -43,9 +43,10 @@ const insertCompanyUsers = async (request, response, next) => {
 const insertInternalPositionGroup = async (request, response, next) => {
   try {
     const companyData = request.body;
-    const providerId = request.params.id;
+    const userId = request.params.id;
 
-    const internalPosition = await companyService.insertInternalPositionGroup(companyData, providerId);
+    const provider = await companyService.getProviderIdByUserId(userId);
+    const internalPosition = await companyService.insertInternalPositionGroup(companyData, provider.company_id);
 
     response.status(201).json(internalPosition);
   } catch (error) {
@@ -86,6 +87,23 @@ const getProviderById = async (request, response) => {
       });
   }
 };
+
+const getInternalPositionsByProviderId = async (request, response) => {
+  try {
+    const companyId = request.params.id;
+    const providers = await companyService.getInternalPositionsByProviderId(companyId);
+
+    response.status(200).json(providers);
+
+  } catch (error) {
+    console.error(error.message);
+    response.status(404)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 
 const getStudentActiveApplications = async (request, response) => {
   try {
@@ -151,6 +169,7 @@ module.exports = {
   insertCompanyUsers,
   getProviderByAfm,
   getProviderById,
+  getInternalPositionsByProviderId,
   insertInternalPositionGroup,
   getStudentActiveApplications,
   login

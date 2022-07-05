@@ -1,0 +1,67 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Aνεβασμένες θέσεις</h3>
+          </div>
+
+
+          <!-- /.card-header -->
+          <div class="card-body table-responsive">
+            <button style="border-radius:4px;" class="mb-0 p-2 mt-2 btn-primary"
+              [routerLink]="[this.authService.getSessionId() + '/upload']"><i class="fas fa-plus mr-1"></i> Δημιουργία
+              θέσης
+            </button>
+            <!-- <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
+                style='font-size:24px'></i> Excel</button> -->
+            &nbsp;
+            <!-- <button class="btn btn-primary" (click)="printDataTable()"><i class='fas fa-print'
+                style='font-size:24px'></i> Print</button> -->
+            <br><br>
+            <table id="appTable" #appTable class="table table-bordered table-striped">
+              <!--datatable [dtOptions]="dtOptions">-->
+              <thead>
+                <tr>
+                  <th>Α.Α</th>
+                  <th>Τίτλος Θέσης</th>
+                  <th>Ημ/νία Δημοσίευσης</th>
+                  <th>Ενέργειες</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let position of positions ; let idx=index" [attr.data-index]="idx">
+                <td>{{idx + 1}}</td>
+                <td>{{position.title}}</td>
+                <td>{{position.publication_date}}</td>
+                <td>
+                  <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
+                    Προβολή<br></a>
+                </td>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Α.Α</th>
+                  <th>Τίτλος Θέσης</th>
+                  <th>Ημ/νία Δημοσίευσης</th>
+                  <th>Ενέργειες</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- <div class="m-auto pb-5" style="margin:auto; text-align:center;">
+    <button class="btn btn-primary w-25 m-auto p-2"> ΟΡΙΣΤΙΚΟΠΟΙΗΣΗ ΕΠΙΛΟΓΩΝ</button>
+  </div> -->
+
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

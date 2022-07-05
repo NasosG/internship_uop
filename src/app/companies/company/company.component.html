@@ -353,6 +353,7 @@
       <div class="row">
         <app-company-home *ngIf="homeScreen()"></app-company-home>
         <app-position-upload *ngIf="isPositionUploaded()"></app-position-upload>
+        <app-positions-uploaded-display *ngIf="isPositionUploadedDisplay()"></app-positions-uploaded-display>
         <companies-students-applications *ngIf="isStudentApplications()"></companies-students-applications>
         <app-selected-students *ngIf="isSelectedStudentsRoute()"></app-selected-students>
         <app-contact *ngIf="isContactRoute()"></app-contact>

@@ -133,8 +133,20 @@ const routes: Routes = [{
     component: CompanyComponent
   },
   {
-    path: 'students-positions/:id',
-    component: CompanyComponent
+  //   path: 'students-positions/:id',
+  //   component: CompanyComponent
+  // },
+   path: 'students-positions',
+    component: CompanyComponent,
+    children: [
+      {
+        path: ':id',
+        component: CompanyComponent
+      },
+      {
+        path: ':id/upload',
+        component: CompanyComponent
+      }]
   },
   {
     path: 'students-applications/:id',

@@ -60,6 +60,10 @@ export class CompanyComponent implements OnInit {
   }
 
   isPositionUploaded() {
+    return this.router.url === '/companies/students-positions/' + this.authService.getSessionId() + '/upload';
+  }
+
+  isPositionUploadedDisplay() {
     return this.router.url === '/companies/students-positions/' + this.authService.getSessionId();
   }
 

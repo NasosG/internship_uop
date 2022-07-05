@@ -15,6 +15,16 @@ const getProviderById = async (id) => {
   }
 };
 
+const getProviderIdByUserId = async (id) => {
+  try {
+    const companies = await pool.query("SELECT company_id FROM generic_users gu \
+                                        WHERE gu.g_user_id = $1", [id]);
+    return companies.rows[0];
+  } catch (error) {
+    throw Error('Error while fetching company users');
+  }
+};
+
 const getStudentActiveApplications = async (companyName, companyAFM) => {
   try {
     const applications = await pool.query("SELECT * FROM active_applications_ranked \
@@ -26,6 +36,17 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
   }
 };
 
+const getInternalPositionsByProviderId = async (providerId) => {
+  try {
+    const internalPositionGroups = await pool.query("SELECT *, last_update_string as publication_date "
+      + " FROM internal_position_group g"
+      + " INNER JOIN generic_users usr ON g.provider_id = usr.company_id"
+      + " WHERE usr.g_user_id = $1", [providerId]);
+    return internalPositionGroups.rows;
+  } catch (error) {
+    throw Error('Error while fetching internal position groups for provider ' + providerId);
+  }
+};
 
 const insertCompanyUsers = async (body, newlyCreatedProviderId) => {
   try {
@@ -143,6 +164,8 @@ const insertInternalPositionGroup = async (data, providerId) => {
 module.exports = {
   insertCompanyUsers,
   insertProviders,
+  getInternalPositionsByProviderId,
+  getProviderIdByUserId,
   insertInternalPositionGroup,
   getProviderByAfm,
   getProviderById,

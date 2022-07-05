@@ -4,7 +4,8 @@ import { mergeMap, Observable, Subject } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { Company } from "./company.model";
-import {ActiveApplicationsRanked} from './active-applications-ranked.model';
+import { ActiveApplicationsRanked } from './active-applications-ranked.model';
+import { InternalPosition } from './internal-position.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,12 @@ export class CompanyService {
       .set('companyName', companyName)
       .set('companyAFM', companyAFM);
     return this.http.get<Array<ActiveApplicationsRanked>>(this.baseUrl + "/getStudentActiveApplications", { params });
+  }
+
+  public getInternalPositions(): Observable<Array<InternalPosition>>  {
+    const providerId = this.authService.getSessionId();
+    return this.http
+      .get<Array<InternalPosition>>(this.baseUrl + "/getInternalPositionsByProviderId/" + providerId);
   }
 
   insertCompany(companyDetails: any) {
