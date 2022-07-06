@@ -2,8 +2,8 @@ export interface InternalPosition {
   id: number,
   city: string,
   description: string,
-  positionType: string,
-  availablePositions: number,
+  position_type: string,
+  available_positions: number,
   duration: number,
   physicalObjects: string[],
   providerContactEmail: string,
@@ -11,7 +11,7 @@ export interface InternalPosition {
   providerContactPhone: string,
   title: string,
   name: string,
-  publication_date: Date,
+  publication_date: string,
   atlasPositionId: number,
   afm?: string
 }

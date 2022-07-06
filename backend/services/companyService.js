@@ -38,7 +38,7 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
 
 const getInternalPositionsByProviderId = async (providerId) => {
   try {
-    const internalPositionGroups = await pool.query("SELECT *, last_update_string as publication_date "
+    const internalPositionGroups = await pool.query("SELECT *, to_char(\"last_update_string\", 'DD/MM/YYYY') as publication_date "
       + " FROM internal_position_group g"
       + " INNER JOIN generic_users usr ON g.provider_id = usr.company_id"
       + " WHERE usr.g_user_id = $1", [providerId]);

@@ -5,7 +5,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Aνεβασμένες θέσεις</h3>
+            <h3 class="card-title">Αναρτημένες θέσεις</h3>
           </div>
 
 
@@ -36,7 +36,8 @@
                 <td>{{position.title}}</td>
                 <td>{{position.publication_date}}</td>
                 <td>
-                  <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
+                  <a (click)="openDialog(position)" class="text-secondary" style="cursor: pointer;"><i
+                      class="fa fa-eye"></i>
                     Προβολή<br></a>
                 </td>
               </tbody>
