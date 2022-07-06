@@ -1,0 +1,14 @@
+<h3>Στοιχεία Αίτησης</h3>
+<div mat-dialog-content class="mat-typography">
+  <br>
+  <p> <span>Τίτλος Θέσης</span>: {{this.data.positionTitle}}</p>
+  <p><span>Ονοματεπώνυμο φοιτητή</span>: {{this.data.application.firstname}} {{this.data.application.lastname}}</p>
+  <p><span>Πατρώνυμο φοιτητή</span>: {{this.data.application.father_name}}</p>
+  <p><span>Κωδικός τμήματος</span>: {{this.data.application.department_id}}</p>
+  <p><span>Email</span>: {{this.data.application.mail}}</p>
+  <p><span>Σκορ</span>: {{this.data.application.score}}</p>
+  <p><span>Ημερομηνία αίτησης</span>: {{this.data.application.application_date}}</p>
+</div>
+<div mat-dialog-actions style='text-align: right'>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+</div>

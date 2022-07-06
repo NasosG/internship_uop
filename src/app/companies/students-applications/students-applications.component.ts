@@ -4,7 +4,9 @@ import { ActiveApplicationsRanked } from '../active-applications-ranked.model';
 import { Company } from '../company.model';
 import { CompanyService } from '../company.service';
 import * as XLSX from 'xlsx';
-import {Utils} from 'src/app/MiscUtils';
+import { Utils } from 'src/app/MiscUtils';
+import { ApplicationsPreviewDialogComponent } from '../applications-preview-dialog/applications-preview-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'companies-students-applications',
@@ -16,7 +18,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   company!: Company;
   apps: ActiveApplicationsRanked[] = [];
 
-  constructor(private chRef: ChangeDetectorRef, public companyService: CompanyService) { }
+  constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
 
   dtOptions: any = { };
 
@@ -111,5 +113,12 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
     /* Save to file */
     XLSX.writeFile(wb, excelFileName);
+  }
+
+  openDialog(data: ActiveApplicationsRanked, positionTitle: string) {
+    const dialogRef = this.dialog.open(ApplicationsPreviewDialogComponent, {
+      // width: '350px',
+      data: { application: data, positionTitle: positionTitle }
+    });
   }
 }

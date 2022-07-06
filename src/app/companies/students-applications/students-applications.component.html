@@ -38,7 +38,8 @@
                   <td>{{app.score}}</td>
                   <td>{{app.application_date}}</td>
                   <td>
-                    <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
+                    <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(app, position.title)"><i
+                        class="fa fa-eye"></i>
                       Προβολή<br></a>
                   </td>
                   <td>
@@ -50,26 +51,6 @@
                   </td>
                 </tr>
               </tbody>
-
-              <!-- <tr>
-                  <td>Ανάπτυξη Εφαρμογών</td>
-                  <td>Αθανάσιος Γαλάτης</td>
-                  <td>Επιστήμη Υπολογιστών</td>
-                  <td>psct19009@uop.gr</td>
-                  <td>8.6</td>
-                  <td>18/06/2022</td>
-                  <td>
-                    <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
-                      Προβολή<br></a></td>
-                  <td>
-                    <select class="kl form-select text-danger" (change)="changeSelectedColor()"
-                      aria-label="Default select example">
-                      <option selected class="kl1 text-danger">ΟΧΙ</option>
-                      <option class="kl2 text-success">ΝΑΙ</option>
-                    </select>
-                  </td>
-                </tr> -->
-              <!-- </tbody> -->
               <tfoot>
                 <tr>
                   <th>Θέσεις</th>

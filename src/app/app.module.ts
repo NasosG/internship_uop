@@ -69,6 +69,7 @@ import { PositionUploadComponent } from './companies/position-upload/position-up
 import { CompanyHomeComponent } from './companies/company-home/company-home.component';
 import { PositionsUploadedDisplayComponent } from './companies/positions-uploaded-display/positions-uploaded-display.component';
 import { PositionPreviewDialogComponent } from './companies/position-preview-dialog/position-preview-dialog.component';
+import { ApplicationsPreviewDialogComponent } from './companies/applications-preview-dialog/applications-preview-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -121,7 +122,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PositionUploadComponent,
     CompanyHomeComponent,
     PositionsUploadedDisplayComponent,
-    PositionPreviewDialogComponent
+    PositionPreviewDialogComponent,
+    ApplicationsPreviewDialogComponent
   ],
   imports: [
     BrowserModule,
