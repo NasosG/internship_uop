@@ -39,7 +39,6 @@ const insertCompanyUsers = async (request, response, next) => {
   }
 };
 
-
 const insertInternalPositionGroup = async (request, response, next) => {
   try {
     const companyData = request.body;
@@ -49,6 +48,26 @@ const insertInternalPositionGroup = async (request, response, next) => {
     const internalPosition = await companyService.insertInternalPositionGroup(companyData, provider.company_id);
 
     response.status(201).json(internalPosition);
+  } catch (error) {
+    console.error(error.message);
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const insertAssignment = async (request, response, next) => {
+  try {
+    const companyData = request.body;
+    // const userId = request.params.id;
+
+    await companyService.insertAssignment(companyData);
+
+    response.status(201)
+      .json({
+        message: "assignment was inserted successfully"
+      });
   } catch (error) {
     console.error(error.message);
     response.status(401)
@@ -171,6 +190,7 @@ module.exports = {
   getProviderById,
   getInternalPositionsByProviderId,
   insertInternalPositionGroup,
+  insertAssignment,
   getStudentActiveApplications,
   login
 };

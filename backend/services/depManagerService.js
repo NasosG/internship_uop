@@ -81,7 +81,6 @@ const getStudentActiveApplications = async (deptId) => {
   }
 };
 
-
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -163,7 +162,6 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
     console.log("error: " + error);
   }
 };
-
 
 const deactivateAllPeriods = async () => {
   try {

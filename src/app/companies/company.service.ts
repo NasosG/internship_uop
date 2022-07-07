@@ -79,13 +79,19 @@ export class CompanyService {
     // console.log("city " + companyDetails.city);
     // console.log("prefecturet " + companyDetails.prefecture);
      this.http
-      .post<{ message: string }>(this.baseUrl + "/insertInternalPosition/" + providerId, companyDetails )
+      .post<{ message: string }>(this.baseUrl + "/insertInternalPosition/" + providerId, companyDetails)
        .subscribe(responseData => {
         console.log(responseData.message);
       });
   }
 
-  insertAssignment() {
+  insertAssignment(apps: any) {
     //TODO
+    const providerId = this.authService.getSessionId();
+    this.http
+      .post<{ message: string }>(this.baseUrl + "/insertNewAssignment/" + providerId, apps)
+       .subscribe(responseData => {
+        console.log(responseData.message);
+      });
   }
 }

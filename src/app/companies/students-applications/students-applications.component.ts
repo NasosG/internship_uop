@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import { Utils } from 'src/app/MiscUtils';
 import { ApplicationsPreviewDialogComponent } from '../applications-preview-dialog/applications-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import {Assignment} from 'src/app/department-managers/assignment.model';
 
 @Component({
   selector: 'companies-students-applications',
@@ -84,6 +85,29 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          console.log("User pressed Cancel");
+        } else {
+          let positionsDataJson: Assignment[] = [];
+
+          for (const item of this.apps) {
+            for (let position of item.positions) {
+              positionsDataJson.push({
+                position_id: position.position_id,
+                internal_position_id: position.internal_position_id,
+                title: position.title,
+                city: position.place,
+                duration: position.duration,
+                physical_object: position.physical_objects,
+                student_id: item.student_id,
+              })
+            }
+          }
+
+          console.log(positionsDataJson);
+          this.companyService.insertAssignment(positionsDataJson);
+        }
     });
   }
 

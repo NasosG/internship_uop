@@ -601,7 +601,6 @@ const insertIbanFile = async (request, response, next) => {
   }
 };
 
-
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;

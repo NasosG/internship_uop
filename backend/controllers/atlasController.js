@@ -321,7 +321,7 @@ const getAtlasFilteredPositions = async (request, response) => {
 
     for (const item of results) {
       positionsArray.push({
-        'id': item.position_id,
+        'id': item.g_position_id,
         'atlasPositionId': item.atlas_position_id,
         'positionGroupLastUpdateString': item.last_update_string,
         'city': item.city,

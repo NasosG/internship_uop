@@ -27,9 +27,10 @@ const getProviderIdByUserId = async (id) => {
 
 const getStudentActiveApplications = async (companyName, companyAFM) => {
   try {
+    let i = 2;
     const applications = await pool.query("SELECT * FROM active_applications_ranked \
-                                            WHERE (positions[1]->>'company')::varchar = $1 \
-                                            AND (positions[1]->>'afm')::varchar = $2", [companyName, companyAFM]);
+                                            WHERE (positions[$1]->>'company')::varchar = $2 \
+                                            AND (positions[$1]->>'afm')::varchar = $3", [i, companyName, companyAFM]);
     return applications.rows;
   } catch (error) {
     throw Error('Error while fetching student active applications');
@@ -45,6 +46,25 @@ const getInternalPositionsByProviderId = async (providerId) => {
     return internalPositionGroups.rows;
   } catch (error) {
     throw Error('Error while fetching internal position groups for provider ' + providerId);
+  }
+};
+
+const insertAssignment = async (body) => {
+  try {
+    const myObj = Object.assign(body);
+    const STATE = 0;
+
+    for (let item of myObj) {
+      let counter = item;
+      console.log(counter.title);
+      await pool.query("INSERT INTO internship_assignment(position_id, internal_position_id, student_id, time_span, physical_objects, city, status) " +
+        " VALUES" +
+        " ($1, $2, $3, $4, $5, $6, $7)",
+        [counter.position_id, counter.internal_position_id, counter.student_id, counter.student_id, null, counter.city, STATE]);
+    }
+
+  } catch (error) {
+    throw Error('Error while inserting assignment');
   }
 };
 
@@ -167,6 +187,7 @@ module.exports = {
   getInternalPositionsByProviderId,
   getProviderIdByUserId,
   insertInternalPositionGroup,
+  insertAssignment,
   getProviderByAfm,
   getProviderById,
   getStudentActiveApplications,
