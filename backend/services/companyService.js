@@ -39,10 +39,10 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
 
 const getInternalPositionsByProviderId = async (providerId) => {
   try {
-    const internalPositionGroups = await pool.query("SELECT *, to_char(\"last_update_string\", 'DD/MM/YYYY') as publication_date "
-      + " FROM internal_position_group g"
-      + " INNER JOIN generic_users usr ON g.provider_id = usr.company_id"
-      + " WHERE usr.g_user_id = $1", [providerId]);
+    const internalPositionGroups = await pool.query("SELECT *, to_char(\"last_update_string\", 'DD/MM/YYYY') as publication_date " +
+      " FROM internal_position_group g" +
+      " INNER JOIN generic_users usr ON g.provider_id = usr.company_id" +
+      " WHERE usr.g_user_id = $1", [providerId]);
     return internalPositionGroups.rows;
   } catch (error) {
     throw Error('Error while fetching internal position groups for provider ' + providerId);
@@ -56,7 +56,7 @@ const insertAssignment = async (body) => {
 
     for (let item of myObj) {
       let counter = item;
-      console.log(counter.title);
+      console.log(counter.city);
       await pool.query("INSERT INTO internship_assignment(position_id, internal_position_id, student_id, time_span, physical_objects, city, status) " +
         " VALUES" +
         " ($1, $2, $3, $4, $5, $6, $7)",
@@ -150,17 +150,17 @@ const insertInternalPositionGroup = async (data, providerId) => {
       '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id, start_date, start_date_string, end_date, end_date_string)' +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, current_timestamp, $9, $10, $11, $12, $13, $14, $15, $16)",
       [data.description,
-      data.city,
-      data.title,
-      data.position_type,
-      data.available_positions,
-      data.duration,
-      data.physical_objects,
+        data.city,
+        data.title,
+        data.position_type,
+        data.available_positions,
+        data.duration,
+        data.physical_objects,
         providerId,
         null,
         null,
-      data.country,
-      data.prefecture,
+        data.country,
+        data.prefecture,
         null,
         null,
         null,

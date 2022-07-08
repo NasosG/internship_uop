@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 import { Utils } from 'src/app/MiscUtils';
 import { ApplicationsPreviewDialogComponent } from '../applications-preview-dialog/applications-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import {Assignment} from 'src/app/department-managers/assignment.model';
+import { Assignment } from '../assignment.model';
 
 @Component({
   selector: 'companies-students-applications',
@@ -21,7 +21,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
   constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
 
-  dtOptions: any = { };
+  dtOptions: any = {};
 
   ngOnInit() {
     this.companyService
@@ -54,7 +54,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
               columnDefs: [{ orderable: false, targets: [3, 5, 6, 7] }],
               language: {}
             });
-        });
+          });
       });
   }
 
@@ -86,28 +86,28 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.cancel) {
-          console.log("User pressed Cancel");
-        } else {
-          let positionsDataJson: Assignment[] = [];
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        console.log("User pressed Cancel");
+      } else {
+        let positionsDataJson: Assignment[] = [];
 
-          for (const item of this.apps) {
-            for (let position of item.positions) {
-              positionsDataJson.push({
-                position_id: position.position_id,
-                internal_position_id: position.internal_position_id,
-                title: position.title,
-                city: position.place,
-                duration: position.duration,
-                physical_object: position.physical_objects,
-                student_id: item.student_id,
-              })
-            }
+        for (const item of this.apps) {
+          for (let position of item.positions) {
+            positionsDataJson.push({
+              position_id: position.position_id,
+              internal_position_id: position.internal_position_id,
+              title: position.title,
+              city: position.place,
+              duration: position.duration,
+              physical_object: position.physical_objects,
+              student_id: item.student_id,
+            })
           }
-
-          console.log(positionsDataJson);
-          this.companyService.insertAssignment(positionsDataJson);
         }
+
+        console.log(positionsDataJson);
+        this.companyService.insertAssignment(positionsDataJson);
+      }
     });
   }
 

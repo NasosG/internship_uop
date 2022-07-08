@@ -23,7 +23,12 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
 
     if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
       console.error("some student details fetched from procedure were null");
-      return { 'Grade': 0, 'Ects': 0, 'Semester': 0, 'Praktiki': 0 };
+      return {
+        'Grade': 0,
+        'Ects': 0,
+        'Semester': 0,
+        'Praktiki': 0
+      };
     }
 
     return procedureResults;
@@ -113,7 +118,7 @@ const getStudentEvaluationSheets = async (id) => {
 
 const getStudentPositions = async (id) => {
   try {
-    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date, position_id, afm \
+    const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date, position_id, afm, internal_position_id \
                                                       FROM student_positions \
                                                       WHERE student_id = $1 \
                                                       ORDER BY priority", [id]);
@@ -227,8 +232,8 @@ const updateStudentEntrySheet = async (form, studentId) => {
       "A3_1 = $10, A3_2 = $11, A3_3 = $12, A4_1 = $13, A5_1 = $14, A6_1 = $15, B1_1 = $16" +
       " WHERE student_id = $17 ",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
+        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1,
         studentId
       ]);
     return updateResults;
@@ -255,8 +260,8 @@ const insertStudentEntrySheet = async (form, studentId) => {
     const insertResults = await pool.query("INSERT INTO entry_form" +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
       [form.A1_1, form.A1_2, form.A1_3, form.A2_1,
-      form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
-      form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
+        form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A3_1,
+        form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.B1_1, studentId
       ]);
     return insertResults;
   } catch (error) {

@@ -6,4 +6,5 @@ export interface Assignment {
   duration: number;
   physical_object: string[];
   student_id: number;
+  approval_state?: number;
 }
