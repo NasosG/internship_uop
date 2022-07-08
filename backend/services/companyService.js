@@ -27,11 +27,23 @@ const getProviderIdByUserId = async (id) => {
 
 const getStudentActiveApplications = async (companyName, companyAFM) => {
   try {
-    let i = 2;
-    const applications = await pool.query("SELECT * FROM active_applications_ranked \
+    // Constants
+    const MAX_POSITIONS_NUMBER = 5;
+    const OFFSET = 1;
+    // Variables
+    let apps = [];
+
+    // loop through positions in applications of the database
+    for (let i = OFFSET; i < MAX_POSITIONS_NUMBER + OFFSET; i++) {
+      const applications = await pool.query("SELECT * FROM active_applications_ranked \
                                             WHERE (positions[$1]->>'company')::varchar = $2 \
                                             AND (positions[$1]->>'afm')::varchar = $3", [i, companyName, companyAFM]);
-    return applications.rows;
+      // push first element which contains actual json[]
+      if (applications.rows[0])
+        apps.push(applications.rows[0]);
+    }
+
+    return apps;
   } catch (error) {
     throw Error('Error while fetching student active applications');
   }
@@ -150,17 +162,17 @@ const insertInternalPositionGroup = async (data, providerId) => {
       '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id, start_date, start_date_string, end_date, end_date_string)' +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, current_timestamp, $9, $10, $11, $12, $13, $14, $15, $16)",
       [data.description,
-        data.city,
-        data.title,
-        data.position_type,
-        data.available_positions,
-        data.duration,
-        data.physical_objects,
+      data.city,
+      data.title,
+      data.position_type,
+      data.available_positions,
+      data.duration,
+      data.physical_objects,
         providerId,
         null,
         null,
-        data.country,
-        data.prefecture,
+      data.country,
+      data.prefecture,
         null,
         null,
         null,
