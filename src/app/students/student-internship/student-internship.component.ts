@@ -1,5 +1,4 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { async } from '@angular/core/testing';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -34,13 +33,13 @@ export class StudentInternshipComponent implements OnInit {
   filters: AtlasFilters = new AtlasFilters();
 
   begin: number = 0;
-  limit: number = 6; // Number of results to fetch from the back-end
-  isAppActive: boolean = false;
-  entries!: AtlasPosition[];
+  limit: number = 6;            // Number of results to fetch from the back-end
+  isAppActive: boolean = false; // User can add positions only if this variable is false
+  entries!: AtlasPosition[];    // The positions from atlas which are stored in a local database
   departments!: Department[];
   cities!: City[];
-  timer!: any;      // Timer identifier
-  waitTime: number = 500;   // Wait time in milliseconds
+  timer!: any;                  // Timer identifier
+  waitTime: number = 500;       // Wait time in milliseconds
 
   canStudentSubmitApp!: boolean;
   private INTEREST_EXPRESSION_PHASE: number = 1;
