@@ -271,7 +271,7 @@ export class StudentInternshipComponent implements OnInit {
         return;
       }
       // check if student tries to select the same position or another error occurrs
-      else if (message == "Error while inserting student positions") {
+      else if (message.includes("Error while inserting student positions")) {
         this.warnError();
         return;
       }
