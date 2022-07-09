@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Utils } from 'src/app/MiscUtils';
 import { CompanyService}  from '../company.service';
 import { InternalPosition } from '../internal-position.model';
-import {PositionPreviewDialogComponent} from '../position-preview-dialog/position-preview-dialog.component';
+import { PositionPreviewDialogComponent } from '../position-preview-dialog/position-preview-dialog.component';
 
 @Component({
   selector: 'app-positions-uploaded-display',
@@ -20,13 +19,11 @@ export class PositionsUploadedDisplayComponent implements OnInit {
     this.companyService.getInternalPositions()
       .subscribe((positions: InternalPosition[]) => {
         this.positions = positions;
-        // this.positions[0].publication_date = Utils.getPreferredTimestamp( this.positions.publication_date);
     })
   }
 
   openDialog(data: InternalPosition) {
     const dialogRef = this.dialog.open(PositionPreviewDialogComponent, {
-      // width: '350px',
       data: { internal_positions: data }
     });
   }

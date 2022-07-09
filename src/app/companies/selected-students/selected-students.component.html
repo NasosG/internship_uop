@@ -9,9 +9,10 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive">
-            <button class="btn btn-primary">Excel</button>
+            <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
+                style='font-size:24px'></i> Excel</button>
             <br><br>
-            <table id="appTable" #appTable class="table table-bordered table-striped">
+            <table id="selectedAppsTable" #selectedAppsTable class="table table-bordered table-striped">
               <!--datatable [dtOptions]="dtOptions">-->
               <thead>
                 <tr>
@@ -23,26 +24,19 @@
                   <th>Ενέργειες</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Γραμματειακή Υποστήριξη</td>
-                  <td>Αθανάσιος Μητρόπουλος</td>
-                  <td>Διαχείρηση περιβαλλοντος</td>
-                  <td>psct19003@uop.gr</td>
-                  <td>8.3</td>
+              <tbody *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
+                <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2">
+                  <td>{{position.title}}</td>
+                  <td>{{app.firstname}} {{app.lastname}}</td>
+                  <td>{{app.department_id}}</td>
+                  <td>{{app.mail}}</td>
+                  <td>{{app.score}}</td>
+                  <!-- <td>{{app.application_date}}</td> -->
                   <td>
-                    <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
-                      Προβολή<br></a></td>
-                </tr>
-                <tr>
-                  <td>Ανάπτυξη Εφαρμογών</td>
-                  <td>Αθανάσιος Γαλάτης</td>
-                  <td>Επιστήμη Υπολογιστών</td>
-                  <td>psct19009@uop.gr</td>
-                  <td>8.6</td>
-                  <td>
-                    <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-eye"></i>
-                      Προβολή<br></a></td>
+                    <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(app, position.title)"><i
+                        class="fa fa-eye"></i>
+                      Προβολή<br></a>
+                  </td>
                 </tr>
               </tbody>
               <tfoot>
