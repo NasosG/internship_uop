@@ -123,6 +123,39 @@ const getInternalPositionsByProviderId = async (request, response) => {
   }
 };
 
+const getStudentAssignedApplications = async (request, response) => {
+  try {
+    const companyName = request.query.companyName;
+    const companyAFM = request.query.companyAFM;
+
+    const users = await companyService.getStudentAssignedApplications(companyName, companyAFM);
+
+    let positionsArray = [];
+    let i = 0;
+    for (const user of users) {
+      let found = false;
+
+      for (const position of user.positions) {
+        if (position.afm == companyAFM && position.company == companyName) {
+          found = true;
+          positionsArray.push(position);
+        }
+      }
+
+      if (!found)
+        users.splice(i, 1);
+      else
+        user.positions = positionsArray;
+
+      i++;
+    }
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
 
 const getStudentActiveApplications = async (request, response) => {
   try {
@@ -189,6 +222,7 @@ module.exports = {
   getProviderByAfm,
   getProviderById,
   getInternalPositionsByProviderId,
+  getStudentAssignedApplications,
   insertInternalPositionGroup,
   insertAssignment,
   getStudentActiveApplications,

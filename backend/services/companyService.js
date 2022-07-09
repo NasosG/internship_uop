@@ -47,6 +47,35 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
   }
 };
 
+
+const getStudentAssignedApplications = async (companyName, companyAFM) => {
+  try {
+    // Constants
+    const MAX_POSITIONS_NUMBER = 5;
+    const OFFSET = 1;
+    // Variables
+    let apps = [];
+
+    // loop through positions in applications of the database
+    for (let i = OFFSET; i < MAX_POSITIONS_NUMBER + OFFSET; i++) {
+      const applications = await pool.query("SELECT * FROM active_applications_ranked d \
+                                            INNER JOIN internship_assignment a \
+                                            ON (d.positions[$1] ->> 'internal_position_id':: varchar = a.internal_position_id:: varchar \
+	                                            OR d.positions[$1] ->> 'position_id':: varchar = a.position_id:: varchar) \
+                                              AND(positions[$1] ->> 'company'):: varchar = $2 \
+                                              AND(positions[$1] ->> 'afm'):: varchar = $3 \
+                                              AND a.status = 0", [i, companyName, companyAFM]);
+      // push first element which contains actual json[]
+      if (applications.rows[0])
+        apps.push(applications.rows[0]);
+    }
+
+    return apps;
+  } catch (error) {
+    throw Error('Error while fetching student active applications');
+  }
+};
+
 const getInternalPositionsByProviderId = async (providerId) => {
   try {
     const internalPositionGroups = await pool.query("SELECT *, to_char(\"last_update_string\", 'DD/MM/YYYY') as publication_date " +
@@ -216,6 +245,7 @@ module.exports = {
   getProviderByAfm,
   getProviderById,
   getStudentActiveApplications,
+  getStudentAssignedApplications,
   insertCompanyUsers,
   insertProviders,
   insertInternalPositionGroup,

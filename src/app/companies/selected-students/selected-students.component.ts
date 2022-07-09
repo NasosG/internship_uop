@@ -31,7 +31,7 @@ export class SelectedStudentsComponent implements OnInit {
         console.log(this.company);
 
         this.companyService
-          .getStudentActiveApplications(this.company.name, this.company.afm)
+          .getStudentAssignedApplications(this.company.name, this.company.afm)
           .subscribe((apps: ActiveApplicationsRanked[]) => {
             this.apps = apps;
             this.chRef.detectChanges();

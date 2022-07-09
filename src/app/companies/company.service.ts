@@ -37,6 +37,13 @@ export class CompanyService {
     return this.http.get<Array<ActiveApplicationsRanked>>(this.baseUrl + "/getStudentActiveApplications", { params });
   }
 
+  public getStudentAssignedApplications(companyName: string, companyAFM: string): Observable<Array<ActiveApplicationsRanked>> {
+    const params = new HttpParams()
+      .set('companyName', companyName)
+      .set('companyAFM', companyAFM);
+    return this.http.get<Array<ActiveApplicationsRanked>>(this.baseUrl + "/getStudentAssignedApplications", { params });
+  }
+
   public getInternalPositions(): Observable<Array<InternalPosition>>  {
     const providerId = this.authService.getSessionId();
     return this.http
