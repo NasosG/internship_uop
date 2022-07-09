@@ -34,6 +34,18 @@ const getAvailablePositionsUIUnion = async (offset, limit) => {
   }
 };
 
+const getPositionGroupFromDBById = async (atlasPositionId) => {
+  try {
+
+    const internalPositionGroups = await pool.query("SELECT *, to_char(\"last_update_string\", 'DD/MM/YYYY') as publication_date "
+      + " FROM atlas_position_group g"
+      + " WHERE g.atlas_position_id = $1", [atlasPositionId]);
+    return internalPositionGroups.rows[0];
+  } catch (error) {
+    throw Error('Error while fetching atlas position groups for position ' + atlasPositionId);
+  }
+};
+
 const getInstitutions = async () => {
   try {
     const results = await pool.query("SELECT * FROM atlas_academics");
@@ -284,6 +296,7 @@ module.exports = {
   getCredentials,
   getAvailablePositionsUI,
   getAvailablePositionsUIUnion,
+  getPositionGroupFromDBById,
   getAtlasOldestPositionGroups,
   getAtlasFilteredPositions,
   getInstitutions,

@@ -1,8 +1,6 @@
 // database connection configuration
-const {
-  async
-} = require("rxjs");
 const pool = require("../db_config.js");
+const atlasService = require("../services/atlasService");
 
 const getProviderById = async (id) => {
   try {
@@ -61,18 +59,36 @@ const getInternalPositionsByProviderId = async (providerId) => {
   }
 };
 
+const getInternalPositionByPositionId = async (positionId) => {
+  try {
+    const internalPositionGroups = await pool.query("SELECT *, to_char(\"last_update_string\", 'DD/MM/YYYY') as publication_date " +
+      " FROM internal_position_group g" +
+      " INNER JOIN generic_users usr ON g.provider_id = usr.company_id" +
+      " WHERE g.id = $1", [positionId]);
+    return internalPositionGroups.rows[0];
+  } catch (error) {
+    throw Error('Error while fetching internal position groups for provider ' + positionId);
+  }
+};
+
 const insertAssignment = async (body) => {
   try {
     const myObj = Object.assign(body);
     const STATE = 0;
 
     for (let item of myObj) {
-      let counter = item;
-      console.log(counter.city);
+      let positionData;
+
+      // Get position details depending if it's atlas or internal position
+      if (item.position_id != null)
+        positionData = await atlasService.getPositionGroupFromDBById(item.position_id);
+      else if (item.internal_position_id != null)
+        positionData = await getInternalPositionByPositionId(item.internal_position_id);
+
       await pool.query("INSERT INTO internship_assignment(position_id, internal_position_id, student_id, time_span, physical_objects, city, status) " +
         " VALUES" +
         " ($1, $2, $3, $4, $5, $6, $7)",
-        [counter.position_id, counter.internal_position_id, counter.student_id, counter.student_id, null, counter.city, STATE]);
+        [item.position_id, item.internal_position_id, item.student_id, positionData.duration, positionData.physical_objects, item.city, STATE]);
     }
 
   } catch (error) {
@@ -194,14 +210,15 @@ const insertInternalPositionGroup = async (data, providerId) => {
 };
 
 module.exports = {
-  insertCompanyUsers,
-  insertProviders,
   getInternalPositionsByProviderId,
   getProviderIdByUserId,
-  insertInternalPositionGroup,
-  insertAssignment,
+  getInternalPositionByPositionId,
   getProviderByAfm,
   getProviderById,
   getStudentActiveApplications,
+  insertCompanyUsers,
+  insertProviders,
+  insertInternalPositionGroup,
+  insertAssignment,
   loginCompany
 };
