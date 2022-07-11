@@ -794,26 +794,30 @@ ul li ul a.sf-with-ul:after {
   float: left;
   box-sizing: border-box;
   padding: 19px 20px;
-  border: none;
+  /* border: none; */
   margin-right: 2%;
   width: 44.5%;
+  height: 54px;
+  /* box-shadow: 0px 5px 11px 7px rgba(157, 158, 161, 0.3); */
+  /* border: 1px solid #d6d4d4 !important; */
+  border-radius: 4px 0px 0px 4px;
   float: left;
 }
 
 
 .search-container input:focus {
-  border: none;
+  /* border: 1px solid white !important; */
+  /* border-bottom: 2px solid black !important; */
 }
 
 .search-container button {
   background-color: #505050;
   color: #fff;
-  border: none;
   cursor: pointer;
   font-size: 20px;
   box-sizing: border-box;
   text-align: center;
-  height: 60px;
+  height: 56px;
   width: 7%;
   position: relative;
 }

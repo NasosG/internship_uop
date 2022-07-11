@@ -45,4 +45,44 @@ export abstract class Utils  {
     return dArr[2] + "/" + dArr[1] + "/" + dArr[0].substring(2); //ex out: "18/01/10"
   }
 
+  public static isLengthOutOfBounds(lengthMin: number, lengthMax: number): boolean {
+    return (length > lengthMin && length > lengthMax);
+  }
+
+  public static isEmptyOrWhiteSpace(str: string) {
+    return str === null || str.match(/^ *$/) !== null;
+  }
+
+  public static TaxNumRule(afm: string): boolean {
+    if (Utils.isEmptyOrWhiteSpace(afm))
+        return false;
+
+    if (afm.length != 9)
+        return false;
+
+    let result = false;
+    let count = 0;
+    let digit, finalNum = 0;
+    let temp;
+
+    for (let i = afm.length; i >= 1; i--) {
+        if (count != 0) {
+            temp = afm[i - 1];
+            digit = parseInt(temp);
+            finalNum = finalNum + digit * Math.pow(2, count);
+        }
+        count++;
+    }
+
+    temp = afm[afm.length - 1];
+    digit = parseInt(temp);
+
+    if (((finalNum % 11) % 10) == digit)
+        result = true;
+    else
+        result = false;
+
+    return result;
+  }
+
 }
