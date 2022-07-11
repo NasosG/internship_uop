@@ -2,6 +2,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/auth.service';
+import {Utils} from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Company } from '../../companies/company.model';
 import { CompanyService } from '../../companies/company.service';
@@ -41,8 +42,11 @@ export class CredentialsGenericSignupComponent implements OnInit {
   }
 
   onBlur(): void {
-    console.log('Focus Is Lost for this Element');
+    console.log('Focus is Lost for this Element');
+
     let vatRegValue = this.afmInput?.nativeElement.value;
+    this.validate(vatRegValue);
+
       this.companyService.getCompaniesByAfm(vatRegValue)
       .subscribe((providers: Company[]) => {
         console.log(providers.length);
@@ -56,6 +60,10 @@ export class CredentialsGenericSignupComponent implements OnInit {
         }
         console.log(this.companiesArray);
       });
+  }
+
+  validate(vat: string) {
+    if (!Utils.isEmptyOrWhiteSpace(vat) && !Utils.TaxNumRule(vat)) this.onErrorVatRule();
   }
 
   onSubmitCompanyDetails(data: any) {
@@ -102,6 +110,18 @@ export class CredentialsGenericSignupComponent implements OnInit {
     Swal.fire({
       title: 'Σφάλμα',
       text: 'Το username χρησιμοποείται ήδη',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    })
+  }
+
+  onErrorVatRule() {
+    Swal.fire({
+      title: 'Σφάλμα',
+      text: 'Το ΑΦΜ δεν είναι έγκυρο',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',

@@ -7,14 +7,19 @@ const insertCompanyUsers = async (request, response, next) => {
     let newlyCreatedProviderId = null;
     // If id doesn't exist first make a new provider and then make an account
     if (company.id == null || company.id == "") {
-      newlyCreatedProviderId = await companyService.insertProviders(company);
+      console.error('not created');
+      response.status(409)
+        .json({
+          message: 'not created. Company does not exist in Atlas.'
+        });
+      return;
+      //newlyCreatedProviderId = await companyService.insertProviders(company);
     }
     const accountCreated = await companyService.insertCompanyUsers(company, newlyCreatedProviderId);
 
     if (accountCreated) {
       if (company.id == null || company.id == "") {
         console.log('company id is still null ERROR');
-        // await companyService.insertProviders(company);
       }
     } else {
       console.error('not created');

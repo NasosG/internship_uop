@@ -138,7 +138,7 @@ const insertCompanyUsers = async (body, newlyCreatedProviderId) => {
     await pool.query("INSERT INTO generic_users (username, password, atlas_account, user_type, company_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5)",
-      [body.username, body.password, 'false', 'company', body.id]);
+      [body.username, body.password, 'true', 'company', body.id]);
 
     return true;
   } catch (error) {
