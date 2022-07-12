@@ -13,5 +13,6 @@ router.get('/getCities', atlasController.getCities);
 router.get('/getPrefectures', atlasController.getPrefectures);
 router.get('/getCountries', atlasController.getCountries);
 router.get('/getPhysicalObjects', atlasController.getPhysicalObjects);
+router.get('/getGenericPositionSearch/', atlasController.getGenericPositionSearch);
 
 module.exports = router;

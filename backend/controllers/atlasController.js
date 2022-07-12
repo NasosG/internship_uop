@@ -348,6 +348,46 @@ const getAtlasFilteredPositions = async (request, response) => {
   }
 };
 
+
+const getGenericPositionSearch = async (request, response) => {
+  try {
+    const userInput = request.query.text;
+    const begin = request.query.begin;
+    const offset = (begin != null) ? begin : 0;
+    const limit = 6; // Number of rows to fetch from the database
+
+    const results = await atlasService.getGenericPositionSearch(userInput, offset, limit);
+    let positionsArray = [];
+
+    for (const item of results) {
+      positionsArray.push({
+        'id': item.g_position_id,
+        'positionGroupLastUpdateString': item.last_update_string,
+        'city': item.city,
+        'title': item.title,
+        'description': item.description,
+        'positionType': item.position_type,
+        'availablePositions': item.available_positions,
+        'duration': item.duration,
+        'physicalObjects': item.physical_objects,
+        'name': item.name,
+        'providerContactEmail': item.contact_email,
+        'providerContactName': item.contact_name,
+        'providerContactPhone': item.contact_phone,
+        'atlasPositionId': item.atlas_position_id,
+        'afm': item.afm
+      });
+    }
+
+    return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions from db: " + error.message);
+    response.status(400).json({
+      message: "something went wrong while fetching available positions from db: " + error.message
+    });
+  }
+};
+
 const insertTablesFromAtlas = async (request, response) => {
   let accessToken = await atlasLogin();
 
@@ -500,6 +540,7 @@ module.exports = {
   getPrefectures,
   getCountries,
   getPhysicalObjects,
+  getGenericPositionSearch,
   insertTablesFromAtlas,
   insertPositionGroup
 };
