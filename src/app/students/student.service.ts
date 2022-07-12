@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Student } from "./student.model";
 import { mergeMap, Observable, Subject } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { EntryForm } from "./entry-form.model";
 import { ExitForm } from "./exit-form.model";
@@ -136,6 +136,13 @@ export class StudentsService {
     return this.period;
   }
 
+  getGenericPositionSearch(begin: number, text: any): Observable<Array<AtlasPosition>> {
+    const params = new HttpParams()
+      .set('text', text)
+      .set('begin', begin);
+    return this.http
+      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getGenericPositionSearch/', { params });
+  }
   // public fetchStudentsAndPeriod() {
   //   let studentPeriodArray: any;
   //   let fetchedStudents: any[];

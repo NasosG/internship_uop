@@ -170,9 +170,10 @@ const getGenericPositionSearch = async (text, offset, limit) => {
         + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
         + " WHERE g.description ILIKE $1 "
         + " OFFSET $2 LIMIT $3";
+      text = '%' + text + '%';
     }
 
-    const results = await pool.query(queryText, ['%' + text + '%', offset, limit]);
+    const results = await pool.query(queryText, [text, offset, limit]);
     return results.rows;
   } catch (error) {
     throw Error('Error while fetching positions from generic search');

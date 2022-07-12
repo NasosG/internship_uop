@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -16,6 +16,7 @@ import { StudentsService } from '../student.service';
 })
 
 export class StudentInternshipComponent implements OnInit {
+  @ViewChild('searchInput') searchInput!: ElementRef;
   jobPositionId!: number;
   jobTitle!: string;
   jobDescription!: string;
@@ -132,6 +133,28 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasFilteredPositions(beginParam, filterArray)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
+      });
+  }
+
+  public fetchGenericSearchPositions() {
+    // begin value needs to be refreshed (assigned to 0)
+    this.begin = 0;
+    let inputText = this.searchInput?.nativeElement.value;
+
+    this.studentsService.getGenericPositionSearch(this.begin, inputText)
+      .subscribe((positions: AtlasPosition[]) => {
+        this.entries = [];
+        this.entries.push(...positions);
+
+        // if positions are not found by searching
+        if (positions.length == 0) {
+          this.warnNoResultsFound();
+          this.studentsService.getAtlasPositions(this.begin)
+            .subscribe((positions: AtlasPosition[]) => {
+              this.entries = positions;
+              this.setJobsDetails(0);
+          });
+        }
       });
   }
 
@@ -309,6 +332,15 @@ export class StudentInternshipComponent implements OnInit {
     });
   }
 
+  private warnNoResultsFound(): void {
+    Swal.fire({
+      position: 'center',
+      icon: 'warning',
+      title: "Δεν βρέθηκαν αποτελέσματα",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
 
   checkIfActiveAppExists() {
     this.studentsService.getStudentActiveApplication()

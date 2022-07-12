@@ -169,10 +169,10 @@
   <div class="search-container mt-0 pt-0 mb-2 pb-2" style="width:100%; margin:auto;">
     <form action="">
       <div class="container-fluid row">
-        <input type="search" class="interns-positions-search col-md-11 card" style="margin-top:3px;"
+        <input #searchInput type="search" class="interns-positions-search col-md-11 card" style="margin-top:3px;"
           placeholder="Aναζήτηση..." name="search">
-        <button class="ml-0" class="col-md-1" type="submit" style="margin-top: 2px;"><i
-            class=" fa fa-search"></i></button>
+        <button (click)="fetchGenericSearchPositions()" class="ml-0" class="col-md-1" type="submit"
+          style="margin-top: 2px;"><i class=" fa fa-search"></i></button>
       </div>
     </form>
   </div>
