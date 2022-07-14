@@ -112,5 +112,9 @@
     "STEP1": "Step 1: Post internships positions by filling in all the fields",
     "STEP2": "Step 2: See the students who have chosen you and accept the ones you want",
     "STEP3": "Step 3: View of the selected students"
+  },
+  "INTERNSHIP-OFFICE": {
+    "AFFILIATE": "Internship-office",
+    "POSITION-ADD": "Add positions"
   }
 }

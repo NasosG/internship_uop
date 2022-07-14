@@ -1,0 +1,77 @@
+import { Component, OnInit } from '@angular/core';
+import { DepManager } from 'src/app/department-managers/dep-manager.model';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { Period } from 'src/app/department-managers/period.model';
+import { Utils } from 'src/app/MiscUtils';
+import Swal from 'sweetalert2';
+
+@Component({
+  selector: 'app-positions-add',
+  templateUrl: './positions-add.component.html',
+  styleUrls: ['./positions-add.component.css']
+})
+export class PositionsAddComponent implements OnInit {
+
+  public depManagerData!: DepManager;
+  public periodData!: Period;
+  // private studentSubscription!: Subscription;
+  fontSize: number = 100;
+  private language!: string;
+  dateFrom: string = "";
+  dateTo: string = "";
+
+  phaseArray = ["no-state",
+    "1. Φάση ελέγχου επιλεξιμότητας.",
+    "2. Φάση επιλογής φοιτητών",
+    "3. Δήλωση προτίμησης από τους φοιτητές",
+    "4. Επιλογή φοιτητών από φορείς"];
+
+  constructor(public depManagerService: DepManagerService) { }
+
+  ngOnInit() {
+    this.language = localStorage.getItem('language') || 'gr';
+
+    // this.authService.login('');
+    this.depManagerService.getDepManager()
+      .subscribe((depManager: DepManager) => {
+        this.depManagerData = depManager;
+        this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+      });
+    this.depManagerService.getPeriodByUserId()
+      .subscribe((periodData: Period) => {
+        this.periodData = periodData;
+        this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+        this.dateTo = Utils.changeDateFormat(periodData.date_to);
+      });
+  }
+
+  deletePeriodById() {
+    this.deletePeriod(this.periodData.id);
+  }
+
+  deletePeriod(periodId: number) {
+    Swal.fire({
+      title: 'Διαγραφή Περιόδου',
+      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε σε διαγραφή περιόδου;',
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.depManagerService.deletePeriodById(periodId);
+        Swal.fire({
+          title: 'Διαγραφή περιόδου',
+          text: 'Η περίοδος έχει διαγραφεί.',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then(() => { location.reload(); });
+      }
+    });
+  }
+
+}

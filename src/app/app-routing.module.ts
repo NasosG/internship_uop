@@ -4,6 +4,7 @@ import { DepartmentManagerComponent } from './department-managers/department-man
 import { HomeComponent } from './home-screen/home/home.component';
 import { StudentComponent } from './students/student/student.component';
 import { CompanyComponent } from './companies/company/company.component';
+import { OfficeComponent } from './internship-office/office/office.component';
 
 const routes: Routes = [{
   path: '',
@@ -133,10 +134,10 @@ const routes: Routes = [{
     component: CompanyComponent
   },
   {
-  //   path: 'students-positions/:id',
-  //   component: CompanyComponent
-  // },
-   path: 'students-positions',
+    //   path: 'students-positions/:id',
+    //   component: CompanyComponent
+    // },
+    path: 'students-positions',
     component: CompanyComponent,
     children: [
       {
@@ -161,7 +162,17 @@ const routes: Routes = [{
     component: CompanyComponent
   }
   ]
+},
+
+{
+  path: 'office',
+  component: OfficeComponent,
+  children: [{
+    path: 'positions-add',
+    component: OfficeComponent
+  }]
 }
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { enableTracing: true })],
