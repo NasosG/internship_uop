@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { mergeMap, Observable, Subject } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
 import { Period } from './period.model';
@@ -48,6 +48,16 @@ export class DepManagerService {
     return fetchedPeriod;
   }
 
+  getPeriodByDepartmentId(): Observable<Period> {
+    const id = 98;
+    const fetchedPeriod = this.http.get<Period>("http://localhost:3000/api/office/getPeriodByDepartmentId/" + id);
+    this.fetchedPeriodObservable = fetchedPeriod;
+    this.fetchedPeriodObservable.subscribe((periods: Period) => {
+      this.period = periods;
+    });
+    return fetchedPeriod;
+  }
+
   getStudentsApplyPhase(): Observable<Student[]> {
     const fetchedStudent = this.getDepManager()
       .pipe(
@@ -76,11 +86,16 @@ export class DepManagerService {
       .get<Array<ActiveApplication>>("http://localhost:3000/api/depmanager/getStudentActiveApplications/" + departmentId);
   }
 
-  insertPeriod(inputForm: any) {
+  insertPeriod(inputForm: any, departmentId: number) {
     const depManagerId = 2;
     const form: Period = inputForm;
+
+    const params = new HttpParams()
+      .set('depManagerId', depManagerId)
+      .set('departmentId', departmentId);
+
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertPeriod/" + depManagerId, form)
+      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertPeriod/", form, { params })
       .subscribe(responseData => {
         console.log(responseData.message);
       });

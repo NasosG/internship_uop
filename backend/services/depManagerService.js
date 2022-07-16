@@ -91,14 +91,14 @@ const splitStudentsAM = (splitString) => {
   return splitArray[splitArray.length - 1];
 };
 
-const insertPeriod = async (body, id) => {
+const insertPeriod = async (body, id, departmentId) => {
   try {
     await deactivateAllPeriods();
     let pyear = body.date_from.split('-')[0];
     const insertResults = await pool.query("INSERT INTO period" +
-      "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, is_active)" +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, 'true')",
-      [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to]);
+      "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, department_id, is_active)" +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, 'true')",
+      [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, departmentId]);
     return insertResults;
   } catch (error) {
     console.log('Error while inserting period time ' + error.message);
@@ -202,7 +202,6 @@ const getPeriodByUserId = async (id) => {
     throw Error('Error while fetching period');
   }
 };
-
 
 const updatePhaseByStudentId = async (phase, studentId) => {
   try {

@@ -37,7 +37,7 @@ export class PositionsAddComponent implements OnInit {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
-    this.depManagerService.getPeriodByUserId()
+    this.depManagerService.getPeriodByDepartmentId()
       .subscribe((periodData: Period) => {
         this.periodData = periodData;
         this.dateFrom = Utils.changeDateFormat(periodData.date_from);

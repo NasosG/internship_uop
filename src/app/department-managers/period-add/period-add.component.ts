@@ -26,7 +26,7 @@ export class PeriodAddComponent implements OnInit {
 
   onSubmitPeriodForm(formData: FormData) {
     this.validateFormData(formData);
-    this.depManagerService.insertPeriod(formData);
+    this.depManagerService.insertPeriod(formData, this.depManagerService.manager.department_id);
     this.onSavePeriodAlert();
   }
 

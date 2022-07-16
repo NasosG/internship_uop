@@ -11,6 +11,7 @@ const studentRoutes = require("./api-routes/studentRoutes.js");
 const atlasRoutes = require("./api-routes/atlasRoutes.js");
 const depManagerRoutes = require("./api-routes/depManagerRoutes.js");
 const companyRoutes = require("./api-routes/companyRoutes.js");
+const officeRoutes = require("./api-routes/officeRoutes.js");
 
 app.use(
   bodyParser.urlencoded({
@@ -44,6 +45,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/atlas", atlasRoutes);
 app.use("/api/depmanager", depManagerRoutes);
 app.use("/api/company", companyRoutes);
+app.use("/api/office", officeRoutes);
 
 // app.post(
 //   "/api/students/updateStudentSSNFile/:id", upload.ssn, (request, response) => {

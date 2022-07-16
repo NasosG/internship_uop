@@ -63,9 +63,11 @@ const getStudentActiveApplications = async (request, response) => {
 
 const insertPeriod = async (request, response, next) => {
   try {
-    const id = request.params.id;
+    // const id = request.params.id;
+    const id = request.query.depManagerId;
+    const departmentId = request.query.departmentId;
     const period = request.body;
-    await depManagerService.insertPeriod(period, id);
+    await depManagerService.insertPeriod(period, id, departmentId);
 
     response
       .status(201)
