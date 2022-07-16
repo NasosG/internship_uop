@@ -57,11 +57,17 @@ const splitStudentsAM = (splitString) => {
   return splitArray[splitArray.length - 1];
 };
 
+const splitScholarsPersonalData = (splitString) => {
+  const splitArray = splitString.split(':');
+  return splitArray[splitArray.length - 2];
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
   FILE_TYPES_WITH_DOT,
   departmentsMap,
   formatDocExtension,
-  splitStudentsAM
+  splitStudentsAM,
+  splitScholarsPersonalData
 };

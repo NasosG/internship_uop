@@ -48,16 +48,6 @@ export class DepManagerService {
     return fetchedPeriod;
   }
 
-  getPeriodByDepartmentId(): Observable<Period> {
-    const id = 98;
-    const fetchedPeriod = this.http.get<Period>("http://localhost:3000/api/office/getPeriodByDepartmentId/" + id);
-    this.fetchedPeriodObservable = fetchedPeriod;
-    this.fetchedPeriodObservable.subscribe((periods: Period) => {
-      this.period = periods;
-    });
-    return fetchedPeriod;
-  }
-
   getStudentsApplyPhase(): Observable<Student[]> {
     const fetchedStudent = this.getDepManager()
       .pipe(
