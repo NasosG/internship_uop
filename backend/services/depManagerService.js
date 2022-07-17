@@ -138,11 +138,22 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
 
 const calculateScore = (procedureResults) => {
   const ECTS_PER_SEMESTER = 30;
+  const N = 10; // max years of study: 4 or 5 years depending on the school
+
   // all weights sum must be equal to 1
-  const weightGrade = 0.6;
+  const weightGrade = 0.5;
   const weightSemester = 0.4;
-  let semesterLimited = (procedureResults.Semester > 14) ? 14 : procedureResults.Semester;
-  return ((procedureResults.Grade * weightGrade) + ((procedureResults.Ects / (semesterLimited * ECTS_PER_SEMESTER) * 10) * weightSemester)).toFixed(3);
+  const weightYearOfStudy = 0.1;
+
+  //let semesterLimited = (procedureResults.Semester > 14) ? 14 : procedureResults.Semester;
+  let semester = procedureResults.Semester;
+  let academicYear = semester / 2;
+  let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear % N);
+
+  // return the actual calculation
+  return ((procedureResults.Grade * weightGrade)
+    + ((procedureResults.Ects / (semester * ECTS_PER_SEMESTER) * 10) * weightSemester)
+    + ((yearTotal / 10) * weightYearOfStudy)).toFixed(3);
 };
 
 const getStudentFactorProcedure = async (depId, studentAM) => {
