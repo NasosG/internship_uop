@@ -8,4 +8,5 @@ export interface Period {
   date_from: Date,
   date_to: Date,
   is_active: boolean
+  positions: number
 }

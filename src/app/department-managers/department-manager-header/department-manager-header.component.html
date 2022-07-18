@@ -16,7 +16,8 @@
        <th scope="col">Φάση Περιόδου</th>
        <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
        <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
-       <th scope="col">Αριθμός θέσεων</th>
+       <th scope="col">Θέσεις ΕΣΠΑ</th>
+       <th scope="col">Θέσεις εκτός ΕΣΠΑ</th>
        <th scope="col">Ενέργειες</th>
      </tr>
    </thead>
@@ -27,6 +28,7 @@
        <td>{{phaseArray[(periodData?.phase_state)!]}}</td>
        <td>{{dateFrom}}</td>
        <td>{{dateTo}}</td>
+       <td>{{periodData?.positions}}</td>
        <td>{{periodData?.available_positions}} </td>
        <td class="action text-dark">
          <a class="text-dark" [routerLink]="['/department-manager/edit-period']"><i class="fa fa-pencil-alt"></i>

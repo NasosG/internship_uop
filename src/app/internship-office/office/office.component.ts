@@ -2,6 +2,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import { OfficeUser } from '../office-user.model';
+import { OfficeService } from '../office.service';
 
 @Component({
   selector: 'app-office',
@@ -9,6 +11,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./office.component.css']
 })
 export class OfficeComponent implements OnInit {
+  officeUserData!: OfficeUser;
 
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
@@ -17,7 +20,7 @@ export class OfficeComponent implements OnInit {
   fontSize: number = 100;
   private language!: string;
 
-  constructor(public router: Router, public authService: AuthService, public translate: TranslateService) {
+  constructor(public router: Router, public authService: AuthService, public translate: TranslateService, public officeService: OfficeService) {
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
     const browserLang = localStorage.getItem('language') || null;
@@ -31,6 +34,13 @@ export class OfficeComponent implements OnInit {
     //     this.company = company;
     //     console.log(this.company);
     //   });
+
+    this.officeService.getOfficeUser()
+      .subscribe((officeUser: OfficeUser) => {
+        this.officeUserData = officeUser;
+        // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
+      });
+
   }
 
   changeFont(operator: string) {

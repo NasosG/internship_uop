@@ -81,6 +81,23 @@ const getStudentActiveApplications = async (deptId) => {
   }
 };
 
+const getPeriodByUserId = async (id) => {
+  try {
+    const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
+      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to, espa_positions.positions as positions \
+      FROM period \
+      LEFT JOIN espa_positions ON espa_positions.department_id=period.department_id \
+      WHERE period.sso_user_id = $1 \
+      AND period.is_active = 'true' \
+      LIMIT 1", [id]);
+    const periodResults = period.rows[0];
+    let periodResultsObj = Object.assign(periodResults);
+    return periodResultsObj;
+  } catch (error) {
+    throw Error('Error while fetching period');
+  }
+};
+
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -151,9 +168,9 @@ const calculateScore = (procedureResults) => {
   let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear % N);
 
   // return the actual calculation
-  return ((procedureResults.Grade * weightGrade)
-    + ((procedureResults.Ects / (semester * ECTS_PER_SEMESTER) * 10) * weightSemester)
-    + ((yearTotal / 10) * weightYearOfStudy)).toFixed(3);
+  return ((procedureResults.Grade * weightGrade) +
+    ((procedureResults.Ects / (semester * ECTS_PER_SEMESTER) * 10) * weightSemester) +
+    ((yearTotal / 10) * weightYearOfStudy)).toFixed(3);
 };
 
 const getStudentFactorProcedure = async (depId, studentAM) => {
@@ -196,21 +213,6 @@ const updatePeriodById = async (body, id) => {
   } catch (error) {
     console.log('Error while updating period time ' + error.message);
     throw Error('Error while updating period time');
-  }
-};
-
-const getPeriodByUserId = async (id) => {
-  try {
-    const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
-      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to FROM period \
-      WHERE sso_user_id = $1 \
-      AND is_active = 'true' \
-      LIMIT 1", [id]);
-    const periodResults = period.rows[0];
-    let periodResultsObj = Object.assign(periodResults);
-    return periodResultsObj;
-  } catch (error) {
-    throw Error('Error while fetching period');
   }
 };
 

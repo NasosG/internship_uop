@@ -16,7 +16,7 @@
       <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
       <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
       <th scope="col">Αριθμός θέσεων ΕΣΠΑ</th>
-      <th scope="col">Αριθμός θέσεων ΕΚΤΟΣ ΕΣΠΑ</th>
+      <th scope="col">Αριθμός θέσεων εκτός ΕΣΠΑ</th>
     </tr>
   </thead>
   <tbody>
@@ -26,12 +26,12 @@
       <td>{{phaseArray[(periodData?.phase_state)!]}}</td>
       <td>{{dateFrom}}</td>
       <td>{{dateTo}}</td>
+      <td>{{periodData?.positions}}</td>
       <td>{{periodData?.available_positions}} </td>
-      <td>22</td>
     </tr>
   </tbody>
 </table><br>
-<h4>Προσθέστε θέσεις ΕΣΠΑ</h4>
+<h4>Aνάρτηση θέσεων ΕΣΠΑ</h4>
 <div class="form-group row w-25 positions-add-div">
   <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ</label>
   <div class="col-sm-6">

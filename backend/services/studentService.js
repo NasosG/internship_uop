@@ -497,10 +497,12 @@ const findMaxPositions = async (studentId, positionId) => {
 const getPhase = async (studentId, positionId) => {
   let maxPriority = 0;
   try {
-    const depManagerId = await pool.query("SELECT prd.*  \
+    const depManagerId = await pool.query("SELECT prd.*, positions \
                                            FROM period prd \
                                            INNER JOIN sso_users usr \
                                            ON usr.uuid = prd.sso_user_id \
+                                           LEFT JOIN espa_positions \
+                                           ON espa_positions.department_id = prd.department_id \
                                            WHERE usr.department_id = $1 \
                                            AND usr.edupersonprimaryaffiliation = 'faculty' \
                                            AND prd.is_active = 'true'", [studentId]);

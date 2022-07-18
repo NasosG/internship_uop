@@ -84,7 +84,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-
+            {{(officeUserData.givenname).charAt(0)}}.{{officeUserData.sn}}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="cursor-pointer dropdown-item">
@@ -92,7 +92,6 @@
           </div>
         </li>
       </ul>
-
       <div class="dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <i class="fas fa-lg fa-globe"></i>
@@ -111,7 +110,6 @@
           </li>
         </ul>
       </div>
-
       <li class="nav-item">
         <span href="#" style="color: black;" class="pr-0 mr-0 nav-link" role="button">
           <label class="theme-switch" style="height:30px;" for="ChangeTheme">
@@ -119,15 +117,12 @@
             <div class="slider round"></div>
           </label>
         </span>
-
       </li>
       <li class="nav-item pl-0 ml-0">
         <span href="#" class="nav-link moon-icon" role="button">
           <span style="font-size:1.27em;"><i class="fa fa-moon"></i></span>
         </span>
-
       </li>
-
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -140,7 +135,6 @@
         style="opacity: 1" />
       <span class="brand-text font-weight-light">{{'BRAND-SPAN' | translate}}</span>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -162,7 +156,8 @@
         </div>
         <div class="info">
           <a class="d-block" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><i
-              class="mr-1 fas fa-lg fa-building"></i> Όνομα</a>
+              class="mr-1 fas fa-lg fa-building"></i> {{(officeUserData.givenname).charAt(0)}}.
+            {{officeUserData.sn}}</a>
         </div>
       </div>
 

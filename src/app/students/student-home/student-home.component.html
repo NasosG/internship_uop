@@ -68,7 +68,8 @@
    <!-- Left col -->
    <section class="col-lg-8 connectedSortable">
      <div *ngIf="this.period?.is_active" class="alert alert-success" role="alert">
-       Διαθέσιμες θέσεις Πρακτικής Άσκησης: {{period?.available_positions}}<br>
+       Διαθέσιμες θέσεις Πρακτικής Άσκησης | Εκτός ΕΣΠΑ: {{period?.available_positions}} - ΕΣΠΑ:
+       {{period?.positions}}<br>
        {{'STUDENT.INTERSNHIP-DECLARATION-PERIOD'| translate}}
        {{phaseArray[period?.phase_state!] | translate}}: {{dateFrom}}
        {{'STUDENT.PERIOD-TO'| translate}}
