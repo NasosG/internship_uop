@@ -2,7 +2,7 @@ export class Office {
 }
 import { Injectable } from '@angular/core';
 import { mergeMap, Observable, Subject } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../department-managers/period.model';
 import { OfficeUser } from './office-user.model';
@@ -43,4 +43,13 @@ export class OfficeService {
     });
     return fetchedPeriod;
   }
+
+  insertEspaPosition(data: number) {
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/office/insertEspaPosition/", data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
 }

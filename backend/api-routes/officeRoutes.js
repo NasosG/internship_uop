@@ -5,5 +5,5 @@ const officeController = require("../controllers/officeController.js");
 
 router.get("/getOfficeUserById/:id", officeController.getOfficeUserById);
 router.get("/getPeriodByDepartmentId/:id", officeController.getPeriodByDepartmentId);
-
+router.post("/insertEspaPosition/", officeController.insertEspaPosition);
 module.exports = router;

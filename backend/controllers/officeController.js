@@ -24,7 +24,25 @@ const getPeriodByDepartmentId = async (request, response) => {
   }
 };
 
+const insertEspaPosition = async (request, response, next) => {
+  try {
+    await officeService.insertEspaPosition(data);
+    response
+      .status(201)
+      .json({
+        message: 'espa positions inserted successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+
 module.exports = {
   getPeriodByDepartmentId,
-  getOfficeUserById
+  getOfficeUserById,
+  insertEspaPosition
 };

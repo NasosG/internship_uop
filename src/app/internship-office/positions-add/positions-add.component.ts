@@ -3,8 +3,8 @@ import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
-import {OfficeUser} from '../office-user.model';
-import {OfficeService} from '../office.service';
+import { OfficeUser } from '../office-user.model';
+import { OfficeService } from '../office.service';
 
 @Component({
   selector: 'app-positions-add',
@@ -43,6 +43,23 @@ export class PositionsAddComponent implements OnInit {
         this.dateFrom = Utils.changeDateFormat(periodData.date_from);
         this.dateTo = Utils.changeDateFormat(periodData.date_to);
       });
+  }
+
+  submit(data: number) {
+    this.officeService.insertEspaPosition(data);
+    this.onSavePeriodAlert();
+  }
+
+  private onSavePeriodAlert() {
+    Swal.fire({
+      title: 'Θέσεις ΕΣΠΑ',
+      text: 'Επιτυχής ανάρτηση θέσεων ΕΣΠΑ',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then(() => { location.reload(); });
   }
 
 }

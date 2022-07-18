@@ -42,8 +42,22 @@ const getPeriodByDepartmentId = async (departmentId) => {
   }
 };
 
+const insertEspaPosition = async (body) => {
+  try {
+    const positions = await pool.query("INSERT INTO espa_positions" +
+      "(department_id, positions)" +
+      " VALUES " + "(98, $2,)",
+      [body.positions]);
+    return positions;
+  } catch (error) {
+    console.log('Error while inserting espa positions ' + error.message);
+    throw Error('Error while inserting espa positions');
+  }
+};
+
 
 module.exports = {
   getPeriodByDepartmentId,
-  getDepManagerById
+  getDepManagerById,
+  insertEspaPosition
 };
