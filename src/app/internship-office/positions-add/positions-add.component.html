@@ -35,7 +35,8 @@
 <div class="form-group row w-25 positions-add-div">
   <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ</label>
   <div class="col-sm-6">
-    <input type="number" name="available_positions" ngModel id="available_positions" class="form-control"
-      placeholder="Αριθμός θέσεων" required>
+    <input type="number" min="0" #espaPositions name="available_positions" ngModel id="available_positions"
+      class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
   </div>
+  <button class="btn btn-primary mt-2" (click)="submit()">Υποβολή</button>
 </div>

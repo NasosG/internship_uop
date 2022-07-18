@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
@@ -19,6 +19,7 @@ export class PositionsAddComponent implements OnInit {
   dateFrom: string = "";
   dateTo: string = "";
   officeUserData!: OfficeUser;
+  @ViewChild('espaPositions') espaPositions!: ElementRef;
 
   phaseArray = ["no-state",
     "1. Φάση ελέγχου επιλεξιμότητας.",
@@ -45,12 +46,13 @@ export class PositionsAddComponent implements OnInit {
       });
   }
 
-  submit(data: number) {
-    this.officeService.insertEspaPosition(data);
-    this.onSavePeriodAlert();
+  submit() {
+    const value = this.espaPositions.nativeElement.value;
+    this.officeService.insertEspaPosition(value, this.officeService.getDepartmentId());
+    this.onSavePositionsAlert();
   }
 
-  private onSavePeriodAlert() {
+  private onSavePositionsAlert() {
     Swal.fire({
       title: 'Θέσεις ΕΣΠΑ',
       text: 'Επιτυχής ανάρτηση θέσεων ΕΣΠΑ',
@@ -59,7 +61,7 @@ export class PositionsAddComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
-    }).then(() => { location.reload(); });
+    })
   }
 
 }

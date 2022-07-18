@@ -44,9 +44,9 @@ export class OfficeService {
     return fetchedPeriod;
   }
 
-  insertEspaPosition(data: number) {
+  insertEspaPosition(data: number, departmentId: number) {
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/office/insertEspaPosition/", data)
+      .post<{ message: string }>("http://localhost:3000/api/office/insertEspaPosition/" + departmentId, { "positions": data })
       .subscribe(responseData => {
         console.log(responseData.message);
       });
