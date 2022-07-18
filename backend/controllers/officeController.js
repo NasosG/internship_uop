@@ -24,9 +24,12 @@ const getPeriodByDepartmentId = async (request, response) => {
   }
 };
 
-const insertEspaPosition = async (request, response, next) => {
+const insertEspaPosition = async (request, response) => {
   try {
-    await officeService.insertEspaPosition(data);
+    const departmentId = request.params.id;
+    const data = request.body;
+    // await officeService.insertEspaPosition(data, departmentId);
+    await officeService.insertOrUpdateEspaPositionsByDepId(data, departmentId);
     response
       .status(201)
       .json({

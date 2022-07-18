@@ -42,22 +42,55 @@ const getPeriodByDepartmentId = async (departmentId) => {
   }
 };
 
-const insertEspaPosition = async (body) => {
+const insertEspaPosition = async (body, departmentId) => {
   try {
     const positions = await pool.query("INSERT INTO espa_positions" +
       "(department_id, positions)" +
-      " VALUES " + "(98, $2,)",
-      [body.positions]);
-    return positions;
+      " VALUES ($1, $2)",
+      [departmentId, body.positions]);
   } catch (error) {
     console.log('Error while inserting espa positions ' + error.message);
     throw Error('Error while inserting espa positions');
   }
 };
 
+const upateEspaPosition = async (body, departmentId) => {
+  try {
+    const positions = await pool.query("UPDATE espa_positions SET positions = $1 WHERE department_id = $2",
+      [body.positions, departmentId]);
+  } catch (error) {
+    console.log('Error while updating espa positions ' + error.message);
+    throw Error('Error while updating espa positions');
+  }
+};
+
+const getEspaPositionByDepId = async (departmentId) => {
+  try {
+    const positions = await pool.query("SELECT * FROM espa_positions WHERE department_id = $1",
+      [departmentId]);
+    return positions;
+  } catch (error) {
+    console.log('Error while getting espa positions by id ' + error.message);
+    throw Error('Error while getting espa positions by id');
+  }
+};
+
+const insertOrUpdateEspaPositionsByDepId = async (body, departmentId) => {
+  try {
+    const fechedEspaPositions = await getEspaPositionByDepId(departmentId)
+    if (fechedEspaPositions.rowCount == 0) {
+      await insertEspaPosition(body, departmentId);
+    } else {
+      await upateEspaPosition(body, departmentId);
+    }
+  } catch (error) {
+    throw Error('Error while inserting or updating espa positions')
+  }
+}
 
 module.exports = {
   getPeriodByDepartmentId,
   getDepManagerById,
-  insertEspaPosition
+  getEspaPositionByDepId,
+  insertOrUpdateEspaPositionsByDepId
 };
