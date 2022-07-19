@@ -115,6 +115,7 @@
   },
   "INTERNSHIP-OFFICE": {
     "AFFILIATE": "Internship-office",
-    "POSITION-ADD": "Add positions"
+    "POSITION-ADD": "Add positions",
+    "STATS": "Statistics"
   }
 }

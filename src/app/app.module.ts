@@ -72,6 +72,7 @@ import { PositionPreviewDialogComponent } from './companies/position-preview-dia
 import { ApplicationsPreviewDialogComponent } from './companies/applications-preview-dialog/applications-preview-dialog.component';
 import { OfficeComponent } from './internship-office/office/office.component';
 import { PositionsAddComponent } from './internship-office/positions-add/positions-add.component';
+import { StatsComponent } from './internship-office/stats/stats.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -127,7 +128,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PositionPreviewDialogComponent,
     ApplicationsPreviewDialogComponent,
     OfficeComponent,
-    PositionsAddComponent
+    PositionsAddComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

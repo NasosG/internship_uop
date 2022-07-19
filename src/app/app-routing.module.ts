@@ -170,7 +170,12 @@ const routes: Routes = [{
   children: [{
     path: 'positions-add',
     component: OfficeComponent
-  }]
+  },
+  {
+    path: 'stats',
+    component: OfficeComponent
+  }
+  ]
 }
 
 ];

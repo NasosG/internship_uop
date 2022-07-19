@@ -68,6 +68,10 @@ export class OfficeComponent implements OnInit {
     return this.router.url === '/office/positions-add';
   }
 
+  isStatsAddRoute() {
+    return this.router.url === '/office/stats';
+  }
+
 }
 
 

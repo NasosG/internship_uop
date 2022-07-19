@@ -197,6 +197,15 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a [routerLink]="['/office/stats/']" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>
+                {{'INTERNSHIP-OFFICE.STATS' | translate}}
+                <!-- <i class="right fas fa-angle-left"></i> -->
+              </p>
+            </a>
+          </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
@@ -326,6 +335,7 @@
     <section class="content">
       <div class="row">
         <app-positions-add *ngIf="isPositionsAddRoute()"></app-positions-add>
+        <app-stats *ngIf="isStatsAddRoute()"></app-stats>
       </div>
     </section>
     <!-- /.content -->
