@@ -497,6 +497,81 @@ const insertPositionGroup = async (accessToken) => {
   }
 };
 
+const getRegisteredStudent = async (academicIDNumber) => {
+  try {
+    let accessToken = await atlasLogin();
+
+    // test academic id number: 4243761386827
+    const atlasResponse = await axios({
+      // url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetStudentDetails?StudentID=212468',
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetStudentDetails?AcademicIDNumber=' + academicIDNumber,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    let positionsArray = atlasResponse.data.Result;
+    return {
+      message: positionsArray,
+      status: atlasResponse.status
+    };
+    // return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions: " + error.message
+    };
+    // return response
+    //   .status(400)
+    //   .json({
+    //     message: "something went wrong while fetching available positions: " + error.message
+    //   });
+  }
+};
+
+const registerNewStudent = async (academicIDNumber) => {
+  try {
+    let accessToken = await atlasLogin();
+
+    let academicIDNumberData = {
+      'AcademicIDNumber': academicIDNumber,
+    };
+
+    // test academic id number: 4243761386827
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/RegisterNewStudent',
+      method: 'POST',
+      data: academicIDNumberData,
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    let positionsArray = atlasResponse.data.Result;
+    return {
+      message: positionsArray,
+      status: atlasResponse.status
+    };
+    // return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions: " + error.message
+    };
+    // return response
+    //   .status(400)
+    //   .json({
+    //     message: "something went wrong while fetching available positions: " + error.message
+    //   });
+  }
+};
+
+
 const getAvailablePositionGroups = async (begin, end, accessToken) => {
   try {
     //let begin = request.params.begin;
@@ -541,6 +616,8 @@ module.exports = {
   getCountries,
   getPhysicalObjects,
   getGenericPositionSearch,
+  getRegisteredStudent,
+  registerNewStudent,
   insertTablesFromAtlas,
   insertPositionGroup
 };

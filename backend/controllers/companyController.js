@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const companyService = require("../services/companyService");
+const atlasController = require("./atlasController");
 
 const insertCompanyUsers = async (request, response, next) => {
   try {
@@ -66,8 +67,19 @@ const insertAssignment = async (request, response, next) => {
   try {
     const companyData = request.body;
     // const userId = request.params.id;
-
-    await companyService.insertAssignment(companyData);
+    let academicIDNumber = 243761386827;
+    let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
+    if (registeredStudent.message != null) {
+      console.log('user is registred');
+    }
+    else {
+      console.log('not a registered user');
+      // Student SHOULD sign up on this occassion
+      let registerResult = await atlasController.registerNewStudent(academicIDNumber);
+      console.log(registerResult);
+    }
+    console.log(registeredStudent);
+    //await companyService.insertAssignment(companyData);
 
     response.status(201)
       .json({

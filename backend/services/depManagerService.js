@@ -140,7 +140,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
         console.error("some student details fetched from procedure were null");
         //continue;
       } else {
-        calculatedScore = calculateScore(procedureResults);
+        calculatedScore = await calculateScore(procedureResults, students.department_id);
       }
       await pool.query("INSERT INTO students_approved_rank " +
         "(sso_uid, department_id, score, ranking)" +
@@ -153,10 +153,10 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
   }
 };
 
-const calculateScore = (procedureResults) => {
+const calculateScore = async (procedureResults, departmentId) => {
   const ECTS_PER_SEMESTER = 30;
-  const N = 10; // max years of study: 4 or 5 years depending on the school
-
+  // max years of study: 4 or 5 years depending on the school
+  const N = (await getDepartmentDetails(departmentId)).years_of_study;
   // all weights sum must be equal to 1
   const weightGrade = 0.5;
   const weightSemester = 0.4;
@@ -164,7 +164,7 @@ const calculateScore = (procedureResults) => {
 
   //let semesterLimited = (procedureResults.Semester > 14) ? 14 : procedureResults.Semester;
   let semester = procedureResults.Semester;
-  let academicYear = semester / 2;
+  let academicYear = Math.round(semester / 2);
   let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear % N);
 
   // return the actual calculation
@@ -191,6 +191,15 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
   }
 };
 
+const getDepartmentDetails = async (departmentId) => {
+  try {
+    const department = await pool.query("SELECT * FROM atlas_academics WHERE atlas_id = $1", [departmentId]);
+    return department.rows[0];
+  } catch (error) {
+    throw Error('Error while getting department\'s details ' + error.message);
+  }
+};
+
 const deactivateAllPeriods = async () => {
   try {
     const insertResults = await pool.query("UPDATE period \
@@ -203,7 +212,7 @@ const deactivateAllPeriods = async () => {
 
 const updatePeriodById = async (body, id) => {
   try {
-    console.log(body);
+    // console.log(body);
     let pyear = body.date_from.split('-')[0];
     const updateResults = await pool.query("UPDATE period" +
       " SET available_positions = $1, pyear = $2, semester = $3, phase_state = $4, date_from= $5, date_to = $6" +
