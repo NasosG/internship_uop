@@ -572,6 +572,67 @@ const registerNewStudent = async (academicIDNumber) => {
 };
 
 
+/**
+* Returns preassigned positions of group, if none is found it preassigns a single position
+*/
+const getPositionPreassignment = async (groupId, academicId) => {
+  try {
+    let accessToken = await atlasLogin();
+
+    const preassignedPositions = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPreAssignedPositions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    let positionIds = [];
+    if (preassignedPositions.data.Result != null) {
+      console.log("preassigned positions exist");
+      for (position in preassignedPositions.data.Result) {
+        if (position.GroupID == groupId && position.PreAssignedForAcademic.ID == academicId) {
+          // positionIds = position.ID;
+          positionIds.push(position.ID);
+        }
+      }
+    }
+    else if (preassignedPositions.data.Result == null) {
+      // if no position is found, preassign a single position
+      const atlasResponse = await axios({
+        url: 'http://atlas.pilotiko.gr/Api/Offices/v1/PreAssignPositions',
+        method: 'POST',
+        data: { "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId },
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': accessToken
+        }
+      });
+      positionIds = atlasResponse.data.Result;
+      if (positionIds.status == 200) {
+        console.log('Προδέσμευση θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
+      } else {
+        console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
+        console.log('Aποτυχία προδέσμευσης θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
+      }
+    }
+
+    return {
+      message: positionIds,
+      status: atlasResponse.status
+    };
+    // return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions: " + error.message
+    };
+  }
+};
+
+
 const getAvailablePositionGroups = async (begin, end, accessToken) => {
   try {
     //let begin = request.params.begin;
@@ -617,6 +678,7 @@ module.exports = {
   getPhysicalObjects,
   getGenericPositionSearch,
   getRegisteredStudent,
+  getPositionPreassignment,
   registerNewStudent,
   insertTablesFromAtlas,
   insertPositionGroup

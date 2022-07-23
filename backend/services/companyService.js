@@ -100,6 +100,17 @@ const getInternalPositionByPositionId = async (positionId) => {
   }
 };
 
+const getPreassignModeByDepartmentId = async (departmentId) => {
+  try {
+    const preassignMode = await pool.query("SELECT preassign " +
+      " FROM atlas_academics" +
+      " WHERE atlas_id = $1", [departmentId]);
+    return preassignMode.rows[0];
+  } catch (error) {
+    throw Error('Error while getting preassign mode for department id ' + departmentId);
+  }
+};
+
 const insertAssignment = async (body) => {
   try {
     const myObj = Object.assign(body);
@@ -246,6 +257,7 @@ module.exports = {
   getProviderById,
   getStudentActiveApplications,
   getStudentAssignedApplications,
+  getPreassignModeByDepartmentId,
   insertCompanyUsers,
   insertProviders,
   insertInternalPositionGroup,
