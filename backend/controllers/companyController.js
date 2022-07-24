@@ -67,26 +67,35 @@ const insertAssignment = async (request, response, next) => {
   try {
     const companyData = request.body;
     // const userId = request.params.id;
-    let academicIDNumber = 243761386827;
-    let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
 
-    if (registeredStudent.message != null) {
-      console.log('user is registered');
-    } else {
-      console.log('not a registered user');
-      // Student SHOULD sign up on this occassion
-      let registerResult = await atlasController.registerNewStudent(academicIDNumber);
-      console.log(registerResult);
+    const potentialAssignments = Object.assign(companyData);
+
+    for (let item of potentialAssignments) {
+      // Get student's AM by id
+      // console.log(await companyService.getStudentAMById(item.student_id));
+      // let academicIDNumber = await companyService.getStudentAMById(item.student_id);
+
+      let academicIDNumber = 243761386827;
+      let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
+
+      if (registeredStudent.message != null) {
+        console.log('user is registered');
+      } else {
+        console.log('not a registered user');
+        // Student SHOULD sign up on this occassion
+        let registerResult = await atlasController.registerNewStudent(academicIDNumber);
+        console.log(registerResult);
+      }
+      // console.log(registeredStudent);
+
+      // TO BE TESTED
+      // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
+      // console.log(preassignResult.preassign);
+      console.log(item.position_id);
+      let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, 98);
+      console.log(positionPreassignment);
+      await companyService.insertAssignment(companyData);
     }
-    // console.log(registeredStudent);
-
-    // TO BE TESTED
-    // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
-    // console.log(preassignResult.preassign);
-
-    // let positionPreassignment = await atlasController.getPositionPreassignment(15, 98);
-    // console.log(positionPreassignment);
-    // await companyService.insertAssignment(companyData);
 
     response.status(201)
       .json({

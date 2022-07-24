@@ -1,6 +1,7 @@
 // database connection configuration
 const pool = require("../db_config.js");
 const atlasService = require("../services/atlasService");
+const MiscUtils = require("../MiscUtils.js");
 
 const getProviderById = async (id) => {
   try {
@@ -73,6 +74,18 @@ const getStudentAssignedApplications = async (companyName, companyAFM) => {
     return apps;
   } catch (error) {
     throw Error('Error while fetching student active applications');
+  }
+};
+
+
+const getStudentAMById = async (id) => {
+  try {
+    const resultsSSOUsers = await pool.query("SELECT schacpersonaluniquecode as student_registry FROM sso_users \
+                                              WHERE sso_users.uuid = $1", [id]);
+    const student = MiscUtils.splitStudentsAM(resultsSSOUsers.rows[0].student_registry);
+    return student;
+  } catch (error) {
+    throw Error('Error while fetching students');
   }
 };
 
@@ -258,6 +271,7 @@ module.exports = {
   getStudentActiveApplications,
   getStudentAssignedApplications,
   getPreassignModeByDepartmentId,
+  getStudentAMById,
   insertCompanyUsers,
   insertProviders,
   insertInternalPositionGroup,

@@ -578,8 +578,9 @@ const registerNewStudent = async (academicIDNumber) => {
 const getPositionPreassignment = async (groupId, academicId) => {
   try {
     let accessToken = await atlasLogin();
+    let atlasResponse;
 
-    const preassignedPositions = await axios({
+    atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetPreAssignedPositions',
       method: 'POST',
       headers: {
@@ -589,18 +590,17 @@ const getPositionPreassignment = async (groupId, academicId) => {
     });
 
     let positionIds = [];
-    if (preassignedPositions.data.Result != null) {
+    if (atlasResponse.data.Result.message != null) {
       console.log("preassigned positions exist");
-      for (position in preassignedPositions.data.Result) {
+      for (position in atlasResponse.data.Result) {
         if (position.GroupID == groupId && position.PreAssignedForAcademic.ID == academicId) {
           // positionIds = position.ID;
           positionIds.push(position.ID);
         }
       }
-    }
-    else if (preassignedPositions.data.Result == null) {
+    } else {
       // if no position is found, preassign a single position
-      const atlasResponse = await axios({
+      atlasResponse = await axios({
         url: 'http://atlas.pilotiko.gr/Api/Offices/v1/PreAssignPositions',
         method: 'POST',
         data: { "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId },
@@ -610,17 +610,16 @@ const getPositionPreassignment = async (groupId, academicId) => {
         }
       });
       positionIds = atlasResponse.data.Result;
-      if (positionIds.status == 200) {
+      if (positionIds != null && positionIds.status == 200) {
         console.log('Προδέσμευση θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
       } else {
         console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
-        console.log('Aποτυχία προδέσμευσης θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
+        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademiID: ' + academicId /*+ 'PositionID:' + positionIds[0]*/);
       }
     }
 
     return {
-      message: positionIds,
-      status: atlasResponse.status
+      message: positionIds
     };
     // return response.status(200).json(positionsArray);
   } catch (error) {
