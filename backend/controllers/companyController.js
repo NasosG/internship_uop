@@ -72,7 +72,6 @@ const insertAssignment = async (request, response, next) => {
 
     for (let item of potentialAssignments) {
       // Get student's AM by id
-      // console.log(await companyService.getStudentAMById(item.student_id));
       // let academicIDNumber = await companyService.getStudentAMById(item.student_id);
 
       let academicIDNumber = 243761386827;
@@ -94,6 +93,14 @@ const insertAssignment = async (request, response, next) => {
       console.log(item.position_id);
       let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, 98);
       console.log(positionPreassignment);
+
+
+      //const fundingType = await getFundingType(item.position_id);
+
+      // assign student to Atlas position
+      let assignResults = await atlasController.assignStudent(positionPreassignment, academicIDNumber);
+      console.log(assignResults);
+      // insert assignment details to the local db
       await companyService.insertAssignment(companyData);
     }
 

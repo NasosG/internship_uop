@@ -512,6 +512,7 @@ const getRegisteredStudent = async (academicIDNumber) => {
       }
     });
 
+    // console.log(atlasResponse.data.Result);
     let positionsArray = atlasResponse.data.Result;
     return {
       message: positionsArray,
@@ -532,19 +533,19 @@ const getRegisteredStudent = async (academicIDNumber) => {
   }
 };
 
-const registerNewStudent = async (academicIDNumber) => {
+const registerNewStudent = async (AcademicIDNumber) => {
   try {
     let accessToken = await atlasLogin();
 
-    let academicIDNumberData = {
-      'AcademicIDNumber': academicIDNumber,
-    };
+    // let academicIDNumberData = {
+    //   'AcademicIDNumber': AcademicIDNumber,
+    // };
 
     // test academic id number: 4243761386827
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/RegisterNewStudent',
       method: 'POST',
-      data: academicIDNumberData,
+      data: { AcademicIDNumber },
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken
@@ -590,12 +591,20 @@ const getPositionPreassignment = async (groupId, academicId) => {
     });
 
     let positionIds = [];
-    if (atlasResponse.data.Result.message != null) {
+    let positionData = [];
+
+    if (atlasResponse.data.Result != null) {
       console.log("preassigned positions exist");
-      for (position in atlasResponse.data.Result) {
+      for (position of atlasResponse.data.Result) {
         if (position.GroupID == groupId && position.PreAssignedForAcademic.ID == academicId) {
           // positionIds = position.ID;
           positionIds.push(position.ID);
+          positionData.push({
+            "ImplementationEndDate": position.ImplementationEndDate,
+            "ImplementationEndDateString": position.ImplementationEndDateString,
+            "ImplementationStartDate": position.ImplementationStartDate,
+            "ImplementationStartDateString": position.ImplementationStartDateString,
+          });
         }
       }
     } else {
@@ -609,17 +618,25 @@ const getPositionPreassignment = async (groupId, academicId) => {
           'access_token': accessToken
         }
       });
+
       positionIds = atlasResponse.data.Result;
-      if (positionIds != null && positionIds.status == 200) {
+      if (positionIds.data.Success == true) {
         console.log('Προδέσμευση θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
+        positionData.push({
+          "ImplementationEndDate": position.ImplementationEndDate,
+          "ImplementationEndDateString": position.ImplementationEndDateString,
+          "ImplementationStartDate": position.ImplementationStartDate,
+          "ImplementationStartDateString": position.ImplementationStartDateString,
+        });
       } else {
         console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
-        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademiID: ' + academicId /*+ 'PositionID:' + positionIds[0]*/);
+        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademiID: ' + academicId + ' PositionID: ' + positionIds[0]);
       }
     }
 
     return {
-      message: positionIds
+      positionIds,
+      positionData
     };
     // return response.status(200).json(positionsArray);
   } catch (error) {
@@ -631,6 +648,76 @@ const getPositionPreassignment = async (groupId, academicId) => {
   }
 };
 
+/**
+* Returns preassigned positions of group, if none is found it preassigns a single position
+*/
+const assignStudent = async (positionsPreassignedData, studentId) => {
+  try {
+    let accessToken = await atlasLogin();
+
+    let assignmentData =
+    {
+      "FundingType": null,
+      "ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
+      "ImplementationEndDateString": positionsPreassignedData.positionData[0].ImplementationEndDateString,
+      // "ImplementationEndDateStringFormat": "String content",
+      "ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
+      "ImplementationStartDateString": positionsPreassignedData.positionData[0].ImplementationStartDateString,
+      // "ImplementationStartDateStringFormat": "String content",
+      "PositionID": positionsPreassignedData.positionIds[0],
+      "StudentID": studentId
+    };
+
+    console.log(assignmentData);
+
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/AssignStudent',
+      method: 'POST',
+      data: assignmentData,
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return {
+      message: atlasResponse.data
+    };
+    // return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while assigning student to Atlas: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while assigning student to Atlas: " + error.message
+    };
+  }
+};
+
+const getFundingType = async (positionId) => {
+  try {
+    let accessToken = await atlasLogin();
+    positionId = request.params.id;
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetFundingType?positionID=' + positionId,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    let positionsArray = atlasResponse.data.Result == null ? null : atlasResponse.data.ResultFundingType;
+    return {
+      message: positionsArray,
+      status: atlasResponse.status
+    };
+  } catch (error) {
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching funding types: " + error.message
+    };
+  }
+};
 
 const getAvailablePositionGroups = async (begin, end, accessToken) => {
   try {
@@ -678,7 +765,9 @@ module.exports = {
   getGenericPositionSearch,
   getRegisteredStudent,
   getPositionPreassignment,
+  getFundingType,
   registerNewStudent,
+  assignStudent,
   insertTablesFromAtlas,
   insertPositionGroup
 };
