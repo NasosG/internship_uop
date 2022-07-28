@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 // const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
+const cron = require('node-cron');
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -57,5 +58,9 @@ app.use("/api/office", officeRoutes);
 //     console.log("FILE ADDED iban");
 //   }
 // );
+
+// cron.schedule('*/1 * * * * *', () => {
+//   console.log("running every second");
+// });
 
 module.exports = app;
