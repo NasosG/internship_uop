@@ -192,6 +192,35 @@ const getAtlasOldestPositionGroups = async (offset, limit) => {
   }
 };
 
+const getPositionGroupRelations = async (relationsArray) => {
+  console.log(relationsArray.PositionGroupID);
+  try {
+    sql = await pool.query("SELECT * FROM atlas_position_group_relations WHERE position_group_id=$1 AND provider_id=$2",
+      [relationsArray.PositionGroupID,
+      relationsArray.ProviderID]);
+    return sql.rows[0];
+  } catch (error) {
+    throw Exception('Error while fetching position groups from postgres');
+  }
+};
+
+const insertPositionGroupRelations = async (relationsArray) => {
+  try {
+    for (const item of relationsArray) {
+      await pool.query("INSERT INTO atlas_position_group_relations" +
+        '(position_group_id, position_group_last_update, provider_id, provider_last_update)' +
+        " VALUES ($1, $2, $3, $4)",
+        [item.PositionGroupID,
+        item.PositionGroupLastUpdateString,
+        item.ProviderID,
+        item.ProviderLastUpdateString
+        ]);
+    }
+  } catch (error) {
+    throw Error('Error while inserting position group relations');
+  }
+};
+
 const insertPositionGroup = async (data) => {
   try {
     for (const item of data) {
@@ -334,6 +363,8 @@ module.exports = {
   getCountries,
   getPhysicalObjects,
   getGenericPositionSearch,
+  getPositionGroupRelations,
+  insertPositionGroupRelations,
   insertPositionGroup,
   insertCities,
   insertPrefectures,

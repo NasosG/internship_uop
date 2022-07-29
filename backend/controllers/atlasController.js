@@ -407,6 +407,75 @@ const insertTablesFromAtlas = async (request, response) => {
   }
 };
 
+const updateAtlasTables = async () => {
+  accessToken = await atlasLogin();
+
+  try {
+    let positionInsertList = [];
+    let positionUpdateList = [];
+    let positionPairUpdates = [];
+    let providerInsertList = [];
+    let providerUpdateList = [];
+    let providerPairUpdates = [];
+    let availablePositionGroups = [];
+    let begin = 0;
+    // let skip = 0;
+    const batchSize = 100;
+
+    // do {
+    availablePositionGroups = await getAvailablePositionGroups(begin, batchSize, accessToken);
+    console.log("Getting skip/res->NumberOfItems \n");
+    console.log(availablePositionGroups.message.NumberOfItems);
+    console.log("Scanning for updated items...\n");
+
+    for (const atlasItem of availablePositionGroups.message.Pairs) {
+      let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
+      // if (pair.PositionGroupID == 133171) { echo "position found\n"; }
+
+      if (localPositionGroups) {
+        if (localPositionGroups.position_group_id == atlasItem.PositionGroupID) {
+          console.log("position found in PG\n");
+        }
+        if (localPositionGroups.position_group_last_update != atlasItem.PositionGroupLastUpdateString) {
+          positionUpdateList.push(atlasItem.PositionGroupID);
+          positionPairUpdates.push(atlasItem);
+        }
+        if (localPositionGroups.provider_last_update != atlasItem.ProviderLastUpdateString) {
+          providerUpdateList.push(atlasItem.ProviderID);
+          providerPairUpdates.push(atlasItem);
+        }
+      } else {
+        if (atlasItem.PositionGroupID == localPositionGroups.position_group_id) {
+          console.log("position not found in PG\n");
+        }
+        // TODO: insert atlasItem into atlas_position_group_relations in local db
+        positionInsertList.push(atlasItem.PositionGroupID);
+        providerInsertList.push(atlasItem.ProviderID);
+      }
+    }
+
+    // console.log("the end...");
+    // console.log("positionInsertList" + positionInsertList + " | " +
+    //   "\n\npositionUpdateList" + positionUpdateList + " | " +
+    //   "\n\npositionPairUpdates" + positionPairUpdates + " | " +
+    //   "\n\nproviderInsertList" + providerInsertList + " | " +
+    //   "\n\nproviderUpdateList" + providerUpdateList + " | " +
+    //   "\n\nproviderPairUpdates" + providerPairUpdates);
+
+    return {
+      message: 'done'
+    };
+    // skip += batchSize;
+    // } while (skip < availablePositionGroups.message.NumberOfItems);
+  } catch (error) {
+    console.log("ERROR -> " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while updating position group relations"
+    };
+  }
+};
+
 const insertPositionGroup = async (accessToken) => {
   try {
     let begin = 0;
@@ -417,10 +486,18 @@ const insertPositionGroup = async (accessToken) => {
 
     let positionsArray = [];
     let providersArray = [];
+    let relationsArray = [];
 
     for (const item of availablePositionGroups.message.Pairs) {
       let positionGroupId = item.PositionGroupID;
       let providerId = item.ProviderID;
+
+      relationsArray.push({
+        "PositionGroupID": item.PositionGroupID,
+        "PositionGroupLastUpdateString": item.PositionGroupLastUpdateString,
+        "ProviderID": item.ProviderID,
+        "ProviderLastUpdateString": item.ProviderLastUpdateString
+      });
 
       let positionGroupResults = await getPositionGroupDetails(positionGroupId, accessToken);
       let providerResults = await getProviderDetails(providerId, accessToken);
@@ -483,6 +560,7 @@ const insertPositionGroup = async (accessToken) => {
     // console.log(cleanedProviderArray);
     await atlasService.insertProvider(cleanedProviderArray);
     await atlasService.insertPositionGroup(positionsArray);
+    await atlasService.insertPositionGroupRelations(relationsArray);
 
     //console.log(atlasResponse.data.Result);
     return {
@@ -769,5 +847,6 @@ module.exports = {
   registerNewStudent,
   assignStudent,
   insertTablesFromAtlas,
-  insertPositionGroup
+  insertPositionGroup,
+  updateAtlasTables
 };

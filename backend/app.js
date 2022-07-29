@@ -6,6 +6,7 @@ const path = require("path");
 // const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 const cron = require('node-cron');
+const atlasController = require('./controllers/atlasController.js');
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -59,8 +60,9 @@ app.use("/api/office", officeRoutes);
 //   }
 // );
 
-// cron.schedule('*/1 * * * * *', () => {
-//   console.log("running every second");
-// });
+// run every 20 seconds curently
+cron.schedule('*/20 * * * * *', async () => {
+  await atlasController.updateAtlasTables();
+});
 
 module.exports = app;
