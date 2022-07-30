@@ -151,7 +151,7 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
     };
   } catch (error) {
     return {
-      message: "something went wrong while fetching academics",
+      message: "something went wrong while fetching position group details",
       status: "400 bad request"
     };
   }
@@ -408,9 +408,10 @@ const insertTablesFromAtlas = async (request, response) => {
 };
 
 const updateAtlasTables = async () => {
-  accessToken = await atlasLogin();
-
   try {
+    accessToken = await atlasLogin();
+
+    // Lists to keep elements for update or insert and Sync local DB with Atlas
     let positionInsertList = [];
     let positionUpdateList = [];
     let positionPairUpdates = [];
@@ -430,7 +431,6 @@ const updateAtlasTables = async () => {
 
     for (const atlasItem of availablePositionGroups.message.Pairs) {
       let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
-      // if (pair.PositionGroupID == 133171) { echo "position found\n"; }
 
       if (localPositionGroups) {
         if (localPositionGroups.position_group_id == atlasItem.PositionGroupID) {
@@ -445,14 +445,56 @@ const updateAtlasTables = async () => {
           providerPairUpdates.push(atlasItem);
         }
       } else {
-        if (atlasItem.PositionGroupID == localPositionGroups.position_group_id) {
-          console.log("position not found in PG\n");
-        }
+        console.log("position not found in localPositionGroups\n");
         // TODO: insert atlasItem into atlas_position_group_relations in local db
         positionInsertList.push(atlasItem.PositionGroupID);
         providerInsertList.push(atlasItem.ProviderID);
       }
     }
+
+    let positionsArray = [];
+    let providersArray = [];
+    let count = 0;
+    // Insert or update the records according to the lists above
+
+    // Update the position if positionUpdateList is not empty
+    for (const itemId of positionUpdateList) {
+      // Find the details of the positions which are to be updated and update them locally
+      let positionGroupResults = await getPositionGroupDetails(itemId, accessToken);
+      let academics = [];
+
+      academics.push(getAcademicsByPosition(positionGroupResults.message.Academics));
+
+      try {
+        let positionPushed = false;
+        //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
+        positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
+        console.log(positionGroupResults.message);
+        positionPushed = true;
+        // reset the academics array
+        academics = [];
+      } catch (ex) {
+        console.log("Failed to fetch position group: " + ex.message);
+        if (positionPushed) positionsArray.pop();
+        continue;
+      }
+
+      count++;
+    }
+
+    // Update the position if providerUpdateList is not empty
+    for (const providerId of providerUpdateList) {
+      let providerResults = await getProviderDetails(providerId, accessToken);
+      providersArray.push(getProviderJson(providerResults.message));
+      console.log(providersArray);
+    }
+
+    // Update the positions list in the local db
+    await atlasService.updatePositionsList(positionsArray);
+    // Update the providers list in the local db
+    await atlasService.updateProvidersList(providersArray);
+    // Update the relations list in the local db
+    await atlasService.updatePositionGroupRelationsList(providerPairUpdates);
 
     // console.log("the end...");
     // console.log("positionInsertList" + positionInsertList + " | " +
@@ -474,6 +516,59 @@ const updateAtlasTables = async () => {
       message: "something went wrong while updating position group relations"
     };
   }
+};
+
+const getAcademicsByPosition = (atlasAcademics) => {
+  try {
+    let academics = [];
+    for (const key in atlasAcademics) {
+      academics.push({
+        'department': atlasAcademics[key].Department,
+        'academicsId': atlasAcademics[key].ID
+      });
+    }
+    return academics;
+  } catch (error) {
+    throw Error(error.message);
+  }
+};
+
+const getPosition = (pair, atlasItem, academics) => {
+  try {
+    return ({
+      'lastUpdateString': pair.PositionGroupLastUpdateString.replace("μμ", "pm").replace("πμ", "am"),
+      'city': atlasItem.City,
+      'title': atlasItem.Title,
+      'description': atlasItem.Description,
+      'positionType': atlasItem.PositionType,
+      'availablePositions': atlasItem.AvailablePositions,
+      'duration': atlasItem.Duration,
+      'physicalObjects': atlasItem.PhysicalObjects,
+      'providerId': atlasItem.ProviderID,
+      'atlasPositionId': atlasItem.ID,
+      'atlasCityId': atlasItem.CityID,
+      'atlasCountryId': atlasItem.CountryID,
+      'atlasPrefectureId': atlasItem.PrefectureID,
+      'EndDate': atlasItem.EndDate,
+      'EndDateString': atlasItem.EndDateString,
+      'StartDate': atlasItem.StartDate,
+      'StartDateString': atlasItem.StartDateString,
+      'academics': academics
+    });
+  } catch (error) {
+    throw Error(error.message);
+  }
+};
+
+const getProviderJson = (item) => {
+  return ({
+    'atlasProviderId': item.ID,
+    'afm': item.AFM,
+    'name': item.Name,
+    'providerContactEmail': item.ContactEmail,
+    'providerContactName': item.ContactName,
+    'providerContactPhone': item.ContactPhone
+  });
 };
 
 const insertPositionGroup = async (accessToken) => {

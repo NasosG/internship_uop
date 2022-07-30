@@ -256,8 +256,85 @@ const insertPositionGroup = async (data) => {
     }
     // return insertResults;
   } catch (error) {
-    console.log('Error while inserting position group[s]' + error.message);
+    console.log('Error while inserting position group[s] ' + error.message);
     throw Error('Error while inserting position group[s]');
+  }
+};
+
+const updatePositionsList = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_position_group \
+         SET description = $1, city = $2, title = $3, position_type = $4, available_positions = $5, duration = $6, physical_objects = $7, \
+         provider_id = $8, last_update_string = $9, city_id = $10, country_id = $11, prefecture_id = $12, start_date = $13, \
+         start_date_string = $14, end_date = $15, end_date_string = $16 WHERE atlas_position_id = $17",
+        [item.description,
+        item.city,
+        item.title,
+        item.positionType,
+        item.availablePositions,
+        item.duration,
+        item.physicalObjects,
+        item.providerId,
+        item.lastUpdateString,
+        item.atlasCityId,
+        item.atlasCountryId,
+        item.atlasPrefectureId,
+        item.StartDate,
+        item.StartDateString,
+        item.EndDate,
+        item.EndDateString,
+        item.atlasPositionId
+        ]);
+
+      // // Insert academics into academics table
+      // for (let academic of item.academics) {
+      //   await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
+      //     " VALUES ($1, $2)", [item.atlasPositionId, academic.academicsId]);
+      // }
+
+    }
+    // return updateResults;
+  } catch (error) {
+    console.log('Error while updating group[s] ' + error.message);
+    throw Error('Error while updating group[s]');
+  }
+};
+
+const updateProvidersList = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_provider \
+       SET name = $1, contact_email = $2, contact_name = $3, contact_phone = $4, afm = $5 \
+        WHERE atlas_provider_id = $6",
+        [item.name,
+        item.providerContactEmail,
+        item.providerContactName,
+        item.providerContactPhone,
+        item.afm,
+        item.atlasProviderId
+        ]);
+    }
+  } catch (error) {
+    console.log('Error while updating provider[s] ' + error.message);
+    throw Error('Error while updating provider[s]');
+  }
+};
+
+const updatePositionGroupRelationsList = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_position_group_relations \
+       SET position_group_last_update = $1, provider_last_update = $2 \
+        WHERE position_group_id = $3",
+        [item.PositionGroupLastUpdateString,
+        item.ProviderLastUpdateString,
+        item.PositionGroupID
+        ]);
+    }
+  } catch (error) {
+    console.log('Error while updating position group relation[s] ' + error.message);
+    throw Error('Error while updating position group relation[s]');
   }
 };
 
@@ -371,5 +448,8 @@ module.exports = {
   insertCountries,
   insertPhysicalObjects,
   insertProvider,
-  insertDepartmentIds
+  insertDepartmentIds,
+  updatePositionsList,
+  updateProvidersList,
+  updatePositionGroupRelationsList
 };

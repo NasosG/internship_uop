@@ -61,7 +61,7 @@ app.use("/api/office", officeRoutes);
 // );
 
 // run every 20 seconds curently
-cron.schedule('*/20 * * * * *', async () => {
+cron.schedule('*/30 * * * * *', async () => {
   await atlasController.updateAtlasTables();
 });
 
