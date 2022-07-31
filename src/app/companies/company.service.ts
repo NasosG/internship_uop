@@ -52,7 +52,7 @@ export class CompanyService {
 
   insertCompany(companyDetails: any) {
     return this.http
-      .post<{ message: string }>(this.baseUrl + "/insertCompanyUser/", companyDetails );
+      .post<{ message: string }>(this.baseUrl + "/insertCompanyUser/", companyDetails);
       //  .subscribe(responseData => {
       //   console.log(responseData.message);
       // });
@@ -66,16 +66,18 @@ export class CompanyService {
 
   loginCompany(companyDetails: any) {
     this.http
-      .post<{ message: string }>(this.baseUrl + "/insertCompanyUser/", companyDetails )
+      .post<{ message: string }>(this.baseUrl + "/insertCompanyUser/", companyDetails)
        .subscribe(responseData => {
         console.log(responseData.message);
       });
   }
 
   insertNewPosition(companyDetails: any) {
+    // New Internal Position Insertion
     const providerId = this.authService.getSessionId();
     console.log(providerId);
-   //TODO: NEW POSITION INSERTION
+
+
     // console.log("company " + companyDetails.country);
     // console.log("descr " + companyDetails.description);
     // console.log("title " + companyDetails.title);
@@ -84,7 +86,7 @@ export class CompanyService {
     // console.log("pho " + companyDetails.physical_objects);
     // console.log("apos " + companyDetails.available_positions);
     // console.log("city " + companyDetails.city);
-    // console.log("prefecturet " + companyDetails.prefecture);
+    // console.log("prefecture " + companyDetails.prefecture);
      this.http
       .post<{ message: string }>(this.baseUrl + "/insertInternalPosition/" + providerId, companyDetails)
        .subscribe(responseData => {

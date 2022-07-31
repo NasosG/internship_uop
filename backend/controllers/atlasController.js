@@ -434,7 +434,7 @@ const updateAtlasTables = async () => {
 
       if (localPositionGroups) {
         if (localPositionGroups.position_group_id == atlasItem.PositionGroupID) {
-          console.log("position found in PG\n");
+          // console.log("position found in local position groups\n");
         }
         if (localPositionGroups.position_group_last_update != atlasItem.PositionGroupLastUpdateString) {
           positionUpdateList.push(atlasItem.PositionGroupID);
@@ -445,12 +445,38 @@ const updateAtlasTables = async () => {
           providerPairUpdates.push(atlasItem);
         }
       } else {
-        console.log("position not found in localPositionGroups\n");
-        // TODO: insert atlasItem into atlas_position_group_relations in local db
+        // console.log("position not found in local position groups\n");
+        // Insert atlasItem into atlas_position_group in local db
+        await atlasService.insertPositionGroupRelation([atlasItem]);
+
+        // Insert position group to the local db
+        let positionGroupResults = await getPositionGroupDetails(atlasItem.PositionGroupID, accessToken);
+        let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
+        try {
+          let positionPushed = false;
+          let positionsInsertArray = [];
+          positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
+          positionPushed = true;
+          // Update the positions list in the local db
+          await atlasService.insertPositionGroup(positionsInsertArray);
+        } catch (ex) {
+          console.log("Failed to fetch position group: " + ex.message);
+          if (positionPushed) positionsInsertArray.pop();
+          continue;
+        }
+
+        // TODO: Insert provider
         positionInsertList.push(atlasItem.PositionGroupID);
         providerInsertList.push(atlasItem.ProviderID);
       }
     }
+
+    console.log("positionInsertList: " + positionInsertList + " | " +
+      "\n\npositionUpdateList: " + positionUpdateList + " | " +
+      "\n\npositionPairUpdates: " + positionPairUpdates + " | " +
+      "\n\nproviderInsertList: " + providerInsertList + " | " +
+      "\n\nproviderUpdateList: " + providerUpdateList + " | " +
+      "\n\nproviderPairUpdates: " + providerPairUpdates);
 
     let positionsArray = [];
     let providersArray = [];
@@ -481,6 +507,7 @@ const updateAtlasTables = async () => {
 
       count++;
     }
+    count = 0;
 
     // Update the position if providerUpdateList is not empty
     for (const providerId of providerUpdateList) {
@@ -495,14 +522,6 @@ const updateAtlasTables = async () => {
     await atlasService.updateProvidersList(providersArray);
     // Update the relations list in the local db
     await atlasService.updatePositionGroupRelationsList(providerPairUpdates);
-
-    // console.log("the end...");
-    // console.log("positionInsertList" + positionInsertList + " | " +
-    //   "\n\npositionUpdateList" + positionUpdateList + " | " +
-    //   "\n\npositionPairUpdates" + positionPairUpdates + " | " +
-    //   "\n\nproviderInsertList" + providerInsertList + " | " +
-    //   "\n\nproviderUpdateList" + providerUpdateList + " | " +
-    //   "\n\nproviderPairUpdates" + providerPairUpdates);
 
     return {
       message: 'done'
@@ -522,6 +541,7 @@ const getAcademicsByPosition = (atlasAcademics) => {
   try {
     let academics = [];
     for (const key in atlasAcademics) {
+      // console.log(atlasAcademics[key]);
       academics.push({
         'department': atlasAcademics[key].Department,
         'academicsId': atlasAcademics[key].ID

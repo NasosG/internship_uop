@@ -193,7 +193,7 @@ const getAtlasOldestPositionGroups = async (offset, limit) => {
 };
 
 const getPositionGroupRelations = async (relationsArray) => {
-  console.log(relationsArray.PositionGroupID);
+  // console.log(relationsArray.PositionGroupID);
   try {
     sql = await pool.query("SELECT * FROM atlas_position_group_relations WHERE position_group_id=$1 AND provider_id=$2",
       [relationsArray.PositionGroupID,
@@ -329,14 +329,31 @@ const updatePositionGroupRelationsList = async (data) => {
         WHERE position_group_id = $3",
         [item.PositionGroupLastUpdateString,
         item.ProviderLastUpdateString,
-        item.PositionGroupID
-        ]);
+        item.PositionGroupID]);
     }
   } catch (error) {
     console.log('Error while updating position group relation[s] ' + error.message);
     throw Error('Error while updating position group relation[s]');
   }
 };
+
+const insertPositionGroupRelation = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("INSERT INTO atlas_position_group_relations \
+      (position_group_id, position_group_last_update, provider_id, provider_last_update) \
+       VALUES ($1, $2, $3, $4)",
+        [item.PositionGroupID,
+        item.PositionGroupLastUpdateString,
+        item.ProviderID,
+        item.ProviderLastUpdateString]);
+    }
+  } catch (error) {
+    console.log('Error while inserting position group relation[s] ' + error.message);
+    throw Error('Error while inserting position group relation[s]');
+  }
+};
+
 
 const insertProvider = async (data) => {
   try {
@@ -413,7 +430,6 @@ const insertPhysicalObjects = async (data) => {
   }
 };
 
-
 const insertDepartmentIds = async (departmentArray, uopId) => {
   try {
     for (let item of departmentArray) {
@@ -449,6 +465,7 @@ module.exports = {
   insertPhysicalObjects,
   insertProvider,
   insertDepartmentIds,
+  insertPositionGroupRelation,
   updatePositionsList,
   updateProvidersList,
   updatePositionGroupRelationsList
