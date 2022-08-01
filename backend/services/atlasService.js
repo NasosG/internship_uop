@@ -256,7 +256,7 @@ const insertPositionGroup = async (data) => {
     }
     // return insertResults;
   } catch (error) {
-    console.log('Error while inserting position group[s] ' + error.message);
+    // console.log('Error while inserting position group[s] ' + error.message);
     throw Error('Error while inserting position group[s]');
   }
 };
@@ -373,7 +373,7 @@ const insertProvider = async (data) => {
         ]);
     }
   } catch (error) {
-    console.log('Error while inserting provider group[s] ' + error.message);
+    // console.log('Error while inserting provider group[s] ' + error.message);
     throw Error('Error while inserting provider group[s]');
   }
 };

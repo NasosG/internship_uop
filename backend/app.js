@@ -14,6 +14,7 @@ const atlasRoutes = require("./api-routes/atlasRoutes.js");
 const depManagerRoutes = require("./api-routes/depManagerRoutes.js");
 const companyRoutes = require("./api-routes/companyRoutes.js");
 const officeRoutes = require("./api-routes/officeRoutes.js");
+const { async } = require("rxjs");
 
 app.use(
   bodyParser.urlencoded({
@@ -61,7 +62,10 @@ app.use("/api/office", officeRoutes);
 // );
 
 // run every 20 seconds curently
-cron.schedule('*/30 * * * * *', async () => {
+// every hour
+// cron.schedule('0 0 * * * *', async () => {
+cron.schedule('*/12 * * * *', async () => {
+  console.log('1');
   await atlasController.updateAtlasTables();
 });
 
