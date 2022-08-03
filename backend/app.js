@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
-app.use((request, response, next) => {
+app.use((_request, response, next) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
   response.setHeader(
     "Access-Control-Allow-Headers",
@@ -39,7 +39,7 @@ app.use((request, response, next) => {
   next();
 });
 
-app.get("/", async (request, response) => {
+app.get("/", async (_request, response) => {
   response.send("<h2>hello from the server!</h2>");
   // await testMSSQL();
 });
@@ -50,23 +50,15 @@ app.use("/api/depmanager", depManagerRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/office", officeRoutes);
 
-// app.post(
-//   "/api/students/updateStudentSSNFile/:id", upload.ssn, (request, response) => {
-//     console.log("FILE ADDED SSN");
-//   }
-// );
-// app.post(
-//   "/api/students/updateStudentIbanFile/:id", upload.iban, (request, response) => {
-//     console.log("FILE ADDED iban");
-//   }
-// );
+/** Cron Jobs */
+// Runs every hour
+cron.schedule('0 0 * * * *', async () => {
+  await atlasController.insertOrUpdateAtlasTables();
+});
 
-// run every 20 seconds curently
-// every hour
-// cron.schedule('0 0 * * * *', async () => {
-cron.schedule('*/12 * * * *', async () => {
-  console.log('1');
-  await atlasController.updateAtlasTables();
+// Runs every 30 hours
+cron.schedule('0 0 */30 * * *', async () => {
+  await atlasController.updateWholeAtlasTables();
 });
 
 module.exports = app;

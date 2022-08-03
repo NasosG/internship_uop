@@ -46,6 +46,16 @@ const getPositionGroupFromDBById = async (atlasPositionId) => {
   }
 };
 
+const getCountOfPositionPairs = async () => {
+  try {
+    const positionPairs = await pool.query("SELECT COUNT(position_group_id) as count_pairs "
+      + " FROM atlas_position_group_relations");
+    return positionPairs.rows[0].count_pairs;
+  } catch (error) {
+    throw Error('Error while fetching count for position pairs');
+  }
+};
+
 const getInstitutions = async () => {
   try {
     const results = await pool.query("SELECT * FROM atlas_academics");
@@ -457,6 +467,7 @@ module.exports = {
   getPhysicalObjects,
   getGenericPositionSearch,
   getPositionGroupRelations,
+  getCountOfPositionPairs,
   insertPositionGroupRelations,
   insertPositionGroup,
   insertCities,
