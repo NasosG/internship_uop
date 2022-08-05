@@ -52,13 +52,17 @@ app.use("/api/office", officeRoutes);
 
 /** Cron Jobs */
 // Runs every hour
-cron.schedule('0 0 * * * *', async () => {
-  await atlasController.insertOrUpdateAtlasTables();
-});
+// cron.schedule('0 0 * * * *', async () => {
+//   await atlasController.insertOrUpdateAtlasTables();
+// });
 
-// Runs every 30 hours
-cron.schedule('0 0 */30 * * *', async () => {
-  await atlasController.updateWholeAtlasTables();
-});
+// // Runs every 30 hours
+// cron.schedule('0 0 */30 * * *', async () => {
+//   await atlasController.updateWholeAtlasTables();
+// });
+
+// hour = 3600000;
+// run every 2 minutes
+setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), 120000);
 
 module.exports = app;

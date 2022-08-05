@@ -1054,13 +1054,13 @@ const getFundingType = async (positionId) => {
   }
 };
 
-const getAvailablePositionGroups = async (request, response, accessToken) => {
+const getAvailablePositionGroups = async (begin, end, accessToken) => {
   try {
     //let begin = request.params.begin;
     //let end = parseInt(begin) + 10;
     let paginationData = {
-      'Skip': 0,
-      'Take': 10
+      'Skip': begin,
+      'Take': end
     };
 
     const atlasResponse = await axios({
@@ -1074,13 +1074,15 @@ const getAvailablePositionGroups = async (request, response, accessToken) => {
     });
 
     let positionsArray = atlasResponse.data.Result;
-    // return {
-    //   message: positionsArray,
-    //   status: atlasResponse.status
-    // };
-    return response.status(200).json(positionsArray);
+    return {
+      message: positionsArray,
+      status: atlasResponse.status
+    };
   } catch (error) {
-    return response.status(400).json({ "message": "shit" });
+    return {
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions: " + error.message
+    };
   }
 };
 
