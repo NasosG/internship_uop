@@ -440,6 +440,76 @@ const insertPhysicalObjects = async (data) => {
   }
 };
 
+const updateCities = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_cities" +
+        " SET name = $1, prefecture_id = $2" +
+        " WHERE atlas_id = $3",
+        [item.Name, item.PrefectureID, item.ID]);
+    }
+  } catch (error) {
+    throw Error('Error while updating cities');
+  }
+};
+
+const updatePrefectures = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_prefectures" +
+        " SET name = $1 " +
+        " WHERE atlas_id = $2",
+        [item.Name, item.ID]);
+    }
+  } catch (error) {
+    throw Error('Error while updating prefectures');
+  }
+};
+
+const updateCountries = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_countries" +
+        " SET name = $1" +
+        " WHERE atlas_id = $2",
+        [item.Name, item.ID]);
+    }
+  } catch (error) {
+    throw Error('Error while updating countries');
+  }
+};
+
+const updatePhysicalObjects = async (data) => {
+  try {
+    for (const item of data) {
+      await pool.query("UPDATE atlas_physical_objects" +
+        " SET name = $1" +
+        " WHERE atlas_id = $2",
+        [item.Name, item.ID]);
+    }
+  } catch (error) {
+    throw Error('Error while updating physical objects');
+  }
+};
+
+const insertOrUpdateAtlasTable = async (tableToUpdate, arrayTable) => {
+  switch (tableToUpdate) {
+    case "city":
+      const atlasCitieslocalDB = await getCities();
+      for (const item of arrayTable) {
+        let itemFoundDetails = atlasCitieslocalDB.find(element => element.atlas_id == item.atlas_id);
+        if (!itemFoundDetails)
+          await insertCities([item]);
+        else
+          await updateCities([item]);
+      }
+      break;
+    // TODO: other cases
+    default:
+      break;
+  }
+};
+
 const insertDepartmentIds = async (departmentArray, uopId) => {
   try {
     for (let item of departmentArray) {
@@ -479,5 +549,6 @@ module.exports = {
   insertPositionGroupRelation,
   updatePositionsList,
   updateProvidersList,
-  updatePositionGroupRelationsList
+  updatePositionGroupRelationsList,
+  insertOrUpdateAtlasTable
 };

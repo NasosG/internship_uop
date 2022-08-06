@@ -7,6 +7,9 @@ const FILE_TYPES_WITH_DOT = [
   '.png', '.jpg', '.gif', '.jpeg', '.pdf', '.webp', '.doc', '.docx'
 ];
 
+const ONE_HOUR = 3600000;
+const THIRTY_HOURS = 108000000;
+
 const departmentsMap = {
   '104': 555,   //ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ
   '1511': 1511, //ΓΕΩΠΟΝΙΑΣ
@@ -66,6 +69,8 @@ const splitScholarsPersonalData = (splitString) => {
 module.exports = {
   FILE_TYPES,
   FILE_TYPES_WITH_DOT,
+  ONE_HOUR,
+  THIRTY_HOURS,
   departmentsMap,
   formatDocExtension,
   splitStudentsAM,

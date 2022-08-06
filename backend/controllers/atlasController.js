@@ -408,7 +408,7 @@ const insertTablesFromAtlas = async (request, response) => {
 };
 
 
-const updateWholeAtlasTables = async () => {
+const insertOrUpdateWholeAtlasTables = async () => {
   try {
     accessToken = await atlasLogin();
 
@@ -423,14 +423,13 @@ const updateWholeAtlasTables = async () => {
 
     let skip = 0;
     let lastElement = await atlasService.getCountOfPositionPairs();
-    console.log("oo  " + lastElement);
-    const batchSize = 1000;
+    const batchSize = 500;
 
     do {
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      console.log("\nGetting skip/res->NumberOfItems");
-      console.log(availablePositionGroups.message.NumberOfItems);
-      console.log("Scanning for updated items...\n");
+      // console.log("\nGetting skip/res->NumberOfItems");
+      // console.log(availablePositionGroups.message.NumberOfItems);
+      // console.log("Scanning for updated items...\n");
 
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
@@ -557,14 +556,13 @@ const insertOrUpdateAtlasTables = async () => {
 
     // Get the count of position group pairs of the previous job run (the previous hour)
     let skip = await atlasService.getCountOfPositionPairs();
-    console.log(skip);
-    const batchSize = 400;
+    const batchSize = 200;
 
     do {
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      console.log("\nGetting skip/res->NumberOfItems");
-      console.log(availablePositionGroups.message.NumberOfItems);
-      console.log("Scanning for updated items...\n");
+      // console.log("\nGetting skip/res->NumberOfItems");
+      // console.log(availablePositionGroups.message.NumberOfItems);
+      // console.log("Scanning for updated items...\n");
 
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
@@ -692,6 +690,18 @@ const getAcademicsByPosition = (atlasAcademics) => {
     return academics;
   } catch (error) {
     throw Error(error.message);
+  }
+};
+
+const insertOrUpdateImmutableAtlasTables = async () => {
+  try {
+    // Insert Implementation here
+  } catch (error) {
+    console.log("Error: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "something went wrong while inserting or updating immutable Atlas tables"
+    };
   }
 };
 
@@ -1104,5 +1114,6 @@ module.exports = {
   insertTablesFromAtlas,
   insertPositionGroup,
   insertOrUpdateAtlasTables,
-  updateWholeAtlasTables
+  insertOrUpdateWholeAtlasTables,
+  insertOrUpdateImmutableAtlasTables
 };

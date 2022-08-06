@@ -3,10 +3,10 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const path = require("path");
-// const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
-const cron = require('node-cron');
+// const cron = require('node-cron');
 const atlasController = require('./controllers/atlasController.js');
+const MiscUtils = require("./MiscUtils.js");
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -14,7 +14,6 @@ const atlasRoutes = require("./api-routes/atlasRoutes.js");
 const depManagerRoutes = require("./api-routes/depManagerRoutes.js");
 const companyRoutes = require("./api-routes/companyRoutes.js");
 const officeRoutes = require("./api-routes/officeRoutes.js");
-const { async } = require("rxjs");
 
 app.use(
   bodyParser.urlencoded({
@@ -56,13 +55,19 @@ app.use("/api/office", officeRoutes);
 //   await atlasController.insertOrUpdateAtlasTables();
 // });
 
-// // Runs every 30 hours
-// cron.schedule('0 0 */30 * * *', async () => {
-//   await atlasController.updateWholeAtlasTables();
-// });
+// Update Atlas latest positions / providers, every hour
+setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), MiscUtils.ONE_HOUR);
+// Update all Atlas positions / providers, every 30 hours
+setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), MiscUtils.THIRTY_HOURS);
 
-// hour = 3600000;
-// run every 2 minutes
-setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), 120000);
+/**
+ * Update the following Atlas Tables every 30 hours (if there are records to be updated or inserted).
+ * These tables do not change very ofter (if ever), so we update them less frequently.
+ * - ATLAS Cities
+ * - ATLAS Countries
+ * - ATLAS Physical objects (list of positions' subject: "Ανθρώπινο Δυναμικό", "Βοηθητικό προσωπικό", "Δημόσιες σχέσεις" etc.)
+ * - ATLAS Prefecture
+*/
+setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), MiscUtils.THIRTY_HOURS);
 
 module.exports = app;
