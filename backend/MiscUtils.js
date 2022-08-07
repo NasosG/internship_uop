@@ -65,6 +65,16 @@ const splitScholarsPersonalData = (splitString) => {
   return splitArray[splitArray.length - 2];
 };
 
+/**
+ * This functions determines whether the passed value is an Array
+ * and whether the array is empty.
+ * @param {*} arrayParam
+ * @returns true if the value is an Array and it is not empty; otherwise, false.
+ */
+const isArrayNotEmpty = (arrayParam) => {
+  return Array.isArray(arrayParam) && arrayParam.length > 0;
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -74,5 +84,6 @@ module.exports = {
   departmentsMap,
   formatDocExtension,
   splitStudentsAM,
-  splitScholarsPersonalData
+  splitScholarsPersonalData,
+  isArrayNotEmpty
 };
