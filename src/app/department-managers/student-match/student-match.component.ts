@@ -38,6 +38,7 @@ export class StudentMatchComponent implements OnInit {
           application.reg_code = this.getAM(application.reg_code);
           application.applicationDateStr = Utils.reformatDateToEULocaleStr(application.application_date);
         }
+        // TODO: When provider assigns students, need to fetch the provider name
 
         // Have to wait till the changeDetection occurs. Then, project data into the HTML template
         this.chRef.detectChanges();

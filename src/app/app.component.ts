@@ -24,13 +24,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // var browserZoomLevel = Math.round(window.devicePixelRatio * 100);
-    // let screenCssPixelRatio = (window.devicePixelRatio)
-    if (window.devicePixelRatio > 1) {
-      // TODO: Mozilla Browser fix
-      // $('body').css('MozTransform', 'scale(' + 0.99 + ')');
-      $('body').css('zoom', ' ' + 79.75 + '%');
-    }
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         let customJsObj = document.getElementById('custom_js')!;
