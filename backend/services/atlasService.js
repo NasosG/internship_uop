@@ -499,7 +499,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasCitiesLocalDB = await getCities();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasCitiesLocalDB.find(element => element.atlas_id == item.ID);
-        console.log(itemFoundDetails);
+        // console.log(itemFoundDetails);
         if (!itemFoundDetails)
           await insertCities([item]);
         else
@@ -511,7 +511,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasCountriesLocalDB = await getCountries();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasCountriesLocalDB.find(element => element.atlas_id == item.ID);
-        console.log(itemFoundDetails);
+        // console.log(itemFoundDetails);
         if (!itemFoundDetails)
           await insertCountries([item]);
         else
@@ -523,7 +523,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasPhysicalObjectsLocalDB = await getPhysicalObjects();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasPhysicalObjectsLocalDB.find(element => element.atlas_id == item.ID);
-        console.log(itemFoundDetails);
+        // console.log(itemFoundDetails);
         if (!itemFoundDetails)
           await insertPhysicalObjects([item]);
         else
@@ -535,7 +535,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasPrefecturesLocalDB = await getPrefectures();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasPrefecturesLocalDB.find(element => element.atlas_id == item.ID);
-        console.log(itemFoundDetails);
+        // console.log(itemFoundDetails);
         if (!itemFoundDetails)
           await insertPrefectures([item]);
         else

@@ -8,6 +8,7 @@ const FILE_TYPES_WITH_DOT = [
 ];
 
 const ONE_HOUR = 3600000;
+const THREE_HOURS = 10800000;
 const THIRTY_HOURS = 108000000;
 
 const departmentsMap = {
@@ -80,6 +81,7 @@ module.exports = {
   FILE_TYPES,
   FILE_TYPES_WITH_DOT,
   ONE_HOUR,
+  THREE_HOURS,
   THIRTY_HOURS,
   departmentsMap,
   formatDocExtension,

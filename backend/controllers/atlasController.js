@@ -194,12 +194,12 @@ const getFromAtlas = async (accessToken, objectToGet) => {
 
     return {
       "result": atlasResponse.data.Result,
-      "message": "Success. Fetched cities data."
+      "message": "Success. Fetched " + objectToGet + " data."
     };
   } catch (error) {
     return {
       "result": [],
-      "message": "Failed to fetch cities data."
+      "message": "Failed to fetch " + objectToGet + " data."
     };
   }
 };
@@ -718,12 +718,13 @@ const getAcademicsByPosition = (atlasAcademics) => {
 
 const insertOrUpdateImmutableAtlasTables = async () => {
   try {
-    // Make Atlas Requests
+    // Get Atlas token
     let accessToken = await atlasLogin();
+    // Make Atlas Requests
     let atlasCities = (await getFromAtlas(accessToken, "Cities")).result;
     let atlasCountries = (await getFromAtlas(accessToken, "Countries")).result;
     let atlasPhysicalObjects = (await getFromAtlas(accessToken, "PhysicalObjects")).result;
-    let atlasPrefectures = (await getFromAtlas(accessToken, "Countries")).result;
+    let atlasPrefectures = (await getFromAtlas(accessToken, "Prefectures")).result;
 
     // console.log(atlasCities);
 

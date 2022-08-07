@@ -68,6 +68,6 @@ setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), 
  * - ATLAS Physical objects (list of positions' subject: "Ανθρώπινο Δυναμικό", "Βοηθητικό προσωπικό", "Δημόσιες σχέσεις" etc.)
  * - ATLAS Prefecture
 */
-setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), MiscUtils.THIRTY_HOURS);
+setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), MiscUtils.THREE_HOURS);
 
 module.exports = app;
