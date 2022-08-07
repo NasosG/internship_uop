@@ -492,19 +492,57 @@ const updatePhysicalObjects = async (data) => {
   }
 };
 
-const insertOrUpdateAtlasTable = async (tableToUpdate, arrayTable) => {
+const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
   switch (tableToUpdate) {
-    case "city":
-      const atlasCitieslocalDB = await getCities();
-      for (const item of arrayTable) {
-        let itemFoundDetails = atlasCitieslocalDB.find(element => element.atlas_id == item.atlas_id);
+
+    case "cities":
+      const atlasCitiesLocalDB = await getCities();
+      for (const item of atlasArray) {
+        let itemFoundDetails = atlasCitiesLocalDB.find(element => element.atlas_id == item.ID);
+        console.log(itemFoundDetails);
         if (!itemFoundDetails)
           await insertCities([item]);
         else
           await updateCities([item]);
       }
       break;
-    // TODO: other cases
+
+    case "countries":
+      const atlasCountriesLocalDB = await getCountries();
+      for (const item of atlasArray) {
+        let itemFoundDetails = atlasCountriesLocalDB.find(element => element.atlas_id == item.ID);
+        console.log(itemFoundDetails);
+        if (!itemFoundDetails)
+          await insertCountries([item]);
+        else
+          await updateCountries([item]);
+      }
+      break;
+
+    case "physicalObjects":
+      const atlasPhysicalObjectsLocalDB = await getPhysicalObjects();
+      for (const item of atlasArray) {
+        let itemFoundDetails = atlasPhysicalObjectsLocalDB.find(element => element.atlas_id == item.ID);
+        console.log(itemFoundDetails);
+        if (!itemFoundDetails)
+          await insertPhysicalObjects([item]);
+        else
+          await updatePhysicalObjects([item]);
+      }
+      break;
+
+    case "prefectures":
+      const atlasPrefecturesLocalDB = await getPrefectures();
+      for (const item of atlasArray) {
+        let itemFoundDetails = atlasPrefecturesLocalDB.find(element => element.atlas_id == item.ID);
+        console.log(itemFoundDetails);
+        if (!itemFoundDetails)
+          await insertPrefectures([item]);
+        else
+          await updatePrefectures([item]);
+      }
+      break;
+
     default:
       break;
   }

@@ -180,8 +180,31 @@ const getProviderDetails = async (providerId, accessToken) => {
   }
 };
 
+
+const getFromAtlas = async (accessToken, objectToGet) => {
+  try {
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/Get' + objectToGet,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return {
+      "result": atlasResponse.data.Result,
+      "message": "Success. Fetched cities data."
+    };
+  } catch (error) {
+    return {
+      "result": [],
+      "message": "Failed to fetch cities data."
+    };
+  }
+};
+
 const insertCitiesFromAtlas = async (accessToken) => {
-  console.log("citiessssssssss");
   try {
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetCities',
@@ -695,7 +718,25 @@ const getAcademicsByPosition = (atlasAcademics) => {
 
 const insertOrUpdateImmutableAtlasTables = async () => {
   try {
-    // Insert Implementation here
+    // Make Atlas Requests
+    let accessToken = await atlasLogin();
+    let atlasCities = (await getFromAtlas(accessToken, "Cities")).result;
+    let atlasCountries = (await getFromAtlas(accessToken, "Countries")).result;
+    let atlasPhysicalObjects = (await getFromAtlas(accessToken, "PhysicalObjects")).result;
+    let atlasPrefectures = (await getFromAtlas(accessToken, "Countries")).result;
+
+    // console.log(atlasCities);
+
+    // Insert or Update local DB
+    if (Array.isArray(atlasCities) && atlasCities.length > 0)
+      await atlasService.insertOrUpdateAtlasTable('cities', atlasCities);
+    if (Array.isArray(atlasCountries) && atlasCountries.length > 0)
+      await atlasService.insertOrUpdateAtlasTable('countries', atlasCountries);
+    if (Array.isArray(atlasPhysicalObjects) && atlasPhysicalObjects.length > 0)
+      await atlasService.insertOrUpdateAtlasTable('physicalObjects', atlasPhysicalObjects);
+    if (Array.isArray(atlasPrefectures) && atlasPrefectures.length > 0)
+      await atlasService.insertOrUpdateAtlasTable('prefectures', atlasPrefectures);
+
   } catch (error) {
     console.log("Error: " + error.message);
     return {
