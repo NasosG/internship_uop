@@ -980,7 +980,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     let positionIds = [];
     let positionData = [];
 
-    if (atlasResponse.data.Result != null) {
+    if (atlasResponse.data.Result != null /*&& atlasResponse.data.Result.length != 0*/) {
       console.log("preassigned positions exist");
       for (position of atlasResponse.data.Result) {
         if (position.GroupID == groupId && position.PreAssignedForAcademic.ID == academicId) {
@@ -1007,7 +1007,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
       });
 
       positionIds = atlasResponse.data.Result;
-      if (positionIds.data.Success == true) {
+      if (atlasResponse.data.Success == true) {
         console.log('Προδέσμευση θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
         positionData.push({
           "ImplementationEndDate": position.ImplementationEndDate,
@@ -1017,7 +1017,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
         });
       } else {
         console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
-        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademiID: ' + academicId + ' PositionID: ' + positionIds[0]);
+        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademiID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
       }
     }
 
