@@ -980,7 +980,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     let positionIds = [];
     let positionData = [];
 
-    if (atlasResponse.data.Result != null /*&& atlasResponse.data.Result.length != 0*/) {
+    if (atlasResponse.data.Result != null && atlasResponse.data.Result.length != 0) {
       console.log("preassigned positions exist");
       for (position of atlasResponse.data.Result) {
         if (position.GroupID == groupId && position.PreAssignedForAcademic.ID == academicId) {
