@@ -101,6 +101,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
               duration: position.duration,
               physical_object: position.physical_objects,
               student_id: item.student_id,
+              department_id: item.department_id
             })
           }
         }

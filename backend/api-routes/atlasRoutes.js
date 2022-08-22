@@ -16,5 +16,6 @@ router.get('/getCountries', atlasController.getCountries);
 router.get('/getPhysicalObjects', atlasController.getPhysicalObjects);
 router.get('/getGenericPositionSearch/', atlasController.getGenericPositionSearch);
 router.get('/getRegisteredStudent/', atlasController.getRegisteredStudent);
+router.get('/getFundingTypes', atlasController.getFundingTypes);
 
 module.exports = router;
