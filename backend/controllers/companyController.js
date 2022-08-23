@@ -71,14 +71,18 @@ const insertAssignment = async (request, response, next) => {
     const potentialAssignments = Object.assign(companyData);
 
     for (let item of potentialAssignments) {
+      let academicId = item.department_id;
       // Get student's AM by id
-      // let academicIDNumber = await companyService.getStudentAMById(item.student_id);
+      let studentAMNumber = await companyService.getStudentAMById(item.student_id);
 
       let academicIDNumber = 243761386827;
       let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
 
+      // the below line is possibly the right one; gets academicId from AM and department id
+      // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
       if (registeredStudent.message != null) {
         console.log('user is registered');
+        // console.log(registeredStudent.message.AcademicIDNumber);
       } else {
         console.log('not a registered user');
         // Student SHOULD sign up on this occassion
@@ -91,11 +95,11 @@ const insertAssignment = async (request, response, next) => {
       // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
       // console.log(preassignResult.preassign);
       console.log(item.position_id);
-      let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, 98);
+      let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, academicId);
       console.log(positionPreassignment);
 
-
-      //const fundingType = await getFundingType(item.position_id);
+      // const fundingType = await atlasController.getFundingType(item.position_id);
+      // console.log(fundingType);
 
       // assign student to Atlas position
       let assignResults = await atlasController.assignStudent(positionPreassignment, academicIDNumber);

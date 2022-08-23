@@ -920,6 +920,34 @@ const getRegisteredStudent = async (academicIDNumber) => {
   }
 };
 
+const findAcademicIdNumber = async (academicId, studentNumber) => {
+  try {
+    let accessToken = await atlasLogin();
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/FindAcademicIdNumber',
+      method: 'POST',
+      data: { "AcademicID": academicId, "StudentNumber": studentNumber },
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    let positionsArray = atlasResponse.data.Result;
+    console.log(atlasResponse.data.Message);
+    return {
+      message: positionsArray,
+      status: atlasResponse.status
+    };
+  } catch (error) {
+    console.log("error while finding academic id number: " + error.message);
+    return {
+      status: "400 bad request",
+      message: "error while finding academic id number: " + error.message
+    };
+  }
+};
+
 const registerNewStudent = async (AcademicIDNumber) => {
   try {
     let accessToken = await atlasLogin();
@@ -940,6 +968,7 @@ const registerNewStudent = async (AcademicIDNumber) => {
     });
 
     let positionsArray = atlasResponse.data.Result;
+    console.log(atlasResponse.data.Message);
     return {
       message: positionsArray,
       status: atlasResponse.status
@@ -1083,7 +1112,7 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
 const getFundingType = async (positionId) => {
   try {
     let accessToken = await atlasLogin();
-    positionId = request.params.id;
+
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetFundingType?positionID=' + positionId,
       method: 'GET',
@@ -1093,9 +1122,9 @@ const getFundingType = async (positionId) => {
       }
     });
 
-    let positionsArray = atlasResponse.data.Result == null ? null : atlasResponse.data.ResultFundingType;
+    let positionFundingType = atlasResponse.data.Result == null ? null : atlasResponse.data.Result.FundingType;
     return {
-      message: positionsArray,
+      message: positionFundingType,
       status: atlasResponse.status
     };
   } catch (error) {
@@ -1138,6 +1167,26 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
   }
 };
 
+
+const getFundingTypes = async (request, response) => {
+  try {
+    let accessToken = await atlasLogin();
+    const atlasResponse = await axios({
+      url: 'http://atlas.pilotiko.gr/Api/Offices/v1/GetFundingTypes',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return response.status(200).json(atlasResponse.data.Result);
+  } catch (error) {
+    return response.status(400).json({ "message": "error retrieving funding types" });
+  }
+};
+
+
 module.exports = {
   getAvailablePositionGroupsUI,
   getAvailablePositionGroups,
@@ -1151,11 +1200,13 @@ module.exports = {
   getRegisteredStudent,
   getPositionPreassignment,
   getFundingType,
+  getFundingTypes,
   registerNewStudent,
   assignStudent,
   insertTablesFromAtlas,
   insertPositionGroup,
   insertOrUpdateAtlasTables,
   insertOrUpdateWholeAtlasTables,
-  insertOrUpdateImmutableAtlasTables
+  insertOrUpdateImmutableAtlasTables,
+  findAcademicIdNumber
 };
