@@ -23,6 +23,8 @@
     "STUDENT-SIGNUP": "Εγγραφή χρήστη",
     "USERNAME": "Όνομα χρήστη",
     "PASSWORD": "Κωδικός",
+    "MAIL": "e-mail",
+    "MAIL-RESET-ALERT": "Εισάγετε τη διεύθυνση email σας και θα σας στείλουμε ένα email με τον νέο κωδικό πρόσβασης.",
     "REPEAT-PASSWORD": "Επιβεβαιώση Κωδικού",
     "BACK-BTN": "Πίσω ",
     "CONTINUE-BTN": "Συνέχεια",

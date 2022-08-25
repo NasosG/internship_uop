@@ -103,4 +103,10 @@ export class CompanyService {
         console.log(responseData.message);
       });
   }
+
+
+  public resetPassword(email: string) {
+    console.log(email);
+    return this.http.post<any>('http://localhost:3000/api/company/resetPassword', {"providerMail": email}, {observe: 'response'});
+  }
 }

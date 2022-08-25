@@ -11,5 +11,6 @@ router.post("/insertCompanyUser/", companyController.insertCompanyUsers);
 router.post("/insertNewAssignment/:id", companyController.insertAssignment);
 router.post("/insertInternalPosition/:id", companyController.insertInternalPositionGroup);
 router.post("/login/", companyController.login);
+router.post("/resetPassword/", companyController.resetPassword);
 
 module.exports = router;

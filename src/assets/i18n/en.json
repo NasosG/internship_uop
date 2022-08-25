@@ -23,6 +23,8 @@
     "STUDENT-SIGNUP": "User Signup",
     "USERNAME": "Username",
     "PASSWORD": "Password",
+    "MAIL": "e-mail",
+    "MAIL-RESET-ALERT": "Enter your email address and we'll send you a new password.",
     "REPEAT-PASSWORD": "Repeat the Password",
     "BACK-BTN": "Back ",
     "CONTINUE-BTN": "Continue",

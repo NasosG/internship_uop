@@ -73,6 +73,7 @@ import { ApplicationsPreviewDialogComponent } from './companies/applications-pre
 import { OfficeComponent } from './internship-office/office/office.component';
 import { PositionsAddComponent } from './internship-office/positions-add/positions-add.component';
 import { StatsComponent } from './internship-office/stats/stats.component';
+import { PasswordResetComponent } from './home-screen/password-reset/password-reset.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -129,7 +130,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ApplicationsPreviewDialogComponent,
     OfficeComponent,
     PositionsAddComponent,
-    StatsComponent
+    StatsComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule,

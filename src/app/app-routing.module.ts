@@ -27,6 +27,10 @@ const routes: Routes = [{
   component: HomeComponent
 },
 {
+  path: 'password-reset',
+  component: HomeComponent
+},
+{
   path: 'student',
   children: [{
     path: ':id',

@@ -2,6 +2,9 @@
 const pool = require("../db_config.js");
 const atlasService = require("../services/atlasService");
 const MiscUtils = require("../MiscUtils.js");
+const nodemailer = require('nodemailer');
+const gmailTransporter = require('../mailer_config.js');
+const bcrypt = require('bcrypt');
 
 const getProviderById = async (id) => {
   try {
@@ -48,6 +51,27 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
   }
 };
 
+const checkIfEmailExists = async (userMail) => {
+  try {
+    let emailFoundResult = await pool.query("SELECT * FROM atlas_provider WHERE contact_email = $1", [userMail]);
+    return emailFoundResult.rowCount > 0;
+  } catch (error) {
+    throw Error('Error while searching for provider\'s email');
+  }
+};
+
+const updateUserPassword = async (userPassword, userMail) => {
+  try {
+    // Hash the password before inserting it to the DB
+    let hashPassword = await bcrypt.hash(userPassword, MiscUtils.SALT_ROUNDS);
+    // Update the DB
+    await pool.query("UPDATE generic_users SET password = $1 \
+                      FROM atlas_provider ap \
+                      WHERE ap.id = generic_users.company_id AND ap.contact_email = $2", [hashPassword, userMail]);
+  } catch (error) {
+    throw Error('Error while updating provider\'s password');
+  }
+};
 
 const getStudentAssignedApplications = async (companyName, companyAFM) => {
   try {
@@ -159,10 +183,12 @@ const insertCompanyUsers = async (body, newlyCreatedProviderId) => {
       return false;
     }
 
+    let hashPassword = await bcrypt.hash(body.password, MiscUtils.SALT_ROUNDS);
+    // console.log(hashPassword);
     await pool.query("INSERT INTO generic_users (username, password, atlas_account, user_type, company_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5)",
-      [body.username, body.password, 'true', 'company', body.id]);
+      [body.username, hashPassword, 'true', 'company', body.id]);
 
     return true;
   } catch (error) {
@@ -190,7 +216,6 @@ const checkIfUsernameAlreadyExists = async (username) => {
   }
 };
 
-
 const getProviderByAfm = async (afm) => {
   try {
     const providerByAfm = await pool.query("SELECT * FROM atlas_provider WHERE afm = $1 ", [afm]);
@@ -202,7 +227,7 @@ const getProviderByAfm = async (afm) => {
 
 const userAlreadyExists = async (username, password) => {
   try {
-    let usernameFoundResult = await pool.query("SELECT * FROM generic_users WHERE username = $1 AND password = $2", [username, password]);
+    let usernameFoundResult = await pool.query("SELECT * FROM generic_users WHERE username = $1", [username]);
     return usernameFoundResult;
   } catch (error) {
     throw Error('Error while checking if username already exists');
@@ -217,7 +242,13 @@ const loginCompany = async (username, password) => {
       return;
     }
 
-    return userAlreadyExist.rows[0].g_user_id;
+    const passwordMatches = await bcrypt.compare(password, userAlreadyExist.rows[0].password);
+
+    if (passwordMatches)
+      return userAlreadyExist.rows[0].g_user_id;
+    else
+      return null;
+
   } catch (error) {
     throw Error('Error while logging in');
   }
@@ -262,6 +293,34 @@ const insertInternalPositionGroup = async (data, providerId) => {
   }
 };
 
+// generate a pseudorandom password
+const generatePassword = (passwordLength) => {
+  let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let password = "";
+  for (let i = 0; i <= passwordLength; i++) {
+    let randomNumber = Math.floor(Math.random() * chars.length);
+    password += chars.substring(randomNumber, randomNumber + 1);
+  }
+
+  return password;
+};
+
+const mainMailer = async (password) => {
+  // send mail with defined transport object
+  let info = await gmailTransporter.sendMail({
+    from: "praktiki@uop.com", // sender address
+    to: "thanos2259@gmail.com, thanasara@windowslive.com", // list of receivers
+    subject: "Password Reset", // Subject line
+    // send the email to the user to let him know that password has been changed
+    html: "<span>Hello, You're receiving this email because you requested a password reset for your account.</span><br><br>" +
+      "<span>Your new password is: <strong>" + password + "</strong></span><br><br>" +
+      "<span>Click on the button below to login with your new password</span><br><br>" +
+      "<a href='http://localhost:4200/credentials-generic' style='border: 1px solid #1b9be9; font-weight: 600; color: #fff; border-radius: 3px; cursor: pointer; outline: none; background: #1b9be9; padding: 4px 15px; display: inline-block; text-decoration: none;'>Login</a>"
+  });
+
+  console.log("Message sent: %s", info.messageId);
+};
+
 module.exports = {
   getInternalPositionsByProviderId,
   getProviderIdByUserId,
@@ -276,5 +335,9 @@ module.exports = {
   insertProviders,
   insertInternalPositionGroup,
   insertAssignment,
-  loginCompany
+  loginCompany,
+  checkIfEmailExists,
+  updateUserPassword,
+  generatePassword,
+  mainMailer
 };

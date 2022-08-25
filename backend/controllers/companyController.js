@@ -237,26 +237,59 @@ const getStudentActiveApplications = async (request, response) => {
 };
 
 const login = async (request, response) => {
-  const username = request.body.username;
-  const password = request.body.password;
-  const userId = await companyService.loginCompany(username, password);
+  try {
+    const username = request.body.username;
+    const password = request.body.password;
+    const userId = await companyService.loginCompany(username, password);
 
-  if (userId == null)
-    response.status(401).json({
-      message: 'Unauthorized'
+    if (userId == null)
+      response.status(401).json({
+        message: 'Unauthorized'
+      });
+    else {
+      const token = jwt.sign({
+        userId: userId
+      },
+        "secret_this_should_be_longer", {
+        expiresIn: "1h"
+      });
+
+      response.status(200).json({
+        token: token,
+        expiresIn: 3600,
+        userId: userId
+      });
+    }
+  } catch (error) {
+    response.status(400).json({
+      message: "Something went wrong logging in: " + error.message
     });
-  else {
-    const token = jwt.sign({
-      userId: userId
-    },
-      "secret_this_should_be_longer", {
-      expiresIn: "1h"
-    });
+  }
+};
+
+const resetPassword = async (request, response) => {
+  try {
+    const passwordLength = 12;
+    const userMail = request.body.providerMail;
+    let emailExists = await companyService.checkIfEmailExists(userMail);
+
+    if (!emailExists) {
+      response.status(400).json({
+        message: "Email not found"
+      });
+      return;
+    }
+
+    let newPassword = companyService.generatePassword(passwordLength);
+    await companyService.updateUserPassword(newPassword, userMail);
+    companyService.mainMailer(newPassword).catch(console.error);
 
     response.status(200).json({
-      token: token,
-      expiresIn: 3600,
-      userId: userId
+      message: "Your password has been reset successfully"
+    });
+  } catch (error) {
+    response.status(400).json({
+      message: "Your password has not been reset successfully: " + error.message
     });
   }
 };
@@ -270,5 +303,6 @@ module.exports = {
   insertInternalPositionGroup,
   insertAssignment,
   getStudentActiveApplications,
-  login
+  login,
+  resetPassword
 };

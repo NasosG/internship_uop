@@ -960,7 +960,7 @@ const registerNewStudent = async (AcademicIDNumber) => {
     const atlasResponse = await axios({
       url: 'http://atlas.pilotiko.gr/Api/Offices/v1/RegisterNewStudent',
       method: 'POST',
-      data: { AcademicIDNumber },
+      data: { "AcademicIDNumber": AcademicIDNumber },
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken

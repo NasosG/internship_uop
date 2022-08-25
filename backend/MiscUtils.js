@@ -11,6 +11,9 @@ const ONE_HOUR = 3600000;
 const THREE_HOURS = 10800000;
 const THIRTY_HOURS = 108000000;
 
+// salt rounds for bcrypt algorithm
+const SALT_ROUNDS = 10;
+
 const departmentsMap = {
   '104': 555,   //ΙΣΤΟΡΙΑΣ, ΑΡΧΑΙΟΛΟΓΙΑΣ ΚΑΙ ΔΙΑΧΕΙΡΙΣΗΣ ΠΟΛΙΤΙΣΜΙΚΩΝ ΑΓΑΘΩΝ
   '1511': 1511, //ΓΕΩΠΟΝΙΑΣ
@@ -83,6 +86,7 @@ module.exports = {
   ONE_HOUR,
   THREE_HOURS,
   THIRTY_HOURS,
+  SALT_ROUNDS,
   departmentsMap,
   formatDocExtension,
   splitStudentsAM,

@@ -7,8 +7,6 @@ const bodyParser = require("body-parser");
 // const cron = require('node-cron');
 const atlasController = require('./controllers/atlasController.js');
 const MiscUtils = require("./MiscUtils.js");
-const nodemailer = require('nodemailer');
-const gmailTransporter = require('./mailer_config.js');
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -71,36 +69,5 @@ setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), 
  * - ATLAS Prefecture
 */
 setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), MiscUtils.THREE_HOURS);
-
-async function mainMailer() {
-  // send mail with defined transport object
-  let pswd = generatePassword(12);
-  let info = await gmailTransporter.sendMail({
-    from: "praktiki@uop.com", // sender address
-    to: "", // list of receivers
-    subject: "Password Reset", // Subject line
-    // send the email to the user to let him know that password has been changed
-    html: "<span>Hello, You're receiving this email because you requested a password reset for your account.</span><br><br>" +
-      "<span>Your new password is: <strong>" + pswd + "</strong></span><br><br>" +
-      "<span>Click on the button below to login with your new password</span><br><br>" +
-      "<a href='http://localhost:4200/credentials-generic' style='border: 1px solid #1b9be9; font-weight: 600; color: #fff; border-radius: 3px; cursor: pointer; outline: none; background: #1b9be9; padding: 4px 15px; display: inline-block; text-decoration: none;'>Login</a>"
-  });
-
-  console.log("Message sent: %s", info.messageId);
-}
-
-// generate a pseudorandom password
-function generatePassword(passwordLength) {
-  let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let password = "";
-  for (let i = 0; i <= passwordLength; i++) {
-    let randomNumber = Math.floor(Math.random() * chars.length);
-    password += chars.substring(randomNumber, randomNumber + 1);
-  }
-
-  return password;
-}
-
-mainMailer().catch(console.error);
 
 module.exports = app;
