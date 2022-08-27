@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {City} from 'src/app/students/city.model';
-import {Country} from 'src/app/students/country.model';
-import {Department} from 'src/app/students/department.model';
-import {PhysicalObject} from 'src/app/students/physical-object.model';
-import {Prefecture} from 'src/app/students/prefecture.model';
-import {StudentsService} from 'src/app/students/student.service';
+import { City } from 'src/app/students/city.model';
+import { Country } from 'src/app/students/country.model';
+import { Department } from 'src/app/students/department.model';
+import { PhysicalObject } from 'src/app/students/physical-object.model';
+import { Prefecture } from 'src/app/students/prefecture.model';
+import { StudentsService } from 'src/app/students/student.service';
 import Swal from 'sweetalert2';
-import {CompanyService} from '../company.service';
+import { CompanyService } from '../company.service';
 
 @Component({
   selector: 'app-position-upload',

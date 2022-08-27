@@ -231,13 +231,13 @@
           </li>
           <li class="nav-header">Δευτερεύουσες Επιλογές</li>
           <li class="nav-item">
-            <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/department-manager/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
               <p>Εγχειρίδια</p>
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/department-manager/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
                 Σχετικά
@@ -425,6 +425,8 @@
         <app-student-match *ngIf="isMatchStudentsRoute()"></app-student-match>
         <app-contact *ngIf="isContactRoute()"></app-contact>
         <app-students-approved *ngIf="isStudentsAprrovedRoute()"></app-students-approved>
+        <app-about *ngIf="isAboutRoute()"></app-about>
+        <app-manuals *ngIf="isManualsRoute()"></app-manuals>
       </div>
     </section>
     <!-- /.content -->
@@ -432,10 +434,11 @@
 
   <footer class="main-footer">
     <div class="m-auto" style="width:40%;">
-      <img src="./assets/images/logoespa.png" style="min-width:200px; width:100%;">
+      <img src="./assets/images/espaImage.jpg" style="min-width:100px; width:100%;">
     </div>
-    <strong>Copyright &copy; 2021-2022
-      <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong>
+    <strong>Copyright &copy; {{currentYear}}
+      <!-- <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong> -->
+      <a>praktiki</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 0.1

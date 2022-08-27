@@ -225,13 +225,13 @@
           </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>
           <li class="nav-item">
-            <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/companies/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
               <p>{{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/companies/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
                 {{'STUDENT.SIDEBAR-ABOUT' | translate}}
@@ -357,6 +357,8 @@
         <companies-students-applications *ngIf="isStudentApplications()"></companies-students-applications>
         <app-selected-students *ngIf="isSelectedStudentsRoute()"></app-selected-students>
         <app-contact *ngIf="isContactRoute()"></app-contact>
+        <app-about *ngIf="isAboutRoute()"></app-about>
+        <app-manuals *ngIf="isManualsRoute()"></app-manuals>
       </div>
     </section>
     <!-- /.content -->
@@ -364,10 +366,11 @@
 
   <footer class="main-footer">
     <div class="m-auto" style="width:40%;">
-      <img src="./assets/images/logoespa.png" style="min-width:200px; width:100%;">
+      <img src="./assets/images/espaImage.jpg" style="min-width:100px; width:100%;">
     </div>
-    <strong>Copyright &copy; 2021-2022
-      <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong>
+    <strong>Copyright &copy; {{currentYear}}
+      <!-- <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong> -->
+      <a>praktiki</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 0.1

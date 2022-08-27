@@ -29,6 +29,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   private INTEREST_EXPRESSION_PHASE: number = 1;
   private STUDENT_SELECTION_PHASE: number = 2;
   private PREFERENCE_DECLARATION_PHASE: number = 3;
+  public currentYear: number = Utils.getCurrentYear();
 
   constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);

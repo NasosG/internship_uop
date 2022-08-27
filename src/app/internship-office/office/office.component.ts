@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Utils } from 'src/app/MiscUtils';
 import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
 
@@ -16,9 +17,9 @@ export class OfficeComponent implements OnInit {
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
 
-
   fontSize: number = 100;
   private language!: string;
+  public currentYear: number = Utils.getCurrentYear();
 
   constructor(public router: Router, public authService: AuthService, public translate: TranslateService, public officeService: OfficeService) {
     translate.addLangs(['en', 'gr']);
@@ -70,6 +71,18 @@ export class OfficeComponent implements OnInit {
 
   isStatsAddRoute() {
     return this.router.url === '/office/stats';
+  }
+
+  isContactRoute() {
+    return this.router.url === '/office/contact';
+  }
+
+  isAboutRoute() {
+    return this.router.url === '/office/about';
+  }
+
+  isManualsRoute() {
+    return this.router.url === '/office/manuals';
   }
 
 }

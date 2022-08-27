@@ -126,6 +126,14 @@ const routes: Routes = [{
     component: DepartmentManagerComponent
   },
   {
+    path: 'about',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'manuals',
+    component: DepartmentManagerComponent
+  },
+  {
     path: 'students-approved',
     component: DepartmentManagerComponent
   }
@@ -164,6 +172,14 @@ const routes: Routes = [{
   {
     path: 'contact/:id',
     component: CompanyComponent
+  },
+  {
+    path: 'about',
+    component: CompanyComponent
+  },
+  {
+    path: 'manuals',
+    component: CompanyComponent
   }
   ]
 },
@@ -177,6 +193,18 @@ const routes: Routes = [{
   },
   {
     path: 'stats',
+    component: OfficeComponent
+  },
+  {
+    path: 'contact',
+    component: OfficeComponent
+  },
+  {
+    path: 'about',
+    component: OfficeComponent
+  },
+  {
+    path: 'manuals',
     component: OfficeComponent
   }
   ]

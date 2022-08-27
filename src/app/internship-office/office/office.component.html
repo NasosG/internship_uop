@@ -208,13 +208,13 @@
           </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>
           <li class="nav-item">
-            <a [routerLink]="['/student/manuals']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/office/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
               <p>{{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/student/about']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/office/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
                 {{'STUDENT.SIDEBAR-ABOUT' | translate}}
@@ -243,8 +243,7 @@
             </ul> -->
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/companies/contact/'+ this.authService.getSessionId()]" [routerLinkActive]="['active']"
-              class="nav-link">
+            <a [routerLink]="['/office/contact']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
                 {{'STUDENT.SIDEBAR-CONTACT' | translate}}
@@ -336,6 +335,9 @@
       <div class="row">
         <app-positions-add *ngIf="isPositionsAddRoute()"></app-positions-add>
         <app-stats *ngIf="isStatsAddRoute()"></app-stats>
+        <app-contact *ngIf="isContactRoute()"></app-contact>
+        <app-about *ngIf="isAboutRoute()"></app-about>
+        <app-manuals *ngIf="isManualsRoute()"></app-manuals>
       </div>
     </section>
     <!-- /.content -->
@@ -343,10 +345,10 @@
 
   <footer class="main-footer">
     <div class="m-auto" style="width:40%;">
-      <img src="./assets/images/logoespa.png" style="min-width:200px; width:100%;">
+      <img src="./assets/images/espaImage.jpg" style="min-width:200px; width:100%;">
     </div>
-    <strong>Copyright &copy; 2021-2022
-      <a href="https://praktiki.uop.gr/" target="_blank">praktiki.uop.gr</a>.</strong>
+    <strong>Copyright &copy; {{currentYear}}
+      <a>praktiki</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 0.1

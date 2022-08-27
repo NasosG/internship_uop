@@ -85,4 +85,8 @@ export abstract class Utils  {
     return result;
   }
 
+  public static getCurrentYear() {
+    return new Date().getFullYear();
+  }
+
 }

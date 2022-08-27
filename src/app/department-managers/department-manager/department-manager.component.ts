@@ -18,6 +18,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
+  public currentYear: number = Utils.getCurrentYear();
 
   constructor(public depManagerService: DepManagerService, private router: Router, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -90,7 +91,15 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     return this.router.url === '/department-manager/students-approved';
   }
 
+  isAboutRoute () {
+    return this.router.url === '/department-manager/about';
+  }
+
   isContactRoute() {
-    return this.router.url === '/department-manager/contact'
+    return this.router.url === '/department-manager/contact';
+  }
+
+  isManualsRoute() {
+    return this.router.url === '/department-manager/manuals';
   }
 }
