@@ -87,8 +87,8 @@
             {{company.name}}
           </a>
           <div class="dropdown-menu dropdown-menu-end">
-            <a href="#" class="cursor-pointer dropdown-item">
-              <i class="fas fa-sign-out-alt"></i>&nbsp; {{'STUDENT.LOGOUT' | translate}}</a>
+            <a (click)="onLogout()" class="cursor-pointer dropdown-item">
+              <i class="fas fa-sign-out-alt"></i> &nbsp; {{'STUDENT.LOGOUT' | translate}}</a>
           </div>
         </li>
       </ul>

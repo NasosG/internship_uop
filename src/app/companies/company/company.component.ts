@@ -55,6 +55,10 @@ export class CompanyComponent implements OnInit {
 
   onDarkModeSwitched() { }
 
+  onLogout() {
+    this.authService.logout();
+  }
+
   homeScreen() {
     return this.router.url === '/companies/' + this.authService.getSessionId();
   }
