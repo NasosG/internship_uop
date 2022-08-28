@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Company } from '../company.model';
 import { CompanyService } from '../company.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-company',
@@ -17,7 +16,6 @@ export class CompanyComponent implements OnInit {
 
   company!: Company;
   fontSize: number = 100;
-  public currentYear: number = Utils.getCurrentYear();
   private language!: string;
 
   constructor(public router: Router, public authService: AuthService, public companyService: CompanyService, public translate: TranslateService) {

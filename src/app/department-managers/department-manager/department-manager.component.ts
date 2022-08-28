@@ -18,7 +18,6 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
-  public currentYear: number = Utils.getCurrentYear();
 
   constructor(public depManagerService: DepManagerService, private router: Router, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);

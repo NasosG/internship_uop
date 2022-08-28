@@ -259,7 +259,7 @@
           </li> -->
           <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link">
+            <a class="nav-link cursor-pointer">
               <i class="nav-icon fas fa-ruler"></i>
               <p>
                 {{'STUDENT.TEXT-SIZE' | translate}}
@@ -296,7 +296,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link">
+            <a class="nav-link cursor-pointer">
               <i class="fas fa-adjust"></i>
               <p>
                 &nbsp;&nbsp;&nbsp;{{'STUDENT.TEXT-CONTRAST' | translate}}
@@ -343,17 +343,8 @@
     <!-- /.content -->
   </div>
 
-  <footer class="main-footer">
-    <div class="m-auto" style="width:40%;">
-      <img src="./assets/images/espaImage.jpg" style="min-width:100px; width:100%;">
-    </div>
-    <strong>Copyright &copy; {{currentYear}}
-      <a>praktiki</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 0.1
-    </div>
-  </footer>
+  <!-- Generic footer component -->
+  <app-users-footer></app-users-footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
