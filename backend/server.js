@@ -1,4 +1,4 @@
-const app = require("./backend/app");
+const app = require("./app");
 const debug = require("debug")("node-angular");
 const http = require("http");
 require('dotenv').config();
@@ -36,7 +36,7 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
-const hostname = process.env.HOST || "localhost";
+const hostname = process.env.HOST || "0.0.0.0";
 // use port 3000 unless there exists a preconfigured port
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
