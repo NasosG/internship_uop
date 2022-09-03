@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Company } from "./company.model";
 import { ActiveApplicationsRanked } from './active-applications-ranked.model';
 import { InternalPosition } from './internal-position.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class CompanyService {
 
   constructor(private http: HttpClient, public authService: AuthService) { }
 
-  private readonly baseUrl = "http://localhost:3000/api/company";
+  private readonly baseUrl = environment.apiUrl + "/company";
 
   public getCompaniesByAfm(afm: string): Observable<Array<Company>> {
     const fetchedCompanies = this.http.get<Array<Company>>(this.baseUrl + "/getProviderByAfm/" + afm);
@@ -107,6 +108,6 @@ export class CompanyService {
 
   public resetPassword(email: string) {
     console.log(email);
-    return this.http.post<any>('http://localhost:3000/api/company/resetPassword', {"providerMail": email}, {observe: 'response'});
+    return this.http.post<any>(this.baseUrl + "/resetPassword", {"providerMail": email}, {observe: 'response'});
   }
 }

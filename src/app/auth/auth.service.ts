@@ -3,6 +3,9 @@ import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
+import { environment } from "src/environments/environment";
+
+const API_URL = environment.apiUrl;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -53,13 +56,13 @@ export class AuthService {
   login(username: string) {
     // const id = 1;
     // this.http.post<{ token: string, userId: number }>('http://localhost:3000/api/students/login/' + id, username)
-    return this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/students/login', {"username": username});
+    return this.http.post<{token: string; userId: number;}>(API_URL + '/students/login', {"username": username});
   }
 
   loginWithPassword(username: string, password: string) {
     console.log(username + "|" + password);
     this.shown = true;
-    this.http.post<{token: string; userId: number;}>('http://localhost:3000/api/company/login', {"username": username, "password": password})
+    this.http.post<{token: string; userId: number;}>(API_URL + '/company/login', {"username": username, "password": password})
      .subscribe((response) => {
         this.token = response.token;
         this.sessionId = response.userId;

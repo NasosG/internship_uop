@@ -15,6 +15,10 @@ import { City } from "./city.model";
 import { Period } from "../department-managers/period.model";
 import { Country } from "./country.model";
 import { PhysicalObject } from "./physical-object.model";
+import { environment } from "src/environments/environment";
+
+const STUDENTS_URL = environment.apiUrl + "/students/";
+const ATLAS_URL = environment.apiUrl + "/atlas/";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -31,7 +35,7 @@ export class StudentsService {
 
   getStudents(): Observable<Array<Student>> {
     let id = this.authService.getSessionId();
-    const fetchedStudents = this.http.get<Array<Student>>('http://localhost:3000/api/students/getStudentById/' + id);
+    const fetchedStudents = this.http.get<Array<Student>>(STUDENTS_URL + 'getStudentById/' + id);
     this.fetchedStudentsObservable = fetchedStudents;
     this.fetchedStudentsObservable.subscribe((students: Student[]) => {
       this.students = [...students];
@@ -52,31 +56,31 @@ export class StudentsService {
   getStudentEntrySheets(): Observable<Array<EntryForm>> {
     const studentId = this.authService.getSessionId();
     return this.http
-      .get<Array<EntryForm>>('http://localhost:3000/api/students/getStudentEntrySheets/' + studentId);
+      .get<Array<EntryForm>>(STUDENTS_URL + 'getStudentEntrySheets/' + studentId);
   }
 
   getStudentExitSheets(): Observable<Array<ExitForm>> {
     const studentId = this.authService.getSessionId();
     return this.http
-      .get<Array<ExitForm>>('http://localhost:3000/api/students/getStudentExitSheets/' + studentId);
+      .get<Array<ExitForm>>(STUDENTS_URL + 'getStudentExitSheets/' + studentId);
   }
 
   getStudentEvaluationSheets(): Observable<Array<EvaluationForm>> {
     const studentId = this.authService.getSessionId();
     return this.http
-      .get<Array<EvaluationForm>>('http://localhost:3000/api/students/getStudentEvaluationSheets/' + studentId);
+      .get<Array<EvaluationForm>>(STUDENTS_URL + 'getStudentEvaluationSheets/' + studentId);
   }
 
   getStudentPositions(): Observable<Array<StudentPositions>> {
     const studentId = this.authService.getSessionId();
     return this.http
-      .get<Array<StudentPositions>>('http://localhost:3000/api/students/getStudentPositions/' + studentId);
+      .get<Array<StudentPositions>>(STUDENTS_URL + 'getStudentPositions/' + studentId);
   }
 
   getStudentApplications(): Observable<Array<Application>> {
     const studentId = this.authService.getSessionId();
     return this.http
-      .get<Array<Application>>('http://localhost:3000/api/students/getStudentApplications/' + studentId);
+      .get<Array<Application>>(STUDENTS_URL + 'getStudentApplications/' + studentId);
   }
 
   // get active application
@@ -84,51 +88,51 @@ export class StudentsService {
     const studentId = this.authService.getSessionId();
     console.log("of user: " + this.authService.getSessionId());
     return this.http
-      .get<number>('http://localhost:3000/api/students/getStudentActiveApplication/' + studentId);
+      .get<number>(STUDENTS_URL + 'getStudentActiveApplication/' + studentId);
   }
 
   getAtlasPositions(begin: number): Observable<Array<AtlasPosition>> {
     return this.http
-      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAvailablePositionGroups/' + begin);
+      .get<Array<AtlasPosition>>(ATLAS_URL + 'getAvailablePositionGroups/' + begin);
   }
 
   getAtlasFilteredPositions(begin: number, filterArray: any): Observable<Array<AtlasPosition>> {
     let filterData = JSON.parse(JSON.stringify(filterArray));
     return this.http
-      .post<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getAtlasFilteredPositions/' + begin, filterData);
+      .post<Array<AtlasPosition>>(ATLAS_URL + 'getAtlasFilteredPositions/' + begin, filterData);
   }
 
   getAtlasInstitutions(): Observable<Array<Department>> {
     return this.http
-      .get<Array<Department>>('http://localhost:3000/api/atlas/getInstitutions/');
+      .get<Array<Department>>(ATLAS_URL + 'getInstitutions/');
   }
 
   getAtlasCities(): Observable<Array<City>> {
-    return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getCities/');
+    return this.http.get<Array<City>>(ATLAS_URL + 'getCities/');
   }
 
   getAtlasPrefectures(): Observable<Array<City>> {
-    return this.http.get<Array<City>>('http://localhost:3000/api/atlas/getPrefectures/');
+    return this.http.get<Array<City>>(ATLAS_URL + 'getPrefectures/');
   }
 
   getAtlasCountries(): Observable<Array<Country>> {
-    return this.http.get<Array<Country>>('http://localhost:3000/api/atlas/getCountries/');
+    return this.http.get<Array<Country>>(ATLAS_URL + 'getCountries/');
   }
 
   getAtlasPhysicalObjects(): Observable<Array<PhysicalObject>> {
-    return this.http.get<Array<PhysicalObject>>('http://localhost:3000/api/atlas/getPhysicalObjects/');
+    return this.http.get<Array<PhysicalObject>>(ATLAS_URL + 'getPhysicalObjects/');
   }
 
 
   getPhase(departmentId: number): Observable<Period> {
     // fetchedPeriodObservable
-    const fetchedPeriod = this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
+    const fetchedPeriod = this.http.get<Period>(STUDENTS_URL + 'getPhase/' + departmentId);
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
       this.period = periods;
     });
     return fetchedPeriod;
-    // return this.http.get<Period>('http://localhost:3000/api/students/getPhase/' + departmentId);
+    // return this.http.get<Period>(STUDENTS_URL + 'getPhase/' + departmentId);
   }
 
   getPeriod(): any {
@@ -141,7 +145,7 @@ export class StudentsService {
       .set('text', text)
       .set('begin', begin);
     return this.http
-      .get<Array<AtlasPosition>>('http://localhost:3000/api/atlas/getGenericPositionSearch/', { params });
+      .get<Array<AtlasPosition>>(ATLAS_URL + 'getGenericPositionSearch/', { params });
   }
   // public fetchStudentsAndPeriod() {
   //   let studentPeriodArray: any;
@@ -177,7 +181,7 @@ export class StudentsService {
     const id = this.authService.getSessionId();
     // const student: string = modelStudent;
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentDetails/" + id, data)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
         // this.students.push(student);
@@ -188,7 +192,7 @@ export class StudentsService {
   updateStudentContractDetails(data: any) {
     const id = this.authService.getSessionId();
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContractDetails/" + id, data)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentContractDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -197,7 +201,7 @@ export class StudentsService {
   updateStudentContractSSNFile(file: any): any {
     const id = this.authService.getSessionId();
     return this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentSSNFile/" + id, file);
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentSSNFile/" + id, file);
     // .subscribe(responseData => {
     // console.log("ssn " + responseData.message);
     // return responseData.message;
@@ -207,7 +211,7 @@ export class StudentsService {
   updateStudentContractIbanFile(file: any): any {
     const id = this.authService.getSessionId();
     return this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/updateStudentIbanFile/" + id, file);
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentIbanFile/" + id, file);
     // .subscribe(responseData => {
     //   console.log(responseData.message);
     //   return responseData.message;
@@ -217,7 +221,7 @@ export class StudentsService {
   updateStudentBio(data: any) {
     const id = this.authService.getSessionId();
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentBio/" + id, data)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentBio/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -226,7 +230,7 @@ export class StudentsService {
   updateStudentContact(data: any) {
     const id = this.authService.getSessionId();
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentContact/" + id, data)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentContact/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -235,7 +239,7 @@ export class StudentsService {
   updateStudentSpecialDetails(data: any) {
     const id = this.authService.getSessionId();
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentSpecialDetails/" + id, data)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentSpecialDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -244,7 +248,7 @@ export class StudentsService {
   updateStudentEntrySheet(data: any) {
     const studentId = this.authService.getSessionId();
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentEntrySheet/" + studentId, data)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentEntrySheet/" + studentId, data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -255,7 +259,7 @@ export class StudentsService {
     const form: EntryForm = inputForm;
     // console.log(inputForm);
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEntrySheet/" + studentId, form)
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentEntrySheet/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -265,7 +269,7 @@ export class StudentsService {
     const studentId = this.authService.getSessionId();
     const form: ExitForm = exitForm;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentExitSheet/" + studentId, form)
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentExitSheet/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -275,7 +279,7 @@ export class StudentsService {
     const studentId = this.authService.getSessionId();
     const form: EvaluationForm = evaluationForm;
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentEvaluationSheet/" + studentId, form)
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentEvaluationSheet/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -284,7 +288,7 @@ export class StudentsService {
   insertStudentApplication(positions: StudentPositions[]) {
     const studentId = this.authService.getSessionId();
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/students/insertStudentApplication/" + studentId, positions)
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentApplication/" + studentId, positions)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -294,16 +298,16 @@ export class StudentsService {
     const studentId = this.authService.getSessionId();
     if (atlas)
       return this.http
-        .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, { positionId });
+        .post<{ message: string }>(STUDENTS_URL + "insertStudentPosition/" + studentId, { positionId });
     else
       return this.http
-        .post<{ message: string }>("http://localhost:3000/api/students/insertStudentPosition/" + studentId, { 'internal_position_id': positionId });
+        .post<{ message: string }>(STUDENTS_URL + "insertStudentPosition/" + studentId, { 'internal_position_id': positionId });
   }
 
   // Not currently used
   // deleteStudentPosition(positionPriority: number) {
   //   this.http
-  //     .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionByStudentId/" + positionPriority)
+  //     .delete<{ message: string }>(STUDENTS_URL + "deletePositionByStudentId/" + positionPriority)
   //     .subscribe(responseData => {
   //       console.log(responseData.message);
   //     });
@@ -311,7 +315,7 @@ export class StudentsService {
 
   deleteStudentPositions(studentId: number) {
     this.http
-      .delete<{ message: string }>("http://localhost:3000/api/students/deletePositionsByStudentId/" + studentId)
+      .delete<{ message: string }>(STUDENTS_URL + "deletePositionsByStudentId/" + studentId)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -319,7 +323,7 @@ export class StudentsService {
 
   deleteApplicationById(applicationId: number) {
     this.http
-      .delete<{ message: string }>("http://localhost:3000/api/students/deleteApplicationById/" + applicationId)
+      .delete<{ message: string }>(STUDENTS_URL + "deleteApplicationById/" + applicationId)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -329,7 +333,7 @@ export class StudentsService {
     let id = this.authService.getSessionId();
     const form: any = { 'priority': positionPriority, 'student_id': id };
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositionPriorities/" + positionPriority, form)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentPositionPriorities/" + positionPriority, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -339,7 +343,7 @@ export class StudentsService {
     const studentId = this.authService.getSessionId();
     const form: Array<StudentPositions> = positionsArray;
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updateStudentPositions/" + studentId, form)
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentPositions/" + studentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -350,7 +354,7 @@ export class StudentsService {
     const phaseJson: any = { 'phase': phase };
     console.log("phase " + phaseJson);
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/students/updatePhase/" + studentId, phaseJson)
+      .put<{ message: string }>(STUDENTS_URL + "updatePhase/" + studentId, phaseJson)
       .subscribe(responseData => {
         console.log(responseData.message);
       });

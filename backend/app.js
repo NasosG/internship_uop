@@ -38,7 +38,7 @@ app.use((_request, response, next) => {
   next();
 });
 
-app.get("/", async (_request, response) => {
+app.get("/api", async (_request, response) => {
   response.send("<h2>hello from the server!</h2>");
   // await testMSSQL();
 });

@@ -5,7 +5,11 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
 import { Period } from './period.model';
 import { Student } from '../students/student.model';
-import {ActiveApplication} from './active-application.model';
+import { ActiveApplication } from './active-application.model';
+import { environment } from "src/environments/environment";
+
+const STUDENTS_URL = environment.apiUrl + "/students/";
+const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +34,7 @@ export class DepManagerService {
 
   getDepManager(): Observable<DepManager> {
     const id = 2;
-    const fetchedManager = this.http.get<DepManager>("http://localhost:3000/api/depmanager/getDepManagerById/" + id);
+    const fetchedManager = this.http.get<DepManager>(DEPARTMENT_MANAGER_URL + "getDepManagerById/" + id);
     this.fetchedManagerObservable = fetchedManager;
     this.fetchedManagerObservable.subscribe((managers: DepManager) => {
       this.manager = managers;
@@ -40,7 +44,7 @@ export class DepManagerService {
 
   getPeriodByUserId(): Observable<Period> {
     const id = 2;
-    const fetchedPeriod = this.http.get<Period>("http://localhost:3000/api/depmanager/getPeriodByUserId/" + id);
+    const fetchedPeriod = this.http.get<Period>(DEPARTMENT_MANAGER_URL + "getPeriodByUserId/" + id);
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
       this.period = periods;
@@ -57,7 +61,7 @@ export class DepManagerService {
   }
 
   getStudentsApplyPhaseByDeptId(departmentId: number): Observable<Student[]> {
-    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getStudentsApplyPhase/" + departmentId);
+    const fetchedStudent = this.http.get<Student[]>(DEPARTMENT_MANAGER_URL + "getStudentsApplyPhase/" + departmentId);
     // this.fetchedStudentObservable = fetchedStudent;
     // this.fetchedStudentObservable.subscribe((students: Student[]) => {
     //   this.students = students;
@@ -66,14 +70,14 @@ export class DepManagerService {
   }
 
   getRankedStudentsByDeptId(departmentId: number): Observable<Student[]> {
-    const fetchedStudent = this.http.get<Student[]>("http://localhost:3000/api/depmanager/getRankedStudentsByDeptId/" + departmentId);
+    const fetchedStudent = this.http.get<Student[]>(DEPARTMENT_MANAGER_URL + "getRankedStudentsByDeptId/" + departmentId);
 
     return fetchedStudent;
   }
 
   getStudentActiveApplications(departmentId: number): Observable<Array<ActiveApplication>> {
     return this.http
-      .get<Array<ActiveApplication>>("http://localhost:3000/api/depmanager/getStudentActiveApplications/" + departmentId);
+      .get<Array<ActiveApplication>>(DEPARTMENT_MANAGER_URL + "getStudentActiveApplications/" + departmentId);
   }
 
   insertPeriod(inputForm: any, departmentId: number) {
@@ -85,7 +89,7 @@ export class DepManagerService {
       .set('departmentId', departmentId);
 
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertPeriod/", form, { params })
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertPeriod/", form, { params })
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -93,14 +97,14 @@ export class DepManagerService {
 
   insertApprovedStudentsRank(depId: number, phase: number) {
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertApprovedStudentsRank/" + depId, { 'phase': phase })
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertApprovedStudentsRank/" + depId, { 'phase': phase })
       .subscribe(responseData => {
         console.log(responseData.message);
       });
   }
 
   receiveFile(studentId: number, docType: string): Observable<Blob> {
-    const url = "http://localhost:3000/api/students/sendFile/" + studentId;
+    const url = STUDENTS_URL + "sendFile/" + studentId;
     return this.http.post(url, { 'doctype': docType }, { responseType: 'blob' });
     // .pipe(
     //   takeWhile( () => this.alive),
@@ -110,7 +114,7 @@ export class DepManagerService {
   updatePeriodById(inputForm: any, periodId: number) {
     const form: Period = inputForm;
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/depmanager/updatePeriodById/" + periodId, form)
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updatePeriodById/" + periodId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -118,7 +122,7 @@ export class DepManagerService {
 
   deletePeriodById(periodId: number) {
     this.http
-      .delete<{ message: string }>("http://localhost:3000/api/depmanager/deletePeriodById/" + periodId)
+      .delete<{ message: string }>(DEPARTMENT_MANAGER_URL + "deletePeriodById/" + periodId)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -128,7 +132,7 @@ export class DepManagerService {
     const phaseJson: any = { 'phase': phase };
     console.log(phaseJson);
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/depmanager/updatePhaseByStudentId/" + studentId, phaseJson)
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updatePhaseByStudentId/" + studentId, phaseJson)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -137,7 +141,7 @@ export class DepManagerService {
   updateStudentRanking(positionsArray: Array<Student>, departmentId: number) {
     const form: Array<Student> = positionsArray;
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/depmanager/updateStudentRanking/" + departmentId, form)
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateStudentRanking/" + departmentId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
