@@ -22,12 +22,46 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // var browserZoomLevel = Math.round(window.devicePixelRatio * 100);
     // let screenCssPixelRatio = (window.devicePixelRatio)
-    if (window.devicePixelRatio > 1) {
+    let devicePixelRatioPercent = window.devicePixelRatio * 100;
+
+    if (window.devicePixelRatio > 1 && window.innerWidth > 1700) {
+
       // TODO: Mozilla Browser fix
-      // $('body').css('MozTransform', 'scale(' + 0.99 + ')');
-      $('body').css('zoom', ' ' + 79.75 + '%');
+      // $('body').css('MozTransform', 'scale(' + 0.9 + ')');
+      // $('body').css('zoom', ' ' + 79.75 + '%');
+      // let body : any = document.querySelector('body');
+      // body.style.setProperty('zoom', (100 * (100 / devicePixelRatioPercent)) + '%');
+      // let rightHalf : any = document.getElementsByClassName('right-half')[0];
+
+      $('body').css('zoom', ' ' + (100 * (100 / devicePixelRatioPercent)) + '%');
+      $('.right-half').css('min-height', devicePixelRatioPercent + 'vh')
+    } else {
+       $('body').css('zoom', ' ' + devicePixelRatioPercent + '%');
+       $('.right-half').css('min-height', 100 + 'vh')
     }
-     this.language = localStorage.getItem('language') || 'gr';
+
+    this.language = localStorage.getItem('language') || 'gr';
+    this.listenOnDevicePixelRatio();
+  }
+
+  public onChange(): void {
+    let devicePixelRatioPercent = window.devicePixelRatio * 100;
+
+    if (window.devicePixelRatio > 1 ) {
+      $('body').css('zoom', ' ' + (100 * (100 / devicePixelRatioPercent)) + '%');
+      $('.right-half').css('min-height', devicePixelRatioPercent + 'vh')
+    } else {
+       $('body').css('zoom', ' ' + devicePixelRatioPercent + '%');
+       $('.right-half').css('min-height', 100 + 'vh')
+    }
+
+    this.listenOnDevicePixelRatio();
+  }
+
+  public listenOnDevicePixelRatio(): void {
+    matchMedia(
+      `(resolution: ${window.devicePixelRatio}dppx)`
+    ).addEventListener("change", this.onChange);
   }
 
   changeLang(language: string) {

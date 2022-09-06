@@ -15,10 +15,10 @@
         <app-credentials-generic-signup *ngIf="isSignupRoute()"></app-credentials-generic-signup>
         <app-password-reset *ngIf="isPasswordResetRoute()"></app-password-reset>
       </div>
-      <div class="col-12 col-md-5 allomiso">
-        <div>
-          <a href="#" class="nav-link dropdown-toggle selectpicker"
-            style="color:white; position:absolute; right:100px; top: 10px;" data-toggle="dropdown">
+      <div class="col-12 col-md-5 right-half">
+        <div class="lang-div">
+          <a href="#" class="nav-link dropdown-toggle selectpicker lang-anchor" style="color:white;"
+            data-toggle="dropdown">
             <i class="fas fa-lg fa-globe"></i>
             {{'LANGUAGE-BTN' | translate}}
           </a>
@@ -53,7 +53,7 @@
             border-radius:10px; background-color:rgba(255,255,255,1); ">
         </div>
       </div>
-      <footer>
+      <footer class="home-footer">
         <div class="v3_54"></div>
         <div class="v3_55"></div>
       </footer>

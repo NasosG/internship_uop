@@ -167,7 +167,7 @@ body {
   text-align: center;
 }
 
-.allomiso {
+.right-half {
   min-height: 100vh;
   height: 100%;
   color: white;
@@ -225,7 +225,7 @@ footer {
 }
 
 /*@media only screen and (max-width: 1920px) {
-    .allomiso {
+    .right-half {
       z-index: 1;
     }
   }*/
@@ -235,7 +235,7 @@ footer {
 }
 
 @media (min-width: 992px) {
-  .allomiso {
+  .right-half {
     background: url("../../../assets/images/allomiso.png");
     background-repeat: no-repeat;
     background-position: calc(50% + 800px) center;
@@ -262,7 +262,7 @@ footer {
 }
 
 @media only screen and (max-width: 767px) {
-  .allomiso {
+  .right-half {
     margin-top: 50px;
   }
 }
@@ -286,7 +286,6 @@ footer {
 }
 
 .or-separator {
-
   position: relative;
   text-align: center;
   max-width: 260px;
@@ -295,7 +294,6 @@ footer {
 }
 
 .or-separator label {
-
   background-color: #fff;
   padding: 0 0.4em;
   position: relative;
@@ -307,7 +305,6 @@ footer {
 
 .or-separator:before {
   content: '';
-
   border-style: solid;
   border-width: 0 0 1px 0;
   position: absolute;
@@ -315,4 +312,34 @@ footer {
   top: 50%;
   width: 100%;
   border-color: black;
+}
+
+@media only screen and (min-width: 768px) {
+  .lang-anchor {
+    position: absolute;
+    right: 100px;
+    top: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home-footer {
+    display: none;
+  }
+
+  .v3_56 {
+    top: 10px;
+  }
+
+  .lang-div {
+    position: fixed;
+    color: black !important;
+    /* background-color: #41686f !important; */
+    top: 14px !important;
+    right: 30px !important;
+  }
+
+  .lang-div a {
+    color: #41686f !important;
+  }
 }
