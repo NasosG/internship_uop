@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     // let screenCssPixelRatio = (window.devicePixelRatio)
     let devicePixelRatioPercent = window.devicePixelRatio * 100;
 
-    if (window.devicePixelRatio > 1 && window.innerWidth > 1700) {
+    if (window.devicePixelRatio > 1 && window.innerWidth > 1368) {
 
       // TODO: Mozilla Browser fix
       // $('body').css('MozTransform', 'scale(' + 0.9 + ')');
@@ -33,35 +33,14 @@ export class HomeComponent implements OnInit {
       // body.style.setProperty('zoom', (100 * (100 / devicePixelRatioPercent)) + '%');
       // let rightHalf : any = document.getElementsByClassName('right-half')[0];
 
-      $('body').css('zoom', ' ' + (100 * (100 / devicePixelRatioPercent)) + '%');
+      // $('body').css('zoom', ' ' + (100 * (100 / devicePixelRatioPercent)) + '%');
       $('.right-half').css('min-height', devicePixelRatioPercent + 'vh')
     } else {
-       $('body').css('zoom', ' ' + devicePixelRatioPercent + '%');
+      //  $('body').css('zoom', ' ' + devicePixelRatioPercent + '%');
        $('.right-half').css('min-height', 100 + 'vh')
     }
 
     this.language = localStorage.getItem('language') || 'gr';
-    this.listenOnDevicePixelRatio();
-  }
-
-  public onChange(): void {
-    let devicePixelRatioPercent = window.devicePixelRatio * 100;
-
-    if (window.devicePixelRatio > 1 ) {
-      $('body').css('zoom', ' ' + (100 * (100 / devicePixelRatioPercent)) + '%');
-      $('.right-half').css('min-height', devicePixelRatioPercent + 'vh')
-    } else {
-       $('body').css('zoom', ' ' + devicePixelRatioPercent + '%');
-       $('.right-half').css('min-height', 100 + 'vh')
-    }
-
-    this.listenOnDevicePixelRatio();
-  }
-
-  public listenOnDevicePixelRatio(): void {
-    matchMedia(
-      `(resolution: ${window.devicePixelRatio}dppx)`
-    ).addEventListener("change", this.onChange);
   }
 
   changeLang(language: string) {
