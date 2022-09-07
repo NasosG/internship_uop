@@ -77,7 +77,7 @@ body {
 
 .v3_60 {
   padding-top: 40px;
-  width: 449px;
+  max-width: 449px;
   height: 289px;
   text-align: center;
   margin: auto;
