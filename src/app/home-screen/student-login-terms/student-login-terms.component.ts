@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-student-login-terms',
@@ -7,6 +7,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./student-login-terms.component.css']
 })
 export class StudentLoginTermsComponent implements OnInit {
+ @ViewChild('ssoLoginForm') ssoLoginForm: any;
 
  constructor(public dialog: MatDialog) { }
 
@@ -19,6 +20,11 @@ export class StudentLoginTermsComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  onSSOLogin(formData: any) {
+    $('#ssoLoginForm').attr("action", "https://sso.uop.gr/login?service=https%3A%2F%2Fpraktiki.uop.gr%2Fcas%3Fdestination%3Diamstudent");
+    $('#ssoLoginForm').submit();
+  }
 }
 
 @Component({

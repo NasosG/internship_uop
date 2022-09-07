@@ -163,6 +163,14 @@ body {
   text-align: center;
 }
 
+@media only screen and (max-width: 1600px) {
+  .btns-container {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+
 .col-content h2 {
   text-align: center;
 }

@@ -21,12 +21,31 @@ body {
   color: rgba(34, 73, 87, 1);
   font-family: Lexend Deca;
   font-weight: Regular;
-  font-size: 48px;
+  font-size: 36px;
+}
+
+@media only screen and (max-width: 1600px) {
+  .main-heading {
+    font-size: 36px;
+  }
+}
+
+@media only screen and (min-width: 1601px) {
+  .main-heading {
+    font-size: 48px;
+  }
 }
 
 .uop-logo-blue {
   width: 94px;
   height: 91px;
+}
+
+@media only screen and (max-width: 1601px) {
+  .uop-logo-blue {
+    width: 80px;
+    height: 77.5px;
+  }
 }
 
 button {
@@ -37,7 +56,6 @@ button {
 button:active {
   opacity: 0.7;
 }
-
 
 @media only screen and (max-width: 799px) {
   .div-company {

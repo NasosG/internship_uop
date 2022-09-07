@@ -24,21 +24,16 @@ export class HomeComponent implements OnInit {
     // let screenCssPixelRatio = (window.devicePixelRatio)
     let devicePixelRatioPercent = window.devicePixelRatio * 100;
 
-    if (window.devicePixelRatio > 1 && window.innerWidth > 1368) {
-
+    // if (window.devicePixelRatio > 1 && window.innerWidth > 1368) {
       // TODO: Mozilla Browser fix
       // $('body').css('MozTransform', 'scale(' + 0.9 + ')');
       // $('body').css('zoom', ' ' + 79.75 + '%');
       // let body : any = document.querySelector('body');
       // body.style.setProperty('zoom', (100 * (100 / devicePixelRatioPercent)) + '%');
-      // let rightHalf : any = document.getElementsByClassName('right-half')[0];
-
+      // $('body').css('zoom', ' ' + 95.00 + '%');
       // $('body').css('zoom', ' ' + (100 * (100 / devicePixelRatioPercent)) + '%');
-      $('.right-half').css('min-height', devicePixelRatioPercent + 'vh')
-    } else {
-      //  $('body').css('zoom', ' ' + devicePixelRatioPercent + '%');
-       $('.right-half').css('min-height', 100 + 'vh')
-    }
+      // $('.right-half').css('min-height', devicePixelRatioPercent + 'vh')
+    // }
 
     this.language = localStorage.getItem('language') || 'gr';
   }
