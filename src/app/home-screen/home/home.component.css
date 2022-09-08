@@ -355,3 +355,47 @@ footer {
     color: #41686f !important;
   }
 }
+
+@media screen and (max-width: 2058.9px) {
+  #svgHolder {
+    display: none;
+  }
+}
+
+/* For Projectors or Higher Resolution Screens ( > Full HD) */
+@media screen and (min-width: 2059px) {
+  /* .content {
+    width: 1900px !important;
+    margin: auto;
+  } */
+
+  .v3_55 {
+    display: none;
+    /* width: 100vw; */
+    /* height: 55px; */
+    /* background: #4e6d79; */
+    /* opacity: 1; */
+  }
+
+  .v3_54 {
+    display: none;
+    /* min-width: 100vw !important; */
+    /* height: 40px; */
+    /* background: #4de599; */
+    /* opacity: 1; */
+  }
+
+  #svgHolder {
+    position: relative
+  }
+
+  .right-half {
+    /* background: url("../../../assets/images/allomiso.svg"); */
+    background-color: #41686f;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-position: calc(1vw) center;
+  }
+
+}
