@@ -1,14 +1,14 @@
 <h3>Στοιχεία Θέσης</h3>
-<div mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography">
   <br>
-  <p> <span>Τίτλος Θέσης</span>: {{this.data.internal_positions.title}}</p>
+  <p><span>Τίτλος Θέσης</span>: {{this.data.internal_positions.title}}</p>
   <p><span scope="col">Περιγραφή</span>: {{this.data.internal_positions.description}}</p>
   <p><span scope="col">Ημερομηνία Δημοσίευσης</span>: {{this.data.internal_positions.publication_date}}</p>
   <p><span scope="col">Διαθέσιμες θέσεις</span>: {{this.data.internal_positions.available_positions}}</p>
   <p><span scope="col">Διάρκεια</span>: {{this.data.internal_positions.duration}} μήνες</p>
   <p><span scope="col">Πόλη</span>: {{this.data.internal_positions.city}}</p>
   <p><span scope="col">Ωράριο</span>: {{this.data.internal_positions.position_type}}</p>
-</div>
-<div mat-dialog-actions style='text-align: right'>
+</mat-dialog-content>
+<mat-dialog-actions style='text-align: right'>
   <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
-</div>
+</mat-dialog-actions>

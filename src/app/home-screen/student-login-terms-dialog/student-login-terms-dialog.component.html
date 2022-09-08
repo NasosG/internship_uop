@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Όροι χρήσης</h2>
-<div mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography">
   <h3>Γενικοί Όροι χρήσης</h3>
   <p>Οι πληροφορίες και το υλικό του συγκεκριμένου δικτυακού τόπου χρησιμεύουν για την καλύτερη ενημέρωση των φοιτητών
     του Πανεπιστημίου Πελοποννήσου αλλά και των φορέων απασχόλησης που επιθυμούν να συμμετέχουν στο Πρόγραμμα της
@@ -15,7 +15,7 @@
     καλύτερη συνεργασία μεταξύ φοιτητών, φορέων απασχόλησης και Πανεπιστημίου Πελοποννήσου.</p>
   <br>
   <div class="revision">Τελευταία Ενημέρωση: Μάϊος 30, 2012</div>
-</div>
-<div mat-dialog-actions style='text-align: right'>
-  <button class="btn btn-primary mat-button" (click)="onCancel()"> Συνέχεια </button>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions style='justify-content: flex-end;'>
+  <button mat-button class="btn btn-primary mat-button" (click)="onCancel()"> Συνέχεια </button>
+</mat-dialog-actions>

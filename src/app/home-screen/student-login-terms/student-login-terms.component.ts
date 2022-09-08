@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { StudentLoginTermsDialogComponent } from '../student-login-terms-dialog/student-login-terms-dialog.component';
 
 @Component({
   selector: 'app-student-login-terms',
@@ -12,7 +13,7 @@ export class StudentLoginTermsComponent implements OnInit {
  constructor(public dialog: MatDialog) { }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+    const dialogRef = this.dialog.open(StudentLoginTermsDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -24,19 +25,5 @@ export class StudentLoginTermsComponent implements OnInit {
   onSSOLogin(formData: any) {
     $('#ssoLoginForm').attr("action", "https://sso.uop.gr/login?service=https%3A%2F%2Fpraktiki.uop.gr%2Fcas%3Fdestination%3Diamstudent");
     $('#ssoLoginForm').submit();
-  }
-}
-
-@Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: './dialog-content-example-dialog.html',
-  styleUrls: ['./dialog-content.css']
-})
-export class DialogContentExampleDialog {
-
-  constructor(public dialogRef: MatDialogRef<DialogContentExampleDialog>) { }
-
-  onCancel(): void {
-    this.dialogRef.close();
   }
 }
