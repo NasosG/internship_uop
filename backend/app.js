@@ -49,6 +49,51 @@ app.use("/api/depmanager", depManagerRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/office", officeRoutes);
 
+// test CAS
+var session = require('express-session');
+var CASAuthentication = require('node-cas-authentication');
+
+// Set up an Express session, which is required for CASAuthentication.
+app.use(session({
+  secret: 'super secret key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Create a new instance of CASAuthentication.
+var cas = new CASAuthentication({
+  cas_url: 'https://sso.uop.gr:443',
+  service_url: 'http://praktiki-new.uop.gr:3000',
+  cas_version: 'saml1.1',
+  return_to: '',
+  session_name: 'cas_user',
+  session_info: 'cas_userinfo'
+});
+
+app.get('/authenticate', cas.bounce_redirect);
+
+// Unauthenticated clients will be redirected to the CAS login and then back to
+// this route once authenticated.
+app.get('/authSSO', cas.bounce, function (req, res) {
+  let sessionInfo = req.session[cas.session_info];
+  let sessionUser = req.session[cas.session_name];
+
+  //res.send('<html><body>Hello + a + b !</body></html>');
+  res.json({ cas_userinfo: req.session[cas.session_info], cas_user: sessionUser });
+});
+
+
+// Unauthenticated clients will receive a 401 Unauthorized response instead of
+// the JSON data.
+app.get('/api', cas.block, function (req, res) {
+  res.json({ success: true });
+});
+
+app.get('/api/user', cas.block, function (req, res) {
+  res.json({ cas_user: req.session[cas.session_name] });
+});
+
+
 /** Cron Jobs */
 // Runs every hour
 // cron.schedule('0 0 * * * *', async () => {

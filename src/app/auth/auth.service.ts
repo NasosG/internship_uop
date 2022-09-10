@@ -59,6 +59,10 @@ export class AuthService {
     return this.http.post<{token: string; userId: number;}>(API_URL + '/students/login', {"username": username});
   }
 
+  ssoTestLogin() {
+    return this.http.get(API_URL + '/authSSO');
+  }
+
   loginWithPassword(username: string, password: string) {
     console.log(username + "|" + password);
     this.shown = true;
