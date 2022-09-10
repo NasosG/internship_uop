@@ -41,7 +41,13 @@
     "CREATE-ACCOUNT-STEP": "Create an account and post internships in the system",
     "POSITIONS-ATLAS-STEP": "The students of University of Peloponnese can see the positions you have posted in ATLAS and IF they choose you, you will be informed by email",
     "SYSTEM-ACCESS": "Signup to this system and accept students for internship from the University of Peloponnese",
-    "CONTACT": "Contact"
+    "CONTACT": "Contact",
+    "TERMS2": "Terms of use",
+    "TERMS-GENERIC": "General Terms of Use",
+    "TERMS-P1": "The information and material of the specific website serve to better inform the students of the University of Peloponnese as well as the employment agencies who wish to participate in the Internship Program.",
+    "TERMS-P2": "Information is offered on the Internship process in the Departments of the University of Peloponnese, while it is also possible to express interest online both from the students' side and from the institutions' side. It is obvious, however, that there may be issues which are not adequately covered, resulting in the creation of various questions and concerns.",
+    "TERMS-P3": "For this reason, we encourage students as well as employment agencies to get in touch with the Scientific Manager per Department or the Institutional Manager or simply fill out the relevant contact form (http://praktiki.uop.gr/ contact) for solving all questions and for better cooperation between students, employment agencies and the University of Peloponnese.",
+    "TERMS-LAST UPDATE": "Last Updated: May 30, 2012"
   },
   "GENERIC": {
     "CONTACT": "Contact",
