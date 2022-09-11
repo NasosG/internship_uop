@@ -335,7 +335,9 @@ footer {
 }
 
 @media only screen and (max-width: 767.9px) {
-  .home-footer {
+
+  .home-footer,
+  .language {
     display: none;
   }
 
@@ -347,13 +349,23 @@ footer {
     position: fixed;
     color: black !important;
     /* background-color: #41686f !important; */
-    top: 14px !important;
-    right: 11% !important;
+    top: 10px !important;
+    right: 10% !important;
+    font-size: 50px;
   }
 
   .lang-div a {
     color: #41686f !important;
   }
+
+  .nav-link {
+    all: unset;
+  }
+
+  .dropdown-toggle::after {
+    content: none;
+  }
+
 }
 
 @media screen and (max-width: 2058.9px) {
