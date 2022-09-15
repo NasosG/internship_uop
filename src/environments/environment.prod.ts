@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://195.251.38.36:3000/api'
+  apiUrl: 'https://praktiki-new.uop.gr:8080/api'
 };
