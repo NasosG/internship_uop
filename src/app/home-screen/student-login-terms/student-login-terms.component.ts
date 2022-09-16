@@ -24,10 +24,12 @@ export class StudentLoginTermsComponent implements OnInit {
   ngOnInit(): void { }
 
   onSSOLogin(formData: any) {
-    this.authService.ssoTestLogin().subscribe((obj: Object) => {
-      console.log(obj);
-    });
+    // this.authService.ssoTestLogin().subscribe((obj: Object) => {
+    //   console.log(obj);
+    // });
+    window.location.href = 'http://praktiki-new.uop.gr:3000/CAS/CASapi.php/'
     // $('#ssoLoginForm').attr("action", "https://sso.uop.gr/login?service=https%3A%2F%2Fpraktiki.uop.gr%2Fcas%3Fdestination%3Diamstudent");
+    //$('#ssoLoginForm').attr("action", "http://praktiki-new.uop.gr:3000/CAS/CASapi.php/");
     // $('#ssoLoginForm').submit();
   }
 }
