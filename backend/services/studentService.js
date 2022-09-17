@@ -19,9 +19,20 @@ const getAllStudents = async () => {
 
 const getStudentsSecretaryDetails = async (departmentId, AM) => {
   try {
-    const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentId], MiscUtils.splitStudentsAM(AM));
+    let procedureResults;
+    try {
+      procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentId], MiscUtils.splitStudentsAM(AM));
+    } catch (exc) {
+      console.log("SQLException or timeout occurred: " + exc.message);
+      return {
+        'Grade': 0,
+        'Ects': 0,
+        'Semester': 0,
+        'Praktiki': 0
+      };
+    }
 
-    if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
+    if (!procedureResults.Grade || !procedureResults.Ects || !procedureResults.Semester || !procedureResults.Praktiki) {
       console.error("some student details fetched from procedure were null");
       return {
         'Grade': 0,
@@ -51,7 +62,8 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
     return result.recordset[0];
   } catch (error) {
     // error checks
-    console.log("error: " + error);
+    throw Error('error' + error);
+    //console.log("error: " + error);
   }
 };
 
