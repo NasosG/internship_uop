@@ -37,6 +37,10 @@ const routes: Routes = [{
     component: StudentComponent
   },
   {
+    path: 'login/:token/:uuid',
+    component: StudentComponent
+  },
+  {
     path: 'profile/:id',
     component: StudentComponent
   },

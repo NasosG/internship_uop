@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, takeUntil } from 'rxjs';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
@@ -30,7 +30,7 @@ export class StudentComponent implements OnInit, OnDestroy {
   private STUDENT_SELECTION_PHASE: number = 2;
   private PREFERENCE_DECLARATION_PHASE: number = 3;
 
-  constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService) {
+  constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
 
@@ -41,18 +41,29 @@ export class StudentComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
 
-    //  this.authService.login('pcst19009');
+    if (this.router.url.includes('/student/login')) {
+      this.route.queryParams
+        .subscribe(params => {
+          //console.log(params);
+          this.authService.setToken(params['token']);
+          this.authService.setSessionId(params['uuid']);
+        }
+      );
+
+      this.router.navigate(['/student/' + this.authService.getSessionId()]);
+    }
+
     this.fetchStudentAndPeriod();
   }
 
   // ngAfterViewInit(): void { }
 
   public fetchStudentAndPeriod() {
-    this.authService.login('pcst19003')
-      .subscribe((response) => {
-        this.authService.setToken(response.token);
-        this.authService.setSessionId(response.userId);
-        console.log(response);
+    //this.authService.login('pcst19003')
+      //.subscribe((response) => {
+        //this.authService.setToken(response.token);
+        //this.authService.setSessionId(response.userId);
+       // console.log(response);
         this.studentsService.getStudents()
           .subscribe((students: Student[]) => {
             this.studentsSSOData = students;
@@ -67,7 +78,7 @@ export class StudentComponent implements OnInit, OnDestroy {
                 this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
               });
           });
-      });
+      //});
   }
 
   ngOnDestroy(): void {

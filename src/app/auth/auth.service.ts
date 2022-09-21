@@ -44,13 +44,19 @@ export class AuthService {
   }
 
   public setToken(tokenParam: string|undefined) {
-    if (!this.token)
+    if (!this.token) {
       this.token = tokenParam;
+      this.isAuthenticated = true;
+      this.authStatusListener.next(true);
+      localStorage.setItem("token", this.token!);
+    }
   }
 
   public setSessionId(sessionIdParam: number) {
-    if (!this.sessionId)
+    if (!this.sessionId) {
       this.sessionId = sessionIdParam;
+      localStorage.setItem("sessionId", this.sessionId.toString());
+    }
   }
 
   login(username: string) {
