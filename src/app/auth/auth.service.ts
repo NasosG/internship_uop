@@ -59,10 +59,10 @@ export class AuthService {
     }
   }
 
-  login(username: string) {
+  login(username: string, affiliation: string) {
     // const id = 1;
     // this.http.post<{ token: string, userId: number }>('http://localhost:3000/api/students/login/' + id, username)
-    return this.http.post<{token: string; userId: number;}>(API_URL + '/students/login', {"username": username});
+    return this.http.post<{token: string; userId: number;}>(API_URL + '/' + affiliation + '/login', {"username": username});
   }
 
   ssoTestLogin() {

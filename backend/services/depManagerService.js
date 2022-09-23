@@ -4,6 +4,20 @@ const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
 const MiscUtils = require("../MiscUtils.js");
 
+const login = async (username) => {
+  try {
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+                                              WHERE sso_users.edupersonaffiliation = 'faculty' \
+                                              AND sso_users.id=$1", [username]);
+    if (resultsSSOUsers.rowCount >= 1) {
+      return resultsSSOUsers.rows[0].uuid;
+    }
+    return null;
+  } catch (error) {
+    throw Error('Error while logging in - user: ' + username);
+  }
+};
+
 const getDepManagerById = async (id) => {
   try {
     const resultsSSOUsers = await pool.query("SELECT * FROM sso_users WHERE uuid=$1", [id]);
@@ -300,5 +314,6 @@ module.exports = {
   updatePeriodById,
   updatePhaseByStudentId,
   updateStudentRanking,
-  deletePeriodById
+  deletePeriodById,
+  login
 };

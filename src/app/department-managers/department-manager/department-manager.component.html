@@ -19,7 +19,8 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="./department-manager/" class="nav-link"> <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
+        <a [routerLink]="['/department-manager/' + this.authService.getSessionId()]" class="nav-link">
+          <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
       </li>
     </ul>
 
@@ -183,7 +184,8 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">Βασικές Επιλογές</li>
           <li class="nav-item">
-            <a [routerLink]="['/department-manager/add-period']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/department-manager/add-period/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-calendar"></i>
               <p>
                 Διαχείριση περιόδου
@@ -192,8 +194,8 @@
           </li>
 
           <li class="nav-item">
-            <a [routerLink]="['/department-manager/student-applications']" [routerLinkActive]="['active']"
-              class="nav-link">
+            <a [routerLink]="['/department-manager/student-applications/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Αιτήσεις Φοιτητών
@@ -202,8 +204,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/department-manager/students-approved']" [routerLinkActive]="['active']"
-              class="nav-link">
+            <a [routerLink]="['/department-manager/students-approved/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-check" aria-hidden="true"></i>
               <p>
                 Έγκυροι Φοιτητές
@@ -212,7 +214,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/department-manager/match-students']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/department-manager/match-students/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Επιλογές Φοιτητών

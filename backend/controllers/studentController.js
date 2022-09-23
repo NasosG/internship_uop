@@ -8,24 +8,30 @@ const MiscUtils = require("../MiscUtils.js");
 // app.post("/api/students/login/:id", (request, response, next) => {
 const login = async (request, response, next) => {
   const uname = request.body.username;
-  const userId = await studentService.loginStudent(uname);
-  // console.log(userId);
+  let userId;
 
-  if (userId == null) response.status(401).json({
-    message: 'Unauthorized'
-  });
+  if (uname)
+    userId = await studentService.loginStudent(uname);
 
-  const token = jwt.sign({
-    userId: userId
-  },
-    "secret_this_should_be_longer", {
-    expiresIn: "1h"
-  });
-  response.status(200).json({
-    token: token,
-    expiresIn: 3600,
-    userId: userId
-  });
+  console.log("uid " + userId);
+
+  if (userId == null)
+    response.status(401).json({
+      message: 'Unauthorized'
+    });
+  else {
+    const token = jwt.sign({
+      userId: userId
+    },
+      "secret_this_should_be_longer", {
+      expiresIn: "1h"
+    });
+    response.status(200).json({
+      token: token,
+      expiresIn: 3600,
+      userId: userId
+    });
+  }
 };
 
 /**

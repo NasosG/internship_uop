@@ -106,23 +106,27 @@ const routes: Routes = [{
 {
   path: 'department-manager',
   children: [{
-    path: '',
+    path: ':id',
     component: DepartmentManagerComponent
   },
   {
-    path: 'add-period',
+    path: 'login/:token/:uuid',
     component: DepartmentManagerComponent
   },
   {
-    path: 'edit-period',
+    path: 'add-period/:id',
     component: DepartmentManagerComponent
   },
   {
-    path: 'student-applications',
+    path: 'edit-period/:id',
     component: DepartmentManagerComponent
   },
   {
-    path: 'match-students',
+    path: 'student-applications/:id',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'match-students/:id',
     component: DepartmentManagerComponent
   },
   {
@@ -138,7 +142,7 @@ const routes: Routes = [{
     component: DepartmentManagerComponent
   },
   {
-    path: 'students-approved',
+    path: 'students-approved/:id',
     component: DepartmentManagerComponent
   }
   ]

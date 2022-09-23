@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -19,7 +19,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   fontSize: number = 100;
   private language!: string;
 
-  constructor(public depManagerService: DepManagerService, private router: Router, public authService: AuthService, public translate: TranslateService) {
+  constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
 
@@ -30,12 +30,29 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
 
-    // this.authService.login('');
+    this.authService.login('costas', 'depmanager')
+      .subscribe((response) => {
+        this.authService.setToken(response.token);
+        this.authService.setSessionId(response.userId);
+      });
+
+    // if (this.router.url.includes('/department-manager/login')) {
+    //   this.route.queryParams
+    //     .subscribe(params => {
+    //       //console.log(params);
+    //       this.authService.setToken(params['token']);
+    //       this.authService.setSessionId(params['uuid']);
+    //     }
+    //   );
+    // }
+
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
+
+       // this.router.navigate(['/department-manager/' + this.authService.getSessionId()]);
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
 
@@ -67,27 +84,27 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   }
 
   isDepartmentManagerRoute() {
-    return this.router.url === '/department-manager';
+    return this.router.url === '/department-manager/' + this.authService.getSessionId();
   }
 
   isPeriodAddRoute() {
-    return this.router.url === '/department-manager/add-period';
+    return this.router.url === '/department-manager/add-period/' + this.authService.getSessionId();
   }
 
   isPeriodEditRoute() {
-    return this.router.url === '/department-manager/edit-period';
+    return this.router.url === '/department-manager/edit-period/' + this.authService.getSessionId();
   }
 
   isStudentApplications() {
-    return this.router.url === '/department-manager/student-applications';
+    return this.router.url === '/department-manager/student-applications/' + this.authService.getSessionId();
   }
 
   isMatchStudentsRoute() {
-    return this.router.url === '/department-manager/match-students';
+    return this.router.url === '/department-manager/match-students/' + this.authService.getSessionId();
   }
 
   isStudentsAprrovedRoute() {
-    return this.router.url === '/department-manager/students-approved';
+    return this.router.url === '/department-manager/students-approved/' + this.authService.getSessionId();
   }
 
   isAboutRoute () {
