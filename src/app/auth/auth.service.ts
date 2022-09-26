@@ -18,6 +18,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getToken() {
+    if (!this.token) {
+      let savedToken: any = localStorage.getItem("token");
+      this.token = savedToken;
+    }
+
     return this.token;
   }
 
