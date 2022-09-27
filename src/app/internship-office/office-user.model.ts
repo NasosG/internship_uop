@@ -10,7 +10,7 @@ export interface OfficeUser {
   schacgender: number;
   schacyearofbirth: number;
   schacdateofbirth: string;
-  schacpersonaluniqueid: string;
+  user_ssn: string;
   phase: number;
   department: string;
   department_id: number;

@@ -37,7 +37,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         this.studentsData = students;
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-          this.studentsData[i].schacpersonaluniqueid = this.getAM(students[i].schacpersonaluniqueid);
+          this.studentsData[i].user_ssn = this.getAM(students[i].user_ssn);
         }
         // Have to wait till the changeDetection occurs. Then, project data into the HTML template
         this.chRef.detectChanges();
@@ -112,7 +112,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "Τοποθεσία": item.location,
         "Χώρα": item.country == "gr" ? 'Ελλάδα' : item.country,
         "ΑΦΜ": item.ssn,
-        "AMKA": item.schacpersonaluniqueid,
+        "AMKA": item.user_ssn,
         "ΔΟΥ": item.doy,
         "IBAN": item.iban,
         "Εκπαίδευση": item.education,

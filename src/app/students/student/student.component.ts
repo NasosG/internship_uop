@@ -68,7 +68,7 @@ export class StudentComponent implements OnInit, OnDestroy {
           .subscribe((students: Student[]) => {
             this.studentsSSOData = students;
             this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
-            this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
+            this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
             this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
               .subscribe((period: Period) => {
                 this.period = period;

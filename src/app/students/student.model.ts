@@ -12,7 +12,7 @@ export interface Student {
   schacgender: number;
   schacyearofbirth: number;
   schacdateofbirth: string;
-  schacpersonaluniqueid: string;
+  user_ssn: string;
   department_id: number;
   city: string;
   ssn: string;

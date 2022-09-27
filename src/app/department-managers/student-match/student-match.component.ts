@@ -91,7 +91,7 @@ export class StudentMatchComponent implements OnInit {
         // "Τοποθεσία": item.location,
         // "Χώρα": item.country == "gr" ? 'Ελλάδα' : item.country,
         // "ΑΦΜ": item.ssn,
-        // "AMKA": item.schacpersonaluniqueid,
+        // "AMKA": item.user_ssn,
         // "ΔΟΥ": item.doy,
         // "IBAN": item.iban,
         // "Εκπαίδευση": item.education,

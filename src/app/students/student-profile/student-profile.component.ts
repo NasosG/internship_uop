@@ -26,7 +26,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
         this.studentsSSOData[0].schacdateofbirth = this.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
-        this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
+        this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
         // console.log(this.studentsSSOData);
       });
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
@@ -76,20 +76,20 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
     this.studentsService.updateStudentContractDetails(data);
 
     this.studentsService.updateStudentContractSSNFile(fileSSN)
-      // .subscribe((responseData: { message: any; }) => {
-      //   console.log("ssn " + responseData.message);
-      //   if (responseData.message === "ERROR") {
-      //     err = true;
-      //     this.onErr();
-      //   }
-      // })
+      .subscribe((responseData: { message: any; }) => {
+        console.log("ssn " + responseData.message);
+        if (responseData.message === "ERROR") {
+          err = true;
+          this.onErr();
+        }
+      })
       .pipe(
         mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
-          // .subscribe((responseIbanData: { message: any; }) => {
-          //   // console.log("iban " + responseIbanData.message);
-          //   if (err || responseIbanData.message === "ERROR") this.onErr();
-          //   else this.onSave();
-          // }))
+          .subscribe((responseIbanData: { message: any; }) => {
+            console.log("iban " + responseIbanData.message);
+            if (err || responseIbanData.message === "ERROR") this.onErr();
+            else this.onSave();
+          })
         ));
   }
 

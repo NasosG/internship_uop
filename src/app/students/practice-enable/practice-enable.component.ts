@@ -32,7 +32,7 @@ export class PracticeEnableComponent implements OnInit {
         this.studentsSSOData = students;
         this.gender = this.studentsSSOData[0].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα';
         this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
-        this.studentsSSOData[0].schacpersonaluniqueid = this.getSSN(this.studentsSSOData[0].schacpersonaluniqueid);
+        this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
       });
     this.firstFormGroup = this._formBuilder.group({
       nameCtrl: ['', Validators.required],
