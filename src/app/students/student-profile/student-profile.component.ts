@@ -39,6 +39,7 @@ export class StudentProfileComponent implements OnInit, OnDestroy {
   }
 
   private reformatDateOfBirth(dateOfBirth: string) {
+    if (!dateOfBirth) return "";
     let startDate = dateOfBirth;
 
     let year = startDate.substring(0, 4);
