@@ -32,7 +32,7 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
       };
     }
 
-    if (!procedureResults.Grade || !procedureResults.Ects || !procedureResults.Semester || !procedureResults.Praktiki) {
+    if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
       console.error("some student details fetched from procedure were null");
       return {
         'Grade': 0,
