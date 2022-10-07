@@ -30,21 +30,21 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
 
-    this.authService.login('costas', 'depmanager')
-      .subscribe((response) => {
-        this.authService.setToken(response.token);
-        this.authService.setSessionId(response.userId);
-      });
+    // this.authService.login('costas', 'depmanager')
+    //   .subscribe((response) => {
+    //     this.authService.setToken(response.token);
+    //     this.authService.setSessionId(response.userId);
+    //   });
 
-    // if (this.router.url.includes('/department-manager/login')) {
-    //   this.route.queryParams
-    //     .subscribe(params => {
-    //       //console.log(params);
-    //       this.authService.setToken(params['token']);
-    //       this.authService.setSessionId(params['uuid']);
-    //     }
-    //   );
-    // }
+    if (this.router.url.includes('/department-manager/login')) {
+      this.route.queryParams
+        .subscribe(params => {
+          //console.log(params);
+          this.authService.setToken(params['token']);
+          this.authService.setSessionId(params['uuid']);
+        }
+      );
+    }
 
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
