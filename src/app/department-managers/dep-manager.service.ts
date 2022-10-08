@@ -33,7 +33,7 @@ export class DepManagerService {
   }
 
   getDepManager(): Observable<DepManager> {
-    const id = 2;
+    const id = this.authService.getSessionId();
     const fetchedManager = this.http.get<DepManager>(DEPARTMENT_MANAGER_URL + "getDepManagerById/" + id);
     this.fetchedManagerObservable = fetchedManager;
     this.fetchedManagerObservable.subscribe((managers: DepManager) => {
@@ -43,7 +43,7 @@ export class DepManagerService {
   }
 
   getPeriodByUserId(): Observable<Period> {
-    const id = 2;
+    const id = this.authService.getSessionId();
     const fetchedPeriod = this.http.get<Period>(DEPARTMENT_MANAGER_URL + "getPeriodByUserId/" + id);
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
@@ -81,7 +81,7 @@ export class DepManagerService {
   }
 
   insertPeriod(inputForm: any, departmentId: number) {
-    const depManagerId = 2;
+    const depManagerId = this.authService.getSessionId();
     const form: Period = inputForm;
 
     const params = new HttpParams()
