@@ -76,6 +76,9 @@ import { StatsComponent } from './internship-office/stats/stats.component';
 import { PasswordResetComponent } from './home-screen/password-reset/password-reset.component';
 import { UsersFooterComponent } from './generic-components/users-footer/users-footer.component';
 import { StudentLoginTermsDialogComponent } from './home-screen/student-login-terms-dialog/student-login-terms-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -135,7 +138,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StatsComponent,
     PasswordResetComponent,
     UsersFooterComponent,
-    StudentLoginTermsDialogComponent
+    StudentLoginTermsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,6 +162,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

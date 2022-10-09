@@ -16,6 +16,7 @@ export class StudentHomeComponent implements OnInit {
   period!: Period;
   dateFrom!: string;
   dateTo!: string;
+  selected: Date | null | undefined;
 
   phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-3"];
 
@@ -27,11 +28,11 @@ export class StudentHomeComponent implements OnInit {
         this.studentsSSOData = students;
 
         this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
-        .subscribe((period: Period) => {
-          this.period = period;
-          this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
-          this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
-        });
+          .subscribe((period: Period) => {
+            this.period = period;
+            this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
+            this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+          });
       });
     //   const source = this.studentsService
     // .getStudents()

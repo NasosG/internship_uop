@@ -2,3 +2,39 @@
   background-color: rgba(34, 73, 87, 1);
   color: white;
 }
+
+.calendar {
+  color: #fefefe;
+  border-radius: 20px;
+  background: linear-gradient(45deg, rgba(34, 73, 87, 1), rgb(61, 117, 138));
+}
+
+::ng-deep .mat-calendar-body-cell-content {
+  color: #fefefe;
+}
+
+::ng-deep .mat-calendar-body-label {
+  color: #fefefe;
+}
+
+::ng-deep .mat-calendar-table-header {
+  color: #fefefe;
+}
+
+::ng-deep .mat-calendar-header {
+  color: #fefefe;
+}
+
+::ng-deep .mat-calendar-arrow {
+  fill: #fefefe;
+}
+
+::ng-deep .mat-calendar-table-header-divider::after {
+  background: linear-gradient(45deg, #3b3f42, #5a6268);
+}
+
+::ng-deep abbr[title],
+abbr[data-original-title] {
+  text-decoration: none;
+  font-weight: lighter;
+}
