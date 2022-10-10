@@ -62,6 +62,7 @@ export class PracticeEnableComponent implements OnInit {
     });
     this.specialDataFormGroup = this._formBuilder.group({
       ameaCatCtrl: ['', Validators.required],
+      ameaFile: ['', Validators.required],
       workingCatCtrl: ['', Validators.required],
       armyCatCtrl: ['', Validators.required]
     });
@@ -116,12 +117,16 @@ export class PracticeEnableComponent implements OnInit {
       military_training: this.specialDataFormGroup.get('armyCatCtrl')?.value,
       working_state: this.specialDataFormGroup.get('workingCatCtrl')?.value,
       amea_cat: this.specialDataFormGroup.get('ameaCatCtrl')?.value
+    };
+
+    const specialCategoryFiles: any = {
+      ameaFile: this.specialDataFormGroup.get('ameaFile')?.value
     }
 
     this.onSubmitStudentDetails(generalDetailsData);
     this.onSubmitStudentContractDetails(contractsData, contractFiles);
     this.onSubmitStudentContact(contactDetails);
-    this.onSubmitStudentSpecialDetails(specialDetails);
+    this.onSubmitStudentSpecialDetails(specialDetails, specialCategoryFiles);
     this.setPhase(1);
     this.onSave();
   }
@@ -137,21 +142,23 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updateStudentDetails(data);
   }
 
-  onSubmitStudentSpecialDetails(data: any) {
+  onSubmitStudentSpecialDetails(data: any,  specialCategoryFiles: any) {
     this.studentsService.updateStudentSpecialDetails(data);
+    const fileAmea = this.uploadFile(specialCategoryFiles.ameaFile);
+    this.studentsService.updateStudentΑΜΕΑFile(fileAmea);
   }
 
   setPhase(phase: number) {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any; }) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any; ameaFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
+
     this.studentsService.updateStudentContractDetails(data);
     // this.studentsService.updateStudentContractSSNFile(fileSSN);
     // this.studentsService.updateStudentContractIbanFile(fileIban);
-    let err = false;
     this.studentsService.updateStudentContractSSNFile(fileSSN)
       .pipe(
         mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)

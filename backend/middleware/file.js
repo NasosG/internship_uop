@@ -15,7 +15,6 @@ getCurrentDate = () => {
 };
 
 const storageIban = multer.diskStorage({
-  // destination: "./uploads/ibans",
   destination: (req, file, cb) => {
     const studentId = req.params.id;
     const fileDir = "./uploads/ibans/";
@@ -39,7 +38,7 @@ const storageIban = multer.diskStorage({
 const uploadIban = multer({
   storage: storageIban,
   fileFilter: function (req, file, callback) {
-    var ext = path.extname(file.originalname);
+    let ext = path.extname(file.originalname);
     if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
@@ -51,7 +50,6 @@ const uploadIban = multer({
 });
 
 const storageSsn = multer.diskStorage({
-  // destination: "./uploads/ssns",
   destination: (req, file, cb) => {
     const studentId = req.params.id;
     const fileDir = "./uploads/ssns/";
@@ -68,7 +66,6 @@ const storageSsn = multer.diskStorage({
     const studentId = request.params.id;
     const fileName = "student" + studentId + "_" + "SSN";
     const formattedExtension = MiscUtils.formatDocExtension(file.mimetype.split("/")[1]);
-    // cb(null, getCurrentDate() + "." + file.mimetype.split("/")[1]);
     cb(null, fileName + "." + formattedExtension);
   }
 });
@@ -76,7 +73,7 @@ const storageSsn = multer.diskStorage({
 const uploadSsn = multer({
   storage: storageSsn,
   fileFilter: function (req, file, callback) {
-    var ext = path.extname(file.originalname);
+    let ext = path.extname(file.originalname);
     if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
@@ -86,12 +83,49 @@ const uploadSsn = multer({
     fileSize: 244140625
   }
 });
+
+const storageAmea = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const studentId = req.params.id;
+    const fileDir = "./uploads/amea/";
+    const path = fileDir + studentId;
+
+    // remove all files before inserting the new one
+    // in order to always keep the one last file student has posted
+    fsExtra.emptyDirSync(fileDir);
+
+    fs.mkdirSync(path, { recursive: true });
+    return cb(null, path);
+  },
+  filename: function (request, file, cb) {
+    const studentId = request.params.id;
+    const fileName = "student" + studentId + "_" + "AMEA";
+    const formattedExtension = MiscUtils.formatDocExtension(file.mimetype.split("/")[1]);
+    cb(null, fileName + "." + formattedExtension);
+  }
+});
+
+const uploadAmea = multer({
+  storage: storageAmea,
+  fileFilter: function (req, file, callback) {
+    let ext = path.extname(file.originalname);
+    if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
+      return callback(new Error("This file type is not valid"));
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 244140625
+  }
+});
+
 let iban = util.promisify(uploadIban.single("file"));
 let ssn = util.promisify(uploadSsn.single("file"));
-
+let amea = util.promisify(uploadAmea.single("file"));
 // module.exports = uploadIban.single("file");
 
 module.exports = {
   iban,
-  ssn
+  ssn,
+  amea
 };

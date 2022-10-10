@@ -212,10 +212,12 @@ export class StudentsService {
     const id = this.authService.getSessionId();
     return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentIbanFile/" + id, file);
-    // .subscribe(responseData => {
-    //   console.log(responseData.message);
-    //   return responseData.message;
-    // });
+  }
+
+  updateStudentΑΜΕΑFile(file: any): any {
+    const id = this.authService.getSessionId();
+    return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentAMEAFile/" + id, file);
   }
 
   updateStudentBio(data: any) {

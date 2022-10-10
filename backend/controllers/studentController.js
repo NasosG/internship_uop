@@ -607,6 +607,30 @@ const insertIbanFile = async (request, response, next) => {
   }
 };
 
+const insertAMEAFile = async (request, response, next) => {
+  try {
+    const ssoUserId = request.params.id;
+    const docType = "AMEA";
+    const userType = "student";
+    const fileName = userType + ssoUserId + "_" + docType;
+    const filePath = `./uploads/amea/${ssoUserId}`;
+
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.amea(request, response, (err) => validateFile(request, response, err, docType));
+
+    response
+      .status(201)
+      .json({
+        message: "FILE ADDED IBAN"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(201).json({
+      message: "ERROR"
+    });
+  }
+};
+
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
@@ -661,5 +685,6 @@ module.exports = {
   login,
   insertSSNFile,
   insertIbanFile,
+  insertAMEAFile,
   sendFile
 };
