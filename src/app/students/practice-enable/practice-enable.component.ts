@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { mergeMap } from 'rxjs';
+import { concatMap, forkJoin, from, mergeMap } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
@@ -98,11 +98,12 @@ export class PracticeEnableComponent implements OnInit {
     const contractsData: any = {
       ssn: this.secondFormGroup.get('ssnControl')?.value,
       doy: this.secondFormGroup.get('doyControl')?.value,
-      iban: this.secondFormGroup.get('ibanControl')?.value,
+      iban: this.secondFormGroup.get('ibanControl')?.value
     };
     const contractFiles: any = {
       ssnFile: this.secondFormGroup.get('ssnFile')?.value,
-      ibanFile: this.secondFormGroup.get('ibanFile')?.value
+      ibanFile: this.secondFormGroup.get('ibanFile')?.value,
+      ameaFile: this.specialDataFormGroup.get('ameaFile')?.value
     };
     const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
@@ -119,14 +120,10 @@ export class PracticeEnableComponent implements OnInit {
       amea_cat: this.specialDataFormGroup.get('ameaCatCtrl')?.value
     };
 
-    const specialCategoryFiles: any = {
-      ameaFile: this.specialDataFormGroup.get('ameaFile')?.value
-    }
-
     this.onSubmitStudentDetails(generalDetailsData);
     this.onSubmitStudentContractDetails(contractsData, contractFiles);
     this.onSubmitStudentContact(contactDetails);
-    this.onSubmitStudentSpecialDetails(specialDetails, specialCategoryFiles);
+    this.onSubmitStudentSpecialDetails(specialDetails);
     this.setPhase(1);
     this.onSave();
   }
@@ -142,28 +139,32 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updateStudentDetails(data);
   }
 
-  onSubmitStudentSpecialDetails(data: any,  specialCategoryFiles: any) {
+  onSubmitStudentSpecialDetails(data: any) {
     this.studentsService.updateStudentSpecialDetails(data);
-    const fileAmea = this.uploadFile(specialCategoryFiles.ameaFile);
-    this.studentsService.updateStudentΑΜΕΑFile(fileAmea);
   }
 
   setPhase(phase: number) {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any; ameaFile: any }) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
+    const fileAmea = this.uploadFile(contractFiles.ameaFile);
+    const files = [{"fileData": fileSSN, "type": 'SSN'},
+                   {"fileData": fileIban, "type": 'IBAN'},
+                   {"fileData": fileAmea, "type": 'AMEA'}];
 
     this.studentsService.updateStudentContractDetails(data);
-    // this.studentsService.updateStudentContractSSNFile(fileSSN);
-    // this.studentsService.updateStudentContractIbanFile(fileIban);
-    this.studentsService.updateStudentContractSSNFile(fileSSN)
-      .pipe(
-        mergeMap(this.studentsService.updateStudentContractIbanFile(fileIban)
-        )
-      );
+
+    const filesToSave = from(files).pipe(
+      mergeMap(file =>  this.studentsService.updateStudentFile(file.fileData, file.type))
+    );
+
+    filesToSave.subscribe(
+      (data) => console.log('File saved!'),
+      (err) => console.error('error: ' + err)
+    );
   }
 
   onSubmitStudentContact(data: any) {

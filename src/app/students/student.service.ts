@@ -208,6 +208,19 @@ export class StudentsService {
     // });
   }
 
+  updateStudentFile(file: any, type: string): any {
+    const id = this.authService.getSessionId();
+    if (type == 'SSN')
+      return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentSSNFile/" + id, file);
+    else if (type == 'IBAN')
+     return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentIbanFile/" + id, file);
+    else if (type == 'AMEA')
+      return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentAMEAFile/" + id, file);
+  }
+
   updateStudentContractIbanFile(file: any): any {
     const id = this.authService.getSessionId();
     return this.http
