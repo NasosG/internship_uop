@@ -1,12 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
 import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
-
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
 import { DepManagerService } from '../dep-manager.service';
 
 @Component({
@@ -184,7 +183,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     windowPrint?.close();
   }
 
-
   onSubmitSelect(option: string, studentId: number) {
     // this.validateFormData(formData);
     let phase;
@@ -196,7 +194,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
   openDialog(idx: any) {
     console.log(idx);
-    const dialogRef = this.dialog.open(StudentAppsPreviewDialog, {
+    const dialogRef = this.dialog.open(StudentAppsPreviewDialogComponent, {
       // width: '350px',
       data: { studentsData: this.studentsData, index: idx }
     });
@@ -207,19 +205,3 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   }
 
 }
-
-@Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: 'student-apps-preview-dialog.html',
-  styleUrls: ['student-apps-preview-dialog.css']
-})
-export class StudentAppsPreviewDialog {
-
-  public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAppsPreviewDialog>) { }
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-}
-

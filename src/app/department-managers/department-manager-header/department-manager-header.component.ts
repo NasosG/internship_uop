@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
@@ -26,7 +27,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     "3. Δήλωση προτίμησης από τους φοιτητές",
     "4. Επιλογή φοιτητών από φορείς"];
 
-  constructor(public depManagerService: DepManagerService) { }
+  constructor(public depManagerService: DepManagerService, public authService: AuthService) { }
 
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';

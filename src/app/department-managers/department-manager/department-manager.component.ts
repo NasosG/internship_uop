@@ -44,6 +44,8 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
           this.authService.setSessionId(params['uuid']);
         }
       );
+
+      this.router.navigate(['/department-manager/' + this.authService.getSessionId()]);
     }
 
     this.depManagerService.getDepManager()
@@ -52,7 +54,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
 
-       // this.router.navigate(['/department-manager/' + this.authService.getSessionId()]);
+
     // this.studentSubscription = this.studentsService.getStudentUpdateListener()
   }
 

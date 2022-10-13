@@ -78,6 +78,7 @@ import { UsersFooterComponent } from './generic-components/users-footer/users-fo
 import { StudentLoginTermsDialogComponent } from './home-screen/student-login-terms-dialog/student-login-terms-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { StudentAppsPreviewDialogComponent } from './department-managers/student-apps-preview-dialog/student-apps-preview-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -139,6 +140,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PasswordResetComponent,
     UsersFooterComponent,
     StudentLoginTermsDialogComponent,
+    StudentAppsPreviewDialogComponent,
   ],
   imports: [
     BrowserModule,
