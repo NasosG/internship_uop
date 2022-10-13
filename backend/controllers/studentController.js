@@ -634,17 +634,14 @@ const insertAMEAFile = async (request, response, next) => {
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
-    let initialPath = 'C:/internship_uop/';
-    // let initialPath = 'C:/Users/losNasos/Documents/workspace/uop_innternsip/';
-    // let initialPath = 'C:/xampp/htdocs/internship_uop/uploads/';
     const docType = request.body.doctype;
-    // let dirType = (docType == 'IBAN') ? 'ibans' : 'ssns';
 
     let metadata = (await studentService.getFileMetadataByStudentId(id, docType)).rows[0];
+    const path = require('path');
 
     response
       .status(200)
-      .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);
+      .sendFile(path.resolve(metadata.file_path) + '/' + metadata.file_name);
 
   } catch (error) {
     console.error(error.message);

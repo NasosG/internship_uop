@@ -28,9 +28,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
 
   ngOnInit() {
-    // this.depManagerService.receiveFile().subscribe(res => {
-    //  window.open(window.URL.createObjectURL(res));
-    //  });
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
         this.studentsData = students;

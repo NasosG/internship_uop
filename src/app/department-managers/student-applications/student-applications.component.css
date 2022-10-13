@@ -1,6 +1,7 @@
 @media (max-width: 1691px) {
   .td-button-responsive {
-    margin-bottom: 10px !important;
+    /* margin-bottom: 10px !important; */
+    margin-bottom: 5px !important;
     width: 99%;
   }
 }

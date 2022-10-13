@@ -28,11 +28,6 @@
                   <th>AMEA κατηγορίας 5</th>
                   <th>Σύμβαση εργασίας</th>
                   <th>Έγγραφα</th>
-                  <!-- <th>Φορέας</th> -->
-                  <!-- <th>
-                    Αρ. Πρωτοκόλλου</th>
-                  <th> Ημ. Πρωτοκόλλου</th> -->
-                  <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </thead>
@@ -57,58 +52,32 @@
                   <!-- <td>{{student.father_name}}</td> -->
                   <td>{{student.schacpersonaluniquecode}}</td>
                   <!-- <td>{{student.id}}.uop.gr</td> -->
-                  <td>{{student.military_training == true ? 'ΝΑΙ' : 'OXI'}}</td>
-                  <td>{{student.amea_cat == true ? 'ΝΑΙ' : 'OXI'}}</td>
-                  <td>{{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                  <td [ngClass]="student.military_training == true ? 'text-danger' : 'text-dark'">
+                    {{student.military_training == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                  <td [ngClass]="student.amea_cat == true ? 'text-danger' : 'text-dark'">
+                    {{student.amea_cat == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                  <td [ngClass]="student.working_state == true ? 'text-danger' : 'text-dark'">
+                    {{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
                   <td class="reponsive-text-center-td">
                     <button (click)="receiveFile(student.sso_uid, 'IBAN')"
-                      class="btn btn-primary mr-3 td-button-responsive"> <i class="fa fa-download"
-                        aria-hidden="true"></i> Iban
+                      class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i class="fa fa-download"
+                        aria-hidden="true"></i> IBAN
                     </button>
-                    <button (click)="receiveFile(student.sso_uid, 'SSN')" class="btn btn-primary td-button-responsive">
+                    <button (click)="receiveFile(student.sso_uid, 'SSN')"
+                      class="mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive">
                       <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
                     </button>
+                    <button *ngIf="student.amea_cat == true" (click)="receiveFile(student.sso_uid, 'AMEA')"
+                      class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
+                      <i class="fa fa-download" aria-hidden="true"></i> AMEA
+                    </button>
                   </td>
-                  <!-- <td>
-                    <ul>
-                      <li>Aofsointr Inc</li>
-                      <li>BOsointr Inc</li>
-                      <li>COsointr Inc</li>
-                      <li>BOsointr Inc</li>
-                      <li>COsointr Inc</li>
-                    </ul>
-                  </td>
-                  <td>tipota</td>
-                  <td>25/01/2021</td> -->
-
-                  <!-- <td>7.8</td> -->
                   <td class="action text-center">
                     <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                         class="fa fa-eye"></i> Προβολή<br></a>
                     <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                   </td>
                 </tr>
-                <!-- <tr>
-                  <td>Μαρία</td>
-                  <td>pcsttipota.uop.gr</td>
-                  <td>
-                    <ul>
-                      <li>Bofsointr Inc</li>
-                      <li>BOsointr Inc</li>
-                      <li>COsointr Inc</li>
-                    </ul>
-                  </td>
-                  <td>
-                    tipota</td>
-                  <td>25/01/2021</td>
-                  <td>Ενεργή</td>
-                  <td>7.4</td>
-                  <td class="action text-center">
-                    <a href="#" class="text-secondary"><i class="fa fa-eye"></i> Προβολή<br></a>
-                    <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a>
-                  </td>
-                </tr> -->
-
               </tbody>
               <tfoot>
                 <tr>
@@ -121,12 +90,6 @@
                   <th>AMEA κατηγορίας 5</th>
                   <th>Σύμβαση εργασίας</th>
                   <th>Έγγραφα</th>
-                  <!-- <th> Φορέας</th>
-                  <th>
-                    Αρ. Πρωτοκόλλου</th>
-                  <th> Ημ. Πρωτοκόλλου</th> -->
-                  <!-- <th> Κατάσταση </th> -->
-                  <!-- <th> Σκορ </th> -->
                   <th class="text-center">Ενέργειες</th>
                 </tr>
               </tfoot>
