@@ -61,7 +61,13 @@ function formatDocExtension(ext) {
 
 const splitStudentsAM = (splitString) => {
   const splitArray = splitString.split(':');
-  return splitArray[splitArray.length - 1];
+  const lastArrayPart = splitArray[splitArray.length - 1];
+
+  if (lastArrayPart.includes("/")) {
+    return lastArrayPart.split("/")[1];
+  }
+
+  return lastArrayPart;
 };
 
 const splitScholarsPersonalData = (splitString) => {
