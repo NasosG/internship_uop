@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
 import { mergeMap } from 'rxjs';
+import { StudentsAppsPreviewDialogComponent } from '../students-apps-preview-dialog/students-apps-preview-dialog.component';
 
 @Component({
   selector: 'app-students-approved',
@@ -19,7 +20,6 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
-  // dataSource = ELEMENT_DATA;
   selected = '';
   ngSelect = "";
   depId: any;
@@ -192,7 +192,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(idx: any) {
-    const dialogRef = this.dialog.open(StudentAppsPreviewDialog, {
+    const dialogRef = this.dialog.open(StudentsAppsPreviewDialogComponent, {
       // width: '350px',
       data: { studentsData: this.studentsData, index: idx }
     });
@@ -264,21 +264,4 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   async delay(ms: number): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, ms));
   }
-
 }
-
-@Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: 'student-approved-preview-dialog.html',
-  styleUrls: ['student-approved-preview-dialog.css']
-})
-export class StudentAppsPreviewDialog {
-
-  public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public dialogRef: MatDialogRef<StudentAppsPreviewDialog>) { }
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-}
-
