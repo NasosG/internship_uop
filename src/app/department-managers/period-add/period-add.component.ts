@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 
@@ -12,6 +12,7 @@ export class PeriodAddComponent implements OnInit {
   ngSelect = "";
   ngSelectPhase = "";
   public isShown: boolean = false ; // hidden by default
+  @Input() item = 0; // decorate the property with @Input()
 
   toggleShow() {
     this.isShown = !this.isShown;

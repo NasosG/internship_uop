@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
+import {Period} from '../period.model';
 
 @Component({
   selector: 'app-department-manager',
@@ -18,6 +19,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   private studentSubscription!: Subscription;
   fontSize: number = 100;
   private language!: string;
+  public espaPositions!: number;
 
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -54,8 +56,10 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       });
 
-
-    // this.studentSubscription = this.studentsService.getStudentUpdateListener()
+    this.depManagerService.getPeriodByUserId()
+      .subscribe((periodData: Period) => {
+        this.espaPositions = periodData.positions;
+      });
   }
 
   ngOnDestroy(): void {

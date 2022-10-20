@@ -20,7 +20,7 @@
           <h5 class="font-weight-normal pt-2 pb-2">Στοιχεία περιόδου</h5>
           <form ngNativeValidate #periodForm="ngForm" (ngSubmit)="onSubmitPeriodForm(periodForm.value)">
             <div class="form-group row">
-              <label for="staticEmail" class="col-sm-2 col-form-label">Εξάμηνο</label>
+              <label for="staticEmail" class="col-sm-2 col-form-label">Ακαδημαϊκό εξάμηνο</label>
               <div class="col-sm-10">
                 <select required class="custom-select" id="semester" name="semester" [(ngModel)]='ngSelect'>
                   <option value="">Επιλέξτε εξάμηνο</option>
@@ -41,6 +41,13 @@
               <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
               <div class="col-sm-10">
                 <input type="date" name="date_to" ngModel id="date_to" class="form-control" placeholder="Λήξη" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="positions" class="col-sm-2 col-form-label">Θέσεις ΕΣΠΑ</label>
+              <div class="col-sm-10">
+                <input type="number" name="positions" id="positions" class="form-control" [(ngModel)]="item"
+                  placeholder="Αριθμός θέσεων" readonly required>
               </div>
             </div>
             <div class="form-group row">
