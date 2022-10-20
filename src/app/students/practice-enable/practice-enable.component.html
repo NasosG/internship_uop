@@ -178,7 +178,7 @@
       <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="emailCtrl" type="email" id="inputEmail"
+        <input matInput formControlName="emailCtrl" type="email" id="inputEmail" class="inactive-field"
           [ngModel]="this.studentsSSOData[0]?.id + '@uop.gr'" placeholder="email" readonly required>
       </mat-form-field>
       <mat-form-field appearance="fill">
