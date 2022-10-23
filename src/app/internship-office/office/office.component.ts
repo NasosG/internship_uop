@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { OfficeUser } from '../office-user.model';
@@ -19,7 +19,7 @@ export class OfficeComponent implements OnInit {
   fontSize: number = 100;
   private language!: string;
 
-  constructor(public router: Router, public authService: AuthService, public translate: TranslateService, public officeService: OfficeService) {
+  constructor(public router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService, public officeService: OfficeService) {
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
     const browserLang = localStorage.getItem('language') || null;
@@ -33,6 +33,18 @@ export class OfficeComponent implements OnInit {
     //     this.company = company;
     //     console.log(this.company);
     //   });
+
+    if (this.router.url.includes('/office/login')) {
+      this.route.queryParams
+        .subscribe(params => {
+          //console.log(params);
+          this.authService.setToken(params['token']);
+          this.authService.setSessionId(params['uuid']);
+        }
+      );
+
+      this.router.navigate(['/office/' + this.authService.getSessionId()]);
+    }
 
     this.officeService.getOfficeUser()
       .subscribe((officeUser: OfficeUser) => {

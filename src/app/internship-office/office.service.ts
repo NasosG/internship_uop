@@ -28,7 +28,7 @@ export class OfficeService {
   }
 
   getOfficeUser(): Observable<OfficeUser> {
-    const id = 11;
+    const id = this.authService.getSessionId();
     const fetchedOfficeUser = this.http.get<OfficeUser>(OFFICE_URL + "getOfficeUserById/" + id);
     this.officeUserObservable = fetchedOfficeUser;
     this.officeUserObservable.subscribe((managers: OfficeUser) => {
