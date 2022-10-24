@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common'
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
@@ -21,7 +22,7 @@ export class PeriodEditComponent implements OnInit {
     "Σε αναμονή για συμμετοχή των φοιτητών",
     "Σε αναμονή για ολοκλήρωση αιτήσεων"];
 
-  constructor(public depManagerService: DepManagerService) { }
+  constructor(public depManagerService: DepManagerService, private location: Location) { }
 
   ngOnInit() {
     // this.authService.login('');
@@ -43,6 +44,10 @@ export class PeriodEditComponent implements OnInit {
 
   insertPhase2StudentsRank() {
     this.depManagerService.insertApprovedStudentsRank(this.depManagerData.department_id, this.periodData.phase_state);
+  }
+
+  back(): void {
+    this.location.back();
   }
 
   private onSavePeriodAlert() {
