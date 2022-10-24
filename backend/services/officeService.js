@@ -2,6 +2,20 @@
 const pool = require("../db_config.js");
 const MiscUtils = require("../MiscUtils.js");
 
+const login = async (username) => {
+  try {
+    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+                                              WHERE sso_users.edupersonaffiliation = 'office' \
+                                              AND sso_users.id=$1", [username]);
+    if (resultsSSOUsers.rowCount >= 1) {
+      return resultsSSOUsers.rows[0].uuid;
+    }
+    return null;
+  } catch (error) {
+    throw Error('Error while logging in - user: ' + username);
+  }
+};
+
 const getDepManagerById = async (id) => {
   try {
     const resultsSSOUsers = await pool.query("SELECT * FROM sso_users WHERE uuid=$1", [id]);
@@ -79,20 +93,21 @@ const getEspaPositionByDepId = async (departmentId) => {
 
 const insertOrUpdateEspaPositionsByDepId = async (body, departmentId) => {
   try {
-    const fechedEspaPositions = await getEspaPositionByDepId(departmentId)
+    const fechedEspaPositions = await getEspaPositionByDepId(departmentId);
     if (fechedEspaPositions.rowCount == 0) {
       await insertEspaPosition(body, departmentId);
     } else {
       await upateEspaPosition(body, departmentId);
     }
   } catch (error) {
-    throw Error('Error while inserting or updating espa positions')
+    throw Error('Error while inserting or updating espa positions');
   }
-}
+};
 
 module.exports = {
   getPeriodByDepartmentId,
   getDepManagerById,
   getEspaPositionByDepId,
-  insertOrUpdateEspaPositionsByDepId
+  insertOrUpdateEspaPositionsByDepId,
+  login
 };

@@ -194,17 +194,16 @@ const routes: Routes = [{
 
 {
   path: 'office',
-  component: OfficeComponent,
   children: [{
     path: ':id',
     component: OfficeComponent
   },
   {
-    path: 'positions-add',
+    path: 'positions-add/:id',
     component: OfficeComponent
   },
   {
-    path: 'stats',
+    path: 'stats/:id',
     component: OfficeComponent
   },
   {

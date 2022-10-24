@@ -74,11 +74,6 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li> -->
 
       <ul class="nav navbar-nav ms-auto">
         <li class="nav-item dropdown">
@@ -189,7 +184,8 @@
             </a>
           </li> -->
           <li class="nav-item">
-            <a [routerLink]="['/office/positions-add/']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/office/positions-add/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-plus"></i>
               <p>
                 {{'INTERNSHIP-OFFICE.POSITION-ADD' | translate}}
@@ -198,7 +194,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/office/stats/']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/office/stats/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>
                 {{'INTERNSHIP-OFFICE.STATS' | translate}}

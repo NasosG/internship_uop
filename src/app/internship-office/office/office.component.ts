@@ -76,11 +76,11 @@ export class OfficeComponent implements OnInit {
   onDarkModeSwitched() { }
 
   isPositionsAddRoute() {
-    return this.router.url === '/office/positions-add';
+    return this.router.url === '/office/positions-add/' + this.authService.getSessionId();
   }
 
   isStatsAddRoute() {
-    return this.router.url === '/office/stats';
+    return this.router.url === '/office/stats/' + this.authService.getSessionId();
   }
 
   isContactRoute() {
