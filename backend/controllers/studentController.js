@@ -34,6 +34,7 @@ const login = async (request, response, next) => {
   }
 };
 
+
 /**
  * Returns all students from SSO and student users tables.
  */
