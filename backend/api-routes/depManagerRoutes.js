@@ -14,5 +14,8 @@ router.put("/updatePhaseByStudentId/:id", depManagerController.updatePhaseByStud
 router.put("/updatePeriodById/:id", depManagerController.updatePeriodById);
 router.put("/updateStudentRanking/:id", depManagerController.updateStudentRanking);
 router.delete("/deletePeriodById/:id", depManagerController.deletePeriodById);
+router.post("/insertCommentsByStudentId/:id", depManagerController.insertCommentsByStudentId);
+router.put("/updateCommentsByStudentId/:id", depManagerController.updateCommentsByStudentId);
+router.get("/getCommentByStudentIdAndSubject/", depManagerController.getCommentByStudentIdAndSubject);
 
 module.exports = router;
