@@ -17,7 +17,7 @@ export class CommentsDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CommentsDialogComponent>, public depManagerService: DepManagerService
   ) { }
 
-  onCancel(): void {
+  onCommentSubmit(): void {
     // get value from html element
     const comments = this.commentsArea.nativeElement.value;
 
@@ -34,7 +34,6 @@ export class CommentsDialogComponent implements OnInit {
       // insert comment
       this.depManagerService.insertCommentsByStudentId(this.data.studentsData[this.data.index].uuid, comments);
     }
-
 
     this.dialogRef.close();
   }
