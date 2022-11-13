@@ -40,13 +40,17 @@
                       <mat-label>Προς επιλογή</mat-label>
                       <mat-select value="{{student.phase == 2 ? 'option1' : student.phase == 1 ? '' : 'option2'}}"
                         name="phase">
-                        <!-- <mat-option>Επιλέξτε...</mat-option> -->
+                        <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">Προς επιλογή
+                        </mat-option>
                         <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
                         </mat-option>
                         <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
+                    <!-- Insert Comment Button -->
+                    <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
+                        class="fas fa-edit"></i> Σχόλιο<br></a>
                   </td>
                   <td>{{student.givenname}} {{student.sn}}</td>
                   <!-- <td>{{student.father_name}}</td> -->

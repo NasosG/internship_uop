@@ -15,5 +15,8 @@ router.put("/updatePeriodById/:id", checkAuth, depManagerController.updatePeriod
 router.put("/updateStudentRanking/:id", checkAuth, depManagerController.updateStudentRanking);
 router.delete("/deletePeriodById/:id", checkAuth, depManagerController.deletePeriodById);
 router.post("/login/", depManagerController.login);
+router.post("/insertCommentsByStudentId/:id", depManagerController.insertCommentsByStudentId);
+router.put("/updateCommentsByStudentId/:id", depManagerController.updateCommentsByStudentId);
+router.get("/getCommentByStudentIdAndSubject/", depManagerController.getCommentByStudentIdAndSubject);
 
 module.exports = router;

@@ -146,4 +146,30 @@ export class DepManagerService {
         console.log(responseData.message);
       });
   }
+
+  insertCommentsByStudentId(studentId: number, comments: string) {
+    const commentsJson: any = { 'comments': comments };
+    this.http
+      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertCommentsByStudentId/" + studentId, commentsJson)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  updateCommentsByStudentId(studentId: number, comments: string) {
+    const commentsJson: any = { 'comments': comments};
+    this.http
+      .put<{ message: string }>("http://localhost:3000/api/depmanager/updateCommentsByStudentId/" + studentId, commentsJson)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  getCommentByStudentIdAndSubject(studentId: number, subject: string): Observable<any> {
+     const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('subject', subject);
+    const fetchedComment = this.http.get<any>("http://localhost:3000/api/depmanager/getCommentByStudentIdAndSubject/", { params });
+    return fetchedComment;
+  }
 }

@@ -7,6 +7,7 @@ import { Student } from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
 import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
 import { DepManagerService } from '../dep-manager.service';
+import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 
 @Component({
   selector: 'app-student-applications',
@@ -186,7 +187,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   onSubmitSelect(option: string, studentId: number) {
     // this.validateFormData(formData);
     let phase;
-    phase = (option == "option1") ? 2 : -1;
+    phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
     console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
     // this.onSavePeriodAlert();
@@ -196,6 +197,17 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     console.log(idx);
     const dialogRef = this.dialog.open(StudentAppsPreviewDialogComponent, {
       // width: '350px',
+      data: { studentsData: this.studentsData, index: idx }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openCommentsDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(CommentsDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }
     });
 

@@ -80,6 +80,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { StudentAppsPreviewDialogComponent } from './department-managers/student-apps-preview-dialog/student-apps-preview-dialog.component';
 import { StudentsAppsPreviewDialogComponent } from './department-managers/students-apps-preview-dialog/students-apps-preview-dialog.component';
+import { CommentsDialogComponent } from './department-managers/comments-dialog/comments-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -143,6 +144,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentLoginTermsDialogComponent,
     StudentAppsPreviewDialogComponent,
     StudentsAppsPreviewDialogComponent,
+    CommentsDialogComponent,
   ],
   imports: [
     BrowserModule,
