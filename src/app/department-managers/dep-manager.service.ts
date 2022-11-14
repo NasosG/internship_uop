@@ -150,7 +150,7 @@ export class DepManagerService {
   insertCommentsByStudentId(studentId: number, comments: string) {
     const commentsJson: any = { 'comments': comments };
     this.http
-      .post<{ message: string }>("http://localhost:3000/api/depmanager/insertCommentsByStudentId/" + studentId, commentsJson)
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertCommentsByStudentId/" + studentId, commentsJson)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -159,7 +159,7 @@ export class DepManagerService {
   updateCommentsByStudentId(studentId: number, comments: string) {
     const commentsJson: any = { 'comments': comments};
     this.http
-      .put<{ message: string }>("http://localhost:3000/api/depmanager/updateCommentsByStudentId/" + studentId, commentsJson)
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateCommentsByStudentId/" + studentId, commentsJson)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -169,7 +169,7 @@ export class DepManagerService {
      const params = new HttpParams()
       .set('studentId', studentId)
       .set('subject', subject);
-    const fetchedComment = this.http.get<any>("http://localhost:3000/api/depmanager/getCommentByStudentIdAndSubject/", { params });
+    const fetchedComment = this.http.get<any>(DEPARTMENT_MANAGER_URL + "getCommentByStudentIdAndSubject/", { params });
     return fetchedComment;
   }
 }
