@@ -4,6 +4,7 @@ const multer = require("multer");
 const upload = require("../middleware/file.js");
 const formidable = require('formidable');
 const MiscUtils = require("../MiscUtils.js");
+require('dotenv').config();
 
 // app.post("/api/students/login/:id", (request, response, next) => {
 const login = async (request, response, next) => {
@@ -636,13 +637,14 @@ const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
     const docType = request.body.doctype;
+    let initialPath = process.env.DEPT_MANAGER_PREVIEW_FILE_PATH;
 
     let metadata = (await studentService.getFileMetadataByStudentId(id, docType)).rows[0];
     const path = require('path');
 
     response
       .status(200)
-      .sendFile(path.resolve(metadata.file_path) + '/' + metadata.file_name);
+      .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);
 
   } catch (error) {
     console.error(error.message);

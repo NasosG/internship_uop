@@ -5,6 +5,7 @@ const fs = require('fs');
 const util = require('util');
 const fsExtra = require('fs-extra');
 const MiscUtils = require("../MiscUtils.js");
+require('dotenv').config();
 
 getCurrentDate = () => {
   let today = new Date();
@@ -17,7 +18,7 @@ getCurrentDate = () => {
 const storageIban = multer.diskStorage({
   destination: (req, file, cb) => {
     const studentId = req.params.id;
-    const fileDir = "./uploads/ibans/";
+    const fileDir = process.env.UPLOAD_FILE_PATH + "ibans/";
     const path = fileDir + studentId;
 
     // remove all files before inserting the new one
@@ -52,7 +53,7 @@ const uploadIban = multer({
 const storageSsn = multer.diskStorage({
   destination: (req, file, cb) => {
     const studentId = req.params.id;
-    const fileDir = "./uploads/ssns/";
+    const fileDir = process.env.UPLOAD_FILE_PATH + "ssns/";
     const path = fileDir + studentId;
 
     // remove all files before inserting the new one
@@ -87,7 +88,7 @@ const uploadSsn = multer({
 const storageAmea = multer.diskStorage({
   destination: (req, file, cb) => {
     const studentId = req.params.id;
-    const fileDir = "./uploads/amea/";
+    const fileDir = process.env.UPLOAD_FILE_PATH + "amea/";
     const path = fileDir + studentId;
 
     // remove all files before inserting the new one

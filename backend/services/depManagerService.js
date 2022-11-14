@@ -30,7 +30,7 @@ const getDepManagerById = async (id) => {
     let departmentManagerDetails = Object.assign(finalDepManagerResults, department);
     return departmentManagerDetails;
   } catch (error) {
-    throw Error('Error while fetching Department Manager');
+    throw Error('Error while fetching Department Manager' + error.message);
   }
 };
 
@@ -286,7 +286,7 @@ const updateStudentRanking = async (department_id, body) => {
       await insertRankingPositions(department_id, body[i]);
     }
   } catch (error) {
-    throw Error('Error while updating student positions');
+    throw Error('Error while updating student positions ' + error.message);
   }
 };
 
@@ -298,7 +298,7 @@ const insertRankingPositions = async (department_id, body) => {
       " ($1, $2, $3, $4) ",
       [body.uuid, department_id, body.score, body.ranking]);
   } catch (error) {
-    throw Error('Error while inserting students approved rank');
+    throw Error('Error while inserting students approved rank ' + error.message);
   }
 };
 
