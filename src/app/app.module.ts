@@ -76,6 +76,7 @@ import { StatsComponent } from './internship-office/stats/stats.component';
 import { PasswordResetComponent } from './home-screen/password-reset/password-reset.component';
 import { UsersFooterComponent } from './generic-components/users-footer/users-footer.component';
 import { CommentsDialogComponent } from './department-managers/comments-dialog/comments-dialog.component';
+import { StudentCommentsDialogComponent } from './students/student-comments-dialog/student-comments-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -135,7 +136,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StatsComponent,
     PasswordResetComponent,
     UsersFooterComponent,
-    CommentsDialogComponent
+    CommentsDialogComponent,
+    StudentCommentsDialogComponent
   ],
   imports: [
     BrowserModule,

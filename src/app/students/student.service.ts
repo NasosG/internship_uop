@@ -172,6 +172,14 @@ export class StudentsService {
     return period;
   }
 
+  getCommentByStudentIdAndSubject(studentId: number, subject: string): Observable<any> {
+     const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('subject', subject);
+    const fetchedComment = this.http.get<any>("http://localhost:3000/api/students/getCommentByStudentIdAndSubject/", { params });
+    return fetchedComment;
+  }
+
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = this.authService.getSessionId();

@@ -72,6 +72,16 @@ const getStudentById = async (id) => {
   }
 };
 
+const getCommentByStudentIdAndSubject = async (studentId, subject) => {
+  try {
+    const comment = await pool.query("SELECT * FROM comments WHERE student_id = $1 AND comment_subject = $2", [studentId, subject]);
+    return comment.rows[0];
+  } catch (error) {
+    console.log('Error while getting comments ' + error.message);
+    throw Error('Error while getting comments');
+  }
+};
+
 // dummy login with username only for testing purposes
 const loginStudent = async (username) => {
   try {
@@ -564,6 +574,7 @@ module.exports = {
   getStudentActiveApplication,
   getPhase,
   getFileMetadataByStudentId,
+  getCommentByStudentIdAndSubject,
   findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,

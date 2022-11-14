@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'src/app/MiscUtils';
 import { Period } from 'src/app/department-managers/period.model';
+import {StudentCommentsDialogComponent} from '../student-comments-dialog/student-comments-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-student',
@@ -29,8 +31,9 @@ export class StudentComponent implements OnInit, OnDestroy {
   private INTEREST_EXPRESSION_PHASE: number = 1;
   private STUDENT_SELECTION_PHASE: number = 2;
   private PREFERENCE_DECLARATION_PHASE: number = 3;
+  comment: any;
 
-  constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService) {
+  constructor(public studentsService: StudentsService, private router: Router, public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
 
@@ -65,6 +68,10 @@ export class StudentComponent implements OnInit, OnDestroy {
                 this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
                 this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
                 this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
+              });
+               this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
+                .subscribe((comment: any) => {
+                  this.comment = comment;
               });
           });
       });
@@ -101,6 +108,17 @@ export class StudentComponent implements OnInit, OnDestroy {
     localStorage.setItem('language', language);
     // window.location.reload();
     this.translate.use(language);
+
+  }
+
+  openCommentsDialog() {
+    const dialogRef = this.dialog.open(StudentCommentsDialogComponent, {
+      data: { studentsData: this.studentsSSOData, index: 0 }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   onDarkModeSwitched() { }

@@ -148,6 +148,21 @@ const getStudentPositions = async (request, response) => {
   }
 };
 
+const getCommentByStudentIdAndSubject = async (request, response) => {
+  try {
+    const id = request.query.studentId;
+    const subject = request.query.subject;
+
+    const comment = await studentService.getCommentByStudentIdAndSubject(id, subject);
+
+    response.status(200).json(comment);
+  } catch (error) {
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -634,6 +649,7 @@ module.exports = {
   getStudentApplications,
   getStudentActiveApplication,
   getPhase,
+  getCommentByStudentIdAndSubject,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,
