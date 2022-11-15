@@ -316,7 +316,7 @@ const updateCommentsByStudentId = async (studentId, comments) => {
   try {
     // Update comments of student, subject should also be added to be safer
     await pool.query("UPDATE comments \
-                      SET comment_text = $1, comment_date = NOW() \
+                      SET comment_text = $1, comment_date = CURRENT_TIMESTAMP()  \
                       WHERE student_id = $2", [comments, studentId]);
   } catch (error) {
     console.log('Error while updating comments ' + error.message);

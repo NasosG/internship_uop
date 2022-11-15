@@ -86,7 +86,7 @@ export class StudentComponent implements OnInit, OnDestroy {
             this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
               .subscribe((comment: any) => {
                 this.comment = comment;
-                const dateDif = moment(comment.comment_date, "YYYY-MM-DD HH:mm:ss").fromNow();
+                const dateDif = moment(comment.comment_date, "YYYY-MM-DD HH:mm:ss").locale("el").fromNow();
                 this.comment.comment_date = dateDif;
               });
           });
