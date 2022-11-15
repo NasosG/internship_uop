@@ -8,14 +8,14 @@ const bodyParser = require("body-parser");
 const atlasController = require('./controllers/atlasController.js');
 const MiscUtils = require("./MiscUtils.js");
 
-const log4js = require("log4js");
-log4js.configure({
-  appenders: { logfile: { type: "file", filename: "logfile.log" } },
-  categories: { default: { appenders: ["logfile"], level: "error" } },
-});
-let logger = log4js.getLogger();
-logger.level = "debug";
-logger.info("Some debug messages");
+// const log4js = require("log4js");
+// log4js.configure({
+//   appenders: { logfile: { type: "file", filename: "logfile.log" } },
+//   categories: { default: { appenders: ["logfile"], level: "error" } },
+// });
+// let logger = log4js.getLogger();
+// logger.level = "debug";
+// logger.info("Some debug messages");
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");

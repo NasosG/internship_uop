@@ -35,7 +35,6 @@ const login = async (request, response, next) => {
   }
 };
 
-
 /**
  * Returns all students from SSO and student users tables.
  */
@@ -151,6 +150,21 @@ const getStudentPositions = async (request, response) => {
   } catch (error) {
     console.error(error.message);
     response.send({
+      message: error.message
+    });
+  }
+};
+
+const getCommentByStudentIdAndSubject = async (request, response) => {
+  try {
+    const id = request.query.studentId;
+    const subject = request.query.subject;
+
+    const comment = await studentService.getCommentByStudentIdAndSubject(id, subject);
+
+    response.status(200).json(comment);
+  } catch (error) {
+    response.status(404).send({
       message: error.message
     });
   }
@@ -664,6 +678,7 @@ module.exports = {
   getStudentApplications,
   getStudentActiveApplication,
   getPhase,
+  getCommentByStudentIdAndSubject,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,

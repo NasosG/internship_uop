@@ -81,6 +81,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { StudentAppsPreviewDialogComponent } from './department-managers/student-apps-preview-dialog/student-apps-preview-dialog.component';
 import { StudentsAppsPreviewDialogComponent } from './department-managers/students-apps-preview-dialog/students-apps-preview-dialog.component';
 import { CommentsDialogComponent } from './department-managers/comments-dialog/comments-dialog.component';
+import { StudentCommentsDialogComponent } from './students/student-comments-dialog/student-comments-dialog.component';
 
 
 // AoT requires an exported function for factories
@@ -145,6 +146,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentAppsPreviewDialogComponent,
     StudentsAppsPreviewDialogComponent,
     CommentsDialogComponent,
+    StudentCommentsDialogComponent,
   ],
   imports: [
     BrowserModule,
