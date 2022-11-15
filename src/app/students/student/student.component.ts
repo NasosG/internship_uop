@@ -7,8 +7,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from 'src/app/MiscUtils';
 import { Period } from 'src/app/department-managers/period.model';
-import {StudentCommentsDialogComponent} from '../student-comments-dialog/student-comments-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import { StudentCommentsDialogComponent } from '../student-comments-dialog/student-comments-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'app-student',
@@ -72,6 +73,8 @@ export class StudentComponent implements OnInit, OnDestroy {
                this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
                 .subscribe((comment: any) => {
                   this.comment = comment;
+                  const dateDif = moment("2022-11-1519:20:22", "YYYY-MM-DDHH:mm:ss").fromNow();
+                  this.comment.comment_date = dateDif;
               });
           });
       });
@@ -183,3 +186,5 @@ export class StudentComponent implements OnInit, OnDestroy {
     return this.router.url === '/student/enable_intern/' + this.authService.getSessionId();
   }
 }
+
+
