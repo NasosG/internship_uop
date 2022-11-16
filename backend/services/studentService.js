@@ -4,6 +4,7 @@ const pool = require("../db_config.js");
 const MiscUtils = require("../MiscUtils.js");
 const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
+const moment = require('moment');
 
 const getAllStudents = async () => {
   try {
@@ -176,6 +177,8 @@ const getFileMetadataByStudentId = async (userId, docType) => {
 const getCommentByStudentIdAndSubject = async (studentId, subject) => {
   try {
     const comment = await pool.query("SELECT * FROM comments WHERE student_id = $1 AND comment_subject = $2", [studentId, subject]);
+    // Change the date because comment_date was wrong even if timezones seemed correct both in nodejs and db.
+    comment.rows[0].comment_date = moment(comment.rows[0].comment_date).format("YYYY-MM-DD HH:mm:ss");
     return comment.rows[0];
   } catch (error) {
     console.log('Error while getting comments ' + error.message);
