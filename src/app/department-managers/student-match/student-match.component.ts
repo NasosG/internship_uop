@@ -60,7 +60,7 @@ export class StudentMatchComponent implements OnInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [4, 5] }]
+          columnDefs: [{ orderable: false, targets: [4] }]
         });
       });
   }
