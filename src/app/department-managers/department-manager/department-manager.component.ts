@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
+import {environment} from 'src/environments/environment';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
 import {Period} from '../period.model';
@@ -37,6 +38,16 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     //     this.authService.setToken(response.token);
     //     this.authService.setSessionId(response.userId);
     //   });
+
+    if (!environment.production) {
+      this.authService.setSessionId(2);
+      this.depManagerService.getDepManager()
+        .subscribe((depManager: DepManager) => {
+          this.depManagerData = depManager;
+          this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+        });
+        return;
+    }
 
     if (this.router.url.includes('/department-manager/login')) {
       this.route.queryParams
