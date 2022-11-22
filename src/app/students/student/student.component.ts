@@ -10,6 +10,7 @@ import { Period } from 'src/app/department-managers/period.model';
 import { StudentCommentsDialogComponent } from '../student-comments-dialog/student-comments-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment/moment';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-student',
@@ -46,6 +47,16 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
+
+    if (!environment.production) {
+      this.authService.setSessionId(1);
+      // this.studentsService.getStudents()
+      //   .subscribe((student: Student[]) => {
+      //     this.studentsSSOData = student;
+      //     this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+      //   });
+        // return;
+    }
 
     if (this.router.url.includes('/student/login')) {
       this.route.queryParams
