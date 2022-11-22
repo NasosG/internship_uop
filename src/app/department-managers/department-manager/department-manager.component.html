@@ -193,13 +193,22 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <li *ngIf="!isStudentsApplicationsResults()" class="nav-item">
             <a [routerLink]="['/department-manager/student-applications/' + this.authService.getSessionId()]"
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Αιτήσεις Φοιτητών
                 <!-- <i class="right fas fa-angle-left"></i> -->
+              </p>
+            </a>
+          </li>
+          <li *ngIf="isStudentsApplicationsResults()" class="nav-item">
+            <a [routerLink]="['/department-manager/student-applications/results/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Αιτήσεις Φοιτητών
               </p>
             </a>
           </li>
@@ -431,6 +440,7 @@
         <app-students-approved *ngIf="isStudentsAprrovedRoute()"></app-students-approved>
         <app-about *ngIf="isAboutRoute()"></app-about>
         <app-manuals *ngIf="isManualsRoute()"></app-manuals>
+        <app-student-applications-results *ngIf="isStudentsApplicationsResults()"></app-student-applications-results>
       </div>
     </section>
     <!-- /.content -->

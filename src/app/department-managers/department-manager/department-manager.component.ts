@@ -135,4 +135,9 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   isManualsRoute() {
     return this.router.url === '/department-manager/manuals';
   }
+
+  isStudentsApplicationsResults() {
+    return this.router.url === '/department-manager/student-applications/results/' + this.authService.getSessionId();
+  }
+
 }

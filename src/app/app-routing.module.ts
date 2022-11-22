@@ -122,8 +122,17 @@ const routes: Routes = [{
     component: DepartmentManagerComponent
   },
   {
-    path: 'student-applications/:id',
-    component: DepartmentManagerComponent
+    path: 'student-applications',
+    component: DepartmentManagerComponent,
+    children: [
+      {
+        path: ':id',
+        component: DepartmentManagerComponent
+      },
+      {
+        path: 'results/:id',
+        component: DepartmentManagerComponent
+      }]
   },
   {
     path: 'match-students/:id',

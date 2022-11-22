@@ -5,14 +5,17 @@
       <div class="col-12">
         <div class="card">
           <!-- <div class="card-header"> -->
+
           <div class="card-header p-2">
             <ul class="nav nav-pills">
               <li class="nav-item">
-                <a class="nav-link active" href="#applications" data-toggle="tab">Αιτήσεις φοιτητών</a>
+                <a class="nav-link"
+                  [routerLink]="['/department-manager/student-applications/' + authService.getSessionId()]" data-toggle="
+                  tab">Αιτήσεις φοιτητών</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"
-                  [routerLink]="['/department-manager/student-applications/results/' + this.authService.getSessionId()]"
+                <a class="nav-link active"
+                  [routerLink]="['/department-manager/student-applications/results/' + authService.getSessionId()]"
                   data-toggle="tab">Αποτελέσματα</a>
               </li>
             </ul>
@@ -22,8 +25,14 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane active" id="applications">
-                <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="example" #example class="table table-bordered table-striped">
+                <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
+                    style='font-size:24px'></i> Excel</button>
+                &nbsp;
+                <button class="btn btn-primary" (click)="printDataTable()"><i class='fas fa-print'
+                    style='font-size:24px'></i> Print</button>
+                <br><br>
+                <!-- <table id="example2" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+                <table id="example2" #example2 class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Επιλογή</th>
@@ -41,24 +50,12 @@
                   <tbody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
                       <td>
-                        <p style="display:none">
-                          {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
-                        <mat-form-field id="{{student.sso_uid}}" name="phase" style="width:100%;" appearance="standard">
-                          <mat-label>Προς επιλογή</mat-label>
-                          <mat-select value="{{student.phase == 2 ? 'option1' : student.phase == 1 ? '' : 'option2'}}"
-                            name="phase">
-                            <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">Προς
-                              επιλογή
-                            </mat-option>
-                            <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
-                            </mat-option>
-                            <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
+                        <p>
+                          {{student.phase == 2 ? 'Έγκριση' : 'Απόρριψη'}}</p>
+
                         <!-- Insert Comment Button -->
-                        <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
-                            class="fas fa-edit"></i> Σχόλιο<br></a>
+                        <!-- <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
+                            class="fas fa-edit"></i> Σχόλιο<br></a> -->
                       </td>
                       <td>{{student.givenname}} {{student.sn}}</td>
                       <!-- <td>{{student.father_name}}</td> -->
