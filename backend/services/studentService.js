@@ -196,7 +196,7 @@ const getAssignmentsByStudentId = async (studentId) => {
                                           ON atlas_position_group.provider_id = atlas_provider.atlas_provider_id \
                                           WHERE internship_assignment.student_id = $1", [studentId]);
 
-    return assignments.rows[0];
+    return assignments.rows;
   } catch (error) {
     console.log('Error while getting assignments ' + error.message);
     throw Error('Error while getting assignments');

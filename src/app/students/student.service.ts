@@ -387,7 +387,7 @@ export class StudentsService {
   // get assignments by student id
   getAssignmentsByStudentId() {
     const studentId = this.authService.getSessionId();
-    return this.http.get<any[]>(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
+    return this.http.get(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
   }
 
 }
