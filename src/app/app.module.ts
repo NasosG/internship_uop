@@ -83,6 +83,7 @@ import { StudentsAppsPreviewDialogComponent } from './department-managers/studen
 import { CommentsDialogComponent } from './department-managers/comments-dialog/comments-dialog.component';
 import { StudentCommentsDialogComponent } from './students/student-comments-dialog/student-comments-dialog.component';
 import { StudentApplicationsResultsComponent } from './department-managers/student-applications-results/student-applications-results.component';
+import { StudentCompanyAcceptComponent } from './students/student-company-accept/student-company-accept.component';
 
 
 // AoT requires an exported function for factories
@@ -149,6 +150,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CommentsDialogComponent,
     StudentCommentsDialogComponent,
     StudentApplicationsResultsComponent,
+    StudentCompanyAcceptComponent,
   ],
   imports: [
     BrowserModule,

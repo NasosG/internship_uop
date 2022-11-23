@@ -30,8 +30,8 @@
           <a *ngIf="application.application_status && period.phase_state <= 3"
             (click)="deleteApplication(application.id)" class="delete"><i class="fa fa-trash-alt"></i>
             Διαγραφή</a>
-          <a *ngIf="application.application_status && period.phase_state >= 4"><i class="fa fa-check"></i>
-            Αποτελέσματα</a>
+          <!-- <a *ngIf="application.application_status && period.phase_state >= 4"><i class="fa fa-check"></i>
+            Αποτελέσματα</a> -->
         </td>
       </tr>
     </table>

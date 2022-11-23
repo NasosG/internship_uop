@@ -186,6 +186,23 @@ const getCommentByStudentIdAndSubject = async (studentId, subject) => {
   }
 };
 
+const getAssignmentsByStudentId = async (studentId) => {
+  try {
+    // assignment status should go in the where clause too
+    const assignments = await pool.query("SELECT * FROM internship_assignment \
+                                          INNER JOIN atlas_position_group \
+                                          ON internship_assignment.position_id = atlas_position_group.atlas_position_id \
+                                          INNER JOIN atlas_provider \
+                                          ON atlas_position_group.provider_id = atlas_provider.atlas_provider_id \
+                                          WHERE internship_assignment.student_id = $1", [studentId]);
+
+    return assignments.rows[0];
+  } catch (error) {
+    console.log('Error while getting assignments ' + error.message);
+    throw Error('Error while getting assignments');
+  }
+};
+
 const updateStudentDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -592,6 +609,7 @@ module.exports = {
   getPhase,
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,
+  getAssignmentsByStudentId,
   findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,

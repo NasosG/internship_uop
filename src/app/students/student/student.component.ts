@@ -61,7 +61,6 @@ export class StudentComponent implements OnInit, OnDestroy {
     if (this.router.url.includes('/student/login')) {
       this.route.queryParams
         .subscribe(params => {
-          //console.log(params);
           this.authService.setToken(params['token']);
           this.authService.setSessionId(params['uuid']);
         }
@@ -207,5 +206,9 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   isPracticeEnableRoute() {
     return this.router.url === '/student/enable_intern/' + this.authService.getSessionId();
+  }
+
+  isStudentCompanyAcceptRoute() {
+    return this.router.url === '/student/company-accept/' + this.authService.getSessionId();
   }
 }

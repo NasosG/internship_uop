@@ -219,7 +219,15 @@
             </a>
           </li>
           <li class="nav-item">
-
+            <a [routerLink]="['/student/company-accept/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fa fa-building"></i>
+              <p>
+                {{'STUDENT.SIDEBAR-COMPANY-ACCEPT' | translate}}
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <!-- the right choice -->
             <a [routerLink]="['/student/sheets/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
               [class.disabled]="!areOptionsEnabled ? true : null" class="nav-link">
@@ -367,14 +375,7 @@
           <app-sheet-evaluation *ngIf="isEvaluationSheetRoute()"></app-sheet-evaluation>
           <student-contract *ngIf="isStudentContractRoute()"></student-contract>
           <app-practice-enable *ngIf="isPracticeEnableRoute()"></app-practice-enable>
-          <!-- /.col -->
-          <!-- <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div> -->
-          <!-- /.col -->
+          <app-student-company-accept *ngIf="isStudentCompanyAcceptRoute()"></app-student-company-accept>
         </div>
         <!-- /.row -->
       </div>

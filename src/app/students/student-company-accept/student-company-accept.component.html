@@ -1,0 +1,38 @@
+<div class="container-fluid mt-5" style="max-width:90%;margin:auto;">
+  <h2 *ngIf="this.studentApplications[0]!=null" class="position-h2">Αποδοχή Θέσης
+  </h2>
+  <div *ngIf="this.studentApplications[0]!=null">
+    <div class="alert alert-danger p-2 mt-2 " role="alert">Παρακάτω φαίνονται οι φορείς που σας έχουν επιλέξει. Θα
+      πρέπει να γίνει επιλογή και από την πλευρά σας. Η επιλογή αυτή είναι οριστική.</div>
+    <!-- Applications Table -->
+    <table class="manage-table submissions responsive-table dark-div mt-3">
+      <tr>
+        <th>Α / Α</th>
+        <th>Εταιρεία </th>
+        <th>Τίτλος Θέσης</th>
+        <th>Τοποθεσία</th>
+        <!-- <th> Θέση</th> -->
+        <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
+        <th>Ενέργειες</th>
+      </tr>
+      <tr *ngFor="let application of assignments; let appIndex=index" [attr.data-index]="appIndex" class="dark-div
+        submissions-div">
+        <td>{{appIndex + 1}}</td>
+        <td>{{application.name}}</td>
+        <td>{{application.title}}</td>
+        <td>{{application.city}}</td>
+        <!-- <td>
+          <i class="fa fa-check" *ngIf="application.position_id"></i>
+          <i class="fa fa-times" *ngIf="!application.position_id"></i>
+          {{(application.approval_state) ? ' Ενεργή' : ' Ανενεργή'}}
+        </td> -->
+        <td class="action">
+          <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->
+          <button class="btn btn-primary"><i class="fa fa-check"></i>
+            Αποδοχη Θεσης</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>

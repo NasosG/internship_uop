@@ -16,6 +16,7 @@ import { Period } from "../department-managers/period.model";
 import { Country } from "./country.model";
 import { PhysicalObject } from "./physical-object.model";
 import { environment } from "src/environments/environment";
+import {Assignment} from "../companies/assignment.model";
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const ATLAS_URL = environment.apiUrl + "/atlas/";
@@ -381,6 +382,12 @@ export class StudentsService {
       .subscribe(responseData => {
         console.log(responseData.message);
       });
+  }
+
+  // get assignments by student id
+  getAssignmentsByStudentId() {
+    const studentId = this.authService.getSessionId();
+    return this.http.get<any[]>(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
   }
 
 }

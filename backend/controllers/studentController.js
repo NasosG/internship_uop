@@ -170,6 +170,19 @@ const getCommentByStudentIdAndSubject = async (request, response) => {
   }
 };
 
+const getAssignmentsByStudentId = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const assignments = await studentService.getAssignmentsByStudentId(id);
+    response.status(200).json(assignments);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -679,6 +692,7 @@ module.exports = {
   getStudentActiveApplication,
   getPhase,
   getCommentByStudentIdAndSubject,
+  getAssignmentsByStudentId,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,
