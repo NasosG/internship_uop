@@ -390,4 +390,11 @@ export class StudentsService {
     return this.http.get(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
   }
 
+  acceptCompanyPosition(assignment: number) {
+    const studentId = this.authService.getSessionId();
+    const form: any = { 'assignment': assignment };
+    return this.http
+      .post<{ message: string }>(STUDENTS_URL + "insertAssignment/" + studentId, form);
+  }
+
 }

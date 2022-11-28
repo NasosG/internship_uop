@@ -32,4 +32,12 @@ export class StudentCompanyAcceptComponent implements OnInit {
       });
   }
 
+  acceptCompanyPosition(positionIndex: number) {
+    let assignment = this.assignments[positionIndex];
+    this.studentsService.acceptCompanyPosition(assignment)
+      .subscribe((response: any) => {
+        console.log(response);
+      });
+  }
+
 }

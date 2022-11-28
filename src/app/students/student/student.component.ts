@@ -10,7 +10,7 @@ import { Period } from 'src/app/department-managers/period.model';
 import { StudentCommentsDialogComponent } from '../student-comments-dialog/student-comments-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment/moment';
-import {environment} from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-student',
