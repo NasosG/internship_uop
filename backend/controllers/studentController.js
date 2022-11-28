@@ -4,6 +4,7 @@ const multer = require("multer");
 const upload = require("../middleware/file.js");
 const formidable = require('formidable');
 const MiscUtils = require("../MiscUtils.js");
+const atlasController = require("./atlasController");
 require('dotenv').config();
 
 // app.post("/api/students/login/:id", (request, response, next) => {
@@ -683,23 +684,23 @@ const sendFile = async (request, response) => {
 
 const insertAssignment = async (request, response, next) => {
   try {
-    const assignmentData = request.body;
+    const assignmentData = request.body.assignment;
     const studentId = request.params.id;
 
-    console.log("assData" + assignmentData);
+    console.log(assignmentData);
     console.log("studentId" + studentId);
 
     const potentialAssignments = Object.assign(assignmentData);
-    let studentTestAcIdNumber = await atlasController.findAcademicIdNumber(98, '2022201400112');
-    console.log(studentTestAcIdNumber);
+    let studentTestAcIdNumber = await atlasController.findAcademicIdNumber(1511, '760/2013005');
+    console.log(studentTestAcIdNumber.message.AcademicIDNumber);
 
-    let academicId = 98;//item.department_id;
+    let academicId = 1511;//item.department_id;
     // Get student's AM by id
-    let studentAMNumber = await companyService.getStudentAMById(assignmentData.student_id);
+    //let studentAMNumber = await companyService.getStudentAMById(assignmentData.student_id);
 
-    let academicIDNumber = 243761386827;
+    let academicIDNumber = studentTestAcIdNumber.message.AcademicIDNumber; //243761386827
     let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
-
+    console.log(registeredStudent);
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     if (registeredStudent.message != null) {
@@ -724,7 +725,7 @@ const insertAssignment = async (request, response, next) => {
     // console.log(fundingType);
 
     // assign student to Atlas position
-    let assignResults = await atlasController.assignStudent(positionPreassignment, academicIDNumber);
+    let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
     console.log(assignResults);
     // update assignment details - local db
     //await studentService.updateAssignment(companyData);

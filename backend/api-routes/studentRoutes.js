@@ -38,6 +38,6 @@ router.post("/updateStudentIbanFile/:id", studentController.insertIbanFile);
 router.post("/updateStudentAMEAFile/:id", studentController.insertAMEAFile);
 router.post("/sendFile/:id", studentController.sendFile);
 router.get("/getAssignmentsByStudentId/:id", studentController.getAssignmentsByStudentId);
-router.post("/insertNewAssignment/:id", studentController.insertAssignment);
+router.post("/insertAssignment/:id", studentController.insertAssignment);
 
 module.exports = router;
