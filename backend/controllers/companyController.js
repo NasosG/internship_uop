@@ -72,45 +72,21 @@ const insertAssignment = async (request, response, next) => {
 
     for (let item of potentialAssignments) {
       let academicId = item.department_id;
-      // Get student's AM by id
-      let studentAMNumber = await companyService.getStudentAMById(item.student_id);
-
-      let academicIDNumber = 243761386827;
-      let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
-
-      // the below line is possibly the right one; gets academicId from AM and department id
-      // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
-      if (registeredStudent.message != null) {
-        console.log('user is registered');
-        // console.log(registeredStudent.message.AcademicIDNumber);
-      } else {
-        console.log('not a registered user');
-        // Student SHOULD sign up on this occassion
-        let registerResult = await atlasController.registerNewStudent(academicIDNumber);
-        console.log(registerResult);
-      }
-      // console.log(registeredStudent);
 
       // TO BE TESTED
-      // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
-      // console.log(preassignResult.preassign);
+      const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
+      console.log(preassignResult.preassign);
       console.log(item.position_id);
       let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, academicId);
       console.log(positionPreassignment);
 
-      // const fundingType = await atlasController.getFundingType(item.position_id);
-      // console.log(fundingType);
-
-      // assign student to Atlas position
-      let assignResults = await atlasController.assignStudent(positionPreassignment, academicIDNumber);
-      console.log(assignResults);
       // insert assignment details to the local db
       await companyService.insertAssignment(companyData);
     }
 
     response.status(201)
       .json({
-        message: "assignment was inserted successfully"
+        message: "company pre-assignment was inserted successfully"
       });
   } catch (error) {
     console.error(error.message);
