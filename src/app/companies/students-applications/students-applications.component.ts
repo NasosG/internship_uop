@@ -18,6 +18,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('appTable') table: ElementRef | undefined;
   company!: Company;
   apps: ActiveApplicationsRanked[] = [];
+  studentApprovalBtns!: boolean[];
 
   constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
 
@@ -60,10 +61,14 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
   changeSelectedColor(selectElementId: string) {
     const inputField = <HTMLInputElement>document.getElementById(selectElementId);
+    const index = Number(selectElementId.substring(3));
+
     if (inputField.value === "ΟΧΙ") {
+      this.studentApprovalBtns[index] = false;
       inputField.classList?.add("text-danger");
       inputField.classList?.remove("text-success");
     } else {
+      this.studentApprovalBtns[index] = true;
       inputField.classList?.add("text-success");
       inputField.classList?.remove("text-danger");
     }
@@ -72,7 +77,6 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void { }
 
   submitApplications() {
-
     this.onSubmitSwal();
   }
 
@@ -93,6 +97,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
         for (const item of this.apps) {
           for (let position of item.positions) {
+            // todo check if this.studentApprovalBtns[index] is false not push to array; else push to array
             positionsDataJson.push({
               position_id: position.position_id,
               internal_position_id: position.internal_position_id,

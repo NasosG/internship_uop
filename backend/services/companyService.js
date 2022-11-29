@@ -37,9 +37,24 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
 
     // loop through positions in applications of the database
     for (let i = OFFSET; i < MAX_POSITIONS_NUMBER + OFFSET; i++) {
+      const assignedApps = await getStudentAssignedApplications(companyName, companyAFM);
       const applications = await pool.query("SELECT * FROM active_applications_ranked \
                                             WHERE (positions[$1]->>'company')::varchar = $2 \
                                             AND (positions[$1]->>'afm')::varchar = $3", [i, companyName, companyAFM]);
+
+      // if student has an assigned application to some position, in assignedApps json array,
+      // then don't show it in the active applications
+      let found = false;
+      for (const app of assignedApps) {
+        for (const position of app.positions) {
+          if (position?.position_id == applications?.rows[0]?.positions[0].position_id
+            && app?.student_id == applications?.rows[0]?.student_id) {
+            found = true;
+            console.log("found application in assigned apps");
+          }
+        }
+      }
+
       // push first element which contains actual json[]
       if (applications.rows[0])
         apps.push(applications.rows[0]);
