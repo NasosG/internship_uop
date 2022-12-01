@@ -56,7 +56,7 @@ const getStudentActiveApplications = async (companyName, companyAFM) => {
       }
 
       // push first element which contains actual json[]
-      if (applications.rows[0])
+      if (applications.rows[0] && !found)
         apps.push(applications.rows[0]);
     }
 
