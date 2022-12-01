@@ -193,16 +193,17 @@
               </p>
             </a>
           </li> -->
-          <li class="nav-item">
+
+          <!-- Commented out the below <li> because companies will not release positions which are not in ATLAS city -->
+          <!-- <li class="nav-item">
             <a [routerLink]="['/companies/students-positions/' + this.authService.getSessionId()]"
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>
                 {{'COMPANY.POSITIONS' | translate}}
-                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a [routerLink]="['/companies/students-applications/' + this.authService.getSessionId()]"
               [routerLinkActive]="['active']" class="nav-link">

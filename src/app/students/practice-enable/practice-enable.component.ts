@@ -23,6 +23,11 @@ export class PracticeEnableComponent implements OnInit {
   specialDataFormGroup!: FormGroup;
   studentsSSOData: Student[] = [];
   gender!: String;
+  fileSubmitted: boolean = false;
+
+  hideFileIfNotAMEA(value: boolean) {
+    this.fileSubmitted = value;
+  }
 
   constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder) { }
 
@@ -62,7 +67,7 @@ export class PracticeEnableComponent implements OnInit {
     });
     this.specialDataFormGroup = this._formBuilder.group({
       ameaCatCtrl: ['', Validators.required],
-      ameaFile: ['', Validators.required],
+      ameaFile: ['', /*TODO make it required if student chooses amea5 from dropdown Validators.required*/],
       workingCatCtrl: ['', Validators.required],
       armyCatCtrl: ['', Validators.required]
     });
@@ -150,10 +155,18 @@ export class PracticeEnableComponent implements OnInit {
   onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
-    const fileAmea = this.uploadFile(contractFiles.ameaFile);
-    const files = [{"fileData": fileSSN, "type": 'SSN'},
-                   {"fileData": fileIban, "type": 'IBAN'},
-                   {"fileData": fileAmea, "type": 'AMEA'}];
+
+    const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
+
+    let files;
+    if (fileAmea == null) {
+      files = [{"fileData": fileSSN, "type": 'SSN'},
+               {"fileData": fileIban, "type": 'IBAN'},
+               {"fileData": fileAmea, "type": 'AMEA'}];
+    } else {
+      files = [{"fileData": fileSSN, "type": 'SSN'},
+               {"fileData": fileIban, "type": 'IBAN'}];
+    }
 
     this.studentsService.updateStudentContractDetails(data);
 

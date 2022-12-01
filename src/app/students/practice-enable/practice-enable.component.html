@@ -129,20 +129,20 @@
       <p class="pt-2 pb-0 mb-0"> Ανήκω σε Άτομα με Αναπηρίες (ΑμεΑ) κατηγορίας 5</p>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Επιλέξτε</mat-label>
-        <mat-select formControlName="ameaCatCtrl" required>
+        <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
           <!-- <mat-option>-- None --</mat-option> -->
-          <mat-option value="1">Ανήκω</mat-option>
-          <mat-option value="0">Δεν ανήκω</mat-option>
+          <mat-option (click)="hideFileIfNotAMEA(true)" value="1">Ανήκω</mat-option>
+          <mat-option (click)="hideFileIfNotAMEA(false)" value=" 0">Δεν ανήκω</mat-option>
         </mat-select>
       </mat-form-field>
       <br>
-      <h6>Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i class="fa fa-info-circle fa-lg fa-icon"
-          data-toggle="tooltip" data-placement="top"
+      <h6 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
+          class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
           title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
         </i></h6>
-      <mat-form-field>
-        <ngx-mat-file-input (change)="validateFiles('ameaFile')" formControlName="ameaFile"
-          placeholder="Βεβαίωση ΑΜΕΑ Κατηγορίας 5">
+      <mat-form-field *ngIf="fileSubmitted == true">
+        <ngx-mat-file-input #ameaFileInput id="ameaFileInput" (change)="validateFiles('ameaFile')"
+          formControlName="ameaFile" placeholder="Βεβαίωση ΑΜΕΑ Κατηγορίας 5">
         </ngx-mat-file-input>
       </mat-form-field>
       <p class="pb-0 mb-0">Δεν έχω σύμβαση εργασίας με ιδιωτικό/δημόσιο τομέα με ωράριο το οποίο συμπίπτει με το ωράριο

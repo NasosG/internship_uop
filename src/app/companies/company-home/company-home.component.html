@@ -23,14 +23,14 @@
         </div>
         {{'COMPANY.STEPS'| translate}}
         <ul class="pt-2">
-          <li> <a class="text-steps" [href]="['companies/students-positions/' + this.authService.getSessionId()]">
+          <!-- <li> <a class="text-steps" [href]="['companies/students-positions/' + this.authService.getSessionId()]">
+              &nbsp;{{'COMPANY.STEP0'| translate}}</a>
+          </li> -->
+          <li> <a class="text-steps" [href]="['companies/students-applications/' + this.authService.getSessionId()]">
               &nbsp;{{'COMPANY.STEP1'| translate}}</a>
           </li>
-          <li> <a class="text-steps" [href]="['companies/students-applications/' + this.authService.getSessionId()]">
-              &nbsp;{{'COMPANY.STEP2'| translate}}</a>
-          </li>
           <li> <a class="text-steps" [href]="['companies/selected-students/' + this.authService.getSessionId()]">
-              &nbsp;{{'COMPANY.STEP3'| translate}} </a>
+              &nbsp;{{'COMPANY.STEP2'| translate}} </a>
           </li>
         </ul>
       </div>
