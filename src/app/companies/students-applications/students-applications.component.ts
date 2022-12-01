@@ -144,8 +144,9 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
           "Μητρώνυμο": item.mother_name,
           "Επώνυμο πατέρα": item.father_last_name,
           "Επώνυμο μητέρας": item.mother_last_name,
-          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.date_of_birth)
-        })
+          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.date_of_birth),
+          "Τμήμα": item.department
+        });
       }
     }
 

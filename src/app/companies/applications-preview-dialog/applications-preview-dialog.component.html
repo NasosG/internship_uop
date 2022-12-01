@@ -4,10 +4,16 @@
   <p><span>Τίτλος Θέσης</span>: {{this.data.positionTitle}}</p>
   <p><span>Ονοματεπώνυμο φοιτητή</span>: {{this.data.application.firstname}} {{this.data.application.lastname}}</p>
   <p><span>Πατρώνυμο φοιτητή</span>: {{this.data.application.father_name}}</p>
-  <p><span>Κωδικός τμήματος</span>: {{this.data.application.department_id}}</p>
+  <p><span>Τμήμα</span>: {{this.data.application.department}}</p>
   <p><span>Email</span>: {{this.data.application.mail}}</p>
-  <p><span>Σκορ</span>: {{this.data.application.score}}</p>
+  <p><span>Βαθμολογία</span>: {{this.data.application.score}}</p>
   <p><span>Ημερομηνία αίτησης</span>: {{this.data.application.application_date}}</p>
+  <p><span>Πατρώνυμο</span>: {{ this.data.application.father_name}}</p>
+  <p><span>Επώνυμο Πατρός</span>: {{ this.data.application.father_last_name}}</p>
+  <p><span>Μητρώνυμο</span>: {{ this.data.application.mother_name}}</p>
+  <p><span>Επώνυμο Μητρός</span>: {{ this.data.application.mother_last_name}}</p>
+  <p><span>ΑΜΚΑ</span>: {{ this.data.application.user_ssn}}</p>
+  <p><span>ΑΦΜ</span>: {{ this.data.application.ssn}}</p>
 </mat-dialog-content>
 <mat-dialog-actions style='text-align: right'>
   <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>

@@ -9,6 +9,7 @@ export interface ActiveApplicationsRanked {
   lastname: string;
   firstname: string;
   reg_code: string;
+  department?: string;
   department_id: number;
   date_of_birth: string;
   gender: number;
@@ -18,4 +19,6 @@ export interface ActiveApplicationsRanked {
   mother_last_name: string;
   score: number;
   mail?: string;
+  user_ssn?: string;
+  ssn?: string; // AFM
 }
