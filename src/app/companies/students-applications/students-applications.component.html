@@ -29,7 +29,7 @@
                   <th> Επιλογή</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
+              <tbody *ngFor="let app of apps; let idx=index" [attr.data-index]="idx">
                 <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2">
                   <td>{{position.title}}</td>
                   <td>{{app.firstname}} {{app.lastname}}</td>
@@ -44,7 +44,8 @@
                   </td>
                   <td>
                     <select id="{{'sel' + idx + idx2}}" class="kl form-select text-danger"
-                      (change)="changeSelectedColor('sel' + idx + idx2)" aria-label="Default select example">
+                      (change)="changeSelectedColor('sel' + idx + idx2, position.position_id)"
+                      aria-label="Default select example">
                       <option selected class="kl1 text-danger">ΟΧΙ</option>
                       <option class="kl2 text-success">ΝΑΙ</option>
                     </select>

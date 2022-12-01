@@ -18,7 +18,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('appTable') table: ElementRef | undefined;
   company!: Company;
   apps: ActiveApplicationsRanked[] = [];
-  studentApprovalBtns!: boolean[];
+  studentApprovalBtns: boolean[] = [];
 
   constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
 
@@ -59,16 +59,17 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  changeSelectedColor(selectElementId: string) {
+  changeSelectedColor(selectElementId: string, position_id: number) {
     const inputField = <HTMLInputElement>document.getElementById(selectElementId);
     const index = Number(selectElementId.substring(3));
+    console.log(index);
 
     if (inputField.value === "ΟΧΙ") {
-      this.studentApprovalBtns[index] = false;
+      this.studentApprovalBtns[position_id] = false;
       inputField.classList?.add("text-danger");
       inputField.classList?.remove("text-success");
     } else {
-      this.studentApprovalBtns[index] = true;
+      this.studentApprovalBtns[position_id] = true;
       inputField.classList?.add("text-success");
       inputField.classList?.remove("text-danger");
     }
@@ -97,7 +98,11 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
         for (const item of this.apps) {
           for (let position of item.positions) {
-            // todo check if this.studentApprovalBtns[index] is false not push to array; else push to array
+            // TODO: Check for duplicates
+            if (!this.studentApprovalBtns[position.position_id]) {
+              continue;
+            }
+
             positionsDataJson.push({
               position_id: position.position_id,
               internal_position_id: position.internal_position_id,
@@ -107,12 +112,21 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
               physical_object: position.physical_objects,
               student_id: item.student_id,
               department_id: item.department_id
-            })
+            });
           }
         }
 
-        console.log(positionsDataJson);
-        this.companyService.insertAssignment(positionsDataJson);
+        // Inform the user and don't send the request, if positions array is empty
+        if (positionsDataJson.length === 0) {
+          Swal.fire({
+            title: 'Αποτυχία',
+            text: 'Δεν έχετε αποδεχτεί κανέναν φοιτητή',
+            icon: 'error',
+            confirmButtonText: 'ΟΚ'
+          });
+        } else {
+          this.companyService.insertAssignment(positionsDataJson);
+        }
       }
     });
   }
