@@ -167,6 +167,7 @@ const getStudentAssignedApplications = async (request, response) => {
       else
         user.positions = positionsArray;
 
+      positionsArray = [];
       i++;
     }
     response.status(200).json(users);
@@ -183,14 +184,14 @@ const getStudentActiveApplications = async (request, response) => {
     const companyAFM = request.query.companyAFM;
 
     //console.log(companyName + " " + companyAFM);
-    const users = await companyService.getStudentActiveApplications(companyName, companyAFM);
+    const activeApps = await companyService.getStudentActiveApplications(companyName, companyAFM);
 
     let positionsArray = [];
     let i = 0;
-    for (const user of users) {
+    for (const app of activeApps) {
       let found = false;
 
-      for (const position of user.positions) {
+      for (const position of app.positions) {
         if (position.afm == companyAFM && position.company == companyName) {
           found = true;
           positionsArray.push(position);
@@ -198,13 +199,15 @@ const getStudentActiveApplications = async (request, response) => {
       }
 
       if (!found)
-        users.splice(i, 1);
+        activeApps.splice(i, 1);
       else
-        user.positions = positionsArray;
+        app.positions = positionsArray;
 
+      positionsArray = [];
       i++;
     }
-    response.status(200).json(users);
+
+    response.status(200).json(activeApps);
   } catch (error) {
     response.status(404).json({
       message: error.message
