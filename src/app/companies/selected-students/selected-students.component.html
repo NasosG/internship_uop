@@ -32,8 +32,20 @@
                   <td>{{app.department}}</td>
                   <td>{{app.mail}}</td>
                   <td>{{app.score}}</td>
-                  <td><i class="fa fa-cog" aria-hidden="true"></i><i class="fa fa-cog" aria-hidden="true"></i><span
-                      title="Ο φοιτητής δεν σας έχει επιλέξει ακόμη">Αναμονή Αποδοχής</span></td>
+                  <td>
+                    <div *ngIf="app.approval_state == 0 || app.approval_state == null">
+                      <i class="fa fa-cog" aria-hidden="true"></i> <span title="Ο φοιτητής δεν σας έχει επιλέξει ακόμη">
+                        Αναμονή Αποδοχής</span>
+                    </div>
+                    <div *ngIf="app.approval_state == 1">
+                      <i class="fa fa-check" aria-hidden="true"></i> <span title="Ο φοιτητής σας αποδέχτηκε"> Ο
+                        φοιτητής σας αποδέχτηκε</span>
+                    </div>
+                    <div *ngIf="app.approval_state == -1">
+                      <i class="fa fa-times" aria-hidden="true"></i> <span title="Ο φοιτητής δεν σας αποδέχτηκε"> Ο
+                        φοιτητής δεν σας αποδέχτηκε</span>
+                    </div>
+                  </td>
                   <!-- <td>{{app.application_date}}</td> -->
                   <td>
                     <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(app, position.title)"><i

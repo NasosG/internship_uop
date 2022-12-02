@@ -105,6 +105,7 @@ const getStudentAssignedApplications = async (companyName, companyAFM) => {
                                               AND(positions[$1] ->> 'company'):: varchar = $2 \
                                               AND(positions[$1] ->> 'afm'):: varchar = $3 \
                                               AND a.status = 0", [i, companyName, companyAFM]);
+      //                                                    /\ status = 0 means that the application is active
       // push first element which contains actual json[]
       if (applications.rows[0])
         apps.push(applications.rows[0]);

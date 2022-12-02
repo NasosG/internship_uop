@@ -597,6 +597,19 @@ const updateFileDataBySSOUid = async (studentId, docType, filePath, fileName) =>
   }
 };
 
+const acceptAssignment = async (assignmentData) => {
+  const APPROVAL_STATE = 1;
+  const REJECTION_STATE = -1;
+  try {
+    await pool.query("UPDATE student_assignment SET approval_state = $1 WHERE student_id = $2 AND position_id = $3",
+      [APPROVAL_STATE, assignmentData.student_id, assignmentData.position_id]);
+    await pool.query("UPDATE student_assignment SET approval_state = $1 WHERE student_id = $2 AND position_id <> $3",
+      [REJECTION_STATE, assignmentData.student_id, assignmentData.position_id]);
+  } catch (error) {
+    throw Error('Error while updating student assignments' + error.message);
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -632,5 +645,6 @@ module.exports = {
   deletePositionsByStudentId,
   // dummy login
   loginStudent,
-  insertOrUpdateMetadataBySSOUid
+  insertOrUpdateMetadataBySSOUid,
+  acceptAssignment
 };

@@ -728,7 +728,7 @@ const insertAssignment = async (request, response, next) => {
     let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
     console.log(assignResults);
     // update assignment details - local db
-    //await studentService.updateAssignment(companyData);
+    await studentService.acceptAssignment(assignmentData);
 
     response.status(201)
       .json({

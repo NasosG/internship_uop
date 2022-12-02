@@ -5,6 +5,7 @@ export interface ActiveApplicationsRanked {
   application_date: Date;
   applicationDateStr: string;
   application_status: boolean;
+  approval_state: number;
   sso_name: string;
   lastname: string;
   firstname: string;
