@@ -23,7 +23,7 @@ export class SelectedStudentsComponent implements OnInit {
 
   dtOptions: any = {};
 
-    ngOnInit() {
+  ngOnInit() {
     this.companyService
       .getProviderById()
       .subscribe((company: Company) => {
@@ -58,7 +58,7 @@ export class SelectedStudentsComponent implements OnInit {
       });
   }
 
-  fireTheWhole() {
+  cancelSelection() {
     Swal.fire({
       title: 'Ακύρωση Επιλογών',
       text: 'Είστε σίγουροι ότι θέλετε να ακυρώσετε τους επιλεγμένους φοιτητές και να επιλέξετε νέους;',
@@ -69,7 +69,6 @@ export class SelectedStudentsComponent implements OnInit {
       confirmButtonText: 'ΟΚ'
     });
   }
-
 
   exportToExcel() {
     let positionsDataJson: any = [];

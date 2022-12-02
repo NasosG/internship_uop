@@ -21,6 +21,7 @@
                   <th>Τμήμα</th>
                   <th>email</th>
                   <th>Σκορ</th>
+                  <th>Αποδοχή από Φοιτητή</th>
                   <th>Ενέργειες</th>
                 </tr>
               </thead>
@@ -28,9 +29,11 @@
                 <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2">
                   <td>{{position.title}}</td>
                   <td>{{app.firstname}} {{app.lastname}}</td>
-                  <td>{{app.department_id}}</td>
+                  <td>{{app.department}}</td>
                   <td>{{app.mail}}</td>
                   <td>{{app.score}}</td>
+                  <td><i class="fa fa-cog" aria-hidden="true"></i><i class="fa fa-cog" aria-hidden="true"></i><span
+                      title="Ο φοιτητής δεν σας έχει επιλέξει ακόμη">Αναμονή Αποδοχής</span></td>
                   <!-- <td>{{app.application_date}}</td> -->
                   <td>
                     <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(app, position.title)"><i
@@ -46,6 +49,7 @@
                   <th>Τμήμα</th>
                   <th>email</th>
                   <th>Σκορ</th>
+                  <th>Αποδοχή από Φοιτητή</th>
                   <th>Ενέργειες</th>
                 </tr>
               </tfoot>
@@ -65,5 +69,5 @@
 
 <!-- A discussion about Cancel operation must be conducted -->
 <!-- <div class="m-auto pb-5" style="margin:auto; text-align:center;">
-  <button class="btn btn-danger w-25 m-auto p-2" (click)="fireTheWhole()"> ΑΚΥΡΩΣΗ ΕΠΙΛΟΓΩΝ </button>
+  <button class="btn btn-danger w-25 m-auto p-2" (click)="cancelSelection()"> ΑΚΥΡΩΣΗ ΕΠΙΛΟΓΩΝ </button>
 </div> -->
