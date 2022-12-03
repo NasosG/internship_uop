@@ -988,6 +988,48 @@ const registerNewStudent = async (AcademicIDNumber) => {
   }
 };
 
+const testDeletePosition = async (request, response) => {
+  try {
+    let deleteResult = await deletePosition('assigned', 35);
+
+    return response.status(200).json(deleteResult);
+  } catch (error) {
+    return response.status(400).json({ "message": "error deleting position" });
+  }
+};
+
+const deletePosition = async (type, positionId) => {
+  let accessToken = await atlasLogin();
+  let atlasResponse;
+  let path;
+
+  switch (type) {
+    case 'preassigned':
+      path = 'RollbackPreAssignment';
+      break;
+    case 'assigned':
+      path = 'DeleteAssignment';
+      break;
+    case 'finished':
+      path = 'DeleteFinishedPosition';
+      break;
+  }
+
+  atlasResponse = await axios({
+    url: 'http://atlas.pilotiko.gr/Api/Offices/v1/' + path,
+    method: 'POST',
+    data: { "PositionID": positionId },
+    headers: {
+      'Content-Type': 'application/json',
+      'access_token': accessToken
+    }
+  });
+  console.log(atlasResponse.data.Message);
+  console.log(atlasResponse.data.Result);
+  let requestResult = atlasResponse.data.Success;
+
+  return requestResult;
+};
 
 /**
 * Returns preassigned positions of group, if none is found it preassigns a single position
@@ -1046,7 +1088,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
         });
       } else {
         console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
-        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademiID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
+        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademicID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
       }
     }
 
@@ -1208,5 +1250,6 @@ module.exports = {
   insertOrUpdateAtlasTables,
   insertOrUpdateWholeAtlasTables,
   insertOrUpdateImmutableAtlasTables,
-  findAcademicIdNumber
+  findAcademicIdNumber,
+  testDeletePosition
 };
