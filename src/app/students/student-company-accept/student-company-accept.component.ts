@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
+import Swal from 'sweetalert2';
 import { AcceptedAssignmentsByCompany } from '../accepted-assignments-by-company';
 import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
@@ -30,7 +31,6 @@ export class StudentCompanyAcceptComponent implements OnInit {
     // get assignment by student id
     this.studentsService.getAssignmentsByStudentId()
       .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
-        console.log(assignments)
         this.assignments = assignments;
 
         // set appAssigned to true there is approval_state = 1 in any record of this.assignments
@@ -41,8 +41,25 @@ export class StudentCompanyAcceptComponent implements OnInit {
             break;
           }
         }
-
       });
+  }
+
+  acceptCompanyPositionAlert(positionIndex: number) {
+    Swal.fire({
+      title: 'Είστε σίγουρος/η για την αποδοχή της θέσης εργασίας;',
+      text: 'Η επιλογή είναι οριστική και δεν μπορεί να αναιρεθεί.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ναι, αποδέχομαι',
+      cancelButtonText: 'Όχι, ακύρωση'
+    }).then((result) => {
+      // if user clicks on confirmation button, call acceptPosition() method
+      if (result.isConfirmed) {
+        this.acceptCompanyPosition(positionIndex);
+      }
+    });
   }
 
   acceptCompanyPosition(positionIndex: number) {
@@ -50,6 +67,7 @@ export class StudentCompanyAcceptComponent implements OnInit {
     this.studentsService.acceptCompanyPosition(assignment)
       .subscribe((response: any) => {
         console.log(response);
+        location.reload();
       });
   }
 
