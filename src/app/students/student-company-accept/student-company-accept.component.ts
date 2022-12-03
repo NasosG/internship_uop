@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
+import { AcceptedAssignmentsByCompany } from '../accepted-assignments-by-company';
 import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
 import { Student } from '../student.model';
@@ -19,16 +20,28 @@ export class StudentCompanyAcceptComponent implements OnInit {
   period!: Period;
   dateFrom!: string;
   dateTo!: string;
-  assignments!: any;
+  assignments!: AcceptedAssignmentsByCompany[];
+  positionAssigned: boolean = false;
+  positionAssignedIndex: number = 0;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
   ngOnInit(): void {
     // get assignment by student id
     this.studentsService.getAssignmentsByStudentId()
-      .subscribe((assignments: any) => {
+      .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
         console.log(assignments)
         this.assignments = assignments;
+
+        // set appAssigned to true there is approval_state = 1 in any record of this.assignments
+        for (let assignment of this.assignments) {
+          if (assignment.approval_state == 1) {
+            this.positionAssigned = true;
+            this.positionAssignedIndex = this.assignments.indexOf(assignment);
+            break;
+          }
+        }
+
       });
   }
 

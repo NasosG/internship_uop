@@ -17,6 +17,8 @@ import { Country } from "./country.model";
 import { PhysicalObject } from "./physical-object.model";
 import { environment } from "src/environments/environment";
 import {Assignment} from "../companies/assignment.model";
+import {ActiveApplicationsRanked} from "../companies/active-applications-ranked.model";
+import {AcceptedAssignmentsByCompany} from "./accepted-assignments-by-company";
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const ATLAS_URL = environment.apiUrl + "/atlas/";
@@ -385,12 +387,12 @@ export class StudentsService {
   }
 
   // get assignments by student id
-  getAssignmentsByStudentId() {
+  getAssignmentsByStudentId(): Observable<Array<AcceptedAssignmentsByCompany>> {
     const studentId = this.authService.getSessionId();
-    return this.http.get(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
+    return this.http.get<Array<AcceptedAssignmentsByCompany>>(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
   }
 
-  acceptCompanyPosition(assignment: number) {
+  acceptCompanyPosition(assignment: AcceptedAssignmentsByCompany) {
     const studentId = this.authService.getSessionId();
     const form: any = { 'assignment': assignment };
     return this.http
