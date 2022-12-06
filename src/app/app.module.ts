@@ -34,6 +34,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -84,6 +85,7 @@ import { CommentsDialogComponent } from './department-managers/comments-dialog/c
 import { StudentCommentsDialogComponent } from './students/student-comments-dialog/student-comments-dialog.component';
 import { StudentApplicationsResultsComponent } from './department-managers/student-applications-results/student-applications-results.component';
 import { StudentCompanyAcceptComponent } from './students/student-company-accept/student-company-accept.component';
+import { AdminPanelComponent } from './admin-panels/admin-panel/admin-panel.component';
 
 
 // AoT requires an exported function for factories
@@ -151,6 +153,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentCommentsDialogComponent,
     StudentApplicationsResultsComponent,
     StudentCompanyAcceptComponent,
+    AdminPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -169,6 +172,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatDialogModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MatCheckboxModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule,
