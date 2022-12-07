@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
-import {AuthService} from 'src/app/auth/auth.service';
-import {StudentsService} from 'src/app/students/student.service';
-import {environment} from 'src/environments/environment';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/auth/auth.service';
+import {Department} from 'src/app/students/department.model';
+import { StudentsService } from 'src/app/students/student.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-panel',
@@ -13,16 +14,18 @@ import {environment} from 'src/environments/environment';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
+  username = new FormControl('');
   roles = new FormControl('');
-  toppings = new FormControl('');
+  academics = new FormControl('');
+  isAdmin = new FormControl('');
   roleList: string[] = ['Τμηματικός Υπεύθυνος', 'Γραφείο Πρακτικής Άσκησης'];
-  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
   fontSize: number = 100;
   dateFrom!: string;
   dateTo!: string;
   isDeclarationEnabled!: boolean;
   areOptionsEnabled!: boolean;
   public comment: any;
+  departments!: Department[];
 
   constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute,
     public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
@@ -35,6 +38,11 @@ export class AdminPanelComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.studentsService.getAtlasInstitutions()
+      .subscribe((fetchedDepartments: Department[]) => {
+        this.departments = fetchedDepartments;
+      });
+
     if (!environment.production) {
       this.authService.setSessionId(1);
     }
@@ -49,6 +57,32 @@ export class AdminPanelComponent implements OnInit {
 
       this.router.navigate(['/student/' + this.authService.getSessionId()]);
     }
+  }
+
+  submitForm(form: any) {
+    console.log(this.username?.value);
+    console.log(this.academics?.value);
+
+    // get academic.atlas_id from this.academics.values array by using this.departments array
+    let arr = [];
+    for (let obj of this.academics?.value) {
+      const department_ids = this.departments?.find(x => x.department === obj)?.atlas_id;
+      arr.push(department_ids);
+    }
+    console.log(arr);
+
+    console.log(this.roles?.value);
+    console.log(this.isAdmin?.value);
+
+    let finalJson = JSON.stringify({
+      "username": this.username?.value,
+      "academics": arr,
+      "roles": this.roles?.value,
+      "isAdmin": this.isAdmin?.value
+    });
+
+    console.log(finalJson);
+    // TODO: send finalJson to backend via http post to create a new user
   }
 
   onLogout() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ExitForm} from '../exit-form.model';
-import {SheetOutputComponent} from '../sheet-output/sheet-output.component';
+import { ExitForm } from '../exit-form.model';
+import { SheetOutputComponent } from '../sheet-output/sheet-output.component';
 
 @Component({
   selector: 'app-sheet-output-preview',

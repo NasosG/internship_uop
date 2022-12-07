@@ -23,7 +23,7 @@
           <div class="dropdown-menu dropdown-menu-end">
 
             <a (click)="onLogout()" class="cursor-pointer dropdown-item">
-              <i class="fas fa-sign-out-alt"></i> &nbsp; {{'STUDENT.LOGOUT' | translate}}</a>
+              <i class="fas fa-sign-out-alt"></i> &nbsp; Αποσύνδεση</a>
           </div>
         </li>
       </ul>
@@ -46,7 +46,7 @@
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-    <a [routerLink]="['/student/' + this.authService.getSessionId()]" class="brand-link">
+    <a [routerLink]="['/admin/' + this.authService.getSessionId()]" class="brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
       <span class="brand-text font-weight-light">{{'BRAND-SPAN' | translate}}</span>
@@ -67,7 +67,7 @@
         </div>
         <div class="info">
           <a style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-            [routerLink]="['/student/profile/' + this.authService.getSessionId()]" class="d-block">
+            [routerLink]="['/admin/profile/' + this.authService.getSessionId()]" class="d-block">
           </a>
         </div>
       </div>
@@ -145,7 +145,6 @@
       </div>
     </div>
   </aside>
-
   <div id="content-wrapper" class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
@@ -155,36 +154,42 @@
             <h5 class="pl-2 pt-3 ">Εισαγωγή Ρόλου</h5>
             <hr>
             <div style="padding:20px;">
-              <mat-form-field class="mt-2 mat-full-width" appearance="fill">
-                <mat-label>Ρόλος</mat-label>
-                <mat-select class="mt-2" [formControl]="roles">
-                  <mat-option>None</mat-option>
-                  <mat-option *ngFor="let roles of roleList" [value]="roles">{{roles}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="mt-2 mat-full-width" appearance="fill">
-                <mat-label>Τμήμα</mat-label>
-                <mat-select class="mt-2" [formControl]="toppings" multiple>
-                  <mat-select-trigger>
-                    {{toppings.value?.[0] || ''}}
-                    <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
-                      (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
-                    </span>
-                  </mat-select-trigger>
-                  <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="mt-2 mat-full-width" appearance="fill">
-                <mat-label>Username</mat-label>
-                <input matInput placeholder="Ex. user" value="">
-              </mat-form-field>
-              <br>
-              <section class="mt-2 example-section">
-                <mat-checkbox class="example-margin">Ο χρήστης να έχει δικαιώματα διαχειριστή</mat-checkbox>
-              </section>
-              <button class="btn btn-primary mt-4 p-2" style="width:100%;">Εισαγωγή</button>
+              <form ngNativeValidate #adminRolesForm="ngForm" class="form-horizontal"
+                (ngSubmit)="submitForm(adminRolesForm.value)">
+                <mat-form-field class="mt-2 mat-full-width" appearance="fill">
+                  <mat-label>Ρόλος</mat-label>
+                  <mat-select class="mt-2" [formControl]="roles">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let roles of roleList" [value]="roles">{{roles}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="mt-2 mat-full-width" appearance="fill">
+                  <mat-label>Τμήμα</mat-label>
+                  <mat-select class="mt-2" [formControl]="academics" multiple>
+                    <mat-select-trigger>
+                      {{academics.value?.[0] || ''}}
+                      <span *ngIf="(academics.value?.length || 0) > 1" class="example-additional-selection">
+                        (+{{(academics.value?.length || 0) - 1}} {{academics.value?.length === 2 ? 'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let option of departments" [value]="option.department">
+                      {{option.department}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="mt-2 mat-full-width" appearance="fill">
+                  <mat-label>Username</mat-label>
+                  <input [formControl]="username" matInput placeholder="Ex. user" name="username" value="">
+                </mat-form-field>
+                <br>
+                <section class="mt-2 example-section">
+                  <mat-checkbox [formControl]="isAdmin" class="example-margin">Ο χρήστης να έχει δικαιώματα
+                    διαχειριστή</mat-checkbox>
+                </section>
+                <button class="btn btn-primary mt-4 p-2" style="width:100%;">Εισαγωγή</button>
+              </form>
             </div>
           </div>
           <div style="border:1px solid #dee2e6; background-color:white; border-radius: 6px; " class="ml-5 mt-2 col-5">
@@ -193,11 +198,9 @@
           </div>
         </div>
       </div>
-
       <section class="content">
         <div class="row"></div>
       </section>
-
     </div>
 
     <!-- Control Sidebar -->
