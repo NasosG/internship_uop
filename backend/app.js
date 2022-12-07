@@ -23,6 +23,7 @@ const atlasRoutes = require("./api-routes/atlasRoutes.js");
 const depManagerRoutes = require("./api-routes/depManagerRoutes.js");
 const companyRoutes = require("./api-routes/companyRoutes.js");
 const officeRoutes = require("./api-routes/officeRoutes.js");
+const adminRoutes = require("./api-routes/adminRoutes.js");
 
 app.use(
   bodyParser.urlencoded({
@@ -57,6 +58,7 @@ app.use("/api/atlas", atlasRoutes);
 app.use("/api/depmanager", depManagerRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/office", officeRoutes);
+app.use("/api/admin", adminRoutes);
 
 // test CAS
 var session = require('express-session');

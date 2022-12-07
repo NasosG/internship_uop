@@ -1,0 +1,8 @@
+<h3>Τμήματα</h3>
+<hr>
+<mat-dialog-content class="mat-typography">
+  <p *ngFor="let item of arr"><strong>{{item.atlas_id}}</strong> : {{item.department}}</p>
+</mat-dialog-content>
+<mat-dialog-actions style='text-align: right'>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+</mat-dialog-actions>

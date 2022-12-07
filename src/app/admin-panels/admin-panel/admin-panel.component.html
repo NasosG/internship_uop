@@ -195,11 +195,39 @@
           <div style="border:1px solid #dee2e6; background-color:white; border-radius: 6px; " class="ml-5 mt-2 col-5">
             <h5 class="pl-2 pt-3 ">Χρήστες</h5>
             <hr>
+            <div class="col-12">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Όνομα</th>
+                    <th>Ρόλος</th>
+                    <th>Admin</th>
+                    <th>Τμήμα</th>
+                    <th>Διαγραφή</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of fetchedUsers; let idx=index" [attr.data-index]="idx">
+                    <td>{{user.sso_username}}</td>
+                    <td>{{user.user_role}}</td>
+                    <td><i *ngIf="user.is_admin" class="fa fa-check" aria-hidden="true"></i>
+                      <i *ngIf="!user.is_admin" class="fa fa-times" aria-hidden="true"></i></td>
+                    <td>
+                      <a style="cursor: pointer;" (click)="openDialog(user.user_role_id)"><i class="fa fa-eye"></i>
+                        Προβολή<br></a>
+                    </td>
+                    <td><button class="btn btn-danger">Διαγραφή</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
       <section class="content">
-        <div class="row"></div>
+        <div class="row">
+
+        </div>
       </section>
     </div>
 

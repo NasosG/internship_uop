@@ -4,9 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import {Department} from 'src/app/students/department.model';
+import { Department } from 'src/app/students/department.model';
 import { StudentsService } from 'src/app/students/student.service';
 import { environment } from 'src/environments/environment';
+import { AdminService } from '../admin.service';
+import { DepartmentsPreviewDialogComponent } from '../departments-preview-dialog/departments-preview-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-panel',
@@ -26,9 +29,11 @@ export class AdminPanelComponent implements OnInit {
   areOptionsEnabled!: boolean;
   public comment: any;
   departments!: Department[];
+  fetchedUsers: any;
+  academicsNames: any = [];
 
   constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute,
-    public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
+    public authService: AuthService, public translate: TranslateService, public dialog: MatDialog, public adminService: AdminService) {
 
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
@@ -41,6 +46,11 @@ export class AdminPanelComponent implements OnInit {
     this.studentsService.getAtlasInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
+      });
+
+    this.adminService.getUsersWithRoles()
+      .subscribe((fetchedUsers: any) => {
+        this.fetchedUsers = fetchedUsers;
       });
 
     if (!environment.production) {
@@ -69,24 +79,48 @@ export class AdminPanelComponent implements OnInit {
       const department_ids = this.departments?.find(x => x.department === obj)?.atlas_id;
       arr.push(department_ids);
     }
-    console.log(arr);
 
-    console.log(this.roles?.value);
-    console.log(this.isAdmin?.value);
-
-    let finalJson = JSON.stringify({
+    let finalJson = {
       "username": this.username?.value,
       "academics": arr,
-      "roles": this.roles?.value,
-      "isAdmin": this.isAdmin?.value
-    });
+      "user_role": this.roles?.value,
+      "is_admin": this.isAdmin?.value == true ? true : false
+    };
+    // this.isAdmin?.value == true ? true : false because if the checkbox is not checked, it returns null
 
     console.log(finalJson);
-    // TODO: send finalJson to backend via http post to create a new user
+    // call insert roles which Send finalJson to backend via http post to create a new user
+    this.onSuccess(finalJson);
+  }
+
+  openDialog(userId: number) {
+    this.dialog.open(DepartmentsPreviewDialogComponent, {
+      data: { departments: this.departments, userId: userId }
+    });
   }
 
   onLogout() {
     //this.authService.logout();
+  }
+
+  //make a swal2 alert dialog
+  onSuccess(finalJson: any) {
+    Swal.fire({
+      title: 'Εισαγωγή Ρόλου',
+      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην απόδοση ρόλου στον χρήστη;',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          console.log("User pressed Cancel");
+        } else {
+          this.adminService.insertRoles(finalJson);
+          location.reload();
+        }
+    });
   }
 
   changeFont(operator: string) {
