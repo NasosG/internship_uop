@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,8 +31,9 @@ export class AdminPanelComponent implements OnInit {
   departments!: Department[];
   fetchedUsers: any;
   academicsNames: any = [];
+  @ViewChild('allUserRolesTable') table: ElementRef | undefined;
 
-  constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute,
+  constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute, private chRef: ChangeDetectorRef,
     public authService: AuthService, public translate: TranslateService, public dialog: MatDialog, public adminService: AdminService) {
 
     translate.addLangs(['en', 'gr']);
@@ -51,6 +52,29 @@ export class AdminPanelComponent implements OnInit {
     this.adminService.getUsersWithRoles()
       .subscribe((fetchedUsers: any) => {
         this.fetchedUsers = fetchedUsers;
+
+        this.chRef.detectChanges();
+
+        // Use of jQuery DataTables
+        const table: any = $('#allUserRolesTable');
+        this.table = table.DataTable({
+          lengthMenu: [
+            [5, 10, 25, -1],
+            [5, 10, 25, 'All']
+          ],
+          lengthChange: true,
+          paging: true,
+          searching: true,
+          ordering: true,
+          info: true,
+          autoWidth: false,
+          responsive: true,
+          select: true,
+          pagingType: 'full_numbers',
+          processing: true,
+          columnDefs: [{ orderable: false, targets: [4] }]
+        });
+
       });
 
     if (!environment.production) {
@@ -69,9 +93,9 @@ export class AdminPanelComponent implements OnInit {
     }
   }
 
-  checkIfEmpty(something: any) {
-    if (Array.isArray(something)) {
-      if (something.length === 0) {
+  checkIfEmpty(fieldValue: any) {
+    if (Array.isArray(fieldValue)) {
+      if (fieldValue.length === 0) {
         Swal.fire({
           title: 'Υποχρεωτικά πεδία',
           text: 'Παρακαλώ συμπληρώστε όλα τα απαιτούμενα πεδία',
@@ -82,7 +106,7 @@ export class AdminPanelComponent implements OnInit {
       }
     }
 
-    else if (something.trim().length === 0 || something == null) {
+    else if (fieldValue.trim().length === 0 || fieldValue == null) {
       Swal.fire({
         title: 'Υποχρεωτικά πεδία',
         text: 'Παρακαλώ συμπληρώστε όλα τα απαιτούμενα πεδία',
@@ -109,13 +133,13 @@ export class AdminPanelComponent implements OnInit {
       academicsArray.push(department_ids);
     }
 
+    // this.isAdmin?.value == true ? true : false below: because if the checkbox is not checked, it returns null
     let finalJson = {
       "username": this.username?.value,
       "academics": academicsArray,
       "user_role": this.roles?.value,
       "is_admin": this.isAdmin?.value == true ? true : false
     };
-    // this.isAdmin?.value == true ? true : false because if the checkbox is not checked, it returns null
 
     console.log(finalJson);
     // call insert roles which Send finalJson to backend via http post to create a new user
