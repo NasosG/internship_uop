@@ -47,8 +47,26 @@ const getDepartmentsOfUserByUserID = async (request, response) => {
   }
 };
 
+const deleteUserRoleByUserId = async (request, response) => {
+  try {
+    const userRoleId = request.params.id;
+    await adminService.deleteUserRoleByUserId(userRoleId);
+    response.status(200)
+      .json({
+        message: "User role was successfully deleted"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 module.exports = {
   getUsers,
   getDepartmentsOfUserByUserID,
+  deleteUserRoleByUserId,
   insertRoles
 };

@@ -28,7 +28,6 @@ const getUsersWithRoles = async () => {
   }
 };
 
-
 const getDepartmentsOfUserByUserID = async (userRoleId) => {
   try {
     const users = await pool.query("SELECT academic_id FROM users_roles \
@@ -41,8 +40,17 @@ const getDepartmentsOfUserByUserID = async (userRoleId) => {
   }
 };
 
+const deleteUserRoleByUserId = async (userRoleId) => {
+  try {
+    await pool.query("DELETE FROM users_roles WHERE user_role_id = $1", [userRoleId]);
+  } catch (error) {
+    throw Error("Error while deleting user role with user_role_id: " + userRoleId + " - " + error.message);
+  }
+};
+
 module.exports = {
   getUsersWithRoles,
   getDepartmentsOfUserByUserID,
+  deleteUserRoleByUserId,
   insertRoles
 };

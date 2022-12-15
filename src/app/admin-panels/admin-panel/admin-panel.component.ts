@@ -69,20 +69,49 @@ export class AdminPanelComponent implements OnInit {
     }
   }
 
+  checkIfEmpty(something: any) {
+    if (Array.isArray(something)) {
+      if (something.length === 0) {
+        Swal.fire({
+          title: 'Υποχρεωτικά πεδία',
+          text: 'Παρακαλώ συμπληρώστε όλα τα απαιτούμενα πεδία',
+          icon: 'warning',
+          confirmButtonText: 'Εντάξει'
+        });
+        return false;
+      }
+    }
+
+    else if (something.trim().length === 0 || something == null) {
+      Swal.fire({
+        title: 'Υποχρεωτικά πεδία',
+        text: 'Παρακαλώ συμπληρώστε όλα τα απαιτούμενα πεδία',
+        icon: 'warning',
+        confirmButtonText: 'Εντάξει'
+      });
+      return false;
+    }
+    return true;
+  }
+
   submitForm(form: any) {
-    console.log(this.username?.value);
-    console.log(this.academics?.value);
+    const formfieldsValues= [this.username?.value, this.roles?.value, this.academics?.value]
+    // loop in formfieldsValues and check if any of them are empty using this.checkIfEmpty
+    for (let i = 0; i < formfieldsValues.length; i++) {
+      const result = this.checkIfEmpty(formfieldsValues[i]);
+      if (!result) return;
+    }
 
     // get academic.atlas_id from this.academics.values array by using this.departments array
-    let arr = [];
+    let academicsArray = [];
     for (let obj of this.academics?.value) {
       const department_ids = this.departments?.find(x => x.department === obj)?.atlas_id;
-      arr.push(department_ids);
+      academicsArray.push(department_ids);
     }
 
     let finalJson = {
       "username": this.username?.value,
-      "academics": arr,
+      "academics": academicsArray,
       "user_role": this.roles?.value,
       "is_admin": this.isAdmin?.value == true ? true : false
     };
@@ -134,6 +163,25 @@ export class AdminPanelComponent implements OnInit {
   resetFont() {
     this.fontSize = 100; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
     document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
+  }
+
+  deleteRole(userId: number) {
+    Swal.fire({
+      title: 'Διαγραφή Ρόλου',
+      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην διαγραφή ρόλου;',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          console.log("User pressed Cancel");
+        } else {
+          this.adminService.deleteRolesByUserId(userId);
+          location.reload();
+        }
+    });
   }
 
 }

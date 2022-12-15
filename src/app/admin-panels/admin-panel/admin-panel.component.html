@@ -158,15 +158,14 @@
                 (ngSubmit)="submitForm(adminRolesForm.value)">
                 <mat-form-field class="mt-2 mat-full-width" appearance="fill">
                   <mat-label>Ρόλος</mat-label>
-                  <mat-select class="mt-2" [formControl]="roles">
-                    <mat-option>None</mat-option>
+                  <mat-select class="mt-2" [formControl]="roles" [required]="true">
                     <mat-option *ngFor="let roles of roleList" [value]="roles">{{roles}}</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <br>
                 <mat-form-field class="mt-2 mat-full-width" appearance="fill">
                   <mat-label>Τμήμα</mat-label>
-                  <mat-select class="mt-2" [formControl]="academics" multiple>
+                  <mat-select class="mt-2" [formControl]="academics" multiple [required]="true">
                     <mat-select-trigger>
                       {{academics.value?.[0] || ''}}
                       <span *ngIf="(academics.value?.length || 0) > 1" class="example-additional-selection">
@@ -181,7 +180,8 @@
                 <br>
                 <mat-form-field class="mt-2 mat-full-width" appearance="fill">
                   <mat-label>Username</mat-label>
-                  <input [formControl]="username" matInput placeholder="Ex. user" name="username" value="">
+                  <input [formControl]="username" matInput placeholder="Ex. user" name="username" value=""
+                    [required]="true">
                 </mat-form-field>
                 <br>
                 <section class="mt-2 example-section">
@@ -216,7 +216,7 @@
                       <a style="cursor: pointer;" (click)="openDialog(user.user_role_id)"><i class="fa fa-eye"></i>
                         Προβολή<br></a>
                     </td>
-                    <td><button class="btn btn-danger">Διαγραφή</button></td>
+                    <td><button class="btn btn-danger" (click)="deleteRole(user.user_role_id)">Διαγραφή</button></td>
                   </tr>
                 </tbody>
               </table>

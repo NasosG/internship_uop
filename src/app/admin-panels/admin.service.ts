@@ -33,4 +33,16 @@ export class AdminService {
     return this.http.get(API_URL + 'getDepartmentsOfUserByUserID/' + userID);
   }
 
+  // deleteRolesByUserId(userId: number) {
+  //   console.log(userId);
+  //   return this.http.delete(API_URL + 'deleteRolesByUserId/' + userId);
+  // }
+
+  deleteRolesByUserId(userId: number) {
+    this.http
+      .delete<{ message: string }>(API_URL + 'deleteRolesByUserId/' + userId)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
 }
