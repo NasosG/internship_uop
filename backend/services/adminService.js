@@ -1,6 +1,19 @@
 // database connection configuration
 const pool = require("../db_config.js");
 
+const loginAdmin = async (username) => {
+  try {
+    const resultsUserRoles = await pool.query("SELECT * FROM users_roles \
+                                               WHERE sso_username = $1", [username]);
+    if (resultsUserRoles.rowCount >= 1) {
+      return resultsUserRoles.rows[0].user_role_id;
+    }
+    return null;
+  } catch (error) {
+    throw Error('Error while logging in');
+  }
+};
+
 const insertRoles = async (username, role, isAdmin, academics) => {
   console.log("insert roles 1");
   console.log(academics);
@@ -49,6 +62,7 @@ const deleteUserRoleByUserId = async (userRoleId) => {
 };
 
 module.exports = {
+  loginAdmin,
   getUsersWithRoles,
   getDepartmentsOfUserByUserID,
   deleteUserRoleByUserId,

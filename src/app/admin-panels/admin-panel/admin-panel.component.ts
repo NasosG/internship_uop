@@ -81,7 +81,7 @@ export class AdminPanelComponent implements OnInit {
       this.authService.setSessionId(1);
     }
 
-    if (this.router.url.includes('/student/login')) {
+    if (this.router.url.includes('/admin/login')) {
       this.route.queryParams
         .subscribe(params => {
           this.authService.setToken(params['token']);

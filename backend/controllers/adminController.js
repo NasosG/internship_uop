@@ -1,5 +1,33 @@
 const adminService = require("../services/adminService.js");
 
+const login = async (request, response) => {
+  const uname = request.body.username;
+  let userId;
+
+  if (uname)
+    userId = await adminService.loginAdmin(uname);
+
+  console.log("uid " + userId);
+
+  if (userId == null)
+    response.status(401).json({
+      message: 'Unauthorized'
+    });
+  else {
+    const token = jwt.sign({
+      userId: userId
+    },
+      "secret_this_should_be_longer", {
+      expiresIn: "1h"
+    });
+    response.status(200).json({
+      token: token,
+      expiresIn: 3600,
+      userId: userId
+    });
+  }
+};
+
 const insertRoles = async (request, response) => {
   try {
     const username = request.body.username;
@@ -65,6 +93,7 @@ const deleteUserRoleByUserId = async (request, response) => {
 };
 
 module.exports = {
+  login,
   getUsers,
   getDepartmentsOfUserByUserID,
   deleteUserRoleByUserId,
