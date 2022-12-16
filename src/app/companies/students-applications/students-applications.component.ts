@@ -91,7 +91,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.cancel) {
+      if (!result.isConfirmed) {
         console.log("User pressed Cancel");
       } else {
         let positionsDataJson: Assignment[] = [];

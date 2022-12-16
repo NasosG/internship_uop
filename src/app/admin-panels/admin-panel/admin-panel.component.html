@@ -8,7 +8,7 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
 
-        <a [routerLink]="['/admin/p']" class="nav-link">
+        <a [routerLink]="['/admin/' + this.authService.getSessionId()]" class="nav-link">
           <i style="font-size: 1.2em" class="fa fa-home"></i> {{'HOME-PAGE-BTN' | translate}}</a>
       </li>
     </ul>
@@ -18,7 +18,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user"></i>
-            gl
+            Διαχειριστής
           </a>
           <div class="dropdown-menu dropdown-menu-end">
 
@@ -67,7 +67,7 @@
         </div>
         <div class="info">
           <a style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-            [routerLink]="['/admin/profile/' + this.authService.getSessionId()]" class="d-block">
+            class="text-light d-block">Διαχειριστής
           </a>
         </div>
       </div>
@@ -77,7 +77,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-header">{{'STUDENT.SIDEBAR-MAIN-OPTIONS' | translate}}</li>
           <li class="nav-item">
-            <a [routerLink]="['/admin/p']" [routerLinkActive]="['active']" class="nav-link">
+            <a [routerLink]="['/admin/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Ρόλοι Χρηστών</p>
             </a>

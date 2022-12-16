@@ -72,9 +72,8 @@ export class AdminPanelComponent implements OnInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [4] }]
+          columnDefs: [{ orderable: false, targets: [3, 4] }]
         });
-
       });
 
     if (!environment.production) {
@@ -167,11 +166,10 @@ export class AdminPanelComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.cancel) {
-          console.log("User pressed Cancel");
+        if (!result.isConfirmed) {
+          console.log("User pressed Cancel or closed the popup");
         } else {
           this.adminService.insertRoles(finalJson);
-          location.reload();
         }
     });
   }
@@ -199,11 +197,10 @@ export class AdminPanelComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.cancel) {
+        if (!result.isConfirmed) {
           console.log("User pressed Cancel");
         } else {
           this.adminService.deleteRolesByUserId(userId);
-          location.reload();
         }
     });
   }

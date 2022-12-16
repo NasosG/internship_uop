@@ -114,11 +114,11 @@ export class PositionUploadComponent implements OnInit, AfterViewInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.cancel) {
-          console.log("User pressed Cancel");
-        } else {
-          this.companyService.insertNewPosition(companyDetails);
-        }
+      if (result.isConfirmed) {
+        this.companyService.insertNewPosition(companyDetails);
+      } else {
+        console.log("User pressed Cancel");
+      }
     });
   }
 }
