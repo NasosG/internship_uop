@@ -82,10 +82,11 @@ export class PeriodEditComponent implements OnInit {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-      });
-    this.depManagerService.getPeriodByUserId()
-      .subscribe((periodData: Period) => {
-        this.periodData = periodData;
+
+        this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
+          .subscribe((periodData: Period) => {
+             this.periodData = periodData;
+        });
       });
   }
 

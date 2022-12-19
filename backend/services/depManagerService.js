@@ -111,6 +111,23 @@ const getPeriodByUserId = async (id) => {
   }
 };
 
+const getPeriodByDepartmentId = async (id) => {
+  try {
+    const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
+      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to, espa_positions.positions as positions \
+      FROM period \
+      LEFT JOIN espa_positions ON espa_positions.department_id=period.department_id \
+      WHERE period.department_id = $1 \
+      AND period.is_active = 'true' \
+      LIMIT 1", [id]);
+    const periodResults = period.rows[0];
+    let periodResultsObj = Object.assign(periodResults);
+    return periodResultsObj;
+  } catch (error) {
+    throw Error('Error while fetching period');
+  }
+};
+
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -337,6 +354,7 @@ module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
   getPeriodByUserId,
+  getPeriodByDepartmentId,
   getStudentsApplyPhase,
   getRankedStudentsByDeptId,
   getStudentActiveApplications,

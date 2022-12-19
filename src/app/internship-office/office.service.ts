@@ -37,9 +37,8 @@ export class OfficeService {
     return fetchedOfficeUser;
   }
 
-  getPeriodByDepartmentId(): Observable<Period> {
-    const id = 98;
-    const fetchedPeriod = this.http.get<Period>(OFFICE_URL + "getPeriodByDepartmentId/" + id);
+  getPeriodByDepartmentId(departmentId: number): Observable<Period> {
+    const fetchedPeriod = this.http.get<Period>(OFFICE_URL + "getPeriodByDepartmentId/" + departmentId);
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
       this.period = periods;

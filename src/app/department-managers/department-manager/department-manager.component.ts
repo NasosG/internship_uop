@@ -65,11 +65,11 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-      });
 
-    this.depManagerService.getPeriodByUserId()
-      .subscribe((periodData: Period) => {
-        this.espaPositions = periodData.positions;
+        this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
+          .subscribe((periodData: Period) => {
+            this.espaPositions = periodData.positions;
+        });
       });
   }
 

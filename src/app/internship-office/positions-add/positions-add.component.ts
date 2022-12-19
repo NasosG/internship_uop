@@ -37,13 +37,14 @@ export class PositionsAddComponent implements OnInit {
       .subscribe((officeUser: OfficeUser) => {
         this.officeUserData = officeUser;
         // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
+        this.officeService.getPeriodByDepartmentId(this.officeUserData.department_id)
+          .subscribe((periodData: Period) => {
+            this.periodData = periodData;
+            this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+            this.dateTo = Utils.changeDateFormat(periodData.date_to);
+        });
       });
-    this.officeService.getPeriodByDepartmentId()
-      .subscribe((periodData: Period) => {
-        this.periodData = periodData;
-        this.dateFrom = Utils.changeDateFormat(periodData.date_from);
-        this.dateTo = Utils.changeDateFormat(periodData.date_to);
-      });
+
   }
 
   submit() {

@@ -37,12 +37,13 @@ export class DepartmentManagerHeaderComponent implements OnInit {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-      });
-    this.depManagerService.getPeriodByUserId()
-      .subscribe((periodData: Period) => {
-        this.periodData = periodData;
-        this.dateFrom = Utils.changeDateFormat(periodData.date_from);
-        this.dateTo = Utils.changeDateFormat(periodData.date_to);
+
+        this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
+          .subscribe((periodData: Period) => {
+            this.periodData = periodData;
+            this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+            this.dateTo = Utils.changeDateFormat(periodData.date_to);
+        });
       });
   }
 

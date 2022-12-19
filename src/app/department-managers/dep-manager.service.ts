@@ -52,6 +52,16 @@ export class DepManagerService {
     return fetchedPeriod;
   }
 
+  getPeriodByDepartmentId(departmentId: number): Observable<Period> {
+    const fetchedPeriod = this.http.get<Period>(DEPARTMENT_MANAGER_URL + "getPeriodByDepartmentId/" + departmentId);
+    this.fetchedPeriodObservable = fetchedPeriod;
+    this.fetchedPeriodObservable.subscribe((periods: Period) => {
+      this.period = periods;
+    });
+    return fetchedPeriod;
+  }
+
+
   getStudentsApplyPhase(): Observable<Student[]> {
     const fetchedStudent = this.getDepManager()
       .pipe(

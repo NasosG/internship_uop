@@ -65,6 +65,18 @@ const getPeriodByUserId = async (request, response) => {
   }
 };
 
+const getPeriodByDepartmentId = async (request, response) => {
+  try {
+    const department_id = request.params.id;
+    const period = await depManagerService.getPeriodByDepartmentId(department_id);
+    response.status(200).json(period);
+  } catch (error) {
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const getRankedStudentsByDeptId = async (request, response) => {
   try {
     const deptId = request.params.id;
@@ -264,6 +276,7 @@ const getCommentByStudentIdAndSubject = async (request, response) => {
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
+  getPeriodByDepartmentId,
   getStudentsApplyPhase,
   getRankedStudentsByDeptId,
   getStudentActiveApplications,
