@@ -88,7 +88,7 @@ export class AdminPanelComponent implements OnInit {
         }
       );
 
-      this.router.navigate(['/student/' + this.authService.getSessionId()]);
+      this.router.navigate(['/admin/' + this.authService.getSessionId()]);
     }
   }
 

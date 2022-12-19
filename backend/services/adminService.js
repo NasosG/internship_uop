@@ -14,10 +14,19 @@ const loginAdmin = async (username) => {
   }
 };
 
+const mapRoleToDB = (role) => {
+  const roleList = ['Τμηματικός Υπεύθυνος', 'Γραφείο Πρακτικής Άσκησης'];
+  const roleListForDB = ['department-manager', 'office'];
+
+  // turn Τμηματικός Υπεύθυνος, Γραφείο Πρακτικής Άσκησης to [department-manager, office]
+  return roleListForDB[roleList.indexOf(role)];
+};
+
 const insertRoles = async (username, role, isAdmin, academics) => {
   console.log("insert roles 1");
   console.log(academics);
   try {
+    role = mapRoleToDB(role);
     const userRole = await pool.query("INSERT INTO users_roles(sso_username, user_role, is_admin)" +
       " VALUES ($1, $2, $3) RETURNING user_role_id", [username, role, isAdmin]);
     const userRoleId = userRole.rows[0].user_role_id;

@@ -10,7 +10,7 @@ export class AdminPanelLoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    window.location.href = 'http://praktiki-new.uop.gr:3000/CAS/CASapi.php';
+    window.location.href = 'http://praktiki-new.uop.gr:3000/CAS/CASapiAdmin.php';
   }
 
 }

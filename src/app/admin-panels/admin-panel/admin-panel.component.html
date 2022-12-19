@@ -210,7 +210,9 @@
                 <tbody>
                   <tr *ngFor="let user of fetchedUsers; let idx=index" [attr.data-index]="idx">
                     <td>{{user.sso_username}}</td>
-                    <td>{{user.user_role}}</td>
+                    <td>
+                      {{user.user_role == 'department-manager' ? 'Τμηματικός Υπεύθυνος' : 'Γραφείο Πρακτικής Άσκησης'}}
+                    </td>
                     <td><i *ngIf="user.is_admin" class="fa fa-check" aria-hidden="true"></i>
                       <i *ngIf="!user.is_admin" class="fa fa-times" aria-hidden="true"></i></td>
                     <td>
