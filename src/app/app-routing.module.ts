@@ -234,7 +234,7 @@ const routes: Routes = [{
 {
   path: 'admin',
   children: [{
-    path: ':username',
+    path: ':id',
     component: AdminPanelComponent
   },
   {
@@ -243,7 +243,7 @@ const routes: Routes = [{
   },
   {
     path: 'login/:token/:uuid',
-    component: DepartmentManagerComponent
+    component: AdminPanelComponent
   }]
 }
 
