@@ -18,5 +18,6 @@ router.get('/getGenericPositionSearch/', atlasController.getGenericPositionSearc
 router.get('/getRegisteredStudent/', atlasController.getRegisteredStudent);
 router.get('/getFundingTypes', atlasController.getFundingTypes);
 router.get('/testDeletePosition', atlasController.testDeletePosition);
+router.get('/getRegisteredStudents', atlasController.getRegisteredStudents);
 
 module.exports = router;
