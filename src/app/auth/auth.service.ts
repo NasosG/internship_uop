@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   public setToken(tokenParam: string|undefined) {
-    if (!this.getToken()) {
+    if (!this.token) {
       this.token = tokenParam;
       this.isAuthenticated = true;
       this.authStatusListener.next(true);

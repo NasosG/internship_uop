@@ -66,7 +66,7 @@ export class StudentComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.router.navigate(['/student/' + this.authService.getSessionId()]);
+      this.router.navigateByUrl('/student/' + this.authService.getSessionId());
     }
 
     this.fetchStudentAndPeriod();
