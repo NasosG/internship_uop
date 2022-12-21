@@ -7,6 +7,7 @@ import { Student } from 'src/app/students/student.model';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import {DepManager} from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
+import {SheetInputPreviewDialogComponent} from '../sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
 
 @Component({
@@ -87,8 +88,8 @@ export class SheetInputDeptmanagerComponent implements OnInit {
 
   openDialog(idx: any) {
     console.log(idx);
-    const dialogRef = this.dialog.open(StudentAppsPreviewDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }
+    const dialogRef = this.dialog.open(SheetInputPreviewDialogComponent, {
+      data: { studentsData: this.studentsData, index: idx }, width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {

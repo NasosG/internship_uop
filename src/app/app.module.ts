@@ -90,6 +90,8 @@ import { DepartmentsPreviewDialogComponent } from './admin-panels/departments-pr
 import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin-panel-login.component';
 import { SheetInputDeptmanagerComponent } from './department-managers/sheet-input-deptmanager/sheet-input-deptmanager.component';
 import { SheetOutputDeptmanagerComponent } from './department-managers/sheet-output-deptmanager/sheet-output-deptmanager.component';
+import { SheetInputPreviewDialogComponent } from './department-managers/sheet-input-preview-dialog/sheet-input-preview-dialog.component';
+import { SheetOutputPreviewDialogComponent } from './department-managers/sheet-output-preview-dialog/sheet-output-preview-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -160,7 +162,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DepartmentsPreviewDialogComponent,
     AdminPanelLoginComponent,
     SheetInputDeptmanagerComponent,
-    SheetOutputDeptmanagerComponent
+    SheetOutputDeptmanagerComponent,
+    SheetInputPreviewDialogComponent,
+    SheetOutputPreviewDialogComponent
   ],
   imports: [
     BrowserModule,

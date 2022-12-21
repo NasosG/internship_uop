@@ -1,0 +1,265 @@
+ <mat-dialog-content class="mat-typography">
+   <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+     <div id="entrySheetPreviewContent">
+       <div class="alert alert-danger mt-3 mb-2" role="alert">
+         Το δελτίο δεν μπορεί να τροποποιηθεί.
+       </div>
+
+       <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
+       <h4 class="text-dark"> Α1) Ανεργία </h4>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{unemployedOption[0].id}}">
+             <span
+               style="font-weight: 500;">{{unemployedOption[0].subCategory}})&nbsp;</span>{{unemployedOption[0].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{unemployedOption[0].id}}" ngModel id="{{unemployedOption[0].id}}">
+             {{ entryForms[0].A1_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{unemployedOption[1].id}}">
+             <span
+               style="font-weight: 500;">{{unemployedOption[1].subCategory}})&nbsp;</span>{{unemployedOption[1].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{unemployedOption[1].id}}" ngModel id="{{unemployedOption[1].id}}">
+             {{ entryForms[0].A1_2 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{unemployedOption[2].id}}">
+             <span
+               style="font-weight: 500;">{{unemployedOption[2].subCategory}})&nbsp;</span>{{unemployedOption[2].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{unemployedOption[2].id}}" ngModel id="{{unemployedOption[2].id}}">
+             {{ entryForms[0].A1_3 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <mat-divider class="mt-2 mb-2"></mat-divider>
+       <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{privateSecOptions[0].id}}">
+             <span
+               style="font-weight: 500;">{{privateSecOptions[0].subCategory}})&nbsp;</span>{{privateSecOptions[0].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{privateSecOptions[0].id}}" ngModel id="{{privateSecOptions[0].id}}">
+             {{ entryForms[0].A2_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{privateSecOptions[1].id}}">
+             <span
+               style="font-weight: 500;">{{privateSecOptions[1].subCategory}})&nbsp;</span>{{privateSecOptions[1].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{privateSecOptions[1].id}}" ngModel id="{{privateSecOptions[1].id}}">
+             {{ entryForms[0].A2_2 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{privateSecOptions[2].id}}">
+             <span
+               style="font-weight: 500;">{{privateSecOptions[2].subCategory}})&nbsp;</span>{{privateSecOptions[2].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{privateSecOptions[2].id}}" ngModel id="{{privateSecOptions[2].id}}">
+             {{ entryForms[0].A2_3 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{privateSecOptions[3].id}}">
+             <span
+               style="font-weight: 500;">{{privateSecOptions[3].subCategory}})&nbsp;</span>{{privateSecOptions[3].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{privateSecOptions[3].id}}" ngModel id="{{privateSecOptions[3].id}}">
+             {{ entryForms[0].A2_4 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{privateSecOptions[4].id}}">
+             <span
+               style="font-weight: 500;">{{privateSecOptions[4].subCategory}})&nbsp;</span>{{privateSecOptions[4].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{privateSecOptions[4].id}}" ngModel id="{{privateSecOptions[4].id}}">
+             {{ entryForms[0].A2_5 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{privateSecOptions[5].id}}">
+             <span
+               style="font-weight: 500;">{{privateSecOptions[5].subCategory}})&nbsp;</span>{{privateSecOptions[5].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{privateSecOptions[5].id}}" ngModel id="{{privateSecOptions[5].id}}">
+             {{ entryForms[0].A2_6 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <mat-divider class="mt-2 mb-2"></mat-divider>
+       <h4 class="text-dark">Α3) Απασχολούμενος στο Δημόσιο Τομέα</h4>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{publicSecOptions[0].id}}">
+             <span
+               style="font-weight: 500;">{{publicSecOptions[0].subCategory}})&nbsp;</span>{{publicSecOptions[0].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{publicSecOptions[0].id}}" ngModel id="{{publicSecOptions[0].id}}">
+             {{ entryForms[0].A3_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{publicSecOptions[1].id}}">
+             <span
+               style="font-weight: 500;">{{publicSecOptions[1].subCategory}})&nbsp;</span>{{publicSecOptions[1].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{publicSecOptions[1].id}}" ngModel id="{{publicSecOptions[1].id}}">
+             {{ entryForms[0].A3_2 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="{{publicSecOptions[2].id}}">
+             <span
+               style="font-weight: 500;">{{publicSecOptions[2].subCategory}})&nbsp;</span>{{publicSecOptions[2].text}}
+           </label>
+         </div>
+         <div class="col-2 text-right">
+           <p name="{{publicSecOptions[2].id}}" ngModel id="{{publicSecOptions[2].id}}">
+             {{ entryForms[0].A3_3 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <mat-divider class="mt-2 mb-2"></mat-divider>
+       <h4 class="text-dark">Α4) Αυτοαπασχολούμενος</h4>
+       <div class="container-fluid row">
+         <div class="col-10 ">
+           <label for="A4_1">
+             <span style="font-weight: 500;">A4.1)</span> Είμαι αυτοαπασχολούμενος
+           </label><br>
+           <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν
+             έχουν
+             πωλήσεις, παρεχόμενες υπηρεσίες ή κέρδη(περιλαμβάνονται και οι ελεύθεροι επαγγελματίες που δεν ασκούν
+             δραστηριότητα
+             <br>β) άτομα που βρίσκονται σε φάση έναρξης επαγγέλματος (π.χ έχουν παραγγείλει ή αγοράσει εξοπλισμό) και
+             <br>γ) όσοι εργάζονται σε οικογενειακή επιχείρηση και αμείβονται ή όσοι εργάζονται σε οικογενειακή
+             επιχείρηση
+             και δεν αμείβονται αλλά ζουν μαζί στο ίδιο νοικοκυριό, δηλ συμβοηθούντα μέλη οικογενειακών
+             επιχειρήσεων)<br>
+           </p>
+         </div>
+         <div class="col-2 text-right">
+           <p name="A4_1" ngModel id="A4_1">
+             {{ entryForms[0].A4_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <mat-divider class="mt-2 mb-2"></mat-divider>
+       <h4 class="text-dark">Α5) Άλλη σχέση εργασίας</h4>
+       <div class="container-fluid row">
+         <div class="col-10">
+           <label for="A5_1"><span style="font-weight: 500;">A5.1)&nbsp;</span>Σχέση εργασίας (άλλη) που δεν
+             εμπίπτει σε καμία απο τις παραπάνω
+             κατηγορίες</label><br>
+         </div>
+         <div class="col-2 text-right">
+           <p name="A5_1" ngModel id="A5_1">
+             {{ entryForms[0].A5_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <mat-divider class="mt-2 mb-2"></mat-divider>
+       <h4 class="text-dark">Α6) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
+       <div class="container-fluid row">
+         <div class="col-10 ">
+           <label for="A6_1"><span style="font-weight: 500;">A6.1)&nbsp;</span>Δεν ανήκω σε κάμια απο τις παραπάνω
+             κατηγορίες (Δεν είμαι ούτε εγγεγραμένος/η
+             άνεργος/η στον ΟΑΕΔ ούτε εργαζόμενος/η - αυτοαπασχολούμενος/η )</label><br>
+         </div>
+         <div class="col-2 text-right">
+           <p name="A6_1" ngModel id="A6_1">
+             {{ entryForms[0].A6_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+       <mat-divider class="mt-2 mb-2"></mat-divider>
+       <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+       <div class="container-fluid row">
+         <div class="col-10 ">
+           <label for="B1_1"><span style="font-weight: 500;">B1.1)&nbsp;</span>Συμμετέχω σε κάποιο άλλο πρόγραμμα
+             κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης,
+             επιδοτούμενο
+             ή μη</label><br>
+           <p style=" padding:0px 0px 0px 40px;">Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε κάποιο άλλο πρόγραμμα
+             εκπαίδευσης
+             ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).
+             <br>Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές όλων
+             των
+             εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά και
+             Επαγγελματικά
+             Λύκεια,
+             σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε αποφοίτους
+             της
+             υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής
+             κατάρτισης,
+             συμμετέχοντες σε
+             προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική εκπαίδευση
+             ενηλίκων,
+             επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά
+             ασκούμενους
+             Σχολών
+             που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας εκπαίδευσης
+             πλήρους
+             φοίτησης<br></p>
+         </div>
+         <div class="col-2 text-right">
+           <p name="B1_1" ngModel id="B1_1">
+             {{ entryForms[0].A4_1 == "0" ? 'OXI' : 'NAI'}}
+           </p>
+         </div>
+       </div>
+     </div>
+   </form>
+ </mat-dialog-content>
+ <mat-dialog-actions style='text-align: right'>
+   <button mat-button class="back-btn" (click)="onCancel()" class="btn btn-secondary mr-2">
+     Κλείσιμο</button>
+   <!-- <button class="print-btn" class="btn btn-primary">Εκτύπωση</button> -->
+ </mat-dialog-actions>

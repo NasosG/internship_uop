@@ -7,6 +7,8 @@ import { Period } from './period.model';
 import { Student } from '../students/student.model';
 import { ActiveApplication } from './active-application.model';
 import { environment } from "src/environments/environment";
+import {EntryForm} from '../students/entry-form.model';
+import {ExitForm} from '../students/exit-form.model';
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
@@ -98,6 +100,16 @@ export class DepManagerService {
   getStudentsWithSheetOutput(departmentId: number): Observable<Array<any>> {
     return this.http
       .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetOutput/" + departmentId);
+  }
+
+  getStudentEntrySheetsByStudentId(studentId: string): Observable<Array<EntryForm>> {
+    return this.http
+      .get<Array<EntryForm>>(STUDENTS_URL + 'getStudentEntrySheets/' + studentId);
+  }
+
+  getStudentExitSheetsByStudentId(studentId: string): Observable<Array<ExitForm>> {
+    return this.http
+      .get<Array<ExitForm>>(STUDENTS_URL + 'getStudentExitSheets/' + studentId);
   }
 
   insertPeriod(inputForm: any, departmentId: number) {
