@@ -90,6 +90,16 @@ export class DepManagerService {
       .get<Array<ActiveApplication>>(DEPARTMENT_MANAGER_URL + "getStudentActiveApplications/" + departmentId);
   }
 
+  getStudentsWithSheetInput(departmentId: number): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetInput/" + departmentId);
+  }
+
+  getStudentsWithSheetOutput(departmentId: number): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetOutput/" + departmentId);
+  }
+
   insertPeriod(inputForm: any, departmentId: number) {
     const depManagerId = this.authService.getSessionId();
     const form: Period = inputForm;

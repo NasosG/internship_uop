@@ -88,7 +88,8 @@ import { StudentCompanyAcceptComponent } from './students/student-company-accept
 import { AdminPanelComponent } from './admin-panels/admin-panel/admin-panel.component';
 import { DepartmentsPreviewDialogComponent } from './admin-panels/departments-preview-dialog/departments-preview-dialog.component';
 import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin-panel-login.component';
-
+import { SheetInputDeptmanagerComponent } from './department-managers/sheet-input-deptmanager/sheet-input-deptmanager.component';
+import { SheetOutputDeptmanagerComponent } from './department-managers/sheet-output-deptmanager/sheet-output-deptmanager.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -158,6 +159,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AdminPanelComponent,
     DepartmentsPreviewDialogComponent,
     AdminPanelLoginComponent,
+    SheetInputDeptmanagerComponent,
+    SheetOutputDeptmanagerComponent
   ],
   imports: [
     BrowserModule,

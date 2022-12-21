@@ -101,6 +101,29 @@ const getStudentActiveApplications = async (request, response) => {
   }
 };
 
+const getStudentsWithSheetInput = async (request, response) => {
+  try {
+    const departmentId = request.params.department_id;
+    const users = await depManagerService.getStudentsWithSheetInput(departmentId);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
+const getStudentsWithSheetOutput = async (request, response) => {
+  try {
+    const departmentId = request.params.department_id;
+    const users = await depManagerService.getStudentsWithSheetOutput(departmentId);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
 
 const insertPeriod = async (request, response, next) => {
   try {
@@ -280,6 +303,8 @@ module.exports = {
   getStudentsApplyPhase,
   getRankedStudentsByDeptId,
   getStudentActiveApplications,
+  getStudentsWithSheetInput,
+  getStudentsWithSheetOutput,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

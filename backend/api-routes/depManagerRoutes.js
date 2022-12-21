@@ -19,5 +19,7 @@ router.post("/login/", depManagerController.login);
 router.post("/insertCommentsByStudentId/:id", depManagerController.insertCommentsByStudentId);
 router.put("/updateCommentsByStudentId/:id", depManagerController.updateCommentsByStudentId);
 router.get("/getCommentByStudentIdAndSubject/", depManagerController.getCommentByStudentIdAndSubject);
+router.get("/getStudentsWithSheetInput/:department_id", depManagerController.getStudentsWithSheetInput);
+router.get("/getStudentsWithSheetOutput/:department_id", depManagerController.getStudentsWithSheetOutput);
 
 module.exports = router;

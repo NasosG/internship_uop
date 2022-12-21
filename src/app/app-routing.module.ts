@@ -141,6 +141,14 @@ const routes: Routes = [{
       }]
   },
   {
+    path: 'sheet-input/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'sheet-output/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
     path: 'match-students/:id',
     component: DepartmentManagerComponent
   },
