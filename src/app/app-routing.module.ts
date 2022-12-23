@@ -236,7 +236,15 @@ const routes: Routes = [{
   {
     path: 'manuals',
     component: OfficeComponent
-  }
+  },
+  {
+    path: 'sheet-input/:id',
+    component: OfficeComponent,
+  },
+  {
+    path: 'sheet-output/:id',
+    component: OfficeComponent,
+  },
   ]
 },
 {

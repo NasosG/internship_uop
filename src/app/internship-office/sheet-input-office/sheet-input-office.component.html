@@ -1,0 +1,124 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <!-- <div class="card-header"> -->
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link active" href="#sheet-input-tab" data-toggle="tab">Δελτία Εισόδου</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/office/sheet-output/' + this.authService.getSessionId()]"
+                  data-toggle="tab">Δελτία εξόδου</a>
+              </li>
+            </ul>
+          </div>
+          <!-- </div> -->
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="sheet-input-tab">
+                <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+                <table id="sheetInputTable" #sheetInputTable class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <!-- <th>Επιλογή</th> -->
+                      <th>Ονοματεπώνυμο</th>
+                      <!-- <th>Πατρώνυμο</th> -->
+                      <th>ΑΜ</th>
+                      <th>email</th>
+                      <!-- <th>Έγγραφα</th> -->
+                      <th class="text-center">Ενέργειες</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                      <!-- <td>
+                        <p style="display:none">
+                          {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
+                        <mat-form-field id="{{student.sso_uid}}" name="phase" style="width:100%;" appearance="standard">
+                          <mat-label>Προς επιλογή</mat-label>
+                          <mat-select value="{{student.phase == 2 ? 'option1' : student.phase == 1 ? '' : 'option2'}}"
+                            name="phase">
+                            <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">Προς
+                              επιλογή
+                            </mat-option>
+                            <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
+                            </mat-option>
+                            <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
+                            class="fas fa-edit"></i> Σχόλιο<br></a>
+                      </td> -->
+                      <td>{{student.givenname}} {{student.sn}}</td>
+                      <!-- <td>{{student.father_name}}</td> -->
+                      <td>{{student.schacpersonaluniquecode}}</td>
+                      <td>{{student.mail}}</td>
+
+                      <!-- <td class="reponsive-text-center-td">
+                        <button (click)="receiveFile(student.sso_uid, 'IBAN')"
+                          class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
+                            class="fa fa-download" aria-hidden="true"></i> IBAN
+                        </button>
+                        <button (click)="receiveFile(student.sso_uid, 'SSN')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
+                        </button>
+                        <button *ngIf="student.amea_cat == true" (click)="receiveFile(student.sso_uid, 'AMEA')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> AMEA
+                        </button>
+                      </td> -->
+                      <td class="action text-center">
+                        <!-- <table>
+                          <tr>
+                            <td><i class="fa fa-eye"></i></td>
+                            <td>Προβολή / Εκτύπωση Δελτίου</td>
+
+                          </tr>
+                          <tr>
+                            <td><i class="fa fa-eye"></i></td>
+                            <td>Επεξεργασία Δελτίου</td>
+
+                          </tr>
+                        </table> -->
+                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-eye"></i> Προβολή / Εκτύπωση Δελτίου<br></a>
+                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-cog"></i> Επεξεργασία Δελτίου<br></a>
+                        <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <!-- <th>Επιλογή</th> -->
+                      <th>Ονοματεπώνυμο</th>
+                      <!-- <th>Πατρώνυμο</th> -->
+                      <th>ΑΜ</th>
+                      <th>email</th>
+                      <!-- <th>Έγγραφα</th> -->
+                      <th class="text-center">Ενέργειες</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

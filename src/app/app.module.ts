@@ -92,6 +92,10 @@ import { SheetInputDeptmanagerComponent } from './department-managers/sheet-inpu
 import { SheetOutputDeptmanagerComponent } from './department-managers/sheet-output-deptmanager/sheet-output-deptmanager.component';
 import { SheetInputPreviewDialogComponent } from './department-managers/sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { SheetOutputPreviewDialogComponent } from './department-managers/sheet-output-preview-dialog/sheet-output-preview-dialog.component';
+import { SheetInputOfficeComponent } from './internship-office/sheet-input-office/sheet-input-office.component';
+import { SheetInputOfficeDialogComponent } from './internship-office/sheet-input-office-dialog/sheet-input-office-dialog.component';
+import { SheetOutputOfficeComponent } from './internship-office/sheet-output-office/sheet-output-office.component';
+import { SheetOutputOfficeDialogComponent } from './internship-office/sheet-output-office-dialog/sheet-output-office-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -164,7 +168,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetInputDeptmanagerComponent,
     SheetOutputDeptmanagerComponent,
     SheetInputPreviewDialogComponent,
-    SheetOutputPreviewDialogComponent
+    SheetOutputPreviewDialogComponent,
+    SheetInputOfficeComponent,
+    SheetInputOfficeDialogComponent,
+    SheetOutputOfficeComponent,
+    SheetOutputOfficeDialogComponent
   ],
   imports: [
     BrowserModule,

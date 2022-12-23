@@ -2,21 +2,21 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Utils } from 'src/app/MiscUtils';
+import {CommentsDialogComponent} from 'src/app/department-managers/comments-dialog/comments-dialog.component';
+import { DepManager } from 'src/app/department-managers/dep-manager.model';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import {SheetInputPreviewDialogComponent} from 'src/app/department-managers/sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
-import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
-import { DepManager } from '../dep-manager.model';
-import { DepManagerService } from '../dep-manager.service';
-import { SheetInputPreviewDialogComponent } from '../sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 
 @Component({
-  selector: 'app-sheet-input-deptmanager',
-  templateUrl: './sheet-input-deptmanager.component.html',
-  styleUrls: ['./sheet-input-deptmanager.component.css']
+  selector: 'app-sheet-input-office',
+  templateUrl: './sheet-input-office.component.html',
+  styleUrls: ['./sheet-input-office.component.css']
 })
-export class SheetInputDeptmanagerComponent implements OnInit {
-  @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
+export class SheetInputOfficeComponent implements OnInit {
+
+ @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   selected = '';

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import {environment} from 'src/environments/environment';
 import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
 
@@ -33,7 +34,15 @@ export class OfficeComponent implements OnInit {
     //     this.company = company;
     //     console.log(this.company);
     //   });
-
+    if (!environment.production) {
+      this.authService.setSessionId(2);
+      this.officeService.getOfficeUser()
+      .subscribe((officeUser: OfficeUser) => {
+        this.officeUserData = officeUser;
+        // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
+      });
+      return;
+    }
     if (this.router.url.includes('/office/login')) {
       this.route.queryParams
         .subscribe(params => {
@@ -95,6 +104,13 @@ export class OfficeComponent implements OnInit {
     return this.router.url === '/office/manuals';
   }
 
+  isSheetInputRoute() {
+    return this.router.url === '/office/sheet-input/' + this.authService.getSessionId();
+  }
+
+  isSheetOutputRoute() {
+    return this.router.url === '/office/sheet-output/' + this.authService.getSessionId();
+  }
 }
 
 

@@ -1,16 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { SheetOutputPreviewDialogComponent } from 'src/app/department-managers/sheet-output-preview-dialog/sheet-output-preview-dialog.component';
 import { Utils } from 'src/app/MiscUtils';
 import { ExitForm } from 'src/app/students/exit-form.model';
 import Swal from 'sweetalert2';
-import { DepManagerService } from '../dep-manager.service';
 
 @Component({
-  selector: 'app-sheet-output-preview-dialog',
-  templateUrl: './sheet-output-preview-dialog.component.html',
-  styleUrls: ['./sheet-output-preview-dialog.component.css']
+  selector: 'app-sheet-output-office-dialog',
+  templateUrl: './sheet-output-office-dialog.component.html',
+  styleUrls: ['./sheet-output-office-dialog.component.css']
 })
-export class SheetOutputPreviewDialogComponent implements OnInit {
+export class SheetOutputOfficeDialogComponent implements OnInit {
   public exitForms: ExitForm[] = [];
   // Global variables
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
@@ -80,5 +81,4 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
     windowPrint?.print();
     windowPrint?.close();
   }
-
 }

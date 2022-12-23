@@ -195,6 +195,15 @@
             </a>
           </li>
           <li class="nav-item">
+            <a [routerLink]="['/office/sheet-input/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
+              class="nav-link">
+              <i class="nav-icon fas fa-envelope"></i>
+              <p>
+                Απογραφικά Δελτία
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a [routerLink]="['/office/stats/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
               class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
@@ -336,6 +345,8 @@
         <app-contact *ngIf="isContactRoute()"></app-contact>
         <app-about *ngIf="isAboutRoute()"></app-about>
         <app-manuals *ngIf="isManualsRoute()"></app-manuals>
+        <app-sheet-input-office *ngIf="isSheetInputRoute()"></app-sheet-input-office>
+        <app-sheet-output-office *ngIf="isSheetOutputRoute()"></app-sheet-output-office>
       </div>
     </section>
     <!-- /.content -->

@@ -6,8 +6,7 @@ import { Student } from 'src/app/students/student.model';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import {SheetOutputPreviewDialogComponent} from '../sheet-output-preview-dialog/sheet-output-preview-dialog.component';
-import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
+import { SheetOutputPreviewDialogComponent } from '../sheet-output-preview-dialog/sheet-output-preview-dialog.component';
 
 @Component({
   selector: 'app-sheet-output-deptmanager',

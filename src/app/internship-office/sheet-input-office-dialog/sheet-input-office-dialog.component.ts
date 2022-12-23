@@ -1,36 +1,39 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { SheetInputPreviewDialogComponent } from 'src/app/department-managers/sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { Utils } from 'src/app/MiscUtils';
-import { ExitForm } from 'src/app/students/exit-form.model';
+import { EntryForm } from 'src/app/students/entry-form.model';
 import Swal from 'sweetalert2';
-import { DepManagerService } from '../dep-manager.service';
 
 @Component({
-  selector: 'app-sheet-output-preview-dialog',
-  templateUrl: './sheet-output-preview-dialog.component.html',
-  styleUrls: ['./sheet-output-preview-dialog.component.css']
+  selector: 'app-sheet-input-office-dialog',
+  templateUrl: './sheet-input-office-dialog.component.html',
+  styleUrls: ['./sheet-input-office-dialog.component.css']
 })
-export class SheetOutputPreviewDialogComponent implements OnInit {
-  public exitForms: ExitForm[] = [];
-  // Global variables
-  public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
-  public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
-  public publicSecOptionsOutputSheet = Utils.publicSecOptionsOutputSheet;
-  public selfEmployedOutputSheet = Utils.selfEmployedOutputSheet;
-  public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
-  public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
+export class SheetInputOfficeDialogComponent implements OnInit {
+  public entryForms: EntryForm[] = [];
+  public unemployedOption = Utils.unemployedOption;
+  public privateSecOptions = Utils.privateSecOptions;
+  public publicSecOptions = Utils.publicSecOptions;
+  // A4.1 option can be found on the html
+  public jobRelationOtherThanAbove = Utils.jobRelationOtherThanAbove;
+  public specialJobOptions = Utils.specialJobOptions;
+  public educationOptions = Utils.educationOptions;
+  public educationalStandardOptions = Utils.educationalStandardOptions;
+  public demographicsOptions = Utils.demographicsOptions;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
     public departmentManagerService: DepManagerService,
-    public dialogRef: MatDialogRef<SheetOutputPreviewDialogComponent>
+    public dialogRef: MatDialogRef<SheetInputPreviewDialogComponent>
   ) { }
 
   ngOnInit(): void {
-    this.departmentManagerService.getStudentExitSheetsByStudentId(this.data.studentsData[this.data.index].uuid)
-      .subscribe((forms: ExitForm[]) => {
-        this.exitForms = forms;
-        console.log(this.exitForms);
+    this.departmentManagerService.getStudentEntrySheetsByStudentId(this.data.studentsData[this.data.index].uuid)
+      .subscribe((forms: EntryForm[]) => {
+        this.entryForms = forms;
+        console.log(this.entryForms);
       });
   }
 
@@ -55,9 +58,10 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  printOutputSheet() {
+  printInputSheet() {
     let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
-    const printContent = document.getElementById("exitSheetPreviewContent");
+    const printContent = document.getElementById("entrySheetPreviewContent");
+    // this.data.studentsData = [...this.studentsService.students];
     let studentFirstName = this.data.studentsData[0].givenname;
     let studentLastName = this.data.studentsData[0].sn;
     let studentEmail = this.data.studentsData[0].mail;
@@ -65,7 +69,7 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
 
     let studentName = this.data.studentsData[0].givenname + " " + this.data.studentsData[0].sn;
     const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    let headerContent = 'ΔΕΛΤΙΟ ΕΞΟΔΟΥ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ<br>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ';
+    let headerContent = 'ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ ΓΙΑ ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ<br>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ';
     windowPrint?.document.write("<h3 style='text-align: center;'>" + headerContent + "</h3>");
     windowPrint?.document.write("<table>");
     windowPrint?.document.write("<tr><td><strong>Όνομα:</strong> " + studentFirstName + "</td></tr><td><strong>Επώνυμο:</strong> " + studentLastName + "</td></tr>");
