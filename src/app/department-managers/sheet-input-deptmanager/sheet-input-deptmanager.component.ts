@@ -2,13 +2,15 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import {Utils} from 'src/app/MiscUtils';
+import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
+import { StudentsService } from 'src/app/students/student.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
-import {DepManager} from '../dep-manager.model';
+import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import {SheetInputPreviewDialogComponent} from '../sheet-input-preview-dialog/sheet-input-preview-dialog.component';
+import { SheetInputPreviewDialogComponent } from '../sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
+
 
 @Component({
   selector: 'app-sheet-input-deptmanager',
@@ -22,8 +24,9 @@ export class SheetInputDeptmanagerComponent implements OnInit {
   selected = '';
   ngSelect = '';
   depManagerData: DepManager | undefined;
+  studentName!: string;
 
-  constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
@@ -61,8 +64,8 @@ export class SheetInputDeptmanagerComponent implements OnInit {
               processing: true,
               columnDefs: [{ orderable: false, targets: [6, 7] }]
             });
-        });
-    });
+          });
+      });
   }
 
   // This function is used to get the AM of the student
@@ -80,7 +83,7 @@ export class SheetInputDeptmanagerComponent implements OnInit {
   onSubmitSelect(option: string, studentId: number) {
     // this.validateFormData(formData);
     let phase;
-    phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
+    phase = (option == "option1") ? 2 : (option == "option2") ? -1 : 1;
     console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
     // this.onSavePeriodAlert();
@@ -106,5 +109,21 @@ export class SheetInputDeptmanagerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  printInputSheet(idx: any) {
+    let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+    const printContent = document.getElementById("entrySheetPreviewContent");
+    this.studentsData = [...this.studentsService.students];
+    this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
+    const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
+    windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: right;'>Υπογραφή</h3>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + currentDate + "</h5><br><br><br>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + this.studentName + "</h5>");
+    windowPrint?.document.close();
+    windowPrint?.focus();
+    windowPrint?.print();
+    windowPrint?.close();
   }
 }
