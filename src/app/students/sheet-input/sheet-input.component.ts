@@ -21,15 +21,15 @@ export class SheetInputComponent implements OnInit {
   ngOnInit(): void { }
 
   printInputSheet() {
-    let currentDate = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
+    let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
     const printContent = document.getElementById("entrySheetPreviewContent");
     this.studentsData = [...this.studentsService.students];
     this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
     const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
     windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
     windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: right;'>Υπογραφή</h3>");
-    windowPrint?.document.write("<h5 style='text-align: right;'>"+ currentDate +"</h5><br><br><br>");
-    windowPrint?.document.write("<h5 style='text-align: right;'>"+ this.studentName + "</h5>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + currentDate + "</h5><br><br><br>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + this.studentName + "</h5>");
     windowPrint?.document.close();
     windowPrint?.focus();
     windowPrint?.print();
@@ -60,7 +60,7 @@ export class SheetInputComponent implements OnInit {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'ΟΚ'
-        }).then( () => { /* not the best technique */ location.reload() } );
+        }).then(() => { /* not the best technique */ location.reload() });
       }
     });
   }

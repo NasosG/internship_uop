@@ -75,7 +75,7 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
     { subCategory: 'B2.2', id: 'B2_2', name: 'B2_2', text: 'Απόφοιτος δημοτικού' },
     { subCategory: 'B2.3', id: 'B2_3', name: 'B2_3', text: 'Απόφοιτος γυμνασίου' },
     { subCategory: 'B2.4', id: 'B2_4', name: 'B2_4', text: 'Απόφοιτος λυκείου' },
-    { subCategory: 'B2.5', id: 'B2_5', name: 'B2_5', text: 'Απόφοιτος ΙΕΚ, ή ιδιωτικού κολλεγίου, ή σχολών που εποπτεύονται από άλλα Υπουργείοα' },
+    { subCategory: 'B2.5', id: 'B2_5', name: 'B2_5', text: 'Απόφοιτος ΙΕΚ, ή ιδιωτικού κολλεγίου, ή σχολών που εποπτεύονται από άλλα Υπουργεία' },
     { subCategory: 'B2.6', id: 'B2_6', name: 'B2_6', text: 'Απόφοιτος ΑΕΙ/ΤΕΙ' },
     { subCategory: 'B2.7', id: 'B2_7', name: 'B2_7', text: 'Κάτοχος μεταπτυχιακού διπλώματος' },
     { subCategory: 'B2.8', id: 'B2_8', name: 'B2_8', text: 'Κάτοχος διδακτορικού διπλώματος' }
@@ -90,7 +90,7 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
     { subCategory: 'C1.6', id: 'C1_6', name: 'C1_6', text: 'Άτομα με Αναπηρία με πιστοποίηση από το Κέντρο Πιστοποίησης Αναπηρίας (ΚΕ.Π.Α.)' },
     { subCategory: 'C1.7', id: 'C1_7', name: 'C1_7', text: 'Άτομα με Αναπηρία χωρίς πιστοποίηση από το Κέντρο Πιστοποίησης Αναπηρίας (ΚΕ.Π.Α.)' },
     { subCategory: 'C1.8', id: 'C1_8', name: 'C1_8', text: 'Aπεξαρτημένα άτομα / άτομα υπό απεξάρτηση' },
-    { subCategory: 'C1.9', id: 'C1_9', name: 'C1_9', text: 'Φυλακισμένοι/Αποφυλακισμένοι'},
+    { subCategory: 'C1.9', id: 'C1_9', name: 'C1_9', text: 'Φυλακισμένοι/Αποφυλακισμένοι' },
     { subCategory: 'C1.10', id: 'C1_10', name: 'C1_10', text: 'Άστεγοι ή άτομα που έχουν αποκλειστεί από τη στέγαση' },
     { subCategory: 'C1.11', id: 'C1_11', name: 'C1_11', text: 'Δικαιούχοι Ελάχιστου Εγγυημένου Εισοδήματος' }
   ];
