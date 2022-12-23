@@ -187,12 +187,11 @@ export abstract class Utils {
     { subCategory: 'A3.4', id: 'A3_4', name: 'A3_4', text: 'Απασχολούμαι ως Μόνιμος Δημόσιος Υπάλληλος' }
   ];
 
-  public static selfemployedOutputSheet = [
-    { subCategory: 'A4.1', id: 'A4_1', name: 'A4_1', text: 'Αυτοαπασχολούμενος/η' },
-    { subCategory: 'A4.2', id: 'A4_2', name: 'A4_2', text: 'Είμαι αυτοαπασχολούμενος' }
+  public static selfEmployedOutputSheet = [
+    { subCategory: 'A4.1', id: 'A4_1', name: 'A4_1', text: 'Είμαι αυτοαπασχολούμενος/η' }
   ];
 
-  public static JobDetailsOutputSheet = [
+  public static jobDetailsOutputSheet = [
     { subCategory: 'A5.1', id: 'A5_1', name: 'A5_1', text: 'Μετά την ημερομηνία λήξης συμμετοχής σας σε αυτό το πρόγραμμα συμμετέχετε σε κάποιο άλλο πρόγραμμα εκπαίδευσης' },
     { subCategory: 'A5.2', id: 'A5_2', name: 'A5_2', text: 'Φοιτητής/τρια τριτοβάθμιας εκπαίδευσης πλήρους φοίτησης' },
     { subCategory: 'A5.3', id: 'A5_3', name: 'A5_3', text: 'Μαθητής/τρια πρωτοβάθμιας ή δευτεροβάθμιας εκπαίδευσης (Δημοτικό, Γυμνάσιο, Λύκειο. Συμπεριλαμβάνονται και τα Σχολεία Δεύτερης Ευκαιρίας)' },
@@ -203,8 +202,8 @@ export abstract class Utils {
     { subCategory: 'A5.8', id: 'A5_8', name: 'A5_8', text: 'Το νέο πρόγραμμα εκπαίδευσης ή κατάρτισης στο οποίο συμμετέχετε, συγχρηματοδοτείται στο πλαίσιο προγράμματος του ΕΣΠΑ' }
   ];
 
-  public static InternshipExperienceOutputSheet = [
-    { subCategory: 'A6.1', id: 'A6_1', name: 'A6_1', text: 'Αποκτήθηκε εξειδίκευση ως αποτέλεσμα της συμμετοχής σας στην πρακτική άσκηση;' },
+  public static internshipExperienceOutputSheet = [
+    { subCategory: 'B1.1', id: 'B1_1', name: 'B1_1', text: 'Αποκτήθηκε εξειδίκευση ως αποτέλεσμα της συμμετοχής σας στην πρακτική άσκηση;' },
   ];
 
 }

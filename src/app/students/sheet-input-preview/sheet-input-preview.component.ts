@@ -14,6 +14,16 @@ import { EntryForm } from '../entry-form.model';
 export class SheetInputPreviewComponent extends SheetInputComponent implements OnInit {
 
   public entryForms: EntryForm[] = [];
+  // Global variables
+  public unemployedOption = Utils.unemployedOption;
+  public privateSecOptions = Utils.privateSecOptions;
+  public publicSecOptions = Utils.publicSecOptions;
+  // A4.1 option can be found on the html
+  public jobRelationOtherThanAbove = Utils.jobRelationOtherThanAbove;
+  public specialJobOptions = Utils.specialJobOptions;
+  public educationOptions = Utils.educationOptions;
+  public educationalStandardOptions = Utils.educationalStandardOptions;
+  public demographicsOptions = Utils.demographicsOptions;
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
@@ -22,16 +32,6 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
         console.log(this.entryForms);
       });
   }
-
-  unemployedOption = Utils.unemployedOption;
-  privateSecOptions = Utils.privateSecOptions;
-  publicSecOptions = Utils.publicSecOptions;
-  // A4.1 option can be found on the html
-  jobRelationOtherThanAbove = Utils.jobRelationOtherThanAbove;
-  specialJobOptions = Utils.specialJobOptions;
-  educationOptions = Utils.educationOptions;
-  educationalStandardOptions = Utils.educationalStandardOptions;
-  demographicsOptions = Utils.demographicsOptions;
 
   override onSubmitStudentEntrySheet(formData: FormData) {
     this.onSaveInputSheetSwal(formData);

@@ -1,9 +1,9 @@
 <mat-dialog-content class="mat-typography">
   <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+    <div class="alert alert-danger mt-3 mb-2" role="alert">
+      Το δελτίο δεν μπορεί να τροποποιηθεί.
+    </div>
     <div id="entrySheetPreviewContent">
-      <div class="alert alert-danger mt-3 mb-2" role="alert">
-        Το δελτίο δεν μπορεί να τροποποιηθεί.
-      </div>
       <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
       <h4 class="text-dark"> Α1) Ανεργία </h4>
       <div class="container-fluid row">
@@ -504,7 +504,8 @@
         </div>
       </div>
 
-
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <h3 class="text-danger pt-3">C) Δημογραφικά Στοιχεία</h3>
       <div class="container-fluid row">
         <div class="col-10">
           <label for="{{demographicsOptions[0].id}}">
@@ -518,6 +519,9 @@
           </p>
         </div>
       </div>
+      <p class="text-dark ml-2"><strong>Παρακαλούμε συμπληρώστε εάν ανήκετε σε οποιαδήποτε από τις
+          παρακάτω ειδικές ή ευάλωτες κοινωνικές ομάδες: <br>(εάν ανήκετε σε
+          περισσότερες από μία κατηγορίες, παρακαλούμε συμπληρώστε αντίστοιχα).</strong></p>
       <div class="container-fluid row">
         <div class="col-10">
           <label for="{{demographicsOptions[1].id}}">
@@ -655,5 +659,5 @@
 <mat-dialog-actions style='text-align: right'>
   <button mat-button class="back-btn" (click)="onCancel()" class="btn btn-secondary mr-2">
     Κλείσιμο</button>
-  <!-- <button class="print-btn" class="btn btn-primary">Εκτύπωση</button> -->
+  <button class="print-btn" (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button>
 </mat-dialog-actions>

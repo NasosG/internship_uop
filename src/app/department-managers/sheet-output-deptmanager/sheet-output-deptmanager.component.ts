@@ -58,7 +58,7 @@ export class SheetOutputDeptmanagerComponent implements OnInit {
               select: true,
               pagingType: 'full_numbers',
               processing: true,
-              columnDefs: [{ orderable: false, targets: [6, 7] }]
+              columnDefs: [{ orderable: false, targets: [3] }]
             });
         });
     });

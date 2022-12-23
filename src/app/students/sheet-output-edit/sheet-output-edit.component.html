@@ -8,22 +8,21 @@
 <form *ngIf="this.entries[0]==null" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal"
   (ngSubmit)="onSubmitStudentEntrySheet(studentEntryForm.value)">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Όλες οι ερωτήσεις διαθέτουν ως προεπιλογή το ΟΧΙ. Διαβάστε πολύ προσεκτικά τις ερωτήσεις-επεξηγήσεις και απαντήστε
-    σε
-    όλα τα ερωτήματα.
+    Κάποιες ερωτήσεις ενδέχεται να είναι προεπιλεγμένες. Διαβάστε πολύ προσεκτικά τις ερωτήσεις-επεξηγήσεις και
+    απαντήστε σε όλα τα ερωτήματα.
     <br>
     Το καθεστώς εργασίας αφορά συμβάσεις που έχετε εκτός της σύμβασης πρακτικής άσκησης ΕΣΠΑ.
   </div>
 
-  <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
+  <h3 class="text-dark pt-3">Α) Καθεστώς Εργασίας</h3>
 
-  <p class="text-danger pt-4 mt-2">
+  <!-- <p class="text-danger pt-4 mt-2">
     Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, Α3, Α4, Α5, A6 θα πρέπει να είναι ΝΑΙ
-  </p>
+  </p> -->
 
   <h4 class="text-dark"> Α1) Ανεργία </h4>
 
-  <div *ngFor="let option of unemployedOption" class="container-fluid row">
+  <div *ngFor="let option of unemployedOptionOutputSheet" class="container-fluid row">
     <div class="col-10">
       <label for="pr-sec-option1">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -38,10 +37,10 @@
   </div>
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
-
+  <p class="mt-3">Εάν είστε εργαζόμενος/νη, παρακαλούμε σημειώστε σε ποια από τις παρακάτω κατηγορίες ανήκετε:</p>
   <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
 
-  <div *ngFor="let option of privateSecOptions" class="container-fluid row">
+  <div *ngFor="let option of privateSecOptionsOutputSheet" class="container-fluid row">
     <div class="col-10">
       <label for="pr-sec-option1">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -59,7 +58,7 @@
 
   <h4 class="text-dark">Α3) Απασχολούμενος στο Δημόσιο Τομέα</h4>
 
-  <div *ngFor="let option of publicSecOptions" class="container-fluid row">
+  <div *ngFor="let option of publicSecOptionsOutputSheet" class="container-fluid row">
     <div class="col-10 ">
       <label for="pr-sec-option1">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -98,30 +97,16 @@
     </div>
   </div>
 
-  <mat-divider class="mt-2 mb-2"></mat-divider>
-
-  <h4 class="text-dark">Α5) Άλλη σχέση εργασίας</h4>
-
-  <div class="container-fluid row">
-    <div class="col-10">
-      <label for="A5_1"><span style="font-weight: 500;">A5.1)&nbsp;</span>Σχέση εργασίας (άλλη) που δεν
-        εμπίπτει σε καμία απο τις παραπάνω
-        κατηγορίες</label><br>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group id="A5_1" name="A5_1" ngModel required aria-label="Select an option">
-        <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
 
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <h4 class="text-dark">Α6) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
+  <h4 class="text-dark">Α5) Λεπτομέρειες Εργασίας</h4>
 
-  <div *ngFor="let option of noCategoryOptions" class="container-fluid row">
+  <div *ngFor="let option of jobDetailsOutputSheet" class="container-fluid row">
+    <div *ngIf="option.id=='A5_2'">
+      <p class="mt-3">Εάν απαντήσατε «ΝΑΙ» στην ερώτηση, σημειώστε σε ποιά από τις παρακάτω κατηγορίες ανήκετε:</p>
+    </div>
     <div class="col-10 ">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -137,9 +122,9 @@
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+  <h3 class="text-danger pt-3">Β) Στοιχεία Πρακτικής</h3>
 
-  <div *ngFor="let option of educationStatusOptions" class="container-fluid row">
+  <div *ngFor="let option of internshipExperienceOutputSheet" class="container-fluid row">
     <div class="col-10 ">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -147,24 +132,6 @@
     </div>
     <div class="col-2 text-right">
       <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-        <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-
-  <mat-divider class="mt-2 mb-2"></mat-divider>
-
-  <h3 class="text-danger pt-3">Γ) Αποτελέσματα της δράσης</h3>
-
-  <div class="container-fluid row">
-    <div class="col-10 C1_1">
-      <label for="pr-sec-option10"><span style="font-weight: 500;">Γ1.1)&nbsp;</span>Αποκτήθηκε εξειδίκευση μετά την
-        συμμετοχή σας στο πρόγραμμα;
-        (πιστοποιητικό, δίπλωμα, πτυχίο κοκ)</label><br>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group id="C1_1" name="C1_1" ngModel required aria-label="Select an option">
         <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>

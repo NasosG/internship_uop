@@ -407,13 +407,15 @@ const updateStudentExitSheet = async (form, studentId) => {
 const insertStudentExitSheet = async (form, studentId) => {
   console.log(form);
   try {
-    const insertResults = await pool.query("INSERT INTO exit_form" +
-      '(student_id, "A1_1", "A2_1", "A2_2", "A2_3", "A2_4", "A2_5", "A2_6", "A2_7", "A2_8", "A3_1", "A3_2", "A3_3", "A4_1", "A5_1", "A6_1", "A6_2", "A6_3", "B1_1", "B1_2", "B1_3", "B1_4", "B1_5", "B1_6", "B1_7", "B1_8", "C1_1" )' +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)",
+    const insertResults = await pool.query('INSERT INTO exit_form' +
+      '(student_id, "A1_1", "A1_2", "A1_3", "A1_4", "A2_1", "A2_2", "A2_3", "A2_4", "A2_5", "A2_6", ' +
+      '"A2_7", "A2_8", "A3_1", "A3_2", "A3_3", "A3_4", "A4_1", "A5_1", "A5_2", "A5_3", ' +
+      '"A5_4", "A5_5", "A5_6", "A5_7", "A5_8", "B1_1")' +
+      ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)',
       [studentId,
-        form.A1_1, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A2_7, form.A2_8,
-        form.A3_1, form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.A6_2, form.A6_3,
-        form.B1_1, form.B1_2, form.B1_3, form.B1_4, form.B1_5, form.B1_6, form.B1_7, form.B1_8, form.C1_1
+        form.A1_1, form.A1_2, form.A1_3, form.A1_4, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6,
+        form.A2_7, form.A2_8, form.A3_1, form.A3_2, form.A3_3, form.A3_4, form.A4_1, form.A5_1, form.A5_2, form.A5_3,
+        form.A5_4, form.A5_5, form.A5_6, form.A5_7, form.A5_8, form.B1_1,
       ]);
     return insertResults;
   } catch (error) {

@@ -1,129 +1,167 @@
 <mat-dialog-content class="mat-typography">
   <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+    <div class="alert alert-danger mt-3 mb-2" role="alert">
+      Το δελτίο δεν μπορεί να τροποποιηθεί.
+    </div>
     <div id="exitSheetPreviewContent">
-      <div class="alert alert-danger mt-3 mb-2" role="alert">
-        Το δελτίο δεν μπορεί να τροποποιηθεί.
-      </div>
-      <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
-      <p class="text-danger pt-4 mt-2">
-        Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, Α3, Α4, Α5, A6 θα πρέπει να είναι ΝΑΙ
-      </p>
-      <h4 class="text-dark"> Α1) Ανεργία </h4>
+      <h4 class="text-dark pt-3">Α) Καθεστώς Εργασίας Κατά την Έξοδο</h4>
+      <h4 class="text-dark"> Α1) Εργασιακή κατάσταση </h4>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{unemployedOption[0].id}}">
+          <label for="{{unemployedOptionOutputSheet[0].id}}">
             <span
-              style="font-weight: 500;">{{unemployedOption[0].subCategory}})&nbsp;</span>{{unemployedOption[0].text}}
+              style="font-weight: 500;">{{unemployedOptionOutputSheet[0].subCategory}})&nbsp;</span>{{unemployedOptionOutputSheet[0].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{unemployedOption[0].id}}" ngModel id="{{unemployedOption[0].id}}">
+          <p name="{{unemployedOptionOutputSheet[0].id}}" ngModel id="{{unemployedOptionOutputSheet[0].id}}">
             {{ exitForms[0].A1_1 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
-      <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[0].id}}">
+          <label for="{{unemployedOptionOutputSheet[1].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[0].subCategory}})&nbsp;</span>{{privateSecOptions[0].text}}
+              style="font-weight: 500;">{{unemployedOptionOutputSheet[1].subCategory}})&nbsp;</span>{{unemployedOptionOutputSheet[1].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[0].id}}" ngModel id="{{privateSecOptions[0].id}}">
+          <p name="{{unemployedOptionOutputSheet[1].id}}" ngModel id="{{unemployedOptionOutputSheet[1].id}}">
+            {{ exitForms[0].A1_2 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{unemployedOptionOutputSheet[2].id}}">
+            <span
+              style="font-weight: 500;">{{unemployedOptionOutputSheet[2].subCategory}})&nbsp;</span>{{unemployedOptionOutputSheet[2].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{unemployedOptionOutputSheet[2].id}}" ngModel id="{{unemployedOptionOutputSheet[2].id}}">
+            {{ exitForms[0].A1_3 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{unemployedOptionOutputSheet[3].id}}">
+            <span
+              style="font-weight: 500;">{{unemployedOptionOutputSheet[3].subCategory}})&nbsp;</span>{{unemployedOptionOutputSheet[3].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{unemployedOptionOutputSheet[3].id}}" ngModel id="{{unemployedOptionOutputSheet[3].id}}">
+            {{ exitForms[0].A1_4 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <p class="mt-3">Εάν είστε εργαζόμενος/νη, παρακαλούμε σημειώστε σε ποια από τις παρακάτω κατηγορίες ανήκετε:</p>
+      <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{privateSecOptionsOutputSheet[0].id}}">
+            <span
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[0].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[0].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{privateSecOptionsOutputSheet[0].id}}" ngModel id="{{privateSecOptionsOutputSheet[0].id}}">
             {{ exitForms[0].A2_1 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[1].id}}">
+          <label for="{{privateSecOptionsOutputSheet[1].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[1].subCategory}})&nbsp;</span>{{privateSecOptions[1].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[1].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[1].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[1].id}}" ngModel id="{{privateSecOptions[1].id}}">
+          <p name="{{privateSecOptionsOutputSheet[1].id}}" ngModel id="{{privateSecOptionsOutputSheet[1].id}}">
             {{ exitForms[0].A2_2 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[2].id}}">
+          <label for="{{privateSecOptionsOutputSheet[2].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[2].subCategory}})&nbsp;</span>{{privateSecOptions[2].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[2].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[2].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[2].id}}" ngModel id="{{privateSecOptions[2].id}}">
+          <p name="{{privateSecOptionsOutputSheet[2].id}}" ngModel id="{{privateSecOptionsOutputSheet[2].id}}">
             {{ exitForms[0].A2_3 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[3].id}}">
+          <label for="{{privateSecOptionsOutputSheet[3].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[3].subCategory}})&nbsp;</span>{{privateSecOptions[3].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[3].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[3].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[3].id}}" ngModel id="{{privateSecOptions[3].id}}">
+          <p name="{{privateSecOptionsOutputSheet[3].id}}" ngModel id="{{privateSecOptionsOutputSheet[3].id}}">
             {{ exitForms[0].A2_4 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[4].id}}">
+          <label for="{{privateSecOptionsOutputSheet[4].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[4].subCategory}})&nbsp;</span>{{privateSecOptions[4].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[4].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[4].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[4].id}}" ngModel id="{{privateSecOptions[4].id}}">
+          <p name="{{privateSecOptionsOutputSheet[4].id}}" ngModel id="{{privateSecOptionsOutputSheet[4].id}}">
             {{ exitForms[0].A2_5 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[5].id}}">
+          <label for="{{privateSecOptionsOutputSheet[5].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[5].subCategory}})&nbsp;</span>{{privateSecOptions[5].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[5].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[5].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[5].id}}" ngModel id="{{privateSecOptions[5].id}}">
+          <p name="{{privateSecOptionsOutputSheet[5].id}}" ngModel id="{{privateSecOptionsOutputSheet[5].id}}">
             {{ exitForms[0].A2_6 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[6].id}}">
+          <label for="{{privateSecOptionsOutputSheet[6].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[6].subCategory}})&nbsp;</span>{{privateSecOptions[6].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[6].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[6].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[6].id}}" ngModel id="{{privateSecOptions[6].id}}">
+          <p name="{{privateSecOptionsOutputSheet[6].id}}" ngModel id="{{privateSecOptionsOutputSheet[6].id}}">
             {{ exitForms[0].A2_7 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{privateSecOptions[7].id}}">
+          <label for="{{privateSecOptionsOutputSheet[7].id}}">
             <span
-              style="font-weight: 500;">{{privateSecOptions[7].subCategory}})&nbsp;</span>{{privateSecOptions[7].text}}
+              style="font-weight: 500;">{{privateSecOptionsOutputSheet[7].subCategory}})&nbsp;</span>{{privateSecOptionsOutputSheet[7].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[7].id}}" ngModel id="{{privateSecOptions[7].id}}">
+          <p name="{{privateSecOptionsOutputSheet[7].id}}" ngModel id="{{privateSecOptionsOutputSheet[7].id}}">
             {{ exitForms[0].A2_8 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
@@ -133,40 +171,53 @@
       <h4 class="text-dark">Α3) Απασχολούμενος στο Δημόσιο Τομέα</h4>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{publicSecOptions[0].id}}">
+          <label for="{{publicSecOptionsOutputSheet[0].id}}">
             <span
-              style="font-weight: 500;">{{publicSecOptions[0].subCategory}})&nbsp;</span>{{publicSecOptions[0].text}}
+              style="font-weight: 500;">{{publicSecOptionsOutputSheet[0].subCategory}})&nbsp;</span>{{publicSecOptionsOutputSheet[0].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[0].id}}" ngModel id="{{publicSecOptions[0].id}}">
+          <p name="{{publicSecOptionsOutputSheet[0].id}}" ngModel id="{{publicSecOptionsOutputSheet[0].id}}">
             {{ exitForms[0].A3_1 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{publicSecOptions[1].id}}">
+          <label for="{{publicSecOptionsOutputSheet[1].id}}">
             <span
-              style="font-weight: 500;">{{publicSecOptions[1].subCategory}})&nbsp;</span>{{publicSecOptions[1].text}}
+              style="font-weight: 500;">{{publicSecOptionsOutputSheet[1].subCategory}})&nbsp;</span>{{publicSecOptionsOutputSheet[1].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[1].id}}" ngModel id="{{publicSecOptions[1].id}}">
+          <p name="{{publicSecOptionsOutputSheet[1].id}}" ngModel id="{{publicSecOptionsOutputSheet[1].id}}">
             {{ exitForms[0].A3_2 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{publicSecOptions[2].id}}">
+          <label for="{{publicSecOptionsOutputSheet[2].id}}">
             <span
-              style="font-weight: 500;">{{publicSecOptions[2].subCategory}})&nbsp;</span>{{publicSecOptions[2].text}}
+              style="font-weight: 500;">{{publicSecOptionsOutputSheet[2].subCategory}})&nbsp;</span>{{publicSecOptionsOutputSheet[2].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[2].id}}" ngModel id="{{publicSecOptions[2].id}}">
+          <p name="{{publicSecOptionsOutputSheet[2].id}}" ngModel id="{{publicSecOptionsOutputSheet[2].id}}">
             {{ exitForms[0].A3_3 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{publicSecOptionsOutputSheet[3].id}}">
+            <span
+              style="font-weight: 500;">{{publicSecOptionsOutputSheet[3].subCategory}})&nbsp;</span>{{publicSecOptionsOutputSheet[3].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{publicSecOptionsOutputSheet[3].id}}" ngModel id="{{publicSecOptionsOutputSheet[3].id}}">
+            {{ exitForms[0].A3_4 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
@@ -176,11 +227,12 @@
 
       <div class="container-fluid row">
         <div class="col-10 ">
-          <label for="A4_1">
-            <span style="font-weight: 500;">A4.1)</span> Είμαι αυτοαπασχολούμενος
+          <label for="{{selfEmployedOutputSheet[0].id}}">
+            <span
+              style="font-weight: 500;">{{selfEmployedOutputSheet[0].subCategory}})&nbsp;</span>{{selfEmployedOutputSheet[0].text}}
           </label><br>
-          <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν
-            έχουν
+          <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους
+            επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν έχουν
             πωλήσεις, παρεχόμενες υπηρεσίες ή κέρδη(περιλαμβάνονται και οι ελεύθεροι επαγγελματίες που δεν ασκούν
             δραστηριότητα
             <br>β) άτομα που βρίσκονται σε φάση έναρξης επαγγέλματος (π.χ έχουν παραγγείλει ή αγοράσει εξοπλισμό) και
@@ -190,7 +242,7 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <p name="A4_1" ngModel id="A4_1">
+          <p name="{{selfEmployedOutputSheet[0].id}}" ngModel id="{{publicSecOptionsOutputSheet[3].id}}">
             {{ exitForms[0].A4_1 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
@@ -198,185 +250,129 @@
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
 
-      <h4 class="text-dark">Α5) Άλλη σχέση εργασίας</h4>
+      <h4 class="text-dark">Α5) Λεπτομέρειες Εργασίας</h4>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="A5_1"><span style="font-weight: 500;">A5.1)&nbsp;</span>Σχέση εργασίας (άλλη) που δεν
-            εμπίπτει σε καμία απο τις παραπάνω
-            κατηγορίες</label><br>
+          <label for="{{jobDetailsOutputSheet[0].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[0].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[0].text}}
+          </label>
         </div>
         <div class="col-2 text-right">
-          <p name="A5_1" ngModel id="A5_1">
+          <p name="{{jobDetailsOutputSheet[0].id}}" ngModel id="{{jobDetailsOutputSheet[0].id}}">
             {{ exitForms[0].A5_1 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
+      <p class="ml-2 mt-0 mb-2">Εάν απαντήσατε «ΝΑΙ» στην ερώτηση, σημειώστε σε ποιά από τις παρακάτω κατηγορίες
+        ανήκετε:
+      </p>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[1].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[1].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[1].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[1].id}}" ngModel id="{{jobDetailsOutputSheet[1].id}}">
+            {{ exitForms[0].A5_2 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[2].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[2].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[2].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[2].id}}" ngModel id="{{jobDetailsOutputSheet[2].id}}">
+            {{ exitForms[0].A5_3 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[3].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[3].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[3].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[3].id}}" ngModel id="{{jobDetailsOutputSheet[3].id}}">
+            {{ exitForms[0].A5_4 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[4].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[4].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[4].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[4].id}}" ngModel id="{{jobDetailsOutputSheet[4].id}}">
+            {{ exitForms[0].A5_5 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[5].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[5].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[5].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[5].id}}" ngModel id="{{jobDetailsOutputSheet[5].id}}">
+            {{ exitForms[0].A5_6 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[6].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[6].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[6].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[6].id}}" ngModel id="{{jobDetailsOutputSheet[6].id}}">
+            {{ exitForms[0].A5_7 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{jobDetailsOutputSheet[7].id}}">
+            <span
+              style="font-weight: 500;">{{jobDetailsOutputSheet[7].subCategory}})&nbsp;</span>{{jobDetailsOutputSheet[7].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{jobDetailsOutputSheet[7].id}}" ngModel id="{{jobDetailsOutputSheet[7].id}}">
+            {{ exitForms[0].A5_8 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
 
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
 
-      <h4 class="text-dark">Α6) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
+      <h4 class="text-dark">B1) ΣΤΟΙΧΕΙΑ ΠΡΑΚΤΙΚΗΣ</h4>
       <div class="container-fluid row">
         <div class="col-10">
-          <label for="{{noCategoryOptions[0].id}}">
+          <label for="{{internshipExperienceOutputSheet[0].id}}">
             <span
-              style="font-weight: 500;">{{noCategoryOptions[0].subCategory}})&nbsp;</span>{{noCategoryOptions[0].text}}
+              style="font-weight: 500;">{{internshipExperienceOutputSheet[0].subCategory}})&nbsp;</span>{{internshipExperienceOutputSheet[0].text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{noCategoryOptions[0].id}}" ngModel id="{{noCategoryOptions[0].id}}">
-            {{ exitForms[0].A6_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{noCategoryOptions[1].id}}">
-            <span
-              style="font-weight: 500;">{{noCategoryOptions[1].subCategory}})&nbsp;</span>{{noCategoryOptions[1].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{noCategoryOptions[1].id}}" ngModel id="{{noCategoryOptions[1].id}}">
-            {{ exitForms[0].A6_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{noCategoryOptions[2].id}}">
-            <span
-              style="font-weight: 500;">{{noCategoryOptions[2].subCategory}})&nbsp;</span>{{noCategoryOptions[2].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{noCategoryOptions[2].id}}" ngModel id="{{noCategoryOptions[2].id}}">
-            {{ exitForms[0].A6_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-
-      <mat-divider class="mt-2 mb-2"></mat-divider>
-
-      <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[0].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[0].subCategory}})&nbsp;</span>{{educationStatusOptions[0].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[0].id}}" ngModel id="{{educationStatusOptions[0].id}}">
+          <p name="{{internshipExperienceOutputSheet[0].id}}" ngModel id="{{internshipExperienceOutputSheet[0].id}}">
             {{ exitForms[0].B1_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[1].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[1].subCategory}})&nbsp;</span>{{educationStatusOptions[1].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[1].id}}" ngModel id="{{educationStatusOptions[1].id}}">
-            {{ exitForms[0].B1_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[2].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[2].subCategory}})&nbsp;</span>{{educationStatusOptions[2].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[2].id}}" ngModel id="{{educationStatusOptions[2].id}}">
-            {{ exitForms[0].B1_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[3].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[3].subCategory}})&nbsp;</span>{{educationStatusOptions[3].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[3].id}}" ngModel id="{{educationStatusOptions[3].id}}">
-            {{ exitForms[0].B1_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[4].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[4].subCategory}})&nbsp;</span>{{educationStatusOptions[4].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[4].id}}" ngModel id="{{educationStatusOptions[4].id}}">
-            {{ exitForms[0].B1_5 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[5].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[5].subCategory}})&nbsp;</span>{{educationStatusOptions[5].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[5].id}}" ngModel id="{{educationStatusOptions[5].id}}">
-            {{ exitForms[0].B1_6 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[6].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[6].subCategory}})&nbsp;</span>{{educationStatusOptions[6].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[6].id}}" ngModel id="{{educationStatusOptions[6].id}}">
-            {{ exitForms[0].B1_7 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-      <div class="container-fluid row">
-        <div class="col-10">
-          <label for="{{educationStatusOptions[7].id}}">
-            <span
-              style="font-weight: 500;">{{educationStatusOptions[7].subCategory}})&nbsp;</span>{{educationStatusOptions[7].text}}
-          </label>
-        </div>
-        <div class="col-2 text-right">
-          <p name="{{educationStatusOptions[7].id}}" ngModel id="{{educationStatusOptions[7].id}}">
-            {{ exitForms[0].B1_8 == "0" ? 'OXI' : 'NAI'}}
-          </p>
-        </div>
-      </div>
-
-      <mat-divider class="mt-2 mb-2"></mat-divider>
-
-      <h3 class="text-danger pt-3">Γ) Αποτελέσματα της δράσης</h3>
-
-      <div class="container-fluid row">
-        <div class="col-10 C1_1">
-          <label for="C1_1"><span style="font-weight: 500;">Γ1.1)&nbsp;</span>Αποκτήθηκε εξειδίκευση μετά την
-            συμμετοχή σας στο πρόγραμμα;
-            (πιστοποιητικό, δίπλωμα, πτυχίο κοκ)</label><br>
-        </div>
-        <div class="col-2 text-right">
-          <p name="C1_1" ngModel id="C1_1">
-            {{ exitForms[0].C1_1 == "0" ? 'OXI' : 'NAI'}}
           </p>
         </div>
       </div>
@@ -387,5 +383,5 @@
 <mat-dialog-actions style='text-align: right'>
   <button mat-button class="back-btn" (click)="onCancel()" class="btn btn-secondary mr-2">
     Κλείσιμο</button>
-  <!-- <button class="print-btn" (click)="printOutputSheet()" class="btn btn-primary">Εκτύπωση</button> -->
+  <button class="print-btn" (click)="printOutputSheet()" class="btn btn-primary">Εκτύπωση</button>
 </mat-dialog-actions>

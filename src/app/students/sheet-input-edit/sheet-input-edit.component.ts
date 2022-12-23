@@ -10,6 +10,16 @@ import { SheetInputComponent } from '../sheet-input/sheet-input.component';
 })
 export class SheetInputEditComponent extends SheetInputComponent implements OnInit {
   entries!: EntryForm[];
+  // Global variables
+  public unemployedOption = Utils.unemployedOption;
+  public privateSecOptions = Utils.privateSecOptions;
+  public publicSecOptions = Utils.publicSecOptions;
+  // A4.1 option can be found on the html
+  public jobRelationOtherThanAbove = Utils.jobRelationOtherThanAbove;
+  public specialJobOptions = Utils.specialJobOptions;
+  public educationOptions = Utils.educationOptions;
+  public educationalStandardOptions = Utils.educationalStandardOptions;
+  public demographicsOptions = Utils.demographicsOptions;
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
@@ -17,15 +27,5 @@ export class SheetInputEditComponent extends SheetInputComponent implements OnIn
         this.entries = forms;
       });
   }
-
-  unemployedOption = Utils.unemployedOption;
-  privateSecOptions = Utils.privateSecOptions;
-  publicSecOptions = Utils.publicSecOptions;
-  // A4.1 option can be found on the html
-  jobRelationOtherThanAbove = Utils.jobRelationOtherThanAbove;
-  specialJobOptions = Utils.specialJobOptions;
-  educationOptions = Utils.educationOptions;
-  educationalStandardOptions = Utils.educationalStandardOptions;
-  demographicsOptions = Utils.demographicsOptions;
 
 }

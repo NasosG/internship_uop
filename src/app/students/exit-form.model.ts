@@ -2,6 +2,9 @@ export interface ExitForm {
   id: number;
   student_id: number;
   A1_1: string;
+  A1_2: string;
+  A1_3: string;
+  A1_4: string;
   A2_1: string;
   A2_2: string;
   A2_3: string;
@@ -13,18 +16,19 @@ export interface ExitForm {
   A3_1: string;
   A3_2: string;
   A3_3: string;
+  A3_4: string;
   A4_1: string;
   A5_1: string;
-  A6_1: string;
-  A6_2: string;
-  A6_3: string;
+  A5_2: string;
+  A5_3: string;
+  A5_4: string;
+  A5_5: string;
+  A5_6: string;
+  A5_7: string;
+  A5_8: string;
   B1_1: string;
-  B1_2: string;
-  B1_3: string;
-  B1_4: string;
-  B1_5: string;
-  B1_6: string;
-  B1_7: string;
-  B1_8: string;
-  C1_1: string;
 }
+
+
+
+
