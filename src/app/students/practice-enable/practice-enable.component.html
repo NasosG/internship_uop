@@ -167,6 +167,20 @@
         </mat-select>
       </mat-form-field>
       <br>
+      <p class="pt-2 pb-0 mb-0"> Ανεβάστε την παρακάτω υπεύθυνη δήλωση υπογεγραμμένη. Προτείνεται η διαδικασία να
+        γίνει μέσω του gov.gr. </p>
+      <a href="src=../../../assets/documents/affidavit.doc" target="_blank">Δείτε το υπόδειγμα Υπεύθυνης δήλωσης</a>
+      <br>
+      <h6 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
+          class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
+          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+        </i></h6>
+
+      <mat-form-field>
+        <ngx-mat-file-input #affidavitFileInput id="affidavitFileInput" (change)="validateFiles('ameaFile')"
+          formControlName="affidavitFile" placeholder="Ανεβάστε αρχείο Υπεύθυνης δήλωσης">
+        </ngx-mat-file-input>
+      </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
         <button mat-button matStepperNext>Επόμενο</button>

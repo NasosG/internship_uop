@@ -68,6 +68,7 @@ export class PracticeEnableComponent implements OnInit {
     this.specialDataFormGroup = this._formBuilder.group({
       ameaCatCtrl: ['', Validators.required],
       ameaFile: ['', /*TODO make it required if student chooses amea5 from dropdown Validators.required*/],
+      affidavitFile: ['', Validators.required],
       workingCatCtrl: ['', Validators.required],
       armyCatCtrl: ['', Validators.required]
     });
@@ -108,7 +109,8 @@ export class PracticeEnableComponent implements OnInit {
     const contractFiles: any = {
       ssnFile: this.secondFormGroup.get('ssnFile')?.value,
       ibanFile: this.secondFormGroup.get('ibanFile')?.value,
-      ameaFile: this.specialDataFormGroup.get('ameaFile')?.value
+      ameaFile: this.specialDataFormGroup.get('ameaFile')?.value,
+      affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value
     };
     const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
@@ -152,9 +154,10 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any }) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
+    const fileAffidavit = this.uploadFile(contractFiles.affidavitFile);
 
     const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
 
@@ -162,10 +165,12 @@ export class PracticeEnableComponent implements OnInit {
     if (fileAmea == null) {
       files = [{"fileData": fileSSN, "type": 'SSN'},
                {"fileData": fileIban, "type": 'IBAN'},
+               {"fileData": fileAffidavit, "type": 'AFFIDAVIT'},
                {"fileData": fileAmea, "type": 'AMEA'}];
     } else {
       files = [{"fileData": fileSSN, "type": 'SSN'},
-               {"fileData": fileIban, "type": 'IBAN'}];
+               {"fileData": fileIban, "type": 'IBAN'},
+               {"fileData": fileAffidavit, "type": 'AFFIDAVIT'}];
     }
 
     this.studentsService.updateStudentContractDetails(data);

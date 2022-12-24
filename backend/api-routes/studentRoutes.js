@@ -36,6 +36,7 @@ router.delete("/deleteApplicationById/:id", /*checkAuth,*/ studentController.del
 router.post("/updateStudentSSNFile/:id", studentController.insertSSNFile);
 router.post("/updateStudentIbanFile/:id", studentController.insertIbanFile);
 router.post("/updateStudentAMEAFile/:id", studentController.insertAMEAFile);
+router.post("/updateStudentAffidavitFile/:id", studentController.insertAffidavitFile);
 router.post("/sendFile/:id", studentController.sendFile);
 router.get("/getAssignmentsByStudentId/:id", studentController.getAssignmentsByStudentId);
 router.post("/insertAssignment/:id", studentController.insertAssignment);

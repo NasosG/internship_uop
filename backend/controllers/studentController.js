@@ -661,6 +661,30 @@ const insertAMEAFile = async (request, response, next) => {
   }
 };
 
+const insertAffidavitFile = async (request, response, next) => {
+  try {
+    const ssoUserId = request.params.id;
+    const docType = "AFFIDAVIT";
+    const userType = "student";
+    const fileName = userType + ssoUserId + "_" + docType;
+    const filePath = `./uploads/affidavit/${ssoUserId}`;
+
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.affidavit(request, response, (err) => validateFile(request, response, err, docType));
+
+    response
+      .status(201)
+      .json({
+        message: "FILE ADDED AFFIDAVIT"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(201).json({
+      message: "ERROR"
+    });
+  }
+};
+
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
@@ -778,6 +802,7 @@ module.exports = {
   insertSSNFile,
   insertIbanFile,
   insertAMEAFile,
+  insertAffidavitFile,
   sendFile,
   insertAssignment
 };

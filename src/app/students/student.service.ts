@@ -230,6 +230,9 @@ export class StudentsService {
     else if (type == 'AMEA')
       return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentAMEAFile/" + id, file);
+    else if (type == 'AFFIDAVIT')
+      return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentAffidavitFile/" + id, file);
   }
 
   updateStudentContractIbanFile(file: any): any {

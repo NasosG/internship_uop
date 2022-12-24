@@ -106,6 +106,27 @@ const storageAmea = multer.diskStorage({
   }
 });
 
+const storageAffidavit = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const studentId = req.params.id;
+    const fileDir = process.env.UPLOAD_FILE_PATH + "affidavit/";
+    const path = fileDir + studentId;
+
+    // remove all files before inserting the new one
+    // in order to always keep the one last file student has posted
+    fsExtra.emptyDirSync(fileDir);
+
+    fs.mkdirSync(path, { recursive: true });
+    return cb(null, path);
+  },
+  filename: function (request, file, cb) {
+    const studentId = request.params.id;
+    const fileName = "student" + studentId + "_" + "AFFIDAVIT";
+    const formattedExtension = MiscUtils.formatDocExtension(file.mimetype.split("/")[1]);
+    cb(null, fileName + "." + formattedExtension);
+  }
+});
+
 const uploadAmea = multer({
   storage: storageAmea,
   fileFilter: function (req, file, callback) {
@@ -120,13 +141,30 @@ const uploadAmea = multer({
   }
 });
 
+const uploadAffidavit = multer({
+  storage: storageAffidavit,
+  fileFilter: function (req, file, callback) {
+    let ext = path.extname(file.originalname);
+    if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
+      return callback(new Error("This file type is not valid"));
+    }
+    callback(null, true);
+  },
+  limits: {
+    fileSize: 244140625
+  }
+});
+
+
 let iban = util.promisify(uploadIban.single("file"));
 let ssn = util.promisify(uploadSsn.single("file"));
 let amea = util.promisify(uploadAmea.single("file"));
+let affidavit = util.promisify(uploadAffidavit.single("file"));
 // module.exports = uploadIban.single("file");
 
 module.exports = {
   iban,
   ssn,
-  amea
+  amea,
+  affidavit
 };
