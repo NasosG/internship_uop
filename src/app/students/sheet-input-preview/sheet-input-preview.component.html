@@ -58,19 +58,6 @@
     </div>
     <div class="container-fluid row">
       <div class="col-10">
-        <label for="{{privateSecOptions[0].id}}">
-          <span
-            style="font-weight: 500;">{{privateSecOptions[0].subCategory}})&nbsp;</span>{{privateSecOptions[0].text}}
-        </label>
-      </div>
-      <div class="col-2 text-right">
-        <p name="{{privateSecOptions[0].id}}" ngModel id="{{privateSecOptions[0].id}}">
-          {{ entryForms[0].A2_1 == "0" ? 'OXI' : 'NAI'}}
-        </p>
-      </div>
-    </div>
-    <div class="container-fluid row">
-      <div class="col-10">
         <label for="{{privateSecOptions[1].id}}">
           <span
             style="font-weight: 500;">{{privateSecOptions[1].subCategory}})&nbsp;</span>{{privateSecOptions[1].text}}
@@ -78,7 +65,7 @@
       </div>
       <div class="col-2 text-right">
         <p name="{{privateSecOptions[1].id}}" ngModel id="{{privateSecOptions[1].id}}">
-          {{ entryForms[0].A2_2 == "0" ? 'OXI' : 'NAI'}}
+          {{ entryForms[0].A2_1 == "0" ? 'OXI' : 'NAI'}}
         </p>
       </div>
     </div>
@@ -91,7 +78,7 @@
       </div>
       <div class="col-2 text-right">
         <p name="{{privateSecOptions[2].id}}" ngModel id="{{privateSecOptions[2].id}}">
-          {{ entryForms[0].A2_3 == "0" ? 'OXI' : 'NAI'}}
+          {{ entryForms[0].A2_2 == "0" ? 'OXI' : 'NAI'}}
         </p>
       </div>
     </div>
@@ -104,7 +91,7 @@
       </div>
       <div class="col-2 text-right">
         <p name="{{privateSecOptions[3].id}}" ngModel id="{{privateSecOptions[3].id}}">
-          {{ entryForms[0].A2_4 == "0" ? 'OXI' : 'NAI'}}
+          {{ entryForms[0].A2_3 == "0" ? 'OXI' : 'NAI'}}
         </p>
       </div>
     </div>
@@ -117,7 +104,7 @@
       </div>
       <div class="col-2 text-right">
         <p name="{{privateSecOptions[4].id}}" ngModel id="{{privateSecOptions[4].id}}">
-          {{ entryForms[0].A2_5 == "0" ? 'OXI' : 'NAI'}}
+          {{ entryForms[0].A2_4 == "0" ? 'OXI' : 'NAI'}}
         </p>
       </div>
     </div>
@@ -130,7 +117,33 @@
       </div>
       <div class="col-2 text-right">
         <p name="{{privateSecOptions[5].id}}" ngModel id="{{privateSecOptions[5].id}}">
+          {{ entryForms[0].A2_5 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[6].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[6].subCategory}})&nbsp;</span>{{privateSecOptions[6].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[6].id}}" ngModel id="{{privateSecOptions[6].id}}">
           {{ entryForms[0].A2_6 == "0" ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+    <div class="container-fluid row">
+      <div class="col-10">
+        <label for="{{privateSecOptions[7].id}}">
+          <span
+            style="font-weight: 500;">{{privateSecOptions[7].subCategory}})&nbsp;</span>{{privateSecOptions[7].text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{privateSecOptions[7].id}}" ngModel id="{{privateSecOptions[7].id}}">
+          {{ entryForms[0].A2_7 == "0" ? 'OXI' : 'NAI'}}
         </p>
       </div>
     </div>
