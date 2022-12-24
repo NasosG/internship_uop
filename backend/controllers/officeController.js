@@ -72,10 +72,53 @@ const insertEspaPosition = async (request, response) => {
   }
 };
 
+const updateEntrySheetField = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const data = request.body;
+    await officeService.updateEntrySheetField(id, data);
+
+    response
+      .status(201)
+      .json({
+        message: 'entry sheet field updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response
+      .status(400)
+      .send({
+        message: error.message
+      });
+  }
+};
+
+const updateExitSheetField = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const data = request.body;
+    await officeService.updateExitSheetField(id, data);
+
+    response
+      .status(201)
+      .json({
+        message: 'entry sheet field updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response
+      .status(400)
+      .send({
+        message: error.message
+      });
+  }
+};
 
 module.exports = {
   getPeriodByDepartmentId,
   getOfficeUserById,
   insertEspaPosition,
+  updateEntrySheetField,
+  updateExitSheetField,
   login
 };

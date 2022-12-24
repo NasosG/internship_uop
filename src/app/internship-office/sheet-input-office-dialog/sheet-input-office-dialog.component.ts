@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
-import { SheetInputPreviewDialogComponent } from 'src/app/department-managers/sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { Utils } from 'src/app/MiscUtils';
 import { EntryForm } from 'src/app/students/entry-form.model';
 import Swal from 'sweetalert2';
@@ -26,7 +25,7 @@ export class SheetInputOfficeDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
     public departmentManagerService: DepManagerService,
-    public dialogRef: MatDialogRef<SheetInputPreviewDialogComponent>
+    public dialogRef: MatDialogRef<SheetInputOfficeDialogComponent>
   ) { }
 
   ngOnInit(): void {

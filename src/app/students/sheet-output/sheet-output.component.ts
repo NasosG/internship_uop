@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import {AuthService} from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { StudentsService } from '../student.service';
 
@@ -16,7 +17,7 @@ export class SheetOutputComponent implements OnInit {
   studentsData: any;
   studentName!: string;
 
-  constructor(public studentsService: StudentsService) { }
+  constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
   ngOnInit(): void { }
 

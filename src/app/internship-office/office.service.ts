@@ -54,4 +54,14 @@ export class OfficeService {
       });
   }
 
+  updateEntrySheetField(formId: number, fieldId: string, elementValue: boolean): Observable<any> {
+    return this.http
+      .put<{ message: string }>(OFFICE_URL + "updateEntrySheetField/" + formId, { "fieldId": fieldId, "elementValue": elementValue });
+  }
+
+  updateExitSheetField(formId: number, fieldId: string, elementValue: boolean): Observable<any> {
+    return this.http
+      .put<{ message: string }>(OFFICE_URL + "updateExitSheetField/" + formId, { "fieldId": fieldId, "elementValue": elementValue });
+  }
+
 }

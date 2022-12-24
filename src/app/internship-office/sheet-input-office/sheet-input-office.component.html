@@ -32,6 +32,7 @@
                       <th>email</th>
                       <!-- <th>Έγγραφα</th> -->
                       <th class="text-center">Ενέργειες</th>
+                      <th class="text-center">ΟΠΣ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -89,9 +90,13 @@
                         </table> -->
                         <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                             class="fa fa-eye"></i> Προβολή / Εκτύπωση Δελτίου<br></a>
-                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                        <a (click)="openEditDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                             class="fa fa-cog"></i> Επεξεργασία Δελτίου<br></a>
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
+                      </td>
+                      <td class="action text-center">
+                        <a class="text-secondary" style="cursor: pointer;"><i class="fa fa-upload"></i> Ανέβασμα στο
+                          ΟΠΣ<br></a>
                       </td>
                     </tr>
                   </tbody>
@@ -104,6 +109,7 @@
                       <th>email</th>
                       <!-- <th>Έγγραφα</th> -->
                       <th class="text-center">Ενέργειες</th>
+                      <th class="text-center">ΟΠΣ</th>
                     </tr>
                   </tfoot>
                 </table>

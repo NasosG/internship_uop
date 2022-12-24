@@ -244,7 +244,7 @@
         </p>
       </div>
       <div class="col-2 text-right">
-        <p name="{{selfEmployedOutputSheet[0].id}}" ngModel id="{{publicSecOptionsOutputSheet[3].id}}">
+        <p name="{{selfEmployedOutputSheet[0].id}}" ngModel id="{{selfEmployedOutputSheet[0].id}}">
           {{ exitForms[0].A4_1 == "0" ? 'OXI' : 'NAI'}}
         </p>
       </div>
@@ -380,7 +380,7 @@
 
   </div>
   <br>
-  <button class="back-btn" [routerLink]="['../sheets']" class="btn btn-secondary mr-2"> <i
+  <button class="back-btn" [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2"> <i
       class="fas fa-angle-left"></i>
     Πίσω</button>
   <button class="print-btn" (click)="printOutputSheet()" class="btn btn-primary">Εκτύπωση</button>

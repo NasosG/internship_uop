@@ -1,7 +1,7 @@
 <mat-dialog-content class="mat-typography">
   <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
-      Το δελτίο δεν μπορεί να τροποποιηθεί.
+      Το δελτίο μπορεί να τροποποιηθεί.
     </div>
     <div id="entrySheetPreviewContent">
       <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
@@ -55,9 +55,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[0].id}}" ngModel id="{{privateSecOptions[0].id}}">
-            {{ entryForms[0].A2_0 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_0" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[0].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -68,9 +74,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[1].id}}" ngModel id="{{privateSecOptions[1].id}}">
-            {{ entryForms[0].A2_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_1" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[1].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -81,9 +93,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[2].id}}" ngModel id="{{privateSecOptions[2].id}}">
-            {{ entryForms[0].A2_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_2" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[2].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -94,9 +112,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[3].id}}" ngModel id="{{privateSecOptions[3].id}}">
-            {{ entryForms[0].A2_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_3" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[3].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -107,9 +131,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[4].id}}" ngModel id="{{privateSecOptions[4].id}}">
-            {{ entryForms[0].A2_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_4" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[4].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -120,9 +150,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[5].id}}" ngModel id="{{privateSecOptions[5].id}}">
-            {{ entryForms[0].A2_5 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_5" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[5].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -133,9 +169,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[6].id}}" ngModel id="{{privateSecOptions[6].id}}">
-            {{ entryForms[0].A2_6 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_6" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[6].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -146,9 +188,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{privateSecOptions[7].id}}" ngModel id="{{privateSecOptions[7].id}}">
-            {{ entryForms[0].A2_7 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A2_7" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(privateSecOptions[7].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
@@ -161,9 +209,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[0].id}}" ngModel id="{{publicSecOptions[0].id}}">
-            {{ entryForms[0].A3_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A3_1" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(publicSecOptions[0].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -174,9 +228,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[1].id}}" ngModel id="{{publicSecOptions[1].id}}">
-            {{ entryForms[0].A3_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A3_2" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(publicSecOptions[1].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -187,9 +247,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[2].id}}" ngModel id="{{publicSecOptions[2].id}}">
-            {{ entryForms[0].A3_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A3_3" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(publicSecOptions[2].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -200,9 +266,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{publicSecOptions[3].id}}" ngModel id="{{publicSecOptions[3].id}}">
-            {{ entryForms[0].A3_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A3_4" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(publicSecOptions[3].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
@@ -223,9 +295,15 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <p name="A4_1" ngModel id="A4_1">
-            {{ entryForms[0].A4_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A4_1" required>
+              <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue('A4_1', element)"
+                [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
@@ -237,9 +315,15 @@
               500;">{{jobRelationOtherThanAbove[0].subCategory}})&nbsp;</span>{{jobRelationOtherThanAbove[0].text}}</label><br>
         </div>
         <div class="col-2 text-right">
-          <p name="{{jobRelationOtherThanAbove[0].id}}" ngModel id="{{jobRelationOtherThanAbove[0].id}}">
-            {{ entryForms[0].A5_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A5_1" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(jobRelationOtherThanAbove[0].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
@@ -252,9 +336,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{specialJobOptions[0].id}}" ngModel id="{{specialJobOptions[0].id}}">
-            {{ entryForms[0].A6_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A6_1" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(specialJobOptions[0].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -265,9 +355,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{specialJobOptions[1].id}}" ngModel id="{{specialJobOptions[1].id}}">
-            {{ entryForms[0].A6_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A6_2" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(specialJobOptions[1].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -278,9 +374,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{specialJobOptions[2].id}}" ngModel id="{{specialJobOptions[2].id}}">
-            {{ entryForms[0].A6_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A6_3" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(specialJobOptions[2].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -291,9 +393,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{specialJobOptions[3].id}}" ngModel id="{{specialJobOptions[3].id}}">
-            {{ entryForms[0].A6_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A6_4" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(specialJobOptions[3].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -304,9 +412,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{specialJobOptions[4].id}}" ngModel id="{{specialJobOptions[4].id}}">
-            {{ entryForms[0].A6_5 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].A6_5" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(specialJobOptions[4].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
@@ -340,9 +454,15 @@
           </p>
         </div>
         <div class="col-2 text-right">
-          <p name="B1_1" ngModel id="B1_1">
-            {{ entryForms[0].B1_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_1" required>
+              <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue('B1_1', element)"
+                [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -353,9 +473,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationOptions[1].id}}" ngModel id="{{educationOptions[1].id}}">
-            {{ entryForms[0].B1_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_2" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationOptions[1].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -366,9 +492,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationOptions[2].id}}" ngModel id="{{educationOptions[2].id}}">
-            {{ entryForms[0].B1_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_3" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationOptions[2].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -379,9 +511,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationOptions[3].id}}" ngModel id="{{educationOptions[3].id}}">
-            {{ entryForms[0].B1_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_4" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationOptions[3].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -392,9 +530,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationOptions[4].id}}" ngModel id="{{educationOptions[4].id}}">
-            {{ entryForms[0].B1_5 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_5" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationOptions[4].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -405,9 +549,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationOptions[5].id}}" ngModel id="{{educationOptions[5].id}}">
-            {{ entryForms[0].B1_6 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_6" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationOptions[5].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -418,9 +568,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationOptions[6].id}}" ngModel id="{{educationOptions[6].id}}">
-            {{ entryForms[0].B1_7 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B1_7" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationOptions[6].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 
@@ -433,9 +589,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[0].id}}" ngModel id="{{educationalStandardOptions[0].id}}">
-            {{ entryForms[0].B2_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_1" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[0].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -446,9 +608,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[1].id}}" ngModel id="{{educationalStandardOptions[1].id}}">
-            {{ entryForms[0].B2_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_2" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[1].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -459,9 +627,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[2].id}}" ngModel id="{{educationalStandardOptions[2].id}}">
-            {{ entryForms[0].B2_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_3" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[2].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -472,9 +646,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[3].id}}" ngModel id="{{educationalStandardOptions[3].id}}">
-            {{ entryForms[0].B2_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_4" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[3].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -485,9 +665,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[4].id}}" ngModel id="{{educationalStandardOptions[4].id}}">
-            {{ entryForms[0].B2_5 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_5" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[4].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -498,9 +684,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[5].id}}" ngModel id="{{educationalStandardOptions[5].id}}">
-            {{ entryForms[0].B2_6 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_6" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[5].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -511,9 +703,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[6].id}}" ngModel id="{{educationalStandardOptions[6].id}}">
-            {{ entryForms[0].B2_7 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_7" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[6].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -524,9 +722,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{educationalStandardOptions[7].id}}" ngModel id="{{educationalStandardOptions[7].id}}">
-            {{ entryForms[0].B2_8 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].B2_8" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(educationalStandardOptions[7].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 
@@ -540,9 +744,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[0].id}}" ngModel id="{{demographicsOptions[0].id}}">
-            {{ entryForms[0].C1_1 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_1" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[0].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <p class="text-dark ml-2"><strong>Παρακαλούμε συμπληρώστε εάν ανήκετε σε οποιαδήποτε από τις
@@ -556,9 +766,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[1].id}}" ngModel id="{{demographicsOptions[1].id}}">
-            {{ entryForms[0].C1_2 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_2" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[1].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -569,9 +785,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[2].id}}" ngModel id="{{demographicsOptions[2].id}}">
-            {{ entryForms[0].C1_3 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_3" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[2].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -582,9 +804,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[3].id}}" ngModel id="{{demographicsOptions[3].id}}">
-            {{ entryForms[0].C1_4 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_4" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[3].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -595,9 +823,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[4].id}}" ngModel id="{{demographicsOptions[4].id}}">
-            {{ entryForms[0].C1_5 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_5" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[4].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -608,9 +842,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[5].id}}" ngModel id="{{demographicsOptions[5].id}}">
-            {{ entryForms[0].C1_6 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_6" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[5].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -621,9 +861,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[6].id}}" ngModel id="{{demographicsOptions[6].id}}">
-            {{ entryForms[0].C1_7 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_7" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[6].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -634,9 +880,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[7].id}}" ngModel id="{{demographicsOptions[7].id}}">
-            {{ entryForms[0].C1_8 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_8" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[7].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -647,9 +899,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[8].id}}" ngModel id="{{demographicsOptions[8].id}}">
-            {{ entryForms[0].C1_9 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_9" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[8].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -660,9 +918,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[9].id}}" ngModel id="{{demographicsOptions[9].id}}">
-            {{ entryForms[0].C1_10 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_10" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[9].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="container-fluid row">
@@ -673,9 +937,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{demographicsOptions[10].id}}" ngModel id="{{demographicsOptions[10].id}}">
-            {{ entryForms[0].C1_11 == "0" ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="entryForms[0].C1_11" required>
+              <mat-option *ngFor="let element of yesNoOptions"
+                (click)="submitFieldValue(demographicsOptions[10].id, element)" [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 
@@ -685,5 +955,5 @@
 <mat-dialog-actions style='text-align: right'>
   <button mat-button class="back-btn" (click)="onCancel()" class="btn btn-secondary mr-2">
     Κλείσιμο</button>
-  <button class="print-btn" (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button>
+  <!-- <button class="print-btn" (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button> -->
 </mat-dialog-actions>

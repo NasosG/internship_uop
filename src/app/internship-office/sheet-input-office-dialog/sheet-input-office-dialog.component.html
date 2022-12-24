@@ -192,6 +192,19 @@
           </p>
         </div>
       </div>
+      <div class="container-fluid row">
+        <div class="col-10">
+          <label for="{{publicSecOptions[3].id}}">
+            <span
+              style="font-weight: 500;">{{publicSecOptions[3].subCategory}})&nbsp;</span>{{publicSecOptions[3].text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <p name="{{publicSecOptions[3].id}}" ngModel id="{{publicSecOptions[3].id}}">
+            {{ entryForms[0].A3_4 == "0" ? 'OXI' : 'NAI'}}
+          </p>
+        </div>
+      </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
       <h4 class="text-dark">Α4) Αυτοαπασχολούμενος</h4>
       <div class="container-fluid row">

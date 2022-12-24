@@ -4,13 +4,15 @@ import { DepManagerService } from 'src/app/department-managers/dep-manager.servi
 import { Utils } from 'src/app/MiscUtils';
 import { ExitForm } from 'src/app/students/exit-form.model';
 import Swal from 'sweetalert2';
+import { OfficeService } from '../office.service';
 
 @Component({
-  selector: 'app-sheet-output-office-dialog',
-  templateUrl: './sheet-output-office-dialog.component.html',
-  styleUrls: ['./sheet-output-office-dialog.component.css']
+  selector: 'app-sheet-output-office-edit-dialog',
+  templateUrl: './sheet-output-office-edit-dialog.component.html',
+  styleUrls: ['./sheet-output-office-edit-dialog.component.css']
 })
-export class SheetOutputOfficeDialogComponent implements OnInit {
+export class SheetOutputOfficeEditDialogComponent implements OnInit {
+  public yesNoOptions = [true, false];
   public exitForms: ExitForm[] = [];
   // Global variables
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
@@ -22,8 +24,8 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
-    public departmentManagerService: DepManagerService,
-    public dialogRef: MatDialogRef<SheetOutputOfficeDialogComponent>
+    public departmentManagerService: DepManagerService, public officeService: OfficeService,
+    public dialogRef: MatDialogRef<SheetOutputOfficeEditDialogComponent>
   ) { }
 
   ngOnInit(): void {
@@ -79,5 +81,16 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
     windowPrint?.focus();
     windowPrint?.print();
     windowPrint?.close();
+  }
+
+  submitFieldValue(fieldId : string, elementValue : boolean) {
+    let formId = this.data.studentsData[0].exit_id;
+    // use a service function to send element and fieldId to the backend
+    this.officeService.updateExitSheetField(formId, fieldId, elementValue)
+      .subscribe(
+         res => console.log('HTTP response', res),
+         err => alert('Error while updating entry sheet field') ,
+         () => console.log('HTTP request completed.')
+      );
   }
 }

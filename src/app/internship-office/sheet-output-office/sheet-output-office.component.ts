@@ -7,6 +7,8 @@ import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { SheetOutputPreviewDialogComponent } from 'src/app/department-managers/sheet-output-preview-dialog/sheet-output-preview-dialog.component';
 import { Student } from 'src/app/students/student.model';
+import {SheetOutputOfficeDialogComponent} from '../sheet-output-office-dialog/sheet-output-office-dialog.component';
+import {SheetOutputOfficeEditDialogComponent} from '../sheet-output-office-edit-dialog/sheet-output-office-edit-dialog.component';
 
 @Component({
   selector: 'app-sheet-output-office',
@@ -57,7 +59,7 @@ export class SheetOutputOfficeComponent implements OnInit {
               select: true,
               pagingType: 'full_numbers',
               processing: true,
-              columnDefs: [{ orderable: false, targets: [3] }]
+              columnDefs: [{ orderable: false, targets: [3, 4] }]
             });
         });
     });
@@ -86,7 +88,18 @@ export class SheetOutputOfficeComponent implements OnInit {
 
   openDialog(idx: any) {
     console.log(idx);
-    const dialogRef = this.dialog.open(SheetOutputPreviewDialogComponent, {
+    const dialogRef = this.dialog.open(SheetOutputOfficeDialogComponent, {
+      data: { studentsData: this.studentsData, index: idx }, width: '50%',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openEditDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(SheetOutputOfficeEditDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '50%',
     });
 

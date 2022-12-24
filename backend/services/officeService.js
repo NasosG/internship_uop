@@ -103,10 +103,33 @@ const insertOrUpdateEspaPositionsByDepId = async (body, departmentId) => {
   }
 };
 
+const updateEntrySheetField = async (id, body) => {
+  try {
+    await pool.query('UPDATE entry_form SET "' + body.fieldId + '" = $1 WHERE id = $2',
+      [body.elementValue, id]);
+  } catch (error) {
+    console.log('Error while updating entry sheet field ' + error.message);
+    throw Error('Error while updating entry sheet field');
+  }
+};
+
+const updateExitSheetField = async (id, body) => {
+  try {
+    await pool.query('UPDATE exit_form SET "' + body.fieldId + '" = $1 WHERE exit_id = $2',
+      [body.elementValue, id]);
+  } catch (error) {
+    console.log('Error while updating entry sheet field ' + error.message);
+    throw Error('Error while updating entry sheet field');
+  }
+};
+
+
 module.exports = {
   getPeriodByDepartmentId,
   getDepManagerById,
   getEspaPositionByDepId,
   insertOrUpdateEspaPositionsByDepId,
+  updateEntrySheetField,
+  updateExitSheetField,
   login
 };
