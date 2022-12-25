@@ -26,6 +26,7 @@ const storageIban = multer.diskStorage({
     // fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
+    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
@@ -61,6 +62,7 @@ const storageSsn = multer.diskStorage({
     // fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
+    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
@@ -96,6 +98,7 @@ const storageAmea = multer.diskStorage({
     // fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
+    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
@@ -117,6 +120,7 @@ const storageAffidavit = multer.diskStorage({
     // fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
+    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
