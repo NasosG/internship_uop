@@ -160,9 +160,10 @@ export class PracticeEnableComponent implements OnInit {
     const fileAffidavit = this.uploadFile(contractFiles.affidavitFile);
 
     const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
+    const isAmeaCatSelected = this.specialDataFormGroup.get('ameaCatCtrl')?.value == "1"
 
     let files;
-    if (fileAmea == null) {
+    if (isAmeaCatSelected && fileAmea != null) {
       files = [{"fileData": fileSSN, "type": 'SSN'},
                {"fileData": fileIban, "type": 'IBAN'},
                {"fileData": fileAffidavit, "type": 'AFFIDAVIT'},
@@ -201,7 +202,7 @@ export class PracticeEnableComponent implements OnInit {
     });
   }
 
-  onErr() {
+  onError() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
       text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif .doc .docx',
@@ -213,12 +214,23 @@ export class PracticeEnableComponent implements OnInit {
     });
   }
 
-  validateFiles(docType: string) {
-    let ssnFile = this.secondFormGroup.get(docType)?.value;
-    if (ssnFile == null) {
+  validateFiles(formFileName: string) {
+    //this.filesSubmitted[formFileName] = false;
+    let formGroup = (this.secondFormGroup.contains(formFileName)) ? this.secondFormGroup : this.specialDataFormGroup;
+    let formFile = formGroup.get(formFileName)?.value;
+
+    if (formFile == null) {
       return;
     }
-    let fileName = ssnFile._fileNames;
+
+    let fileName = formFile._fileNames;
+    if (!this.getExtensionExists(fileName)) {
+      this.onError();
+      formGroup.get(formFileName)?.setValue(null);
+      formGroup.get(formFileName)?.reset();
+      return;
+    }
+
     let ext = fileName.match(/\.([^\.]+)$/)[1];
     switch (ext) {
       case 'jpg':
@@ -232,10 +244,31 @@ export class PracticeEnableComponent implements OnInit {
         console.log('Allowed file format');
         break;
       default:
-        this.onErr();
-        this.secondFormGroup.get(docType)?.setValue(null);
+        this.onError();
+        formGroup.get(formFileName)?.setValue(null);
+        formGroup.get(formFileName)?.reset();
         break;
     }
+
+    let fileSize = Number((formFile.files[0].size / (1024 * 1024)).toFixed(2));
+
+    if (fileSize > 4) {
+      Swal.fire({
+        title: 'Ανέβασμα Αρχείου',
+        text: 'Το αρχείο είναι μεγαλύτερο απο 4 Mb.',
+        icon: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ΟΚ'
+      });
+      formGroup.get(formFileName)?.setValue(null);
+      formGroup.get(formFileName)?.reset();
+    }
+  }
+
+  getExtensionExists(filename: string) {
+    return !(filename.split('.').pop() == filename);
   }
 
 }

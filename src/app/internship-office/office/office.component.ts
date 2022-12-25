@@ -35,7 +35,7 @@ export class OfficeComponent implements OnInit {
     //     console.log(this.company);
     //   });
     if (!environment.production) {
-      this.authService.setSessionId(2);
+      this.authService.setSessionId(11);
       this.officeService.getOfficeUser()
       .subscribe((officeUser: OfficeUser) => {
         this.officeUserData = officeUser;
