@@ -23,10 +23,9 @@ const storageIban = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    // fsExtra.emptyDirSync(fileDir);
+    fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
-    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
@@ -59,10 +58,9 @@ const storageSsn = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    // fsExtra.emptyDirSync(fileDir);
+    fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
-    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
@@ -95,10 +93,9 @@ const storageAmea = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    // fsExtra.emptyDirSync(fileDir);
+    fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
-    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
@@ -117,10 +114,9 @@ const storageAffidavit = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    // fsExtra.emptyDirSync(fileDir);
+    fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
-    fs.chmod(path, 0777);
     return cb(null, path);
   },
   filename: function (request, file, cb) {
