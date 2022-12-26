@@ -6,3 +6,25 @@ h4 {
   padding-bottom: 2px;
   padding-top: 8px;
 }
+
+#headerShownInPrintOnly {
+  display: none;
+}
+
+#footerShownInPrintOnly {
+  display: none;
+}
+
+#headerPrintTable td {
+  font-size: 20px;
+}
+
+@media print {
+  #headerShownInPrintOnly {
+    display: block;
+  }
+
+  #footerShownInPrintOnly {
+    display: block;
+  }
+}

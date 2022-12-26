@@ -47,6 +47,7 @@
     "mssql": "^8.1.2",
     "multer": "^1.4.4",
     "ngx-material-file-input": "^3.0.0",
+    "ngx-print": "^1.2.1",
     "node": "^17.3.0",
     "node-cas-authentication": "^0.0.15",
     "node-cron": "^3.0.1",

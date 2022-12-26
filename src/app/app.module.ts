@@ -98,6 +98,7 @@ import { SheetOutputOfficeComponent } from './internship-office/sheet-output-off
 import { SheetOutputOfficeDialogComponent } from './internship-office/sheet-output-office-dialog/sheet-output-office-dialog.component';
 import { SheetInputOfficeEditDialogComponent } from './internship-office/sheet-input-office-edit-dialog/sheet-input-office-edit-dialog.component';
 import { SheetOutputOfficeEditDialogComponent } from './internship-office/sheet-output-office-edit-dialog/sheet-output-office-edit-dialog.component';
+import { NgxPrintModule } from 'ngx-print';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -176,7 +177,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetOutputOfficeComponent,
     SheetOutputOfficeDialogComponent,
     SheetInputOfficeEditDialogComponent,
-    SheetOutputOfficeEditDialogComponent
+    SheetOutputOfficeEditDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -203,6 +204,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPrintModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
