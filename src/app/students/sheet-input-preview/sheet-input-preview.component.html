@@ -3,6 +3,27 @@
     Εκτυπώστε και υπογράψτε το δελτίο σας.
   </div>
   <div id="entrySheetPreviewContent">
+    <div id="headerShownInPrintOnly">
+      <img id="espaSheetLogo" class="w-75 mb-4" src="/assets/images/sheet_espa_logo.jpg">
+      <br>
+      <img id="pelopasLogo" class="" src="/assets/images/v110_3.png">
+      <h3 style='text-align: center;'><br>ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ ΓΙΑ ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ<br></h3>
+      <h3 style='text-align: center;'>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ</h3>
+      <table class="mt-4 mb-3" id="headerPrintTable">
+        <tr>
+          <td><strong>Όνομα:</strong> {{studentData[0].givenname}} </td>
+        </tr>
+        <tr>
+          <td><strong>Επώνυμο:</strong> {{studentData[0].sn}} </td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong> {{studentData[0].mail}} </td>
+        </tr>
+        <tr>
+          <td><strong>Τηλέφωνο:</strong> {{studentData[0].phone}} </td>
+        </tr>
+      </table>
+    </div>
     <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
     <h4 class="text-dark"> Α1) Ανεργία </h4>
     <div class="container-fluid row">
@@ -664,10 +685,19 @@
         </p>
       </div>
     </div>
-
+    <div id="footerShownInPrintOnly">
+      <br><br><br><br>
+      <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3>
+      <br>
+      <h3 style='text-align: right;'>Υπογραφή</h3>
+      <h5 style='text-align: right;'> {{currentDate}} </h5><br><br><br>
+      <h5 style='text-align: right;'> {{this.studentData[0].givenname + " " + this.studentData[0].sn}} </h5>
+    </div>
   </div>
   <button class="back-btn" [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2"> <i
       class="fas fa-angle-left"></i>
     Πίσω</button>
-  <button class="print-btn" (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button>
+  <!-- <button class="print-btn" (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button> -->
+  <button class="print-btn" printSectionId="entrySheetPreviewContent" [useExistingCss]="true" ngxPrint
+    class="btn btn-primary">Εκτύπωση</button>
 </form>

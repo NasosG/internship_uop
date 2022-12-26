@@ -19,7 +19,11 @@ export class SheetOutputComponent implements OnInit {
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.studentsService.getStudents().subscribe(students => {
+      this.studentsData = students;
+    });
+  }
 
   printOutputSheet() {
     let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');

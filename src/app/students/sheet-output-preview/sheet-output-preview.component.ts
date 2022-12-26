@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {Utils} from 'src/app/MiscUtils';
 import { ExitForm } from '../exit-form.model';
 import { SheetOutputComponent } from '../sheet-output/sheet-output.component';
+import {Student} from '../student.model';
 
 @Component({
   selector: 'app-sheet-output-preview',
@@ -17,6 +18,8 @@ export class SheetOutputPreviewComponent extends SheetOutputComponent implements
   public selfEmployedOutputSheet = Utils.selfEmployedOutputSheet;
   public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
   public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
+  @Input() studentData!: Student[];
+  public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
   override ngOnInit(): void {
     this.studentsService.getStudentExitSheets()

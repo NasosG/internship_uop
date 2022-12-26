@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Utils } from 'src/app/MiscUtils';
 import { StudentsService } from '../student.service';
 import Swal from 'sweetalert2';
 import { SheetInputComponent } from '../sheet-input/sheet-input.component';
 import { EntryForm } from '../entry-form.model';
+import {Student} from '../student.model';
 
 
 @Component({
@@ -24,6 +25,12 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
   public educationOptions = Utils.educationOptions;
   public educationalStandardOptions = Utils.educationalStandardOptions;
   public demographicsOptions = Utils.demographicsOptions;
+  // Details of the student used in printing the input sheet
+  @Input() studentData!: Student[];
+
+  // public studentName = this.studentsData[0].givenname + " " + this.data.studentsData[0].sn;
+  public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
