@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { Utils } from 'src/app/MiscUtils';
 import { ExitForm } from 'src/app/students/exit-form.model';
 import Swal from 'sweetalert2';
+import { OfficeService } from '../office.service';
 
 @Component({
   selector: 'app-sheet-output-office-dialog',
@@ -20,14 +20,22 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
   public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
   public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
 
+  // Details of the student used in printing the input sheet
+  public studentFirstName = this.data.studentsData[0].givenname;
+  public studentLastName = this.data.studentsData[0].sn;
+  public studentEmail = this.data.studentsData[0].mail;
+  public studentPhone = this.data.studentsData[0].phone;
+  public studentName = this.data.studentsData[0].givenname + " " + this.data.studentsData[0].sn;
+  public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
-    public departmentManagerService: DepManagerService,
+    public officeService: OfficeService,
     public dialogRef: MatDialogRef<SheetOutputOfficeDialogComponent>
   ) { }
 
   ngOnInit(): void {
-    this.departmentManagerService.getStudentExitSheetsByStudentId(this.data.studentsData[this.data.index].uuid)
+    this.officeService.getStudentExitSheetsByStudentId(this.data.studentsData[this.data.index].uuid)
       .subscribe((forms: ExitForm[]) => {
         this.exitForms = forms;
         console.log(this.exitForms);

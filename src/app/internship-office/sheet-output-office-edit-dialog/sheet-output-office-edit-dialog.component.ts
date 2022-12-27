@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { Utils } from 'src/app/MiscUtils';
 import { ExitForm } from 'src/app/students/exit-form.model';
 import Swal from 'sweetalert2';
@@ -24,12 +23,12 @@ export class SheetOutputOfficeEditDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
-    public departmentManagerService: DepManagerService, public officeService: OfficeService,
+    public officeService: OfficeService,
     public dialogRef: MatDialogRef<SheetOutputOfficeEditDialogComponent>
   ) { }
 
   ngOnInit(): void {
-    this.departmentManagerService.getStudentExitSheetsByStudentId(this.data.studentsData[this.data.index].uuid)
+    this.officeService.getStudentExitSheetsByStudentId(this.data.studentsData[this.data.index].uuid)
       .subscribe((forms: ExitForm[]) => {
         this.exitForms = forms;
         console.log(this.exitForms);

@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { Utils } from 'src/app/MiscUtils';
 import { EntryForm } from 'src/app/students/entry-form.model';
 import Swal from 'sweetalert2';
+import { OfficeService } from '../office.service';
 
 @Component({
   selector: 'app-sheet-input-office-dialog',
@@ -32,12 +32,12 @@ export class SheetInputOfficeDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
-    public departmentManagerService: DepManagerService,
+    public officeService: OfficeService,
     public dialogRef: MatDialogRef<SheetInputOfficeDialogComponent>
   ) { }
 
   ngOnInit(): void {
-    this.departmentManagerService.getStudentEntrySheetsByStudentId(this.data.studentsData[this.data.index].uuid)
+    this.officeService.getStudentEntrySheetsByStudentId(this.data.studentsData[this.data.index].uuid)
       .subscribe((forms: EntryForm[]) => {
         this.entryForms = forms;
         console.log(this.entryForms);

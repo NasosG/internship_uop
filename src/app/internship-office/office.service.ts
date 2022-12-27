@@ -1,5 +1,3 @@
-export class Office {
-}
 import { Injectable } from '@angular/core';
 import { mergeMap, Observable, Subject } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
@@ -7,8 +5,11 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../department-managers/period.model';
 import { OfficeUser } from './office-user.model';
 import { environment } from "src/environments/environment";
+import { ExitForm } from '../students/exit-form.model';
+import { EntryForm } from '../students/entry-form.model';
 
 const OFFICE_URL = environment.apiUrl + "/office/";
+const STUDENTS_URL = environment.apiUrl + "/students/";
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,26 @@ export class OfficeService {
   updateExitSheetField(formId: number, fieldId: string, elementValue: boolean): Observable<any> {
     return this.http
       .put<{ message: string }>(OFFICE_URL + "updateExitSheetField/" + formId, { "fieldId": fieldId, "elementValue": elementValue });
+  }
+
+  getStudentsWithSheetInput(departmentId: number): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetInput/" + departmentId);
+  }
+
+  getStudentsWithSheetOutput(departmentId: number): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetOutput/" + departmentId);
+  }
+
+  getStudentEntrySheetsByStudentId(studentId: string): Observable<Array<EntryForm>> {
+    return this.http
+      .get<Array<EntryForm>>(STUDENTS_URL + 'getStudentEntrySheets/' + studentId);
+  }
+
+  getStudentExitSheetsByStudentId(studentId: string): Observable<Array<ExitForm>> {
+    return this.http
+      .get<Array<ExitForm>>(STUDENTS_URL + 'getStudentExitSheets/' + studentId);
   }
 
 }

@@ -7,8 +7,8 @@ import { Period } from './period.model';
 import { Student } from '../students/student.model';
 import { ActiveApplication } from './active-application.model';
 import { environment } from "src/environments/environment";
-import {EntryForm} from '../students/entry-form.model';
-import {ExitForm} from '../students/exit-form.model';
+import { EntryForm } from '../students/entry-form.model';
+import { ExitForm } from '../students/exit-form.model';
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";

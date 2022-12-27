@@ -4,11 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CommentsDialogComponent } from 'src/app/department-managers/comments-dialog/comments-dialog.component';
 import { DepManager } from 'src/app/department-managers/dep-manager.model';
-import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
-import { SheetOutputPreviewDialogComponent } from 'src/app/department-managers/sheet-output-preview-dialog/sheet-output-preview-dialog.component';
 import { Student } from 'src/app/students/student.model';
-import {SheetOutputOfficeDialogComponent} from '../sheet-output-office-dialog/sheet-output-office-dialog.component';
-import {SheetOutputOfficeEditDialogComponent} from '../sheet-output-office-edit-dialog/sheet-output-office-edit-dialog.component';
+import { OfficeService } from '../office.service';
+import { SheetOutputOfficeDialogComponent } from '../sheet-output-office-dialog/sheet-output-office-dialog.component';
+import { SheetOutputOfficeEditDialogComponent } from '../sheet-output-office-edit-dialog/sheet-output-office-edit-dialog.component';
 
 @Component({
   selector: 'app-sheet-output-office',
@@ -23,16 +22,16 @@ export class SheetOutputOfficeComponent implements OnInit {
   ngSelect = '';
   depManagerData: DepManager | undefined;
 
-  constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  constructor(public officeService: OfficeService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
-    this.depManagerService.getDepManager()
+    this.officeService.getOfficeUser()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
 
-        this.depManagerService.getStudentsWithSheetOutput(this.depManagerData.department_id)
+        this.officeService.getStudentsWithSheetOutput(this.depManagerData.department_id)
           .subscribe((students: any[]) => {
             this.studentsData = students;
             for (let i = 0; i < students.length; i++) {
@@ -69,21 +68,6 @@ export class SheetOutputOfficeComponent implements OnInit {
   private getAM(str: string): string {
     const personalIdArray = str.split(":");
     return personalIdArray[personalIdArray.length - 1];
-  }
-
-  receiveFile(studentId: number, docType: string) {
-    this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
-      window.open(window.URL.createObjectURL(res));
-    });
-  }
-
-  onSubmitSelect(option: string, studentId: number) {
-    // this.validateFormData(formData);
-    let phase;
-    phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
-    console.log("phase: " + phase + " stId: " + (studentId));
-    this.depManagerService.updatePhaseByStudentId(phase, studentId);
-    // this.onSavePeriodAlert();
   }
 
   openDialog(idx: any) {

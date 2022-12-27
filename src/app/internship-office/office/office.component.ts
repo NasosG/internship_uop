@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import {environment} from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
 
@@ -41,8 +41,8 @@ export class OfficeComponent implements OnInit {
         this.officeUserData = officeUser;
         // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
       });
-      return;
     }
+
     if (this.router.url.includes('/office/login')) {
       this.route.queryParams
         .subscribe(params => {
@@ -52,7 +52,7 @@ export class OfficeComponent implements OnInit {
         }
       );
 
-      this.router.navigate(['/office/' + this.authService.getSessionId()]);
+      this.router.navigateByUrl('/office/' + this.authService.getSessionId());
     }
 
     this.officeService.getOfficeUser()

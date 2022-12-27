@@ -53,6 +53,30 @@ const getPeriodByDepartmentId = async (request, response) => {
   }
 };
 
+const getStudentsWithSheetInput = async (request, response) => {
+  try {
+    const departmentId = request.params.department_id;
+    const users = await officeService.getStudentsWithSheetInput(departmentId);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
+const getStudentsWithSheetOutput = async (request, response) => {
+  try {
+    const departmentId = request.params.department_id;
+    const users = await officeService.getStudentsWithSheetOutput(departmentId);
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 const insertEspaPosition = async (request, response) => {
   try {
     const departmentId = request.params.id;
@@ -117,6 +141,8 @@ const updateExitSheetField = async (request, response) => {
 module.exports = {
   getPeriodByDepartmentId,
   getOfficeUserById,
+  getStudentsWithSheetInput,
+  getStudentsWithSheetOutput,
   insertEspaPosition,
   updateEntrySheetField,
   updateExitSheetField,

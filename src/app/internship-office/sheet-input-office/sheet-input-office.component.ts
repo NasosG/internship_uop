@@ -2,14 +2,12 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import {CommentsDialogComponent} from 'src/app/department-managers/comments-dialog/comments-dialog.component';
 import { DepManager } from 'src/app/department-managers/dep-manager.model';
-import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
-import {SheetInputPreviewDialogComponent} from 'src/app/department-managers/sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
-import {SheetInputOfficeDialogComponent} from '../sheet-input-office-dialog/sheet-input-office-dialog.component';
-import {SheetInputOfficeEditDialogComponent} from '../sheet-input-office-edit-dialog/sheet-input-office-edit-dialog.component';
+import { OfficeService } from '../office.service';
+import { SheetInputOfficeDialogComponent } from '../sheet-input-office-dialog/sheet-input-office-dialog.component';
+import { SheetInputOfficeEditDialogComponent } from '../sheet-input-office-edit-dialog/sheet-input-office-edit-dialog.component';
 
 @Component({
   selector: 'app-sheet-input-office',
@@ -18,7 +16,7 @@ import {SheetInputOfficeEditDialogComponent} from '../sheet-input-office-edit-di
 })
 export class SheetInputOfficeComponent implements OnInit {
 
- @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
+  @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   selected = '';
@@ -26,16 +24,16 @@ export class SheetInputOfficeComponent implements OnInit {
   depManagerData: DepManager | undefined;
   studentName!: string;
 
-  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  constructor(public officeService: OfficeService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
-    this.depManagerService.getDepManager()
+    this.officeService.getOfficeUser()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
 
-        this.depManagerService.getStudentsWithSheetInput(this.depManagerData.department_id)
+        this.officeService.getStudentsWithSheetInput(this.depManagerData.department_id)
           .subscribe((students: any[]) => {
             this.studentsData = students;
             for (let i = 0; i < students.length; i++) {
@@ -74,21 +72,6 @@ export class SheetInputOfficeComponent implements OnInit {
     return personalIdArray[personalIdArray.length - 1];
   }
 
-  receiveFile(studentId: number, docType: string) {
-    this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
-      window.open(window.URL.createObjectURL(res));
-    });
-  }
-
-  onSubmitSelect(option: string, studentId: number) {
-    // this.validateFormData(formData);
-    let phase;
-    phase = (option == "option1") ? 2 : (option == "option2") ? -1 : 1;
-    console.log("phase: " + phase + " stId: " + (studentId));
-    this.depManagerService.updatePhaseByStudentId(phase, studentId);
-    // this.onSavePeriodAlert();
-  }
-
   openDialog(idx: any) {
     console.log(idx);
     const dialogRef = this.dialog.open(SheetInputOfficeDialogComponent, {
@@ -111,14 +94,4 @@ export class SheetInputOfficeComponent implements OnInit {
     });
   }
 
-  openCommentsDialog(idx: any) {
-    console.log(idx);
-    const dialogRef = this.dialog.open(CommentsDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
 }
