@@ -21,7 +21,7 @@ const getDepManagerById = async (id) => {
   try {
     const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
                                   INNER JOIN users_roles ON users_roles.sso_username = sso_users.id \
-                                  WHERE users_role.user_role = department-manager \
+                                  WHERE users_roles.user_role = 'department-manager' \
                                   AND uuid=$1", [id]);
     const finalDepManagerResults = resultsSSOUsers.rows[0];
     const departmentNumber = splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
