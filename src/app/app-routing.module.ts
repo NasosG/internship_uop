@@ -6,7 +6,7 @@ import { StudentComponent } from './students/student/student.component';
 import { CompanyComponent } from './companies/company/company.component';
 import { OfficeComponent } from './internship-office/office/office.component';
 import { AdminPanelComponent } from './admin-panels/admin-panel/admin-panel.component';
-import {AdminPanelLoginComponent} from './admin-panels/admin-panel-login/admin-panel-login.component';
+import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin-panel-login.component';
 
 const routes: Routes = [{
   path: '',

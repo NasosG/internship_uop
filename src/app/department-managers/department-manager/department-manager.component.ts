@@ -58,7 +58,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.router.navigate(['/department-manager/' + this.authService.getSessionId()]);
+      this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
     }
 
     this.depManagerService.getDepManager()
