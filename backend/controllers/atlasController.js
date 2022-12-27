@@ -1113,14 +1113,33 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
   try {
     let accessToken = await atlasLogin();
 
+    // FOR TESTING PURPOSES
+    let startDateStr = "2014-01-09 10:12:11";
+    const startDate = new Date((startDateStr == null) ? 0000 : startDateStr + "Z");
+    const endDate = new Date("2014-01-09T10:12:12.000Z");
+    let startDateValue = startDate.valueOf();
+    let endDateValue = endDate.valueOf();
+
+    console.log(startDate.valueOf());
+    console.log(endDate.valueOf());
+
+    let representation = "\\/Date(" + startDateValue + "000)\\/";
+    let representation2 = "\\/Date(" + endDateValue + "000)\\/";
+    console.log(representation);
+    console.log(representation2);
+
+    positionsPreassignedData.positionData[0].ImplementationStartDate = representation;
+    positionsPreassignedData.positionData[0].ImplementationEndDate = representation2;
+    // END TESTING
+
     let assignmentData =
     {
-      "FundingType": null,
+      // "FundingType": null,
       "ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
-      "ImplementationEndDateString": positionsPreassignedData.positionData[0].ImplementationEndDateString,
+      // "ImplementationEndDateString": positionsPreassignedData.positionData[0].ImplementationEndDateString,
       // "ImplementationEndDateStringFormat": "String content",
       "ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
-      "ImplementationStartDateString": positionsPreassignedData.positionData[0].ImplementationStartDateString,
+      // "ImplementationStartDateString": positionsPreassignedData.positionData[0].ImplementationStartDateString,
       // "ImplementationStartDateStringFormat": "String content",
       "PositionID": positionsPreassignedData.positionIds[0],
       "StudentID": studentId
