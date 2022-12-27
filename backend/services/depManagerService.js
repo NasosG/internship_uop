@@ -175,7 +175,7 @@ const splitStudentsAM = (splitString) => {
 
 const insertPeriod = async (body, id, departmentId) => {
   try {
-    await deactivateAllPeriods();
+    await deactivateAllPeriodsByDepartmentId(departmentId);
     let pyear = body.date_from.split('-')[0];
     const insertResults = await pool.query("INSERT INTO period" +
       "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, department_id, is_active)" +
@@ -265,10 +265,11 @@ const getDepartmentDetails = async (departmentId) => {
   }
 };
 
-const deactivateAllPeriods = async () => {
+const deactivateAllPeriodsByDepartmentId = async (departmentId) => {
   try {
     const insertResults = await pool.query("UPDATE period \
-                                            SET is_active = 'false'");
+                                            SET is_active = 'false' \
+                                            WHERE department_id = $1", [departmentId]);
     return insertResults;
   } catch (error) {
     throw Error('Error while deactivating periods');
