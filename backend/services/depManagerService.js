@@ -24,7 +24,7 @@ const getDepManagerById = async (id) => {
                                   WHERE users_roles.user_role = 'department-manager' \
                                   AND uuid=$1", [id]);
     const finalDepManagerResults = resultsSSOUsers.rows[0];
-    const departmentNumber = splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
+    const departmentNumber = finalDepManagerResults.department_id;//splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
     const departmentDetails = await getDepartmentNameByNumber(departmentNumber);
     const department = {
       "department": departmentDetails.rows[0].department
