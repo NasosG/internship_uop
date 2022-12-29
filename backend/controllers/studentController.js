@@ -715,7 +715,7 @@ const insertAssignment = async (request, response, next) => {
     console.log("studentId" + studentId);
 
     const potentialAssignments = Object.assign(assignmentData);
-    let studentTestAcIdNumber = await atlasController.findAcademicIdNumber(1511, '760/2013005');
+    let studentTestAcIdNumber = await atlasController.findAcademicIdNumber(98, '2022201400155');
     console.log(studentTestAcIdNumber.message.AcademicIDNumber);
 
     let academicId = 1511;//item.department_id;

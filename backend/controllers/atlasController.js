@@ -6,7 +6,12 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
   // credentials retrieved by the db
   const credentials = await atlasService.getCredentials();
   const accessToken = credentials.access_token;
-  if (accessToken != null) return accessToken;
+  const tokenIsValid = await testIfTokenIsValid(accessToken);
+
+  if (accessToken != null && tokenIsValid) {
+    console.log("access token is valid");
+    return accessToken;
+  }
 
   try {
     if (credentials.username == null || credentials.password == null) return null;
@@ -24,7 +29,10 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
       }
     });
 
-    return atlasResponse.data.Result.AuthToken;
+    let newToken = atlasResponse.data.Result.AuthToken;
+    await atlasService.updateToken(newToken);
+
+    return newToken;
   } catch (error) {
     //console.log(atlasResponse.data.Message);
     console.log('Error', error.message);
@@ -920,6 +928,25 @@ const getRegisteredStudent = async (academicIDNumber) => {
   }
 };
 
+const GetStudentAcademicId = async (request, response) => {
+  try {
+    let studentTestAcIdNumber = await findAcademicIdNumber(98, '2022201400155');
+
+    // console.log(atlasResponse.data.Result);
+    let mes = studentTestAcIdNumber.message.AcademicIDNumber;
+    return response.status(200).json({
+      message: mes
+    });
+    // return response.status(200).json(positionsArray);
+  } catch (error) {
+    console.log("error while fetching available positions: " + error.message);
+    return response.status(400).json({
+      status: "400 bad request",
+      message: "something went wrong while fetching available positions: " + error.message
+    });
+  }
+};
+
 const findAcademicIdNumber = async (academicId, studentNumber) => {
   try {
     let accessToken = await atlasLogin();
@@ -1247,6 +1274,24 @@ const getFundingTypes = async (request, response) => {
   }
 };
 
+const testIfTokenIsValid = async (accessToken) => {
+  try {
+    const atlasResponse = await axios({
+      url: 'http://atlas2-app.pilotiko.gr/api/offices/v1/GetFundingTypes',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+
 const getRegisteredStudents = async (request, response) => {
   try {
     let accessToken = await atlasLogin();
@@ -1279,6 +1324,7 @@ module.exports = {
   getGenericPositionSearch,
   getRegisteredStudent,
   getPositionPreassignment,
+  GetStudentAcademicId,
   getFundingType,
   getFundingTypes,
   registerNewStudent,

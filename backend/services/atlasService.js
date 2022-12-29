@@ -10,6 +10,14 @@ const getCredentials = async () => {
   }
 };
 
+const updateToken = async (accessToken) => {
+  try {
+    await pool.query("UPDATE atlas_access SET access_token = $1", [accessToken]);
+  } catch (error) {
+    throw Error('Error while updating token in postgres' + error.message);
+  }
+};
+
 const getAvailablePositionsUI = async (offset, limit) => {
   try {
     const results = await pool.query("SELECT *, g.id as g_position_id FROM atlas_position_group g "
@@ -561,6 +569,8 @@ const insertDepartmentIds = async (departmentArray, uopId) => {
   }
 };
 
+
+
 module.exports = {
   getCredentials,
   getAvailablePositionsUI,
@@ -588,5 +598,6 @@ module.exports = {
   updatePositionsList,
   updateProvidersList,
   updatePositionGroupRelationsList,
+  updateToken,
   insertOrUpdateAtlasTable
 };
