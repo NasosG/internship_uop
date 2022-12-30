@@ -95,14 +95,11 @@ export class CompanyService {
       });
   }
 
-  insertAssignment(apps: any) {
+  insertAssignment(apps: any): Observable<any> {
     //TODO
     const providerId = this.authService.getSessionId();
-    this.http
-      .post<{ message: string }>(this.baseUrl + "/insertNewAssignment/" + providerId, apps)
-       .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+    return this.http
+      .post<{ message: string }>(this.baseUrl + "/insertNewAssignment/" + providerId, apps);
   }
 
 
