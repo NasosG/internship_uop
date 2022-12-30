@@ -915,10 +915,10 @@ const getRegisteredStudent = async (academicIDNumber) => {
     };
     // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while fetching registered student: " + error.message);
     return {
       status: "400 bad request",
-      message: "something went wrong while fetching available positions: " + error.message
+      message: "something went wrong while fetching registered student: " + error.message
     };
     // return response
     //   .status(400)
@@ -1150,8 +1150,8 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     console.log(startDate.valueOf());
     console.log(endDate.valueOf());
 
-    let representation = "\\/Date(" + startDateValue + "000)\\/";
-    let representation2 = "\\/Date(" + endDateValue + "000)\\/";
+    let representation = `\\/Date(${startDateValue}000)\\/`;
+    let representation2 = `\\/Date(${endDateValue}000)\\/`;
     console.log(representation);
     console.log(representation2);
 
@@ -1162,12 +1162,12 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     let assignmentData =
     {
       // "FundingType": null,
-      "ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
-      // "ImplementationEndDateString": positionsPreassignedData.positionData[0].ImplementationEndDateString,
-      // "ImplementationEndDateStringFormat": "String content",
-      "ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
-      // "ImplementationStartDateString": positionsPreassignedData.positionData[0].ImplementationStartDateString,
-      // "ImplementationStartDateStringFormat": "String content",
+      //"ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
+      "ImplementationStartDateString": "3/6/13",
+      "ImplementationStartDateStringFormat": "d/M/yy",
+      //"ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
+      "ImplementationEndDateString": "3/9/13",
+      "ImplementationEndDateStringFormat": "d/M/yy",
       "PositionID": positionsPreassignedData.positionIds[0],
       "StudentID": studentId
     };

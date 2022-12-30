@@ -715,14 +715,15 @@ const insertAssignment = async (request, response, next) => {
     console.log("studentId" + studentId);
 
     const potentialAssignments = Object.assign(assignmentData);
-    let studentTestAcIdNumber = await atlasController.findAcademicIdNumber(98, '2022201400155');
-    console.log(studentTestAcIdNumber.message.AcademicIDNumber);
 
-    let academicId = 1511;//item.department_id;
+    let academicId = 98;//item.department_id;
     // Get student's AM by id
-    //let studentAMNumber = await companyService.getStudentAMById(assignmentData.student_id);
+    let studentAMNumber = '2022201400155'; //await companyService.getStudentAMById(assignmentData.student_id);
 
-    let academicIDNumber = studentTestAcIdNumber.message.AcademicIDNumber; //243761386827
+    let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
+    let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
+    console.log(academicIDNumber);
+
     let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
     console.log(registeredStudent);
     // the below line is possibly the right one; gets academicId from AM and department id
