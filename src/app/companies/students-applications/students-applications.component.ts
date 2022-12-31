@@ -127,7 +127,8 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
         } else {
           this.companyService.insertAssignment(positionsDataJson).subscribe(responseData => {
             console.log(responseData.message);
-            this.ngOnInit();
+            location.reload();
+            //this.ngOnInit();
           }), (error: any) => {
             console.log(error);
             alert("Η αποδοχή των φοιτητών απέτυχε");

@@ -89,6 +89,15 @@ export abstract class Utils {
     return new Date().getFullYear();
   }
 
+  public static add3Dots(inputText: string, limit: number): string {
+    let dots = "...";
+    if (inputText.length > limit) {
+      inputText = inputText.substring(0, limit) + dots;
+    }
+
+    return inputText;
+  }
+
   //InputSheets
   public static unemployedOption = [
     { subCategory: 'A1.1', id: 'A1_1', name: 'A1_1', text: 'Είμαι εγγεγραμμένος/η άνεργος/η στο ΟΑΕΔ με κάρτα ανεργίας σε ισχύ (συμπεριλαμβάνονται και οι εποχικά εργαζόμενοι για το διάστημα που δεν εργάζονται)', },

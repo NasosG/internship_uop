@@ -50,6 +50,8 @@ export class StudentInternshipComponent implements OnInit {
   period: Period | undefined;
   isDeclarationEnabled!: boolean;
   studentsSSOData!: Student[];
+  // shorten companies name to fit in the table
+  shortCompanyName: string[] = [];
 
   constructor(public studentsService: StudentsService) { }
 
@@ -65,6 +67,7 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasPositions(this.begin)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries = positions;
+        this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
         this.setJobsDetails(0); // TODO: find a way to do it outside of subscribe
       });
     this.studentsService.getStudentActiveApplication()
@@ -117,6 +120,7 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasPositions(beginParam)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
+        this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
       });
   }
 
