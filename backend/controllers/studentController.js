@@ -716,9 +716,11 @@ const insertAssignment = async (request, response, next) => {
 
     const potentialAssignments = Object.assign(assignmentData);
 
-    let academicId = 98;//item.department_id;
+    let academicId = assignmentData.department_id;//item.department_id;
     // Get student's AM by id
-    let studentAMNumber = '2022201400155'; //await companyService.getStudentAMById(assignmentData.student_id);
+    //let studentAMNumber = '2022201400155';
+    let studentAMNumber = await companyService.getStudentAMById(assignmentData.student_id);
+    console.log(studentAMNumber);
 
     let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
@@ -728,32 +730,32 @@ const insertAssignment = async (request, response, next) => {
     console.log(registeredStudent);
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
-    if (registeredStudent.message != null) {
-      console.log('user is registered');
-      // console.log(registeredStudent.message.AcademicIDNumber);
-    } else {
-      console.log('not a registered user');
-      // Student SHOULD sign up on this occassion
-      let registerResult = await atlasController.registerNewStudent(academicIDNumber);
-      console.log(registerResult);
-    }
-    // console.log(registeredStudent);
+    // if (registeredStudent.message != null) {
+    //   console.log('user is registered');
+    //   // console.log(registeredStudent.message.AcademicIDNumber);
+    // } else {
+    //   console.log('not a registered user');
+    //   // Student SHOULD sign up on this occassion
+    //   let registerResult = await atlasController.registerNewStudent(academicIDNumber);
+    //   console.log(registerResult);
+    // }
+    // // console.log(registeredStudent);
 
-    // TO BE TESTED
-    // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
-    // console.log(preassignResult.preassign);
-    console.log(assignmentData.position_id);
-    let positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
-    console.log(positionPreassignment);
+    // // TO BE TESTED
+    // // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
+    // // console.log(preassignResult.preassign);
+    // console.log(assignmentData.position_id);
+    // let positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
+    // console.log(positionPreassignment);
 
-    // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
-    // console.log(fundingType);
+    // // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
+    // // console.log(fundingType);
 
-    // assign student to Atlas position
-    let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
-    console.log(assignResults);
-    // update assignment details - local db
-    await studentService.acceptAssignment(assignmentData);
+    // // assign student to Atlas position
+    // let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
+    // console.log(assignResults);
+    // // update assignment details - local db
+    // await studentService.acceptAssignment(assignmentData);
 
     response.status(201)
       .json({

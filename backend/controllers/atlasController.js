@@ -928,7 +928,7 @@ const getRegisteredStudent = async (academicIDNumber) => {
   }
 };
 
-const GetStudentAcademicId = async (request, response) => {
+const getStudentAcademicId = async (request, response) => {
   try {
     let studentTestAcIdNumber = await findAcademicIdNumber(98, '2022201400155');
 
@@ -1017,7 +1017,7 @@ const registerNewStudent = async (AcademicIDNumber) => {
 
 const testDeletePosition = async (request, response) => {
   try {
-    let deleteResult = await deletePosition('assigned', 35);
+    let deleteResult = await deletePosition('assigned', 38);
 
     return response.status(200).json(deleteResult);
   } catch (error) {
@@ -1310,6 +1310,23 @@ const getRegisteredStudents = async (request, response) => {
   }
 };
 
+const getAssignedPositions = async (request, response) => {
+  try {
+    let accessToken = await atlasLogin();
+    const atlasResponse = await axios({
+      url: 'https://atlas2-app.pilotiko.gr/api/offices/v1/GetAssignedPositions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return response.status(200).json(atlasResponse.data.Result);
+  } catch (error) {
+    return response.status(400).json({ "message": "error retrieving assigned positions" });
+  }
+};
 
 module.exports = {
   getRegisteredStudents,
@@ -1324,9 +1341,10 @@ module.exports = {
   getGenericPositionSearch,
   getRegisteredStudent,
   getPositionPreassignment,
-  GetStudentAcademicId,
+  getStudentAcademicId,
   getFundingType,
   getFundingTypes,
+  getAssignedPositions,
   registerNewStudent,
   assignStudent,
   insertTablesFromAtlas,

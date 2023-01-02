@@ -19,5 +19,7 @@ router.get('/getRegisteredStudent/', atlasController.getRegisteredStudent);
 router.get('/getFundingTypes', atlasController.getFundingTypes);
 router.get('/testDeletePosition', atlasController.testDeletePosition);
 router.get('/getRegisteredStudents', atlasController.getRegisteredStudents);
-router.get('/GetStudentAcademicId', atlasController.GetStudentAcademicId);
+router.get('/getStudentAcademicId', atlasController.getStudentAcademicId);
+router.get('/getAssignedPositions', atlasController.getAssignedPositions);
+
 module.exports = router;
