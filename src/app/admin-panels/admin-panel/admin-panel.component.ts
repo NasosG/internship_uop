@@ -152,7 +152,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   onLogout() {
-    //this.authService.logout();
+    this.authService.logout();
   }
 
   //make a swal2 alert dialog
