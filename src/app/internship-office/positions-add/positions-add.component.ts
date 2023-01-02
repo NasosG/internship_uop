@@ -19,6 +19,7 @@ export class PositionsAddComponent implements OnInit {
   dateFrom: string = "";
   dateTo: string = "";
   officeUserData!: OfficeUser;
+  officeUserAcademics!: any;
   @ViewChild('espaPositions') espaPositions!: ElementRef;
 
   phaseArray = ["no-state",
@@ -42,6 +43,11 @@ export class PositionsAddComponent implements OnInit {
             this.periodData = periodData;
             this.dateFrom = Utils.changeDateFormat(periodData.date_from);
             this.dateTo = Utils.changeDateFormat(periodData.date_to);
+        });
+        this.officeService.getAcademicsByOfficeUserId()
+          .subscribe((academics: any) => {
+           this.officeUserAcademics = academics;
+            console.log(academics);
         });
       });
 
