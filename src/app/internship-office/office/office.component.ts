@@ -13,6 +13,7 @@ import { OfficeService } from '../office.service';
 })
 export class OfficeComponent implements OnInit {
   officeUserData!: OfficeUser;
+  officeUserAcademics!: any;
 
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
@@ -61,6 +62,11 @@ export class OfficeComponent implements OnInit {
         // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
       });
 
+      this.officeService.getAcademicsByOfficeUserId()
+        .subscribe((academics: any) => {
+          this.officeUserAcademics = academics;
+          console.log(academics);
+        });
   }
 
   changeFont(operator: string) {

@@ -90,6 +90,19 @@ const getStudentsWithSheetOutput = async (departmentId) => {
   }
 };
 
+const getAcademicsByOfficeUserId = async (userId) => {
+  try {
+    const academics = await pool.query("SELECT academic_id, department FROM sso_users \
+                                       INNER JOIN users_roles ON users_roles.sso_username = sso_users.id \
+                                       INNER JOIN role_manages_academics rma ON rma.user_role_id = users_roles.user_role_id \
+                                       INNER JOIN atlas_academics ON atlas_academics.atlas_id = rma.academic_id \
+                                       WHERE sso_users.uuid = $1", [userId]);
+    return academics.rows;
+  } catch (error) {
+    throw Error('Error while fetching academics by office user id' + error.message);
+  }
+};
+
 const insertEspaPosition = async (body, departmentId) => {
   try {
     const positions = await pool.query("INSERT INTO espa_positions" +
@@ -163,6 +176,7 @@ module.exports = {
   getEspaPositionByDepId,
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
+  getAcademicsByOfficeUserId,
   insertOrUpdateEspaPositionsByDepId,
   updateEntrySheetField,
   updateExitSheetField,

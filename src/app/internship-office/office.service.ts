@@ -85,4 +85,10 @@ export class OfficeService {
       .get<Array<ExitForm>>(STUDENTS_URL + 'getStudentExitSheets/' + studentId);
   }
 
+  getAcademicsByOfficeUserId(): Observable<Array<any>> {
+    const officeUserId = this.authService.getSessionId();
+    return this.http
+      .get<Array<any>>(OFFICE_URL + "getAcademicsByOfficeUserId/" + officeUserId);
+  }
+
 }

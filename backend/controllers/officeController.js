@@ -96,6 +96,18 @@ const insertEspaPosition = async (request, response) => {
   }
 };
 
+const getAcademicsByOfficeUserId = async (request, response) => {
+  try {
+    const officeUserId = request.params.id;
+    const academics = await officeService.getAcademicsByOfficeUserId(officeUserId);
+    response.status(200).json(academics);
+  } catch (error) {
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateEntrySheetField = async (request, response) => {
   try {
     const id = request.params.id;
@@ -143,6 +155,7 @@ module.exports = {
   getOfficeUserById,
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
+  getAcademicsByOfficeUserId,
   insertEspaPosition,
   updateEntrySheetField,
   updateExitSheetField,

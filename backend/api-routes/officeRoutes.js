@@ -11,5 +11,6 @@ router.put("/updateEntrySheetField/:id", officeController.updateEntrySheetField)
 router.put("/updateExitSheetField/:id", officeController.updateExitSheetField);
 router.get("/getStudentsWithSheetInput/:department_id", officeController.getStudentsWithSheetInput);
 router.get("/getStudentsWithSheetOutput/:department_id", officeController.getStudentsWithSheetOutput);
+router.get("/getAcademicsByOfficeUserId/:id", officeController.getAcademicsByOfficeUserId);
 
 module.exports = router;
