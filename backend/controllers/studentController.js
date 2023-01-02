@@ -5,6 +5,7 @@ const upload = require("../middleware/file.js");
 const formidable = require('formidable');
 const MiscUtils = require("../MiscUtils.js");
 const atlasController = require("./atlasController");
+const companyService = require("../services/companyService.js");
 require('dotenv').config();
 
 // app.post("/api/students/login/:id", (request, response, next) => {
@@ -721,13 +722,13 @@ const insertAssignment = async (request, response, next) => {
     //let studentAMNumber = '2022201400155';
     let studentAMNumber = await companyService.getStudentAMById(assignmentData.student_id);
     console.log(studentAMNumber);
+    console.log(academicId);
+    // let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
+    // let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
+    // console.log(academicIDNumber);
 
-    let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
-    let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
-    console.log(academicIDNumber);
-
-    let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
-    console.log(registeredStudent);
+    // let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
+    // console.log(registeredStudent);
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     // if (registeredStudent.message != null) {
