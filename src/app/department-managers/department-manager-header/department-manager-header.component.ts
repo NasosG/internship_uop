@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 import {AuthService} from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -27,7 +28,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     "3. Δήλωση προτίμησης από τους φοιτητές",
     "4. Επιλογή φοιτητών από φορείς"];
 
-  constructor(public depManagerService: DepManagerService, public authService: AuthService) { }
+  constructor(public depManagerService: DepManagerService, public authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
@@ -71,7 +72,11 @@ export class DepartmentManagerHeaderComponent implements OnInit {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'ΟΚ'
-        }).then(() => { location.reload(); });
+        }).then(() => {
+            if (this.router.url != '/department-manager/' + this.authService.getSessionId())
+              this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+            else location.reload();
+        });
       }
     });
   }

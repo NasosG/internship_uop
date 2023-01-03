@@ -2,6 +2,9 @@ import { Component, Input, Injectable, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import {DepManager} from '../dep-manager.model';
+import {Utils} from 'src/app/MiscUtils';
+import {Period} from '../period.model';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -62,10 +65,12 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 })
 
 export class PeriodAddComponent implements OnInit {
+  public depManagerData!: DepManager;
   ngSelect = "";
-  ngSelectPhase = "";
+  ngSelectPhase = "1";
   public isShown: boolean = false ; // hidden by default
   @Input() item = 0; // decorate the property with @Input()
+  periodData: Period | null = null;
 
   toggleShow() {
     this.isShown = !this.isShown;
@@ -76,7 +81,18 @@ export class PeriodAddComponent implements OnInit {
 
   constructor(public depManagerService: DepManagerService, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+     this.depManagerService.getDepManager()
+      .subscribe((depManager: DepManager) => {
+        this.depManagerData = depManager;
+        this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+
+        this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
+          .subscribe((periodData: Period) => {
+            this.periodData = periodData;
+        });
+      });
+  }
 
   onSubmitPeriodForm(formData: FormData) {
     this.validateFormData(formData);

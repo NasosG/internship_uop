@@ -125,12 +125,21 @@ export class AdminPanelComponent implements OnInit {
       if (!result) return;
     }
 
-    // get academic.atlas_id from this.academics.values array by using this.departments array
+    const value = this.academics?.value;
     let academicsArray = [];
-    for (let obj of this.academics?.value) {
-      const department_ids = this.departments?.find(x => x.department === obj)?.atlas_id;
-      academicsArray.push(department_ids);
+
+    if (Array.isArray(value)) {
+      // get academic.atlas_id from this.academics.values array by using this.departments array
+      for (let obj of this.academics?.value) {
+        const department_ids = this.departments?.find(x => x.department === obj)?.atlas_id;
+        academicsArray.push(department_ids);
+      }
+    } else {
+      const department_id = this.departments?.find(x => x.department === value)?.atlas_id;
+      academicsArray.push(department_id);
     }
+
+    alert( Array.isArray(this.academics?.value));
 
     // this.isAdmin?.value == true ? true : false below: because if the checkbox is not checked, it returns null
     let finalJson = {
@@ -139,8 +148,8 @@ export class AdminPanelComponent implements OnInit {
       "user_role": this.roles?.value,
       "is_admin": this.isAdmin?.value == true ? true : false
     };
+    // console.log(finalJson);
 
-    console.log(finalJson);
     // call insert roles which Send finalJson to backend via http post to create a new user
     this.onSuccess(finalJson);
   }

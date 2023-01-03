@@ -4,8 +4,8 @@
       Η περίοδος δήλωσης πρακτικής άσκησης είναι από 01/03/2021 έως 20/05/2021.
     </div> -->
   <!-- add period -->
-  <button id="toggleVisibilityAddPeriod" (click)="toggleShow()" class="btn btn-secondary mb-3" type="button"> <i
-      class="fas fa-plus mr-1"></i>Δημιουργία νέας περιόδου</button>
+  <button id="toggleVisibilityAddPeriod" *ngIf="!(periodData?.phase_state!=null)" (click)="toggleShow()"
+    class="btn btn-secondary mb-3" type="button"> <i class="fas fa-plus mr-1"></i>Δημιουργία νέας περιόδου</button>
   <div *ngIf="isShown" class="card">
     <!-- <div class="card-header">
       <h3 class="card-title">
@@ -80,11 +80,11 @@
               <label for="inputPassword" class="col-sm-2 col-form-label">Φάση περιόδου</label>
               <div class="btn-group dropup col-sm-10">
                 <select class="custom-select" name="phase_state" [(ngModel)]='ngSelectPhase' id="phase_state" required>
-                  <option value="" selected>Επιλέξτε φάση περιόδου</option>
-                  <option value="1">1. Φάση ελέγχου επιλεξιμότητας.</option>
-                  <option value="2">2. Φάση επιλογής φοιτητών</option>
+                  <!-- <option value="" selected>Επιλέξτε φάση περιόδου</option> -->
+                  <option value="1" selected>1. Φάση ελέγχου επιλεξιμότητας.</option>
+                  <!-- <option value="2">2. Φάση επιλογής φοιτητών</option>
                   <option value="3">3. Δήλωση προτίμησης από τους φοιτητές</option>
-                  <option value="4">4. Επιλογή φοιτητών από φορείς</option>
+                  <option value="4">4. Επιλογή φοιτητών από φορείς</option> -->
                 </select>
               </div>
             </div>

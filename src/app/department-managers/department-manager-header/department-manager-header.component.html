@@ -1,5 +1,5 @@
  <div class="pb-0 pt-3 mb-4 pl-3 " style="border:1px solid black; border-radius:6px;">
-   <p>Τμήμα: {{depManagerData?.department}}<br>Τμηματικός Υπεύθυνος/η:
+   <p>Τμήμα: {{depManagerData?.department}}<br>Τμηματικός/η Υπεύθυνος/η:
      {{depManagerData?.givenname}} {{depManagerData?.sn}}</p>
  </div>
  <div *ngIf="periodData.semester == null" ngNativeValidate id="dep-manager-no-period" class="alert alert-danger"
@@ -23,7 +23,7 @@
    </thead>
    <tbody>
      <tr>
-       <th scope="row">{{periodData?.semester == 1 ? "Εαρινό Εξάμηνο" : "Χειμερινό Εξάμηνο"}} {{periodData?.pyear}}
+       <th scope="row">{{periodData?.semester == 1 ? "Χειμερινό Εξάμηνο" : "Εαρινό Εξάμηνο"}} {{periodData?.pyear}}
        </th>
        <td>{{phaseArray[(periodData?.phase_state)!]}}</td>
        <td>{{dateFrom}}</td>
