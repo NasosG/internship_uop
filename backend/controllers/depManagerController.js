@@ -71,7 +71,8 @@ const getPeriodByDepartmentId = async (request, response) => {
     const period = await depManagerService.getPeriodByDepartmentId(department_id);
     response.status(200).json(period);
   } catch (error) {
-    response.send({
+    const statusCode = error.statusCode || 500;
+    response.status(statusCode).send({
       message: error.message
     });
   }
@@ -83,7 +84,8 @@ const getEspaPositionsByDepartmentId = async (request, response) => {
     const period = await depManagerService.getEspaPositionsByDepartmentId(department_id);
     response.status(200).json(period);
   } catch (error) {
-    response.send({
+    const statusCode = error.statusCode || 500;
+    response.status(statusCode).send({
       message: error.message
     });
   }

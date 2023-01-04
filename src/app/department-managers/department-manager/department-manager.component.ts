@@ -1,7 +1,9 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import {environment} from 'src/environments/environment';
@@ -21,6 +23,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   fontSize: number = 100;
   private language!: string;
   public espaPositions!: number;
+  periodSet!: boolean;
 
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -67,9 +70,15 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
         this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
 
         this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
-          .subscribe((periodData: Period) => {
-            this.espaPositions = periodData.positions;
-        });
+            .pipe(
+              catchError((error: HttpErrorResponse) => {
+                console.error(error);
+                return throwError(error);
+              })
+            )
+            .subscribe((periodData: Period) => {
+              this.espaPositions = periodData.positions;
+            });
       });
   }
 

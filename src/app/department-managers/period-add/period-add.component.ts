@@ -5,6 +5,8 @@ import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } fr
 import {DepManager} from '../dep-manager.model';
 import {Utils} from 'src/app/MiscUtils';
 import {Period} from '../period.model';
+import {catchError, throwError} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -70,8 +72,9 @@ export class PeriodAddComponent implements OnInit {
   ngSelectPhase = "1";
   public isShown: boolean = false ; // hidden by default
   @Input() item = 0; // decorate the property with @Input()
+  periodSet: any;
   availablePositions!: number;
-  public periodData!: Period;
+  public periodData!: any;
   espaPositions!: number;
 
   toggleShow() {
@@ -90,12 +93,25 @@ export class PeriodAddComponent implements OnInit {
         //this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
 
         this.depManagerService.getEspaPositionsByDepartmentId(this.depManagerData.department_id)
-          .subscribe((periodData: Period) => {
+          .subscribe((periodData: any) => {
             this.periodData = periodData;
             console.log(this.periodData);
              this.espaPositions = this.periodData.positions ? this.periodData.positions: 99;
             this.availablePositions = 0; // In the beginning there are no available positions
           });
+
+           this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
+            .pipe(
+              catchError((error: HttpErrorResponse) => {
+                console.error(error);
+                this.periodSet = false;
+                return throwError(error);
+              })
+            )
+            .subscribe((periodData: Period) => {
+              this.periodSet = false;
+              this.espaPositions = periodData.positions;
+            });
       });
   }
 
