@@ -127,7 +127,8 @@ const getPeriodByDepartmentId = async (id) => {
     let periodResultsObj = Object.assign(periodResults);
     return periodResultsObj;
   } catch (error) {
-    throw Error('Error while fetching period');
+    console.log('Error while fetching period by department id' + error.message);
+    throw Error('Error while fetching period by department id' + error.message);
   }
 };
 

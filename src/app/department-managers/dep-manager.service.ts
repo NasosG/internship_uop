@@ -59,10 +59,11 @@ export class DepManagerService {
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
       this.period = periods;
+      console.log("point 1");
+      console.log(this.period);
     });
     return fetchedPeriod;
   }
-
 
   getStudentsApplyPhase(): Observable<Student[]> {
     const fetchedStudent = this.getDepManager()

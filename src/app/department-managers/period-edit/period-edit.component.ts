@@ -90,6 +90,13 @@ export class PeriodEditComponent implements OnInit {
       });
   }
 
+  validateInputNumber(field: any) {
+    if (field.value.length > field.maxLength) {
+      field.value = field.value.slice(0, field.maxLength);
+    }
+    field.value = Math.abs(field.value);
+  }
+
   onSubmitPeriodEditForm(formData: FormData) {
     this.depManagerService.updatePeriodById(formData, this.periodData.id);
     this.onSavePeriodAlert();

@@ -70,7 +70,9 @@ export class PeriodAddComponent implements OnInit {
   ngSelectPhase = "1";
   public isShown: boolean = false ; // hidden by default
   @Input() item = 0; // decorate the property with @Input()
-  periodData: Period | null = null;
+  availablePositions!: number;
+  public periodData!: Period;
+  espaPositions!: number;
 
   toggleShow() {
     this.isShown = !this.isShown;
@@ -82,16 +84,26 @@ export class PeriodAddComponent implements OnInit {
   constructor(public depManagerService: DepManagerService, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
   ngOnInit(): void {
-     this.depManagerService.getDepManager()
+    this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
-        this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-
+        //this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+console.log(this.depManagerData);
         this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
           .subscribe((periodData: Period) => {
             this.periodData = periodData;
-        });
+            console.log(this.periodData);
+             this.espaPositions = this.periodData.positions ? this.periodData.positions: 99;
+            this.availablePositions = 0; // In the beginning there are no available positions
+          });
       });
+  }
+
+  validateInputNumber(field: any) {
+    if (field.value.length > field.maxLength) {
+      field.value = field.value.slice(0, field.maxLength);
+    }
+    field.value = Math.abs(field.value);
   }
 
   onSubmitPeriodForm(formData: FormData) {
