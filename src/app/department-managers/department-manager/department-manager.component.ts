@@ -73,11 +73,13 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
             .pipe(
               catchError((error: HttpErrorResponse) => {
                 console.error(error);
+                this.periodSet = false;
                 return throwError(error);
               })
             )
             .subscribe((periodData: Period) => {
               this.espaPositions = periodData.positions;
+              this.periodSet = true;
             });
       });
   }

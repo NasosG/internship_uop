@@ -2,11 +2,9 @@ import { Component, Input, Injectable, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import {DepManager} from '../dep-manager.model';
+import { DepManager } from '../dep-manager.model';
 import {Utils} from 'src/app/MiscUtils';
 import {Period} from '../period.model';
-import {catchError, throwError} from 'rxjs';
-import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -72,7 +70,7 @@ export class PeriodAddComponent implements OnInit {
   ngSelectPhase = "1";
   public isShown: boolean = false ; // hidden by default
   @Input() item = 0; // decorate the property with @Input()
-  periodSet: any;
+  @Input() periodSet: any;
   availablePositions!: number;
   public periodData!: any;
   espaPositions!: number;
@@ -99,19 +97,6 @@ export class PeriodAddComponent implements OnInit {
              this.espaPositions = this.periodData.positions ? this.periodData.positions: 99;
             this.availablePositions = 0; // In the beginning there are no available positions
           });
-
-           this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
-            .pipe(
-              catchError((error: HttpErrorResponse) => {
-                console.error(error);
-                this.periodSet = false;
-                return throwError(error);
-              })
-            )
-            .subscribe((periodData: Period) => {
-              this.periodSet = false;
-              this.espaPositions = periodData.positions;
-            });
       });
   }
 

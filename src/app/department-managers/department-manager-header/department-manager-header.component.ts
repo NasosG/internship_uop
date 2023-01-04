@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';

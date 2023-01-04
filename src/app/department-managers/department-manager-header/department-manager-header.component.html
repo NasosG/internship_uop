@@ -2,8 +2,8 @@
    <p>Τμήμα: {{depManagerData?.department}}<br>Τμηματικός/η Υπεύθυνος/η:
      {{depManagerData?.givenname}} {{depManagerData?.sn}}</p>
  </div>
- <div *ngIf="periodData.semester == null" ngNativeValidate id="dep-manager-no-period" class="alert alert-danger"
-   role="alert">
+ <div *ngIf="!periodData || periodData.semester == null" ngNativeValidate id="dep-manager-no-period"
+   class="alert alert-danger" role="alert">
    Δεν
    υπάρχουν καταχωρημένες περιόδοι. Δημιουργήστε μία νέα περίοδο από το παρακάτω μενού
  </div>
