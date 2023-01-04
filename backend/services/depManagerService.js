@@ -116,7 +116,6 @@ const getPeriodByUserId = async (id) => {
 
 const getPeriodByDepartmentId = async (id) => {
   try {
-    console.log(id);
     const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
       to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to, espa_positions.positions as positions \
       FROM period \
@@ -124,16 +123,28 @@ const getPeriodByDepartmentId = async (id) => {
       WHERE period.department_id = $1 \
       AND period.is_active = 'true' \
       LIMIT 1", [id]);
-    console.log(period);
-    console.log(period.rows[0]);
     const periodResults = period.rows[0];
     let periodResultsObj = Object.assign(periodResults);
     return periodResultsObj;
   } catch (error) {
-    console.log('Error while fetching period by department id' + error.message);
     throw Error('Error while fetching period by department id' + error.message);
   }
 };
+
+const getEspaPositionsByDepartmentId = async (id) => {
+  try {
+    const period = await pool.query("SELECT espa_positions.positions as positions \
+      FROM espa_positions \
+      WHERE espa_positions.department_id = $1 \
+      LIMIT 1", [id]);
+    const periodResults = period.rows[0];
+    let periodResultsObj = Object.assign(periodResults);
+    return periodResultsObj;
+  } catch (error) {
+    throw Error('Error while fetching ESPA positions by department id' + error.message);
+  }
+};
+
 
 const getStudentsWithSheetInput = async (departmentId) => {
   try {
@@ -400,6 +411,7 @@ module.exports = {
   getStudentActiveApplications,
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
+  getEspaPositionsByDepartmentId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

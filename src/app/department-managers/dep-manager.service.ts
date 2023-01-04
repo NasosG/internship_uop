@@ -65,6 +65,11 @@ export class DepManagerService {
     return fetchedPeriod;
   }
 
+  getEspaPositionsByDepartmentId(departmentId: number): Observable<any> {
+    return this.http
+      .get<any>(DEPARTMENT_MANAGER_URL + "getEspaPositionsByDepartmentId/" + departmentId);
+  }
+
   getStudentsApplyPhase(): Observable<Student[]> {
     const fetchedStudent = this.getDepManager()
       .pipe(

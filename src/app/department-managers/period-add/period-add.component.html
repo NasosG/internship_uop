@@ -4,7 +4,7 @@
       Η περίοδος δήλωσης πρακτικής άσκησης είναι από 01/03/2021 έως 20/05/2021.
     </div> -->
   <!-- add period -->
-  <button id="toggleVisibilityAddPeriod" *ngIf="!(periodData?.phase_state!=null)" (click)="toggleShow()"
+  <button id="toggleVisibilityAddPeriod" *ngIf="!(periodData?.positions!=null)" (click)="toggleShow()"
     class="btn btn-secondary mb-3" type="button"> <i class="fas fa-plus mr-1"></i>Δημιουργία νέας περιόδου</button>
   <div *ngIf="isShown" class="card">
     <!-- <div class="card-header">

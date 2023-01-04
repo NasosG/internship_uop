@@ -77,6 +77,18 @@ const getPeriodByDepartmentId = async (request, response) => {
   }
 };
 
+const getEspaPositionsByDepartmentId = async (request, response) => {
+  try {
+    const department_id = request.params.id;
+    const period = await depManagerService.getEspaPositionsByDepartmentId(department_id);
+    response.status(200).json(period);
+  } catch (error) {
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const getRankedStudentsByDeptId = async (request, response) => {
   try {
     const deptId = request.params.id;
@@ -305,6 +317,7 @@ module.exports = {
   getStudentActiveApplications,
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
+  getEspaPositionsByDepartmentId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

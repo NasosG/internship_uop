@@ -88,8 +88,8 @@ export class PeriodAddComponent implements OnInit {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
         //this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-console.log(this.depManagerData);
-        this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
+
+        this.depManagerService.getEspaPositionsByDepartmentId(this.depManagerData.department_id)
           .subscribe((periodData: Period) => {
             this.periodData = periodData;
             console.log(this.periodData);
