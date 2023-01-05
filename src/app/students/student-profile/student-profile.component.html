@@ -36,7 +36,7 @@
             <p *ngIf="
                 studentsSSOData[0].edupersonprimaryaffiliation == 'student'
               " class="text-muted text-center">
-              Φοιτητής
+              {{ studentsSSOData[0].schacgender == 1 ? ('STUDENT.MALE'|translate) : ('STUDENT.FEMALE'|translate) }}
             </p>
             <!-- <p *ngIf="studentsSSOData[0].edupersonprimaryaffiliation == 'affiliate' " class="text-muted text-center">
               Φοιτητής</p> -->

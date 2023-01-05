@@ -155,7 +155,8 @@
         </div>
         <div class="info">
           <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
-          <a class="d-block">{{'STUDENT.STATUS' | translate}}: {{'STUDENT.UNDERGRAD' | translate}}</a>
+          <a class="d-block">{{'STUDENT.STATUS' | translate}}:
+            {{ studentsSSOData[0].schacgender == 1 ? ('STUDENT.MALE'|translate) : ('STUDENT.FEMALE'|translate) }}</a>
         </div>
       </div>
       <!-- Sidebar user panel (optional) -->

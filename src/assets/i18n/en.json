@@ -110,7 +110,9 @@
     "PHASE-1": "1. You are currently in the expression of interest phase",
     "PHASE-2": "2. It is the student selection phase",
     "PHASE-3": "3. Declaration of preference by students",
-    "CALENDAR-HOME": "Calendar"
+    "CALENDAR-HOME": "Calendar",
+    "MALE": "Student",
+    "FEMALE": "Student"
   },
   "DEPT-MANAGER": {
     "SHOW-RESULTS": "Show",
