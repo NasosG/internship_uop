@@ -14,3 +14,9 @@
   opacity: 0.7;
   cursor: pointer;
 }
+
+@media screen and (min-width: 539px) {
+  .set-min-width {
+    width: 420px !important;
+  }
+}

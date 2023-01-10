@@ -69,6 +69,15 @@
         <input matInput class="inactive-field" name="sex" placeholder="Φύλο" [ngModel]="gender"
           formControlName="genderCtrl" readonly required>
       </mat-form-field>
+      <br>
+      <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 set-min-width"
+        appearance="fill">
+        <mat-label>Επιλέξτε Τμήμα</mat-label>
+        <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
+          <mat-option *ngFor="let program of programsOfStudy" [value]="program">{{program}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
       <div>
         <button mat-button matStepperNext>Επόμενο</button>
       </div>

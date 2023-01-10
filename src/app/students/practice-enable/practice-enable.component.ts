@@ -24,6 +24,38 @@ export class PracticeEnableComponent implements OnInit {
   studentsSSOData: Student[] = [];
   gender!: String;
   fileSubmitted: boolean = false;
+  programsOfStudy: string[] = [];
+
+  public academicsMerged = [{
+    academicId: 1522,
+    programOfStudy: ['AEI Ηλεκτρολόγων Μηχανικών και Μηχανικών Η/Υ',
+    'ΤΕΙ Ηλεκτρολόγων Μηχανικών ΤΕ',
+    'ΤΕΙ Μηχανικών Πληροφορικής ΤΕ']
+  },
+  {
+    academicId: 1523,
+    programOfStudy: ['Τμήμα Μηχανολόγων Μηχανικών AEI', 'ΤΕΙ Μηχανολόγων Μηχανικών ΤΕ']
+  },
+  {
+    academicId: 1524,
+    programOfStudy: ['Τμήμα Πολιτικών Μηχανικών ΑΕΙ', 'ΤΕΙ "Πολιτικών Μηχανικών ΤΕ']
+  }];
+
+  // return true if program of study is merged and return the programs of study
+  // depending on the academicsMerged json array
+  isProgramOfStudyMerged(academicId: number | undefined) {
+    if (!academicId) {
+        return false;
+    }
+
+    const academic = this.academicsMerged.find(academic => academic.academicId === academicId);
+    if (academic) {
+        this.programsOfStudy = academic.programOfStudy;
+        return true;
+    }
+
+    return false;
+  }
 
   hideFileIfNotAMEA(value: boolean) {
     this.fileSubmitted = value;
