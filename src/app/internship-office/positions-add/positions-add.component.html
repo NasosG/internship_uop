@@ -1,11 +1,31 @@
-<div class="pb-0 pt-3 mb-4 pl-3 " style="border:1px solid black; border-radius:6px;">
-  <p>Τμήματα: </p>
-  <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p>
+<div class="pb-0 mb-4 pl-3 container-responsive row"
+  style="background-color: white; border: 1px solid #dee2e6; border-radius:6px;">
+  <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
+    Επιλογή Τμήματος: </h5>
+  <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
+  <div class="col-12 col-sm-10 pt-3">
+    <div class="form-group col-md-4 mb-0 pb-0">
+      <mat-form-field appearance="outline" style="min-width:310px;">
+        <mat-label>Τμήμα</mat-label>
+        <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
+          <mat-option *ngFor="let academic of officeUserAcademics" [value]="academic"
+            (click)="onDepartmentChange(academic)">
+            {{academic.department}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 </div>
+<hr>
+<p style="text-align:center"><strong>Επιλεγμένο τμήμα:</strong>
+  {{selectedDepartment.department == '' ? 'Κανένα επιλεγμένο Τμήμα' : selectedDepartment.department}}
+</p>
+<hr>
+
 <div *ngIf="periodData.semester == null" ngNativeValidate id="dep-manager-no-period" class="alert alert-danger"
   role="alert">
-  Δεν
-  υπάρχουν καταχωρημένες περιόδοι. Δημιουργήστε μία νέα περίοδο από το παρακάτω μενού
+  Δεν έχουν οριστεί περιόδοι από τον/την ΤΥ.
 </div>
 <h4 *ngIf="periodData.semester != null"> Τρέχουσα Περίοδος </h4>
 <table *ngIf="periodData.semester != null" ngNativeValidate id="dep-manager-table" class="table table-bordered"

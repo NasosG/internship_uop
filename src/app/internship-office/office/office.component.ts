@@ -52,7 +52,7 @@ export class OfficeComponent implements OnInit {
         }
       );
 
-      this.router.navigateByUrl('/office/' + this.authService.getSessionId());
+      this.router.navigateByUrl('/office/positions-add/' + this.authService.getSessionId());
     }
 
     this.officeService.getOfficeUser()
@@ -86,6 +86,10 @@ export class OfficeComponent implements OnInit {
 
   isPositionsAddRoute() {
     return this.router.url === '/office/positions-add/' + this.authService.getSessionId();
+  }
+
+  isOfficeHomeRoute(){
+    return this.router.url === '/office/' + this.authService.getSessionId();
   }
 
   isStatsAddRoute() {

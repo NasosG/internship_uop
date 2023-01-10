@@ -18,8 +18,8 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a [routerLink]="['/office/' + this.authService.getSessionId()]" class="nav-link"> <i style="font-size:1.2em;"
-            class="fa fa-home"></i>
+        <a [routerLink]="['/office/positions-add/' + this.authService.getSessionId()]" class="nav-link"> <i
+            style="font-size:1.2em;" class="fa fa-home"></i>
           {{'HOME-PAGE-BTN' | translate}}</a>
       </li>
     </ul>
@@ -204,8 +204,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a [routerLink]="['/office/stats/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
-              class="nav-link">
+            <a [routerLink]="['/office/stats/' + this.authService.getSessionId()]" [class.disabled]="true"
+              style="opacity:0.6" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>
                 {{'INTERNSHIP-OFFICE.STATS' | translate}}
@@ -340,7 +340,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <app-positions-add *ngIf="isPositionsAddRoute()"></app-positions-add>
+        <app-positions-add *ngIf="isPositionsAddRoute() || isOfficeHomeRoute()"></app-positions-add>
         <app-stats *ngIf="isStatsAddRoute()"></app-stats>
         <app-contact *ngIf="isContactRoute()"></app-contact>
         <app-about *ngIf="isAboutRoute()"></app-about>

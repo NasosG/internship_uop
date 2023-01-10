@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
+import { Department } from 'src/app/students/department.model';
 import Swal from 'sweetalert2';
 import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
@@ -19,14 +20,20 @@ export class PositionsAddComponent implements OnInit {
   dateFrom: string = "";
   dateTo: string = "";
   officeUserData!: OfficeUser;
-  officeUserAcademics!: any;
+  officeUserAcademics!: any[];
   @ViewChild('espaPositions') espaPositions!: ElementRef;
+  @ViewChild('departmentSelect') departmentSelect!: ElementRef;
 
   phaseArray = ["no-state",
     "1. Φάση ελέγχου επιλεξιμότητας.",
     "2. Φάση επιλογής φοιτητών",
     "3. Δήλωση προτίμησης από τους φοιτητές",
     "4. Επιλογή φοιτητών από φορείς"];
+
+  selectedDepartment: any = {
+    academic_id: 0,
+    department: ''
+  };
 
   constructor(public officeService: OfficeService) { }
 
@@ -37,8 +44,10 @@ export class PositionsAddComponent implements OnInit {
     this.officeService.getOfficeUser()
       .subscribe((officeUser: OfficeUser) => {
         this.officeUserData = officeUser;
+        this.selectedDepartment.department = this.officeUserData.department;
+        this.selectedDepartment.academic_id = this.officeUserData.department_id;
         // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
-        this.officeService.getPeriodByDepartmentId(this.officeUserData.department_id)
+        this.officeService.getPeriodByDepartmentId(this.selectedDepartment.academic_id)
           .subscribe((periodData: Period) => {
             this.periodData = periodData;
             this.dateFrom = Utils.changeDateFormat(periodData.date_from);
@@ -55,8 +64,19 @@ export class PositionsAddComponent implements OnInit {
 
   submit() {
     const value = this.espaPositions.nativeElement.value;
-    this.officeService.insertEspaPosition(value, this.officeService.getDepartmentId());
+    // this.officeService.insertEspaPosition(value, this.officeService.getDepartmentId());
+    this.officeService.insertEspaPosition(value, this.selectedDepartment.academic_id);
     this.onSavePositionsAlert();
+  }
+
+  onDepartmentChange(value: any) {
+    this.selectedDepartment = value;
+    this.officeService.getPeriodByDepartmentId(this.selectedDepartment.academic_id)
+      .subscribe((periodData: Period) => {
+        this.periodData = periodData;
+        this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+        this.dateTo = Utils.changeDateFormat(periodData.date_to);
+    });
   }
 
   private onSavePositionsAlert() {
