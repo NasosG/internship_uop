@@ -72,7 +72,15 @@
       <br>
       <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 set-min-width"
         appearance="fill">
-        Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε Πανεπιστημιακό Τμήμα για αναβάθμιση πτυχίου;
+        <mat-label>Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε Πανεπιστημιακό Τμήμα για αναβάθμιση πτυχίου;</mat-label>
+        <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
+          <mat-option value="0">ΝΑΙ</mat-option>
+          <mat-option value="0">ΟΧΙ</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 set-min-width"
+        appearance="fill">
         <mat-label>Επιλέξτε Τμήμα</mat-label>
         <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
           <mat-option *ngFor="let program of programsOfStudy" [value]="program">{{program}}</mat-option>
