@@ -70,19 +70,23 @@
           formControlName="genderCtrl" readonly required>
       </mat-form-field>
       <br>
-      <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 set-min-width"
+      <p>Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε <br>Πανεπιστημιακό Τμήμα για αναβάθμιση πτυχίου;</p>
+      <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 mt-0 set-min-width"
         appearance="fill">
-        <mat-label>Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε Πανεπιστημιακό Τμήμα για αναβάθμιση πτυχίου;</mat-label>
-        <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
+        <mat-label>Αναβάθμιση Πτυχίου</mat-label>
+        <mat-select #isProgramStudyUpgradedCtrl id="isProgramStudyUpgradedCtrl"
+          formControlName="isProgramStudyUpgradedCtrl" [required]="true">
           <mat-option value="0">ΝΑΙ</mat-option>
           <mat-option value="0">ΟΧΙ</mat-option>
         </mat-select>
       </mat-form-field>
       <br>
-      <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 set-min-width"
+      <p>Επιλέξτε το τμήμα/Πρόγραμμα σπουδών που ακολουθείτε</p>
+      <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 mt-0 set-min-width"
         appearance="fill">
         <mat-label>Επιλέξτε Τμήμα</mat-label>
-        <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
+        <mat-select #programOfStudyMergedCtrl id="programOfStudyMergedCtrl" formControlName="programOfStudyMergedCtrl"
+          required>
           <mat-option *ngFor="let program of programsOfStudy" [value]="program">{{program}}</mat-option>
         </mat-select>
       </mat-form-field>

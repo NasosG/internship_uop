@@ -93,6 +93,7 @@ export class PracticeEnableComponent implements OnInit {
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
         this.gender = this.studentsSSOData[0].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα';
+        // this.studentsSSOData[0].department_id = 1522; // only for testing purposes
         this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
         this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
       });
@@ -104,7 +105,9 @@ export class PracticeEnableComponent implements OnInit {
       motherNameCtrl: ['', Validators.required],
       motherSurnameCtrl: ['', Validators.required],
       dobCtrl: ['', Validators.required],
-      genderCtrl: ['', Validators.required]
+      genderCtrl: ['', Validators.required],
+      isProgramStudyUpgradedCtrl: ['', Validators.required],
+      programOfStudyMergedCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
       ssnControl: ['', Validators.required],
@@ -177,17 +180,22 @@ export class PracticeEnableComponent implements OnInit {
       post_address: this.contactFormGroup.get('postalCodeCtrl')?.value,
       country: 'gr'
     };
-
     const specialDetails: any = {
       military_training: this.specialDataFormGroup.get('armyCatCtrl')?.value,
       working_state: this.specialDataFormGroup.get('workingCatCtrl')?.value,
       amea_cat: this.specialDataFormGroup.get('ameaCatCtrl')?.value
+    };
+    const departmentDetails: any = {
+      isStudyProgramUpgraded: this.firstFormGroup.get('isProgramStudyUpgradedCtrl')?.value,
+      currentStudyProgram: this.firstFormGroup.get('programOfStudyMergedCtrl')?.value,
+      departmentId: this.studentsSSOData[0].department_id
     };
 
     this.onSubmitStudentDetails(generalDetailsData);
     this.onSubmitStudentContractDetails(contractsData, contractFiles);
     this.onSubmitStudentContact(contactDetails);
     this.onSubmitStudentSpecialDetails(specialDetails);
+    this.onSubmitDepartmentDetails(departmentDetails);
     this.setPhase(1);
     this.onSave();
   }
@@ -245,6 +253,10 @@ export class PracticeEnableComponent implements OnInit {
 
   onSubmitStudentContact(data: any) {
     this.studentsService.updateStudentContact(data);
+  }
+
+  onSubmitDepartmentDetails(data: any) {
+    this.studentsService.insertOrUpdateDepartmentDetails(data);
   }
 
   onSave() {

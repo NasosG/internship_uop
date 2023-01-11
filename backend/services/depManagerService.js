@@ -47,9 +47,17 @@ const getDepartmentNameByNumber = async (depNumber) => {
 
 const getStudentsApplyPhase = async (deptId) => {
   try {
-    const students = await pool.query("SELECT * FROM sso_users \
+    const students = await pool.query("SELECT sso_users.*, student_users.*, \
+                                              atlas_academics.department, \
+                                              mergerel.is_study_program_upgraded, \
+                                              mergerel.current_study_program \
+                                      FROM sso_users \
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
+                                      INNER JOIN atlas_academics \
+                                      ON atlas_academics.atlas_id = sso_users.department_id \
+                                      LEFT JOIN merged_departments_rel mergerel \
+                                      ON mergerel.student_id = sso_users.uuid \
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
                                       AND student_users.phase <> '0' \
                                       AND sso_users.department_id = $1", [deptId]);

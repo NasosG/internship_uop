@@ -333,6 +333,16 @@ export class StudentsService {
         .post<{ message: string }>(STUDENTS_URL + "insertStudentPosition/" + studentId, { 'internal_position_id': positionId });
   }
 
+  insertOrUpdateDepartmentDetails(data: any) {
+    const id = this.authService.getSessionId();
+
+    this.http
+      .post<{ message: string }>(STUDENTS_URL + "addDepartmentDetails/" + id, { data })
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
   // Not currently used
   // deleteStudentPosition(positionPriority: number) {
   //   this.http

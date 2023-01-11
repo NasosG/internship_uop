@@ -770,6 +770,29 @@ const insertAssignment = async (request, response, next) => {
   }
 };
 
+const insertOrUpdateDepartmentDetails = async (request, response) => {
+  const studentId = request.params.id;
+  const studentData = request.body.data;
+  console.log(request.body);
+  try {
+    const resultsFound = await studentService.mergedDepartmentResultFound(studentId, studentData);
+    if (resultsFound) {
+      await studentService.updateMergedDepartmentDetails(studentId, studentData);
+    } else {
+      await studentService.insertMergedDepartmentDetails(studentId, studentData);
+    }
+    response.status(200)
+      .json({
+        message: 'Merged department rel updated/inserted successfully'
+      });
+  } catch (error) {
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 
 module.exports = {
   getAllStudents,
@@ -807,5 +830,6 @@ module.exports = {
   insertAMEAFile,
   insertAffidavitFile,
   sendFile,
-  insertAssignment
+  insertAssignment,
+  insertOrUpdateDepartmentDetails
 };

@@ -639,6 +639,47 @@ const acceptAssignment = async (assignmentData) => {
   }
 };
 
+const mergedDepartmentResultFound = async (student_id) => {
+  try {
+    const result = await pool.query("SELECT * FROM merged_departments_rel WHERE student_id = $1", [student_id]);
+    return result.rowCount > 0;
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while fetching merged departments: ${error}`);
+  }
+};
+
+const updateMergedDepartmentDetails = async (studentId, studentData) => {
+  const { departmentId, isStudyProgramUpgraded, currentStudyProgram } = studentData;
+  const queryText = `UPDATE merged_departments_rel
+                      SET department_id = $1, is_study_program_upgraded = $2, current_study_program = $3
+                      WHERE student_id = $4`;
+  const values = [departmentId, isStudyProgramUpgraded, currentStudyProgram, studentId];
+  try {
+    await pool.query(queryText, values);
+    console.log(`Record with studentId ${studentId} updated successfully`);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while updating merged departments record: ${error}`);
+  }
+};
+
+const insertMergedDepartmentDetails = async (studentId, studentData) => {
+  const { departmentId, isStudyProgramUpgraded, currentStudyProgram } = studentData;
+  const queryText = "INSERT INTO merged_departments_rel (student_id, department_id, is_study_program_upgraded, current_study_program) \
+                      VALUES ($1, $2, $3, $4)";
+  const values = [studentId, departmentId, isStudyProgramUpgraded, currentStudyProgram];
+  try {
+    await pool.query(queryText, values);
+    console.log("Record added successfully");
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while adding merged departments record: ${error}`);
+  }
+};
+
+
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -675,5 +716,8 @@ module.exports = {
   // dummy login
   loginStudent,
   insertOrUpdateMetadataBySSOUid,
-  acceptAssignment
+  acceptAssignment,
+  mergedDepartmentResultFound,
+  insertMergedDepartmentDetails,
+  updateMergedDepartmentDetails
 };

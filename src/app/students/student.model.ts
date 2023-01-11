@@ -46,4 +46,7 @@ export interface Student {
   Ects?: number;
   Praktiki?: number;
   mail?: string;
+  department?: string;
+  current_study_program?: string;
+  is_study_program_upgraded?: boolean;
 }

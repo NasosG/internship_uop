@@ -9,7 +9,7 @@ import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialo
 import { DepManagerService } from '../dep-manager.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import {Router} from '@angular/router';
-import {AuthService} from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-student-applications',
