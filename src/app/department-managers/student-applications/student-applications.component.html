@@ -73,7 +73,7 @@
                       <td [ngClass]="student.working_state == true ? 'text-danger' : 'text-dark'">
                         {{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td>
-                        {{student.department + (!student.current_study_program ? 'ΠΣ:' + student.current_study_program : '') }}
+                        {{student.department + (!student.current_study_program ? '' : 'ΠΣ:' + student.current_study_program) }}
                       </td>
                       <td>
                         {{ !student.is_study_program_upgraded ? 'ΟΧΙ' : 'ΝΑΙ' }}

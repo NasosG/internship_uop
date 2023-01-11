@@ -57,7 +57,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [6, 7] }],
+          columnDefs: [{ orderable: false, targets: [8, 9] }],
           language: {
             // lengthMenu: 'Show _MENU_ entries'
             // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
