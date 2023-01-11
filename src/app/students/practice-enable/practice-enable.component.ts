@@ -29,29 +29,54 @@ export class PracticeEnableComponent implements OnInit {
   public academicsMerged = [{
     academicId: 1522,
     programOfStudy: ['AEI Ηλεκτρολόγων Μηχανικών και Μηχανικών Η/Υ',
-    'ΤΕΙ Ηλεκτρολόγων Μηχανικών ΤΕ',
-    'ΤΕΙ Μηχανικών Πληροφορικής ΤΕ']
+      'ΤΕΙ Ηλεκτρολόγων Μηχανικών ΤΕ',
+      'ΤΕΙ Μηχανικών Πληροφορικής ΤΕ']
   },
   {
     academicId: 1523,
-    programOfStudy: ['Τμήμα Μηχανολόγων Μηχανικών AEI', 'ΤΕΙ Μηχανολόγων Μηχανικών ΤΕ']
+    programOfStudy: ['AEI Τμήμα Μηχανολόγων Μηχανικών', 'ΤΕΙ Μηχανολόγων Μηχανικών ΤΕ']
   },
   {
     academicId: 1524,
-    programOfStudy: ['Τμήμα Πολιτικών Μηχανικών ΑΕΙ', 'ΤΕΙ "Πολιτικών Μηχανικών ΤΕ']
-  }];
+    programOfStudy: ['AEI Τμήμα Πολιτικών Μηχανικών', 'ΤΕΙ "Πολιτικών Μηχανικών ΤΕ']
+  },
+  {
+    academicId: 1513,
+    programOfStudy: ['AEI Τμήμα Λογιστικής και Χρηματοοικονομικής', 'ΤΕΙ Λογιστικής και Χρηματοοικονομικής']
+  },
+  {
+    academicId: 1514,
+    programOfStudy: ['AEI Τμήμα Διοίκησης Επιχειρήσεων και Οργανισμών', 'ΤΕΙ Διοίκησης Επιχειρήσεων και Οργανισμών']
+  },
+  {
+    academicId: 1515,
+    programOfStudy: ['AEI Τμήμα Λογοθεραπείας', 'ΤΕΙ Λογοθεραπείας']
+  },
+  {
+    academicId: 1511,
+    programOfStudy: ['AEI Τμήμα Γεωπονίας', 'ΤΕΙ Τεχνολόγων Γεωπόνων']
+  },
+  {
+    academicId: 1512,
+    programOfStudy: ['AEI Τμήμα Επιστήμης και Τεχνολογίας Τροφίμων', 'ΤΕΙ Τεχνολογίας Τροφίμων']
+  },
+  {
+    academicId: 1519,
+    programOfStudy: ['AEI Τμήμα Ψηφιακών Συστημάτων', 'ΤΕΙ Μηχανικών Πληροφορικής']
+  },
+  ];
 
   // return true if program of study is merged and return the programs of study
   // depending on the academicsMerged json array
   isProgramOfStudyMerged(academicId: number | undefined) {
     if (!academicId) {
-        return false;
+      return false;
     }
 
     const academic = this.academicsMerged.find(academic => academic.academicId === academicId);
     if (academic) {
-        this.programsOfStudy = academic.programOfStudy;
-        return true;
+      this.programsOfStudy = academic.programOfStudy;
+      return true;
     }
 
     return false;
@@ -196,20 +221,20 @@ export class PracticeEnableComponent implements OnInit {
 
     let files;
     if (isAmeaCatSelected && fileAmea != null) {
-      files = [{"fileData": fileSSN, "type": 'SSN'},
-               {"fileData": fileIban, "type": 'IBAN'},
-               {"fileData": fileAffidavit, "type": 'AFFIDAVIT'},
-               {"fileData": fileAmea, "type": 'AMEA'}];
+      files = [{ "fileData": fileSSN, "type": 'SSN' },
+      { "fileData": fileIban, "type": 'IBAN' },
+      { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
+      { "fileData": fileAmea, "type": 'AMEA' }];
     } else {
-      files = [{"fileData": fileSSN, "type": 'SSN'},
-               {"fileData": fileIban, "type": 'IBAN'},
-               {"fileData": fileAffidavit, "type": 'AFFIDAVIT'}];
+      files = [{ "fileData": fileSSN, "type": 'SSN' },
+      { "fileData": fileIban, "type": 'IBAN' },
+      { "fileData": fileAffidavit, "type": 'AFFIDAVIT' }];
     }
 
     this.studentsService.updateStudentContractDetails(data);
 
     const filesToSave = from(files).pipe(
-      mergeMap(file =>  this.studentsService.updateStudentFile(file.fileData, file.type))
+      mergeMap(file => this.studentsService.updateStudentFile(file.fileData, file.type))
     );
 
     filesToSave.subscribe(
