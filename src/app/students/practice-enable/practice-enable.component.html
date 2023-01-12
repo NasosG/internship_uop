@@ -70,7 +70,8 @@
           formControlName="genderCtrl" readonly required>
       </mat-form-field>
       <br>
-      <p>Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε <br>Πανεπιστημιακό Τμήμα για αναβάθμιση πτυχίου;</p>
+      <p *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)">Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε
+        <br>Πανεπιστημιακό Πρόγραμμα Σπουδών για αναβάθμιση πτυχίου;</p>
       <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 mt-0 set-min-width"
         appearance="fill">
         <mat-label>Αναβάθμιση Πτυχίου</mat-label>
@@ -81,7 +82,10 @@
         </mat-select>
       </mat-form-field>
       <br>
-      <p>Επιλέξτε το τμήμα/Πρόγραμμα σπουδών που ακολουθείτε</p>
+
+      <p *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)">Επιλέξτε το Πρόγραμμα σπουδών που
+        ακολουθείτε</p>
+
       <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 mt-0 set-min-width"
         appearance="fill">
         <mat-label>Επιλέξτε Τμήμα</mat-label>
