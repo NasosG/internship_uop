@@ -42,5 +42,7 @@ router.post("/sendFile/:id", studentController.sendFile);
 router.get("/getAssignmentsByStudentId/:id", studentController.getAssignmentsByStudentId);
 router.post("/insertAssignment/:id", studentController.insertAssignment);
 router.post("/addDepartmentDetails/:id", studentController.insertOrUpdateDepartmentDetails);
+router.get("/checkUserAcceptance/:id", studentController.checkUserAcceptance);
+router.post("/insertUserAcceptance/:id", studentController.insertUserAcceptance);
 
 module.exports = router;

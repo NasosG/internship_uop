@@ -679,6 +679,32 @@ const insertMergedDepartmentDetails = async (studentId, studentData) => {
 };
 
 
+const checkUserAcceptance = async (userId) => {
+  try {
+    const result = await pool.query("SELECT accepted FROM terms_accepted WHERE sso_user_id = $1", [userId]);
+
+    if (result.rowCount === 0) {
+      return false;
+    } else if (!result.rows[0].accepted) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while checking user acceptance: ${error}`);
+  }
+};
+
+const insertUserAcceptance = async (userId, areTermsAccepted) => {
+  try {
+    await pool.query("INSERT INTO terms_accepted (sso_user_id, accepted, acceptance_datetime) \
+      VALUES($1, $2, NOW())", [userId, areTermsAccepted]);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while inserting user acceptance: ${error}`);
+  }
+};
 
 module.exports = {
   getAllStudents,
@@ -719,5 +745,7 @@ module.exports = {
   acceptAssignment,
   mergedDepartmentResultFound,
   insertMergedDepartmentDetails,
-  updateMergedDepartmentDetails
+  updateMergedDepartmentDetails,
+  checkUserAcceptance,
+  insertUserAcceptance
 };

@@ -1,36 +1,38 @@
-<div class="v3_60">
-  <app-home-header></app-home-header>
-</div>
-<form id="ssoLoginForm" ngNativeValidate #ssoLoginForm="ngForm" class="signup-form login-option"
-  (ngSubmit)="onSSOLogin(ssoLoginForm.value)">
-  <div id="content" class="content" role="main" id="a1">
-    <div id="main-terms-div">
-      <div class="mt-0" style="max-width:600px;margin:auto;">
-        <h4 style="word-wrap:break-word; color: #224957">{{'HOME.LOGIN-TERMS-H4' | translate}}
-          <a
-            href="https://e-secretary.uop.gr/unistudent/login.asp?lang=en-us&mnuID=student&autologoff=1">{{'HOME.STUDENT-REGISTRY' | translate}}</a>
-        </h4>
-      </div>
+<div class="green-gradient">
+  <div class="v3_60">
+    <!-- <app-home-header></app-home-header> -->
+  </div>
+  <form id="ssoLoginForm" ngNativeValidate #ssoLoginForm="ngForm" class="signup-form login-option"
+    (ngSubmit)="onTermsAcceptanceSubmit(ssoLoginForm.value)">
+    <div id="content" class="content" role="main" id="a1">
+      <div id="main-terms-div">
+        <div class="mt-0" style="max-width:600px;margin:auto;">
+          <h4 style="word-wrap:break-word; color: #224957">{{'HOME.LOGIN-TERMS-H4' | translate}}
+            <a
+              href="https://e-secretary.uop.gr/unistudent/login.asp?lang=en-us&mnuID=student&autologoff=1">{{'HOME.STUDENT-REGISTRY' | translate}}</a>
+          </h4>
+        </div>
 
-      <div class="terms-box mt-4">
-        <!-- <img style="height:160px;margin-top:20px;" src=" ../../../../../assets/images/not_robot.png"> -->
-        <div class="tacbox tacbox-bold">
-          <input id="checkbox" required type="checkbox" />
-          <label for="checkbox">&nbsp;&nbsp;</label>
-          {{'HOME.ACCEPT' | translate}}
-          <a class="terms-anchor" (click)="openDialog()">{{'HOME.TERMS' | translate}}</a>
-          {{'HOME.PLATFORM' | translate}}<span class="text-danger">&nbsp;*</span>
+        <div class="terms-box mt-4">
+          <!-- <img style="height:160px;margin-top:20px;" src=" ../../../../../assets/images/not_robot.png"> -->
+          <div class="tacbox tacbox-bold">
+            <input #termsCheckbox id="checkbox" required type="checkbox" (change)="onCheckboxChange($event)" />
+            <label for="checkbox">&nbsp;&nbsp;</label>
+            {{'HOME.ACCEPT' | translate}}
+            <a class="terms-anchor" (click)="openDialog()">{{'HOME.TERMS' | translate}}</a>
+            {{'HOME.PLATFORM' | translate}}<span class="text-danger">&nbsp;*</span>
+          </div>
+        </div>
+        <div class="modal-footer mt-4">
+          <button type="button" [routerLink]="['/']" class="text-white btn btn-secondary"
+            data-bs-dismiss="modal">{{'HOME.BACK-BTN' | translate}}</button>
+          <button type="submit" class="text-white btn btn-primary">
+            <a>
+              <span class="text-white">{{'HOME.CONTINUE-BTN' | translate}}</span>
+            </a>
+          </button>
         </div>
       </div>
-      <div class="modal-footer mt-4">
-        <button type="button" [routerLink]="['/']" class="text-white btn btn-secondary"
-          data-bs-dismiss="modal">{{'HOME.BACK-BTN' | translate}}</button>
-        <button type="submit" class="text-white btn btn-primary">
-          <a>
-            <span class="text-white">{{'HOME.CONTINUE-BTN' | translate}}</span>
-          </a>
-        </button>
-      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

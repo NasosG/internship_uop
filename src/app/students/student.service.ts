@@ -150,6 +150,7 @@ export class StudentsService {
     return this.http
       .get<Array<AtlasPosition>>(ATLAS_URL + 'getGenericPositionSearch/', { params });
   }
+
   // public fetchStudentsAndPeriod() {
   //   let studentPeriodArray: any;
   //   let fetchedStudents: any[];
@@ -159,13 +160,13 @@ export class StudentsService {
   //       fetchedStudents = students;
   //        this.getPhase(fetchedStudents[0]?.department_id)
   //         .subscribe((period: Period) => {
-  //           fetchedPeriod = period;
-  //           studentPeriodArray = Object.assign({"student" : fetchedStudents}, {"period": period});
-  //           console.log("asd" + studentPeriodArray["period"].date_from);
-  //           this.period =  studentPeriodArray["period"];
-  //           console.log( "asd" + this.period.date_from);
-  //           return this.period;
-  //         });
+    //           fetchedPeriod = period;
+    //           studentPeriodArray = Object.assign({"student" : fetchedStudents}, {"period": period});
+    //           console.log("asd" + studentPeriodArray["period"].date_from);
+    //           this.period =  studentPeriodArray["period"];
+    //           console.log( "asd" + this.period.date_from);
+    //           return this.period;
+    //         });
   //     });
   // }
   public fetchStudentsAndPeriod(): Observable<Period> {
@@ -173,18 +174,24 @@ export class StudentsService {
     let fetchedStudents: any[];
     let fetchedPeriod;
     const period = this.getStudents()
-      .pipe(
-        mergeMap(result => this.getPhase(result[0]?.department_id))
-      )
+    .pipe(
+      mergeMap(result => this.getPhase(result[0]?.department_id))
+    )
     return period;
   }
 
   getCommentByStudentIdAndSubject(studentId: number, subject: string): Observable<any> {
-     const params = new HttpParams()
-      .set('studentId', studentId)
-      .set('subject', subject);
+    const params = new HttpParams()
+    .set('studentId', studentId)
+    .set('subject', subject);
     const fetchedComment = this.http.get<any>(STUDENTS_URL + "getCommentByStudentIdAndSubject/", { params });
     return fetchedComment;
+  }
+
+  checkUserAcceptance(): Observable<{message: string, accepted: boolean}> {
+    const studentId = this.authService.getSessionId();
+    return this.http
+      .get<{ message: string; accepted: boolean }>(STUDENTS_URL + "checkUserAcceptance/" + studentId);
   }
 
   // this functions adds a new bio and details to a student
@@ -331,6 +338,12 @@ export class StudentsService {
     else
       return this.http
         .post<{ message: string }>(STUDENTS_URL + "insertStudentPosition/" + studentId, { 'internal_position_id': positionId });
+  }
+
+  insertStudentTermsAcceptance(areTermsAccepted: boolean): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    return this.http
+      .post<{ message: string }>(STUDENTS_URL + "/insertUserAcceptance/" + studentId, { areTermsAccepted });
   }
 
   insertOrUpdateDepartmentDetails(data: any) {

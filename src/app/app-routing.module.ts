@@ -7,13 +7,10 @@ import { CompanyComponent } from './companies/company/company.component';
 import { OfficeComponent } from './internship-office/office/office.component';
 import { AdminPanelComponent } from './admin-panels/admin-panel/admin-panel.component';
 import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin-panel-login.component';
+import { StudentLoginTermsComponent } from './home-screen/student-login-terms/student-login-terms.component';
 
 const routes: Routes = [{
   path: '',
-  component: HomeComponent
-},
-{
-  path: 'terms',
   component: HomeComponent
 },
 {
@@ -41,6 +38,10 @@ const routes: Routes = [{
   {
     path: 'login/:token/:uuid',
     component: StudentComponent
+  },
+  {
+    path: 'terms/:id',
+    component: StudentLoginTermsComponent
   },
   {
     path: 'profile/:id',
@@ -98,16 +99,16 @@ const routes: Routes = [{
         path: 'evaluation-form/:id',
         component: StudentComponent
       }]
-  },
-  {
-    path: 'student-contract',
-    component: StudentComponent
+    },
+    {
+      path: 'student-contract',
+      component: StudentComponent
   },
   {
     path: 'contact',
     component: StudentComponent
   }
-  ]
+]
 },
 {
   path: 'department-manager',
@@ -139,26 +140,26 @@ const routes: Routes = [{
         path: 'results/:id',
         component: DepartmentManagerComponent
       }]
-  },
-  {
-    path: 'sheet-input/:id',
-    component: DepartmentManagerComponent,
-  },
-  {
-    path: 'sheet-output/:id',
-    component: DepartmentManagerComponent,
-  },
-  {
-    path: 'match-students/:id',
-    component: DepartmentManagerComponent
-  },
-  {
-    path: 'contact',
-    component: DepartmentManagerComponent
-  },
-  {
-    path: 'about',
-    component: DepartmentManagerComponent
+    },
+    {
+      path: 'sheet-input/:id',
+      component: DepartmentManagerComponent,
+    },
+    {
+      path: 'sheet-output/:id',
+      component: DepartmentManagerComponent,
+    },
+    {
+      path: 'match-students/:id',
+      component: DepartmentManagerComponent
+    },
+    {
+      path: 'contact',
+      component: DepartmentManagerComponent
+    },
+    {
+      path: 'about',
+      component: DepartmentManagerComponent
   },
   {
     path: 'manuals',
@@ -168,7 +169,7 @@ const routes: Routes = [{
     path: 'students-approved/:id',
     component: DepartmentManagerComponent
   }
-  ]
+]
 },
 {
   path: 'companies',
@@ -188,10 +189,10 @@ const routes: Routes = [{
         path: ':id/upload',
         component: CompanyComponent
       }]
-  },
-  {
-    path: 'students-applications/:id',
-    component: CompanyComponent
+    },
+    {
+      path: 'students-applications/:id',
+      component: CompanyComponent
   },
   {
     path: 'selected-students/:id',
@@ -209,7 +210,7 @@ const routes: Routes = [{
     path: 'manuals',
     component: CompanyComponent
   }
-  ]
+]
 },
 {
   path: 'office',
@@ -245,7 +246,7 @@ const routes: Routes = [{
     path: 'sheet-output/:id',
     component: OfficeComponent,
   },
-  ]
+]
 },
 {
   path: 'admin',

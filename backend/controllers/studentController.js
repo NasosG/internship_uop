@@ -793,6 +793,41 @@ const insertOrUpdateDepartmentDetails = async (request, response) => {
   }
 };
 
+const checkUserAcceptance = async (request, response) => {
+  const studentId = request.params.id;
+  try {
+    const resultsFound = await studentService.checkUserAcceptance(studentId);
+
+    response.status(200)
+      .json({
+        message: 'User acceptance checked successfully',
+        accepted: resultsFound
+      });
+
+  } catch (error) {
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const insertUserAcceptance = async (request, response) => {
+  const studentId = request.params.id;
+  const areTermsAccepted = request.body.areTermsAccepted;
+
+  try {
+    await studentService.insertUserAcceptance(studentId, areTermsAccepted);
+
+    response.status(200).json({
+      message: 'User acceptance updated/inserted successfully'
+    });
+  } catch (error) {
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
 
 module.exports = {
   getAllStudents,
@@ -831,5 +866,7 @@ module.exports = {
   insertAffidavitFile,
   sendFile,
   insertAssignment,
-  insertOrUpdateDepartmentDetails
+  insertOrUpdateDepartmentDetails,
+  checkUserAcceptance,
+  insertUserAcceptance
 };

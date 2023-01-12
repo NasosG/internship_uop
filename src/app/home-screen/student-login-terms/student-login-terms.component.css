@@ -56,7 +56,7 @@ input:hover {
   border-radius: 20px;
   padding: 12px;
   margin-top: 20px;
-  background-color: rgba(133, 158, 154, 0.1);
+  background-color: rgba(209, 224, 222, 0.9);
 }
 
 #main-terms-div {
@@ -84,4 +84,10 @@ hr {
     /* background-color: #fff; */
     width: 100%;
   }
+}
+
+.green-gradient {
+  background: linear-gradient(to right, #224957, #3f89a3);
+  height: 100vh;
+  width: 100%;
 }

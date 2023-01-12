@@ -65,11 +65,19 @@ export class StudentComponent implements OnInit, OnDestroy {
           this.authService.setSessionId(params['uuid']);
         }
       );
-
-      this.router.navigateByUrl('/student/' + this.authService.getSessionId());
     }
 
-    this.fetchStudentAndPeriod();
+    this.studentsService.checkUserAcceptance().subscribe((response: any) => {
+      if (response.accepted == false) {
+        this.router.navigateByUrl('/student/terms/' + this.authService.getSessionId());
+      } else {
+        this.router.navigateByUrl('/student/' + this.authService.getSessionId());
+        this.fetchStudentAndPeriod();
+      }
+    });
+
+    //this.router.navigateByUrl('/student/' + this.authService.getSessionId());
+    //this.fetchStudentAndPeriod();
   }
 
   // ngAfterViewInit(): void { }
@@ -150,6 +158,10 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   isProfileRoute() {
     return this.router.url === '/student/profile/' + this.authService.getSessionId();
+  }
+
+  isTermsRoute() {
+    return this.router.url === '/student/terms/' + this.authService.getSessionId();
   }
 
   isStudentRoute() {

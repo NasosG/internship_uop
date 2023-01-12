@@ -2,6 +2,8 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/auth.service';
 import { StudentLoginTermsDialogComponent } from '../student-login-terms-dialog/student-login-terms-dialog.component';
+import { StudentsService } from '../../students/student.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-login-terms',
@@ -9,9 +11,11 @@ import { StudentLoginTermsDialogComponent } from '../student-login-terms-dialog/
   styleUrls: ['./student-login-terms.component.css']
 })
 export class StudentLoginTermsComponent implements OnInit {
- @ViewChild('ssoLoginForm') ssoLoginForm: any;
+  @ViewChild('ssoLoginForm') ssoLoginForm: any;
+  @ViewChild('termsCheckbox') termsCheckbox: any;
+  private isTermsCheckBoxChecked: boolean = false;
 
- constructor(public dialog: MatDialog, public authService: AuthService) { }
+  constructor(public dialog: MatDialog, public authService: AuthService, private router: Router, public studentsService: StudentsService) { }
 
   openDialog() {
     const dialogRef = this.dialog.open(StudentLoginTermsDialogComponent);
@@ -23,13 +27,22 @@ export class StudentLoginTermsComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  onSSOLogin(formData: any) {
-    // this.authService.ssoTestLogin().subscribe((obj: Object) => {
-    //   console.log(obj);
-    // });
-    window.location.href = 'http://praktiki-new.uop.gr:3000/CAS/CASapi.php/'
-    // $('#ssoLoginForm').attr("action", "https://sso.uop.gr/login?service=https%3A%2F%2Fpraktiki.uop.gr%2Fcas%3Fdestination%3Diamstudent");
-    //$('#ssoLoginForm').attr("action", "http://praktiki-new.uop.gr:3000/CAS/CASapi.php/");
-    // $('#ssoLoginForm').submit();
+  onTermsAcceptanceSubmit(formData: any) {
+    if (this.isTermsCheckBoxChecked) {
+      this.studentsService.insertStudentTermsAcceptance(this.isTermsCheckBoxChecked)
+        .subscribe((response: any) => {
+          if (response.message === 'User acceptance updated/inserted successfully') {
+            this.router.navigateByUrl('/student/' + this.authService.getSessionId());
+          }
+        });
+    }
   }
+
+  onCheckboxChange(event: any) {
+    this.isTermsCheckBoxChecked = event.target.checked;
+  }
+
+  // onSSOLogin(formData: any) {
+  //   window.location.href = 'http://praktiki-new.uop.gr:3000/CAS/CASapi.php/'
+  // }
 }

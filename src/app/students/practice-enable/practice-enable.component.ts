@@ -63,8 +63,7 @@ export class PracticeEnableComponent implements OnInit {
   {
     academicId: 1519,
     programOfStudy: ['AEI Τμήμα Ψηφιακών Συστημάτων', 'ΤΕΙ Μηχανικών Πληροφορικής']
-  },
-  ];
+  }];
 
   // return true if program of study is merged and return the programs of study
   // depending on the academicsMerged json array

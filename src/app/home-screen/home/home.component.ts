@@ -44,9 +44,9 @@ export class HomeComponent implements OnInit {
     this.translate.use(language);
   }
 
-  isTermsRoute() {
-    return this.router.url === '/terms';
-  }
+  // isTermsRoute() {
+  //   return this.router.url === '/terms';
+  // }
 
   isCompanyTermsRoute() {
     return this.router.url === '/company-terms';
