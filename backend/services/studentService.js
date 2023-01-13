@@ -374,12 +374,10 @@ const insertStudentApplication = async (body, studentId) => {
 
 const getPeriodIdByStudentId = async (studentId) => {
   try {
-    const depManagerId = await pool.query("SELECT period.id \
-                                           FROM period \
-                                           INNER JOIN sso_users usr \
-                                           ON usr.uuid = period.sso_user_id \
-                                           WHERE usr.department_id = $1 \
-                                           AND period.is_active = 'true'", [studentId]);
+    const depManagerId = await pool.query("SELECT period.id FROM period \
+                                          INNER JOIN sso_users ON sso_users.department_id = period.department_id \
+                                          WHERE sso_users.uuid = $1 \
+                                          AND period.is_active = 'true'", [studentId]);
 
     if (depManagerId.rows.length === 0) return -1;
 
@@ -600,7 +598,7 @@ const findMaxPositions = async (studentId, positionId) => {
   }
 };
 
-const getPhase = async (studentId, positionId) => {
+const getPhase = async (departmentId) => {
   let maxPriority = 0;
   try {
     const depManagerId = await pool.query("SELECT prd.*, positions \
@@ -611,7 +609,7 @@ const getPhase = async (studentId, positionId) => {
                                            ON espa_positions.department_id = prd.department_id \
                                            WHERE usr.department_id = $1 \
                                            AND usr.edupersonprimaryaffiliation = 'faculty' \
-                                           AND prd.is_active = 'true'", [studentId]);
+                                           AND prd.is_active = 'true'", [departmentId]);
 
     return depManagerId.rows[0];
   } catch (error) {
@@ -710,7 +708,6 @@ const insertMergedDepartmentDetails = async (studentId, studentData) => {
     throw Error(`An error occured while adding merged departments record: ${error}`);
   }
 };
-
 
 const checkUserAcceptance = async (userId) => {
   try {
