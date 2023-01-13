@@ -499,7 +499,7 @@ const updateStudentPositions = async (studentId, body) => {
       await insertStudentPositions(studentId, body[i]);
     }
   } catch (error) {
-    throw Error('Error while updating student positions' + error);
+    throw Error('Error while updating student positions-' + error);
   }
 };
 
@@ -511,7 +511,7 @@ const insertStudentPositions = async (studentId, body) => {
       " ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
       [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id, body.afm, body.internal_position_id]);
   } catch (error) {
-    throw Error('Error while inserting student positions' + body.afm);
+    throw Error('Error while inserting student positions ' + body.position_id + "|" + error);
   }
 };
 
