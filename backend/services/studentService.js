@@ -364,8 +364,8 @@ const insertStudentApplication = async (body, studentId) => {
 
     await pool.query("INSERT INTO student_applications" +
       '(student_id, positions, application_date, application_status, period_id )' +
-      " VALUES " + "($1, $2, now(), 'true', $3)",
-      [studentId, body, periodId]);
+      " VALUES " + "($1, $2, now(), $3, $4)",
+      [studentId, body, true, periodId]);
   } catch (error) {
     console.log('Error while inserting application to student_applications' + error.message);
     throw Error('Error while inserting application to student_applications' + error.message);
@@ -383,7 +383,7 @@ const getPeriodIdByStudentId = async (studentId) => {
 
     if (depManagerId.rows.length === 0) return -1;
 
-    return depManagerId.rows[0];
+    return depManagerId.rows[0].id;
   } catch (error) {
     throw Error('Error while finding student max priority');
   }
