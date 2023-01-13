@@ -506,12 +506,14 @@ const updateStudentPositions = async (studentId, body) => {
 const insertStudentPositions = async (studentId, body) => {
   try {
     // console.log(body);
+    const formattedUploadDate = moment(body.upload_date, "DD/MM/YYYY").format("YYYY-MM-DD");
+
     await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-      [studentId, body.priority, body.company, body.title, body.place, body.upload_date, body.position_id, body.afm, body.internal_position_id]);
+      [studentId, body.priority, body.company, body.title, body.place, formattedUploadDate, body.position_id, body.afm, body.internal_position_id]);
   } catch (error) {
-    throw Error('Error while inserting student positions ' + body.position_id + "|" + error);
+    throw Error('Error while inserting student position ' + body.position_id + "|" + error);
   }
 };
 
