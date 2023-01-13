@@ -499,7 +499,7 @@ const updateStudentPositions = async (studentId, body) => {
       await insertStudentPositions(studentId, body[i]);
     }
   } catch (error) {
-    throw Error('Error while updating student positions');
+    throw Error('Error while updating student positions' + error);
   }
 };
 
@@ -524,19 +524,29 @@ const insertStudentPositionsFromUser = async (studentId, positionId, priority, a
     //    INNER JOIN atlas_provider prov
     //    ON pos.provider_id = prov.atlas_provider_id OR(pos.atlas_position_id IS NULL AND pos.provider_id = prov.id);
     // WHERE(pos.atlas_position_id IS NULL AND pos.id = 1) OR pos.atlas_position_id = 1
-    let positionInfo = null;
+    // let positionInfo = null;
 
-    if (atlas) {
-      positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM atlas_position_group pos" +
-        " INNER JOIN atlas_provider prov" +
-        " ON pos.provider_id = prov.atlas_provider_id" +
-        " WHERE pos.atlas_position_id = $1", [positionId]);
-    } else {
-      positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM internal_position_group pos" +
-        " INNER JOIN atlas_provider prov" +
-        " ON pos.provider_id = prov.id" +
-        " WHERE pos.id = $1", [positionId]);
-    }
+    // if (atlas) {
+    //   positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM atlas_position_group pos" +
+    //     " INNER JOIN atlas_provider prov" +
+    //     " ON pos.provider_id = prov.atlas_provider_id" +
+    //     " WHERE pos.atlas_position_id = $1", [positionId]);
+    // } else {
+    //   positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM internal_position_group pos" +
+    //     " INNER JOIN atlas_provider prov" +
+    //     " ON pos.provider_id = prov.id" +
+    //     " WHERE pos.id = $1", [positionId]);
+    // }
+
+
+    // the code above is left because this law will very likely change in the future
+    // new implementation below without internal positions
+    let positionInfo = null;
+    positionInfo = await pool.query("SELECT name as company, afm, title, city, last_update_string FROM atlas_position_group pos" +
+      " INNER JOIN atlas_provider prov" +
+      " ON pos.provider_id = prov.atlas_provider_id" +
+      " WHERE pos.atlas_position_id = $1", [positionId]);
+
     console.log(positionId);
 
     const res = await findIfPositionExists(studentId, positionId, atlas);

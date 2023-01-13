@@ -434,10 +434,14 @@ const insertStudentPosition = async (request, response, next) => {
     const body = request.body;
     let priority = 0;
     const NUMBER_OF_POSITIONS = 5;
-    let positionId = body.positionId == null ? body.internal_position_id : body.positionId;
-    let atlas = body.positionId != null;
+    // let positionId = body.positionId == null ? body.internal_position_id : body.positionId;
+    // let atlas = body.positionId != null;
 
-    console.log(body.internal_position_id + "|" + atlas);
+    // by the new law, there are only atlas positions, not internal ones
+    let positionId = body.positionId;
+    let atlas = true;
+
+    // console.log(body.internal_position_id + "|" + atlas);
     const maxPriority = await studentService.findMaxPositions(studentId, positionId);
 
     if (maxPriority < NUMBER_OF_POSITIONS) {
