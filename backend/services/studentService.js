@@ -357,14 +357,35 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
 
 const insertStudentApplication = async (body, studentId) => {
   try {
+    const periodId = await getPeriodIdByStudentId(studentId);
+
+    if (periodId == -1)
+      throw Error('No period was found');
 
     await pool.query("INSERT INTO student_applications" +
-      '(student_id, positions, application_date, application_status )' +
-      " VALUES " + "($1, $2, now(), 'true')",
-      [studentId, body]);
+      '(student_id, positions, application_date, application_status, period_id )' +
+      " VALUES " + "($1, $2, now(), 'true', $3)",
+      [studentId, body, periodId]);
   } catch (error) {
     console.log('Error while inserting application to student_applications' + error.message);
-    throw Error('Error while inserting application to student_applications');
+    throw Error('Error while inserting application to student_applications' + error.message);
+  }
+};
+
+const getPeriodIdByStudentId = async (studentId) => {
+  try {
+    const depManagerId = await pool.query("SELECT period.id \
+                                           FROM period \
+                                           INNER JOIN sso_users usr \
+                                           ON usr.uuid = period.sso_user_id \
+                                           WHERE usr.department_id = $1 \
+                                           AND period.is_active = 'true'", [studentId]);
+
+    if (depManagerId.rows.length === 0) return -1;
+
+    return depManagerId.rows[0];
+  } catch (error) {
+    throw Error('Error while finding student max priority');
   }
 };
 
