@@ -24,6 +24,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   private language!: string;
   public espaPositions!: number;
   periodSet!: boolean;
+  period: Period|undefined;
 
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -44,12 +45,12 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
 
     if (!environment.production) {
       this.authService.setSessionId(9);
-      this.depManagerService.getDepManager()
-        .subscribe((depManager: DepManager) => {
-          this.depManagerData = depManager;
-          this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
-        });
-        return;
+      // this.depManagerService.getDepManager()
+      //   .subscribe((depManager: DepManager) => {
+      //     this.depManagerData = depManager;
+      //     this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
+      //   });
+      //   return;
     }
 
     if (this.router.url.includes('/department-manager/login')) {
@@ -79,6 +80,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
             )
             .subscribe((periodData: Period) => {
               this.espaPositions = periodData.positions;
+              this.period = periodData;
               this.periodSet = true;
             });
       });

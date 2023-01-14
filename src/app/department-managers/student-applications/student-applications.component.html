@@ -6,6 +6,13 @@
         <div class="card">
           <!-- <div class="card-header"> -->
           <div class="card-header p-2">
+            <div class="card-tools mr-1 p-1">
+              <button type="button" style="font-size:16px;" class="btn btn-secondary btn-sm daterange"
+                title="Date range">
+                <i class="far fa-envelope mr-1"></i>Παλιές Αιτήσεις
+              </button>
+
+            </div>
             <ul class="nav nav-pills">
               <li class="nav-item">
                 <a class="nav-link active" href="#applications" data-toggle="tab">Αιτήσεις φοιτητών</a>
@@ -23,6 +30,7 @@
             <div class="tab-content">
               <div class="tab-pane active" id="applications">
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+                <h4>Τρέχουσα Περίοδος: {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
                 <table id="example" #example class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -59,8 +67,14 @@
                           </mat-select>
                         </mat-form-field>
                         <!-- Insert Comment Button -->
-                        <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
-                            class="fas fa-edit"></i> Σχόλιο<br></a>
+                        <a *ngIf="!checkStudentHasComment(student.sso_uid) == true" class="text-secondary w-100"
+                          style="cursor: pointer; font-weight: bold;" (click)="openCommentsDialog(idx)"><i
+                            class="fas fa-plus"></i>
+                          Προσθήκη Σχολίου<br></a>
+                        <a *ngIf="checkStudentHasComment(student.sso_uid)" class=" text-secondary w-100"
+                          style="cursor: pointer; font-style: italic;" (click)="openCommentsDialog(idx)"><i
+                            class="fas fa-edit"></i>
+                          Προβολή / Επεξεργασία Σχολίου<br></a>
                       </td>
                       <td>{{student.givenname}} {{student.sn}}</td>
                       <!-- <td>{{student.father_name}}</td> -->

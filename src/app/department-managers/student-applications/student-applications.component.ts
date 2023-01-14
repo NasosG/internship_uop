@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
@@ -8,8 +8,8 @@ import * as XLSX from 'xlsx';
 import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
 import { DepManagerService } from '../dep-manager.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
-import {Router} from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import {Period} from '../period.model';
 
 @Component({
   selector: 'app-student-applications',
@@ -24,6 +24,9 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   // dataSource = ELEMENT_DATA;
   selected = '';
   ngSelect = "";
+  @Input() period: Period|undefined;
+
+  hasMadeComment: any = [];
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -36,6 +39,16 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
           this.studentsData[i].user_ssn = students[i].user_ssn;
+
+          // fetch comments of each student
+          this.depManagerService.getCommentByStudentIdAndSubject(this.studentsData[i].sso_uid, 'Δικαιολογητικά')
+            .subscribe((comment: any) => {
+                if (comment) {
+                  this.hasMadeComment.push({studentId: this.studentsData[i].sso_uid, hasComment: true});
+                } else {
+                  this.hasMadeComment.push({studentId: this.studentsData[i].sso_uid, hasComment: false});
+                }
+            });
         }
         // Have to wait till the changeDetection occurs. Then, project data into the HTML template
         this.chRef.detectChanges();
@@ -71,6 +84,11 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
           // pageLength: 8
         });
       });
+  }
+
+  checkStudentHasComment(studentSSOUid: number): boolean {
+    const studentComment =  this.hasMadeComment.find((comment: {studentId: number; hasComment: boolean}) => comment.studentId === studentSSOUid);
+    return (studentComment && studentComment.hasComment);
   }
 
   // This function is used to get the AM of the student

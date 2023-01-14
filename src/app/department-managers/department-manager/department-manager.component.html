@@ -442,7 +442,7 @@
         <app-period-add [periodSet]="periodSet" *ngIf="isPeriodAddRoute() || isDepartmentManagerRoute()">
         </app-period-add>
         <app-period-edit *ngIf="isPeriodEditRoute()"></app-period-edit>
-        <app-student-applications *ngIf="isStudentApplications()"></app-student-applications>
+        <app-student-applications [period]="period" *ngIf="isStudentApplications()"></app-student-applications>
         <app-student-match *ngIf="isMatchStudentsRoute()"></app-student-match>
         <app-contact *ngIf="isContactRoute()"></app-contact>
         <app-students-approved *ngIf="isStudentsAprrovedRoute()"></app-students-approved>

@@ -191,6 +191,7 @@ export class DepManagerService {
       .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertCommentsByStudentId/" + studentId, commentsJson)
       .subscribe(responseData => {
         console.log(responseData.message);
+        location.reload();
       });
   }
 
