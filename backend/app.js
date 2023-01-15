@@ -4,9 +4,10 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
-// const cron = require('node-cron');
+const cron = require('node-cron');
 const atlasController = require('./controllers/atlasController.js');
 const MiscUtils = require("./MiscUtils.js");
+const setPeriodCompletedJob = require('./jobs/setPeriodCompleted.js');
 
 // const log4js = require("log4js");
 // log4js.configure({
@@ -110,6 +111,18 @@ app.get('/api/user', cas.block, function (req, res) {
 // cron.schedule('0 0 * * * *', async () => {
 //   await atlasController.insertOrUpdateAtlasTables();
 // });
+
+// Schedule a job to run every night at 23:58 to update the state of the period if it is completed
+cron.schedule("58 03 * * *", async () => {
+  try {
+    await setPeriodCompletedJob.setPeriodCompleted();
+  } catch (error) {
+    console.log(error);
+  }
+}, {
+  scheduled: true,
+  timezone: "Europe/Athens"
+}).catch(err => console.log(err));
 
 // Update Atlas latest positions / providers, every hour
 setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), MiscUtils.ONE_HOUR);
