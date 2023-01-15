@@ -113,7 +113,7 @@ app.get('/api/user', cas.block, function (req, res) {
 // });
 
 // Schedule a job to run every night at 23:58 to update the state of the period if it is completed
-cron.schedule("58 03 * * *", async () => {
+cron.schedule("58 23 * * *", async () => {
   try {
     await setPeriodCompletedJob.setPeriodCompleted();
   } catch (error) {
