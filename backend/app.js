@@ -122,7 +122,7 @@ cron.schedule("58 03 * * *", async () => {
 }, {
   scheduled: true,
   timezone: "Europe/Athens"
-}).catch(err => console.log(err));
+});
 
 // Update Atlas latest positions / providers, every hour
 setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), MiscUtils.ONE_HOUR);
