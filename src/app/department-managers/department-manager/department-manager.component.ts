@@ -6,7 +6,7 @@ import { Subscription, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
-import {environment} from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
 import { Period } from '../period.model';

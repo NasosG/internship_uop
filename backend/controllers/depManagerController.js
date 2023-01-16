@@ -310,6 +310,18 @@ const getCommentByStudentIdAndSubject = async (request, response) => {
   }
 };
 
+const getCompletedPeriods = async (request, response) => {
+  try {
+    const departmentId = request.params.id;
+    const period = await depManagerService.getCompletedPeriods(departmentId);
+    response.status(200).json(period);
+  } catch (error) {
+    response.status(404).send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -329,5 +341,6 @@ module.exports = {
   insertCommentsByStudentId,
   updateCommentsByStudentId,
   getCommentByStudentIdAndSubject,
+  getCompletedPeriods,
   login
 };

@@ -22,5 +22,6 @@ router.put("/updateCommentsByStudentId/:id", depManagerController.updateComments
 router.get("/getCommentByStudentIdAndSubject/", depManagerController.getCommentByStudentIdAndSubject);
 router.get("/getStudentsWithSheetInput/:department_id", depManagerController.getStudentsWithSheetInput);
 router.get("/getStudentsWithSheetOutput/:department_id", depManagerController.getStudentsWithSheetOutput);
+router.get("/getCompletedPeriods/:id", depManagerController.getCompletedPeriods);
 
 module.exports = router;

@@ -14,7 +14,8 @@ const setPeriodCompleted = async () => {
   console.log("Job started at" + new Date().toLocaleString());
   try {
     await pool.query("UPDATE period  \
-                      SET is_active = 'false' \
+                      SET is_active = 'false', \
+                          is_completed = 'true' \
                       WHERE DATE(NOW()) = DATE(date_to) AND phase_state = 4");
     console.log("Job finished at" + new Date().toLocaleString());
   } catch (error) {

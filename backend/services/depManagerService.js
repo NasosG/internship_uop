@@ -201,9 +201,9 @@ const insertPeriod = async (body, id, departmentId) => {
     await deactivateAllPeriodsByDepartmentId(departmentId);
     let pyear = body.date_from.split('-')[0];
     const insertResults = await pool.query("INSERT INTO period" +
-      "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, department_id, is_active)" +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, 'true')",
-      [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, departmentId]);
+      "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, department_id, is_active, is_completed)" +
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+      [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, departmentId, true, false]);
     return insertResults;
   } catch (error) {
     console.log('Error while inserting period time ' + error.message);
@@ -409,6 +409,16 @@ const getCommentByStudentIdAndSubject = async (studentId, subject) => {
   }
 };
 
+const getCompletedPeriods = async (departmentId) => {
+  try {
+    const periods = await pool.query("SELECT * FROM period WHERE department_id = $1 AND is_completed = true AND is_active = false", [departmentId]);
+    return periods.rows;
+  } catch (error) {
+    console.log('Error while getting periods ' + error.message);
+    throw Error('Error while getting periods ' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -429,5 +439,6 @@ module.exports = {
   insertCommentsByStudentId,
   updateCommentsByStudentId,
   getCommentByStudentIdAndSubject,
+  getCompletedPeriods,
   login
 };

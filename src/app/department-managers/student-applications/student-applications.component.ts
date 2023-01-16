@@ -9,7 +9,7 @@ import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialo
 import { DepManagerService } from '../dep-manager.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { AuthService } from 'src/app/auth/auth.service';
-import {Period} from '../period.model';
+import { Period } from '../period.model';
 
 @Component({
   selector: 'app-student-applications',
