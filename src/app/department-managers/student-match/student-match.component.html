@@ -19,8 +19,8 @@
             <table id="studentsTable" #studentsTable class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Αριθμός Αίτησης</th>
-                  <th>Ημερομηνία Αίτησης</th>
+                  <!-- <th>Αριθμός Αίτησης</th> -->
+                  <th>Ημερομηνία Αίτησης Θέσεων</th>
                   <th>Oναματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή</th>
@@ -29,7 +29,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let activeApplication of activeApplications">
-                  <td>{{activeApplication.app_id}}</td>
+                  <!-- <td>{{activeApplication.app_id}}</td> -->
                   <td>{{activeApplication.applicationDateStr}}</td>
                   <td>{{activeApplication.firstname}} {{activeApplication.lastname}}</td>
                   <td>{{activeApplication.reg_code}}</td>
@@ -45,8 +45,8 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Αριθμός Αίτησης</th>
-                  <th>Ημερομηνία Αίτησης</th>
+                  <!-- <th>Αριθμός Αίτησης</th> -->
+                  <th>Ημερομηνία Αίτησης Θέσεων</th>
                   <th>Oναματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή</th>
