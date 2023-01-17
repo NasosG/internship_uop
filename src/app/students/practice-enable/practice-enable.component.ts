@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { concatMap, forkJoin, from, mergeMap } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
@@ -25,6 +25,7 @@ export class PracticeEnableComponent implements OnInit {
   gender!: String;
   fileSubmitted: boolean = false;
   programsOfStudy: string[] = [];
+  @Input() periodId!: number;
 
   public academicsMerged = [{
     academicId: 1522,
@@ -105,8 +106,8 @@ export class PracticeEnableComponent implements OnInit {
       motherSurnameCtrl: ['', Validators.required],
       dobCtrl: ['', Validators.required],
       genderCtrl: ['', Validators.required],
-      isProgramStudyUpgradedCtrl: ['', Validators.required],
-      programOfStudyMergedCtrl: ['', Validators.required]
+      isProgramStudyUpgradedCtrl: [''],
+      programOfStudyMergedCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
       ssnControl: ['', Validators.required],
@@ -194,7 +195,10 @@ export class PracticeEnableComponent implements OnInit {
     this.onSubmitStudentContractDetails(contractsData, contractFiles);
     this.onSubmitStudentContact(contactDetails);
     this.onSubmitStudentSpecialDetails(specialDetails);
-    this.onSubmitDepartmentDetails(departmentDetails);
+    if (this.isProgramOfStudyMerged(departmentDetails.departmentId)) {
+      this.onSubmitDepartmentDetails(departmentDetails);
+    }
+    this.onSubmitStudentInterestApp(this.studentsSSOData[0].sso_uid, this.periodId);
     this.setPhase(1);
     this.onSave();
   }
@@ -204,6 +208,11 @@ export class PracticeEnableComponent implements OnInit {
     const file = new FormData();
     file.set('file', imageBlob);
     return file;
+  }
+
+  onSubmitStudentInterestApp(studentId: number, periodId: number): void {
+    console.log("periodId: " + periodId + " studentId: " + studentId);
+    this.studentsService.createStudentInterestApp(studentId, periodId);
   }
 
   onSubmitStudentDetails(data: any) {

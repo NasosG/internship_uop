@@ -375,7 +375,7 @@
           <app-contact *ngIf="isContactRoute()"></app-contact>
           <app-sheet-evaluation *ngIf="isEvaluationSheetRoute()"></app-sheet-evaluation>
           <student-contract *ngIf="isStudentContractRoute()"></student-contract>
-          <app-practice-enable *ngIf="isPracticeEnableRoute()"></app-practice-enable>
+          <app-practice-enable [periodId]="period.id" *ngIf="isPracticeEnableRoute()"></app-practice-enable>
           <app-student-company-accept *ngIf="isStudentCompanyAcceptRoute()"></app-student-company-accept>
         </div>
         <!-- /.row -->
