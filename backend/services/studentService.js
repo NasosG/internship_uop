@@ -736,6 +736,55 @@ const insertUserAcceptance = async (userId, areTermsAccepted) => {
   }
 };
 
+const insertOrUpdateStudentInterestApp = async (studentId, body, oldAppId = "", mode) => {
+  try {
+    const APP_INITIAL_STATUS = 1;
+    // get the current date in the format of DDMMYYYY
+    const applicationDate = new Date();
+    const date = moment().format('DDMMYYYY');
+
+    if (mode == "update") {
+      // concatenate the date and id
+      const protocolNumber = oldAppId + '/' + date;
+
+      // update the data into the table
+      await pool.query("UPDATE semester_interest_apps SET interest_app_date = $1, protocol_number = $2 WHERE student_id = $3",
+        [applicationDate, protocolNumber, studentId]);
+
+      console.log('Data updated successfully');
+      return;
+    }
+
+    // insert the data into the table
+    const result = await pool.query("INSERT INTO semester_interest_apps(student_id, interest_app_date, interest_app_status, period_id) \
+    VALUES($1, $2, $3, $4) RETURNING interest_app_id ",
+      [studentId, applicationDate, APP_INITIAL_STATUS, body.periodId]);
+
+    const newAppId = result.rows[0].interest_app_id;
+    // concatenate the date and id
+    const protocolNumber = newAppId + '/' + date;
+
+    await pool.query("UPDATE semester_interest_apps SET protocol_number = $1 WHERE interest_app_id = $2", [protocolNumber, newAppId]);
+
+    console.log('Data inserted successfully');
+  } catch (error) {
+    console.log(error);
+    throw Error('Error while inserting or updating data into semester_interest_apps' + error.message);
+  }
+};
+
+const semesterInterestAppFound = async (studentId, periodId) => {
+  try {
+    const result = await pool.query("SELECT * FROM semester_interest_apps WHERE student_id = $1 AND period_id = $2", [studentId, periodId]);
+    const appId = !result.rows[0]?.interest_app_id ? "" : result.rows[0].interest_app_id;
+    return { found: result.rowCount > 0, appId: appId };
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while fetching semester interest app: ${error}`);
+  }
+};
+
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -749,6 +798,7 @@ module.exports = {
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
+  semesterInterestAppFound,
   findMaxPositions,
   insertStudentEntrySheet,
   insertStudentPositions,
@@ -777,5 +827,6 @@ module.exports = {
   insertMergedDepartmentDetails,
   updateMergedDepartmentDetails,
   checkUserAcceptance,
-  insertUserAcceptance
+  insertUserAcceptance,
+  insertOrUpdateStudentInterestApp
 };

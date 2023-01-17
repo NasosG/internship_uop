@@ -198,7 +198,7 @@ export class PracticeEnableComponent implements OnInit {
     if (this.isProgramOfStudyMerged(departmentDetails.departmentId)) {
       this.onSubmitDepartmentDetails(departmentDetails);
     }
-    this.onSubmitStudentInterestApp(this.studentsSSOData[0].sso_uid, this.periodId);
+    this.onSubmitStudentInterestApp(this.periodId);
     this.setPhase(1);
     this.onSave();
   }
@@ -210,9 +210,9 @@ export class PracticeEnableComponent implements OnInit {
     return file;
   }
 
-  onSubmitStudentInterestApp(studentId: number, periodId: number): void {
-    console.log("periodId: " + periodId + " studentId: " + studentId);
-    this.studentsService.createStudentInterestApp(studentId, periodId);
+  onSubmitStudentInterestApp(periodId: number): void {
+    console.log("periodId: " + periodId);
+    this.studentsService.createStudentInterestApp(periodId);
   }
 
   onSubmitStudentDetails(data: any) {

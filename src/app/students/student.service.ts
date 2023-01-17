@@ -425,9 +425,13 @@ export class StudentsService {
       .post<{ message: string }>(STUDENTS_URL + "insertAssignment/" + studentId, form);
   }
 
-  createStudentInterestApp(studentId: number, periodId: number): Observable<any> {
+  createStudentInterestApp(periodId: number) {
+    const studentId = this.authService.getSessionId();
     return this.http
-      .post<{ message: string }>(STUDENTS_URL + "insertStudentInterestApp/" + studentId, { periodId });
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentInterestApp/" + studentId, { periodId })
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
   }
 
 }

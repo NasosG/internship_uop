@@ -833,6 +833,30 @@ const insertUserAcceptance = async (request, response) => {
   }
 };
 
+const insertStudentInterestApp = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const body = request.body;
+
+    console.log(body);
+    const results = await studentService.semesterInterestAppFound(studentId, body.periodId);
+    if (results.found) {
+      await studentService.insertOrUpdateStudentInterestApp(studentId, body, results.appId, "update");
+    } else {
+      await studentService.insertOrUpdateStudentInterestApp(studentId, body, "insert");
+    }
+
+    response.status(200).json({
+      message: 'Student interest app inserted successfully',
+    });
+  } catch (error) {
+    console.log(error);
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -872,5 +896,6 @@ module.exports = {
   insertAssignment,
   insertOrUpdateDepartmentDetails,
   checkUserAcceptance,
-  insertUserAcceptance
+  insertUserAcceptance,
+  insertStudentInterestApp
 };

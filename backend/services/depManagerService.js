@@ -50,16 +50,18 @@ const getStudentsApplyPhase = async (deptId) => {
     const students = await pool.query("SELECT sso_users.*, student_users.*, \
                                               atlas_academics.department, \
                                               mergerel.is_study_program_upgraded, \
-                                              mergerel.current_study_program \
+                                              mergerel.current_study_program, \
+                                              apps.protocol_number as latest_app_protocol_number \
                                       FROM sso_users \
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
+                                      INNER JOIN semester_interest_apps apps ON apps.student_id = sso_users.uuid \
+                                      INNER JOIN period ON period.id = apps.period_id AND period.is_active = true \
                                       INNER JOIN atlas_academics \
                                       ON atlas_academics.atlas_id = sso_users.department_id \
                                       LEFT JOIN merged_departments_rel mergerel \
                                       ON mergerel.student_id = sso_users.uuid \
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
-                                      AND student_users.phase <> '0' \
                                       AND sso_users.department_id = $1", [deptId]);
     return students.rows;
   } catch (error) {
