@@ -230,12 +230,12 @@ export class StudentPositionsComponent implements OnInit {
       "<h2>Αιτήσεις Φοιτητή/τριας</h2>" +
       "<table border='1' cellpadding='10'>" +
       "<tr>" +
-      "<th>Αριθμός Αίτησης</th>" +
+      "<th>Αρ. Πρωτοκόλλου</th>" +
       "<th>Ημερομηνία Αίτησης</th>" +
       "<th>Κατάσταση Αίτησης</th>" +
       "</tr>" +
       "<tr>" +
-      ` <td>${this.studentApplications[appIndex].id}</td>` +
+      ` <td>${this.studentApplications[appIndex].protocol_number}</td>` +
       ` <td>${this.studentApplications[appIndex].application_date}</td>` +
       ` <td>${this.studentApplications[appIndex].application_status ? ' Ενεργή' : ' Ανενεργή'} </td>` +
       "</tr>" +

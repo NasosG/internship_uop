@@ -100,8 +100,12 @@ export class StudentComponent implements OnInit, OnDestroy {
                 this.period = period;
                 this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
                 this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
-                this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE;
-                this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1;
+
+                // May need to add locale
+                const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
+
+                this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
+                this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
               });
             this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
               .subscribe((comment: any) => {

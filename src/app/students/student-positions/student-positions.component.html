@@ -7,8 +7,8 @@
     <!-- Applications Table -->
     <table class="manage-table submissions responsive-table dark-div mt-3">
       <tr>
-        <th>Αριθμός Αίτησης</th>
-        <th>Ημερομηνία Αίτησης </th>
+        <th>Αρ. Πρωτοκόλλου</th>
+        <th>Ημερομηνία Αίτησης Θέσης</th>
         <th>Κατάσταση</th>
         <!-- <th> Θέση</th> -->
         <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
@@ -16,7 +16,7 @@
       </tr>
       <tr *ngFor="let application of studentApplications; let appIndex=index" [attr.data-index]="appIndex" class="dark-div
         submissions-div">
-        <td>{{application.id}}</td>
+        <td>{{application.protocol_number}}</td>
         <td>{{application.application_date}}</td>
         <td>
           <i class="fa fa-check" *ngIf="application.application_status"></i>

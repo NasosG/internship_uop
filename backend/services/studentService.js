@@ -151,7 +151,7 @@ const getStudentPositions = async (id) => {
 
 const getStudentApplications = async (studentId) => {
   try {
-    return await pool.query("SELECT  id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status \
+    return await pool.query("SELECT  id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status, protocol_number \
                             FROM student_applications \
                             WHERE student_id = $1", [studentId]);
   } catch (error) {
@@ -357,31 +357,32 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
 
 const insertStudentApplication = async (body, studentId) => {
   try {
-    const periodId = await getPeriodIdByStudentId(studentId);
+    const details = await getPeriodAndProtocolNumberByStudentId(studentId);
 
-    if (periodId == -1)
+    if (details.periodId == -1)
       throw Error('No period was found');
 
     await pool.query("INSERT INTO student_applications" +
-      '(student_id, positions, application_date, application_status, period_id )' +
-      " VALUES " + "($1, $2, now(), $3, $4)",
-      [studentId, body, true, periodId]);
+      "(student_id, positions, application_date, application_status, period_id, protocol_number)" +
+      " VALUES " + "($1, $2, now(), $3, $4, $5)",
+      [studentId, body, true, details.periodId, details.protocolNumber]);
   } catch (error) {
     console.log('Error while inserting application to student_applications' + error.message);
     throw Error('Error while inserting application to student_applications' + error.message);
   }
 };
 
-const getPeriodIdByStudentId = async (studentId) => {
+const getPeriodAndProtocolNumberByStudentId = async (studentId) => {
   try {
-    const depManagerId = await pool.query("SELECT period.id FROM period \
+    const depManagerId = await pool.query("SELECT period.id, apps.protocol_number FROM period \
                                           INNER JOIN sso_users ON sso_users.department_id = period.department_id \
+                                          INNER JOIN semester_interest_apps apps ON apps.period_id = period.id \
                                           WHERE sso_users.uuid = $1 \
                                           AND period.is_active = 'true'", [studentId]);
 
-    if (depManagerId.rows.length === 0) return -1;
+    if (depManagerId.rows.length === 0) return { periodId: -1, protocolNumber: -1 };
 
-    return depManagerId.rows[0].id;
+    return { periodId: depManagerId.rows[0].id, protocolNumber: depManagerId.rows[0].protocol_number };
   } catch (error) {
     throw Error('Error while finding student max priority');
   }
@@ -741,7 +742,7 @@ const insertOrUpdateStudentInterestApp = async (studentId, body, oldAppId = "", 
     const APP_INITIAL_STATUS = 1;
     // get the current date in the format of DDMMYYYY
     const applicationDate = new Date();
-    const date = moment().format('DDMMYYYY');
+    const date = moment().format('DD-MM-YYYY');
 
     if (mode == "update") {
       // concatenate the date and id
