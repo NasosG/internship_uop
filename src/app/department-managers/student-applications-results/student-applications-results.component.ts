@@ -17,7 +17,7 @@ import {AuthService} from 'src/app/auth/auth.service';
 })
 export class StudentApplicationsResultsComponent implements OnInit {
 
- @ViewChild('example2') table: ElementRef | undefined;
+  @ViewChild('example2') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
@@ -102,6 +102,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
     let studentsDataJson: any = [];
     for (const item of this.studentsData) {
       studentsDataJson.push({
+        "Α.Π.": item.latest_app_protocol_number,
         "Επώνυμο": item.sn,
         "Όνομα": item.givenname,
         "Πατρώνυμο": item.father_name,
@@ -159,6 +160,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
     windowPrint?.document.write("<table style=\"width: 100%;\"> \
         <thead style=\"color:white; background-color:#2d4154;\"> \
           <tr> \
+            <th>Α.Π.</th> \
             <th>Όνοματεπώνυμο</th> \
             <th>ΑΜ</th> \
             <th>Υπηρετώ στρατό</th> \
@@ -174,6 +176,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
         // print the rows - another color for the odd lines - could be done with i % 2 != 0
         // but with bitwise operator it was a bit faster
         "<tr " + ((i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">") +
+        "<td>" + student.latest_app_protocol_number + "</td>" +
         "<td>" + student.sn + " " + student.givenname + "</td>" +
         "<td>" + student.schacpersonaluniquecode + "</td>" +
         "<td>" + (student.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
