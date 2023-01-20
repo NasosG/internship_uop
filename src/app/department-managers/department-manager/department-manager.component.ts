@@ -44,13 +44,21 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     //   });
 
     if (!environment.production) {
-      this.authService.setSessionId(9);
+      this.authService.setSessionId(11);
       // this.depManagerService.getDepManager()
       //   .subscribe((depManager: DepManager) => {
       //     this.depManagerData = depManager;
       //     this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       //   });
       //   return;
+      this.depManagerService.getManagedAcademics()
+      .subscribe((data: any) => {
+        if (data.length == 1) {
+          this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+        } else if (data.length > 1) {
+          this.router.navigateByUrl('/department-manager/choose-dept/' + this.authService.getSessionId());
+        }
+      });
     }
 
     if (this.router.url.includes('/department-manager/login')) {
@@ -61,6 +69,16 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
           this.authService.setSessionId(params['uuid']);
         }
       );
+
+    // PROD: TO BE TESTED
+    // this.depManagerService.getManagedAcademics()
+    //   .subscribe((data: any) => {
+    //     if (data.length == 1) {
+    //       this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+    //     } else if (data.length > 1) {
+    //       this.router.navigateByUrl('/department-manager/choose-dept/' + this.authService.getSessionId());
+    //     }
+    //   });
 
       this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
     }

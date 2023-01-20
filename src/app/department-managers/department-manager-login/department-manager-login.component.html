@@ -1,0 +1,39 @@
+<div class="green-gradient">
+  <div class="v3_60">
+    <!-- <app-home-header></app-home-header> -->
+  </div>
+  <form id="ssoLoginForm" ngNativeValidate #ssoLoginForm="ngForm" class="signup-form login-option">
+    <div id="content" class="content" role="main" id="a1">
+      <div id="main-terms-div">
+        <div class="mt-0" style="max-width:600px;margin:auto;">
+          <h4 style="word-wrap:break-word; color: #224957">Επιλέξτε το τμήμα που θέλετε να επεξεργαστείτε
+
+          </h4>
+        </div>
+
+        <div class="terms-box mt-3">
+          <div class="tacbox tacbox-bold">
+            <mat-form-field appearance="fill">
+              <mat-label>Τμήμα...</mat-label>
+              <mat-select [(ngModel)]="managedAcademics">
+                <mat-option *ngFor="let academic of managedAcademics" [value]="academic">
+                  {{academic.department}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+        </div>
+        <div class="modal-footer mt-3">
+          <!-- <button type="button" [routerLink]="['/']" class="text-white btn btn-secondary"
+            data-bs-dismiss="modal">{{'HOME.BACK-BTN' | translate}}</button> -->
+          <button type="submit" class="text-white btn btn-primary">
+            <a>
+              <span class="text-white">ΕΠΟΜΕΝΟ</span>
+            </a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

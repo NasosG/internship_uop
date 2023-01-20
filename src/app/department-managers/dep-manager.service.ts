@@ -211,4 +211,9 @@ export class DepManagerService {
     const fetchedComment = this.http.get<any>(DEPARTMENT_MANAGER_URL + "getCommentByStudentIdAndSubject/", { params });
     return fetchedComment;
   }
+
+  getManagedAcademics(): Observable<any> {
+    const userId = this.authService.getSessionId();
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getManagedDepartmentsByUserId/" + userId);
+  }
 }

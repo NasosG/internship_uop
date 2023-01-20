@@ -421,6 +421,21 @@ const getCompletedPeriods = async (departmentId) => {
   }
 };
 
+const getManagedAcademicsByUserId = async (userId) => {
+  try {
+    const academics = await pool.query(`SELECT atlas_academics.department, atlas_academics.atlas_id
+                                        FROM atlas_academics
+                                        JOIN role_manages_academics ON atlas_academics.atlas_id = role_manages_academics.academic_id
+                                        JOIN users_roles ON role_manages_academics.user_role_id = users_roles.user_role_id
+                                        JOIN sso_users ON sso_users.id = users_roles.sso_username
+                                        WHERE sso_users.uuid = $1`, [userId]);
+    return academics.rows;
+  } catch (error) {
+    console.log('Error while getting managed academics: ' + error.message);
+    throw Error('Error while getting managed academics: ' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -442,5 +457,6 @@ module.exports = {
   updateCommentsByStudentId,
   getCommentByStudentIdAndSubject,
   getCompletedPeriods,
+  getManagedAcademicsByUserId,
   login
 };

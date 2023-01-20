@@ -164,7 +164,8 @@
                   </mat-select>
                 </mat-form-field>
                 <br>
-                <mat-form-field *ngIf="roles.value === 'Γραφείο Πρακτικής Άσκησης'" class="mt-2 mat-full-width"
+                <!-- old implementation in which dept manager manages only 1 department: it will maybe be re-added in the short future -->
+                <!-- <mat-form-field *ngIf="roles.value === 'Γραφείο Πρακτικής Άσκησης'" class="mt-2 mat-full-width"
                   appearance="fill">
                   <mat-label>Τμήμα</mat-label>
                   <mat-select class="mt-2" [formControl]="academics" [multiple]="true" [disabled]="roles.value === ''"
@@ -187,7 +188,25 @@
                     <mat-option *ngFor="let option of departments" [value]="option.department">{{option.department}}
                     </mat-option>
                   </mat-select>
+                </mat-form-field> -->
+
+                <mat-form-field class="mt-2 mat-full-width" appearance="fill">
+                  <mat-label>Τμήμα</mat-label>
+                  <mat-select class="mt-2" [formControl]="academics" [multiple]="true" [disabled]="roles.value === ''"
+                    [required]="true">
+                    <mat-select-trigger>
+                      {{academics.value?.[0] || ''}}
+                      <span *ngIf="(academics.value?.length || 0) > 1" class="example-additional-selection">
+                        (+{{(academics.value?.length || 0) - 1}}
+                        {{academics.value?.length === 2 ? 'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let option of departments" [value]="option.department">
+                      {{option.department}}
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
+
                 <br>
                 <mat-form-field class="mt-2 mat-full-width" appearance="fill">
                   <mat-label>Username</mat-label>

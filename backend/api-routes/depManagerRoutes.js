@@ -23,5 +23,6 @@ router.get("/getCommentByStudentIdAndSubject/", depManagerController.getCommentB
 router.get("/getStudentsWithSheetInput/:department_id", depManagerController.getStudentsWithSheetInput);
 router.get("/getStudentsWithSheetOutput/:department_id", depManagerController.getStudentsWithSheetOutput);
 router.get("/getCompletedPeriods/:id", depManagerController.getCompletedPeriods);
+router.get("/getManagedDepartmentsByUserId/:userId", depManagerController.getManagedAcademicsByUserId);
 
 module.exports = router;

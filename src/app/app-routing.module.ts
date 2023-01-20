@@ -8,6 +8,7 @@ import { OfficeComponent } from './internship-office/office/office.component';
 import { AdminPanelComponent } from './admin-panels/admin-panel/admin-panel.component';
 import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin-panel-login.component';
 import { StudentLoginTermsComponent } from './home-screen/student-login-terms/student-login-terms.component';
+import {DepartmentManagerLoginComponent} from './department-managers/department-manager-login/department-manager-login.component';
 
 const routes: Routes = [{
   path: '',
@@ -119,6 +120,10 @@ const routes: Routes = [{
   {
     path: 'login/:token/:uuid',
     component: DepartmentManagerComponent
+  },
+  {
+    path: 'choose-dept/:id',
+    component: DepartmentManagerLoginComponent
   },
   {
     path: 'add-period/:id',
