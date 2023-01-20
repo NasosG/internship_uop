@@ -31,7 +31,7 @@ export class PracticeEnableComponent implements OnInit {
     academicId: 1522,
     programOfStudy: ['AEI Ηλεκτρολόγων Μηχανικών και Μηχανικών Η/Υ',
       'ΤΕΙ Ηλεκτρολόγων Μηχανικών ΤΕ',
-      'ΤΕΙ Μηχανικών Πληροφορικής ΤΕ']
+      'ΤΕΙ Μηχανικών Πληροφορικής ΤΕ'],
   },
   {
     academicId: 1523,
@@ -39,7 +39,7 @@ export class PracticeEnableComponent implements OnInit {
   },
   {
     academicId: 1524,
-    programOfStudy: ['AEI Τμήμα Πολιτικών Μηχανικών', 'ΤΕΙ "Πολιτικών Μηχανικών ΤΕ']
+    programOfStudy: ['AEI Τμήμα Πολιτικών Μηχανικών', 'ΤΕΙ Πολιτικών Μηχανικών ΤΕ']
   },
   {
     academicId: 1513,
@@ -93,7 +93,7 @@ export class PracticeEnableComponent implements OnInit {
       .subscribe((students: Student[]) => {
         this.studentsSSOData = students;
         this.gender = this.studentsSSOData[0].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα';
-        // this.studentsSSOData[0].department_id = 1522; // only for testing purposes
+        // this.studentsSSOData[0].department_id = 1511; // only for testing purposes
         this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
         this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
       });
@@ -188,7 +188,8 @@ export class PracticeEnableComponent implements OnInit {
     const departmentDetails: any = {
       isStudyProgramUpgraded: this.firstFormGroup.get('isProgramStudyUpgradedCtrl')?.value,
       currentStudyProgram: this.firstFormGroup.get('programOfStudyMergedCtrl')?.value,
-      departmentId: this.studentsSSOData[0].department_id
+      departmentId: this.studentsSSOData[0].department_id,
+      studyProgramId: this.getProgramOfStudy(this.firstFormGroup.get('programOfStudyMergedCtrl')?.value)
     };
 
     this.onSubmitStudentDetails(generalDetailsData);
@@ -201,6 +202,26 @@ export class PracticeEnableComponent implements OnInit {
     this.onSubmitStudentInterestApp(this.periodId);
     this.setPhase(1);
     this.onSave();
+  }
+
+
+  getProgramOfStudy(value: string): number {
+    const index = this.academicsMerged.findIndex(academic => academic.programOfStudy.includes(value));
+    if (index !== -1) {
+      const programOfStudyIndex = this.academicsMerged[index].programOfStudy.indexOf(value);
+      let identifier: number = Number.parseInt(this.academicsMerged[index].academicId + "0" + programOfStudyIndex);
+
+      // Check if last 2 digits are 0, if so, remove them
+      if (identifier % 100 === 0) {
+        identifier = Math.floor(identifier / 100);
+      }
+
+      return identifier;
+    } else {
+      console.log("the selected value is not in academicsMerged");
+      // If the selected value is not in academicsMerged, then theres only one program of study
+      return this.studentsSSOData[0].department_id;
+    }
   }
 
   uploadFile(fileValue: any): FormData {
@@ -282,7 +303,7 @@ export class PracticeEnableComponent implements OnInit {
   onError() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
-      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχέιων: .pdf .jpg .png .webp .jpeg .gif .doc .docx',
+      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
@@ -345,6 +366,7 @@ export class PracticeEnableComponent implements OnInit {
   }
 
   getExtensionExists(filename: string) {
+    if (!filename) return false;
     return !(filename.split('.').pop() == filename);
   }
 

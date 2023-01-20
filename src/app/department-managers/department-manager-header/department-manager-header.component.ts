@@ -49,13 +49,22 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   }
 
   deletePeriodById() {
-    this.deletePeriod(this.periodData.id);
+    this.depManagerService.getStudentsApplyPhase()
+      .subscribe((studentApps: any) => {
+        let text: string = 'Είστε σίγουροι ότι θέλετε να προχωρήσετε σε διαγραφή περιόδου;';
+
+        if (studentApps.length > 0) {
+          text = 'Υπάρχουν φοιτητές που έχουν υποβάλει αίτηση. Είστε σίγουροι ότι θέλετε να διαγραφεί η περίοδος; Θα πρέπει οι φοιτητές να υποβάλλουν νέα αίτηση.';
+        }
+
+        this.deletePeriod(this.periodData.id, text);
+      });
   }
 
-  deletePeriod(periodId: number) {
+  deletePeriod(periodId: number, inputText: string) {
     Swal.fire({
       title: 'Διαγραφή Περιόδου',
-      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε σε διαγραφή περιόδου;',
+      text: inputText,
       icon: 'error',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

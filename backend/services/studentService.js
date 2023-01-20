@@ -682,11 +682,11 @@ const mergedDepartmentResultFound = async (student_id) => {
 };
 
 const updateMergedDepartmentDetails = async (studentId, studentData) => {
-  const { departmentId, isStudyProgramUpgraded, currentStudyProgram } = studentData;
+  const { departmentId, isStudyProgramUpgraded, currentStudyProgram, studyProgramId } = studentData;
   const queryText = `UPDATE merged_departments_rel
-                      SET department_id = $1, is_study_program_upgraded = $2, current_study_program = $3
-                      WHERE student_id = $4`;
-  const values = [departmentId, isStudyProgramUpgraded, currentStudyProgram, studentId];
+                      SET department_id = $1, is_study_program_upgraded = $2, current_study_program = $3, study_program_id = $4
+                      WHERE student_id = $5`;
+  const values = [departmentId, isStudyProgramUpgraded, currentStudyProgram, studyProgramId, studentId];
   try {
     await pool.query(queryText, values);
     console.log(`Record with studentId ${studentId} updated successfully`);
@@ -697,10 +697,10 @@ const updateMergedDepartmentDetails = async (studentId, studentData) => {
 };
 
 const insertMergedDepartmentDetails = async (studentId, studentData) => {
-  const { departmentId, isStudyProgramUpgraded, currentStudyProgram } = studentData;
-  const queryText = "INSERT INTO merged_departments_rel (student_id, department_id, is_study_program_upgraded, current_study_program) \
-                      VALUES ($1, $2, $3, $4)";
-  const values = [studentId, departmentId, isStudyProgramUpgraded, currentStudyProgram];
+  const { departmentId, isStudyProgramUpgraded, currentStudyProgram, studyProgramId } = studentData;
+  const queryText = "INSERT INTO merged_departments_rel (student_id, department_id, is_study_program_upgraded, current_study_program, study_program_id) \
+                      VALUES ($1, $2, $3, $4, $5)";
+  const values = [studentId, departmentId, isStudyProgramUpgraded, currentStudyProgram, studyProgramId];
   try {
     await pool.query(queryText, values);
     console.log("Record added successfully");

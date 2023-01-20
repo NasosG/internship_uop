@@ -5,6 +5,7 @@ import { Period } from 'src/app/department-managers/period.model';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { Utils } from '../../MiscUtils'
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-home',
@@ -20,6 +21,12 @@ export class StudentHomeComponent implements OnInit {
   comment: any;
 
   phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-3"];
+  isDeclarationEnabled: boolean|undefined;
+  areOptionsEnabled: boolean|undefined;
+
+  private INTEREST_EXPRESSION_PHASE: number = 1;
+  private STUDENT_SELECTION_PHASE: number = 2;
+  private PREFERENCE_DECLARATION_PHASE: number = 3;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
@@ -33,6 +40,10 @@ export class StudentHomeComponent implements OnInit {
             this.period = period;
             this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
             this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+            const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
+
+            this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
+            this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
           });
 
         this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
