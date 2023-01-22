@@ -233,7 +233,9 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
     await deleteApprovedStudentsRank(departmentId);
     let i = 1;
     for (students of getStudentsPhase) {
-      const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[students.department_id], splitStudentsAM(students.schacpersonaluniquecode));
+      const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentId], MiscUtils.splitStudentsAM(students.schacpersonaluniquecode));
+      console.log(procedureResults.Grade + " | " + MiscUtils.departmentsMap[departmentId] + " | " + MiscUtils.splitStudentsAM(students.schacpersonaluniquecode) + " | " + students.department_id);
+      //const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[students.department_id], splitStudentsAM(students.schacpersonaluniquecode));
       // console.log(procedureResults.Grade + " | " + MiscUtils.departmentsMap[students.department_id]);
       let calculatedScore = 0;
       if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
@@ -244,7 +246,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
         // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
         if (students.department_id.toString().length == 6) {
           departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(students.department_id);
-          console.log("departmentFieldForProcedure: " + departmentFieldForProcedure);
+          // console.log("departmentFieldForProcedure: " + departmentFieldForProcedure);
         }
         calculatedScore = await calculateScore(procedureResults, departmentFieldForProcedure);
       }
