@@ -240,7 +240,12 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
         console.error("some student details fetched from procedure were null");
         //continue;
       } else {
-        calculatedScore = await calculateScore(procedureResults, students.department_id);
+        let departmentFieldForProcedure = student.department_id;
+        // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+        if (student.department_id.toString().length == 6) {
+          departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(student.department_id);
+        }
+        calculatedScore = await calculateScore(procedureResults, departmentFieldForProcedure);
       }
       await pool.query("INSERT INTO students_approved_rank " +
         "(sso_uid, department_id, score, ranking)" +
