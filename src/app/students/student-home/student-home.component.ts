@@ -44,6 +44,14 @@ export class StudentHomeComponent implements OnInit {
 
             this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
             this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
+
+            // Fetch protocol number if interest app for this period exists
+            this.studentsService.getProtocolNumberIfInterestAppExists(this.period.id)
+              .subscribe((response: any) => {
+                if (response.protocolNumber) {
+                  this.studentsSSOData[0].latest_app_protocol_number = response.protocolNumber;
+                }
+              });
           });
 
         this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')

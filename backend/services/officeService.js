@@ -19,7 +19,8 @@ const getDepManagerById = async (id) => {
   try {
     const resultsSSOUsers = await pool.query("SELECT * FROM sso_users WHERE uuid=$1", [id]);
     const finalDepManagerResults = resultsSSOUsers.rows[0];
-    const departmentNumber = MiscUtils.splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
+    // const departmentNumber = MiscUtils.splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
+    const departmentNumber = finalDepManagerResults.department_id;
     const departmentDetails = await getDepartmentNameByNumber(departmentNumber);
     const department = {
       "department": departmentDetails.rows[0].department
@@ -110,7 +111,7 @@ const insertEspaPosition = async (body, departmentId) => {
       " VALUES ($1, $2)",
       [departmentId, body.positions]);
   } catch (error) {
-    console.log('Error while inserting espa positions ' + error.message);
+    console.log('Error while inserting espa positions ' + error.message + "|" + departmentId);
     throw Error('Error while inserting espa positions');
   }
 };

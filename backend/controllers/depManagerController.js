@@ -336,6 +336,23 @@ const getCompletedPeriods = async (request, response) => {
   }
 };
 
+
+const updateDepartmentIdByUserId = async (request, response) => {
+  const userId = request.params.userId;
+  const departmentId = request.body.departmentId;
+
+  try {
+    await depManagerService.updateDepartmentIdByUserId(userId, departmentId);
+    response.status(200).json({
+      message: 'Department id updated successfully'
+    });
+  } catch (error) {
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -357,5 +374,6 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getCompletedPeriods,
   getManagedAcademicsByUserId,
+  updateDepartmentIdByUserId,
   login
 };

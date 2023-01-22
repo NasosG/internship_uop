@@ -78,14 +78,22 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
 
 const getStudentById = async (id) => {
   try {
-    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+    const resultsSSOUsers = await pool.query("SELECT sso_users.*, student_users.*, atlas_academics.department FROM sso_users \
                                               INNER JOIN student_users \
                                               ON sso_users.uuid = student_users.sso_uid \
+                                              INNER JOIN atlas_academics ON sso_users.department_id = atlas_academics.atlas_id \
                                               WHERE sso_users.uuid = $1", [id]);
     // const student = resultsSSOUsers.rows;
     // return student;
     const student = resultsSSOUsers.rows[0];
-    const studentDetailsProcedure = await getStudentsSecretaryDetails(student.department_id, student.schacpersonaluniquecode);
+
+    let departmentFieldForProcedure = student.department_id;
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (student.department_id.toString().length == 6) {
+      departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(student.department_id);
+    }
+
+    const studentDetailsProcedure = await getStudentsSecretaryDetails(departmentFieldForProcedure, student.schacpersonaluniquecode);
     let studentDetails = Object.assign(student, studentDetailsProcedure);
     return [studentDetails];
   } catch (error) {
@@ -600,22 +608,48 @@ const findMaxPositions = async (studentId, positionId) => {
 };
 
 const getPhase = async (departmentId) => {
-  let maxPriority = 0;
   try {
+    // const depManagerId = await pool.query("SELECT prd.*, positions \
+    //                                        FROM period prd \
+    //                                        INNER JOIN sso_users usr \
+    //                                        ON usr.uuid = prd.sso_user_id \
+    //                                        LEFT JOIN espa_positions \
+    //                                        ON espa_positions.department_id = prd.department_id \
+    //                                        WHERE usr.department_id = $1 \
+    //                                        AND usr.edupersonprimaryaffiliation = 'faculty' \
+    //                                        AND prd.is_active = 'true'", [departmentId]);
     const depManagerId = await pool.query("SELECT prd.*, positions \
                                            FROM period prd \
-                                           INNER JOIN sso_users usr \
-                                           ON usr.uuid = prd.sso_user_id \
                                            LEFT JOIN espa_positions \
                                            ON espa_positions.department_id = prd.department_id \
-                                           WHERE usr.department_id = $1 \
-                                           AND usr.edupersonprimaryaffiliation = 'faculty' \
+                                           WHERE prd.department_id = $1 \
                                            AND prd.is_active = 'true'", [departmentId]);
 
     return depManagerId.rows[0];
   } catch (error) {
-    if (!maxPriority) return 0;
-    throw Error('Error while finding student max priority');
+    throw Error('Error while getting phase for departments' + error.message);
+  }
+};
+
+const getMergedDepartmentInfoByStudentId = async (studentId) => {
+  try {
+    // const departmentFetched = await pool.query("SELECT sso_users.department_id \
+    //                                             FROM sso_users  \
+    //                                             WHERE sso_users.uuid = $1", [studentId]);
+    // const departmentIdFull = departmentFetched.rows[0].department_id;
+    // if (MiscUtils.isMergedDepartment(departmentIdFull).isMerged) {
+    //   await pool.query("UPDATE sso_users SET department_id = $1 \
+    //                     WHERE sso_users.uuid = $2", [MiscUtils.isMergedDepartment(departmentIdFull).departmentId, studentId]);
+    // }
+    const departments = await pool.query(" SELECT deps.* \
+                                            FROM atlas_academics deps \
+                                            JOIN sso_users \
+                                            ON LEFT(deps.atlas_id:: text, LENGTH(sso_users.department_id:: text)) = sso_users.department_id:: text \
+                                            WHERE sso_users.uuid = $1", [studentId]);
+
+    return departments.rows;
+  } catch (error) {
+    throw Error('Error while getting phase for merged departments' + error.message);
   }
 };
 
@@ -785,6 +819,26 @@ const semesterInterestAppFound = async (studentId, periodId) => {
   }
 };
 
+const getSemesterProtocolNumberIfExistsOrNull = async (studentId, periodId) => {
+  try {
+    const result = await pool.query("SELECT protocol_number FROM semester_interest_apps WHERE student_id = $1 AND period_id = $2", [studentId, periodId]);
+    const protocolNumber = !result.rows[0]?.protocol_number ? "" : result.rows[0].protocol_number;
+    return { found: result.rowCount > 0, protocolNumber: protocolNumber };
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while fetching semester interest app protocol number: ${error}`);
+  }
+};
+
+const updateDepartmentIdByStudentId = async (studentId, departmentId) => {
+  try {
+    await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, studentId]);
+    console.log(`Record with studentId ${studentId} updated successfully`);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while updating department id: ${error}`);
+  }
+};
 
 module.exports = {
   getAllStudents,
@@ -829,5 +883,8 @@ module.exports = {
   updateMergedDepartmentDetails,
   checkUserAcceptance,
   insertUserAcceptance,
-  insertOrUpdateStudentInterestApp
+  getMergedDepartmentInfoByStudentId,
+  insertOrUpdateStudentInterestApp,
+  getSemesterProtocolNumberIfExistsOrNull,
+  updateDepartmentIdByStudentId
 };

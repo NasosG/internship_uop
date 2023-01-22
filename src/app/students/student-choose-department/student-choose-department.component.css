@@ -1,0 +1,112 @@
+body {
+  background-color: #ededed;
+  font-family: "Open Sans", sans-serif;
+}
+
+.login-form {
+  width: 400px;
+  margin: 50px auto;
+  font-size: 15px;
+}
+
+mat-form-field {
+  max-width: 800px;
+  margin: 0px auto;
+  display: block;
+  padding: 20px;
+  font-size: 20px;
+}
+
+* {
+  text-align: center;
+}
+
+.terms-box {
+  margin: auto;
+  display: block;
+  border-radius: 10px;
+  border: 3px solid #ddd;
+  background-color: #eee;
+  max-width: 500px;
+}
+
+a {
+  color: green;
+}
+
+a:hover {
+  color: #15975b !important;
+}
+
+.terms-anchor {
+  color: green;
+  cursor: pointer;
+}
+
+.terms-anchor:hover {
+  color: #15975b !important;
+}
+
+.tacbox {
+  margin: auto;
+  display: block;
+  padding: 1em;
+  max-width: 500px;
+}
+
+.tacbox-bold {
+  font-weight: bold;
+}
+
+input {
+  height: 2em;
+  width: 2em;
+  vertical-align: middle;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+.content {
+  max-width: 700px;
+  margin: auto;
+  border-radius: 5px;
+  border-radius: 20px;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: rgba(209, 224, 222, 0.9);
+}
+
+#main-terms-div {
+  /* slide in animation */
+  animation-duration: 0.7s;
+  animation-name: slidein;
+  transition: all 0.7s ease-in-out;
+}
+
+hr {
+  height: 1px;
+  background-color: #ccc;
+  border: none;
+}
+
+@keyframes slidein {
+  from {
+    /* background-color: #fff; */
+    margin-left: 100%;
+    width: 100%;
+  }
+
+  to {
+    margin-left: 0%;
+    /* background-color: #fff; */
+    width: 100%;
+  }
+}
+
+.green-gradient {
+  background: linear-gradient(to right, #224957, #3f89a3);
+  height: 100vh;
+  width: 100%;
+}

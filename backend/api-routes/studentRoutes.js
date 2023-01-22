@@ -45,5 +45,8 @@ router.post("/addDepartmentDetails/:id", studentController.insertOrUpdateDepartm
 router.get("/checkUserAcceptance/:id", studentController.checkUserAcceptance);
 router.post("/insertUserAcceptance/:id", studentController.insertUserAcceptance);
 router.post("/insertStudentInterestApp/:id", studentController.insertStudentInterestApp);
+router.get("/getMergedDepartmentInfoByStudentId/:id", studentController.getMergedDepartmentInfoByStudentId);
+router.patch("/updateDepartmentIdByStudentId/:id", studentController.updateDepartmentIdByStudentId);
+router.get("/getProtocolNumberIfInterestAppExists/", studentController.getProtocolNumberIfInterestAppExists);
 
 module.exports = router;

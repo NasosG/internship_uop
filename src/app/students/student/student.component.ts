@@ -49,7 +49,17 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.language = localStorage.getItem('language') || 'gr';
 
     if (!environment.production) {
-      this.authService.setSessionId(8);
+      this.authService.setSessionId(13);
+
+      // this.studentsService.checkUserAcceptance()
+      //   .subscribe((response: any) => {
+      //     if (response.accepted == false) {
+      //       this.router.navigateByUrl('/student/terms/' + this.authService.getSessionId());
+      //     } else {
+      //       this.router.navigateByUrl('/student/' + this.authService.getSessionId());
+      //       this.fetchStudentAndPeriod();
+      //     }
+      //   });
       // this.studentsService.getStudents()
       //   .subscribe((student: Student[]) => {
       //     this.studentsSSOData = student;

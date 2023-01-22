@@ -434,4 +434,23 @@ export class StudentsService {
       });
   }
 
+  getMergedDepartmentInfoByStudentId(): Observable<Array<Department>> {
+    const studentId = this.authService.getSessionId();
+    return this.http.get<Array<Department>>(STUDENTS_URL + "getMergedDepartmentInfoByStudentId/" + studentId);
+  }
+
+  updateStudentDepartmentId(departmentId: number): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    return this.http
+      .patch<any>(STUDENTS_URL + "updateDepartmentIdByStudentId/" + studentId, { departmentId });
+  }
+
+  getProtocolNumberIfInterestAppExists(periodId: number): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    const params = new HttpParams()
+         .set('studentId', studentId)
+         .set('periodId', periodId);
+    return this.http.get<any>(STUDENTS_URL + "getProtocolNumberIfInterestAppExists/", { params });
+  }
+
 }

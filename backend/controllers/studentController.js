@@ -72,7 +72,20 @@ const getPhase = async (request, response) => {
     response.status(200).json(period);
   } catch (error) {
     console.error(error.message);
-    response.send({
+    response.status(404).send({
+      message: error.message
+    });
+  }
+};
+
+const getMergedDepartmentInfoByStudentId = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const departments = await studentService.getMergedDepartmentInfoByStudentId(studentId);
+    response.status(200).json(departments);
+  } catch (error) {
+    console.error(error.message);
+    response.status(404).send({
       message: error.message
     });
   }
@@ -857,6 +870,47 @@ const insertStudentInterestApp = async (request, response) => {
   }
 };
 
+const updateDepartmentIdByStudentId = async (request, response) => {
+  const studentId = request.params.id;
+  const departmentId = request.body.departmentId;
+
+  try {
+    await studentService.updateDepartmentIdByStudentId(studentId, departmentId);
+    response.status(200).json({
+      message: 'Department id updated successfully'
+    });
+  } catch (error) {
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
+const getProtocolNumberIfInterestAppExists = async (request, response) => {
+  const studentId = request.query.studentId;
+  const periodId = request.query.periodId;
+
+  try {
+    const results = await studentService.getSemesterProtocolNumberIfExistsOrNull(studentId, periodId);
+    if (results.found) {
+      const protocolNumber = results.protocolNumber;
+      response.status(200).json({
+        message: 'Protocol number retrieved successfully',
+        protocolNumber: protocolNumber
+      });
+    } else {
+      response.status(404).json({
+        message: 'Protocol number was not found',
+        protocolNumber: null
+      });
+    }
+  } catch (error) {
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -897,5 +951,8 @@ module.exports = {
   insertOrUpdateDepartmentDetails,
   checkUserAcceptance,
   insertUserAcceptance,
-  insertStudentInterestApp
+  insertStudentInterestApp,
+  getMergedDepartmentInfoByStudentId,
+  updateDepartmentIdByStudentId,
+  getProtocolNumberIfInterestAppExists
 };

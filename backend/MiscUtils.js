@@ -85,6 +85,26 @@ const isArrayNotEmpty = (arrayParam) => {
   return Array.isArray(arrayParam) && arrayParam.length > 0;
 };
 
+const mergedDepartments = [1522, 1523, 1524, 1513, 1514, 1515, 1511, 1512, 1519];
+
+const isMergedDepartment = (departmentId) => {
+  if (departmentId == null) return false;
+
+  const departmentIdStr = departmentId.toString();
+  // All TEI merged departments have 6 digits. AlL other departments have max 4 digits.
+  if (departmentIdStr.length == 6)
+    departmentId = parseInt(departmentIdStr.substring(0, 4));
+
+  return {
+    'isMerged': mergedDepartments.includes(departmentId),
+    'departmentId': departmentId
+  };
+};
+
+const getAEICodeFromDepartmentId = (departmentId) => {
+  return parseInt(departmentId.toString().substring(0, 4));
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -97,5 +117,7 @@ module.exports = {
   formatDocExtension,
   splitStudentsAM,
   splitScholarsPersonalData,
+  isMergedDepartment,
+  getAEICodeFromDepartmentId,
   isArrayNotEmpty
 };

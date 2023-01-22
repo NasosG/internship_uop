@@ -133,6 +133,12 @@ const getPeriodByDepartmentId = async (id) => {
       WHERE period.department_id = $1 \
       AND period.is_active = 'true' \
       LIMIT 1", [id]);
+
+    // if (!period.rows[0]) {
+    //   console.log("No period found with the given department id.");
+    //   return null;
+    // }
+
     const periodResults = period.rows[0];
     let periodResultsObj = Object.assign(periodResults);
     return periodResultsObj;
@@ -147,6 +153,10 @@ const getEspaPositionsByDepartmentId = async (id) => {
       FROM espa_positions \
       WHERE espa_positions.department_id = $1 \
       LIMIT 1", [id]);
+    // if (!period.rows[0]) {
+    //   console.log("No period found with the given department id.");
+    //   return null;
+    // }
     const periodResults = period.rows[0];
     let periodResultsObj = Object.assign(periodResults);
     return periodResultsObj;
@@ -332,9 +342,23 @@ const deletePeriodById = async (id) => {
     await pool.query("UPDATE period \
                       SET is_active = 'false' \
                       WHERE id = $1", [id]);
+    await updateStudentPhaseByPeriod(id);
   } catch (error) {
     console.log('Error while deleting period ' + error.message);
     throw Error('Error while deleting period');
+  }
+};
+
+const updateStudentPhaseByPeriod = async (periodId) => {
+  try {
+    const students = await pool.query("UPDATE student_users \
+                                       SET phase = '0' \
+                                       WHERE sso_uid IN \
+                                       (SELECT student_id FROM semester_interest_apps WHERE period_id = $1 AND phase != 0)", [periodId]);
+    return students.rows;
+  } catch (error) {
+    console.error('Error updating phase of students:' + error.message);
+    throw Error('Error updating phase of students:' + error.message);
   }
 };
 
@@ -436,6 +460,16 @@ const getManagedAcademicsByUserId = async (userId) => {
   }
 };
 
+const updateDepartmentIdByUserId = async (userId, departmentId) => {
+  try {
+    await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, userId]);
+    console.log(`Record with userId ${userId} updated successfully`);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while updating department id: ${error}`);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -458,5 +492,6 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getCompletedPeriods,
   getManagedAcademicsByUserId,
+  updateDepartmentIdByUserId,
   login
 };

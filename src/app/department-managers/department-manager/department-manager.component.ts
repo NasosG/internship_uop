@@ -25,6 +25,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   public espaPositions!: number;
   periodSet!: boolean;
   period: Period|undefined;
+  public managesOnlyOneAcademic!: boolean;
 
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -51,14 +52,15 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
       //     this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
       //   });
       //   return;
-      this.depManagerService.getManagedAcademics()
-      .subscribe((data: any) => {
-        if (data.length == 1) {
-          this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
-        } else if (data.length > 1) {
-          this.router.navigateByUrl('/department-manager/choose-dept/' + this.authService.getSessionId());
-        }
-      });
+      // this.depManagerService.getManagedAcademics()
+      //   .subscribe((data: any) => {
+      //     this.managesOnlyOneAcademic = data.length == 1;
+      //     if (data.length == 1 || this.router.url !== '/department-manager/choose-dept/' + this.authService.getSessionId()) {
+      //       this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+      //     } else if (data.length > 1) {
+      //       this.router.navigateByUrl('/department-manager/choose-dept/' + this.authService.getSessionId());
+      //     }
+      // });
     }
 
     if (this.router.url.includes('/department-manager/login')) {
@@ -73,6 +75,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     // PROD: TO BE TESTED
     // this.depManagerService.getManagedAcademics()
     //   .subscribe((data: any) => {
+    //     this.managesOnlyOneAcademic = data.length == 1;
     //     if (data.length == 1) {
     //       this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
     //     } else if (data.length > 1) {
