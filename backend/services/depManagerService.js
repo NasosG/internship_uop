@@ -240,10 +240,11 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
         console.error("some student details fetched from procedure were null");
         //continue;
       } else {
-        let departmentFieldForProcedure = student.department_id;
+        let departmentFieldForProcedure = students.department_id;
         // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
-        if (student.department_id.toString().length == 6) {
-          departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(student.department_id);
+        if (students.department_id.toString().length == 6) {
+          departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(students.department_id);
+          console.log("departmentFieldForProcedure: " + departmentFieldForProcedure);
         }
         calculatedScore = await calculateScore(procedureResults, departmentFieldForProcedure);
       }
