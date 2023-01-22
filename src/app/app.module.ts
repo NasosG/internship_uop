@@ -100,6 +100,7 @@ import { SheetInputOfficeEditDialogComponent } from './internship-office/sheet-i
 import { SheetOutputOfficeEditDialogComponent } from './internship-office/sheet-output-office-edit-dialog/sheet-output-office-edit-dialog.component';
 import { NgxPrintModule } from 'ngx-print';
 import { DepartmentManagerLoginComponent } from './department-managers/department-manager-login/department-manager-login.component';
+import { StudentChooseDepartmentComponent } from './students/student-choose-department/student-choose-department.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -180,6 +181,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetInputOfficeEditDialogComponent,
     SheetOutputOfficeEditDialogComponent,
     DepartmentManagerLoginComponent,
+    StudentChooseDepartmentComponent,
   ],
   imports: [
     BrowserModule,

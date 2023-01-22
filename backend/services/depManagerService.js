@@ -133,6 +133,12 @@ const getPeriodByDepartmentId = async (id) => {
       WHERE period.department_id = $1 \
       AND period.is_active = 'true' \
       LIMIT 1", [id]);
+
+    // if (!period.rows[0]) {
+    //   console.log("No period found with the given department id.");
+    //   return null;
+    // }
+
     const periodResults = period.rows[0];
     let periodResultsObj = Object.assign(periodResults);
     return periodResultsObj;
@@ -147,6 +153,10 @@ const getEspaPositionsByDepartmentId = async (id) => {
       FROM espa_positions \
       WHERE espa_positions.department_id = $1 \
       LIMIT 1", [id]);
+    // if (!period.rows[0]) {
+    //   console.log("No period found with the given department id.");
+    //   return null;
+    // }
     const periodResults = period.rows[0];
     let periodResultsObj = Object.assign(periodResults);
     return periodResultsObj;
@@ -436,6 +446,16 @@ const getManagedAcademicsByUserId = async (userId) => {
   }
 };
 
+const updateDepartmentIdByUserId = async (userId, departmentId) => {
+  try {
+    await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, userId]);
+    console.log(`Record with userId ${userId} updated successfully`);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while updating department id: ${error}`);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -458,5 +478,6 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getCompletedPeriods,
   getManagedAcademicsByUserId,
+  updateDepartmentIdByUserId,
   login
 };

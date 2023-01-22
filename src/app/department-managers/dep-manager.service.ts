@@ -216,4 +216,11 @@ export class DepManagerService {
     const userId = this.authService.getSessionId();
     return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getManagedDepartmentsByUserId/" + userId);
   }
+
+  updateStudentDepartmentId(departmentId: number): Observable<any> {
+    const userId = this.authService.getSessionId();
+    return this.http
+      .patch<any>(DEPARTMENT_MANAGER_URL + "updateDepartmentIdByUserId/" + userId, { departmentId });
+  }
+
 }

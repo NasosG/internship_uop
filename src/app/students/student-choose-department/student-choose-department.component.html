@@ -7,25 +7,23 @@
     <div id="content" class="content" role="main" id="a1">
       <div id="main-terms-div">
         <div class="mt-0" style="max-width:600px;margin:auto;">
-          <h4 style="word-wrap:break-word; color: #224957">Επιλέξτε το τμήμα που θέλετε να επεξεργαστείτε
-
-          </h4>
+          <h4 style="word-wrap:break-word; color: #224957">Επιλέξτε το τμήμα που ανήκετε</h4>
         </div>
         <div class="terms-box mt-3">
           <div class="tacbox tacbox-bold">
+            <h5>Παρακαλώ επιλέξτε το σωστό τμήμα αλλιώς δεν θα είναι δυνατή η διεκπεραίωση της αίτησης σας στα επόμενα
+              βήματα.
+            </h5>
             <mat-form-field class="mt-2 mat-full-width" appearance="fill">
-              <mat-label>Τμήμα...</mat-label>
+              <mat-label>Τμήμα</mat-label>
               <mat-select class="mt-2" [formControl]="academics" [required]="true">
-                <mat-option *ngFor="let academic of managedAcademics" [value]="academic.atlas_id">
-                  {{academic.department}}
+                <mat-option *ngFor="let roles of managedAcademics" [value]="roles.atlas_id">{{roles.department}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
         </div>
         <div class="modal-footer mt-3">
-          <!-- <button type="button" [routerLink]="['/']" class="text-white btn btn-secondary"
-            data-bs-dismiss="modal">{{'HOME.BACK-BTN' | translate}}</button> -->
           <button type="submit" class="text-white btn btn-primary">
             <a>
               <span class="text-white">ΕΠΟΜΕΝΟ</span>

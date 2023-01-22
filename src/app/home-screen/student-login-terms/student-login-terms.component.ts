@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { StudentLoginTermsDialogComponent } from '../student-login-terms-dialog/student-login-terms-dialog.component';
 import { StudentsService } from '../../students/student.service';
 import { Router } from '@angular/router';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 
 @Component({
   selector: 'app-student-login-terms',
@@ -32,7 +33,16 @@ export class StudentLoginTermsComponent implements OnInit {
       this.studentsService.insertStudentTermsAcceptance(this.isTermsCheckBoxChecked)
         .subscribe((response: any) => {
           if (response.message === 'User acceptance updated/inserted successfully') {
-            this.router.navigateByUrl('/student/' + this.authService.getSessionId());
+            this.studentsService.getMergedDepartmentInfoByStudentId()
+              .subscribe((departments: any) => {
+                if (departments.length == 1) {
+                  // If student has only one department, no need to choose
+                  this.router.navigateByUrl('/student/' + this.authService.getSessionId());
+                } else if (departments.length > 1) {
+                  // If student has more than one department, he/she must choose
+                  this.router.navigateByUrl('/student/choose-dept/' + this.authService.getSessionId());
+                }
+            });
           }
         });
     }

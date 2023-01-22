@@ -600,22 +600,40 @@ const findMaxPositions = async (studentId, positionId) => {
 };
 
 const getPhase = async (departmentId) => {
-  let maxPriority = 0;
   try {
+    // const depManagerId = await pool.query("SELECT prd.*, positions \
+    //                                        FROM period prd \
+    //                                        INNER JOIN sso_users usr \
+    //                                        ON usr.uuid = prd.sso_user_id \
+    //                                        LEFT JOIN espa_positions \
+    //                                        ON espa_positions.department_id = prd.department_id \
+    //                                        WHERE usr.department_id = $1 \
+    //                                        AND usr.edupersonprimaryaffiliation = 'faculty' \
+    //                                        AND prd.is_active = 'true'", [departmentId]);
     const depManagerId = await pool.query("SELECT prd.*, positions \
                                            FROM period prd \
-                                           INNER JOIN sso_users usr \
-                                           ON usr.uuid = prd.sso_user_id \
                                            LEFT JOIN espa_positions \
                                            ON espa_positions.department_id = prd.department_id \
-                                           WHERE usr.department_id = $1 \
-                                           AND usr.edupersonprimaryaffiliation = 'faculty' \
+                                           WHERE prd.department_id = $1 \
                                            AND prd.is_active = 'true'", [departmentId]);
 
     return depManagerId.rows[0];
   } catch (error) {
-    if (!maxPriority) return 0;
-    throw Error('Error while finding student max priority');
+    throw Error('Error while getting phase for departments' + error.message);
+  }
+};
+
+const getMergedDepartmentInfoByStudentId = async (studentId) => {
+  try {
+    const departments = await pool.query(" SELECT deps.* \
+                                            FROM atlas_academics deps \
+                                            JOIN sso_users \
+                                            ON LEFT(deps.atlas_id:: text, LENGTH(sso_users.department_id:: text)) = sso_users.department_id:: text \
+                                            WHERE sso_users.uuid = $1", [studentId]);
+
+    return departments.rows;
+  } catch (error) {
+    throw Error('Error while getting phase for merged departments' + error.message);
   }
 };
 
@@ -785,6 +803,15 @@ const semesterInterestAppFound = async (studentId, periodId) => {
   }
 };
 
+const updateDepartmentIdByStudentId = async (studentId, departmentId) => {
+  try {
+    await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, studentId]);
+    console.log(`Record with studentId ${studentId} updated successfully`);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while updating department id: ${error}`);
+  }
+};
 
 module.exports = {
   getAllStudents,
@@ -829,5 +856,7 @@ module.exports = {
   updateMergedDepartmentDetails,
   checkUserAcceptance,
   insertUserAcceptance,
-  insertOrUpdateStudentInterestApp
+  getMergedDepartmentInfoByStudentId,
+  insertOrUpdateStudentInterestApp,
+  updateDepartmentIdByStudentId
 };

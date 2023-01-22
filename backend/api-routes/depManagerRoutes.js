@@ -24,5 +24,6 @@ router.get("/getStudentsWithSheetInput/:department_id", depManagerController.get
 router.get("/getStudentsWithSheetOutput/:department_id", depManagerController.getStudentsWithSheetOutput);
 router.get("/getCompletedPeriods/:id", depManagerController.getCompletedPeriods);
 router.get("/getManagedDepartmentsByUserId/:userId", depManagerController.getManagedAcademicsByUserId);
+router.patch("/updateDepartmentIdByUserId/:userId", depManagerController.updateDepartmentIdByUserId);
 
 module.exports = router;

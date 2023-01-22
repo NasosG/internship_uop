@@ -8,7 +8,8 @@ import { OfficeComponent } from './internship-office/office/office.component';
 import { AdminPanelComponent } from './admin-panels/admin-panel/admin-panel.component';
 import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin-panel-login.component';
 import { StudentLoginTermsComponent } from './home-screen/student-login-terms/student-login-terms.component';
-import {DepartmentManagerLoginComponent} from './department-managers/department-manager-login/department-manager-login.component';
+import { DepartmentManagerLoginComponent } from './department-managers/department-manager-login/department-manager-login.component';
+import { StudentChooseDepartmentComponent } from './students/student-choose-department/student-choose-department.component';
 
 const routes: Routes = [{
   path: '',
@@ -43,6 +44,10 @@ const routes: Routes = [{
   {
     path: 'terms/:id',
     component: StudentLoginTermsComponent
+  },
+  {
+    path: 'choose-dept/:id',
+    component: StudentChooseDepartmentComponent
   },
   {
     path: 'profile/:id',

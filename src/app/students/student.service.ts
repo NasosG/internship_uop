@@ -434,4 +434,16 @@ export class StudentsService {
       });
   }
 
+  getMergedDepartmentInfoByStudentId(): Observable<Array<Department>> {
+    const studentId = this.authService.getSessionId();
+    return this.http.get<Array<Department>>(STUDENTS_URL + "getMergedDepartmentInfoByStudentId/" + studentId);
+  }
+
+  updateStudentDepartmentId(departmentId: number): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    return this.http
+      .patch<any>(STUDENTS_URL + "updateDepartmentIdByStudentId/" + studentId, { departmentId });
+  }
+
+
 }
