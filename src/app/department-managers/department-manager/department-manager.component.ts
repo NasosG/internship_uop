@@ -25,6 +25,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   public espaPositions!: number;
   periodSet!: boolean;
   period: Period|undefined;
+  public managesOnlyOneAcademic!: boolean;
 
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -53,6 +54,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
       //   return;
       // this.depManagerService.getManagedAcademics()
       //   .subscribe((data: any) => {
+      //     this.managesOnlyOneAcademic = data.length == 1;
       //     if (data.length == 1 || this.router.url !== '/department-manager/choose-dept/' + this.authService.getSessionId()) {
       //       this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
       //     } else if (data.length > 1) {
@@ -73,6 +75,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     // PROD: TO BE TESTED
     // this.depManagerService.getManagedAcademics()
     //   .subscribe((data: any) => {
+    //     this.managesOnlyOneAcademic = data.length == 1;
     //     if (data.length == 1) {
     //       this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
     //     } else if (data.length > 1) {

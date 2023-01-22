@@ -44,8 +44,8 @@ export class PositionsAddComponent implements OnInit {
     this.officeService.getOfficeUser()
       .subscribe((officeUser: OfficeUser) => {
         this.officeUserData = officeUser;
-        this.selectedDepartment.department = this.officeUserData.department;
-        this.selectedDepartment.academic_id = this.officeUserData.department_id;
+        this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
+        this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
         // this.officeUserData.schacdateofbirth = Utils.reformatDateOfBirth(this.officeUserData.schacdateofbirth);
         this.officeService.getPeriodByDepartmentId(this.selectedDepartment.academic_id)
           .subscribe((periodData: Period) => {
@@ -88,7 +88,7 @@ export class PositionsAddComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
-    }).then(() => location.reload());
+    }).then(() => this.ngOnInit());
   }
 
 }

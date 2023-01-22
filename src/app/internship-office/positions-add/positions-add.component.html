@@ -19,7 +19,8 @@
 </div>
 <hr>
 <p style="text-align:center"><strong>Επιλεγμένο τμήμα:</strong>
-  {{selectedDepartment.department == '' ? 'Κανένα επιλεγμένο Τμήμα' : selectedDepartment.department}}
+  <!-- {{selectedDepartment.department == '' ? 'Κανένα επιλεγμένο Τμήμα' : selectedDepartment.department}} -->
+  {{departmentSelect.value == null ? 'Κανένα επιλεγμένο Τμήμα' : selectedDepartment.department}}
 </p>
 <hr>
 
@@ -27,9 +28,10 @@
   role="alert">
   Δεν έχουν οριστεί περιόδοι από τον/την ΤΥ.
 </div>
-<h4 *ngIf="periodData.semester != null"> Τρέχουσα Περίοδος </h4>
-<table *ngIf="periodData.semester != null" ngNativeValidate id="dep-manager-table" class="table table-bordered"
-  style="background-color:white">
+<h4 *ngIf="periodData.semester != null && departmentSelect.value != null">
+  Τρέχουσα Περίοδος </h4>
+<table *ngIf="periodData.semester != null && departmentSelect.value != null" ngNativeValidate id="dep-manager-table"
+  class="table table-bordered" style="background-color:white">
   <thead>
     <tr>
       <th scope="col">Εξάμηνο</th>

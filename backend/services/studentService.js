@@ -78,14 +78,22 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
 
 const getStudentById = async (id) => {
   try {
-    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
+    const resultsSSOUsers = await pool.query("SELECT sso_users.*, student_users.*, atlas_academics.department FROM sso_users \
                                               INNER JOIN student_users \
                                               ON sso_users.uuid = student_users.sso_uid \
+                                              INNER JOIN atlas_academics ON sso_users.department_id = atlas_academics.atlas_id \
                                               WHERE sso_users.uuid = $1", [id]);
     // const student = resultsSSOUsers.rows;
     // return student;
     const student = resultsSSOUsers.rows[0];
-    const studentDetailsProcedure = await getStudentsSecretaryDetails(student.department_id, student.schacpersonaluniquecode);
+
+    let departmentFieldForProcedure = student.department_id;
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (student.department_id.toString().length == 6) {
+      departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(student.department_id);
+    }
+
+    const studentDetailsProcedure = await getStudentsSecretaryDetails(departmentFieldForProcedure, student.schacpersonaluniquecode);
     let studentDetails = Object.assign(student, studentDetailsProcedure);
     return [studentDetails];
   } catch (error) {
@@ -625,6 +633,14 @@ const getPhase = async (departmentId) => {
 
 const getMergedDepartmentInfoByStudentId = async (studentId) => {
   try {
+    // const departmentFetched = await pool.query("SELECT sso_users.department_id \
+    //                                             FROM sso_users  \
+    //                                             WHERE sso_users.uuid = $1", [studentId]);
+    // const departmentIdFull = departmentFetched.rows[0].department_id;
+    // if (MiscUtils.isMergedDepartment(departmentIdFull).isMerged) {
+    //   await pool.query("UPDATE sso_users SET department_id = $1 \
+    //                     WHERE sso_users.uuid = $2", [MiscUtils.isMergedDepartment(departmentIdFull).departmentId, studentId]);
+    // }
     const departments = await pool.query(" SELECT deps.* \
                                             FROM atlas_academics deps \
                                             JOIN sso_users \
@@ -803,6 +819,17 @@ const semesterInterestAppFound = async (studentId, periodId) => {
   }
 };
 
+const getSemesterProtocolNumberIfExistsOrNull = async (studentId, periodId) => {
+  try {
+    const result = await pool.query("SELECT protocol_number FROM semester_interest_apps WHERE student_id = $1 AND period_id = $2", [studentId, periodId]);
+    const protocolNumber = !result.rows[0]?.protocol_number ? "" : result.rows[0].protocol_number;
+    return { found: result.rowCount > 0, protocolNumber: protocolNumber };
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while fetching semester interest app protocol number: ${error}`);
+  }
+};
+
 const updateDepartmentIdByStudentId = async (studentId, departmentId) => {
   try {
     await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, studentId]);
@@ -858,5 +885,6 @@ module.exports = {
   insertUserAcceptance,
   getMergedDepartmentInfoByStudentId,
   insertOrUpdateStudentInterestApp,
+  getSemesterProtocolNumberIfExistsOrNull,
   updateDepartmentIdByStudentId
 };

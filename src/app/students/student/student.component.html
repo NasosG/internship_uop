@@ -155,8 +155,11 @@
         </div>
         <div class="info">
           <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
-          <a class="d-block">{{'STUDENT.STATUS' | translate}}:
-            {{ studentsSSOData[0].schacgender == 1 ? ('STUDENT.MALE'|translate) : ('STUDENT.FEMALE'|translate) }}</a>
+          <a style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+            class="d-block">{{'STUDENT.STATUS' | translate}}:
+            {{ studentsSSOData[0].schacgender == 1 ? ('STUDENT.MALE'|translate) : ('STUDENT.FEMALE'|translate) }}
+            <br><span style="font-size: 12px; font-style: italic;">{{ studentsSSOData[0].department }}</span>
+          </a>
         </div>
       </div>
       <!-- Sidebar user panel (optional) -->

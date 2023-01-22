@@ -48,6 +48,15 @@
         </div>
       </li> -->
 
+
+      <li *ngIf="!managesOnlyOneAcademic" class="nav-item mr-2">
+        <a class="nav-link btn btn-primary"
+          [routerLink]="['/department-manager/choose-dept/' + this.authService.getSessionId()]" style="color:white;"
+          role="button">
+          <i class="fa fa-building"></i> Επιλογή Τμήματος
+        </a>
+      </li>
+
       <!-- Notifications Dropdown Menu -->
       <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">

@@ -342,9 +342,23 @@ const deletePeriodById = async (id) => {
     await pool.query("UPDATE period \
                       SET is_active = 'false' \
                       WHERE id = $1", [id]);
+    await updateStudentPhaseByPeriod(id);
   } catch (error) {
     console.log('Error while deleting period ' + error.message);
     throw Error('Error while deleting period');
+  }
+};
+
+const updateStudentPhaseByPeriod = async (periodId) => {
+  try {
+    const students = await pool.query("UPDATE student_users \
+                                       SET phase = '0' \
+                                       WHERE sso_uid IN \
+                                       (SELECT student_id FROM semester_interest_apps WHERE period_id = $1 AND phase != 0)", [periodId]);
+    return students.rows;
+  } catch (error) {
+    console.error('Error updating phase of students:' + error.message);
+    throw Error('Error updating phase of students:' + error.message);
   }
 };
 

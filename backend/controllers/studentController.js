@@ -886,6 +886,31 @@ const updateDepartmentIdByStudentId = async (request, response) => {
   }
 };
 
+const getProtocolNumberIfInterestAppExists = async (request, response) => {
+  const studentId = request.query.studentId;
+  const periodId = request.query.periodId;
+
+  try {
+    const results = await studentService.getSemesterProtocolNumberIfExistsOrNull(studentId, periodId);
+    if (results.found) {
+      const protocolNumber = results.protocolNumber;
+      response.status(200).json({
+        message: 'Protocol number retrieved successfully',
+        protocolNumber: protocolNumber
+      });
+    } else {
+      response.status(404).json({
+        message: 'Protocol number was not found',
+        protocolNumber: null
+      });
+    }
+  } catch (error) {
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -928,5 +953,6 @@ module.exports = {
   insertUserAcceptance,
   insertStudentInterestApp,
   getMergedDepartmentInfoByStudentId,
-  updateDepartmentIdByStudentId
+  updateDepartmentIdByStudentId,
+  getProtocolNumberIfInterestAppExists
 };

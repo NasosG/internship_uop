@@ -43,7 +43,7 @@
                       <th>ΑΜΕΑ (Κατ.5)</th>
                       <th>Σύμβαση εργασίας</th>
                       <th>Τμήμα</th>
-                      <th>Αναβάθμιση πτυχίου</th>
+                      <!-- <th>Αναβάθμιση πτυχίου</th> -->
                       <th>Έγγραφα</th>
                       <th class="text-center">Ενέργειες</th>
                     </tr>
@@ -90,9 +90,9 @@
                       <td>
                         {{student.department + (!student.current_study_program ? '' : 'ΠΣ:' + student.current_study_program) }}
                       </td>
-                      <td>
+                      <!-- <td>
                         {{ !student.is_study_program_upgraded ? 'ΟΧΙ' : 'ΝΑΙ' }}
-                      </td>
+                      </td> -->
                       <td class="reponsive-text-center-td">
                         <button (click)="receiveFile(student.sso_uid, 'IBAN')"
                           class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
@@ -129,7 +129,7 @@
                       <th>ΑΜΕΑ (Κατ.5)</th>
                       <th>Σύμβαση εργασίας</th>
                       <th>Τμήμα</th>
-                      <th>Αναβάθμιση πτυχίου</th>
+                      <!-- <th>Αναβάθμιση πτυχίου</th> -->
                       <th>Έγγραφα</th>
                       <th class="text-center">Ενέργειες</th>
                     </tr>
