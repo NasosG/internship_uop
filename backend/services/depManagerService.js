@@ -90,7 +90,8 @@ const getRankedStudentsByDeptId = async (deptId) => {
                                       ON students_approved_rank.sso_uid = sso_users.uuid \
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
-                                      WHERE sso_users.department_id = $1", [deptId]);
+                                      WHERE sso_users.department_id = $1 \
+                                      ORDER BY ranking", [deptId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students from phase 2 for this department');
@@ -257,7 +258,24 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
         "(sso_uid, department_id, score, ranking)" +
         " VALUES " + "($1, $2, $3, $4)",
         [students.sso_uid, departmentId, calculatedScore, i++]);
+      // Maybe faster but not tested query for inserting students_approved_rank and deleting above insert and update below
+      //await pool.query(`
+      //INSERT INTO students_approved_rank (sso_uid, department_id, score, ranking)
+      //SELECT $1, $2, $3,
+      //(SELECT COUNT(*) + 1 FROM students_approved_rank WHERE score > $3 OR (score = $3 AND sso_uid > $1))
+      //AS ranking
+      //`, [students.sso_uid, departmentId, calculatedScore]);
     }
+
+    await pool.query(`UPDATE students_approved_rank
+                      SET ranking = new_ranking
+                      FROM(
+                        SELECT sso_uid, department_id, score, ROW_NUMBER() OVER
+                            (PARTITION BY department_id ORDER BY score DESC) as new_ranking
+                        FROM students_approved_rank
+                        ) s
+                      WHERE students_approved_rank.sso_uid = s.sso_uid
+                      AND students_approved_rank.department_id = s.department_id`);
   } catch (error) {
     console.log('Error while inserting Approved students rank ' + error.message);
     throw Error('Error while inserting Approved students rank');

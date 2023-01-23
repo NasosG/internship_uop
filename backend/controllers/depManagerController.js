@@ -141,10 +141,9 @@ const getStudentsWithSheetOutput = async (request, response) => {
 
 const getManagedAcademicsByUserId = async (request, response) => {
   try {
-    console.log(request.params);
     const userId = request.params.userId;
     const academics = await depManagerService.getManagedAcademicsByUserId(userId);
-    console.log(academics);
+
     response.status(200).json(academics);
   } catch (error) {
     response.status(404).json({
