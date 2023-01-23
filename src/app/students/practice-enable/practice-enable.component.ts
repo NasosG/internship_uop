@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Router} from '@angular/router';
 import { concatMap, forkJoin, from, mergeMap } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -86,7 +87,7 @@ export class PracticeEnableComponent implements OnInit {
     this.fileSubmitted = value;
   }
 
-  constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder) { }
+  constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.studentsService.getStudents()
@@ -290,13 +291,15 @@ export class PracticeEnableComponent implements OnInit {
 
   onSave() {
     Swal.fire({
-      title: 'Ενημέρωση στοιχείων',
-      text: 'Τα στοιχεία σας ενημερώθηκαν επιτυχώς',
+      title: 'Εκδήλωση Ενδιαφέροντος',
+      text: 'Η εκδήλωση ενδιαφέροντος έγινε επιτυχώς',
       icon: 'success',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
+    }).then(() => {
+      this.router.navigateByUrl('/student/' + this.studentsSSOData[0].sso_uid);
     });
   }
 

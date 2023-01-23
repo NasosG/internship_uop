@@ -30,7 +30,8 @@
             <div class="tab-content">
               <div class="tab-pane active" id="applications">
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <h4>Τρέχουσα Περίοδος: {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
+                <h4 *ngIf="period != null">Τρέχουσα Περίοδος:
+                  {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
                 <table id="example" #example class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -88,7 +89,7 @@
                       <td [ngClass]="student.working_state == true ? 'text-danger' : 'text-dark'">
                         {{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td>
-                        {{student.department + (!student.current_study_program ? '' : 'ΠΣ:' + student.current_study_program) }}
+                        {{'ΠΣ: ' + student.department}}
                       </td>
                       <!-- <td>
                         {{ !student.is_study_program_upgraded ? 'ΟΧΙ' : 'ΝΑΙ' }}

@@ -5,7 +5,7 @@ const MiscUtils = require("../MiscUtils.js");
 const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
 const moment = require('moment');
-// require('dotenv').config();
+require('dotenv').config();
 
 const getAllStudents = async () => {
   try {
@@ -23,11 +23,11 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
   try {
     let procedureResults;
 
-    // if (process.env.env == 'dev') {
-    //   return {
-    //     'Grade': 0, 'Ects': 1, 'Semester': 2, 'Praktiki': 0
-    //   };
-    // }
+    if (process.env.env == 'dev') {
+      return {
+        'Grade': 0, 'Ects': 1, 'Semester': 2, 'Praktiki': 0
+      };
+    }
 
     try {
       procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentId], MiscUtils.splitStudentsAM(AM));
