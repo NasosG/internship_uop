@@ -276,12 +276,15 @@ const calculateScore = async (procedureResults, departmentId) => {
   //let semesterLimited = (procedureResults.Semester > 14) ? 14 : procedureResults.Semester;
   let semester = procedureResults.Semester;
   let academicYear = Math.round(semester / 2);
-  let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear % N);
+  let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear - N);
+  if (yearTotal < 0) yearTotal = 0;
+
+  let capped = (semester > 2 * N) ? 2 * N : semester;
 
   // return the actual calculation
-  return ((procedureResults.Grade * weightGrade) +
-    ((procedureResults.Ects / (semester * ECTS_PER_SEMESTER) * 10) * weightSemester) +
-    ((yearTotal / 10) * weightYearOfStudy)).toFixed(3);
+  return ((procedureResults.Grade * 10 * weightGrade) +
+    ((procedureResults.Ects / (capped * ECTS_PER_SEMESTER)) * 100 * weightSemester) +
+    (yearTotal * weightYearOfStudy)).toFixed(3);
 };
 
 const getStudentFactorProcedure = async (depId, studentAM) => {
