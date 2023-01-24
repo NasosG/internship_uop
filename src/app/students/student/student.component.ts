@@ -49,7 +49,7 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.language = localStorage.getItem('language') || 'gr';
 
     if (!environment.production) {
-      this.authService.setSessionId(8);
+      this.authService.setSessionId(13);
 
       // this.studentsService.checkUserAcceptance()
       //   .subscribe((response: any) => {

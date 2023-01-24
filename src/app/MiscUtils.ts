@@ -98,6 +98,14 @@ export abstract class Utils {
     return inputText;
   }
 
+  public static getAEICodeFromDepartmentId(departmentId: number): number {
+    return parseInt(departmentId.toString().substring(0, 4));
+  }
+
+  public static isTechTEIDepartment(departmentId: number): boolean {
+    return departmentId.toString().length == 6;
+  }
+
   //InputSheets
   public static unemployedOption = [
     { subCategory: 'A1.1', id: 'A1_1', name: 'A1_1', text: 'Είμαι εγγεγραμμένος/η άνεργος/η στο ΟΑΕΔ με κάρτα ανεργίας σε ισχύ (συμπεριλαμβάνονται και οι εποχικά εργαζόμενοι για το διάστημα που δεν εργάζονται)', },

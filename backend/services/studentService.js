@@ -316,7 +316,6 @@ const updateStudentEntrySheet = async (form, studentId) => {
 
 const updatePhase = async (phase, studentId) => {
   try {
-    console.log("phase = " + phase);
     const insertResults = await pool.query("UPDATE student_users \
                                             SET phase = $1 WHERE sso_uid = $2 ", [phase, studentId]);
     return insertResults;

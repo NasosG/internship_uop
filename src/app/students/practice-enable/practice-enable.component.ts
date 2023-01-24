@@ -30,41 +30,41 @@ export class PracticeEnableComponent implements OnInit {
 
   public academicsMerged = [{
     academicId: 1522,
-    programOfStudy: ['AEI Ηλεκτρολόγων Μηχανικών και Μηχανικών Η/Υ',
-      'ΤΕΙ Ηλεκτρολόγων Μηχανικών ΤΕ',
-      'ΤΕΙ Μηχανικών Πληροφορικής ΤΕ'],
+    programOfStudy: ['ΠΣ AE Ηλεκτρολόγων Μηχανικών και Μηχανικών Η/Υ',
+      'ΠΣ ΤΕ Ηλεκτρολόγων Μηχανικών ΤΕ',
+      'ΠΣ ΤΕ Μηχανικών Πληροφορικής ΤΕ'],
   },
   {
     academicId: 1523,
-    programOfStudy: ['AEI Τμήμα Μηχανολόγων Μηχανικών', 'ΤΕΙ Μηχανολόγων Μηχανικών ΤΕ']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Μηχανολόγων Μηχανικών', 'ΠΣ ΤΕ Μηχανολόγων Μηχανικών ΤΕ']
   },
   {
     academicId: 1524,
-    programOfStudy: ['AEI Τμήμα Πολιτικών Μηχανικών', 'ΤΕΙ Πολιτικών Μηχανικών ΤΕ']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Πολιτικών Μηχανικών', 'ΠΣ ΤΕ Πολιτικών Μηχανικών ΤΕ']
   },
   {
     academicId: 1513,
-    programOfStudy: ['AEI Τμήμα Λογιστικής και Χρηματοοικονομικής', 'ΤΕΙ Λογιστικής και Χρηματοοικονομικής']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Λογιστικής και Χρηματοοικονομικής', 'ΠΣ ΤΕ Λογιστικής και Χρηματοοικονομικής']
   },
   {
     academicId: 1514,
-    programOfStudy: ['AEI Τμήμα Διοίκησης Επιχειρήσεων και Οργανισμών', 'ΤΕΙ Διοίκησης Επιχειρήσεων και Οργανισμών']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Διοίκησης Επιχειρήσεων και Οργανισμών', 'ΠΣ ΤΕ Διοίκησης Επιχειρήσεων και Οργανισμών']
   },
   {
     academicId: 1515,
-    programOfStudy: ['AEI Τμήμα Λογοθεραπείας', 'ΤΕΙ Λογοθεραπείας']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Λογοθεραπείας', 'ΠΣ ΤΕ Λογοθεραπείας']
   },
   {
     academicId: 1511,
-    programOfStudy: ['AEI Τμήμα Γεωπονίας', 'ΤΕΙ Τεχνολόγων Γεωπόνων']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Γεωπονίας', 'ΠΣ ΤΕ Τεχνολόγων Γεωπόνων']
   },
   {
     academicId: 1512,
-    programOfStudy: ['AEI Τμήμα Επιστήμης και Τεχνολογίας Τροφίμων', 'ΤΕΙ Τεχνολογίας Τροφίμων']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Επιστήμης και Τεχνολογίας Τροφίμων', 'ΠΣ ΤΕ Τεχνολογίας Τροφίμων']
   },
   {
     academicId: 1519,
-    programOfStudy: ['AEI Τμήμα Ψηφιακών Συστημάτων', 'ΤΕΙ Μηχανικών Πληροφορικής']
+    programOfStudy: ['ΠΣ ΠΕ Τμήμα Ψηφιακών Συστημάτων', 'ΠΣ ΤΕ Μηχανικών Πληροφορικής']
   }];
 
   // return true if program of study is merged and return the programs of study
@@ -72,6 +72,10 @@ export class PracticeEnableComponent implements OnInit {
   isProgramOfStudyMerged(academicId: number | undefined) {
     if (!academicId) {
       return false;
+    }
+
+    if (Utils.isTechTEIDepartment(academicId)) {
+      academicId = Utils.getAEICodeFromDepartmentId(academicId);
     }
 
     const academic = this.academicsMerged.find(academic => academic.academicId === academicId);
