@@ -267,13 +267,26 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
       //`, [students.sso_uid, departmentId, calculatedScore]);
     }
 
+    // await pool.query(`UPDATE students_approved_rank
+    //                   SET ranking = new_ranking
+    //                   FROM(
+    //                     SELECT sso_uid, department_id, score, ROW_NUMBER() OVER
+    //                         (PARTITION BY department_id ORDER BY score DESC) as new_ranking
+    //                     FROM students_approved_rank
+    //                     ) s
+    //                   WHERE students_approved_rank.sso_uid = s.sso_uid
+    //                   AND students_approved_rank.department_id = s.department_id`);
     await pool.query(`UPDATE students_approved_rank
                       SET ranking = new_ranking
-                      FROM(
-                        SELECT sso_uid, department_id, score, ROW_NUMBER() OVER
-                            (PARTITION BY department_id ORDER BY score DESC) as new_ranking
+                      FROM (
+                        SELECT student_users.sso_uid, department_id, score, ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY
+                        CASE
+                          WHEN student_users.amea_cat = true THEN 0
+                          ELSE 1
+                        END, score DESC) as new_ranking
                         FROM students_approved_rank
-                        ) s
+                        JOIN student_users ON students_approved_rank.sso_uid = student_users.sso_uid
+                      ) s
                       WHERE students_approved_rank.sso_uid = s.sso_uid
                       AND students_approved_rank.department_id = s.department_id`);
   } catch (error) {
