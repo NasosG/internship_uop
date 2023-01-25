@@ -265,8 +265,8 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
     await pool.query(`UPDATE students_approved_rank
                       SET ranking = new_ranking,
                       is_approved = (CASE
-                        WHEN (SELECT positions FROM espa_positions WHERE department_id = department_id LIMIT 1) = 0 THEN false
-                        WHEN new_ranking <= (SELECT positions FROM espa_positions WHERE department_id = department_id LIMIT 1) THEN true
+                        WHEN (SELECT positions FROM espa_positions WHERE department_id = $2 LIMIT 1) = 0 THEN false
+                        WHEN new_ranking <= (SELECT positions FROM espa_positions WHERE department_id = $2 LIMIT 1) THEN true
                         ELSE false
                       END)
                       FROM (
@@ -281,7 +281,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
                       ) s
                       WHERE students_approved_rank.sso_uid = s.sso_uid
                       AND students_approved_rank.department_id = s.department_id
-                      AND students_approved_rank.period_id = $1`, [periodId]);
+                      AND students_approved_rank.period_id = $1`, [periodId, departmentId]);
   } catch (error) {
     console.log('Error while inserting Approved students rank ' + error.message);
     throw Error('Error while inserting Approved students rank');
