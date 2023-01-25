@@ -265,17 +265,18 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
     await pool.query(`UPDATE students_approved_rank
                       SET ranking = new_ranking,
                       is_approved = (CASE
-                          WHEN new_ranking <= (SELECT positions FROM espa_positions WHERE department_id = department_id LIMIT 1) THEN true
-                          ELSE false
+                        WHEN new_ranking <= (SELECT positions FROM espa_positions WHERE department_id = department_id LIMIT 1) THEN true
+                        ELSE false
                       END)
                       FROM (
-                          SELECT student_users.sso_uid, department_id, score, ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY
-                          CASE
-                              WHEN student_users.amea_cat = true THEN 0
-                              ELSE 1
-                          END, score DESC) as new_ranking
-                          FROM students_approved_rank
-                          INNER JOIN student_users ON students_approved_rank.sso_uid = student_users.sso_uid
+                        SELECT student_users.sso_uid, department_id, score, ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY
+                        CASE
+                          WHEN student_users.amea_cat = true THEN 0
+                          ELSE 1
+                        END, score DESC) as new_ranking
+                        FROM students_approved_rank
+                        INNER JOIN student_users ON students_approved_rank.sso_uid = student_users.sso_uid
+                        WHERE students_approved_rank.period_id = $1
                       ) s
                       WHERE students_approved_rank.sso_uid = s.sso_uid
                       AND students_approved_rank.department_id = s.department_id
