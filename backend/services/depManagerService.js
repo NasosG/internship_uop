@@ -69,14 +69,16 @@ const getStudentsApplyPhase = async (deptId) => {
   }
 };
 
-const getStudentsPhase2 = async (deptId) => {
+const getStudentsPhase2 = async (deptId, periodId) => {
   try {
     const students = await pool.query("SELECT * FROM sso_users \
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
+                                      INNER JOIN semester_interest_apps apps ON apps.student_id = sso_users.uuid \
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
                                       AND sso_users.department_id = $1 \
-                                      AND student_users.phase = '2' ", [deptId]);
+                                      AND student_users.phase = '2' \
+                                      AND apps.period_id = $2", [deptId, periodId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students from phase 2 for this department');
@@ -231,7 +233,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
     if (genericPhase < STUDENT_SELECTION_PHASE) {
       return;
     }
-    const getStudentsPhase = await getStudentsPhase2(departmentId);
+    const getStudentsPhase = await getStudentsPhase2(departmentId, periodId);
     await deleteApprovedStudentsRank(departmentId, periodId);
     let i = 1;
     for (students of getStudentsPhase) {
