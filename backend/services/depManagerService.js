@@ -265,6 +265,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
     await pool.query(`UPDATE students_approved_rank
                       SET ranking = new_ranking,
                       is_approved = (CASE
+                        WHEN (SELECT positions FROM espa_positions WHERE department_id = department_id LIMIT 1) = 0 THEN false
                         WHEN new_ranking <= (SELECT positions FROM espa_positions WHERE department_id = department_id LIMIT 1) THEN true
                         ELSE false
                       END)
