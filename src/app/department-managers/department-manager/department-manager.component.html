@@ -393,7 +393,8 @@
         <app-student-applications [period]="period" *ngIf="isStudentApplications()"></app-student-applications>
         <app-student-match *ngIf="isMatchStudentsRoute()"></app-student-match>
         <app-contact *ngIf="isContactRoute()"></app-contact>
-        <app-students-approved *ngIf="isStudentsAprrovedRoute()"></app-students-approved>
+        <app-students-approved [espaPositions]="espaPositions" [periodId]="period.id" *ngIf="isStudentsAprrovedRoute()">
+        </app-students-approved>
         <app-about *ngIf="isAboutRoute()"></app-about>
         <app-manuals *ngIf="isManualsRoute()"></app-manuals>
         <app-student-applications-results *ngIf="isStudentsApplicationsResults()"></app-student-applications-results>

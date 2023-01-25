@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
 import { mergeMap } from 'rxjs';
 import { StudentsAppsPreviewDialogComponent } from '../students-apps-preview-dialog/students-apps-preview-dialog.component';
+import {Period} from '../period.model';
 
 @Component({
   selector: 'app-students-approved',
@@ -23,6 +24,8 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   selected = '';
   ngSelect = "";
   depId: any;
+  @Input('espaPositions') espaPositions: number = 0;
+  @Input('periodId') periodId: number = 0;
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -31,7 +34,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     this.depManagerService.getDepManager()
       .pipe(
         mergeMap((result: { department_id: number; }) =>
-          this.depManagerService.getRankedStudentsByDeptId(result?.department_id))
+          this.depManagerService.getRankedStudentsByDeptId(result?.department_id, this.periodId))
       )
       .subscribe((students: Student[]) => {
         this.studentsData = students;
@@ -83,7 +86,6 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   }
 
   receiveFile(studentId: number, docType: string) {
-    // this.depManagerService.receiveFile();
     this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
@@ -94,7 +96,10 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     for (const item of this.studentsData) {
       studentsDataJson.push({
         "Κατάταξη": item.ranking,
-        "Σκορ": item.score,
+        "Αποτέλεσμα": (item.is_approved ? 'Επιτυχών' : 'Επιλαχών'),
+        "Βαθμολογία(στα 100)": item.score,
+        "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
+        "ΑΜ": item.schacpersonaluniquecode,
         "Επώνυμο": item.sn,
         "Όνομα": item.givenname,
         "Πατρώνυμο": item.father_name,
@@ -103,7 +108,6 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "Επώνυμο μητέρας": item.mother_last_name,
         "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.schacdateofbirth),
         "Έτος γέννησης": item.schacyearofbirth,
-        "ΑΜ": item.schacpersonaluniquecode,
         "Φύλο": item.schacgender == 1 ? 'Άνδρας' : 'Γυναίκα',
         "Τηλέφωνο": item.phone,
         "Πόλη": item.city,
@@ -124,10 +128,8 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "Γλώσσες": item.languages,
         "Ενδιαφέροντα": item.interests,
         "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "Αποτελέσματα": (item.phase == 2 ? 'Επιλέχτηκε' : item.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε')
-        // "edupersonorgdn": item.edupersonorgdn,
+        "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ'
+        // "Αποτελέσματα": (item.phase == 2 ? 'Επιλέχτηκε' : item.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε')
       });
     }
 
@@ -153,6 +155,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         <thead style=\"color:white; background-color:#2d4154;\"> \
           <tr> \
            <th>Αρ. Κατάταξης</th> \
+            <th>Αποτέλεσμα </th> \
             <th>Όνοματεπώνυμο</th> \
             <th>ΑΜ</th> \
             <th>Σκορ</th> \
@@ -167,6 +170,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         // but with bitwise operator it was a bit faster
         "<tr " + ((i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">") +
         "<td>" + student.ranking + "</td>" +
+        "<td>" + (student.is_approved ? 'Επιτυχών' : 'Επιλαχών') + "</td>" +
         "<td>" + student.sn + " " + student.givenname + "</td>" +
         "<td>" + student.schacpersonaluniquecode + "</td>" +
         "<td>" + student.score + "</td>" +
@@ -209,7 +213,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
 
     await this.delay(600);
     this.swapUpLogic(positionIndex);
-    this.depManagerService.updateStudentRanking(this.studentsData, this.depManagerService.getDepartmentId());
+    this.depManagerService.updateStudentRanking(this.studentsData, this.periodId);
   }
 
   async swapDown(studentRanking?: number): Promise<void> {
@@ -223,7 +227,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
 
     await this.delay(600);
     this.swapDownLogic(positionIndex);
-    this.depManagerService.updateStudentRanking(this.studentsData, this.depManagerService.getDepartmentId());
+    this.depManagerService.updateStudentRanking(this.studentsData, this.periodId);
   }
 
   swapUpLogic(positionIndex: number): void {
@@ -233,6 +237,9 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     this.studentsData[positionIndex] = this.studentsData[positionIndex - 1];
     this.studentsData[positionIndex - 1].ranking = tempRank;
     this.studentsData[positionIndex - 1] = tempObj;
+    // Change is approved status
+    this.studentsData[positionIndex].is_approved = this.checkIsApproved(this.studentsData[positionIndex].ranking, tempRank);
+    this.studentsData[positionIndex - 1].is_approved = this.checkIsApproved(tempRank, this.studentsData[positionIndex - 1].ranking);
   }
 
   swapDownLogic(positionIndex: number): void {
@@ -242,6 +249,16 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     this.studentsData[positionIndex] = this.studentsData[positionIndex + 1];
     this.studentsData[positionIndex + 1].ranking = tempRank;
     this.studentsData[positionIndex + 1] = tempObj;
+    // Change is approved status
+    this.studentsData[positionIndex].is_approved = this.checkIsApproved(this.studentsData[positionIndex].ranking, tempRank);
+    this.studentsData[positionIndex + 1].is_approved = this.checkIsApproved(tempRank, this.studentsData[positionIndex + 1].ranking);
+  }
+
+  checkIsApproved(studentRanking: number|undefined, statementNum: number|undefined): boolean {
+    const ESPA_POSITIONS = this.espaPositions;
+    if (!statementNum) return false;
+    if (!studentRanking) return false;
+    return (statementNum <= ESPA_POSITIONS);
   }
 
   animate(positionPriority: number): void {

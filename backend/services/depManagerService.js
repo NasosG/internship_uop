@@ -83,7 +83,7 @@ const getStudentsPhase2 = async (deptId) => {
   }
 };
 
-const getRankedStudentsByDeptId = async (deptId) => {
+const getRankedStudentsByDeptId = async (deptId, periodId) => {
   try {
     const students = await pool.query("SELECT * FROM students_approved_rank \
                                       INNER JOIN sso_users \
@@ -91,7 +91,8 @@ const getRankedStudentsByDeptId = async (deptId) => {
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
                                       WHERE sso_users.department_id = $1 \
-                                      ORDER BY ranking", [deptId]);
+                                      AND students_approved_rank.period_id = $2 \
+                                      ORDER BY ranking", [deptId, periodId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students from phase 2 for this department');
@@ -224,14 +225,14 @@ const insertPeriod = async (body, id, departmentId) => {
   }
 };
 
-const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
+const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) => {
   const STUDENT_SELECTION_PHASE = 2;
   try {
-    if (genericPeriod < STUDENT_SELECTION_PHASE) {
+    if (genericPhase < STUDENT_SELECTION_PHASE) {
       return;
     }
     const getStudentsPhase = await getStudentsPhase2(departmentId);
-    await deleteApprovedStudentsRank(departmentId);
+    await deleteApprovedStudentsRank(departmentId, periodId);
     let i = 1;
     for (students of getStudentsPhase) {
 
@@ -239,7 +240,6 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
       // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
       if (students.department_id.toString().length == 6) {
         departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(students.department_id);
-        // console.log("departmentFieldForProcedure: " + departmentFieldForProcedure);
       }
 
       const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(students.schacpersonaluniquecode));
@@ -255,40 +255,29 @@ const insertApprovedStudentsRank = async (departmentId, genericPeriod) => {
         calculatedScore = await calculateScore(procedureResults, students.department_id);
       }
       await pool.query("INSERT INTO students_approved_rank " +
-        "(sso_uid, department_id, score, ranking)" +
-        " VALUES " + "($1, $2, $3, $4)",
-        [students.sso_uid, departmentId, calculatedScore, i++]);
-      // Maybe faster but not tested query for inserting students_approved_rank and deleting above insert and update below
-      //await pool.query(`
-      //INSERT INTO students_approved_rank (sso_uid, department_id, score, ranking)
-      //SELECT $1, $2, $3,
-      //(SELECT COUNT(*) + 1 FROM students_approved_rank WHERE score > $3 OR (score = $3 AND sso_uid > $1))
-      //AS ranking
-      //`, [students.sso_uid, departmentId, calculatedScore]);
+        "(sso_uid, department_id, score, ranking, period_id)" +
+        " VALUES " + "($1, $2, $3, $4, $5)",
+        [students.sso_uid, departmentId, calculatedScore, i++, periodId]);
     }
 
-    // await pool.query(`UPDATE students_approved_rank
-    //                   SET ranking = new_ranking
-    //                   FROM(
-    //                     SELECT sso_uid, department_id, score, ROW_NUMBER() OVER
-    //                         (PARTITION BY department_id ORDER BY score DESC) as new_ranking
-    //                     FROM students_approved_rank
-    //                     ) s
-    //                   WHERE students_approved_rank.sso_uid = s.sso_uid
-    //                   AND students_approved_rank.department_id = s.department_id`);
     await pool.query(`UPDATE students_approved_rank
-                      SET ranking = new_ranking
+                      SET ranking = new_ranking,
+                      is_approved = (CASE
+                          WHEN new_ranking <= (SELECT positions FROM espa_positions WHERE department_id = department_id) THEN true
+                          ELSE false
+                      END)
                       FROM (
-                        SELECT student_users.sso_uid, department_id, score, ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY
-                        CASE
-                          WHEN student_users.amea_cat = true THEN 0
-                          ELSE 1
-                        END, score DESC) as new_ranking
-                        FROM students_approved_rank
-                        JOIN student_users ON students_approved_rank.sso_uid = student_users.sso_uid
+                          SELECT student_users.sso_uid, department_id, score, ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY
+                          CASE
+                              WHEN student_users.amea_cat = true THEN 0
+                              ELSE 1
+                          END, score DESC) as new_ranking
+                          FROM students_approved_rank
+                          JOIN student_users ON students_approved_rank.sso_uid = student_users.sso_uid
                       ) s
                       WHERE students_approved_rank.sso_uid = s.sso_uid
-                      AND students_approved_rank.department_id = s.department_id`);
+                      AND students_approved_rank.department_id = s.department_id
+                      AND students_approved_rank.period_id = $1`, [periodId]);
   } catch (error) {
     console.log('Error while inserting Approved students rank ' + error.message);
     throw Error('Error while inserting Approved students rank');
@@ -407,44 +396,24 @@ const updateStudentPhaseByPeriod = async (periodId) => {
   }
 };
 
-const deleteApprovedStudentsRank = async (departmentId) => {
+const deleteApprovedStudentsRank = async (departmentId, periodId) => {
   try {
-    await pool.query("DELETE FROM students_approved_rank WHERE department_id = $1 ", [departmentId]);
+    await pool.query("DELETE FROM students_approved_rank WHERE department_id = $1 AND period_id = $2", [departmentId, periodId]);
   } catch (error) {
     console.log('Error while deleting approved students ' + error.message);
-    throw Error('Error while deleting approved students');
+    throw Error(`Error while deleting approved student ( for department_id: ${departmentId} )`);
   }
 };
 
-const deleteRankingByStudentId = async (departmentId) => {
+const updateStudentRanking = async (periodId, body) => {
   try {
-    const deleteResults = await pool.query("DELETE FROM students_approved_rank WHERE department_id = $1", [departmentId]);
-    return deleteResults;
-  } catch (error) {
-    throw Error(`Error while deleting students approved rank ( department_id: ${departmentId} )`);
-  }
-};
-
-const updateStudentRanking = async (department_id, body) => {
-  try {
-    await deleteRankingByStudentId(department_id);
     for (let i = 0; i < body.length; i++) {
-      await insertRankingPositions(department_id, body[i]);
+      await pool.query(`UPDATE students_approved_rank
+                        SET ranking = $1, is_approved = $2
+                        WHERE sso_uid = $3 AND period_id = $4`, [body[i].ranking, body[i].is_approved, body[i].uuid, periodId]);
     }
   } catch (error) {
     throw Error('Error while updating student positions ' + error.message);
-  }
-};
-
-const insertRankingPositions = async (department_id, body) => {
-  try {
-    // console.log(body);
-    await pool.query("INSERT INTO students_approved_rank (sso_uid, department_id, score, ranking) " +
-      " VALUES" +
-      " ($1, $2, $3, $4) ",
-      [body.uuid, department_id, body.score, body.ranking]);
-  } catch (error) {
-    throw Error('Error while inserting students approved rank ' + error.message);
   }
 };
 

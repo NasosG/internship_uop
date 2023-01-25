@@ -93,8 +93,10 @@ const getEspaPositionsByDepartmentId = async (request, response) => {
 
 const getRankedStudentsByDeptId = async (request, response) => {
   try {
-    const deptId = request.params.id;
-    const users = await depManagerService.getRankedStudentsByDeptId(deptId);
+    const deptId = request.query.departmentId;
+    const periodId = request.query.periodId;
+    console.log(periodId);
+    const users = await depManagerService.getRankedStudentsByDeptId(deptId, periodId);
     response.status(200).json(users);
   } catch (error) {
     response.status(404).json({
@@ -176,8 +178,10 @@ const insertPeriod = async (request, response, next) => {
 const insertApprovedStudentsRank = async (request, response, next) => {
   try {
     const departmentId = request.params.id;
-    const period = request.body.phase;
-    await depManagerService.insertApprovedStudentsRank(departmentId, period);
+    const phase = request.body.phase;
+    const periodId = request.body.periodId;
+    console.log(periodId);
+    await depManagerService.insertApprovedStudentsRank(departmentId, phase, periodId);
     response
       .status(201)
       .json({
@@ -212,9 +216,9 @@ const updatePeriodById = async (request, response, next) => {
 
 const updateStudentRanking = async (request, response) => {
   try {
-    const departmentId = request.params.id;
+    const periodId = request.params.id;
     const body = request.body;
-    await depManagerService.updateStudentRanking(departmentId, body);
+    await depManagerService.updateStudentRanking(periodId, body);
 
     response
       .status(200)

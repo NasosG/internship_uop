@@ -103,7 +103,7 @@ export class PeriodEditComponent implements OnInit {
   }
 
   insertPhase2StudentsRank() {
-    this.depManagerService.insertApprovedStudentsRank(this.depManagerData.department_id, this.periodData.phase_state);
+    this.depManagerService.insertApprovedStudentsRank(this.depManagerData.department_id, this.periodData.phase_state, this.periodData.id);
   }
 
   back(): void {

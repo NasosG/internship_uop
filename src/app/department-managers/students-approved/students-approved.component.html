@@ -40,7 +40,8 @@
                         class="fas fa-angle-down pr-3"></i>&nbsp;<span
                         style="font-size:1.1em;">{{student.ranking}}</span></a>
                   </td>
-                  <td>{{'Επιτυχών'}}</td>
+                  <td [ngClass]="{'green': student.is_approved, 'red': !student.is_approved}">
+                    {{student.is_approved ? 'Επιτυχών' : 'Επιλαχών'}}</td>
                   <td>{{student.givenname}} {{student.sn}}</td>
                   <!-- <td>{{student.father_name}}</td> -->
                   <td>{{student.schacpersonaluniquecode}}</td>

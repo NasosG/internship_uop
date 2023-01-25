@@ -87,8 +87,12 @@ export class DepManagerService {
     return fetchedStudent;
   }
 
-  getRankedStudentsByDeptId(departmentId: number): Observable<Student[]> {
-    const fetchedStudent = this.http.get<Student[]>(DEPARTMENT_MANAGER_URL + "getRankedStudentsByDeptId/" + departmentId);
+  getRankedStudentsByDeptId(departmentId: number, periodId: number): Observable<Student[]> {
+    const params = new HttpParams()
+      .set('departmentId', departmentId)
+      .set('periodId', periodId);
+
+    const fetchedStudent = this.http.get<Student[]>(DEPARTMENT_MANAGER_URL + "getRankedStudentsByDeptId/", { params });
 
     return fetchedStudent;
   }
@@ -133,9 +137,9 @@ export class DepManagerService {
       });
   }
 
-  insertApprovedStudentsRank(depId: number, phase: number) {
+  insertApprovedStudentsRank(depId: number, phase: number, periodId: number) {
     this.http
-      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertApprovedStudentsRank/" + depId, { 'phase': phase })
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertApprovedStudentsRank/" + depId, { 'phase': phase, 'periodId': periodId })
       .subscribe(responseData => {
         console.log(responseData.message);
       });
@@ -176,10 +180,10 @@ export class DepManagerService {
       });
   }
 
-  updateStudentRanking(positionsArray: Array<Student>, departmentId: number) {
+  updateStudentRanking(positionsArray: Array<Student>, periodId: number) {
     const form: Array<Student> = positionsArray;
     this.http
-      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateStudentRanking/" + departmentId, form)
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateStudentRanking/" + periodId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });

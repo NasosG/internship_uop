@@ -24,8 +24,9 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   private language!: string;
   public espaPositions!: number;
   periodSet!: boolean;
-  period: Period|undefined;
+  period!: Period;
   public managesOnlyOneAcademic!: boolean;
+
 
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -45,7 +46,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     //   });
 
     if (!environment.production) {
-      this.authService.setSessionId(11);
+      this.authService.setSessionId(9);
       // this.depManagerService.getDepManager()
       //   .subscribe((depManager: DepManager) => {
       //     this.depManagerData = depManager;
