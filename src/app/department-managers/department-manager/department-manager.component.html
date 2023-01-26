@@ -223,8 +223,8 @@
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/students-approved/' + this.authService.getSessionId()]"
-              [routerLinkActive]="['active']"
-              [class.disabled]="period?.phase_state == 3 || period?.phase_state == 4 ? null : true" class="nav-link">
+              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 3 ? null : true"
+              class="nav-link">
               <i class="nav-icon fa fa-check" aria-hidden="true"></i>
               <p>
                 Έγκυροι Φοιτητές
@@ -234,7 +234,8 @@
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/match-students/' + this.authService.getSessionId()]"
-              [routerLinkActive]="['active']" class="nav-link">
+              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 3 ? null :
+              true" class="nav-link">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Επιλογές Φοιτητών
@@ -244,7 +245,8 @@
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/sheet-input/' + this.authService.getSessionId()]"
-              [routerLinkActive]="['active']" class="nav-link">
+              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 3 ? null :
+              true" class="nav-link">
               <i class="nav-icon fas fa-envelope"></i>
               <p>
                 Απογραφικά Δελτία

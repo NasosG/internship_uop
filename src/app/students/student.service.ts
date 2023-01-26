@@ -453,4 +453,13 @@ export class StudentsService {
     return this.http.get<any>(STUDENTS_URL + "getProtocolNumberIfInterestAppExists/", { params });
   }
 
+  getStudentRankedApprovalStatusForPeriod(periodId: number): Observable<boolean> {
+    const studentId = this.authService.getSessionId();
+    const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('periodId', periodId);
+
+    return this.http.get<boolean>(STUDENTS_URL + "getStudentRankedApprovalStatusForPeriod", { params });
+  }
+
 }

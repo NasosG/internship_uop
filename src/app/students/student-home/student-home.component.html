@@ -160,9 +160,23 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="tab-content p-0">
+        <div *ngIf="period.phase_state != 3" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-2-PAR'| translate}} Α.Π.:
+            {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
+            <br>
+          </div>
+        </div>
+        <div *ngIf="period.phase_state === 3 && isApproved" class="tab-content p-0">
+          <div class="chart tab-pane active" id="revenue-chart">
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-4-PAR'| translate}} Α.Π.:
+            {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
+            <br>
+          </div>
+        </div>
+        <div *ngIf="period.phase_state === 3 && !isApproved" class="tab-content p-0">
+          <div class="chart tab-pane active" id="revenue-chart">
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-3-PAR'| translate}} Α.Π.:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br>
           </div>

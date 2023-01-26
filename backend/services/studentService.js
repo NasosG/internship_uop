@@ -839,6 +839,17 @@ const updateDepartmentIdByStudentId = async (studentId, departmentId) => {
   }
 };
 
+const getStudentRankedApprovalStatusForPeriod = async (studentId, periodId) => {
+  try {
+    const students = await pool.query(`SELECT is_approved FROM students_approved_rank
+                                       WHERE sso_uid = $1
+                                       AND students_approved_rank.period_id = $2`, [studentId, periodId]);
+    return students.rows[0].is_approved;
+  } catch (error) {
+    throw Error('Error while fetching students from phase 2 for this department' + error.message);
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -848,6 +859,7 @@ module.exports = {
   getStudentApplications,
   getStudentPositions,
   getStudentActiveApplication,
+  getStudentRankedApprovalStatusForPeriod,
   getPhase,
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,

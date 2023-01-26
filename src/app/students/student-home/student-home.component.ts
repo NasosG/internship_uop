@@ -19,6 +19,7 @@ export class StudentHomeComponent implements OnInit {
   dateTo!: string;
   selected: Date | null | undefined;
   comment: any;
+  isApproved: boolean = false;
 
   phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-3"];
   isDeclarationEnabled: boolean|undefined;
@@ -52,6 +53,11 @@ export class StudentHomeComponent implements OnInit {
                   this.studentsSSOData[0].latest_app_protocol_number = response.protocolNumber;
                 }
               });
+
+            this.studentsService.getStudentRankedApprovalStatusForPeriod(this.period.id)
+              .subscribe((isApproved: boolean) => {
+                this.isApproved = isApproved;
+            });
           });
 
         this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')

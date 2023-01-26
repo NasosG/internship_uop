@@ -48,5 +48,6 @@ router.post("/insertStudentInterestApp/:id", studentController.insertStudentInte
 router.get("/getMergedDepartmentInfoByStudentId/:id", studentController.getMergedDepartmentInfoByStudentId);
 router.patch("/updateDepartmentIdByStudentId/:id", studentController.updateDepartmentIdByStudentId);
 router.get("/getProtocolNumberIfInterestAppExists/", studentController.getProtocolNumberIfInterestAppExists);
+router.get("/getStudentRankedApprovalStatusForPeriod/", studentController.getStudentRankedApprovalStatusForPeriod);
 
 module.exports = router;

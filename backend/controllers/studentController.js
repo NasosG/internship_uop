@@ -911,6 +911,22 @@ const getProtocolNumberIfInterestAppExists = async (request, response) => {
   }
 };
 
+const getStudentRankedApprovalStatusForPeriod = async (request, response) => {
+  const studentId = request.query.studentId;
+  const periodId = request.query.periodId;
+
+  try {
+    const approvalState = await studentService.getStudentRankedApprovalStatusForPeriod(studentId, periodId);
+    console.log(`Student's ranked approval status for period ${periodId} has been successfully retrieved.`);
+    response.status(200).json(approvalState);
+  } catch (error) {
+    console.log(`Student's ranked approval status for period ${periodId} has NOT been retrieved.`);
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -923,6 +939,7 @@ module.exports = {
   getPhase,
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
+  getStudentRankedApprovalStatusForPeriod,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,
