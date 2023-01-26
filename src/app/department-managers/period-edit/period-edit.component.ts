@@ -69,15 +69,10 @@ export class PeriodEditComponent implements OnInit {
   public periodData!: Period;
   public ngSelect: String = "";
   public ngSelectPhase: String = "";
-  phaseArray = ["no-state",
-    "Σε αναμονή για συμμετοχή των φορέων",
-    "Σε αναμονή για συμμετοχή των φοιτητών",
-    "Σε αναμονή για ολοκλήρωση αιτήσεων"];
 
   constructor(public depManagerService: DepManagerService, private location: Location, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
   ngOnInit() {
-    // this.authService.login('');
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;

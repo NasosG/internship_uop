@@ -27,7 +27,6 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   period!: Period;
   public managesOnlyOneAcademic!: boolean;
 
-
   constructor(public depManagerService: DepManagerService, private router: Router, private route: ActivatedRoute, public authService: AuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');

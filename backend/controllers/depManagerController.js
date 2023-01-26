@@ -180,7 +180,7 @@ const insertApprovedStudentsRank = async (request, response, next) => {
     const departmentId = request.params.id;
     const phase = request.body.phase;
     const periodId = request.body.periodId;
-    console.log(periodId);
+
     await depManagerService.insertApprovedStudentsRank(departmentId, phase, periodId);
     response
       .status(201)

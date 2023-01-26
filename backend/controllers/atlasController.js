@@ -1325,7 +1325,39 @@ const getAssignedPositions = async (request, response) => {
   }
 };
 
+const testProdAtlas = async (request, response) => {
+  // credentials retrieved by the db
+  const credentials = await atlasService.getCredentials();
+
+  try {
+
+    const loginData = {
+      'Username': 'PANPELOPONNHSOU',
+      'Password': '123abc!'
+    };
+
+    const atlasResponse = await axios({
+      url: 'https://submit-atlas.grnet.gr/Api/Offices/v1/Login',
+      method: 'POST',
+      data: loginData,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(atlasResponse.data);
+    let newToken = atlasResponse.data.Result.AuthToken;
+    console.log(newToken);
+    return newToken;
+  } catch (error) {
+    //console.log(atlasResponse.data.Message);
+    console.log('Error', error.message);
+    return null;
+  }
+};
+
+
 module.exports = {
+  testProdAtlas,
   getRegisteredStudents,
   getAvailablePositionGroupsUI,
   getAvailablePositionGroups,

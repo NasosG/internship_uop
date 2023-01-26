@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DepManager } from '../dep-manager.model';
-import {Utils} from 'src/app/MiscUtils';
 import {Period} from '../period.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -89,7 +88,6 @@ export class PeriodAddComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
-        //this.depManagerData.schacdateofbirth = Utils.reformatDateOfBirth(this.depManagerData.schacdateofbirth);
 
         this.depManagerService.getEspaPositionsByDepartmentId(this.depManagerData.department_id)
           .subscribe((periodData: any) => {

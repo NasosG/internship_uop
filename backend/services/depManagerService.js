@@ -303,7 +303,7 @@ const calculateScore = async (procedureResults, departmentId) => {
   let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear - N);
   if (yearTotal < 0) yearTotal = 0;
 
-  let capped = (semester > 2 * N) ? 2 * N : semester;
+  let capped = (semester > 2 * (N - 1)) ? 2 * (N - 1) : semester;
 
   // return the actual calculation
   return ((procedureResults.Grade * 10 * weightGrade) +
@@ -351,7 +351,6 @@ const deactivateAllPeriodsByDepartmentId = async (departmentId) => {
 
 const updatePeriodById = async (body, id) => {
   try {
-    // console.log(body);
     let pyear = body.date_from.split('-')[0];
     const updateResults = await pool.query("UPDATE period" +
       " SET available_positions = $1, pyear = $2, semester = $3, phase_state = $4, date_from= $5, date_to = $6" +
@@ -433,7 +432,7 @@ const insertCommentsByStudentId = async (studentId, comments, subject) => {
 
 const updateCommentsByStudentId = async (studentId, comments) => {
   try {
-    // Update comments of student, subject should also be added to be safer
+    // Update comments of student; subject should also be added to be safer
     await pool.query("UPDATE comments \
                       SET comment_text = $1, comment_date = NOW() \
                       WHERE student_id = $2", [comments, studentId]);
