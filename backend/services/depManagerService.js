@@ -297,17 +297,18 @@ const calculateScore = async (procedureResults, departmentId) => {
   const weightSemester = 0.4;
   const weightYearOfStudy = 0.1;
 
-  //let semesterLimited = (procedureResults.Semester > 14) ? 14 : procedureResults.Semester;
   let semester = procedureResults.Semester;
   let academicYear = Math.round(semester / 2);
   let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear - N);
   if (yearTotal < 0) yearTotal = 0;
 
-  let capped = (semester > 2 * (N - 1)) ? 2 * (N - 1) : semester;
+  const capped = 2 * (N - 1);
+  const maxECTS = capped * ECTS_PER_SEMESTER;
+  const studentsECTS = (procedureResults.Ects > maxECTS) ? maxECTS : procedureResults.Ects;
 
   // return the actual calculation
   return ((procedureResults.Grade * 10 * weightGrade) +
-    ((procedureResults.Ects / (capped * ECTS_PER_SEMESTER)) * 100 * weightSemester) +
+    ((studentsECTS / maxECTS) * 100 * weightSemester) +
     (yearTotal * weightYearOfStudy)).toFixed(3);
 };
 
