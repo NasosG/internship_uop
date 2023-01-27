@@ -237,7 +237,8 @@
                 <br>
                 <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
                 <br>
-                <span><i class="fa fa-briefcase"></i> {{this.positionType}}</span>
+                <span><i class="fa fa-briefcase"></i>
+                  {{this.positionType == null ? 'Πλήρες Ωράριο' : this.positionType}}</span>
                 <span><i class="fa fa-map-marker"></i> {{this.jobCity}}</span>
                 <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
                 <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} μήνες</span>
