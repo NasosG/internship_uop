@@ -105,6 +105,21 @@ const getAEICodeFromDepartmentId = (departmentId) => {
   return parseInt(departmentId.toString().substring(0, 4));
 };
 
+const convertStartEndDateToTimestamp = (dateParam) => {
+  let timestamp;
+
+  if (dateParam == null || dateParam == undefined || dateParam == '')
+    return null;
+
+  const milliseconds = dateParam.match(/\d+/)[0];
+  const offset = dateParam.match(/\+\d+/)[0];
+  const date = new Date(parseInt(milliseconds));
+  date.setMinutes(date.getMinutes() + parseInt(offset));
+  timestamp = date.toISOString();
+
+  return timestamp;
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -119,5 +134,6 @@ module.exports = {
   splitScholarsPersonalData,
   isMergedDepartment,
   getAEICodeFromDepartmentId,
-  isArrayNotEmpty
+  isArrayNotEmpty,
+  convertStartEndDateToTimestamp
 };

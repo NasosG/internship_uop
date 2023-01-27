@@ -23,7 +23,7 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
   try {
     let procedureResults;
 
-    if (process.env.env == 'dev') {
+    if (process.env.env == 'DEV') {
       return {
         'Grade': 0, 'Ects': 1, 'Semester': 2, 'Praktiki': 0
       };

@@ -274,7 +274,7 @@ const insertPositionGroup = async (data) => {
     }
     // return insertResults;
   } catch (error) {
-    // console.log('Error while inserting position group[s] ' + error.message);
+    console.log('Error while inserting position group[s] ' + error.message);
     throw Error('Error while inserting position group[s]');
   }
 };
@@ -375,7 +375,6 @@ const insertPositionGroupRelation = async (data) => {
 
 const insertProvider = async (data) => {
   try {
-    // console.log(data[0].name + " | " + data[1].name + " | " + data[2].name);
     for (const item of data) {
       // if (getProviders(item.atlasProviderId) > 0) { }
       // else
@@ -392,7 +391,7 @@ const insertProvider = async (data) => {
     }
   } catch (error) {
     // console.log('Error while inserting provider group[s] ' + error.message);
-    throw Error('Error while inserting provider group[s]');
+    throw Error('Error while inserting provider group[s]' + error.message);
   }
 };
 

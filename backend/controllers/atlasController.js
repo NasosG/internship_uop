@@ -1,11 +1,16 @@
 const axios = require("axios");
 const atlasService = require("../services/atlasService");
+const MiscUtils = require("../MiscUtils.js");
+require('dotenv').config();
+
+// Global variables
+const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
 
 // test pilot atlas login
 const atlasLogin = async (uid = false, username = null, password = null) => {
   // credentials retrieved by the db
   const credentials = await atlasService.getCredentials();
-  const accessToken = credentials.access_token;
+  const accessToken = process.env.TOKEN;//credentials.access_token;
   const tokenIsValid = await testIfTokenIsValid(accessToken);
 
   if (accessToken != null && tokenIsValid) {
@@ -21,7 +26,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
     };
 
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/Login',
+      url: ATLAS_URL + '/Login',
       method: 'POST',
       data: loginData,
       headers: {
@@ -106,7 +111,7 @@ const insertDepartmentIds = async (accessToken) => {
   let departments = [];
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetAcademics',
+      url: ATLAS_URL + '/GetAcademics',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -145,7 +150,7 @@ const insertDepartmentIds = async (accessToken) => {
 const getPositionGroupDetails = async (positionId, accessToken) => {
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetPositionGroupDetails?ID=' + positionId,
+      url: ATLAS_URL + '/GetPositionGroupDetails?ID=' + positionId,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -168,7 +173,7 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
 const getProviderDetails = async (providerId, accessToken) => {
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetProviderDetails?ID=' + providerId,
+      url: ATLAS_URL + '/GetProviderDetails?ID=' + providerId,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +197,7 @@ const getProviderDetails = async (providerId, accessToken) => {
 const getFromAtlas = async (accessToken, objectToGet) => {
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/Get' + objectToGet,
+      url: ATLAS_URL + '/Get' + objectToGet,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -215,7 +220,7 @@ const getFromAtlas = async (accessToken, objectToGet) => {
 const insertCitiesFromAtlas = async (accessToken) => {
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetCities',
+      url: ATLAS_URL + '/GetCities',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -239,7 +244,7 @@ const insertPrefecturesFromAtlas = async (accessToken) => {
   console.log("prefectures");
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetPrefectures',
+      url: ATLAS_URL + '/GetPrefectures',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -263,7 +268,7 @@ const insertCountriesFromAtlas = async (accessToken) => {
   console.log("countries");
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetCountries',
+      url: ATLAS_URL + '/GetCountries',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -285,7 +290,7 @@ const insertCountriesFromAtlas = async (accessToken) => {
 const insertPhysicalObjsFromAtlas = async (accessToken) => {
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetPhysicalObjects',
+      url: ATLAS_URL + '/GetPhysicalObjects',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -829,8 +834,10 @@ const insertPositionGroup = async (accessToken) => {
       try {
         let positionPushed = false;
 
+        let positionGroupLastUpdate = new Date(parseInt(item.PositionGroupLastUpdate.substr(6)));
+
         positionsArray.push({
-          'lastUpdateString': item.PositionGroupLastUpdateString.replace("μμ", "pm").replace("πμ", "am"),
+          'lastUpdateString': positionGroupLastUpdate,
           'city': positionGroupResults.message.City,
           'title': positionGroupResults.message.Title,
           'description': positionGroupResults.message.Description,
@@ -843,9 +850,9 @@ const insertPositionGroup = async (accessToken) => {
           'atlasCityId': positionGroupResults.message.CityID,
           'atlasCountryId': positionGroupResults.message.CountryID,
           'atlasPrefectureId': positionGroupResults.message.PrefectureID,
-          'EndDate': positionGroupResults.message.EndDate,
+          'EndDate': MiscUtils.convertStartEndDateToTimestamp(positionGroupResults.message.EndDate),
           'EndDateString': positionGroupResults.message.EndDateString,
-          'StartDate': positionGroupResults.message.StartDate,
+          'StartDate': MiscUtils.convertStartEndDateToTimestamp(positionGroupResults.message.StartDate),
           'StartDateString': positionGroupResults.message.StartDateString,
           'academics': academics
         });
@@ -896,8 +903,8 @@ const getRegisteredStudent = async (academicIDNumber) => {
 
     // test academic id number: 4243761386827
     const atlasResponse = await axios({
-      // url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetStudentDetails?StudentID=212468',
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetStudentDetails?AcademicIDNumber=' + academicIDNumber,
+      // url: ATLAS_URL + '/GetStudentDetails?StudentID=212468',
+      url: ATLAS_URL + '/GetStudentDetails?AcademicIDNumber=' + academicIDNumber,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -949,7 +956,7 @@ const findAcademicIdNumber = async (academicId, studentNumber) => {
   try {
     let accessToken = await atlasLogin();
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/FindAcademicIdNumber',
+      url: ATLAS_URL + '/FindAcademicIdNumber',
       method: 'POST',
       data: { "AcademicID": academicId, "StudentNumber": studentNumber },
       headers: {
@@ -983,7 +990,7 @@ const registerNewStudent = async (AcademicIDNumber) => {
 
     // test academic id number: 4243761386827
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/RegisterNewStudent',
+      url: ATLAS_URL + '/RegisterNewStudent',
       method: 'POST',
       data: { "AcademicIDNumber": AcademicIDNumber },
       headers: {
@@ -1041,7 +1048,7 @@ const deletePosition = async (type, positionId) => {
   }
 
   atlasResponse = await axios({
-    url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/' + path,
+    url: ATLAS_URL + '/' + path,
     method: 'POST',
     data: { "PositionID": positionId },
     headers: {
@@ -1065,7 +1072,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     let atlasResponse;
 
     atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetPreAssignedPositions',
+      url: ATLAS_URL + '/GetPreAssignedPositions',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1093,7 +1100,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     } else {
       // if no position is found, preassign a single position
       atlasResponse = await axios({
-        url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/PreAssignPositions',
+        url: ATLAS_URL + '/PreAssignPositions',
         method: 'POST',
         data: { "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId },
         headers: {
@@ -1173,7 +1180,7 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     console.log(assignmentData);
 
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/AssignStudent',
+      url: ATLAS_URL + '/AssignStudent',
       method: 'POST',
       data: assignmentData,
       headers: {
@@ -1200,7 +1207,7 @@ const getFundingType = async (positionId) => {
     let accessToken = await atlasLogin();
 
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetFundingType?positionID=' + positionId,
+      url: ATLAS_URL + '/GetFundingType?positionID=' + positionId,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1231,7 +1238,7 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
     };
 
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/Api/Offices/v1/GetAvailablePositionGroups',
+      url: ATLAS_URL + '/GetAvailablePositionGroups',
       method: 'POST',
       data: paginationData,
       headers: {
@@ -1257,7 +1264,7 @@ const getFundingTypes = async (request, response) => {
   try {
     let accessToken = await atlasLogin();
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/api/offices/v1/GetFundingTypes',
+      url: ATLAS_URL + '/GetFundingTypes',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1274,7 +1281,7 @@ const getFundingTypes = async (request, response) => {
 const testIfTokenIsValid = async (accessToken) => {
   try {
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/api/offices/v1/GetFundingTypes',
+      url: ATLAS_URL + '/GetFundingTypes',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1293,7 +1300,7 @@ const getRegisteredStudents = async (request, response) => {
   try {
     let accessToken = await atlasLogin();
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/api/offices/v1/GetRegisteredStudents',
+      url: ATLAS_URL + '/GetRegisteredStudents',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1311,7 +1318,7 @@ const getAssignedPositions = async (request, response) => {
   try {
     let accessToken = await atlasLogin();
     const atlasResponse = await axios({
-      url: 'https://atlas2-app.pilotiko.gr/api/offices/v1/GetAssignedPositions',
+      url: ATLAS_URL + '/GetAssignedPositions',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1325,39 +1332,7 @@ const getAssignedPositions = async (request, response) => {
   }
 };
 
-const testProdAtlas = async (request, response) => {
-  // credentials retrieved by the db
-  const credentials = await atlasService.getCredentials();
-
-  try {
-
-    const loginData = {
-      'Username': 'oikonomiko2',
-      'Password': '123456789'
-    };
-
-    const atlasResponse = await axios({
-      url: 'https://submit-atlas.grnet.gr/Api/Offices/v1/Login',
-      method: 'POST',
-      data: loginData,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    console.log(atlasResponse.data);
-    let newToken = atlasResponse.data.Result.AuthToken;
-    console.log(newToken);
-    return newToken;
-  } catch (error) {
-    //console.log(atlasResponse.data.Message);
-    console.log('Error', error.message);
-    return null;
-  }
-};
-
-
 module.exports = {
-  testProdAtlas,
   getRegisteredStudents,
   getAvailablePositionGroupsUI,
   getAvailablePositionGroups,
