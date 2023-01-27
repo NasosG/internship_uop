@@ -1332,8 +1332,8 @@ const testProdAtlas = async (request, response) => {
   try {
 
     const loginData = {
-      'Username': 'PANPELOPONNHSOU',
-      'Password': '123abc!'
+      'Username': 'oikonomiko2',
+      'Password': '123456789'
     };
 
     const atlasResponse = await axios({
