@@ -22,5 +22,4 @@ router.get('/getRegisteredStudents', atlasController.getRegisteredStudents);
 router.get('/getStudentAcademicId', atlasController.getStudentAcademicId);
 router.get('/getAssignedPositions', atlasController.getAssignedPositions);
 
-
 module.exports = router;

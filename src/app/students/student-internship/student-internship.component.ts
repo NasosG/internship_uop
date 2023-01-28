@@ -276,7 +276,6 @@ export class StudentInternshipComponent implements OnInit {
 
   addPosition(positionId: number, jobInternalPositionId: number) {
     let message = "";
-    //this.studentsService.insertStudentPosition(positionId);
 
     if (!this.canStudentSubmitApp) {
       (document.getElementById("addPositionsBtn") as HTMLButtonElement).textContent = "ΧΩΡΙΣ ΔΥΝΑΤΟΤΗΤΑ ΠΡΟΣΘΗΚΗΣ ΘΕΣΗΣ";
@@ -284,6 +283,7 @@ export class StudentInternshipComponent implements OnInit {
 
     }
     let atlas = true;
+    // Below "if" was used for job positions that were not from atlas but from our database
     if (!positionId) {
       positionId = jobInternalPositionId;
       atlas = false;

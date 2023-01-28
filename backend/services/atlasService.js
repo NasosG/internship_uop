@@ -375,9 +375,16 @@ const insertPositionGroupRelation = async (data) => {
 
 const insertProvider = async (data) => {
   try {
-    for (const item of data) {
-      // if (getProviders(item.atlasProviderId) > 0) { }
-      // else
+    // Select all atlas_provider_id's that already exist in the database
+    const existingIDs = await pool.query(`SELECT atlas_provider_id FROM atlas_provider`);
+    // Create an array of existing atlas_provider_id's
+    const existingIDArray = existingIDs.rows;
+    // This creates a new array "existingIds" with all the "atlas_provider_id" from the existingIDArray
+    const existingIds = existingIDArray.map(item => item.atlas_provider_id);
+    // Filter data array to only include items with atlas_provider_id's that do not already exist in the database
+    const uniqueData = data.filter(item => !existingIds.includes(item.atlasProviderId.toString()));
+
+    for (const item of uniqueData) {
       await pool.query("INSERT INTO atlas_provider" +
         '(name, contact_email, contact_name, contact_phone, atlas_provider_id, afm)' +
         " VALUES " + "($1, $2, $3, $4, $5, $6)",
@@ -391,7 +398,7 @@ const insertProvider = async (data) => {
     }
   } catch (error) {
     // console.log('Error while inserting provider group[s] ' + error.message);
-    throw Error('Error while inserting provider group[s]' + error.message);
+    throw Error('Error while inserting provider[s] ' + error.message);
   }
 };
 

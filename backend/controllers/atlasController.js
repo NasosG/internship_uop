@@ -2,6 +2,7 @@ const axios = require("axios");
 const atlasService = require("../services/atlasService");
 const MiscUtils = require("../MiscUtils.js");
 require('dotenv').config();
+const moment = require('moment');
 
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
@@ -799,92 +800,114 @@ const getProviderJson = (item) => {
 const insertPositionGroup = async (accessToken) => {
   try {
     let begin = 0;
-    const batchSize = 100;
+    let availablePositionGroups;
 
-    let availablePositionGroups = [];
-    availablePositionGroups = await getAvailablePositionGroups(begin, batchSize, accessToken);
+    do {
+      const batchSize = 500; //100;
 
-    let positionsArray = [];
-    let providersArray = [];
-    let relationsArray = [];
+      // to know how much time it takes to complete each process
+      let startTime, endTime;
 
-    for (const item of availablePositionGroups.message.Pairs) {
-      let positionGroupId = item.PositionGroupID;
-      let providerId = item.ProviderID;
+      startTime = startStopTimer();
 
-      relationsArray.push({
-        "PositionGroupID": item.PositionGroupID,
-        "PositionGroupLastUpdateString": item.PositionGroupLastUpdateString,
-        "ProviderID": item.ProviderID,
-        "ProviderLastUpdateString": item.ProviderLastUpdateString
-      });
+      availablePositionGroups = [];
+      availablePositionGroups = await getAvailablePositionGroups(begin, batchSize, accessToken);
 
-      let positionGroupResults = await getPositionGroupDetails(positionGroupId, accessToken);
-      let providerResults = await getProviderDetails(providerId, accessToken);
+      let positionsArray = [];
+      let providersArray = [];
+      let relationsArray = [];
 
-      let atlasAcademics = positionGroupResults.message.Academics;
-      let academics = [];
-      for (const key in atlasAcademics) {
-        // console.log(atlasAcademics[key]);
-        academics.push({
-          'department': atlasAcademics[key].Department,
-          'academicsId': atlasAcademics[key].ID
+      for (const item of availablePositionGroups.message.Pairs) {
+        let positionGroupId = item.PositionGroupID;
+        let providerId = item.ProviderID;
+
+        relationsArray.push({
+          "PositionGroupID": item.PositionGroupID,
+          "PositionGroupLastUpdateString": item.PositionGroupLastUpdateString,
+          "ProviderID": item.ProviderID,
+          "ProviderLastUpdateString": item.ProviderLastUpdateString
         });
+
+        let positionGroupResults = await getPositionGroupDetails(positionGroupId, accessToken);
+        let providerResults = await getProviderDetails(providerId, accessToken);
+
+        let atlasAcademics = positionGroupResults.message.Academics;
+        let academics = [];
+        for (const key in atlasAcademics) {
+          // console.log(atlasAcademics[key]);
+          academics.push({
+            'department': atlasAcademics[key].Department,
+            'academicsId': atlasAcademics[key].ID
+          });
+        }
+
+        let positionPushed;
+        try {
+          positionPushed = false;
+
+          let positionGroupLastUpdate = new Date(parseInt(item.PositionGroupLastUpdate.substr(6)));
+
+          positionsArray.push({
+            'lastUpdateString': positionGroupLastUpdate,
+            'city': positionGroupResults.message.City,
+            'title': positionGroupResults.message.Title,
+            'description': positionGroupResults.message.Description,
+            'positionType': positionGroupResults.message.PositionType,
+            'availablePositions': positionGroupResults.message.AvailablePositions,
+            'duration': positionGroupResults.message.Duration,
+            'physicalObjects': positionGroupResults.message.PhysicalObjects,
+            'providerId': positionGroupResults.message.ProviderID,
+            'atlasPositionId': positionGroupResults.message.ID,
+            'atlasCityId': positionGroupResults.message.CityID,
+            'atlasCountryId': positionGroupResults.message.CountryID,
+            'atlasPrefectureId': positionGroupResults.message.PrefectureID,
+            'EndDate': MiscUtils.convertStartEndDateToTimestamp(positionGroupResults.message.EndDate),
+            'EndDateString': positionGroupResults.message.EndDateString,
+            'StartDate': MiscUtils.convertStartEndDateToTimestamp(positionGroupResults.message.StartDate),
+            'StartDateString': positionGroupResults.message.StartDateString,
+            'academics': academics
+          });
+          //console.log(positionGroupResults.message);
+          positionPushed = true;
+          academics = []; // reset the array just to be sure
+
+          providersArray.push({
+            'atlasProviderId': providerResults.message.ID,
+            'afm': providerResults.message.AFM,
+            'name': providerResults.message.Name,
+            'providerContactEmail': providerResults.message.ContactEmail,
+            'providerContactName': providerResults.message.ContactName,
+            'providerContactPhone': providerResults.message.ContactPhone
+          });
+        } catch (ex) {
+          console.log(`Failed to fetch provider or position group for posId: ${positionsArray[positionsArray.length - 1].atlasPositionId} exc: ${ex.message}`);
+          if (positionPushed) positionsArray.pop();
+          continue;
+        }
       }
-      try {
-        let positionPushed = false;
 
-        let positionGroupLastUpdate = new Date(parseInt(item.PositionGroupLastUpdate.substr(6)));
+      endTime = startStopTimer();
+      console.log("Time to fetch all position groups: " + calculateDurationInMinutes(startTime, endTime) + " mins");
 
-        positionsArray.push({
-          'lastUpdateString': positionGroupLastUpdate,
-          'city': positionGroupResults.message.City,
-          'title': positionGroupResults.message.Title,
-          'description': positionGroupResults.message.Description,
-          'positionType': positionGroupResults.message.PositionType,
-          'availablePositions': positionGroupResults.message.AvailablePositions,
-          'duration': positionGroupResults.message.Duration,
-          'physicalObjects': positionGroupResults.message.PhysicalObjects,
-          'providerId': positionGroupResults.message.ProviderID,
-          'atlasPositionId': positionGroupResults.message.ID,
-          'atlasCityId': positionGroupResults.message.CityID,
-          'atlasCountryId': positionGroupResults.message.CountryID,
-          'atlasPrefectureId': positionGroupResults.message.PrefectureID,
-          'EndDate': MiscUtils.convertStartEndDateToTimestamp(positionGroupResults.message.EndDate),
-          'EndDateString': positionGroupResults.message.EndDateString,
-          'StartDate': MiscUtils.convertStartEndDateToTimestamp(positionGroupResults.message.StartDate),
-          'StartDateString': positionGroupResults.message.StartDateString,
-          'academics': academics
-        });
-        console.log(positionGroupResults.message);
-        positionPushed = true;
-        academics = []; // reset the array just to be sure
+      startTime = startStopTimer();
 
-        providersArray.push({
-          'atlasProviderId': providerResults.message.ID,
-          'afm': providerResults.message.AFM,
-          'name': providerResults.message.Name,
-          'providerContactEmail': providerResults.message.ContactEmail,
-          'providerContactName': providerResults.message.ContactName,
-          'providerContactPhone': providerResults.message.ContactPhone
-        });
-      } catch (ex) {
-        console.log("Failed to fetch provider or position group: " + ex.message);
-        if (positionPushed) positionsArray.pop();
-        continue;
-      }
-    }
+      // remove duplicates from provider's array
+      let cleanedProviderArray = providersArray.filter((providersArray, index, self) =>
+        index === self.findIndex((t) => t.atlasProviderId === providersArray.atlasProviderId));
 
-    // remove duplicates from provider's array
-    let cleanedProviderArray = providersArray.filter((providersArray, index, self) =>
-      index === self.findIndex((t) => t.atlasProviderId === providersArray.atlasProviderId));
+      // console.log(cleanedProviderArray);
+      await atlasService.insertProvider(cleanedProviderArray);
+      await atlasService.insertPositionGroup(positionsArray);
+      await atlasService.insertPositionGroupRelations(relationsArray);
 
-    // console.log(cleanedProviderArray);
-    await atlasService.insertProvider(cleanedProviderArray);
-    await atlasService.insertPositionGroup(positionsArray);
-    await atlasService.insertPositionGroupRelations(relationsArray);
+      endTime = startStopTimer();
+      console.log("Time to insert all position groups: " + calculateDurationInMinutes(startTime, endTime) + " mins");
 
-    //console.log(atlasResponse.data.Result);
+      //console.log(atlasResponse.data.Result);
+
+      begin += batchSize;
+    } while (begin < availablePositionGroups.message.NumberOfItems);
+
     return {
       message: 'done'
     };
@@ -918,18 +941,12 @@ const getRegisteredStudent = async (academicIDNumber) => {
       message: positionsArray,
       status: atlasResponse.status
     };
-    // return response.status(200).json(positionsArray);
   } catch (error) {
     console.log("error while fetching registered student: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching registered student: " + error.message
     };
-    // return response
-    //   .status(400)
-    //   .json({
-    //     message: "something went wrong while fetching available positions: " + error.message
-    //   });
   }
 };
 
@@ -1330,6 +1347,17 @@ const getAssignedPositions = async (request, response) => {
   } catch (error) {
     return response.status(400).json({ "message": "error retrieving assigned positions" });
   }
+};
+
+// Start the timer
+const startStopTimer = () => {
+  return moment();
+};
+
+// Stop the timer and return the duration in minutes
+const calculateDurationInMinutes = (startTime, endTime) => {
+  const durationInMinutes = moment.duration(endTime.diff(startTime)).asMinutes();
+  return durationInMinutes;
 };
 
 module.exports = {
