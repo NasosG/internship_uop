@@ -9,16 +9,20 @@ const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_N
 
 // test pilot atlas login
 const atlasLogin = async (uid = false, username = null, password = null) => {
-  // credentials retrieved by the db
-  const credentials = await atlasService.getCredentials();
-  const accessToken = process.env.TOKEN;//credentials.access_token;
-  const tokenIsValid = await testIfTokenIsValid(accessToken);
+  try {
+    // credentials retrieved by the db
+    const credentials = await atlasService.getCredentials();
+    const accessToken = credentials.access_token;
+    const tokenIsValid = await testIfTokenIsValid(accessToken);
 
-  if (accessToken != null && tokenIsValid) {
-    console.log("access token is valid");
-    return accessToken;
+    if (accessToken != null && tokenIsValid) {
+      console.log("access token is valid");
+      return accessToken;
+    }
+  } catch (error) {
+    console.log("Error while fetching credentials:", error.message);
+    return null;
   }
-
   try {
     if (credentials.username == null || credentials.password == null) return null;
     const loginData = {

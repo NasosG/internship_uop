@@ -6,7 +6,7 @@ const getCredentials = async () => {
     const results = await pool.query("SELECT * FROM atlas_access LIMIT 1");
     return results.rows[0];
   } catch (error) {
-    throw Error('Error while fetching credentials');
+    throw Error('Error while fetching credentials' + error.message);
   }
 };
 
