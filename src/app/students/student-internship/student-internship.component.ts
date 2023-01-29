@@ -6,6 +6,7 @@ import { AtlasFilters } from '../atlas-filters.model';
 import { AtlasPosition } from '../atlas-position.model';
 import { City } from '../city.model';
 import { Department } from '../department.model';
+import {PhysicalObject} from '../physical-object.model';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 
@@ -31,6 +32,7 @@ export class StudentInternshipComponent implements OnInit {
   jobPhysicalObjects!: string[];
   jobLastUpdateString!: string;
   jobInternalPositionId!: number;
+
   filters: AtlasFilters = new AtlasFilters();
 
   begin: number = 0;
@@ -39,6 +41,7 @@ export class StudentInternshipComponent implements OnInit {
   entries!: AtlasPosition[];    // The positions from atlas which are stored in a local database
   departments!: Department[];
   cities!: City[];
+  physicalObjects!: PhysicalObject[];
   timer!: any;                  // Timer identifier
   waitTime: number = 500;       // Wait time in milliseconds
 
@@ -69,6 +72,10 @@ export class StudentInternshipComponent implements OnInit {
         this.entries = positions;
         this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
         this.setJobsDetails(0); // TODO: find a way to do it outside of subscribe
+      });
+    this.studentsService.getAtlasPhysicalObjects()
+      .subscribe((fetchedPhysicalObjects: PhysicalObject[]) => {
+        this.physicalObjects = fetchedPhysicalObjects;
       });
     this.studentsService.getStudentActiveApplication()
       .subscribe((num: number) => {
@@ -181,6 +188,12 @@ export class StudentInternshipComponent implements OnInit {
     this.fetchFilteredPositions(this.filters);
   }
 
+  public fetchPositionsByPhysicalObject(physicalObject: any) {
+    this.entries = [];
+    this.filters.physicalObject = physicalObject.value == "unselected" ? null : physicalObject.value;
+    this.fetchFilteredPositions(this.filters);
+  }
+
   public fetchPositionsByMonths(months: any) {
     this.entries = [];
     this.filters.monthsOfInternship = months.value == "unselected" ? null : months.value;
@@ -193,11 +206,11 @@ export class StudentInternshipComponent implements OnInit {
     this.fetchFilteredPositions(this.filters);
   }
 
-  public fetchPositionsByWorkingHours(currentCheckbox: any) {
-    this.entries = [];
-    this.filters.workingHours = currentCheckbox.value == "unselected" ? "" : currentCheckbox.value;
-    this.fetchFilteredPositions(this.filters);
-  }
+  // public fetchPositionsByWorkingHours(currentCheckbox: any) {
+  //   this.entries = [];
+  //   this.filters.workingHours = currentCheckbox.value == "unselected" ? "" : currentCheckbox.value;
+  //   this.fetchFilteredPositions(this.filters);
+  // }
 
   @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
     this.scrollFunction();
@@ -234,27 +247,28 @@ export class StudentInternshipComponent implements OnInit {
     this.jobInternalPositionId = this.entries[index].id;
   }
 
-  public selectAll() {
-    let selectAllCheckbox: any = document.getElementById('select-all');
-    let checkboxes: any = document.getElementsByName('check-boxes');
-    for (let checkbox of checkboxes) {
-      checkbox.checked = selectAllCheckbox.checked;
-    }
-    this.fetchPositionsByWorkingHours(selectAllCheckbox);
-  }
+  // The below were commented out after working hours checkboxes were removed from filters
+  // public selectAll() {
+  //   let selectAllCheckbox: any = document.getElementById('select-all');
+  //   let checkboxes: any = document.getElementsByName('check-boxes');
+  //   for (let checkbox of checkboxes) {
+  //     checkbox.checked = selectAllCheckbox.checked;
+  //   }
+  //   this.fetchPositionsByWorkingHours(selectAllCheckbox);
+  // }
 
-  public selectOneOption(id: string) {
-    let selectAllCheckbox: any = document.getElementById('select-all');
-    let checkboxes: any = document.getElementsByName('check-boxes');
-    let currentCheckbox: any = document.getElementById(id);
+  // public selectOneOption(id: string) {
+  //   let selectAllCheckbox: any = document.getElementById('select-all');
+  //   let checkboxes: any = document.getElementsByName('check-boxes');
+  //   let currentCheckbox: any = document.getElementById(id);
 
-    for (let checkbox of checkboxes) {
-      selectAllCheckbox.checked = checkbox.checked = false;
-    }
+  //   for (let checkbox of checkboxes) {
+  //     selectAllCheckbox.checked = checkbox.checked = false;
+  //   }
 
-    currentCheckbox.checked = true;
-    this.fetchPositionsByWorkingHours(currentCheckbox);
-  }
+  //   currentCheckbox.checked = true;
+  //   this.fetchPositionsByWorkingHours(currentCheckbox);
+  // }
 
   // Search for providers function
   search(text: any) {

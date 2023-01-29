@@ -4292,7 +4292,14 @@ span.temporary {
   background-color: #e12335;
 }
 
-
+/* ---------------------------------- */
+/* Job Description hole div (with id)
+------------------------------------- */
+#job-description {
+  max-height: 670px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+}
 
 /* ---------------------------------- */
 /* Job Description
@@ -4300,7 +4307,7 @@ span.temporary {
 .job-overview,
 .job-description {
   background-color: #fbfbfb;
-  border: 1px solid #e0e0e0;
+  /* border: 1px solid #e0e0e0; */
   padding: 32px 35px 28px 35px;
 }
 

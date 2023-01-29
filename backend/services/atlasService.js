@@ -1,5 +1,6 @@
 // database connection configuration
 const pool = require("../db_config.js");
+const MiscUtils = require("../MiscUtils.js");
 
 const getCredentials = async () => {
   try {
@@ -140,13 +141,19 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     // }
     if (filters.monthsOfInternship != null) {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.duration <= ";
-      queryStr += filters.monthsOfInternship == "months6" ? " 6"
-        : filters.monthsOfInternship == "months12" ? " 12" : " 24";
+      queryStr += MiscUtils.getWeeksFromMonths(filters.monthsOfInternship);
       moreThanOneFilters = true;
     }
-    if (filters.workingHours) {
-      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.position_type = ";
-      queryStr += filters.workingHours == "fulltime" ? "'Πλήρες ωράριο'" : "'Μερικό ωράριο'";
+    // Working hours removed
+    // if (filters.workingHours) {
+    //   queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.position_type = ";
+    //   queryStr += filters.workingHours == "fulltime" ? "'Πλήρες ωράριο'" : "'Μερικό ωράριο'";
+    //   moreThanOneFilters = true;
+    // }
+    if (filters.physicalObject) {
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE");
+      queryStr += " '" + filters.physicalObject + "'";
+      queryStr += " = ANY(physical_objects)";
       moreThanOneFilters = true;
     }
     if (filters.provider) {

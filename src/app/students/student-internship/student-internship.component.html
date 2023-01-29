@@ -36,7 +36,7 @@
         <div class="col-12">
           <div class="container-fluid row">
             <!-- Sorting -->
-            <div class="widget col-2 pl-2 pr-2">
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
               <h4>Ημ/νία Δημοσίευσης</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByDate($event.target)" class="chosen-select-no-single">
@@ -49,7 +49,7 @@
         <option value="incomelow">Απολαβές – Φθίνουσα Σειρά</option> -->
               </select>
             </div>
-            <div class="widget col-2 pl-2 pr-2">
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
               <h4>Τμήμα</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByDepartment($event.target)" class="chosen-select-no-single">
@@ -59,7 +59,7 @@
               </select>
             </div>
             <!-- Location -->
-            <div class="widget col-2 pl-2 pr-2">
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
               <h4>Τοποθεσία</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByCity($event.target)" class="chosen-select-no-single">
@@ -73,29 +73,33 @@
 
               <!-- </form> -->
             </div>
-            <div class="widget col-2 pl-2 pr-2">
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
               <h4>Φορέας</h4>
-              <!-- <select data-placeholder="Choose Category" style="padding: 14px 18px;" -->
-              <!-- (change)="fetchFilteredPositions($event.target)" class="chosen-select-no-single"> -->
-              <!-- <option selected="selected" value="unselected">Όλοι οι φορείς</option> -->
               <input type="text" placeholder="Φορέας" [value]="" (keyup)="searchFor($event.target)" autocomplete="on" />
-              <!-- <option value="recent">ιντρασοφτ</option>
-                <option value="oldest">ιντρακομ</option> -->
-              <!-- </select> -->
             </div>
-            <div class="widget col-2 pl-2 pr-2">
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
               <h4>Μήνες Απασχόλησης</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByMonths($event.target)" class="chosen-select-no-single">
                 <option selected="selected" value="unselected">Όλες οι επιλογές</option>
+                <option value="months2">Έως 2 μήνες</option>
+                <option value="months3">Έως 3 μήνες</option>
                 <option value="months6">Έως 6 μήνες</option>
-                <option value="months12">Έως 12 μήνες</option>
-                <option value="months24">Έως 24 μήνες</option>
               </select>
             </div>
 
+            <div class="widget col-6 col-sm-2 pl-2 pr-4">
+              <h4>Αντικείμενο Θέσης</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByPhysicalObject($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Όλες οι επιλογές</option>
+                <option *ngFor="let physicalObject of physicalObjects" value={{physicalObject.name}}>
+                  {{physicalObject.name}}
+                </option>
+              </select>
+            </div>
             <!-- Work Hours -->
-            <div class="widget col-2 pl-2 pr-2">
+            <!-- <div class="widget col-2 pl-2 pr-2">
               <h4>Ώρες Εργασίας</h4>
               <ul class="checkboxes">
                 <li>
@@ -112,45 +116,6 @@
                   <input id="check-3" type="checkbox" (click)="selectOneOption('check-3')" name="check-boxes"
                     value="parttime">
                   <label for="check-3">Part-Time</label>
-                </li>
-              </ul>
-            </div>
-            <!-- Job Type -->
-            <!-- <div class="widget col-2 pl-2 pr-2">
-              <h4>Τύπος Εργασίας</h4>
-              <ul class="checkboxes">
-                <li>
-                  <input id="check-6" type="checkbox" name="check" value="check-6" checked>
-                  <label for="check-6">Όλα</label>
-                </li>
-                <li>
-                  <input id="check-7" type="checkbox" name="check" value="check-7">
-                  <label for="check-7">Εξ' αποστάσεως <span>(231)</span></label>
-                </li>
-                <li>
-                  <input id="check-8" type="checkbox" name="check" value="check-8">
-                  <label for="check-8">Δια ζώσης <span>(297)</span></label>
-                </li>
-                <li>
-                  <input id="check-9" type="checkbox" name="check" value="check-9">
-                  <label for="check-9">Υβριδικό σύστημα <span>(78)</span></label>
-                </li>
-              </ul>
-            </div> -->
-            <!-- <div class="widget col-2 pl-2 pr-2">
-              <h4>Φορέας</h4>
-              <ul class="checkboxes">
-                <li>
-                  <input id="check-10" type="checkbox" name="check" value="check-10" checked>
-                  <label for="check-10">Όλα</label>
-                </li>
-                <li>
-                  <input id="check-11" type="checkbox" name="check" value="check-11">
-                  <label for="check-11">ΕΣΠΑ <span>(312)</span></label>
-                </li>
-                <li>
-                  <input id="check-12" type="checkbox" name="check" value="check-12">
-                  <label for="check-12">ΕΚΤΟΣ ΕΣΠΑ <span>(269)</span></label>
                 </li>
               </ul>
             </div> -->
@@ -170,7 +135,7 @@
     <form action="">
       <div class="container-fluid row">
         <input #searchInput type="search" class="interns-positions-search col-md-11 card" style="margin-top:3px;"
-          placeholder="Aναζήτηση..." name="search">
+          placeholder="Aναζήτηση (βάσει κωδικού θέσης ή περιγραφής)..." name="search">
         <button (click)="fetchGenericSearchPositions()" class="ml-0" class="col-md-1" type="submit"
           style="margin-top: 2px;"><i class=" fa fa-search"></i></button>
       </div>
@@ -200,7 +165,7 @@
                   <!-- <span><i class="fa fa-briefcase"></i> Full-time</span> -->
                   <span><i class="fa fa-map-marker"></i> {{entry.city}} </span>
                   <span><i class="far fa-building"></i>&nbsp;{{shortCompanyName[i]}}</span>
-                  <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{entry.duration}} μήνες</span>
+                  <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{entry.duration}} εβδομάδες</span>
                 </div>
               </div>
             </div>
@@ -221,7 +186,7 @@
     <h3 class="margin-bottom-18">Περιγραφή Θέσης</h3>
     <div class="clearfix"></div>
     <!-- Internship Description Container -->
-    <div id="job-description" class="showbiz-container">
+    <div id="job-description" class="showbiz-container" style="">
       <div class="">
         <div class="overflowholder">
           <ul>
@@ -241,7 +206,7 @@
                   {{this.positionType == null ? 'Πλήρες Ωράριο' : this.positionType}}</span>
                 <span><i class="fa fa-map-marker"></i> {{this.jobCity}}</span>
                 <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
-                <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} μήνες</span>
+                <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} εβδομάδες</span>
                 <span><i class="fa fa-business-time" aria-hidden="true"></i>{{this.jobAvailablePositions}}
                   {{this.jobAvailablePositions == 1 ? 'διαθέσιμη θέση' : 'διαθέσιμες θέσεις'}}
                 </span>

@@ -120,6 +120,12 @@ const convertStartEndDateToTimestamp = (dateParam) => {
   return timestamp;
 };
 
+const getWeeksFromMonths = (weeksStr) => {
+  let weeksNum = weeksStr.substring(6, weeksStr.length);
+  let weeks2months = (Number.parseInt(weeksNum) * 4).toString();
+  return weeks2months;
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -135,5 +141,6 @@ module.exports = {
   isMergedDepartment,
   getAEICodeFromDepartmentId,
   isArrayNotEmpty,
-  convertStartEndDateToTimestamp
+  convertStartEndDateToTimestamp,
+  getWeeksFromMonths
 };
