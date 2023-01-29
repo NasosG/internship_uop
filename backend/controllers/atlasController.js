@@ -759,10 +759,13 @@ const insertOrUpdateImmutableAtlasTables = async () => {
   }
 };
 
+
 const getPosition = (pair, atlasItem, academics) => {
   try {
+    let positionGroupLastUpdate = new Date(parseInt(pair.PositionGroupLastUpdate.substr(6)));
+
     return ({
-      'lastUpdateString': pair.PositionGroupLastUpdateString.replace("μμ", "pm").replace("πμ", "am"),
+      'lastUpdateString': positionGroupLastUpdate,
       'city': atlasItem.City,
       'title': atlasItem.Title,
       'description': atlasItem.Description,
@@ -775,9 +778,9 @@ const getPosition = (pair, atlasItem, academics) => {
       'atlasCityId': atlasItem.CityID,
       'atlasCountryId': atlasItem.CountryID,
       'atlasPrefectureId': atlasItem.PrefectureID,
-      'EndDate': atlasItem.EndDate,
+      'EndDate': MiscUtils.convertStartEndDateToTimestamp(atlasItem.EndDate),
       'EndDateString': atlasItem.EndDateString,
-      'StartDate': atlasItem.StartDate,
+      'StartDate': MiscUtils.convertStartEndDateToTimestamp(atlasItem.StartDate),
       'StartDateString': atlasItem.StartDateString,
       'academics': academics
     });
