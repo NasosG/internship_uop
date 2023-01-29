@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription, takeUntil } from 'rxjs';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
@@ -37,7 +37,12 @@ export class StudentComponent implements OnInit, OnDestroy {
 
   constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute,
     public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
-
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && window.matchMedia('(max-width: 991px)').matches) {
+         document.body.classList.add('sidebar-collapse');
+         document.body.classList.add('sidebar-closed');
+      }
+    });
     translate.addLangs(['en', 'gr']);
     translate.setDefaultLang('gr');
 
