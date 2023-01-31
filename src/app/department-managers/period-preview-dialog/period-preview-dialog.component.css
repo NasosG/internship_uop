@@ -1,0 +1,20 @@
+table {
+  text-align: center;
+}
+
+.mat-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 10px;
+}
+
+.mat-header-cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 10px;
+}

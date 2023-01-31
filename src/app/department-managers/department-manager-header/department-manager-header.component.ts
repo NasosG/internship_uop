@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
+import {PeriodPreviewDialogComponent} from '../period-preview-dialog/period-preview-dialog.component';
 import { Period } from '../period.model';
 
 @Component({
@@ -28,7 +30,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     "3. Δήλωση προτίμησης από τους φοιτητές",
     "4. Ολοκλήρωση - Επιλογή φοιτητών από φορείς"];
 
-  constructor(public depManagerService: DepManagerService, public authService: AuthService, private router: Router) { }
+  constructor(public depManagerService: DepManagerService, public authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
@@ -87,6 +89,18 @@ export class DepartmentManagerHeaderComponent implements OnInit {
             else location.reload();
         });
       }
+    });
+  }
+
+  openDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(PeriodPreviewDialogComponent, {
+      // width: '350px',
+      data: { periodData: this.periodData, index: idx }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 

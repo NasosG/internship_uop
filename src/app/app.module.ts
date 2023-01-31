@@ -35,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -101,6 +102,7 @@ import { SheetOutputOfficeEditDialogComponent } from './internship-office/sheet-
 import { NgxPrintModule } from 'ngx-print';
 import { DepartmentManagerLoginComponent } from './department-managers/department-manager-login/department-manager-login.component';
 import { StudentChooseDepartmentComponent } from './students/student-choose-department/student-choose-department.component';
+import { PeriodPreviewDialogComponent } from './department-managers/period-preview-dialog/period-preview-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -182,6 +184,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetOutputOfficeEditDialogComponent,
     DepartmentManagerLoginComponent,
     StudentChooseDepartmentComponent,
+    PeriodPreviewDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -201,6 +204,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatSelectModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatTableModule,
     DataTablesModule,
     HttpClientModule,
     FormsModule,

@@ -31,6 +31,10 @@
        <td>{{periodData?.positions}}</td>
        <td>{{periodData?.available_positions}} </td>
        <td class="action text-dark">
+         <a style="cursor:pointer" (click)="openDialog(periodData?.id)" class="text-dark"><i class="fa fa-eye"
+             aria-hidden="true"></i>
+           Προβολή</a><br>
+
          <a class="text-dark" [routerLink]="['/department-manager/edit-period/' + this.authService.getSessionId()]"><i
              class="fa fa-pencil-alt"></i>
            Επεξεργασία</a><br>

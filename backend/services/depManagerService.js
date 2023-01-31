@@ -488,6 +488,26 @@ const updateDepartmentIdByUserId = async (userId, departmentId) => {
   }
 };
 
+const getPhasesByPeriodId = async (periodId) => {
+  try {
+    const phases = await pool.query("SELECT phase_number, date_from, date_to FROM phase WHERE period_id = $1", [periodId]);
+    return phases.rows;
+  } catch (error) {
+    console.log('Error while getting phases ' + error.message);
+    throw Error('Error while getting phases ' + error.message);
+  }
+};
+
+const insertPhase = async (periodId, phase) => {
+  try {
+    const result = await pool.query("INSERT INTO phase (phase_number, period_id, date_from, date_to) VALUES ($1, $2, $3, $4)", [phase.phase_number, periodId, phase.date_from, phase.date_to]);
+    return result;
+  } catch (error) {
+    console.log('Error while inserting phase ' + error.message);
+    throw Error('Error while inserting phase ' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -511,5 +531,7 @@ module.exports = {
   getCompletedPeriods,
   getManagedAcademicsByUserId,
   updateDepartmentIdByUserId,
-  login
+  login,
+  getPhasesByPeriodId,
+  insertPhase
 };

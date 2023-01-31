@@ -9,6 +9,7 @@ import { ActiveApplication } from './active-application.model';
 import { environment } from "src/environments/environment";
 import { EntryForm } from '../students/entry-form.model';
 import { ExitForm } from '../students/exit-form.model';
+import {Phase} from './phase.model';
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
@@ -225,6 +226,10 @@ export class DepManagerService {
     const userId = this.authService.getSessionId();
     return this.http
       .patch<any>(DEPARTMENT_MANAGER_URL + "updateDepartmentIdByUserId/" + userId, { departmentId });
+  }
+
+  getPhases(periodId: number): Observable<Phase[]> {
+    return this.http.get<Phase[]>(`${DEPARTMENT_MANAGER_URL}/getPhasesByPeriodId/${periodId}`);
   }
 
 }

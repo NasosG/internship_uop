@@ -1,0 +1,25 @@
+ <h3>Στοιχεία περιόδου</h3>
+ <mat-dialog-content class="mat-typography">
+   <table mat-table [dataSource]="phases">
+     <ng-container matColumnDef="phase">
+       <th mat-header-cell *matHeaderCellDef>Φάση Περιόδου</th>
+       <td mat-cell *matCellDef="let element"> {{element.phase_number}} </td>
+     </ng-container>
+
+     <ng-container matColumnDef="dateFrom">
+       <th mat-header-cell *matHeaderCellDef>Έναρξη Φάσης</th>
+       <td mat-cell *matCellDef="let element"> {{element.date_from}} </td>
+     </ng-container>
+
+     <ng-container matColumnDef="dateTo">
+       <th mat-header-cell *matHeaderCellDef>Λήξη Φάσης</th>
+       <td mat-cell *matCellDef="let element"> {{element.date_to}} </td>
+     </ng-container>
+
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></tr>
+   </table>
+ </mat-dialog-content>
+ <mat-dialog-actions style='text-align: right'>
+   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+ </mat-dialog-actions>

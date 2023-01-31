@@ -356,6 +356,18 @@ const updateDepartmentIdByUserId = async (request, response) => {
   }
 };
 
+const getPhasesByPeriodId = async (request, response) => {
+  const periodId = request.params.id;
+  try {
+    const phases = await depManagerService.getPhasesByPeriodId(periodId);
+    response.status(200).json(phases);
+  } catch (error) {
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -378,5 +390,6 @@ module.exports = {
   getCompletedPeriods,
   getManagedAcademicsByUserId,
   updateDepartmentIdByUserId,
-  login
+  login,
+  getPhasesByPeriodId
 };
