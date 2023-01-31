@@ -151,6 +151,16 @@ const getPeriodByDepartmentId = async (id) => {
   }
 };
 
+const getPhaseStateByPeriodId = async (id) => {
+  try {
+    const period = await pool.query("SELECT phase_state FROM period WHERE id = $1 LIMIT 1", [id]);
+
+    return period.rows[0];
+  } catch (error) {
+    throw Error('Error while fetching phase state by period id' + error.message);
+  }
+};
+
 const getEspaPositionsByDepartmentId = async (id) => {
   try {
     const period = await pool.query("SELECT espa_positions.positions as positions \
@@ -218,9 +228,10 @@ const insertPeriod = async (body, id, departmentId) => {
     let pyear = body.date_from.split('-')[0];
     const insertResults = await pool.query("INSERT INTO period" +
       "(sso_user_id, available_positions, pyear, semester, phase_state, date_from, date_to, department_id, is_active, is_completed)" +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id",
       [id, body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, departmentId, true, false]);
-    return insertResults;
+
+    return insertResults.rows[0].id;
   } catch (error) {
     console.log('Error while inserting period time ' + error.message);
     throw Error('Error while inserting period time');
@@ -498,9 +509,9 @@ const getPhasesByPeriodId = async (periodId) => {
   }
 };
 
-const insertPhase = async (periodId, phase) => {
+const insertPhaseOfPeriod = async (periodId, phaseNumber, phase) => {
   try {
-    const result = await pool.query("INSERT INTO phase (phase_number, period_id, date_from, date_to) VALUES ($1, $2, $3, $4)", [phase.phase_number, periodId, phase.date_from, phase.date_to]);
+    const result = await pool.query("INSERT INTO phase (phase_number, period_id, date_from, date_to) VALUES ($1, $2, $3, $4)", [phaseNumber, periodId, phase.date_from, phase.date_to]);
     return result;
   } catch (error) {
     console.log('Error while inserting phase ' + error.message);
@@ -519,6 +530,7 @@ module.exports = {
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
   getEspaPositionsByDepartmentId,
+  getPhaseStateByPeriodId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,
@@ -533,5 +545,5 @@ module.exports = {
   updateDepartmentIdByUserId,
   login,
   getPhasesByPeriodId,
-  insertPhase
+  insertPhaseOfPeriod
 };

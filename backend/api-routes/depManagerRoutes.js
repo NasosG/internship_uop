@@ -25,11 +25,6 @@ router.get("/getStudentsWithSheetOutput/:department_id", depManagerController.ge
 router.get("/getCompletedPeriods/:id", depManagerController.getCompletedPeriods);
 router.get("/getManagedDepartmentsByUserId/:userId", depManagerController.getManagedAcademicsByUserId);
 router.patch("/updateDepartmentIdByUserId/:userId", depManagerController.updateDepartmentIdByUserId);
-router.get('/getPhasesByPeriodId/:periodId', depManagerController.getPhasesByPeriodId);
+router.get("/getPhasesByPeriodId/:periodId", depManagerController.getPhasesByPeriodId);
 
-function getPhasesFromDB(periodId) {
-  // Code to retrieve the phases from the database for the specified period
-  // ...
-  return phases;
-}
 module.exports = router;

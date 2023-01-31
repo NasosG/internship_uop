@@ -160,7 +160,10 @@ const insertPeriod = async (request, response, next) => {
     const id = request.query.depManagerId;
     const departmentId = request.query.departmentId;
     const period = request.body;
-    await depManagerService.insertPeriod(period, id, departmentId);
+    const PHASE_NUMBER = 1;
+
+    const periodId = await depManagerService.insertPeriod(period, id, departmentId);
+    await depManagerService.insertPhaseOfPeriod(periodId, PHASE_NUMBER, period);
 
     response
       .status(201)
@@ -169,7 +172,7 @@ const insertPeriod = async (request, response, next) => {
       });
   } catch (error) {
     console.error(error.message);
-    response.send({
+    response.status(400).send({
       message: error.message
     });
   }
@@ -199,6 +202,16 @@ const updatePeriodById = async (request, response, next) => {
   try {
     const id = request.params.id;
     const period = request.body;
+
+    // Fetch current phase_state from the database
+    const currentPhaseState = await depManagerService.getPhaseStateByPeriodId(id);
+
+    // Check if the current phase_state is different from the updated phase_state
+    if (parseInt(currentPhaseState.phase_state) < parseInt(period.phase_state)) {
+      // If different, insert the new phase_state into the phase table
+      await depManagerService.insertPhaseOfPeriod(id, parseInt(period.phase_state), period);
+    }
+
     await depManagerService.updatePeriodById(period, id);
 
     response
@@ -357,7 +370,7 @@ const updateDepartmentIdByUserId = async (request, response) => {
 };
 
 const getPhasesByPeriodId = async (request, response) => {
-  const periodId = request.params.id;
+  const periodId = request.params.periodId;
   try {
     const phases = await depManagerService.getPhasesByPeriodId(periodId);
     response.status(200).json(phases);

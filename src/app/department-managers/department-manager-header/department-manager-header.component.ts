@@ -92,11 +92,10 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     });
   }
 
-  openDialog(idx: any) {
-    console.log(idx);
+  openDialog(periodIdParam: any) {
     const dialogRef = this.dialog.open(PeriodPreviewDialogComponent, {
       // width: '350px',
-      data: { periodData: this.periodData, index: idx }
+      data: { periodId: periodIdParam }
     });
 
     dialogRef.afterClosed().subscribe(result => {

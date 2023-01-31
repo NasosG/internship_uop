@@ -228,8 +228,8 @@ export class DepManagerService {
       .patch<any>(DEPARTMENT_MANAGER_URL + "updateDepartmentIdByUserId/" + userId, { departmentId });
   }
 
-  getPhases(periodId: number): Observable<Phase[]> {
-    return this.http.get<Phase[]>(`${DEPARTMENT_MANAGER_URL}/getPhasesByPeriodId/${periodId}`);
+  getPhasesByPeriodId(periodId: number): Observable<Phase[]> {
+    return this.http.get<Phase[]>(DEPARTMENT_MANAGER_URL + "getPhasesByPeriodId/" + periodId);
   }
 
 }
