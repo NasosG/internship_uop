@@ -41,7 +41,7 @@ export class StudentHomeComponent implements OnInit {
             this.period = period;
             this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
             this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
-            const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
+            const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day') && moment(new Date()).isSameOrAfter(period.date_from, 'day');
 
             this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
             this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;

@@ -117,7 +117,8 @@ export class StudentComponent implements OnInit, OnDestroy {
                 this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
 
                 // May need to add locale
-                const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
+                //const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
+                const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day') && moment(new Date()).isSameOrAfter(period.date_from, 'day');
 
                 this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
                 this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
