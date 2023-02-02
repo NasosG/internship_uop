@@ -310,7 +310,7 @@ export class PracticeEnableComponent implements OnInit {
   onError() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
-      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx',
+      text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
@@ -342,10 +342,6 @@ export class PracticeEnableComponent implements OnInit {
       case 'jpeg':
       case 'pdf':
       case 'png':
-      case 'doc':
-      case 'docx':
-      case 'gif':
-      case 'webp':
         console.log('Allowed file format');
         break;
       default:

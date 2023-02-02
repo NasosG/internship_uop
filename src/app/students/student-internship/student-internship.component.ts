@@ -243,7 +243,7 @@ export class StudentInternshipComponent implements OnInit {
     this.jobDuration = this.entries[index].duration;
     this.jobAvailablePositions = this.entries[index].availablePositions;
     this.jobPhysicalObjects = this.entries[index].physicalObjects;
-    this.jobLastUpdateString = Utils.getPreferredTimestamp(this.entries[index].positionGroupLastUpdateString);
+    this.jobLastUpdateString = Utils.getAtlasPreferredTimestamp(this.entries[index].positionGroupLastUpdateString);
     this.jobInternalPositionId = this.entries[index].id;
   }
 

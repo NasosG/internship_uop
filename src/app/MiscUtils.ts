@@ -29,6 +29,16 @@ export abstract class Utils {
     return preferredTimestamp;
   }
 
+  public static getAtlasPreferredTimestamp(dateParam: string|number|Date): string {
+    let dateVal = new Date(dateParam);
+    let preferredTimestamp = dateVal.toLocaleDateString("el-GR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+    return preferredTimestamp;
+  }
+
   public static reformatDateOfBirth(dateOfBirth: string) {
     let startDate = dateOfBirth;
 
