@@ -23,7 +23,7 @@ const getAvailablePositionsUI = async (offset, limit) => {
   try {
     const results = await pool.query("SELECT *, g.id as g_position_id FROM atlas_position_group g "
       + " INNER JOIN atlas_provider p "
-      + " ON g.provider_id = p.atlas_provider_id "
+      + " ON g.provider_id = p.atlas_provider_id ORDER BY last_update_string DESC"
       + " OFFSET $1 LIMIT $2", [offset, limit]);
     return results.rows;
   } catch (error) {
@@ -165,6 +165,8 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     }
     // TODO NEXT FILTERS...
 
+    // fetch newest first by default
+    //queryStr += (!filters.publicationDate) ? " ORDER BY last_update_string DESC" : " ";
     queryStr += " OFFSET " + offset + " LIMIT " + limit;
 
     // console.log("\n" + queryStr + "  " + "\n");

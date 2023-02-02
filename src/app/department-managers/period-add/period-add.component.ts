@@ -93,7 +93,7 @@ export class PeriodAddComponent implements OnInit {
           .subscribe((periodData: any) => {
             this.periodData = periodData;
             console.log(this.periodData);
-            this.espaPositions = this.periodData.positions ? this.periodData.positions: 99;
+            this.espaPositions = this.periodData.positions ? this.periodData.positions: 0;
             this.availablePositions = 0; // In the beginning there are no available positions
           },
           (error: HttpErrorResponse) => {

@@ -319,7 +319,7 @@ const getAvailablePositionGroupsUI = async (request, response) => {
     const offset = (request.params.begin != null) ? request.params.begin : 0;
     const limit = 6; // Number of rows to fetch from the database
     // const results = await atlasService.getAvailablePositionsUI(offset, limit);
-    const results = await atlasService.getAvailablePositionsUIUnion(offset, limit);
+    const results = await atlasService.getAvailablePositionsUI(offset, limit);
     let positionsArray = [];
 
     for (const item of results) {
