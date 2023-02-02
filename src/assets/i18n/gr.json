@@ -112,7 +112,8 @@
     "PHASE-3": "3. Δήλωση προτίμησης από τους φοιτητές",
     "CALENDAR-HOME": "Ημερολόγιο",
     "MALE": "Φοιτητής",
-    "FEMALE": "Φοιτήτρια"
+    "FEMALE": "Φοιτήτρια",
+    "HEADER-INFO-AVAILABLE-POSITIONS": "Διαθέσιμες θέσεις Πρακτικής Άσκησης"
   },
   "DEPT-MANAGER": {
     "SHOW-RESULTS": "Επίδειξη",

@@ -113,7 +113,8 @@
     "PHASE-3": "3. Declaration of preference by students",
     "CALENDAR-HOME": "Calendar",
     "MALE": "Student",
-    "FEMALE": "Student"
+    "FEMALE": "Student",
+    "HEADER-INFO-AVAILABLE-POSITIONS": "Available Internship positions"
   },
   "DEPT-MANAGER": {
     "SHOW-RESULTS": "Show",
