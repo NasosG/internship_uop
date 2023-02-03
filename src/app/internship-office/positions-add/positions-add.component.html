@@ -24,8 +24,8 @@
 </p>
 <hr>
 
-<div *ngIf="periodData.semester == null" ngNativeValidate id="dep-manager-no-period" class="alert alert-danger"
-  role="alert">
+<div *ngIf="periodData.semester == null && departmentSelect.value != null" ngNativeValidate id="dep-manager-no-period"
+  class="alert alert-danger" role="alert">
   Δεν έχουν οριστεί περιόδοι από τον/την ΤΥ.
 </div>
 <h4 *ngIf="periodData.semester != null && departmentSelect.value != null">
@@ -54,16 +54,19 @@
     </tr>
   </tbody>
 </table><br>
-<div class="mb-2 mt-2">Οι θέσεις οι οποίες θα ορίσετε πρέπει να είναι ανά ακαδημαικό εξάμηνο/τρέχουσα περίοδο και βάσει
-  αυτών<br> θα
-  πραγματοποιηθεί η διαδικασία επιλογής των επιτυχόντων / επιλαχόντων.</div>
-<h4>Aνάρτηση θέσεων ΕΣΠΑ <br><strong>ανά Ακαδημαϊκό
-    Εξάμηνο</strong></h4>
-<div class="form-group row w-25 positions-add-div">
-  <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
-  <div class="col-sm-6">
-    <input type="number" min="0" #espaPositions name="available_positions" ngModel id="available_positions"
-      class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+<div *ngIf="departmentSelect.value != null">
+  <div class="mb-2 mt-2">Οι θέσεις οι οποίες θα ορίσετε πρέπει να είναι ανά ακαδημαικό εξάμηνο/τρέχουσα περίοδο και
+    βάσει
+    αυτών<br> θα
+    πραγματοποιηθεί η διαδικασία επιλογής των επιτυχόντων / επιλαχόντων.</div>
+  <h4>Aνάρτηση θέσεων ΕΣΠΑ <br><strong>ανά Ακαδημαϊκό
+      Εξάμηνο</strong></h4>
+  <div class="form-group row w-25 positions-add-div">
+    <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
+    <div class="col-sm-6">
+      <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="periodData.positions" id="positions"
+        class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+    </div>
+    <button class="btn btn-primary mt-2" (click)="submit()">Υποβολή</button>
   </div>
-  <button class="btn btn-primary mt-2" (click)="submit()">Υποβολή</button>
 </div>
