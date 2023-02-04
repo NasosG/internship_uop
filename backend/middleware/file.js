@@ -23,7 +23,7 @@ const storageIban = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    fsExtra.emptyDirSync(fileDir);
+    //fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
@@ -58,7 +58,7 @@ const storageSsn = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    fsExtra.emptyDirSync(fileDir);
+    //fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
@@ -93,7 +93,7 @@ const storageAmea = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    fsExtra.emptyDirSync(fileDir);
+    //fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
@@ -114,7 +114,7 @@ const storageAffidavit = multer.diskStorage({
 
     // remove all files before inserting the new one
     // in order to always keep the one last file student has posted
-    fsExtra.emptyDirSync(fileDir);
+    //fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
