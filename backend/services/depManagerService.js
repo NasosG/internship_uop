@@ -63,7 +63,18 @@ const getStudentsApplyPhase = async (deptId) => {
                                       ON mergerel.student_id = sso_users.uuid \
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
                                       AND sso_users.department_id = $1", [deptId]);
-    return students.rows;
+
+    const studentsWithFactorProcedureResult = await Promise.all(
+      students.rows.map(async student => {
+        const factorProcedureResult = await getStudentFactorProcedure(deptId, student.am);
+        return {
+          ...student,
+          ...factorProcedureResult
+        };
+      })
+    );
+
+    return studentsWithFactorProcedureResult;
   } catch (error) {
     throw Error('Error while fetching students from phase 1 for this department');
   }

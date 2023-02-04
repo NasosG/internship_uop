@@ -32,7 +32,7 @@
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
                 <h4 *ngIf="period != null">Τρέχουσα Περίοδος:
                   {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
-                <table id="example" #example class="table table-bordered table-striped">
+                <table id="example" #example class="table-responsive table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Επιλογή</th>
@@ -46,6 +46,7 @@
                       <th>Τμήμα</th>
                       <!-- <th>Αναβάθμιση πτυχίου</th> -->
                       <th>Έγγραφα</th>
+                      <th>Δήλωση μαθήματος ΠΑ</th>
                       <th class="text-center">Ενέργειες</th>
                     </tr>
                   </thead>
@@ -112,6 +113,7 @@
                           <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
                         </button>
                       </td>
+                      <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td class="action text-center">
                         <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                             class="fa fa-eye"></i> Προβολή<br></a>
@@ -132,6 +134,7 @@
                       <th>Τμήμα</th>
                       <!-- <th>Αναβάθμιση πτυχίου</th> -->
                       <th>Έγγραφα</th>
+                      <th>Δήλωση μαθήματος ΠΑ</th>
                       <th class="text-center">Ενέργειες</th>
                     </tr>
                   </tfoot>

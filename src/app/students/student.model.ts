@@ -45,6 +45,7 @@ export interface Student {
   Semester?: number;
   Ects?: number;
   Praktiki?: number;
+  CourseCount?: number;
   is_approved?: boolean;
   mail?: string;
   department?: string;
