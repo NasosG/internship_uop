@@ -64,9 +64,15 @@ const getStudentsApplyPhase = async (deptId) => {
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
                                       AND sso_users.department_id = $1", [deptId]);
 
+    let departmentFieldForProcedure = students.department_id;
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (students.department_id.toString().length == 6) {
+      departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(students.department_id);
+    }
+
     const studentsWithFactorProcedureResult = await Promise.all(
       students.rows.map(async student => {
-        const factorProcedureResult = await getStudentFactorProcedure(deptId, MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
+        const factorProcedureResult = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
         return {
           ...student,
           ...factorProcedureResult
