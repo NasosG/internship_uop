@@ -66,7 +66,7 @@ const getStudentsApplyPhase = async (deptId) => {
 
     const studentsWithFactorProcedureResult = await Promise.all(
       students.rows.map(async student => {
-        const factorProcedureResult = await getStudentFactorProcedure(deptId, student.am);
+        const factorProcedureResult = await getStudentFactorProcedure(deptId, MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
         return {
           ...student,
           ...factorProcedureResult
