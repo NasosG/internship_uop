@@ -64,9 +64,9 @@ const getStudentsApplyPhase = async (deptId) => {
                                       WHERE sso_users.edupersonprimaryaffiliation='student' \
                                       AND sso_users.department_id = $1", [deptId]);
 
-    let departmentFieldForProcedure = students.department_id;
+    let departmentFieldForProcedure = deptId;
     // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
-    if (students.department_id.toString().length == 6) {
+    if (deptId.toString().length == 6) {
       departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(students.department_id);
     }
 
