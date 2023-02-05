@@ -16,9 +16,9 @@ import { Period } from "../department-managers/period.model";
 import { Country } from "./country.model";
 import { PhysicalObject } from "./physical-object.model";
 import { environment } from "src/environments/environment";
-import {Assignment} from "../companies/assignment.model";
-import {ActiveApplicationsRanked} from "../companies/active-applications-ranked.model";
-import {AcceptedAssignmentsByCompany} from "./accepted-assignments-by-company";
+import { Assignment } from "../companies/assignment.model";
+import { ActiveApplicationsRanked } from "../companies/active-applications-ranked.model";
+import { AcceptedAssignmentsByCompany } from "./accepted-assignments-by-company";
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const ATLAS_URL = environment.apiUrl + "/atlas/";

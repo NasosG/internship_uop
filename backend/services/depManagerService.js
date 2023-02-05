@@ -67,7 +67,7 @@ const getStudentsApplyPhase = async (deptId) => {
     let departmentFieldForProcedure = deptId;
     // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
     if (deptId.toString().length == 6) {
-      departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(students.department_id);
+      departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(deptId);
     }
 
     const studentsWithFactorProcedureResult = await Promise.all(
@@ -118,6 +118,49 @@ const getRankedStudentsByDeptId = async (deptId, periodId) => {
   }
 };
 
+const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
+  try {
+    const students = await pool.query("SELECT students_approved_rank.*, sso_users.*, student_users.*, semester_interest_apps.protocol_number as latest_app_protocol_number \
+                                      FROM students_approved_rank \
+                                      INNER JOIN sso_users \
+                                      ON students_approved_rank.sso_uid = sso_users.uuid \
+                                      INNER JOIN student_users \
+                                      ON sso_users.uuid = student_users.sso_uid \
+                                      INNER JOIN semester_interest_apps ON student_id = student_users.sso_uid AND semester_interest_apps.period_id = $2 \
+                                      WHERE sso_users.department_id = $1 \
+                                      UNION \
+                                      SELECT students_approved_rank.*, sso_users.*, student_users.*, semester_interest_apps.protocol_number as latest_app_protocol_number \
+                                      FROM students_approved_rank \
+                                      RIGHT JOIN sso_users \
+                                      ON students_approved_rank.sso_uid = sso_users.uuid \
+                                      INNER JOIN student_users \
+                                      ON sso_users.uuid = student_users.sso_uid \
+                                      INNER JOIN semester_interest_apps ON student_id = student_users.sso_uid AND semester_interest_apps.period_id = $2 \
+                                      WHERE student_users.phase = -1 OR student_users.phase = 2 \
+                                      ORDER BY ranking", [deptId, periodId]);
+
+    let departmentFieldForProcedure = deptId;
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (deptId.toString().length == 6) {
+      departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(deptId);
+    }
+
+    const studentsWithFactorProcedureResult = await Promise.all(
+      students.rows.map(async student => {
+        const factorProcedureResult = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
+        return {
+          ...student,
+          ...factorProcedureResult
+        };
+      })
+    );
+
+    return studentsWithFactorProcedureResult;
+  } catch (error) {
+    throw Error('Error while fetching students list for this department ' + error.message);
+  }
+};
+
 const getStudentActiveApplications = async (deptId) => {
   try {
     const applications = await pool.query("SELECT * FROM active_applications \
@@ -148,7 +191,7 @@ const getPeriodByUserId = async (id) => {
 const getPeriodByDepartmentId = async (id) => {
   try {
     const period = await pool.query("SELECT id, sso_user_id, available_positions, pyear, semester, phase_state, \
-      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to, espa_positions.positions as positions \
+      to_char(\"date_from\", 'YYYY-MM-DD') as date_from, to_char(\"date_to\", 'YYYY-MM-DD') as date_to, espa_positions.positions as positions, period.department_id \
       FROM period \
       LEFT JOIN espa_positions ON espa_positions.department_id=period.department_id \
       WHERE period.department_id = $1 \
@@ -344,6 +387,15 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
   try {
     //console.log(mssql);
     // make sure that any items are correctly URL encoded in the connection string
+    // if (process.env.ENV == 'DEV') {
+    //   return {
+    //     Grade: 8.5,
+    //     Ects: Math.floor(Math.random() * (150 - 21)) + 20,
+    //     Semester: 2,
+    //     Praktiki: true,
+    //     CourseCount: 10
+    //   };
+    // }
     let mspool = await msql.connect(mssql);
 
     const result = await mspool.request()
@@ -548,6 +600,7 @@ module.exports = {
   getStudentsWithSheetOutput,
   getEspaPositionsByDepartmentId,
   getPhaseStateByPeriodId,
+  getRankdedStudentsListByDeptAndPeriodId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

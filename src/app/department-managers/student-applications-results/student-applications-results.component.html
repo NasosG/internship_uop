@@ -5,8 +5,13 @@
       <div class="col-12">
         <div class="card">
           <!-- <div class="card-header"> -->
-
           <div class="card-header p-2">
+            <div class="card-tools mr-1 p-1">
+              <button type="button" style="font-size:16px;" class="btn btn-secondary btn-sm daterange"
+                title="Date range">
+                <i class="far fa-envelope mr-1"></i>Παλιές Αιτήσεις
+              </button>
+            </div>
             <ul class="nav nav-pills">
               <li class="nav-item">
                 <a class="nav-link"
@@ -16,7 +21,7 @@
               <li class="nav-item">
                 <a class="nav-link active"
                   [routerLink]="['/department-manager/student-applications/results/' + authService.getSessionId()]"
-                  data-toggle="tab">Αποτελέσματα</a>
+                  data-toggle="tab">Αποτελέσματα Αιτήσεων</a>
               </li>
             </ul>
           </div>
@@ -25,6 +30,8 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane active" id="applications">
+                <h4 *ngIf="period != null">Τρέχουσα Περίοδος:
+                  {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
                 <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
                     style='font-size:24px'></i> Excel</button>
                 &nbsp;
@@ -32,35 +39,32 @@
                     style='font-size:24px'></i> Print</button>
                 <br><br>
                 <!-- <table id="example2" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="example2" #example2 class="table table-bordered table-striped">
+                <table id="example2" #example2 class="table-responsive table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Επιλογή</th>
                       <th>Ονοματεπώνυμο</th>
-                      <!-- <th>Πατρώνυμο</th> -->
                       <th>ΑΜ</th>
-                      <!-- <th>email</th> -->
+                      <th>Βαθμολογία (στα 100)</th>
                       <th>Υπηρετώ στο στρατό</th>
                       <th>AMEA κατηγορίας 5</th>
                       <th>Σύμβαση εργασίας</th>
                       <th>Έγγραφα</th>
+                      <th>Δήλωση μαθήματος ΠΑ</th>
                       <th class="text-center">Ενέργειες</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
                       <td>
-                        <p>
-                          {{student.phase == 2 ? 'Έγκριση' : 'Απόρριψη'}}</p>
-
-                        <!-- Insert Comment Button -->
-                        <!-- <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
-                            class="fas fa-edit"></i> Σχόλιο<br></a> -->
+                        <p [ngClass]="{'green-text': student.phase == 2 && student.is_approved, 'yellow-text': student.phase == 2
+                          && !student.is_approved , 'red-text': student.phase == -1 }">
+                          {{student.phase == 2 ? student.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'}}
+                        </p>
                       </td>
                       <td>{{student.givenname}} {{student.sn}}</td>
-                      <!-- <td>{{student.father_name}}</td> -->
                       <td>{{student.schacpersonaluniquecode}}</td>
-                      <!-- <td>{{student.id}}.uop.gr</td> -->
+                      <td>{{student.score}}</td>
                       <td [ngClass]="student.military_training == true ? 'text-danger' : 'text-dark'">
                         {{student.military_training == true ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td [ngClass]="student.amea_cat == true ? 'text-danger' : 'text-dark'">
@@ -85,6 +89,7 @@
                           <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
                         </button>
                       </td>
+                      <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td class="action text-center">
                         <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                             class="fa fa-eye"></i> Προβολή<br></a>
@@ -96,13 +101,13 @@
                     <tr>
                       <th>Επιλογή</th>
                       <th>Ονοματεπώνυμο</th>
-                      <!-- <th>Πατρώνυμο</th> -->
                       <th>ΑΜ</th>
-                      <!-- <th>email</th> -->
+                      <th>Βαθμολογία (στα 100)</th>
                       <th>Υπηρετώ στο στρατό</th>
                       <th>AMEA κατηγορίας 5</th>
                       <th>Σύμβαση εργασίας</th>
                       <th>Έγγραφα</th>
+                      <th>Δήλωση μαθήματος ΠΑ</th>
                       <th class="text-center">Ενέργειες</th>
                     </tr>
                   </tfoot>

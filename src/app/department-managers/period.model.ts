@@ -10,4 +10,5 @@ export interface Period {
   is_active: boolean;
   positions: number;
   is_completed?: boolean;
+  department_id?: number;
 }

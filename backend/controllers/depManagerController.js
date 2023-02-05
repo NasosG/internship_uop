@@ -95,7 +95,7 @@ const getRankedStudentsByDeptId = async (request, response) => {
   try {
     const deptId = request.query.departmentId;
     const periodId = request.query.periodId;
-    console.log(periodId);
+
     const users = await depManagerService.getRankedStudentsByDeptId(deptId, periodId);
     response.status(200).json(users);
   } catch (error) {
@@ -381,6 +381,20 @@ const getPhasesByPeriodId = async (request, response) => {
   }
 };
 
+const getRankdedStudentsListByDeptAndPeriodId = async (request, response) => {
+  try {
+    const deptId = request.query.departmentId;
+    const periodId = request.query.periodId;
+
+    const rankedStudents = await depManagerService.getRankdedStudentsListByDeptAndPeriodId(deptId, periodId);
+    response.status(200).json(rankedStudents);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -404,5 +418,6 @@ module.exports = {
   getManagedAcademicsByUserId,
   updateDepartmentIdByUserId,
   login,
-  getPhasesByPeriodId
+  getPhasesByPeriodId,
+  getRankdedStudentsListByDeptAndPeriodId
 };

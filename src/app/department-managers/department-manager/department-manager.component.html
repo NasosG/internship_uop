@@ -397,7 +397,8 @@
         </app-students-approved>
         <app-about *ngIf="isAboutRoute()"></app-about>
         <app-manuals *ngIf="isManualsRoute()"></app-manuals>
-        <app-student-applications-results *ngIf="isStudentsApplicationsResults()"></app-student-applications-results>
+        <app-student-applications-results [period]="period" *ngIf="isStudentsApplicationsResults()">
+        </app-student-applications-results>
         <app-sheet-input-deptmanager *ngIf="isSheetInputRoute()"></app-sheet-input-deptmanager>
         <app-sheet-output-deptmanager *ngIf="isSheetOutputRoute()"></app-sheet-output-deptmanager>
       </div>

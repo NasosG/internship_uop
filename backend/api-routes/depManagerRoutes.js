@@ -8,6 +8,7 @@ router.get("/getPeriodByUserId/:id", depManagerController.getPeriodByUserId);
 router.get("/getPeriodByDepartmentId/:id", depManagerController.getPeriodByDepartmentId);
 router.get("/getStudentsApplyPhase/:id", depManagerController.getStudentsApplyPhase);
 router.get("/getRankedStudentsByDeptId/", depManagerController.getRankedStudentsByDeptId);
+router.get("/getStudentsRankingList/", depManagerController.getRankdedStudentsListByDeptAndPeriodId);
 router.get("/getStudentActiveApplications/:id", depManagerController.getStudentActiveApplications);
 router.get("/getEspaPositionsByDepartmentId/:id", depManagerController.getEspaPositionsByDepartmentId);;
 router.post("/insertPeriod/", depManagerController.insertPeriod);

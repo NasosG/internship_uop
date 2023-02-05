@@ -1,0 +1,11 @@
+.green-text {
+  color: green !important;
+}
+
+.red-text {
+  color: rgba(168, 14, 14, 0.8) !important;
+}
+
+.yellow-text {
+  color: rgb(122, 122, 2) !important;
+}

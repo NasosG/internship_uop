@@ -10,6 +10,7 @@ import { DepManagerService } from '../dep-manager.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-applications',
@@ -19,14 +20,14 @@ import { Period } from '../period.model';
 export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('example') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
+  @ViewChild('btnRunAlgorithm') btnRunAlgorithm!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
-  // dataSource = ELEMENT_DATA;
   selected = '';
   ngSelect = "";
   @Input() period: Period|undefined;
-
   hasMadeComment: any = [];
+  btnDisabled: boolean = false;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -35,6 +36,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
+
+        const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
+        this.btnDisabled = studentWithPhaseZero !== undefined;
+
         this.studentsData = students;
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
@@ -86,6 +91,37 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  redirectToResults() {
+    if (!this.period?.phase_state) return;
+    if (this.period?.phase_state <= 1) {
+      Swal.fire({
+        title: 'Έλεγχος αποτελεσμάτων',
+        text: 'Δεν μπορείτε να βγάλετε αποτελέσματα όσο βρίσκεστε στη φάση αιτήσεων'
+      });
+      return;
+    }
+
+    if (this.btnDisabled) {
+      Swal.fire({
+        title: 'Έλεγχος αποτελεσμάτων',
+        text: 'Η κατάσταση κάποιων αιτήσεων είναι "Προς Επιλογή". Παρακαλούμε επεξεργαστείτε όλες τις αιτήσεις πριν βγάλετε αποτελέσματα'
+      });
+      return;
+    }
+
+    if (!this.period.department_id) return;
+    this.depManagerService.insertApprovedStudentsRank(this.period.department_id, this.period.phase_state, this.period.id);
+  }
+
+  runAlgorithm() {
+    if (!this.period?.phase_state) return;
+    if (this.period?.phase_state > 1) {
+      if (!this.period.department_id) return;
+      this.depManagerService.insertApprovedStudentsRank(this.period.department_id, this.period.phase_state, this.period.id);
+    }
+    return false;
+  }
+
   checkStudentHasComment(studentSSOUid: number): boolean {
     const studentComment =  this.hasMadeComment.find((comment: {studentId: number; hasComment: boolean}) => comment.studentId === studentSSOUid);
     return (studentComment && studentComment.hasComment);
@@ -122,6 +158,12 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
     console.log("phase: " + phase + " stId: " + (studentId));
     this.depManagerService.updatePhaseByStudentId(phase, studentId);
+
+    this.depManagerService.getStudentsApplyPhase().subscribe((students: Student[]) => {
+      const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
+      this.btnDisabled = studentWithPhaseZero !== undefined;
+    });
+
     // this.onSavePeriodAlert();
   }
 

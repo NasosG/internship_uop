@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
@@ -9,6 +9,7 @@ import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialo
 import { DepManagerService } from '../dep-manager.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import {AuthService} from 'src/app/auth/auth.service';
+import {Period} from '../period.model';
 
 @Component({
   selector: 'app-student-applications-results',
@@ -21,21 +22,21 @@ export class StudentApplicationsResultsComponent implements OnInit {
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
-  // dataSource = ELEMENT_DATA;
   selected = '';
   ngSelect = "";
+  @Input() period: Period|undefined;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
-    this.depManagerService.getStudentsApplyPhase()
+    this.depManagerService.getStudentsRankingList()
       .subscribe((students: Student[]) => {
         this.studentsData = students;
 
         // filter students and let only the ones that have phase field equal to -1 or 2
-        this.studentsData = this.studentsData.filter(student => student.phase == -1 || student.phase == 2);
+        //this.studentsData = this.studentsData.filter(student => student.phase == -1 || student.phase == 2);
 
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
@@ -54,14 +55,14 @@ export class StudentApplicationsResultsComponent implements OnInit {
           lengthChange: true,
           paging: true,
           searching: true,
-          ordering: true,
+          ordering: false,
           info: true,
           autoWidth: false,
           responsive: true,
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [6, 7] }],
+          columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
           language: {
             // lengthMenu: 'Show _MENU_ entries'
             // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
@@ -102,16 +103,22 @@ export class StudentApplicationsResultsComponent implements OnInit {
     let studentsDataJson: any = [];
     for (const item of this.studentsData) {
       studentsDataJson.push({
+        "Κατάταξη": item.ranking,
+        "Αποτελέσματα": (item.phase == 2 ? item.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'),
+        "Βαθμολογία": item.score,
         "Α.Π.": item.latest_app_protocol_number,
+        "ΑΜ": item.schacpersonaluniquecode,
         "Επώνυμο": item.sn,
         "Όνομα": item.givenname,
         "Πατρώνυμο": item.father_name,
         "Μητρώνυμο": item.mother_name,
         "Επώνυμο πατέρα": item.father_last_name,
         "Επώνυμο μητέρας": item.mother_last_name,
+        "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
+        "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
+        "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.schacdateofbirth),
         "Έτος γέννησης": item.schacyearofbirth,
-        "ΑΜ": item.schacpersonaluniquecode,
         "Φύλο": item.schacgender == 1 ? 'Άνδρας' : 'Γυναίκα',
         "Τηλέφωνο": item.phone,
         "Πόλη": item.city,
@@ -122,20 +129,15 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "ΑΦΜ": item.ssn,
         "AMKA": item.user_ssn,
         "ΔΟΥ": item.doy,
-        "IBAN": item.iban,
-        "Εκπαίδευση": item.education,
-        "Άλλη εκπαίδευση": item.other_edu,
-        "Γνώσεις Η/Υ": item.computer_skills,
-        "skills": item.skills,
-        "honors": item.honors,
-        "Εμπειρία": item.experience,
-        "Γλώσσες": item.languages,
-        "Ενδιαφέροντα": item.interests,
-        "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "Αποτελέσματα": (item.phase == 2 ? 'Απόρριψη' : item.phase == 1 ? 'Προς επιλογή' : 'Έγκριση')
-        // "edupersonorgdn": item.edupersonorgdn,
+        "IBAN": item.iban
+        // "Εκπαίδευση": item.education,
+        // "Άλλη εκπαίδευση": item.other_edu,
+        // "Γνώσεις Η/Υ": item.computer_skills,
+        // "skills": item.skills,
+        // "honors": item.honors,
+        // "Εμπειρία": item.experience,
+        // "Γλώσσες": item.languages,
+        // "Ενδιαφέροντα": item.interests
       });
     }
 

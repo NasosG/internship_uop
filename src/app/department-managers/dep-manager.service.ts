@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { mergeMap, Observable, Subject } from "rxjs";
+import { mergeMap, Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
@@ -60,8 +60,6 @@ export class DepManagerService {
     this.fetchedPeriodObservable = fetchedPeriod;
     this.fetchedPeriodObservable.subscribe((periods: Period) => {
       this.period = periods;
-      console.log("point 1");
-      console.log(this.period);
     });
     return fetchedPeriod;
   }
@@ -94,6 +92,28 @@ export class DepManagerService {
       .set('periodId', periodId);
 
     const fetchedStudent = this.http.get<Student[]>(DEPARTMENT_MANAGER_URL + "getRankedStudentsByDeptId/", { params });
+
+    return fetchedStudent;
+  }
+
+  getStudentsRankingList(): Observable<Student[]> {
+    const fetchedStudents = this.getDepManager()
+      .pipe(
+        mergeMap(depManager => this.getPeriodByDepartmentId(depManager.department_id)),
+        mergeMap(result => this.getStudentsRankingListFromAPI(result?.department_id, result?.id))
+      );
+
+    return fetchedStudents;
+  }
+
+  getStudentsRankingListFromAPI(departmentId?: number, periodId?: number): Observable<Student[]> {
+    if (!periodId || !departmentId) return of();
+
+    const params = new HttpParams()
+      .set('departmentId', departmentId)
+      .set('periodId', periodId);
+
+    const fetchedStudent = this.http.get<Student[]>(DEPARTMENT_MANAGER_URL + "getStudentsRankingList/", { params });
 
     return fetchedStudent;
   }
