@@ -32,7 +32,8 @@
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
                 <h4 *ngIf="period != null">Τρέχουσα Περίοδος:
                   {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
-                <table id="example" #example class="table-responsive table-bordered table-striped">
+                <table id="example" #example [ngClass]="screenWidth < 1692 ? 'table-responsive table-bordered table-striped'
+                    : 'table table-bordered table-striped'">
                   <thead>
                     <tr>
                       <th>Επιλογή</th>

@@ -11,6 +11,7 @@ import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.comp
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
 import Swal from 'sweetalert2';
+import {fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-student-applications',
@@ -28,12 +29,20 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   @Input() period: Period|undefined;
   hasMadeComment: any = [];
   btnDisabled: boolean = false;
+  screenWidth: number = 1800;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
+    // for the responsive table
+    this.screenWidth = window.innerWidth;
+    fromEvent(window, 'resize')
+      .subscribe(() => {
+        this.screenWidth = window.innerWidth;
+      });
+
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
 
