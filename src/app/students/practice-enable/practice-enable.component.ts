@@ -183,6 +183,7 @@ export class PracticeEnableComponent implements OnInit {
       location: this.contactFormGroup.get('locationCtrl')?.value,
       city: this.contactFormGroup.get('cityCtrl')?.value,
       post_address: this.contactFormGroup.get('postalCodeCtrl')?.value,
+      mail: this.contactFormGroup.get('emailCtrl')?.value,
       country: 'gr'
     };
     const specialDetails: any = {

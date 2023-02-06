@@ -782,8 +782,8 @@ const insertOrUpdateStudentInterestApp = async (studentId, body, oldAppId = "", 
       const protocolNumber = oldAppId + '/' + date;
 
       // update the data into the table
-      await pool.query("UPDATE semester_interest_apps SET interest_app_date = $1, protocol_number = $2 WHERE student_id = $3",
-        [applicationDate, protocolNumber, studentId]);
+      await pool.query("UPDATE semester_interest_apps SET interest_app_date = $1, protocol_number = $2 WHERE interest_app_id = $3",
+        [applicationDate, protocolNumber, oldAppId]);
 
       console.log('Data updated successfully');
       return;
