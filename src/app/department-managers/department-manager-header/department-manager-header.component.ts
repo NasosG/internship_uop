@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import {PeriodPreviewDialogComponent} from '../period-preview-dialog/period-preview-dialog.component';
+import { PeriodPreviewDialogComponent } from '../period-preview-dialog/period-preview-dialog.component';
 import { Period } from '../period.model';
 
 @Component({
