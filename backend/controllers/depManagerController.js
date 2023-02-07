@@ -208,8 +208,16 @@ const updatePeriodById = async (request, response, next) => {
 
     // Check if the current phase_state is different from the updated phase_state
     if (parseInt(currentPhaseState.phase_state) < parseInt(period.phase_state)) {
-      // If different, insert the new phase_state into the phase table
-      await depManagerService.insertPhaseOfPeriod(id, parseInt(period.phase_state), period);
+      // If different, insert the new phase_state into the phase table if not already exist; else update the phase_state
+      const phaseData = await depManagerService.getPhaseOfPeriod(id, period.phase_state);
+      if (phaseData) {
+        await depManagerService.updatePhaseOfPeriod(id, parseInt(period.phase_state), period);
+      } else {
+        await depManagerService.insertPhaseOfPeriod(id, parseInt(period.phase_state), period);
+      }
+    } else {
+      // If not different, update the period
+      await depManagerService.updatePhaseOfPeriod(id, parseInt(period.phase_state), period);
     }
 
     await depManagerService.updatePeriodById(period, id);

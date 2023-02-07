@@ -317,9 +317,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
 
       const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(students.schacpersonaluniquecode));
       // console.log(procedureResults.Grade + " | " + MiscUtils.departmentsMap[departmentId] + " | " + MiscUtils.splitStudentsAM(students.schacpersonaluniquecode) + " | " + students.department_id);
-      // const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[students.department_id], splitStudentsAM(students.schacpersonaluniquecode));
 
-      // console.log(procedureResults.Grade + " | " + MiscUtils.departmentsMap[students.department_id]);
       let calculatedScore = 0;
       if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
         console.error("some student details fetched from procedure were null");
@@ -570,7 +568,7 @@ const updateDepartmentIdByUserId = async (userId, departmentId) => {
 
 const getPhasesByPeriodId = async (periodId) => {
   try {
-    const phases = await pool.query("SELECT phase_number, date_from, date_to FROM phase WHERE period_id = $1", [periodId]);
+    const phases = await pool.query("SELECT phase_number, date_from, date_to FROM phase WHERE period_id = $1 ORDER BY phase_number", [periodId]);
     return phases.rows;
   } catch (error) {
     console.log('Error while getting phases ' + error.message);
@@ -585,6 +583,26 @@ const insertPhaseOfPeriod = async (periodId, phaseNumber, phase) => {
   } catch (error) {
     console.log('Error while inserting phase ' + error.message);
     throw Error('Error while inserting phase ' + error.message);
+  }
+};
+
+const updatePhaseOfPeriod = async (periodId, phaseNumber, phase) => {
+  try {
+    const result = await pool.query("UPDATE phase SET date_from = $1, date_to = $2 WHERE period_id = $3 and phase_number=$4", [phase.date_from, phase.date_to, periodId, phaseNumber]);
+    return result;
+  } catch (error) {
+    console.log('Error while updating phase ' + error.message);
+    throw Error('Error while updating phase ' + error.message);
+  }
+};
+
+const getPhaseOfPeriod = async (periodId, phase_state) => {
+  try {
+    const phase = await pool.query("SELECT * FROM phase WHERE period_id=$1 AND phase_number = $2", [periodId, phase_state]);
+    return phase.rows[0];
+  } catch (error) {
+    console.log('Error while getting phase ' + error.message);
+    throw Error('Error while getting phase ' + error.message);
   }
 };
 
@@ -615,5 +633,7 @@ module.exports = {
   updateDepartmentIdByUserId,
   login,
   getPhasesByPeriodId,
-  insertPhaseOfPeriod
+  insertPhaseOfPeriod,
+  getPhaseOfPeriod,
+  updatePhaseOfPeriod
 };
