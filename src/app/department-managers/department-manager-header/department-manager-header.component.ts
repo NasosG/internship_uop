@@ -25,10 +25,9 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   dateTo: string = "";
 
   phaseArray = ["no-state",
-    "1. Φάση ελέγχου επιλεξιμότητας.",
-    "2. Φάση επιλογής φοιτητών",
-    "3. Δήλωση προτίμησης από τους φοιτητές",
-    "4. Ολοκλήρωση - Επιλογή φοιτητών από φορείς"];
+    "1. Αιτήσεις ενδιαφέροντος φοιτητών",
+    "2. Επιλογή θέσεων από φοιτητές",
+    "3. Ολοκλήρωση - Επιλογή φοιτητών από φορείς"];
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private router: Router, public dialog: MatDialog) { }
 

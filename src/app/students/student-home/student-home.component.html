@@ -67,8 +67,17 @@
 <div class="row">
   <!-- Left col -->
   <section class="col-lg-9 connectedSortable">
-    <div *ngIf="this.period?.is_active" class="alert alert-success" role="alert">
+    <div *ngIf="this.period?.is_active && !isResultsPhase" class="alert alert-success" role="alert">
       {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | Εκτός ΕΣΠΑ: {{period?.available_positions}} - ΕΣΠΑ:
+      {{period?.positions}}<br>
+      {{'STUDENT.INTERSNHIP-DECLARATION-PERIOD'| translate}}
+      {{phaseArray[period?.phase_state!] | translate}}: {{dateFrom}}
+      {{'STUDENT.PERIOD-TO'| translate}}
+      {{dateTo}}.
+    </div>
+    <div *ngIf="this.period?.is_active && isResultsPhase" class="alert alert-success" role="alert">
+      {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | Εκτός ΕΣΠΑ: {{period?.available_positions}} -
+      ΕΣΠΑ:
       {{period?.positions}}<br>
       {{'STUDENT.INTERSNHIP-DECLARATION-PERIOD'| translate}}
       {{phaseArray[period?.phase_state!] | translate}}: {{dateFrom}}
