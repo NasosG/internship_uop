@@ -271,7 +271,8 @@ const updateStudentContact = async (student, id) => {
      SET " + "phone = $1, address = $2, location = $3, city = $4, post_address = $5, country = $6 WHERE sso_uid = $7",
       [student.phone, student.address, student.location, student.city, student.post_address, student.country, id]);
 
-    updateResults = await pool.query("UPDATE sso_users SET mail = $1 WHERE uuid = $2", [student.mail, id]);
+    if (student.mail)
+      updateResults = await pool.query("UPDATE sso_users SET mail = $1 WHERE uuid = $2", [student.mail, id]);
 
     return updateResults;
   } catch (error) {

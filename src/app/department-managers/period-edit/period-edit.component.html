@@ -14,7 +14,7 @@
 
     <div class="card-body">
       <div class="tab-content p-0">
-        <div class="chart tab-pane active" style="min-height:465px" id="revenue-chart">
+        <div class="chart tab-pane active" style="min-height:430px" id="revenue-chart">
           <h5 class="font-weight-normal pt-2 pb-2">Στοιχεία περιόδου</h5>
           <form ngNativeValidate #periodEditForm="ngForm" (ngSubmit)="onSubmitPeriodEditForm(periodEditForm.value)">
             <div class="form-group row">
@@ -30,12 +30,26 @@
               </div>
             </div>
             <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Φάση Περιόδου</label>
+              <div class="btn-group dropup col-sm-10">
+                <select class="custom-select" name="phase_state" [(ngModel)]="periodData.phase_state" id="phase_state"
+                  required>
+                  <option value="1">1. Φάση ελέγχου επιλεξιμότητας</option>
+                  <option value="2">2. Φάση επιλογής φοιτητών</option>
+                  <option value="3">3. Δήλωση προτίμησης από τους φοιτητές</option>
+                  <option value="4">4. Ολοκλήρωση - Επιλογή φοιτητών από φορείς</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
               <div class="col-sm-10">
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c3="ngModel"
-                    ngModel [(ngModel)]="periodData.date_from" ngbDatepicker #datepicker3="ngbDatepicker" required />
-                  <button class="btn btn-outline-secondary" (click)="datepicker3.toggle()" type="button">
+                    ngModel [(ngModel)]="periodData.date_from" ngbDatepicker #datepicker3="ngbDatepicker"
+                    [placement]="'left'" [positionTarget]="buttonDateFrom" required />
+                  <button class="btn btn-outline-secondary" #buttonDateFrom (click)="datepicker3.toggle()"
+                    type="button">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -46,8 +60,9 @@
               <div class="col-sm-10">
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c4="ngModel" ngModel
-                    [(ngModel)]="periodData.date_to" ngbDatepicker #datepicker4="ngbDatepicker" required />
-                  <button class="btn btn-outline-secondary" (click)="datepicker4.toggle()" type="button">
+                    [(ngModel)]="periodData.date_to" ngbDatepicker #datepicker4="ngbDatepicker" [placement]="'left'"
+                    [positionTarget]="buttonDateTo" required />
+                  <button class="btn btn-outline-secondary" #buttonDateTo (click)="datepicker4.toggle()" type="button">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
                 </div>
@@ -66,19 +81,6 @@
                 <input type="number" name="available_positions" ngModel #availablePositionsItem id="available_positions"
                   class="form-control" [(ngModel)]="periodData.available_positions" placeholder="Αριθμός θέσεων"
                   (input)="validateInputNumber(availablePositionsItem)" maxLength="5" required>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Φάση Περιόδου</label>
-              <div class="btn-group dropup col-sm-10">
-                <select class="custom-select" name="phase_state" [(ngModel)]="periodData.phase_state" id="phase_state"
-                  required>
-                  <option value="1">1. Φάση ελέγχου επιλεξιμότητας.</option>
-                  <option value="2">2. Φάση επιλογής φοιτητών</option>
-                  <option value="3">3. Δήλωση προτίμησης από τους φοιτητές</option>
-                  <option value="4">4. Ολοκλήρωση - Επιλογή φοιτητών από φορείς</option>
-                </select>
               </div>
             </div>
             <a (click)="back()" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i>
