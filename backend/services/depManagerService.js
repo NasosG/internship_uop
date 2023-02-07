@@ -588,7 +588,7 @@ const insertPhaseOfPeriod = async (periodId, phaseNumber, phase) => {
 
 const updatePhaseOfPeriod = async (periodId, phaseNumber, phase) => {
   try {
-    const result = await pool.query("UPDATE phase SET date_from = $1, date_to = $2 WHERE period_id = $3 and phase_number=$4", [phase.date_from, phase.date_to, periodId, phaseNumber]);
+    const result = await pool.query("UPDATE phase SET date_from = $1, date_to = $2 WHERE period_id = $3 and phase_number = $4", [phase.date_from, phase.date_to, periodId, phaseNumber]);
     return result;
   } catch (error) {
     console.log('Error while updating phase ' + error.message);
@@ -598,7 +598,7 @@ const updatePhaseOfPeriod = async (periodId, phaseNumber, phase) => {
 
 const getPhaseOfPeriod = async (periodId, phase_state) => {
   try {
-    const phase = await pool.query("SELECT * FROM phase WHERE period_id=$1 AND phase_number = $2", [periodId, phase_state]);
+    const phase = await pool.query("SELECT * FROM phase WHERE period_id = $1 AND phase_number = $2", [periodId, phase_state]);
     return phase.rows[0];
   } catch (error) {
     console.log('Error while getting phase ' + error.message);
