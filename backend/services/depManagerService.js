@@ -24,7 +24,7 @@ const getDepManagerById = async (id) => {
                                   WHERE users_roles.user_role = 'department-manager' \
                                   AND uuid=$1", [id]);
     const finalDepManagerResults = resultsSSOUsers.rows[0];
-    const departmentNumber = finalDepManagerResults.department_id;//splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
+    const departmentNumber = finalDepManagerResults.department_id;
     const departmentDetails = await getDepartmentNameByNumber(departmentNumber);
     const department = {
       "department": departmentDetails.rows[0].department
@@ -403,7 +403,6 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
     //console.log(result.recordset[0]);
     return result.recordset[0];
   } catch (error) {
-    // error checks
     console.log("error: " + error);
   }
 };
