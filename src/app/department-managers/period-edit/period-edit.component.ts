@@ -71,6 +71,10 @@ export class PeriodEditComponent implements OnInit {
   public ngSelect: String = "";
   public ngSelectPhase: String = "";
   @ViewChild('selectPhase') selectPhase!: any;
+  phaseBe4Update!: number;
+  dateToBe4Update!: Date;
+  initialPeriodData!: Period;
+  @ViewChild('datepicker4') selectDateTo!: any;
 
   constructor(public depManagerService: DepManagerService, private location: Location, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
@@ -83,6 +87,9 @@ export class PeriodEditComponent implements OnInit {
         this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
           .subscribe((periodData: Period) => {
              this.periodData = periodData;
+             this.phaseBe4Update = this.periodData.phase_state;
+             this.dateToBe4Update = this.periodData?.date_to;
+             this.initialPeriodData = this.periodData;
         });
       });
   }
@@ -95,29 +102,31 @@ export class PeriodEditComponent implements OnInit {
   }
 
   onSubmitPeriodEditForm(formData: FormData) {
-    // console.log(this.periodData.phase_state);
-    // if (parseInt(this.selectPhase.nativeElement.value) > 1) {
-    //   if (this.periodData.phase_state <= 2 && this.periodHasNotEnded()) {
-    //     Swal.fire({
-    //       title: 'Επεξεργασία Περιόδου',
-    //       text: 'Δεν μπορείτε να αλλάξετε την φάση της περιόδου, εφόσον η προηγούμενη φάση δεν έχει λήξει',
-    //       icon: 'warning',
-    //       showCancelButton: false,
-    //       confirmButtonColor: '#3085d6',
-    //       cancelButtonColor: '#d33',
-    //       confirmButtonText: 'ΟΚ'
-    //     });
+    console.log(this.phaseBe4Update);
+    console.log(this.periodHasNotEnded());
+    if (this.phaseBe4Update < parseInt(this.selectPhase.nativeElement.value)) {
+      if (this.phaseBe4Update == 1 && this.periodHasNotEnded()) {
+        Swal.fire({
+          title: 'Επεξεργασία Περιόδου',
+          text: 'Δεν μπορείτε να αλλάξετε την φάση της περιόδου, εφόσον η προηγούμενη φάση δεν έχει λήξει',
+          icon: 'warning',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        });
 
-    //     this.selectPhase.nativeElement.value = 1;
-    //     return;
-    //   }
-    // }
+        // this.selectPhase.nativeElement.value = 1;
+        // this.periodData.phase_state = 1;
+        return;
+      }
+    }
     this.depManagerService.updatePeriodById(formData, this.periodData.id);
     this.onSavePeriodAlert();
   }
 
   periodHasNotEnded():boolean {
-    return moment(new Date()).isSameOrBefore(this.periodData?.date_to, 'day');
+    return moment(new Date()).isSameOrBefore(this.dateToBe4Update, 'day');
   }
 
   insertPhase2StudentsRank() {

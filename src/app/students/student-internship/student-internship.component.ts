@@ -47,8 +47,8 @@ export class StudentInternshipComponent implements OnInit {
 
   canStudentSubmitApp!: boolean;
   private INTEREST_EXPRESSION_PHASE: number = 1;
-  private STUDENT_SELECTION_PHASE: number = 2;
-  private PREFERENCE_DECLARATION_PHASE: number = 3;
+  // private STUDENT_SELECTION_PHASE: number = 2;
+  private PREFERENCE_DECLARATION_PHASE: number = 2;
   public is_active: number = 0;
   period: Period | undefined;
   isDeclarationEnabled!: boolean;

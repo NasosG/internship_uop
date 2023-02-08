@@ -79,7 +79,7 @@
       {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | Εκτός ΕΣΠΑ: {{period?.available_positions}} -
       ΕΣΠΑ:
       {{period?.positions}}<br>
-      {{'STUDENT.PHASE-2'| translate}}
+      {{'STUDENT.PHASE-RESULTS'| translate}}
     </div>
     <div *ngIf="!this.period?.is_active" class="alert alert-danger" role="alert">
       {{'STUDENT.NO-INTERNSHIP-PERIOD'| translate}}
@@ -166,21 +166,21 @@
         </div>
       </div>
       <div class="card-body">
-        <div *ngIf="period.phase_state != 3" class="tab-content p-0">
+        <div *ngIf="period.phase_state != 2" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-2-PAR'| translate}} Α.Π.:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br>
           </div>
         </div>
-        <div *ngIf="period.phase_state === 3 && isApproved" class="tab-content p-0">
+        <div *ngIf="period.phase_state >= 2 && isApproved" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-4-PAR'| translate}} Α.Π.:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br>
           </div>
         </div>
-        <div *ngIf="period.phase_state === 3 && !isApproved" class="tab-content p-0">
+        <div *ngIf="period.phase_state >= 2 && !isApproved" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-3-PAR'| translate}} Α.Π.:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>

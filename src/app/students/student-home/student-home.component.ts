@@ -21,7 +21,7 @@ export class StudentHomeComponent implements OnInit {
   comment: any;
   isApproved: boolean = false;
 
-  phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-3"];
+  phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-2"];
   isDeclarationEnabled: boolean|undefined;
   areOptionsEnabled: boolean|undefined;
 

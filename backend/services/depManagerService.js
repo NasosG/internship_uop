@@ -385,15 +385,15 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
   try {
     //console.log(mssql);
     // make sure that any items are correctly URL encoded in the connection string
-    // if (process.env.ENV == 'DEV') {
-    //   return {
-    //     Grade: 8.5,
-    //     Ects: Math.floor(Math.random() * (150 - 21)) + 20,
-    //     Semester: 2,
-    //     Praktiki: true,
-    //     CourseCount: 10
-    //   };
-    // }
+    if (process.env.ENV == 'DEV') {
+      return {
+        Grade: 8.5,
+        Ects: Math.floor(Math.random() * (150 - 21)) + 20,
+        Semester: 2,
+        Praktiki: true,
+        CourseCount: 10
+      };
+    }
     let mspool = await msql.connect(mssql);
 
     const result = await mspool.request()
