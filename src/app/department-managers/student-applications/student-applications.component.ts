@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
 import Swal from 'sweetalert2';
 import {fromEvent} from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-applications',
@@ -102,7 +103,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
   redirectToResults() {
     if (!this.period?.phase_state) return;
-    if (this.period?.phase_state <= 1) {
+    if (this.period?.phase_state <= 1 && moment(new Date()).isSameOrBefore(this.period.date_to, 'day')) {
       Swal.fire({
         title: 'Έλεγχος αποτελεσμάτων',
         text: 'Δεν μπορείτε να βγάλετε αποτελέσματα όσο βρίσκεστε στη φάση αιτήσεων'
@@ -134,6 +135,10 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   checkStudentHasComment(studentSSOUid: number): boolean {
     const studentComment =  this.hasMadeComment.find((comment: {studentId: number; hasComment: boolean}) => comment.studentId === studentSSOUid);
     return (studentComment && studentComment.hasComment);
+  }
+
+  periodHasNotEnded() {
+    return moment(new Date()).isSameOrBefore(this.period?.date_to, 'day');
   }
 
   // This function is used to get the AM of the student

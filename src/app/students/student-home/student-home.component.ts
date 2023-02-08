@@ -26,8 +26,9 @@ export class StudentHomeComponent implements OnInit {
   areOptionsEnabled: boolean|undefined;
 
   private INTEREST_EXPRESSION_PHASE: number = 1;
-  private STUDENT_SELECTION_PHASE: number = 2;
-  private PREFERENCE_DECLARATION_PHASE: number = 3;
+  // private STUDENT_SELECTION_PHASE: number = 2;
+  // private PREFERENCE_DECLARATION_PHASE: number = 3;
+  private PREFERENCE_DECLARATION_PHASE: number = 2;
   isResultsPhase: any;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
@@ -46,7 +47,7 @@ export class StudentHomeComponent implements OnInit {
 
             this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
             this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
-            this.isResultsPhase = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && moment(new Date()).isSameOrAfter(period.date_to, 'day');
+            this.isResultsPhase = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && moment(new Date()).isAfter(period.date_to, 'day');
 
             // Fetch protocol number if interest app for this period exists
             this.studentsService.getProtocolNumberIfInterestAppExists(this.period.id)

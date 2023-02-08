@@ -221,7 +221,7 @@
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/students-approved/' + this.authService.getSessionId()]"
-              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 3 ? null : true"
+              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 2 ? null : true"
               class="nav-link">
               <i class="nav-icon fa fa-check" aria-hidden="true"></i>
               <p>
@@ -232,7 +232,7 @@
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/match-students/' + this.authService.getSessionId()]"
-              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 3 ? null :
+              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 2 ? null :
               true" class="nav-link">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>

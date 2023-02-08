@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common'
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -6,6 +6,7 @@ import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
 import { Period } from '../period.model';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -69,6 +70,7 @@ export class PeriodEditComponent implements OnInit {
   public periodData!: Period;
   public ngSelect: String = "";
   public ngSelectPhase: String = "";
+  @ViewChild('selectPhase') selectPhase!: any;
 
   constructor(public depManagerService: DepManagerService, private location: Location, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
@@ -93,8 +95,29 @@ export class PeriodEditComponent implements OnInit {
   }
 
   onSubmitPeriodEditForm(formData: FormData) {
+    // console.log(this.periodData.phase_state);
+    // if (parseInt(this.selectPhase.nativeElement.value) > 1) {
+    //   if (this.periodData.phase_state <= 2 && this.periodHasNotEnded()) {
+    //     Swal.fire({
+    //       title: 'Επεξεργασία Περιόδου',
+    //       text: 'Δεν μπορείτε να αλλάξετε την φάση της περιόδου, εφόσον η προηγούμενη φάση δεν έχει λήξει',
+    //       icon: 'warning',
+    //       showCancelButton: false,
+    //       confirmButtonColor: '#3085d6',
+    //       cancelButtonColor: '#d33',
+    //       confirmButtonText: 'ΟΚ'
+    //     });
+
+    //     this.selectPhase.nativeElement.value = 1;
+    //     return;
+    //   }
+    // }
     this.depManagerService.updatePeriodById(formData, this.periodData.id);
     this.onSavePeriodAlert();
+  }
+
+  periodHasNotEnded():boolean {
+    return moment(new Date()).isSameOrBefore(this.periodData?.date_to, 'day');
   }
 
   insertPhase2StudentsRank() {
