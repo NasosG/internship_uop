@@ -11,7 +11,7 @@ import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.comp
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
 import Swal from 'sweetalert2';
-import {fromEvent} from 'rxjs';
+import { fromEvent } from 'rxjs';
 import * as moment from 'moment';
 
 @Component({

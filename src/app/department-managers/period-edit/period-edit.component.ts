@@ -7,6 +7,7 @@ import { DepManagerService } from '../dep-manager.service';
 import { Period } from '../period.model';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { Student } from 'src/app/students/student.model';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -75,6 +76,7 @@ export class PeriodEditComponent implements OnInit {
   dateToBe4Update!: Date;
   initialPeriodData!: Period;
   @ViewChild('datepicker4') selectDateTo!: any;
+  studentWithPhaseZero: Student|undefined;
 
   constructor(public depManagerService: DepManagerService, private location: Location, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
@@ -90,6 +92,12 @@ export class PeriodEditComponent implements OnInit {
              this.phaseBe4Update = this.periodData.phase_state;
              this.dateToBe4Update = this.periodData?.date_to;
              this.initialPeriodData = this.periodData;
+
+             this.depManagerService.getStudentsApplyPhase()
+      .subscribe((students: Student[]) => {
+
+        this.studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);});
+
         });
       });
   }
@@ -118,6 +126,15 @@ export class PeriodEditComponent implements OnInit {
 
         // this.selectPhase.nativeElement.value = 1;
         // this.periodData.phase_state = 1;
+        return;
+      }
+
+      let allStudentsApplicationsDone = this.studentWithPhaseZero !== undefined;
+      if (allStudentsApplicationsDone) {
+        Swal.fire({
+          title: 'Έλεγχος αποτελεσμάτων',
+          text: 'Η κατάσταση κάποιων αιτήσεων είναι "Προς Επιλογή". Παρακαλούμε επεξεργαστείτε όλες τις αιτήσεις πριν βγάλετε αποτελέσματα'
+        });
         return;
       }
     }
