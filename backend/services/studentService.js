@@ -211,12 +211,17 @@ const getCommentByStudentIdAndSubject = async (studentId, subject) => {
 const getAssignmentsByStudentId = async (studentId) => {
   try {
     // assignment status should go in the where clause too
-    const assignments = await pool.query("SELECT * FROM internship_assignment \
-                                          INNER JOIN atlas_position_group \
-                                          ON internship_assignment.position_id = atlas_position_group.atlas_position_id \
-                                          INNER JOIN atlas_provider \
-                                          ON atlas_position_group.provider_id = atlas_provider.atlas_provider_id \
-                                          WHERE internship_assignment.student_id = $1", [studentId]);
+    const assignments = await pool.query(`SELECT * FROM internship_assignment
+                                          INNER JOIN atlas_position_group
+                                          ON internship_assignment.position_id = atlas_position_group.atlas_position_id
+                                          INNER JOIN atlas_provider
+                                          ON atlas_position_group.provider_id = atlas_provider.atlas_provider_id
+                                          INNER JOIN semester_interest_apps
+                                          ON internship_assignment.student_id = semester_interest_apps.student_id
+                                          AND internship_assignment.period_id = semester_interest_apps.period_id
+                                          INNER JOIN period ON period.id = internship_assignment.period_id
+                                          and period.is_active = true
+                                          WHERE internship_assignment.student_id = $1`, [studentId]);
 
     return assignments.rows;
   } catch (error) {

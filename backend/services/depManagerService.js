@@ -299,11 +299,11 @@ const insertPeriod = async (body, id, departmentId) => {
 };
 
 const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) => {
-  const STUDENT_SELECTION_PHASE = 2;
+  // const STUDENT_SELECTION_PHASE = 2;
   try {
-    if (genericPhase < STUDENT_SELECTION_PHASE) {
-      return;
-    }
+    // if (genericPhase < STUDENT_SELECTION_PHASE) {
+    //   return;
+    // }
     const getStudentsPhase = await getStudentsPhase2(departmentId, periodId);
     await deleteApprovedStudentsRank(departmentId, periodId);
     let i = 1;

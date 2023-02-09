@@ -38,4 +38,5 @@ export interface AcceptedAssignmentsByCompany {
   positionGroupLastUpdateString: Date;
   atlasPositionId: number;
   afm?: string;
+  period_id?: number;
 }

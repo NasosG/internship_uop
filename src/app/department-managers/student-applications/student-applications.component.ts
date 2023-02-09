@@ -106,7 +106,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     if (this.period?.phase_state <= 1 && moment(new Date()).isSameOrBefore(this.period.date_to, 'day')) {
       Swal.fire({
         title: 'Έλεγχος αποτελεσμάτων',
-        text: 'Δεν μπορείτε να βγάλετε αποτελέσματα όσο βρίσκεστε στη φάση αιτήσεων'
+        text: 'Δεν μπορείτε να βγάλετε αποτελέσματα εφόσον η φάση αιτήσεων δεν έχει λήξει'
       });
       return;
     }
@@ -125,7 +125,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
   runAlgorithm() {
     if (!this.period?.phase_state) return;
-    if (this.period?.phase_state > 1) {
+    if (!this.btnDisabled) {
       if (!this.period.department_id) return;
       this.depManagerService.insertApprovedStudentsRank(this.period.department_id, this.period.phase_state, this.period.id);
     }

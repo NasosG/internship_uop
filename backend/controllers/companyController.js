@@ -72,9 +72,9 @@ const insertAssignment = async (request, response, next) => {
 
     for (let item of potentialAssignments) {
       let academicId = item.department_id;
-
+      console.log(academicId);
       // TO BE TESTED
-      const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
+      const preassignResult = await companyService.getPreassignModeByDepartmentId(academicId);
       console.log(preassignResult.preassign);
       console.log(item.position_id);
       let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, academicId);

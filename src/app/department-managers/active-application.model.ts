@@ -16,4 +16,5 @@ export interface ActiveApplication {
   father_last_name: string;
   mother_name: string;
   mother_last_name: string;
+  period_id?: number;
 }

@@ -22,4 +22,5 @@ export interface ActiveApplicationsRanked {
   mail?: string;
   user_ssn?: string;
   ssn?: string; // AFM
+  period_id?: number;
 }

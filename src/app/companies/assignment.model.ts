@@ -8,4 +8,5 @@ export interface Assignment {
   student_id: number;
   approval_state?: number;
   department_id?: number;
+  period_id?: number;
 }
