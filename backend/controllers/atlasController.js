@@ -9,9 +9,10 @@ const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_N
 
 // test pilot atlas login
 const atlasLogin = async (uid = false, username = null, password = null) => {
+  let credentials;
   try {
     // credentials retrieved by the db
-    const credentials = await atlasService.getCredentials();
+    credentials = await atlasService.getCredentials();
     const accessToken = credentials.access_token;
     const tokenIsValid = await testIfTokenIsValid(accessToken);
 
