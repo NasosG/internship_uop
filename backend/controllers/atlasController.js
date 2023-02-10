@@ -7,7 +7,7 @@ const moment = require('moment');
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
 
-// test pilot atlas login
+// Atlas login - if token is valid, it is returned; else a new one is acquired
 const atlasLogin = async (uid = false, username = null, password = null) => {
   let credentials;
   try {
@@ -45,7 +45,6 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
 
     return newToken;
   } catch (error) {
-    //console.log(atlasResponse.data.Message);
     console.log('Error', error.message);
     return null;
   }
@@ -192,10 +191,8 @@ const getProviderDetails = async (providerId, accessToken) => {
       status: atlasResponse.status
     };
   } catch (error) {
-    // return response.status(400).json({
-    //   status: "400 bad request",
-    //   message: "something went wrong while fetching academics"
-    // });
+    console.log("something went wrong while fetching provider's details" + error.message);
+    // return { message: "something went wrong while fetching provider's details" };
   }
 };
 
@@ -721,7 +718,6 @@ const getAcademicsByPosition = (atlasAcademics) => {
   try {
     let academics = [];
     for (const key in atlasAcademics) {
-      // console.log(atlasAcademics[key]);
       academics.push({
         'department': atlasAcademics[key].Department,
         'academicsId': atlasAcademics[key].ID
