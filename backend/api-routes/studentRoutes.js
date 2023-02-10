@@ -22,7 +22,7 @@ router.post("/insertStudentPosition/:id", /*checkAuth,*/ studentController.inser
 router.post("/insertStudentEvaluationSheet/:id", /*checkAuth,*/ studentController.insertStudentEvaluationSheet);
 router.put("/updateStudentDetails/:id", /*checkAuth,*/ studentController.updateStudentDetails);
 router.put("/updateStudentContractDetails/:id", /*checkAuth,*/ studentController.updateStudentContractDetails);
-router.put("/updateStudentBio/:id", checkAuth, studentController.updateStudentBio);
+router.put("/updateStudentBio/:id", /*checkAuth,*/ studentController.updateStudentBio);
 router.put("/updateStudentContact/:id", /*checkAuth,*/ studentController.updateStudentContact);
 router.put("/updatePhase/:id", /*checkAuth,*/ studentController.updatePhase);
 router.put("/updateStudentEntrySheet/:id", /*checkAuth,*/ studentController.updateStudentEntrySheet);
