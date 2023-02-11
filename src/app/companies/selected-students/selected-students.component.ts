@@ -8,6 +8,7 @@ import { Utils } from 'src/app/MiscUtils';
 import { ApplicationsPreviewDialogComponent } from '../applications-preview-dialog/applications-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Assignment } from '../assignment.model';
+import { CompanysActiveApplications } from '../companys-active-applications.model';
 
 @Component({
   selector: 'app-selected-students',
@@ -17,7 +18,7 @@ import { Assignment } from '../assignment.model';
 export class SelectedStudentsComponent implements OnInit {
   @ViewChild('selectedAppsTable') table: ElementRef | undefined;
   company!: Company;
-  apps: ActiveApplicationsRanked[] = [];
+  apps: CompanysActiveApplications[] = [];
 
   constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
 
@@ -32,7 +33,7 @@ export class SelectedStudentsComponent implements OnInit {
 
         this.companyService
           .getStudentAssignedApplications(this.company.name, this.company.afm)
-          .subscribe((apps: ActiveApplicationsRanked[]) => {
+          .subscribe((apps: CompanysActiveApplications[]) => {
             this.apps = apps;
             this.chRef.detectChanges();
             const table: any = $('#selectedAppsTable');
@@ -74,21 +75,19 @@ export class SelectedStudentsComponent implements OnInit {
     let positionsDataJson: any = [];
 
     for (const item of this.apps) {
-      for (let position of item.positions) {
         positionsDataJson.push({
-          "θεση": position.title,
+          "θεση": item.title,
           "Επώνυμο": item.lastname,
           "Όνομα": item.firstname,
           "Πατρώνυμο": item.father_name,
           "Μητρώνυμο": item.mother_name,
           "Επώνυμο πατέρα": item.father_last_name,
           "Επώνυμο μητέρας": item.mother_last_name,
-          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.date_of_birth),
+          // "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.date_of_birth),
           "ΑΦΜ": item.ssn,
           "ΑΜΚΑ": item.user_ssn,
           "Τμήμα": item.department
         });
-      }
     }
 
     const excelFileName: string = "Positions.xlsx";

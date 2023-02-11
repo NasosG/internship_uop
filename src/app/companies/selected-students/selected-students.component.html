@@ -25,30 +25,30 @@
                   <th>Ενέργειες</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let app of apps ; let idx=index" [attr.data-index]="idx">
-                <tr *ngFor="let position of app.positions; let idx2=index" [attr.data-index]="idx2">
+              <tbody>
+                <tr *ngFor="let position of apps; let idx2=index" [attr.data-index]="idx2">
                   <td>{{position.title}}</td>
-                  <td>{{app.firstname}} {{app.lastname}}</td>
-                  <td>{{app.department}}</td>
-                  <td>{{app.mail}}</td>
-                  <td>{{app.score}}</td>
+                  <td>{{position.firstname}} {{position.lastname}}</td>
+                  <td>{{position.department}}</td>
+                  <td>{{position.mail}}</td>
+                  <td>{{position.score}}</td>
                   <td>
-                    <div *ngIf="app.approval_state == 0 || app.approval_state == null">
+                    <div *ngIf="position.approval_state == 0 || position.approval_state == null">
                       <i class="fa fa-cog" aria-hidden="true"></i> <span title="Ο φοιτητής δεν σας έχει επιλέξει ακόμη">
                         Αναμονή Αποδοχής</span>
                     </div>
-                    <div *ngIf="app.approval_state == 1">
+                    <div *ngIf="position.approval_state == 1">
                       <i class="fa fa-check" aria-hidden="true"></i> <span title="Ο φοιτητής σας αποδέχτηκε"> Ο
                         φοιτητής σας αποδέχτηκε</span>
                     </div>
-                    <div *ngIf="app.approval_state == -1">
+                    <div *ngIf="position.approval_state == -1">
                       <i class="fa fa-times" aria-hidden="true"></i> <span title="Ο φοιτητής δεν σας αποδέχτηκε"> Ο
                         φοιτητής δεν σας αποδέχτηκε</span>
                     </div>
                   </td>
                   <!-- <td>{{app.application_date}}</td> -->
                   <td>
-                    <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(app, position.title)"><i
+                    <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(position, position.title)"><i
                         class="fa fa-eye"></i>
                       Προβολή<br></a>
                   </td>

@@ -139,6 +139,7 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasFilteredPositions(this.begin, filterArray)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
+        this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
       });
   }
 
