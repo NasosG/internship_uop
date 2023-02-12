@@ -1,0 +1,25 @@
+<h3>Στοιχεία φοιτητή</h3>
+<div mat-dialog-content class="mat-typography">
+  <br>
+  <p><span>Ονοματεπώνυμο</span>: {{ this.studentsData?.givenname}}
+    {{ this.studentsData?.sn}}
+  </p>
+  <p><span>email</span>: {{ this.studentsData?.mail}}</p>
+  <p><span>Τηλέφωνο</span>: {{ this.studentsData?.phone}}</p>
+  <p><span>Πατρώνυμο</span>: {{ this.studentsData?.father_name}}</p>
+  <p><span>Μητρώνυμο</span>: {{ this.studentsData?.mother_name}}</p>
+  <p><span>Επώνυμο πατέρα</span>: {{ this.studentsData?.father_last_name}}</p>
+  <p><span>Επώνυμο μητέρας</span>: {{ this.studentsData?.mother_last_name}}</p>
+  <p><span>Πόλη</span>: {{ this.studentsData?.city}}</p>
+  <p><span>ΤΚ</span>: {{ this.studentsData?.post_address}}</p>
+  <p><span>Διεύθυνση</span>: {{ this.studentsData?.address}}</p>
+  <p><span>Τοποθεσία</span>: {{ this.studentsData?.location}}</p>
+  <p><span>ΑΦΜ</span>: {{ this.studentsData?.ssn}}</p>
+  <p><span>AMKA</span>: {{ this.studentsData?.user_ssn}}</p>
+  <p><span>ΔΟΥ</span>: {{ this.studentsData?.doy}}</p>
+  <p><span>IBAN</span>: {{ this.studentsData?.iban}}</p>
+  <br>
+</div>
+<div mat-dialog-actions style='text-align: right'>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+</div>

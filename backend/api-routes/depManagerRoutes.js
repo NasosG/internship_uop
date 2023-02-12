@@ -27,5 +27,7 @@ router.get("/getCompletedPeriods/:id", depManagerController.getCompletedPeriods)
 router.get("/getManagedDepartmentsByUserId/:userId", depManagerController.getManagedAcademicsByUserId);
 router.patch("/updateDepartmentIdByUserId/:userId", depManagerController.updateDepartmentIdByUserId);
 router.get("/getPhasesByPeriodId/:periodId", depManagerController.getPhasesByPeriodId);
+router.get("/getPositionsByApplicationId/:id", depManagerController.getPositionsByApplicationId);
+router.post("/insertNewAssignment/:id", depManagerController.insertAssignment);
 
 module.exports = router;

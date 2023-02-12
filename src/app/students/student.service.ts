@@ -36,6 +36,10 @@ export class StudentsService {
   //   return this.studentsUpdated.asObservable();
   // }
 
+  getStudentByIdFromDialog(id: number): Observable<Array<Student>> {
+    return this.http.get<Array<Student>>(STUDENTS_URL + 'getStudentById/' + id);
+  }
+
   getStudents(): Observable<Array<Student>> {
     let id = this.authService.getSessionId();
     const fetchedStudents = this.http.get<Array<Student>>(STUDENTS_URL + 'getStudentById/' + id);

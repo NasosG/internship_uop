@@ -1,0 +1,25 @@
+<mat-dialog-content>
+  <h2>Επιλογή Εταιρείας/Φορέα</h2>
+  <table id="tbl" class="table">
+    <thead>
+      <tr>
+        <th scope="col">Α.Α.</th>
+        <th scope="col">Θέση</th>
+        <th scope="col">Όνομα Εταιρείας</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="{{'tr' + option.app_pos_id}}" (click)="changeSelectedRow(option.app_pos_id, i)"
+        [ngClass]="{'selected': selectedRow === option.app_pos_id}" class="hovered"
+        *ngFor="let option of this.apps; let i=index">
+        <td scope="row">{{i + 1}}</td>
+        <td scope="row">{{option.title}}</td>
+        <td scope="row">{{option.company}}</td>
+      </tr>
+    </tbody>
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="btn btn-secondary" mat-button (click)="onCancel()">Πίσω</button>
+  <button class="btn btn-primary" (click)="onSubmitPreassignmentSwal()" mat-button>Υποβολή</button>
+</mat-dialog-actions>

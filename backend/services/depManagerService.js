@@ -3,6 +3,7 @@ const pool = require("../db_config.js");
 const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
 const MiscUtils = require("../MiscUtils.js");
+const atlasService = require("./atlasService.js");
 
 const login = async (username) => {
   try {
@@ -126,8 +127,8 @@ const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
                                       ON students_approved_rank.sso_uid = sso_users.uuid \
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
-                                      INNER JOIN semester_interest_apps ON student_id = student_users.sso_uid AND semester_interest_apps.period_id = $2 \
-                                      WHERE sso_users.department_id = $1 \
+                                      INNER JOIN semester_interest_apps ON student_id = student_users.sso_uid AND semester_interest_apps.period_id = students_approved_rank.period_id \
+                                      WHERE sso_users.department_id = $1 AND semester_interest_apps.period_id = $2  \
                                       UNION \
                                       SELECT students_approved_rank.*, sso_users.*, student_users.*, semester_interest_apps.protocol_number as latest_app_protocol_number \
                                       FROM students_approved_rank \
@@ -136,7 +137,7 @@ const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
                                       INNER JOIN student_users \
                                       ON sso_users.uuid = student_users.sso_uid \
                                       INNER JOIN semester_interest_apps ON student_id = student_users.sso_uid AND semester_interest_apps.period_id = $2 \
-                                      WHERE student_users.phase = -1 OR student_users.phase = 2 \
+                                      WHERE student_users.phase = -1 \
                                       ORDER BY ranking", [deptId, periodId]);
 
     let departmentFieldForProcedure = deptId;
@@ -163,8 +164,10 @@ const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
 
 const getStudentActiveApplications = async (deptId) => {
   try {
-    const applications = await pool.query("SELECT * FROM active_applications \
-                                      WHERE department_id = $1", [deptId]);
+    const applications = await pool.query(`SELECT * FROM active_applications a
+                                          JOIN(SELECT MAX(id) as max_id FROM period) p
+                                          ON a.period_id = p.max_id
+                                          WHERE department_id = $1`, [deptId]);
     return applications.rows;
   } catch (error) {
     throw Error('Error while fetching student active applications');
@@ -280,6 +283,18 @@ const splitScholarsPersonalData = (splitString) => {
 const splitStudentsAM = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 1];
+};
+
+const getPositionsByApplicationId = async (applicationId) => {
+  try {
+    const positions = await pool.query(`SELECT final_app_positions.*, sso_users.department_id
+                                        FROM final_app_positions
+                                        INNER JOIN sso_users ON sso_users.uuid = final_app_positions.student_id
+                                        WHERE application_id = $1`, [applicationId]);
+    return positions.rows;
+  } catch (error) {
+    throw Error('Error while fetching positions by application id' + error.message);
+  }
 };
 
 const insertPeriod = async (body, id, departmentId) => {
@@ -605,6 +620,36 @@ const getPhaseOfPeriod = async (periodId, phase_state) => {
   }
 };
 
+const insertAssignment = async (body) => {
+  try {
+    const STATE = 0;
+    let positionData;
+
+    // Get atlas position details
+    if (body.position_id != null)
+      positionData = await atlasService.getPositionGroupFromDBById(body.position_id);
+
+    await pool.query("INSERT INTO internship_assignment(position_id, internal_position_id, student_id, time_span, physical_objects, city, status, period_id) " +
+      " VALUES" +
+      " ($1, $2, $3, $4, $5, $6, $7, $8)",
+      [body.position_id, body.internal_position_id, body.student_id, positionData.duration, positionData.physical_objects, body.city, STATE, body.period_id]);
+
+  } catch (error) {
+    throw Error('Error while inserting assignment' + error.message);
+  }
+};
+
+const getPreassignModeByDepartmentId = async (departmentId) => {
+  try {
+    const preassignMode = await pool.query("SELECT preassign " +
+      " FROM atlas_academics" +
+      " WHERE atlas_id = $1", [departmentId]);
+    return preassignMode.rows[0];
+  } catch (error) {
+    throw Error('Error while getting preassign mode for department id ' + departmentId);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -634,5 +679,8 @@ module.exports = {
   getPhasesByPeriodId,
   insertPhaseOfPeriod,
   getPhaseOfPeriod,
-  updatePhaseOfPeriod
+  updatePhaseOfPeriod,
+  getPositionsByApplicationId,
+  insertAssignment,
+  getPreassignModeByDepartmentId
 };

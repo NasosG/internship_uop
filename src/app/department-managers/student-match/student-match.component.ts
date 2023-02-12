@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {mergeMap} from 'rxjs';
@@ -8,6 +8,9 @@ import Swal from 'sweetalert2';
 import {ActiveApplication} from '../active-application.model';
 import { DepManagerService } from '../dep-manager.service';
 import * as XLSX from 'xlsx';
+import {Period} from '../period.model';
+import {StudentsMatchedInfoDialogComponent} from '../students-matched-info-dialog/students-matched-info-dialog.component';
+import {StudentsPositionAssignmentDialogComponent} from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
 
 @Component({
   selector: 'app-student-match',
@@ -21,6 +24,8 @@ export class StudentMatchComponent implements OnInit {
   applicationDateStr!: string[];
   selected = '';
   ngSelect = "";
+  @Input() period: Period | undefined;
+
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -165,6 +170,28 @@ export class StudentMatchComponent implements OnInit {
     windowPrint?.focus();
     windowPrint?.print();
     windowPrint?.close();
+  }
+
+  openDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(StudentsMatchedInfoDialogComponent, {
+      data: { index: idx }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openPositionSelectionDialog(appId: any, assignMode: string) {
+    console.log(appId);
+    const dialogRef = this.dialog.open(StudentsPositionAssignmentDialogComponent, {
+      data: { appId: appId, assignMode: assignMode }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

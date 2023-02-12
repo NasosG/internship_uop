@@ -1,5 +1,6 @@
 const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
+const atlasController = require("./atlasController");
 
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -403,6 +404,48 @@ const getRankdedStudentsListByDeptAndPeriodId = async (request, response) => {
   }
 };
 
+const getPositionsByApplicationId = async (request, response) => {
+  try {
+    const applicationId = request.params.id;
+    const positions = await depManagerService.getPositionsByApplicationId(applicationId);
+
+    response.status(200).json(positions);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
+const insertAssignment = async (request, response, next) => {
+  try {
+    const companyData = request.body[0];
+    console.log(companyData);
+    let academicId = companyData.department_id;
+    console.log(academicId);
+    // TO BE TESTED
+    const preassignResult = await depManagerService.getPreassignModeByDepartmentId(academicId);
+    console.log(preassignResult.preassign);
+    console.log(companyData.position_id);
+    let positionPreassignment = await atlasController.getPositionPreassignment(companyData.position_id, academicId);
+    console.log(positionPreassignment);
+
+    // insert assignment details to the local db
+    await depManagerService.insertAssignment(companyData);
+
+    response.status(201)
+      .json({
+        message: "company pre-assignment was inserted successfully"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -427,5 +470,7 @@ module.exports = {
   updateDepartmentIdByUserId,
   login,
   getPhasesByPeriodId,
-  getRankdedStudentsListByDeptAndPeriodId
+  getRankdedStudentsListByDeptAndPeriodId,
+  getPositionsByApplicationId,
+  insertAssignment
 };

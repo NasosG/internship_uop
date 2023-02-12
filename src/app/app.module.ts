@@ -103,6 +103,8 @@ import { NgxPrintModule } from 'ngx-print';
 import { DepartmentManagerLoginComponent } from './department-managers/department-manager-login/department-manager-login.component';
 import { StudentChooseDepartmentComponent } from './students/student-choose-department/student-choose-department.component';
 import { PeriodPreviewDialogComponent } from './department-managers/period-preview-dialog/period-preview-dialog.component';
+import { StudentsMatchedInfoDialogComponent } from './department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
+import { StudentsPositionAssignmentDialogComponent } from './department-managers/students-position-assignment-dialog/students-position-assignment-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -185,6 +187,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DepartmentManagerLoginComponent,
     StudentChooseDepartmentComponent,
     PeriodPreviewDialogComponent,
+    StudentsMatchedInfoDialogComponent,
+    StudentsPositionAssignmentDialogComponent,
   ],
   imports: [
     BrowserModule,

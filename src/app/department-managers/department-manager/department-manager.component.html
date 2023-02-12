@@ -385,9 +385,10 @@
         </app-period-add>
         <app-period-edit *ngIf="isPeriodEditRoute()"></app-period-edit>
         <app-student-applications [period]="period" *ngIf="isStudentApplications()"></app-student-applications>
-        <app-student-match *ngIf="isMatchStudentsRoute()"></app-student-match>
+        <app-student-match [period]="period" *ngIf="isMatchStudentsRoute()"></app-student-match>
         <app-contact *ngIf="isContactRoute()"></app-contact>
-        <app-students-approved [espaPositions]="espaPositions" [periodId]="period.id" *ngIf="isStudentsAprrovedRoute()">
+        <app-students-approved [espaPositions]="espaPositions" [period]="period" [periodId]="period.id"
+          *ngIf="isStudentsAprrovedRoute()">
         </app-students-approved>
         <app-about *ngIf="isAboutRoute()"></app-about>
         <app-manuals *ngIf="isManualsRoute()"></app-manuals>

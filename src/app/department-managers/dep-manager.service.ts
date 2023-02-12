@@ -252,4 +252,14 @@ export class DepManagerService {
     return this.http.get<Phase[]>(DEPARTMENT_MANAGER_URL + "getPhasesByPeriodId/" + periodId);
   }
 
+  getPositionsByApplicationId(applicationId: number): Observable<any[]> {
+    return this.http.get<any[]>(DEPARTMENT_MANAGER_URL + "getPositionsByApplicationId/" + applicationId);
+  }
+
+  insertAssignment(apps: any): Observable<any> {
+    const providerId = this.authService.getSessionId();
+    return this.http
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "/insertNewAssignment/" + providerId, apps);
+  }
+
 }
