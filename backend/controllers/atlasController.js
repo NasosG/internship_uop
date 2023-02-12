@@ -1103,12 +1103,12 @@ const getPositionPreassignment = async (groupId, academicId) => {
 
     let positionIds = [];
     let positionData = [];
+    const preassigned = atlasResponse.data.Result;
 
-    if (atlasResponse.data.Result != null && atlasResponse.data.Result.length != 0) {
+    if (preassigned && preassigned.length > 0) {
       console.log("preassigned positions exist");
-      for (position of atlasResponse.data.Result) {
-        if (position.GroupID == groupId /*&& position.PreAssignedForAcademic.ID == academicId*/) {
-          // positionIds = position.ID;
+      preassigned.forEach((position) => {
+        if (parseInt(position.GroupID) === parseInt(groupId) && position.PreAssignedForAcademic.ID == academicId) {
           positionIds.push(position.ID);
           positionData.push({
             "ImplementationEndDate": position.ImplementationEndDate,
@@ -1117,13 +1117,19 @@ const getPositionPreassignment = async (groupId, academicId) => {
             "ImplementationStartDateString": position.ImplementationStartDateString,
           });
         }
-      }
-    } else {
-      // if no position is found, preassign a single position
+      });
+    }
+
+    // If no position is found, preassign a single position
+    if (positionIds.length === 0) {
+      const args = {
+        "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId,
+      };
+
       atlasResponse = await axios({
         url: ATLAS_URL + '/PreAssignPositions',
         method: 'POST',
-        data: { "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId },
+        data: args,
         headers: {
           'Content-Type': 'application/json',
           'access_token': accessToken
@@ -1149,12 +1155,11 @@ const getPositionPreassignment = async (groupId, academicId) => {
       positionIds,
       positionData
     };
-    // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while fetching preassigned positions: " + error.message);
     return {
       status: "400 bad request",
-      message: "something went wrong while fetching available positions: " + error.message
+      message: "something went wrong while fetching preassigned positions: " + error.message
     };
   }
 };
