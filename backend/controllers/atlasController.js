@@ -1146,7 +1146,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
           "ImplementationStartDateString": position.ImplementationStartDateString,
         });
       } else {
-        console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
+        console.log('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ');
         console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademicID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
       }
     }
