@@ -10,6 +10,7 @@ import { environment } from "src/environments/environment";
 import { EntryForm } from '../students/entry-form.model';
 import { ExitForm } from '../students/exit-form.model';
 import {Phase} from './phase.model';
+import {AcceptedAssignmentsByCompany} from '../students/accepted-assignments-by-company';
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
@@ -262,4 +263,13 @@ export class DepManagerService {
       .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "/insertNewAssignment/" + providerId, apps);
   }
 
+  acceptCompanyPosition(studentId: number, positionId: number) {
+    // const form: any = { 'assignment': assignment };
+    return this.http
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertFinalAssignment/" + studentId, {"position_id": positionId});
+  }
+
+  getAssignmentsByStudentId(studentId: number): Observable<Array<AcceptedAssignmentsByCompany>> {
+    return this.http.get<Array<AcceptedAssignmentsByCompany>>(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AcceptedAssignmentsByCompany } from 'src/app/students/accepted-assignments-by-company';
 import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 
@@ -48,8 +49,29 @@ export class StudentsPositionAssignmentDialogComponent implements OnInit {
   }
 
   onSubmitAssignmentSwal() {
-    alert("TODO: write code for assign");
-    // TODO: Write code for assignment
+    Swal.fire({
+      title: 'Είστε σίγουρος/η για την αποδοχή της θέσης εργασίας;',
+      text: 'Η επιλογή είναι οριστική και δεν μπορεί να αναιρεθεί.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ναι, αποδέχομαι',
+      cancelButtonText: 'Όχι, ακύρωση'
+    }).then((result) => {
+      // if user clicks on confirmation button, call acceptPosition() method
+      if (result.isConfirmed) {
+        this.acceptCompanyPosition(this.selectedRowsArrayIndex);
+      }
+    });
+  }
+
+  acceptCompanyPosition(positionIndex: number) {
+    this.depManagerService.acceptCompanyPosition(this.apps[positionIndex].student_id, this.apps[positionIndex].position_id)
+      .subscribe((response: any) => {
+        console.log(response);
+        location.reload();
+      });
   }
 
   onSubmitPreassignmentSwal() {
@@ -88,9 +110,10 @@ export class StudentsPositionAssignmentDialogComponent implements OnInit {
         physical_object: this.apps[this.selectedRowsArrayIndex].physical_objects,
         student_id: this.apps[this.selectedRowsArrayIndex].student_id,
         department_id: this.apps[this.selectedRowsArrayIndex].department_id,
-        period_id: this.apps[this.selectedRowsArrayIndex].period_id,
+        period_id: this.apps[this.selectedRowsArrayIndex].period_id
       });
 
+      console.log(positionsDataJson);
       alert(`Εισαγωγή θέσης ${this.selectedRow}`);
       this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
         console.log(responseData.message);

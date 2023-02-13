@@ -1146,8 +1146,9 @@ const getPositionPreassignment = async (groupId, academicId) => {
           "ImplementationStartDateString": position.ImplementationStartDateString,
         });
       } else {
-        console.log('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ');
+        console.log('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
         console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademicID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
+        throw new Error('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
       }
     }
 
@@ -1159,7 +1160,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     console.log("error while fetching preassigned positions: " + error.message);
     return {
       status: "400 bad request",
-      message: "something went wrong while fetching preassigned positions: " + error.message
+      message: error.message
     };
   }
 };

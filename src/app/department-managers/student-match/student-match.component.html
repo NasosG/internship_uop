@@ -57,7 +57,10 @@
                       class="btn btn-primary"> Επιλογή φορέα </button>
                   </td>
                   <td>
-                    Προσωρινά Δεσμευμένη
+                    <span *ngIf="state.get(activeApplication.student_id) == 1">ΔΕΣΜΕΥΜΕΝΗ ΘΕΣΗ
+                      {{assignedPos.get(activeApplication.student_id)}}</span>
+                    <span *ngIf="state.get(activeApplication.student_id) == 0">ΠΡΟΣΩΡΙΝΑ ΔΕΣΜΕΥΜΕΝΗ ΘΕΣΗ
+                      {{assignedPos.get(activeApplication.student_id)}}</span>
                   </td>
                 </tr>
               </tbody>

@@ -287,9 +287,10 @@ const splitStudentsAM = (splitString) => {
 
 const getPositionsByApplicationId = async (applicationId) => {
   try {
-    const positions = await pool.query(`SELECT final_app_positions.*, sso_users.department_id
+    const positions = await pool.query(`SELECT final_app_positions.*, sso_users.department_id, student_applications.period_id
                                         FROM final_app_positions
                                         INNER JOIN sso_users ON sso_users.uuid = final_app_positions.student_id
+										                    INNER JOIN student_applications ON student_applications.id = final_app_positions.application_id
                                         WHERE application_id = $1`, [applicationId]);
     return positions.rows;
   } catch (error) {
@@ -650,6 +651,52 @@ const getPreassignModeByDepartmentId = async (departmentId) => {
   }
 };
 
+
+const getAssignmentsByStudentAndPositionId = async (studentId, positionId) => {
+  try {
+    // assignment status should go in the where clause too
+    const assignments = await pool.query(`SELECT * FROM internship_assignment
+                                          INNER JOIN atlas_position_group
+                                          ON internship_assignment.position_id = atlas_position_group.atlas_position_id
+                                          INNER JOIN atlas_provider
+                                          ON atlas_position_group.provider_id = atlas_provider.atlas_provider_id
+                                          INNER JOIN semester_interest_apps
+                                          ON internship_assignment.student_id = semester_interest_apps.student_id
+                                          AND internship_assignment.period_id = semester_interest_apps.period_id
+                                          INNER JOIN period ON period.id = internship_assignment.period_id
+                                          and period.is_active = true
+                                          WHERE internship_assignment.student_id = $1
+                                          AND  internship_assignment.position_id = $2 `, [studentId, positionId]);
+
+    return assignments.rows;
+  } catch (error) {
+    console.log('Error while getting assignments ' + error.message);
+    throw Error('Error while getting assignments');
+  }
+};
+
+const getAssignmentsByStudentId = async (studentId) => {
+  try {
+    // assignment status should go in the where clause too
+    const assignments = await pool.query(`SELECT * FROM internship_assignment
+                                          INNER JOIN atlas_position_group
+                                          ON internship_assignment.position_id = atlas_position_group.atlas_position_id
+                                          INNER JOIN atlas_provider
+                                          ON atlas_position_group.provider_id = atlas_provider.atlas_provider_id
+                                          INNER JOIN semester_interest_apps
+                                          ON internship_assignment.student_id = semester_interest_apps.student_id
+                                          AND internship_assignment.period_id = semester_interest_apps.period_id
+                                          INNER JOIN period ON period.id = internship_assignment.period_id
+                                          and period.is_active = true
+                                          WHERE internship_assignment.student_id = $1`, [studentId]);
+
+    return assignments.rows;
+  } catch (error) {
+    console.log('Error while getting assignments ' + error.message);
+    throw Error('Error while getting assignments');
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -682,5 +729,7 @@ module.exports = {
   updatePhaseOfPeriod,
   getPositionsByApplicationId,
   insertAssignment,
-  getPreassignModeByDepartmentId
+  getPreassignModeByDepartmentId,
+  getAssignmentsByStudentId,
+  getAssignmentsByStudentAndPositionId
 };

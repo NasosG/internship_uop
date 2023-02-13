@@ -12,6 +12,7 @@ import { Period } from '../period.model';
 import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
 import { StudentsPositionAssignmentDialogComponent } from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
 import { CompanyInfoDialogComponent } from '../company-info-dialog/company-info-dialog.component';
+import {AcceptedAssignmentsByCompany} from 'src/app/students/accepted-assignments-by-company';
 
 @Component({
   selector: 'app-student-match',
@@ -26,6 +27,11 @@ export class StudentMatchComponent implements OnInit {
   selected = '';
   ngSelect = "";
   @Input() period: Period | undefined;
+  assignments!: AcceptedAssignmentsByCompany[];
+  positionAssigned!: boolean;
+  positionAssignedIndex!: number;
+  state = new Map();
+  assignedPos = new Map();
 
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -43,6 +49,28 @@ export class StudentMatchComponent implements OnInit {
         for (let application of this.activeApplications) {
           application.reg_code = this.getAM(application.reg_code);
           application.applicationDateStr = Utils.reformatDateToEULocaleStr(application.application_date);
+
+          this.depManagerService.getAssignmentsByStudentId(application.student_id)
+          .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
+            this.assignments = assignments;
+
+            // set appAssigned to true there is approval_state = 1 in any record of this.assignments
+            for (let assignment of this.assignments) {
+              if (assignment.approval_state == 1) {
+                this.positionAssigned = true;
+                this.positionAssignedIndex = this.assignments.indexOf(assignment);
+                this.state.set(application.student_id, 1);
+                break;
+              } else if (assignment.approval_state == 0) {
+                this.positionAssigned = true;
+                this.positionAssignedIndex = this.assignments.indexOf(assignment);
+                this.assignedPos.set(application.student_id, assignment.title);
+                this.state.set(application.student_id, 0);
+                break;
+              }
+            }
+          });
+
         }
         // TODO: When provider assigns students, need to fetch the provider name
 
@@ -66,7 +94,7 @@ export class StudentMatchComponent implements OnInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [4] }]
+          columnDefs: [{ orderable: false, targets: [4, 5, 6] }]
         });
       });
   }
