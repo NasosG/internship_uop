@@ -1,0 +1,20 @@
+<h3>Στοιχεία φοιτητή</h3>
+<div mat-dialog-content class="mat-typography">
+  <br>
+  <p><span>Επωνυμία</span>: {{ this.companyData?.name}}</p>
+  <p><span>email</span>: {{ this.companyData?.contact_email}}</p>
+  <p><span>Τηλέφωνο</span>: {{ this.companyData?.contact_phone}}</p>
+  <p><span>Όνομα Υπευθύνου</span>: {{ this.companyData?.contact_name}}</p>
+  <!-- <p><span>Πόλη</span>: {{ this.companyData?.city}}</p>
+  <p><span>ΤΚ</span>: {{ this.companyData?.post_address}}</p>
+  <p><span>Διεύθυνση</span>: {{ this.companyData?.address}}</p>
+  <p><span>Τοποθεσία</span>: {{ this.companyData?.location}}</p>
+  <p><span>ΑΦΜ</span>: {{ this.companyData?.ssn}}</p>
+  <p><span>AMKA</span>: {{ this.companyData?.user_ssn}}</p>
+  <p><span>ΔΟΥ</span>: {{ this.companyData?.doy}}</p>
+  <p><span>IBAN</span>: {{ this.companyData?.iban}}</p> -->
+  <br>
+</div>
+<div mat-dialog-actions style='text-align: right'>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+</div>

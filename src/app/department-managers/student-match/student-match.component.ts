@@ -1,16 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import {mergeMap} from 'rxjs';
-import {Utils} from 'src/app/MiscUtils';
+import { mergeMap } from 'rxjs';
+import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import Swal from 'sweetalert2';
-import {ActiveApplication} from '../active-application.model';
+import { ActiveApplication } from '../active-application.model';
 import { DepManagerService } from '../dep-manager.service';
 import * as XLSX from 'xlsx';
-import {Period} from '../period.model';
-import {StudentsMatchedInfoDialogComponent} from '../students-matched-info-dialog/students-matched-info-dialog.component';
-import {StudentsPositionAssignmentDialogComponent} from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
+import { Period } from '../period.model';
+import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
+import { StudentsPositionAssignmentDialogComponent } from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
+import { CompanyInfoDialogComponent } from '../company-info-dialog/company-info-dialog.component';
 
 @Component({
   selector: 'app-student-match',
@@ -194,4 +195,13 @@ export class StudentMatchComponent implements OnInit {
     });
   }
 
+  openCompanyInfoDialog(company: any, afm: string) {
+    const dialogRef = this.dialog.open(CompanyInfoDialogComponent, {
+      data: { company: company, afm: afm }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }

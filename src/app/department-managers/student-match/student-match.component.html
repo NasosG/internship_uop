@@ -42,7 +42,9 @@
                   <td>{{activeApplication.reg_code}}</td>
                   <td>
                     <div *ngFor="let position of activeApplication.positions; let idx=index" [attr.data-index]="idx">
-                      {{idx + 1}}. {{position.company}}
+                      <span class="custom-info-btn"
+                        (click)="openCompanyInfoDialog(position.company, position.afm)">{{idx + 1}}.
+                        {{position.company}}</span>
                     </div>
                   </td>
                   <td class="text-center">
@@ -51,7 +53,8 @@
                     </button>
                   </td>
                   <td class="text-center">
-                    <button class="btn btn-primary"> Επιλογή φορέα </button>
+                    <button (click)="openPositionSelectionDialog(activeApplication.app_id, 'assign')"
+                      class="btn btn-primary"> Επιλογή φορέα </button>
                   </td>
                   <td>
                     Προσωρινά Δεσμευμένη

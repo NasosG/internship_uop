@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { Company } from '../../companies/company.model';
 import { DepManagerService } from '../dep-manager.service';
 
 @Component({
@@ -34,6 +33,25 @@ export class StudentsPositionAssignmentDialogComponent implements OnInit {
     this.selectedRowsArrayIndex = index;
   }
 
+  onSubmitSwal(assignMode: string) {
+    switch (assignMode) {
+      case "preassign":
+        this.onSubmitPreassignmentSwal();
+        break;
+      case "assign":
+        this.onSubmitAssignmentSwal();
+        break;
+      default:
+        console.error("Invalid assignMode: ", assignMode);
+        break;
+    }
+  }
+
+  onSubmitAssignmentSwal() {
+    alert("TODO: write code for assign");
+    // TODO: Write code for assignment
+  }
+
   onSubmitPreassignmentSwal() {
     Swal.fire({
       title: 'Αποδοχή Φοιτητών',
@@ -46,48 +64,48 @@ export class StudentsPositionAssignmentDialogComponent implements OnInit {
     }).then((result) => {
       if (!result.isConfirmed) {
         console.log("User pressed Cancel");
-      } else {
-        let positionsDataJson: any[] = [];
-
-
-        // TODO: Check for duplicates
-        // if (!this.studentApprovalBtns[position.position_id]) {
-        //   continue;
-        // }
-
-        positionsDataJson.push({
-          position_id: this.apps[this.selectedRowsArrayIndex].position_id,
-          internal_position_id: this.apps[this.selectedRowsArrayIndex].internal_apps_id,
-          title: this.apps[this.selectedRowsArrayIndex].title,
-          city: this.apps[this.selectedRowsArrayIndex].place,
-          duration: this.apps[this.selectedRowsArrayIndex].duration,
-          physical_object: this.apps[this.selectedRowsArrayIndex].physical_objects,
-          student_id: this.apps[this.selectedRowsArrayIndex].student_id,
-          department_id: this.apps[this.selectedRowsArrayIndex].department_id,
-          period_id: this.apps[this.selectedRowsArrayIndex].period_id,
-        });
-
-
-        // Inform the user and don't send the request, if positions array is empty
-        if (!this.selectedRow) {
-          Swal.fire({
-            title: 'Αποτυχία',
-            text: 'Δεν έχετε επιλέξει θέση',
-            icon: 'error',
-            confirmButtonText: 'ΟΚ'
-          });
-        } else {
-          alert(`Μπαίνει η θέση ${this.selectedRow} `);
-          this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
-            console.log(responseData.message);
-            location.reload();
-            //this.ngOnInit();
-          }), (error: any) => {
-            console.log(error);
-            alert("Η αποδοχή των φοιτητών απέτυχε");
-          };
-        }
+        return;
       }
+      // Inform the user and don't send the request, if selected row is empty
+      if (!this.selectedRow) {
+        Swal.fire({
+          title: 'Αποτυχία',
+          text: 'Δεν έχετε επιλέξει θέση',
+          icon: 'error',
+          confirmButtonText: 'ΟΚ'
+        });
+        return;
+      }
+
+      let positionsDataJson: any[] = [];
+
+      positionsDataJson.push({
+        position_id: this.apps[this.selectedRowsArrayIndex].position_id,
+        internal_position_id: this.apps[this.selectedRowsArrayIndex].internal_apps_id,
+        title: this.apps[this.selectedRowsArrayIndex].title,
+        city: this.apps[this.selectedRowsArrayIndex].place,
+        duration: this.apps[this.selectedRowsArrayIndex].duration,
+        physical_object: this.apps[this.selectedRowsArrayIndex].physical_objects,
+        student_id: this.apps[this.selectedRowsArrayIndex].student_id,
+        department_id: this.apps[this.selectedRowsArrayIndex].department_id,
+        period_id: this.apps[this.selectedRowsArrayIndex].period_id,
+      });
+
+      alert(`Εισαγωγή θέσης ${this.selectedRow}`);
+      this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
+        console.log(responseData.message);
+        location.reload();
+        //this.ngOnInit();
+      }, (error: any) => {
+        console.log(error);
+        Swal.fire({
+          title: 'Αποτυχία',
+          text: 'Η αποδοχή της ανάθεσης απέτυχε',
+          icon: 'error',
+          confirmButtonText: 'ΟΚ'
+        });
+      });
+
     });
   }
 
