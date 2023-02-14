@@ -8,3 +8,13 @@
   color: #224957;
   text-decoration: underline;
 }
+
+.custom-btn {
+  background-color: grey !important;
+  cursor: pointer;
+}
+
+.custom-btn:hover {
+  background-color: #224957 !important;
+  cursor: pointer;
+}

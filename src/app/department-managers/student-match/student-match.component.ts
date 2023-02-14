@@ -13,6 +13,7 @@ import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dia
 import { StudentsPositionAssignmentDialogComponent } from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
 import { CompanyInfoDialogComponent } from '../company-info-dialog/company-info-dialog.component';
 import {AcceptedAssignmentsByCompany} from 'src/app/students/accepted-assignments-by-company';
+import {StudentsPositionSelectDialogComponent} from '../students-position-select-dialog/students-position-select-dialog.component';
 
 @Component({
   selector: 'app-student-match',
@@ -223,6 +224,24 @@ export class StudentMatchComponent implements OnInit {
     });
   }
 
+  openStudentsPositionSelectionDialog(appId: any, index: number) {
+    console.log(appId);
+    const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
+      data: { appId: appId, index: index }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  public  add3Dots(inputText: string, limit: number): string {
+    let dots = "...";
+    if (inputText.length > limit) {
+      inputText = inputText.substring(0, limit) + dots;
+    }
+
+    return inputText;
+  }
   openCompanyInfoDialog(company: any, afm: string) {
     const dialogRef = this.dialog.open(CompanyInfoDialogComponent, {
       data: { company: company, afm: afm }

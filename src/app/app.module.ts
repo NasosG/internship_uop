@@ -106,6 +106,7 @@ import { PeriodPreviewDialogComponent } from './department-managers/period-previ
 import { StudentsMatchedInfoDialogComponent } from './department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
 import { StudentsPositionAssignmentDialogComponent } from './department-managers/students-position-assignment-dialog/students-position-assignment-dialog.component';
 import { CompanyInfoDialogComponent } from './department-managers/company-info-dialog/company-info-dialog.component';
+import { StudentsPositionSelectDialogComponent } from './department-managers/students-position-select-dialog/students-position-select-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -191,6 +192,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentsMatchedInfoDialogComponent,
     StudentsPositionAssignmentDialogComponent,
     CompanyInfoDialogComponent,
+    StudentsPositionSelectDialogComponent,
   ],
   imports: [
     BrowserModule,

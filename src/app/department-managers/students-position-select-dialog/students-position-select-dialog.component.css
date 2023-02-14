@@ -1,0 +1,23 @@
+.hovered:hover {
+  background-color: rgb(203, 202, 202);
+  cursor: pointer;
+}
+
+.selected {
+  color: #224957 !important;
+  background-color: rgb(203, 202, 202) !important;
+}
+
+span {
+  font-weight: bold;
+}
+
+.custom-btn {
+  background-color: grey !important;
+  cursor: pointer;
+}
+
+.custom-btn:hover {
+  background-color: #224957 !important;
+  cursor: pointer;
+}

@@ -42,9 +42,18 @@
                   <td>{{activeApplication.reg_code}}</td>
                   <td>
                     <div *ngFor="let position of activeApplication.positions; let idx=index" [attr.data-index]="idx">
-                      <span class="custom-info-btn"
-                        (click)="openCompanyInfoDialog(position.company, position.afm)">{{idx + 1}}.
-                        {{position.company}}</span>
+                      <div class="container row">
+                        <div class="col-8">
+                          <span class="custom-info-btn"
+                            (click)="openCompanyInfoDialog(position.company, position.afm)">{{idx + 1}}.
+                            {{position.title}} - {{position.company}}</span>
+                        </div>
+                        <div class="col-4">
+                          <button (click)="openStudentsPositionSelectionDialog(activeApplication.app_id, idx)"
+                            class="btn custom-btn btn-primary ml-2 mb-1 p-0 pl-2 pr-2 mr-2">Επιλέξτε <i
+                              class="fas fa-long-arrow-alt-right"></i></button>
+                        </div>
+                      </div>
                     </div>
                   </td>
                   <td class="text-center">
