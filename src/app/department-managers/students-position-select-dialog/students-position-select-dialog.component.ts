@@ -99,7 +99,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
       });
 
       console.log(positionsDataJson);
-      alert(`Εισαγωγή θέσης ${this.selectedRow}`);
+      // alert(`Εισαγωγή θέσης ${this.selectedRow}`);
       this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
         console.log(responseData.message);
         location.reload();
@@ -108,7 +108,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
         console.log(error);
         Swal.fire({
           title: 'Αποτυχία',
-          text: 'Η αποδοχή της ανάθεσης απέτυχε',
+          text: 'Η αποδοχή της ανάθεσης απέτυχε' + error.message,
           icon: 'error',
           confirmButtonText: 'ΟΚ'
         });

@@ -55,7 +55,7 @@ export class StudentMatchComponent implements OnInit {
           .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
             this.assignments = assignments;
 
-            // set appAssigned to true there is approval_state = 1 in any record of this.assignments
+            // set appAssigned to true there are any records of this.assignments
             for (let assignment of this.assignments) {
               if (assignment.approval_state == 1 || assignment.approval_state == 0 || assignment.approval_state == null) {
                 this.positionAssigned = true;
@@ -177,7 +177,6 @@ export class StudentMatchComponent implements OnInit {
             <th>Oναματεπώνυμο</th> \
             <th>ΑΜ</th> \
             <th>Επιλογές Φοιτητή</th> \
-            <th>Αποδοχή Φορέα</th> \
           </tr> \
         </thead>");
 
@@ -197,7 +196,7 @@ export class StudentMatchComponent implements OnInit {
         "<td>" + student.lastname + " " + student.firstname + "</td>" +
         "<td>" + student.reg_code + "</td>" +
         "<td>" + studentChoices + "</td>" +
-        "<td>" + "2.citrix" + "</td>" +
+        // "<td>" + "2.citrix" + "</td>" +
         "</tr>");
       i++;
     }
@@ -233,7 +232,7 @@ export class StudentMatchComponent implements OnInit {
   openStudentsPositionSelectionDialog(appId: any, index: number) {
     console.log(appId);
     const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
-        width: '400px',
+      width: '400px',
       data: { appId: appId, index: index }
     });
 

@@ -626,6 +626,12 @@ const insertAssignment = async (body) => {
     const STATE = 0;
     let positionData;
 
+    const result = await pool.query(`SELECT 1 FROM internship_assignment
+      WHERE position_id = $1 AND student_id = $2 AND period_id = $3`, [body.position_id, body.student_id, body.period_id]);
+
+    // If already exists, preassign for this student has been done
+    if (result.rows.length > 0) return;
+
     // Get atlas position details
     if (body.position_id != null)
       positionData = await atlasService.getPositionGroupFromDBById(body.position_id);

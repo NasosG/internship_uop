@@ -1138,12 +1138,13 @@ const getPositionPreassignment = async (groupId, academicId) => {
 
       positionIds = atlasResponse.data.Result;
       if (atlasResponse.data.Success == true) {
-        console.log('Προδέσμευση θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
+        console.log('Προδέσμευση θέσης από φοιτητή GroupID: ' + groupId + ' AcademiID: ' + academicId + ' PositionID: ' + positionIds[0]);
+        // TODO: change this to get implementation dates correctly from atlas
         positionData.push({
-          "ImplementationEndDate": position.ImplementationEndDate,
-          "ImplementationEndDateString": position.ImplementationEndDateString,
-          "ImplementationStartDate": position.ImplementationStartDate,
-          "ImplementationStartDateString": position.ImplementationStartDateString,
+          "ImplementationEndDate": null,
+          "ImplementationEndDateString": '',
+          "ImplementationStartDate": null,
+          "ImplementationStartDateString": '',
         });
       } else {
         console.log('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
