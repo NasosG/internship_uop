@@ -1370,6 +1370,22 @@ const calculateDurationInMinutes = (startTime, endTime) => {
   return durationInMinutes;
 };
 
+const getStudentPositionMatchesAcademic = async (request, response) => {
+  try {
+    const positionId = request.query.positionId;
+    const academicId = request.query.academicId;
+
+    // console.log(companyName + " " + companyAFM);
+    const doesStudentPositionMatchDepartment = await atlasService.checkAtlasPositionAcademicsMatchStudents(positionId, academicId);
+
+    response.status(200).json(doesStudentPositionMatchDepartment);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getRegisteredStudents,
   getAvailablePositionGroupsUI,
@@ -1395,5 +1411,6 @@ module.exports = {
   insertOrUpdateWholeAtlasTables,
   insertOrUpdateImmutableAtlasTables,
   findAcademicIdNumber,
-  testDeletePosition
+  testDeletePosition,
+  getStudentPositionMatchesAcademic
 };

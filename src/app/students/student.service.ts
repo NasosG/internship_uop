@@ -466,4 +466,11 @@ export class StudentsService {
     return this.http.get<boolean>(STUDENTS_URL + "getStudentRankedApprovalStatusForPeriod", { params });
   }
 
+  getStudentPositionMatchesAcademic(positionId: number, academicId: number): Observable<boolean> {
+    const params = new HttpParams()
+      .set('positionId', positionId)
+      .set('academicId', academicId);
+
+    return this.http.get<boolean>(ATLAS_URL + "getStudentPositionMatchesAcademic", { params });
+  }
 }

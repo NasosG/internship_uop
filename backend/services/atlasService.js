@@ -110,14 +110,15 @@ const getPhysicalObjects = async () => {
   }
 };
 
-const checkAtlasPositionAcademicsMatchStudents = (positionId, academicId) => {
+const checkAtlasPositionAcademicsMatchStudents = async (positionId, academicId) => {
   try {
-    const isPosition4AllAcademics = checkPositionHasAcademics(positionId);
+    const isPosition4AllAcademics = await checkPositionHasAcademics(positionId);
     if (isPosition4AllAcademics) {
       return true;
     }
-    const isPosition4StudentAcademic = checkAcademicPosition(positionId, academicId);
+    const isPosition4StudentAcademic = await checkAcademicPosition(positionId, academicId);
     if (isPosition4StudentAcademic) {
+      console.log(true);
       return true;
     }
     return false;
@@ -128,7 +129,7 @@ const checkAtlasPositionAcademicsMatchStudents = (positionId, academicId) => {
 
 const checkPositionHasAcademics = async (positionId) => {
   const result = await pool.query('SELECT EXISTS (SELECT 1 FROM position_has_academics WHERE position_id = $1)', [positionId]);
-  return result.rows[0].exists;
+  return result.rows[0].exists == false;
 };
 
 const checkAcademicPosition = async (positionId, academicId) => {
@@ -643,5 +644,6 @@ module.exports = {
   updateProvidersList,
   updatePositionGroupRelationsList,
   updateToken,
-  insertOrUpdateAtlasTable
+  insertOrUpdateAtlasTable,
+  checkAtlasPositionAcademicsMatchStudents
 };

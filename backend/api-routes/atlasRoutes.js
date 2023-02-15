@@ -21,5 +21,6 @@ router.get('/testDeletePosition', atlasController.testDeletePosition);
 router.get('/getRegisteredStudents', atlasController.getRegisteredStudents);
 router.get('/getStudentAcademicId', atlasController.getStudentAcademicId);
 router.get('/getAssignedPositions', atlasController.getAssignedPositions);
+router.get('/getStudentPositionMatchesAcademic', atlasController.getStudentPositionMatchesAcademic);
 
 module.exports = router;
