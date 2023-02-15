@@ -295,7 +295,6 @@ export class StudentInternshipComponent implements OnInit {
     if (!this.canStudentSubmitApp) {
       (document.getElementById("addPositionsBtn") as HTMLButtonElement).textContent = "ΧΩΡΙΣ ΔΥΝΑΤΟΤΗΤΑ ΠΡΟΣΘΗΚΗΣ ΘΕΣΗΣ";
       return;
-
     }
     let atlas = true;
     // Below "if" was used for job positions that were not from atlas but from our database

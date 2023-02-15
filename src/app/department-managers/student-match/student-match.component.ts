@@ -33,6 +33,7 @@ export class StudentMatchComponent implements OnInit {
   positionAssignedIndex!: number;
   state = new Map();
   assignedPos = new Map();
+  positionIds = new Map();
 
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -60,11 +61,14 @@ export class StudentMatchComponent implements OnInit {
               if (assignment.approval_state == 1) {
                 this.positionAssigned = true;
                 this.positionAssignedIndex = this.assignments.indexOf(assignment);
+                this.positionIds.set(application.student_id, (assignment as any).position_id);
+                this.assignedPos.set(application.student_id, assignment.title);
                 this.state.set(application.student_id, 1);
                 break;
-              } else if (assignment.approval_state == 0) {
+              } else if (assignment.approval_state == 0 || assignment.approval_state == null) {
                 this.positionAssigned = true;
                 this.positionAssignedIndex = this.assignments.indexOf(assignment);
+                this.positionIds.set(application.student_id, (assignment as any).position_id);
                 this.assignedPos.set(application.student_id, assignment.title);
                 this.state.set(application.student_id, 0);
                 break;
@@ -234,6 +238,7 @@ export class StudentMatchComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
   public  add3Dots(inputText: string, limit: number): string {
     let dots = "...";
     if (inputText.length > limit) {
@@ -242,6 +247,7 @@ export class StudentMatchComponent implements OnInit {
 
     return inputText;
   }
+
   openCompanyInfoDialog(company: any, afm: string) {
     const dialogRef = this.dialog.open(CompanyInfoDialogComponent, {
       data: { company: company, afm: afm }

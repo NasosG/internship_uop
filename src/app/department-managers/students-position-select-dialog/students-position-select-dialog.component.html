@@ -1,15 +1,16 @@
 <mat-dialog-content>
   <h2>ΑνάΘεση</h2>
-  <p class="mb-0"><span>Θέση</span>: {{this.positions.title}}</p>
-  <p><span>Όνομα Εταιρείας</span>: {{this.positions.company}}</p>
+  <p class="mb-0"><span>Θέση</span>: {{this.position.title}}</p>
+  <p><span>Όνομα Εταιρείας</span>: {{this.position.company}}</p>
 
   <div class="m-auto text-center">
-    <button class="custom-btn btn btn-primary mb-2 w-100" mat-button (click)="onCancel()">Προδέσμευση Θέσης</button>
+    <button class="custom-btn btn btn-primary mb-2 w-100" (click)="onSubmitSwal('preassign')" mat-button>Προδέσμευση
+      Θέσης</button>
     <br>
-    <button class="custom-btn btn btn-primary mb-2 w-100" (click)="onSubmitSwal(this.data.assignMode)" mat-button>Τελική
+    <button class="custom-btn btn btn-primary mb-2 w-100" (click)="onSubmitSwal('assign')" mat-button>Τελική
       ανάθεση</button>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Κλείσιμο</button>
+  <button mat-button mat-dialog-close (click)="onCancel()">Κλείσιμο</button>
 </mat-dialog-actions>

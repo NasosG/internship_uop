@@ -18,22 +18,19 @@
                 style='font-size:24px'></i>
               Print</button>
             <br><br>
-            <table id="studentsTable" #studentsTable class="table table-bordered table-striped">
+            <table id="studentsTable" #studentsTable class="table-responsive table-bordered table-striped">
               <thead>
                 <tr>
-                  <!-- <th>Αριθμός Αίτησης</th> -->
                   <th>Ημερομηνία Αίτησης Θέσεων</th>
                   <th>Oνοματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή</th>
-                  <th>Προσωρινή Ανάθεση εκ μέρους Φορέα</th>
-                  <th>Τελική Ανάθεση εκ μέρους φοιτητή</th>
-                  <th>Κατάσταση Ανάθεσης</th>
+                  <th>Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
+                  <th>Τελικές Ανάθεσεις <br>(εκ μέρους φοιτητή)</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let activeApplication of activeApplications">
-                  <!-- <td>{{activeApplication.app_id}}</td> -->
                   <td>{{activeApplication.applicationDateStr}}</td>
                   <td><a class="custom-info-btn"
                       (click)="openDialog(activeApplication.student_id)">{{activeApplication.firstname}}
@@ -43,46 +40,45 @@
                   <td>
                     <div *ngFor="let position of activeApplication.positions; let idx=index" [attr.data-index]="idx">
                       <div class="container row">
-                        <div class="col-8">
-                          <span class="custom-info-btn"
+                        <div class="col-8 " style="width:500px;">
+                          <span [ngClass]="positionIds && positionIds.get(activeApplication.student_id) == position.position_id ?
+                            'custom-info-btn green-bckg text-with-dots' : 'custom-info-btn text-with-dots'"
                             (click)="openCompanyInfoDialog(position.company, position.afm)">{{idx + 1}}.
                             {{position.title}} - {{position.company}}</span>
                         </div>
-                        <div class="col-4">
+                        <div class="col-4 text-right" style="width:100px;">
                           <button (click)="openStudentsPositionSelectionDialog(activeApplication.app_id, idx)"
                             class="btn custom-btn btn-primary ml-2 mb-1 p-0 pl-2 pr-2 mr-2">Επιλέξτε <i
                               class="fas fa-long-arrow-alt-right"></i></button>
                         </div>
                       </div>
+                      <hr *ngIf="idx!=activeApplication.positions.length-1">
                     </div>
                   </td>
                   <td class="text-center">
-                    <button (click)="openPositionSelectionDialog(activeApplication.app_id, 'preassign')"
+                    <!-- <button (click)="openPositionSelectionDialog(activeApplication.app_id, 'preassign')"
                       class="btn btn-primary"> Επιλογή φορέα
-                    </button>
+                    </button> -->
+                    <span *ngIf="state.get(activeApplication.student_id) == 0">
+                      {{assignedPos.get(activeApplication.student_id)}}</span>
                   </td>
                   <td class="text-center">
-                    <button (click)="openPositionSelectionDialog(activeApplication.app_id, 'assign')"
-                      class="btn btn-primary"> Επιλογή φορέα </button>
-                  </td>
-                  <td>
-                    <span *ngIf="state.get(activeApplication.student_id) == 1">ΔΕΣΜΕΥΜΕΝΗ ΘΕΣΗ
-                      {{assignedPos.get(activeApplication.student_id)}}</span>
-                    <span *ngIf="state.get(activeApplication.student_id) == 0">ΠΡΟΣΩΡΙΝΑ ΔΕΣΜΕΥΜΕΝΗ ΘΕΣΗ
+                    <!-- <button (click)="openPositionSelectionDialog(activeApplication.app_id, 'assign')"
+                      class="btn btn-primary"> Επιλογή φορέα </button> -->
+                    <span *ngIf="state.get(activeApplication.student_id) == 1">
                       {{assignedPos.get(activeApplication.student_id)}}</span>
                   </td>
+
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <!-- <th>Αριθμός Αίτησης</th> -->
                   <th>Ημερομηνία Αίτησης Θέσεων</th>
                   <th>Oνοματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή</th>
-                  <th>Προσωρινή Δέσμευση εκ μέρους Φορέα</th>
-                  <th>Τελική Δέσμευση εκ μέρους φοιτητή</th>
-                  <th>Κατάσταση Δέσμευσης</th>
+                  <th style="min-width:190px;">Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
+                  <th style="min-width:180px;">Τελικές Ανάθεσεις <br>(εκ μέρους φοιτητή)</th>
                 </tr>
               </tfoot>
             </table>

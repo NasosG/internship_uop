@@ -10,8 +10,7 @@ import { DepManagerService } from '../dep-manager.service';
 })
 export class StudentsPositionSelectDialogComponent implements OnInit {
   selectedRow!: number;
-  selectedRowsArrayIndex!: number;
-  positions: any;
+  position: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private depManagerService: DepManagerService,
@@ -24,14 +23,10 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.depManagerService.getPositionsByApplicationId(this.data.appId).subscribe((positions: any[]) => {
-       this.positions = positions[this.data.index];
-       this.selectedRow = this.positions[this.data.index].app_pos_id;
+       this.position = positions[this.data.index];
+       console.log(this.position);
+       this.selectedRow = positions[this.data.index].app_pos_id;
     });
-  }
-
-  changeSelectedRow(id: number, index: number) {
-    this.selectedRow = id;
-    this.selectedRowsArrayIndex = index;
   }
 
   onSubmitSwal(assignMode: string) {
@@ -61,13 +56,13 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
     }).then((result) => {
       // if user clicks on confirmation button, call acceptPosition() method
       if (result.isConfirmed) {
-        this.acceptCompanyPosition(this.selectedRowsArrayIndex);
+        this.acceptCompanyPosition();
       }
     });
   }
 
-  acceptCompanyPosition(positionIndex: number) {
-    this.depManagerService.acceptCompanyPosition(this.positions[positionIndex].student_id, this.positions[positionIndex].position_id)
+  acceptCompanyPosition() {
+    this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id)
       .subscribe((response: any) => {
         console.log(response);
         location.reload();
@@ -88,29 +83,20 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
         console.log("User pressed Cancel");
         return;
       }
-      // Inform the user and don't send the request, if selected row is empty
-      if (!this.selectedRow) {
-        Swal.fire({
-          title: 'Αποτυχία',
-          text: 'Δεν έχετε επιλέξει θέση',
-          icon: 'error',
-          confirmButtonText: 'ΟΚ'
-        });
-        return;
-      }
 
       let positionsDataJson: any[] = [];
-
+  console.log(this.data.index);
+alert(this.position);
       positionsDataJson.push({
-        position_id: this.positions[this.selectedRowsArrayIndex].position_id,
-        internal_position_id: this.positions[this.selectedRowsArrayIndex].internal_apps_id,
-        title: this.positions[this.selectedRowsArrayIndex].title,
-        city: this.positions[this.selectedRowsArrayIndex].place,
-        duration: this.positions[this.selectedRowsArrayIndex].duration,
-        physical_object: this.positions[this.selectedRowsArrayIndex].physical_objects,
-        student_id: this.positions[this.selectedRowsArrayIndex].student_id,
-        department_id: this.positions[this.selectedRowsArrayIndex].department_id,
-        period_id: this.positions[this.selectedRowsArrayIndex].period_id
+        position_id: this.position.position_id,
+        internal_position_id: this.position.internal_apps_id,
+        title: this.position.title,
+        city: this.position.place,
+        duration: this.position.duration,
+        physical_object: this.position.physical_objects,
+        student_id: this.position.student_id,
+        department_id: this.position.department_id,
+        period_id: this.position.period_id
       });
 
       console.log(positionsDataJson);

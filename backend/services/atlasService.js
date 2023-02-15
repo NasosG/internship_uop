@@ -110,6 +110,35 @@ const getPhysicalObjects = async () => {
   }
 };
 
+const checkAtlasPositionAcademicsMatchStudents = (positionId, academicId) => {
+  try {
+    const isPosition4AllAcademics = checkPositionHasAcademics(positionId);
+    if (isPosition4AllAcademics) {
+      return true;
+    }
+    const isPosition4StudentAcademic = checkAcademicPosition(positionId, academicId);
+    if (isPosition4StudentAcademic) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const checkPositionHasAcademics = async (positionId) => {
+  const result = await pool.query('SELECT EXISTS (SELECT 1 FROM position_has_academics WHERE position_id = $1)', [positionId]);
+  return result.rows[0].exists;
+};
+
+const checkAcademicPosition = async (positionId, academicId) => {
+  const result = await pool.query(`SELECT pa.* FROM atlas_position_group g
+                                  INNER JOIN position_has_academics pa
+                                  ON pa.position_id = g.atlas_position_id
+                                  WHERE pa.academic_id = $1 AND pa.position_id = $2`, [academicId, positionId]);
+  return result.rows.length > 0;
+};
+
 const getAtlasFilteredPositions = async (offset, limit, filters) => {
   console.log("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
