@@ -85,8 +85,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
       }
 
       let positionsDataJson: any[] = [];
-  console.log(this.data.index);
-alert(this.position);
+
       positionsDataJson.push({
         position_id: this.position.position_id,
         internal_position_id: this.position.internal_apps_id,

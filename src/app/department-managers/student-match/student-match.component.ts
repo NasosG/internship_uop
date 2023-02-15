@@ -30,10 +30,9 @@ export class StudentMatchComponent implements OnInit {
   @Input() period: Period | undefined;
   assignments!: AcceptedAssignmentsByCompany[];
   positionAssigned!: boolean;
-  positionAssignedIndex!: number;
-  state = new Map();
-  assignedPos = new Map();
-  positionIds = new Map();
+  state: Array<Map<number, number>> = [];
+  assignedPos: Array<Map<number, string>> = [];
+  positionIds: Array<Map<number, any>> = [];
 
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -58,20 +57,15 @@ export class StudentMatchComponent implements OnInit {
 
             // set appAssigned to true there is approval_state = 1 in any record of this.assignments
             for (let assignment of this.assignments) {
-              if (assignment.approval_state == 1) {
+              if (assignment.approval_state == 1 || assignment.approval_state == 0 || assignment.approval_state == null) {
                 this.positionAssigned = true;
-                this.positionAssignedIndex = this.assignments.indexOf(assignment);
-                this.positionIds.set(application.student_id, (assignment as any).position_id);
-                this.assignedPos.set(application.student_id, assignment.title);
-                this.state.set(application.student_id, 1);
-                break;
-              } else if (assignment.approval_state == 0 || assignment.approval_state == null) {
-                this.positionAssigned = true;
-                this.positionAssignedIndex = this.assignments.indexOf(assignment);
-                this.positionIds.set(application.student_id, (assignment as any).position_id);
-                this.assignedPos.set(application.student_id, assignment.title);
-                this.state.set(application.student_id, 0);
-                break;
+
+                let positionIdsMap = new Map<number, any>([[application.student_id, (assignment as any).position_id]]);
+                let assignedPosMap = new Map<number, string>([[application.student_id, assignment.title + ' - ' + assignment.name]]);
+                let stateMap: Map<number, number> = new Map<number, number>([[application.student_id, assignment.approval_state == 1 ? 1 : 0]]);
+                this.positionIds.push(positionIdsMap);
+                this.assignedPos.push(assignedPosMap);
+                this.state.push(stateMap);
               }
             }
           });
@@ -107,6 +101,14 @@ export class StudentMatchComponent implements OnInit {
   private getAM(str: string): string {
     const personalIdArray = str.split(":");
     return personalIdArray[personalIdArray.length - 1];
+  }
+
+  isPositionAssigned(positionIds: Map<number, any>[], studentId: number, positionId: number): boolean {
+    return positionIds.some(map => map.get(studentId) === positionId);
+  }
+
+  hasStateWithNumber(positionIds: Map<number, any>[], studentId: number, numberParam: number): boolean {
+    return positionIds.some(map => map.get(studentId) === numberParam);
   }
 
   exportToExcel() {
@@ -231,6 +233,7 @@ export class StudentMatchComponent implements OnInit {
   openStudentsPositionSelectionDialog(appId: any, index: number) {
     console.log(appId);
     const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
+        width: '400px',
       data: { appId: appId, index: index }
     });
 
@@ -239,7 +242,7 @@ export class StudentMatchComponent implements OnInit {
     });
   }
 
-  public  add3Dots(inputText: string, limit: number): string {
+  public add3Dots(inputText: string, limit: number): string {
     let dots = "...";
     if (inputText.length > limit) {
       inputText = inputText.substring(0, limit) + dots;

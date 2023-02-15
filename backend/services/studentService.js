@@ -159,9 +159,9 @@ const getStudentPositions = async (id) => {
 
 const getStudentApplications = async (studentId) => {
   try {
-    return await pool.query("SELECT  id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status, protocol_number \
+    return await pool.query("SELECT id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status, protocol_number \
                             FROM student_applications \
-                            WHERE student_id = $1", [studentId]);
+                            WHERE student_id = $1 ORDER BY application_status, protocol_number", [studentId]);
   } catch (error) {
     throw Error('Error while fetching student applications');
   }
