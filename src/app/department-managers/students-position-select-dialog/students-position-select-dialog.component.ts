@@ -108,7 +108,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
         console.log(error);
         Swal.fire({
           title: 'Αποτυχία',
-          text: 'Η αποδοχή της ανάθεσης απέτυχε' + error.message,
+          text: 'Η αποδοχή της ανάθεσης απέτυχε',
           icon: 'error',
           confirmButtonText: 'ΟΚ'
         });

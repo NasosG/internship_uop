@@ -421,16 +421,28 @@ const getPositionsByApplicationId = async (request, response) => {
 const insertAssignment = async (request, response, next) => {
   try {
     const companyData = request.body[0];
-    console.log(request.body);
     console.log(companyData);
+
     let academicId = companyData.department_id;
     console.log(academicId);
+
     // TO BE TESTED
     const preassignResult = await depManagerService.getPreassignModeByDepartmentId(academicId);
     console.log(preassignResult.preassign);
-    console.log(companyData.position_id);
-    let positionPreassignment = await atlasController.getPositionPreassignment(companyData.position_id, academicId);
-    console.log(positionPreassignment);
+
+    // Get preassigned position or make a new preassignment
+    let positionPreassignment;
+    try {
+      positionPreassignment = await atlasController.getPositionPreassignment(companyData.position_id, academicId);
+      console.log(positionPreassignment);
+    } catch (error) {
+      console.log(error);
+      response.status(500)
+        .json({
+          message: error.message
+        });
+      return;
+    }
 
     // insert assignment details to the local db
     await depManagerService.insertAssignment(companyData);
@@ -440,6 +452,7 @@ const insertAssignment = async (request, response, next) => {
         message: "company pre-assignment was inserted successfully"
       });
   } catch (error) {
+    console.log("some error");
     console.error(error.message);
     response.status(401)
       .json({

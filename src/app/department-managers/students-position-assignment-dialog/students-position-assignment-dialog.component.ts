@@ -114,7 +114,7 @@ export class StudentsPositionAssignmentDialogComponent implements OnInit {
       });
 
       console.log(positionsDataJson);
-      alert(`Εισαγωγή θέσης ${this.selectedRow}`);
+      // alert(`Εισαγωγή θέσης ${this.selectedRow}`);
       this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
         console.log(responseData.message);
         location.reload();

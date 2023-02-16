@@ -289,7 +289,7 @@ export class StudentInternshipComponent implements OnInit {
     }, this.waitTime);
   }
 
-  addPosition(positionId: number, jobInternalPositionId: number) {
+  addPosition(positionId: number, jobInternalPositionId: number, availablePositions: number) {
     let message = "";
 
     if (!this.canStudentSubmitApp) {
@@ -301,6 +301,17 @@ export class StudentInternshipComponent implements OnInit {
     if (!positionId) {
       positionId = jobInternalPositionId;
       atlas = false;
+    }
+
+    if (availablePositions == 0) {
+       Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: "Οι διαθέσιμες θέσεις για αυτή τη θέση πρακτικής έχουν εκπληρωθεί",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      return;
     }
 
     this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
