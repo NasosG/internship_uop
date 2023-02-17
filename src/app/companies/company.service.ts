@@ -7,6 +7,7 @@ import { Company } from "./company.model";
 import { ActiveApplicationsRanked } from './active-applications-ranked.model';
 import { InternalPosition } from './internal-position.model';
 import { environment } from 'src/environments/environment';
+import {CompanysActiveApplications} from './companys-active-applications.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,18 +32,18 @@ export class CompanyService {
     return fetchedCompanies;
   }
 
-  public getStudentActiveApplications(companyName: string, companyAFM: string): Observable<Array<ActiveApplicationsRanked>> {
+  public getStudentActiveApplications(companyName: string, companyAFM: string): Observable<Array<CompanysActiveApplications>> {
     const params = new HttpParams()
       .set('companyName', companyName)
       .set('companyAFM', companyAFM);
-    return this.http.get<Array<ActiveApplicationsRanked>>(this.baseUrl + "/getStudentActiveApplications", { params });
+    return this.http.get<Array<CompanysActiveApplications>>(this.baseUrl + "/getStudentActiveApplications", { params });
   }
 
-  public getStudentAssignedApplications(companyName: string, companyAFM: string): Observable<Array<ActiveApplicationsRanked>> {
+  public getStudentAssignedApplications(companyName: string, companyAFM: string): Observable<Array<CompanysActiveApplications>> {
     const params = new HttpParams()
       .set('companyName', companyName)
       .set('companyAFM', companyAFM);
-    return this.http.get<Array<ActiveApplicationsRanked>>(this.baseUrl + "/getStudentAssignedApplications", { params });
+    return this.http.get<Array<CompanysActiveApplications>>(this.baseUrl + "/getStudentAssignedApplications", { params });
   }
 
   public getInternalPositions(): Observable<Array<InternalPosition>>  {

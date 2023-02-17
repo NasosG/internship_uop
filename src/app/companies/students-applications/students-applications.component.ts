@@ -8,6 +8,7 @@ import { Utils } from 'src/app/MiscUtils';
 import { ApplicationsPreviewDialogComponent } from '../applications-preview-dialog/applications-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Assignment } from '../assignment.model';
+import {CompanysActiveApplications} from '../companys-active-applications.model';
 
 @Component({
   selector: 'companies-students-applications',
@@ -17,7 +18,7 @@ import { Assignment } from '../assignment.model';
 export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('appTable') table: ElementRef | undefined;
   company!: Company;
-  apps: ActiveApplicationsRanked[] = [];
+  apps: CompanysActiveApplications[] = [];
   studentApprovalBtns: boolean[] = [];
 
   constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
@@ -33,7 +34,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
 
         this.companyService
           .getStudentActiveApplications(this.company.name, this.company.afm)
-          .subscribe((apps: ActiveApplicationsRanked[]) => {
+          .subscribe((apps: CompanysActiveApplications[]) => {
             this.apps = apps;
             this.chRef.detectChanges();
             const table: any = $('#appTable');
@@ -96,25 +97,23 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       } else {
         let positionsDataJson: Assignment[] = [];
 
-        for (const item of this.apps) {
-          for (let position of item.positions) {
-            // TODO: Check for duplicates
-            if (!this.studentApprovalBtns[position.position_id]) {
-              continue;
-            }
-
-            positionsDataJson.push({
-              position_id: position.position_id,
-              internal_position_id: position.internal_position_id,
-              title: position.title,
-              city: position.place,
-              duration: position.duration,
-              physical_object: position.physical_objects,
-              student_id: item.student_id,
-              department_id: item.department_id,
-              period_id: item.period_id,
-            });
+        for (let position of this.apps) {
+          // TODO: Check for duplicates
+          if (!this.studentApprovalBtns[position.position_id]) {
+            continue;
           }
+
+          positionsDataJson.push({
+            position_id: position.position_id,
+            internal_position_id: position.internal_position_id,
+            title: position.title,
+            city: position.place,
+            duration: position.duration,
+            physical_object: position.physical_objects,
+            student_id: position.student_id,
+            department_id: position.department_id,
+            period_id: position.period_id,
+          });
         }
 
         // Inform the user and don't send the request, if positions array is empty
@@ -142,20 +141,18 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   exportToExcel() {
     let positionsDataJson: any = [];
 
-    for (const item of this.apps) {
-      for (let position of item.positions) {
-        positionsDataJson.push({
-          "θεση": position.title,
-          "Επώνυμο": item.lastname,
-          "Όνομα": item.firstname,
-          "Πατρώνυμο": item.father_name,
-          "Μητρώνυμο": item.mother_name,
-          "Επώνυμο πατέρα": item.father_last_name,
-          "Επώνυμο μητέρας": item.mother_last_name,
-          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.date_of_birth),
-          "Τμήμα": item.department
-        });
-      }
+    for (let position of this.apps) {
+      positionsDataJson.push({
+        "Θέση": position.title,
+        "Επώνυμο": position.lastname,
+        "Όνομα": position.firstname,
+        "Πατρώνυμο": position.father_name,
+        "Μητρώνυμο": position.mother_name,
+        "Επώνυμο πατέρα": position.father_last_name,
+        "Επώνυμο μητέρας": position.mother_last_name,
+        // "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(position.date_of_birth),
+        "Τμήμα": position.department
+      });
     }
 
     const excelFileName: string = "Positions.xlsx";

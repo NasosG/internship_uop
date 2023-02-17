@@ -1,5 +1,7 @@
 const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
+const atlasController = require("./atlasController");
+const companyService = require("../services/companyService.js");
 
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -403,6 +405,126 @@ const getRankdedStudentsListByDeptAndPeriodId = async (request, response) => {
   }
 };
 
+const getPositionsByApplicationId = async (request, response) => {
+  try {
+    const applicationId = request.params.id;
+    const positions = await depManagerService.getPositionsByApplicationId(applicationId);
+
+    response.status(200).json(positions);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
+const insertAssignment = async (request, response, next) => {
+  try {
+    const companyData = request.body[0];
+    console.log(companyData);
+
+    let academicId = companyData.department_id;
+    console.log(academicId);
+
+    // TO BE TESTED
+    const preassignResult = await depManagerService.getPreassignModeByDepartmentId(academicId);
+    console.log(preassignResult.preassign);
+
+    // Get preassigned position or make a new preassignment
+    let positionPreassignment;
+    try {
+      positionPreassignment = await atlasController.getPositionPreassignment(companyData.position_id, academicId);
+      console.log(positionPreassignment);
+    } catch (error) {
+      console.log(error);
+      response.status(500)
+        .json({
+          message: error.message
+        });
+      return;
+    }
+
+    // insert assignment details to the local db
+    await depManagerService.insertAssignment(companyData);
+
+    response.status(201)
+      .json({
+        message: "company pre-assignment was inserted successfully"
+      });
+  } catch (error) {
+    console.log("some error");
+    console.error(error.message);
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const insertFinalAssignment = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const positionId = request.body.position_id;
+
+    const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId);
+    console.log(assignmentData);
+    console.log("studentId " + studentId);
+
+    // Get student's AM and department id by student id
+    //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
+    const student = await companyService.getStudentAMandDepartmentById(assignmentData.student_id);
+    const { registry_number: studentAMNumber, department_id: academicId } = student;
+    console.log(studentAMNumber);
+    console.log(academicId);
+
+    let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
+    let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
+    console.log(academicIDNumber);
+
+    let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
+    console.log(registeredStudent);
+    // the below line is possibly the right one; gets academicId from AM and department id
+    // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
+    if (registeredStudent.message != null) {
+      console.log('user is registered');
+      // console.log(registeredStudent.message.AcademicIDNumber);
+    } else {
+      console.log('not a registered user');
+      // Student SHOULD sign up on this occassion
+      let registerResult = await atlasController.registerNewStudent(academicIDNumber);
+      console.log(registerResult);
+    }
+    // console.log(registeredStudent);
+
+    // TO BE TESTED
+    // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
+    // console.log(preassignResult.preassign);
+    console.log(assignmentData.position_id);
+    let positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
+    console.log(positionPreassignment);
+
+    // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
+    // console.log(fundingType);
+
+    // assign student to Atlas position
+    let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
+    console.log(assignResults);
+    // update assignment details - local db
+    await studentService.acceptAssignment(assignmentData);
+
+    response.status(201)
+      .json({
+        message: "assignment was inserted successfully"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(401)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -427,5 +549,8 @@ module.exports = {
   updateDepartmentIdByUserId,
   login,
   getPhasesByPeriodId,
-  getRankdedStudentsListByDeptAndPeriodId
+  getRankdedStudentsListByDeptAndPeriodId,
+  getPositionsByApplicationId,
+  insertAssignment,
+  insertFinalAssignment
 };

@@ -1,0 +1,27 @@
+.custom-info-btn {
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+}
+
+.custom-info-btn:hover {
+  color: #224957;
+  text-decoration: underline;
+}
+
+.custom-btn {
+  background-color: grey !important;
+  cursor: pointer;
+}
+
+.custom-btn:hover {
+  background-color: #224957 !important;
+  cursor: pointer;
+}
+
+.green-bckg {
+  background-color: rgb(183, 255, 0) !important;
+  /* color: white; */
+  padding: 1px 4px 1px 4px;
+  border-radius: 4px;
+}

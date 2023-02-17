@@ -29,46 +29,28 @@ const getProviderIdByUserId = async (id) => {
 
 const getStudentActiveApplications = async (companyName, companyAFM) => {
   try {
-    // Constants
-    const MAX_POSITIONS_NUMBER = 5;
-    const OFFSET = 1;
-    // Variables
-    let apps = [];
+    const applications = await pool.query(`SELECT final_app_positions.*, active_applications_ranked.* FROM final_app_positions
+                                          INNER JOIN active_applications_ranked ON active_applications_ranked.app_id = final_app_positions.application_id
+                                          LEFT JOIN internship_assignment
+                                          ON final_app_positions.position_id = internship_assignment.position_id AND
+                                          active_applications_ranked.student_id = internship_assignment.student_id
+                                          WHERE afm = $1 AND company = $2
+                                          AND internship_assignment.student_id IS NULL`, [companyAFM, companyName]);
 
+    // const applications = await pool.query(`SELECT *
+    //   FROM final_app_positions
+    //   INNER JOIN active_applications_ranked ON active_applications_ranked.app_id = final_app_positions.application_id
+    //   LEFT JOIN internship_assignment ON  active_applications_ranked.student_id = internship_assignment.student_id
+    //       WHERE
+    //         (afm = $1 AND company = $2 AND
+    //           (internship_assignment.student_id IS NULL OR
+    //             (internship_assignment.student_id IS NOT NULL AND internship_assignment.position_id != final_app_positions.app_pos_id)
+    //           )
+    //       ) `, [companyAFM, companyName]);
 
-    const studentsWithRankedApps = await pool.query("SELECT student_id FROM active_applications_ranked");
-    // loop through positions in applications of the database
-    for (let j = 0; j < studentsWithRankedApps.rows.length; j++) {
-      for (let i = OFFSET; i < MAX_POSITIONS_NUMBER + OFFSET; i++) {
-        const assignedApps = await getStudentAssignedApplicationsWithStudentId(companyName, companyAFM, studentsWithRankedApps.rows[j].student_id);
-        const applications = await pool.query("SELECT * FROM active_applications_ranked \
-                                            WHERE (positions[$1]->>'company')::varchar = $2 \
-                                            AND (positions[$1]->>'afm')::varchar = $3 \
-                                            AND active_applications_ranked.student_id = $4", [i, companyName, companyAFM, studentsWithRankedApps.rows[j].student_id]);
-
-        // if student has an assigned application to some position, in assignedApps json array,
-        // then don't show it in the active applications
-        let found = false;
-        for (const app of assignedApps) {
-          for (const position of app.positions) {
-            if (position?.position_id == applications?.rows[0]?.positions[0].position_id
-              && app?.student_id == applications?.rows[0]?.student_id) {
-              found = true;
-              console.log(position?.position_id);
-              console.log("found application in assigned apps");
-            }
-          }
-        }
-
-        // push first element which contains actual json[]
-        if (applications.rows[0] && !found)
-          apps.push(applications.rows[0]);
-      }
-    }
-
-    return apps;
+    return applications.rows;
   } catch (error) {
-    throw Error('Error while fetching student active applications');
+    throw Error('Error while fetching student active applications' + error.message);
   }
 };
 
@@ -96,61 +78,16 @@ const updateUserPassword = async (userPassword, userMail) => {
 
 const getStudentAssignedApplications = async (companyName, companyAFM) => {
   try {
-    // Constants
-    const MAX_POSITIONS_NUMBER = 5;
-    const OFFSET = 1;
-    // Variables
-    let apps = [];
-    const studentsWithRankedApps = await pool.query("SELECT student_id FROM internship_assignment");
-    // loop through positions in applications of the database
-    for (let j = 0; j < studentsWithRankedApps.rows.length; j++) {
-      // loop through positions in applications of the database
-      for (let i = OFFSET; i < MAX_POSITIONS_NUMBER + OFFSET; i++) {
-        const applications = await pool.query("SELECT * FROM active_applications_ranked d \
-                                            INNER JOIN internship_assignment a \
-                                            ON (d.positions[$1] ->> 'internal_position_id':: varchar = a.internal_position_id:: varchar \
-	                                            OR d.positions[$1] ->> 'position_id':: varchar = a.position_id:: varchar) \
-                                              AND(positions[$1] ->> 'company'):: varchar = $2 \
-                                              AND(positions[$1] ->> 'afm'):: varchar = $3 \
-                                              AND a.status = 0 \
-                                              AND a.student_id = $4", [i, companyName, companyAFM, studentsWithRankedApps.rows[j].student_id]);
-        //                                                    /\ status = 0 means that the application is active
-        // push first element which contains actual json[]
-        if (applications.rows[0])
-          apps.push(applications.rows[0]);
-      }
-    }
-    return apps;
-  } catch (error) {
-    throw Error('Error while fetching student active applications');
-  }
-};
+    const STATUS = 0; //status = 0 means that the application is active
+    const applications = await pool.query(`SELECT final_app_positions.*, active_applications_ranked.*, internship_assignment.approval_state
+                        FROM final_app_positions
+                        INNER JOIN active_applications_ranked ON active_applications_ranked.app_id = final_app_positions.application_id
+                        INNER JOIN internship_assignment ON final_app_positions.position_id = internship_assignment.position_id
+                        AND active_applications_ranked.student_id = internship_assignment.student_id
+                        WHERE company = $1 AND afm = $2
+                        AND internship_assignment.status = $3 `, [companyName, companyAFM, STATUS]);
 
-const getStudentAssignedApplicationsWithStudentId = async (companyName, companyAFM, studentId) => {
-  try {
-    // Constants
-    const MAX_POSITIONS_NUMBER = 5;
-    const OFFSET = 1;
-    // Variables
-    let apps = [];
-
-    // loop through positions in applications of the database
-    for (let i = OFFSET; i < MAX_POSITIONS_NUMBER + OFFSET; i++) {
-      const applications = await pool.query("SELECT * FROM active_applications_ranked d \
-                                            INNER JOIN internship_assignment a \
-                                            ON (d.positions[$1] ->> 'internal_position_id':: varchar = a.internal_position_id:: varchar \
-	                                            OR d.positions[$1] ->> 'position_id':: varchar = a.position_id:: varchar) \
-                                              AND(positions[$1] ->> 'company'):: varchar = $2 \
-                                              AND(positions[$1] ->> 'afm'):: varchar = $3 \
-                                              AND a.status = 0 \
-                                              AND a.student_id = $4", [i, companyName, companyAFM, studentId]);
-      //                                                    /\ status = 0 means that the application is active
-      // push first element which contains actual json[]
-      if (applications.rows[0])
-        apps.push(applications.rows[0]);
-    }
-
-    return apps;
+    return applications.rows;
   } catch (error) {
     throw Error('Error while fetching student active applications');
   }

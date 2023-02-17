@@ -159,9 +159,9 @@ const getStudentPositions = async (id) => {
 
 const getStudentApplications = async (studentId) => {
   try {
-    return await pool.query("SELECT  id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status, protocol_number \
+    return await pool.query("SELECT id, student_id, positions, to_char(\"application_date\", 'DD/MM/YYYY') as application_date, application_status, protocol_number \
                             FROM student_applications \
-                            WHERE student_id = $1", [studentId]);
+                            WHERE student_id = $1 ORDER BY application_status, protocol_number", [studentId]);
   } catch (error) {
     throw Error('Error while fetching student applications');
   }
@@ -375,10 +375,20 @@ const insertStudentApplication = async (body, studentId) => {
     if (details.periodId == -1)
       throw Error('No period was found');
 
-    await pool.query("INSERT INTO student_applications" +
+    const result = await pool.query("INSERT INTO student_applications" +
       "(student_id, positions, application_date, application_status, period_id, protocol_number)" +
-      " VALUES " + "($1, $2, now(), $3, $4, $5)",
+      " VALUES " + "($1, $2, now(), $3, $4, $5)" +
+      " RETURNING id",
       [studentId, body, true, details.periodId, details.protocolNumber]);
+    const applicationId = result.rows[0].id;
+
+    for (const obj of body) {
+      await pool.query("INSERT INTO final_app_positions" +
+        "(student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id, application_id)" +
+        " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+        [studentId, obj.priority, obj.company, obj.title, obj.place, obj.upload_date, obj.position_id, obj.afm, obj.internal_position_id, applicationId]);
+    }
+
   } catch (error) {
     console.log('Error while inserting application to student_applications' + error.message);
     throw Error('Error while inserting application to student_applications' + error.message);

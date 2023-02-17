@@ -36,6 +36,10 @@ export class StudentsService {
   //   return this.studentsUpdated.asObservable();
   // }
 
+  getStudentByIdFromDialog(id: number): Observable<Array<Student>> {
+    return this.http.get<Array<Student>>(STUDENTS_URL + 'getStudentById/' + id);
+  }
+
   getStudents(): Observable<Array<Student>> {
     let id = this.authService.getSessionId();
     const fetchedStudents = this.http.get<Array<Student>>(STUDENTS_URL + 'getStudentById/' + id);
@@ -462,4 +466,11 @@ export class StudentsService {
     return this.http.get<boolean>(STUDENTS_URL + "getStudentRankedApprovalStatusForPeriod", { params });
   }
 
+  getStudentPositionMatchesAcademic(positionId: number, academicId: number): Observable<boolean> {
+    const params = new HttpParams()
+      .set('positionId', positionId)
+      .set('academicId', academicId);
+
+    return this.http.get<boolean>(ATLAS_URL + "getStudentPositionMatchesAcademic", { params });
+  }
 }

@@ -1103,12 +1103,12 @@ const getPositionPreassignment = async (groupId, academicId) => {
 
     let positionIds = [];
     let positionData = [];
+    const preassigned = atlasResponse.data.Result;
 
-    if (atlasResponse.data.Result != null && atlasResponse.data.Result.length != 0) {
+    if (preassigned && preassigned.length > 0) {
       console.log("preassigned positions exist");
-      for (position of atlasResponse.data.Result) {
-        if (position.GroupID == groupId /*&& position.PreAssignedForAcademic.ID == academicId*/) {
-          // positionIds = position.ID;
+      preassigned.forEach((position) => {
+        if (parseInt(position.GroupID) === parseInt(groupId) && position.PreAssignedForAcademic.ID == academicId) {
           positionIds.push(position.ID);
           positionData.push({
             "ImplementationEndDate": position.ImplementationEndDate,
@@ -1117,13 +1117,19 @@ const getPositionPreassignment = async (groupId, academicId) => {
             "ImplementationStartDateString": position.ImplementationStartDateString,
           });
         }
-      }
-    } else {
-      // if no position is found, preassign a single position
+      });
+    }
+
+    // If no position is found, preassign a single position
+    if (positionIds.length === 0) {
+      const args = {
+        "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId,
+      };
+
       atlasResponse = await axios({
         url: ATLAS_URL + '/PreAssignPositions',
         method: 'POST',
-        data: { "GroupID": groupId, "NumberOfPositions": 1, "AcademicID": academicId },
+        data: args,
         headers: {
           'Content-Type': 'application/json',
           'access_token': accessToken
@@ -1132,16 +1138,18 @@ const getPositionPreassignment = async (groupId, academicId) => {
 
       positionIds = atlasResponse.data.Result;
       if (atlasResponse.data.Success == true) {
-        console.log('Προδέσμευση θέσης από φοιτητή GroupID:' + groupId + 'AcademiID:' + academicId + 'PositionID:' + positionIds[0]);
+        console.log('Προδέσμευση θέσης από φοιτητή GroupID: ' + groupId + ' AcademiID: ' + academicId + ' PositionID: ' + positionIds[0]);
+        // TODO: change this to get implementation dates correctly from atlas
         positionData.push({
-          "ImplementationEndDate": position.ImplementationEndDate,
-          "ImplementationEndDateString": position.ImplementationEndDateString,
-          "ImplementationStartDate": position.ImplementationStartDate,
-          "ImplementationStartDateString": position.ImplementationStartDateString,
+          "ImplementationEndDate": null,
+          "ImplementationEndDateString": '',
+          "ImplementationStartDate": null,
+          "ImplementationStartDateString": '',
         });
       } else {
-        console.log('Παρουσιάστηκε σφάλμα κατά την προδεσμευση θέσης στο ΑΤΛΑΣ');
+        console.log('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
         console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademicID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
+        throw new Error('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
       }
     }
 
@@ -1149,12 +1157,11 @@ const getPositionPreassignment = async (groupId, academicId) => {
       positionIds,
       positionData
     };
-    // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while fetching preassigned positions: " + error.message);
     return {
-      status: "400 bad request",
-      message: "something went wrong while fetching available positions: " + error.message
+      status: "Error occurred",
+      message: error.message
     };
   }
 };
@@ -1364,6 +1371,22 @@ const calculateDurationInMinutes = (startTime, endTime) => {
   return durationInMinutes;
 };
 
+const getStudentPositionMatchesAcademic = async (request, response) => {
+  try {
+    const positionId = request.query.positionId;
+    const academicId = request.query.academicId;
+
+    // console.log(companyName + " " + companyAFM);
+    const doesStudentPositionMatchDepartment = await atlasService.checkAtlasPositionAcademicsMatchStudents(positionId, academicId);
+
+    response.status(200).json(doesStudentPositionMatchDepartment);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getRegisteredStudents,
   getAvailablePositionGroupsUI,
@@ -1389,5 +1412,6 @@ module.exports = {
   insertOrUpdateWholeAtlasTables,
   insertOrUpdateImmutableAtlasTables,
   findAcademicIdNumber,
-  testDeletePosition
+  testDeletePosition,
+  getStudentPositionMatchesAcademic
 };

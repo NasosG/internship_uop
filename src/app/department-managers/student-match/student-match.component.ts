@@ -1,13 +1,19 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import {mergeMap} from 'rxjs';
-import {Utils} from 'src/app/MiscUtils';
+import { mergeMap } from 'rxjs';
+import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import Swal from 'sweetalert2';
-import {ActiveApplication} from '../active-application.model';
+import { ActiveApplication } from '../active-application.model';
 import { DepManagerService } from '../dep-manager.service';
 import * as XLSX from 'xlsx';
+import { Period } from '../period.model';
+import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
+import { StudentsPositionAssignmentDialogComponent } from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
+import { CompanyInfoDialogComponent } from '../company-info-dialog/company-info-dialog.component';
+import {AcceptedAssignmentsByCompany} from 'src/app/students/accepted-assignments-by-company';
+import {StudentsPositionSelectDialogComponent} from '../students-position-select-dialog/students-position-select-dialog.component';
 
 @Component({
   selector: 'app-student-match',
@@ -21,6 +27,13 @@ export class StudentMatchComponent implements OnInit {
   applicationDateStr!: string[];
   selected = '';
   ngSelect = "";
+  @Input() period: Period | undefined;
+  assignments!: AcceptedAssignmentsByCompany[];
+  positionAssigned!: boolean;
+  state: Array<Map<number, number>> = [];
+  assignedPos: Array<Map<number, string>> = [];
+  positionIds: Array<Map<number, any>> = [];
+
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -37,6 +50,26 @@ export class StudentMatchComponent implements OnInit {
         for (let application of this.activeApplications) {
           application.reg_code = this.getAM(application.reg_code);
           application.applicationDateStr = Utils.reformatDateToEULocaleStr(application.application_date);
+
+          this.depManagerService.getAssignmentsByStudentId(application.student_id)
+          .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
+            this.assignments = assignments;
+
+            // set appAssigned to true there are any records of this.assignments
+            for (let assignment of this.assignments) {
+              if (assignment.approval_state == 1 || assignment.approval_state == 0 || assignment.approval_state == null) {
+                this.positionAssigned = true;
+
+                let positionIdsMap = new Map<number, any>([[application.student_id, (assignment as any).position_id]]);
+                let assignedPosMap = new Map<number, string>([[application.student_id, assignment.title + ' - ' + assignment.name]]);
+                let stateMap: Map<number, number> = new Map<number, number>([[application.student_id, assignment.approval_state == 1 ? 1 : 0]]);
+                this.positionIds.push(positionIdsMap);
+                this.assignedPos.push(assignedPosMap);
+                this.state.push(stateMap);
+              }
+            }
+          });
+
         }
         // TODO: When provider assigns students, need to fetch the provider name
 
@@ -60,7 +93,7 @@ export class StudentMatchComponent implements OnInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [4] }]
+          columnDefs: [{ orderable: false, targets: [4, 5, 6] }]
         });
       });
   }
@@ -68,6 +101,14 @@ export class StudentMatchComponent implements OnInit {
   private getAM(str: string): string {
     const personalIdArray = str.split(":");
     return personalIdArray[personalIdArray.length - 1];
+  }
+
+  isPositionAssigned(positionIds: Map<number, any>[], studentId: number, positionId: number): boolean {
+    return positionIds.some(map => map.get(studentId) === positionId);
+  }
+
+  hasStateWithNumber(positionIds: Map<number, any>[], studentId: number, numberParam: number): boolean {
+    return positionIds.some(map => map.get(studentId) === numberParam);
   }
 
   exportToExcel() {
@@ -136,7 +177,6 @@ export class StudentMatchComponent implements OnInit {
             <th>Oναματεπώνυμο</th> \
             <th>ΑΜ</th> \
             <th>Επιλογές Φοιτητή</th> \
-            <th>Αποδοχή Φορέα</th> \
           </tr> \
         </thead>");
 
@@ -156,7 +196,7 @@ export class StudentMatchComponent implements OnInit {
         "<td>" + student.lastname + " " + student.firstname + "</td>" +
         "<td>" + student.reg_code + "</td>" +
         "<td>" + studentChoices + "</td>" +
-        "<td>" + "2.citrix" + "</td>" +
+        // "<td>" + "2.citrix" + "</td>" +
         "</tr>");
       i++;
     }
@@ -167,4 +207,56 @@ export class StudentMatchComponent implements OnInit {
     windowPrint?.close();
   }
 
+  openDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(StudentsMatchedInfoDialogComponent, {
+      data: { index: idx }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openPositionSelectionDialog(appId: any, assignMode: string) {
+    console.log(appId);
+    const dialogRef = this.dialog.open(StudentsPositionAssignmentDialogComponent, {
+      data: { appId: appId, assignMode: assignMode }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openStudentsPositionSelectionDialog(appId: any, index: number) {
+    console.log(appId);
+    const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
+      width: '400px',
+      data: { appId: appId, index: index }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  public add3Dots(inputText: string, limit: number): string {
+    let dots = "...";
+    if (inputText.length > limit) {
+      inputText = inputText.substring(0, limit) + dots;
+    }
+
+    return inputText;
+  }
+
+  openCompanyInfoDialog(company: any, afm: string) {
+    const dialogRef = this.dialog.open(CompanyInfoDialogComponent, {
+      data: { company: company, afm: afm }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }

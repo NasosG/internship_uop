@@ -25,6 +25,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   ngSelect = "";
   depId: any;
   @Input('espaPositions') espaPositions: number = 0;
+  @Input('period') period: Period  | undefined;
   @Input('periodId') periodId: number = 0;
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -55,13 +56,13 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
           lengthChange: true,
           paging: true,
           searching: true,
-          ordering: true,
+          ordering: false,
           info: true,
           autoWidth: false,
           responsive: true,
           select: true,
-          orderable: true,
-          columnDefs: [{ orderable: false, targets: [5] }],
+          // orderable: true,
+          // columnDefs: [{ orderable: false, targets: [5] }],
           pagingType: 'full_numbers',
           processing: true,
           language: {

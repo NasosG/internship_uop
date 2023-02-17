@@ -139,6 +139,7 @@ export class StudentInternshipComponent implements OnInit {
     this.studentsService.getAtlasFilteredPositions(this.begin, filterArray)
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
+        this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
       });
   }
 
@@ -288,13 +289,12 @@ export class StudentInternshipComponent implements OnInit {
     }, this.waitTime);
   }
 
-  addPosition(positionId: number, jobInternalPositionId: number) {
+  addPosition(positionId: number, jobInternalPositionId: number, availablePositions: number) {
     let message = "";
 
     if (!this.canStudentSubmitApp) {
       (document.getElementById("addPositionsBtn") as HTMLButtonElement).textContent = "ΧΩΡΙΣ ΔΥΝΑΤΟΤΗΤΑ ΠΡΟΣΘΗΚΗΣ ΘΕΣΗΣ";
       return;
-
     }
     let atlas = true;
     // Below "if" was used for job positions that were not from atlas but from our database
@@ -302,23 +302,42 @@ export class StudentInternshipComponent implements OnInit {
       positionId = jobInternalPositionId;
       atlas = false;
     }
-    this.studentsService.insertStudentPosition(positionId, atlas).subscribe(responseData => {
-      message = responseData.message;
-      // console.log(message);
 
-      // check if student tries to choose more than 5 positions
-      if (message == "Student can't choose more than 5 positions") {
-        console.log("Can't choose more than 5 positions");
-        this.warnIllegalPositionNumber();
+    if (availablePositions == 0) {
+       Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: "Οι διαθέσιμες θέσεις για αυτή τη θέση πρακτικής έχουν εκπληρωθεί",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      return;
+    }
+
+    this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
+    .subscribe((responseData: boolean) => {
+      if (responseData !== true) {
+        this.warnDepartmentNotMatchesError();
         return;
       }
-      // check if student tries to select the same position or another error occurrs
-      else if (message.includes("Error while inserting student positions")) {
-        this.warnError();
-        return;
-      }
 
-      this.addedPositionSuccess();
+      this.studentsService.insertStudentPosition(positionId, atlas).subscribe(responseData => {
+        message = responseData.message;
+
+        // check if student tries to choose more than 5 positions
+        if (message === "Student can't choose more than 5 positions") {
+          console.log("Can't choose more than 5 positions");
+          this.warnIllegalPositionNumber();
+          return;
+        }
+        // check if student tries to select the same position or another error occurrs
+        else if (message.includes("Error while inserting student positions")) {
+          this.warnError();
+          return;
+        }
+
+        this.addedPositionSuccess();
+      });
     });
   }
 
@@ -337,6 +356,16 @@ export class StudentInternshipComponent implements OnInit {
       position: 'center',
       icon: 'error',
       title: "Δεν μπορείτε να επιλέξετε την ίδια θέση.",
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  private warnDepartmentNotMatchesError(): void {
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: "Αυτή η θέση δεν είναι διαθέσιμη για το τμήμα σας",
       showConfirmButton: false,
       timer: 1500
     });
