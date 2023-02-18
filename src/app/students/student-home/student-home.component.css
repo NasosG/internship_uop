@@ -38,3 +38,13 @@ abbr[data-original-title] {
   text-decoration: none;
   font-weight: lighter;
 }
+
+@media print {
+  .printable-component {
+    display: block;
+  }
+}
+
+.printable-component {
+  display: none;
+}

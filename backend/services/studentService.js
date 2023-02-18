@@ -25,7 +25,7 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
 
     if (process.env.ENV == 'DEV') {
       return {
-        'Grade': 0, 'Ects': 1, 'Semester': 2, 'Praktiki': 0
+        'Grade': 6.7, 'Ects': 160, 'Semester': 7, 'Praktiki': 0, 'CourseCount': 32
       };
     }
 
@@ -97,6 +97,16 @@ const getStudentById = async (id) => {
     let studentDetails = Object.assign(student, studentDetailsProcedure);
     return [studentDetails];
   } catch (error) {
+    throw Error('Error while fetching students' + error.message);
+  }
+};
+
+const getStudentFilesForAppPrint = async (studentId) => {
+  try {
+    const result = await pool.query('SELECT doc_type FROM sso_user_files WHERE sso_uid = $1', [studentId]);
+    return result.rows;
+  } catch (error) {
+    console.error(error);
     throw Error('Error while fetching students' + error.message);
   }
 };
@@ -913,5 +923,6 @@ module.exports = {
   getMergedDepartmentInfoByStudentId,
   insertOrUpdateStudentInterestApp,
   getSemesterProtocolNumberIfExistsOrNull,
-  updateDepartmentIdByStudentId
+  updateDepartmentIdByStudentId,
+  getStudentFilesForAppPrint
 };

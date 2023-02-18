@@ -1,0 +1,18 @@
+tr,
+td,
+th {
+  border: none;
+}
+
+#page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  right: 0;
+}
+
+#page-footer img {
+  display: block;
+  margin: auto;
+}

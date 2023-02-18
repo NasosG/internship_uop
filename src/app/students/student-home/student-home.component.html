@@ -177,6 +177,8 @@
           <div class="chart tab-pane active" id="revenue-chart">
             {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-4-PAR'| translate}} Α.Π.:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
+            <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
+              Εκτύπωση</button>
             <br>
           </div>
         </div>
@@ -287,4 +289,6 @@
       <!-- <p>Selected date: {{ selected }}</p> -->
     </mat-card>
   </section>
+  <app-students-interest-app-printable class="printable-component" #printComponent>
+  </app-students-interest-app-printable>
 </div>

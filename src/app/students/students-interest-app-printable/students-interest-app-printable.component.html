@@ -1,0 +1,203 @@
+<!--onload="window.print();window.close()">-->
+<div id="print-section">
+  <p style="text-align: center;"><strong><u>Αίτηση για το πρόγραμμα Πρακτικής Άσκησης με χρηματοδότηση από το ΕΣΠΑ Ακαδ.
+        Έτους {{calculateCurrYear()}}
+      </u></strong></p>
+  <table style="width: 100%;">
+    <tbody>
+      <tr style="vertical-align: top;">
+        <td style="border: none; width: 50%;">
+          <div style="text-align: center;"><br><strong>ΑΤΟΜΙΚΑ ΣΤΟΙΧΕΙΑ</strong><br><br></div>
+          <table style="width: 100%; max-width:600px;">
+            <tbody>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Ονοματεπώνυμο</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].sn + ' ' + this.studentsSSOData[0].givenname}}
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Πατρώνυμο</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].father_name}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Μητρώνυμο</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].mother_name}}</td>
+              </tr>
+              <tr>
+                <td sstyle="width: 50%; font-weight: bold">Επώνυμο πατέρα</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].father_last_name}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Επώνυμο μητέρας</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].mother_last_name}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Ημ. Γέννησης</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].date_of_birth}}</td>
+              </tr>
+
+              <tr>
+                <td style="width: 50%; font-weight: bold">ΑΜ</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].sn}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Φύλλο</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].gender}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">email</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].mail}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Τηλέφωνο</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].telephone}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Πόλη</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].city}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">ΤΚ</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].postal_code}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Διεύθυνση</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].address}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Τοποθεσία</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].location}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">ΑΦΜ</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].ssn}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">AMKA</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].user_ssn}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">ΔΟΥ</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].doy}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">IBAN</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].iban}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Υπηρετώ στο στρατό</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].military_training == "0" ? 'OXI' : 'NAI'}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Σύμβαση εργασίας</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].working_state == "0" ? 'OXI' : 'NAI'}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">AMEA κατηγορίας 5</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].amea_cat == "0" ? 'OXI' : 'NAI'}}</td>
+              </tr>
+            </tbody>
+          </table><br>
+          <div style="text-align: center;"><strong>ΣΤΟΙΧΕΙΑ ΤΜΗΜΑΤΟΣ</strong></div>
+          <br>
+          <table style="width: 100%;max-width:200px;">
+            <tbody>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Τμήμα</td>
+                <td style="width: 50.0000%;">{{this.studentsSSOData[0].department}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Αρ. Μητρ.</td>
+                <td style="width: 50%;max-width:100px;">
+                  {{this.studentsSSOData[0].schacpersonaluniquecode.split(':').pop()}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Εξάμηνο</td>
+                <td style="width: 50%;max-width:200px;">{{this.studentsSSOData[0].Semester}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">ECTS</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].Ects}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Βαθμολογία σταθμισμένη</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].Grade}}</td>
+              </tr>
+              <tr>
+                <td style="width: 50%; font-weight: bold">Σύνολο Περασμένων Μαθημάτων</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].CourseCount}}</td>
+              </tr>
+            </tbody>
+          </table><br>
+          <p><br></p>
+          <table style="width: 100%;">
+            <tbody>
+              <tr>
+                <td style="border: 1px solid black; width: 100.0000%;">Ενδιαφέρομαι να εκπονήσω Πρακτική Άσκηση κατά το
+                  εαρινό εξάμηνο 2022-23, με χρηματοδότηση από το ΕΣΠΑ. Αποδέχομαι τους όρους της πρόσκλησης, γνωρίζω
+                  τον κανονισμό Πρακτικής Άσκησης του Τμήματος και του Ιδρύματος. </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <img src="assets/images/sheet_espa_logo.jpg">
+          <div id="page-footer" class="page-footer"
+            style="position: fixed; bottom: 0; left: 0; text-align: center; right: 0;">
+            <img style="width:600px;" src="assets/images/espaImage.png">
+          </div>
+        </td>
+        <td style="border: none; vertical-align: top; width: 50.0000%;">
+          <table style="width: 100%; min-width:400px;max-width:500px;">
+            <tbody>
+              <tr>
+                <td style="border: none;width: 33%;"><br></td>
+                <td style="border: none; width: 33.4894%;">
+                  <div style="text-align: center;"><strong>ΠΡΟΣ&nbsp;</strong></div>
+                </td>
+                <td style="border: none; width: 33.4895%;">Α.Π.: {{this.studentsSSOData[0].latest_app_protocol_number}}
+                  <br><br></td>
+              </tr>
+            </tbody>
+          </table>
+          <table style="width: 100%;">
+            <tbody>
+              <tr>
+                <td style="border:none; width: 100.0000%;"><strong>Γραφείο Πρακτικής Άσκησης Πανεπιστήμιο
+                    Πελοποννήσου</strong><br>Σας υποβάλλω την τρέχουσα αίτηση για αίτηση Πρακτικής Άσκησης στο τρέχον
+                  ακαδημαϊκό έτος.</td>
+              </tr>
+            </tbody>
+          </table><br>
+          <div style="text-align: center;">Τρίπολη, &nbsp; &nbsp; &nbsp; / &nbsp; &nbsp; &nbsp; /<br><br></div>
+          <div style="text-align: center;">Ο/Η Αιτών/ούσα</div>
+          <p><br></p>
+          <p><br></p>
+          <table style="width: 100%;">
+            <tbody>
+              <tr>
+                <td style="border: none; width: 50.0000%;">
+                  <div style="text-align: center;"><strong>ΣΥΝΗΜΜΕΝΑ ΔΙΚΑΙΟΛΟΓΗΤΙΚΑ</strong></div>
+                </td>
+              </tr>
+            </tbody>
+          </table><br>
+          <p *ngFor="let item of studentFiles">
+            {{item.doc_type == "AFFIDAVIT" ? 'Υπεύθυνη Δήλωση' : ('Έντυπο ' + item.doc_type)}}</p>
+          <table style="width: 100%;">
+          </table>
+          <p><br></p>
+          <table style="width: 100%;">
+            <tbody>
+              <tr>
+                <td style="width: 100.0000%; font-size: 10px;">
+                  Σημείωση: Τα άρθρα αναφέρονται στην Κ.Υ.Α "Καθαρισμός όρων, προϋποθέσεων και διαδικασίας για την
+                  πρακτική άσκηση στους φοιτητές των Α.Ε.Ι" ΦΕΚ' τ. Β' 2020/01-01-2011</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p><br></p>
+</div>

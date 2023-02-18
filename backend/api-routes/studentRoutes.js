@@ -49,5 +49,6 @@ router.get("/getMergedDepartmentInfoByStudentId/:id", studentController.getMerge
 router.patch("/updateDepartmentIdByStudentId/:id", studentController.updateDepartmentIdByStudentId);
 router.get("/getProtocolNumberIfInterestAppExists/", studentController.getProtocolNumberIfInterestAppExists);
 router.get("/getStudentRankedApprovalStatusForPeriod/", studentController.getStudentRankedApprovalStatusForPeriod);
+router.get("/getStudentFilesForAppPrint/:id", studentController.getStudentFilesForAppPrint);
 
 module.exports = router;

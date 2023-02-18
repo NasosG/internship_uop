@@ -473,4 +473,11 @@ export class StudentsService {
 
     return this.http.get<boolean>(ATLAS_URL + "getStudentPositionMatchesAcademic", { params });
   }
+
+  getStudentFilesForAppPrint(): Observable<any> {
+    const studentId = this.authService.getSessionId();
+
+    return this.http.get<any>(STUDENTS_URL + "getStudentFilesForAppPrint/" + studentId);
+  }
+
 }

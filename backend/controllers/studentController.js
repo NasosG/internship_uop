@@ -65,6 +65,20 @@ const getStudentById = async (request, response) => {
   }
 };
 
+const getStudentFilesForAppPrint = async (request, response) => {
+  try {
+    console.log("dsf");
+    const studentId = request.params.id;
+    const doctypes = await studentService.getStudentFilesForAppPrint(studentId);
+    response.status(200).json(doctypes);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const getPhase = async (request, response) => {
   try {
     const departmentId = request.params.id;
@@ -971,5 +985,6 @@ module.exports = {
   insertStudentInterestApp,
   getMergedDepartmentInfoByStudentId,
   updateDepartmentIdByStudentId,
-  getProtocolNumberIfInterestAppExists
+  getProtocolNumberIfInterestAppExists,
+  getStudentFilesForAppPrint
 };

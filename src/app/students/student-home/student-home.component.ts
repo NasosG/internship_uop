@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 // import {flatMap, interval, mergeMap, takeWhile} from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
@@ -6,6 +6,7 @@ import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { Utils } from '../../MiscUtils'
 import * as moment from 'moment';
+import { StudentsInterestAppPrintableComponent } from '../students-interest-app-printable/students-interest-app-printable.component';
 
 @Component({
   selector: 'app-student-home',
@@ -30,6 +31,9 @@ export class StudentHomeComponent implements OnInit {
   // private PREFERENCE_DECLARATION_PHASE: number = 3;
   private PREFERENCE_DECLARATION_PHASE: number = 2;
   isResultsPhase: any;
+  @ViewChild('printComponent')
+  printComponent!: StudentsInterestAppPrintableComponent;
+  data: any = this.studentsSSOData;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
