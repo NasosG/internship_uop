@@ -146,15 +146,23 @@ const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
       departmentFieldForProcedure = MiscUtils.getAEICodeFromDepartmentId(deptId);
     }
 
-    const studentsWithFactorProcedureResult = await Promise.all(
-      students.rows.map(async student => {
-        const factorProcedureResult = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
-        return {
-          ...student,
-          ...factorProcedureResult
-        };
-      })
-    );
+    // const studentsWithFactorProcedureResult = await Promise.all(
+    //   students.rows.map(async student => {
+    //     const factorProcedureResult = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
+    //     return {
+    //       ...student,
+    //       ...factorProcedureResult
+    //     };
+    //   })
+    // );
+    const studentsWithFactorProcedureResult = [];
+    for (const student of students.rows) {
+      const factorProcedureResult = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(student.schacpersonaluniquecode));
+      studentsWithFactorProcedureResult.push({
+        ...student,
+        ...factorProcedureResult
+      });
+    }
 
     return studentsWithFactorProcedureResult;
   } catch (error) {

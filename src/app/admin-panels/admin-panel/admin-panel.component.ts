@@ -139,7 +139,7 @@ export class AdminPanelComponent implements OnInit {
       academicsArray.push(department_id);
     }
 
-    alert( Array.isArray(this.academics?.value));
+    // alert( Array.isArray(this.academics?.value));
 
     // this.isAdmin?.value == true ? true : false below: because if the checkbox is not checked, it returns null
     let finalJson = {

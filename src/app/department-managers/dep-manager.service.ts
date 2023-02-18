@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { mergeMap, Observable, of, Subject } from "rxjs";
+import { forkJoin, mergeMap, Observable, of, Subject, switchMap, toArray } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { DepManager } from "./dep-manager.model";
@@ -97,15 +97,32 @@ export class DepManagerService {
     return fetchedStudent;
   }
 
-  getStudentsRankingList(): Observable<Student[]> {
-    const fetchedStudents = this.getDepManager()
-      .pipe(
-        mergeMap(depManager => this.getPeriodByDepartmentId(depManager.department_id)),
-        mergeMap(result => this.getStudentsRankingListFromAPI(result?.department_id, result?.id))
-      );
+  // getStudentsRankingList(): Observable<Student[]> {
+  //   const fetchedStudents = this.getDepManager()
+  //   .subscribe((depManager:DepManager)=> {
+  //     let depMan = depManager;
+  //     this.getPeriodByDepartmentId(depMan.department_id)
+  //       .subscribe((result:any) => {
+  //         this.getStudentsRankingList(result?.department_id, result?.id))
+  //         .subscribe((result:any) => {
+  //         // this.getStudentsRankingList(result?.department_id, result?.id))
+  //         });
+  //     }
+  //   }
+  //     // .pipe(
+  //     //   switchMap(depManager => this.getPeriodByDepartmentId(depManager.department_id)),
+  //     //   switchMap(result => this.getStudentsRankingListFromAPI(result?.department_id, result?.id))
+  //     //   // ,
+  //     //   // toArray(),
+  //     //   // mergeMap(students => forkJoin(students))
+  //     // );
 
-    return fetchedStudents;
+  //   return fetchedStudents;
+  // }
+  getStudentsRankingList(periodId?: number): Observable<Student[]> {
+       return this.getStudentsRankingListFromAPI(1517,periodId);
   }
+
 
   getStudentsRankingListFromAPI(departmentId?: number, periodId?: number): Observable<Student[]> {
     if (!periodId || !departmentId) return of();
@@ -159,12 +176,12 @@ export class DepManagerService {
       });
   }
 
-  insertApprovedStudentsRank(depId: number, phase: number, periodId: number) {
-    this.http
-      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertApprovedStudentsRank/" + depId, { 'phase': phase, 'periodId': periodId })
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+  insertApprovedStudentsRank(depId: number, phase: number, periodId: number): Observable<any> {
+    return this.http
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertApprovedStudentsRank/" + depId, { 'phase': phase, 'periodId': periodId });
+      // .subscribe(responseData => {
+      //   console.log(responseData.message);
+      // });
   }
 
   receiveFile(studentId: number, docType: string): Observable<Blob> {

@@ -9,7 +9,10 @@ import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialo
 import { DepManagerService } from '../dep-manager.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import {AuthService} from 'src/app/auth/auth.service';
-import {Period} from '../period.model';
+import { Period } from '../period.model';
+import {DepManager} from '../dep-manager.model';
+import {catchError, throwError} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-student-applications-results',
@@ -24,57 +27,70 @@ export class StudentApplicationsResultsComponent implements OnInit {
   studentsData: Student[] = [];
   selected = '';
   ngSelect = "";
-  @Input() period: Period|undefined;
+  @Input()
+  period!: Period;
+  depManagerDataDepartment!: number;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
-    this.depManagerService.getStudentsRankingList()
-      .subscribe((students: Student[]) => {
-        this.studentsData = students;
+    this.depManagerService.getDepManager()
+      .subscribe((depManager: DepManager) => {
+        this.depManagerDataDepartment = depManager.department_id;
+        this.depManagerService.getPeriodByDepartmentId(this.depManagerDataDepartment)
+            // .pipe(
+            //   catchError((error: HttpErrorResponse) => {
+            //     console.error(error);
+            //     return throwError(error);
+            //   })
+            // )
+            .subscribe((periodData: Period) => {
+              this.period = periodData;
+              this.depManagerService.insertApprovedStudentsRank(this.depManagerDataDepartment, this.period.phase_state, this.period.id)
+                    .subscribe((response: any) => {
+                        console.log('insertApprovedStudentsRank success:', response);
+                        this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, periodData.id)
+                              .subscribe((students: Student[]) => {
+                                this.studentsData = students;
 
-        // filter students and let only the ones that have phase field equal to -1 or 2
-        //this.studentsData = this.studentsData.filter(student => student.phase == -1 || student.phase == 2);
+                                for (let i = 0; i < students.length; i++) {
+                                  this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+                                  this.studentsData[i].user_ssn = students[i].user_ssn;
+                                }
+                                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
+                                this.chRef.detectChanges();
 
-        for (let i = 0; i < students.length; i++) {
-          this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-          this.studentsData[i].user_ssn = students[i].user_ssn;
-        }
-        // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-        this.chRef.detectChanges();
-
-        // Use of jQuery DataTables
-        const table: any = $('#example2');
-        this.table = table.DataTable({
-          lengthMenu: [
-            [10, 25, 50, -1],
-            [10, 25, 50, 'All']
-          ],
-          lengthChange: true,
-          paging: true,
-          searching: true,
-          ordering: false,
-          info: true,
-          autoWidth: false,
-          responsive: true,
-          select: true,
-          pagingType: 'full_numbers',
-          processing: true,
-          columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
-          language: {
-            // lengthMenu: 'Show _MENU_ entries'
-            // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
-            // : "Επίδειξη","ENTRIES": "εγγραφών ανά σελίδα"
-            // // lengthMenu: 'Display _MENU_ records per page',
-            // zeroRecords: 'Nothing found - sorry',
-            // info: 'Showing page _PAGE_ of _PAGES_',
-            // infoEmpty: 'No records available',
-            // infoFiltered: '(filtered from _MAX_ total records)',
-          },
-          // pageLength: 8
-        });
+                                // Use of jQuery DataTables
+                                const table: any = $('#example2');
+                                this.table = table.DataTable({
+                                  lengthMenu: [
+                                    [10, 25, 50, -1],
+                                    [10, 25, 50, 'All']
+                                  ],
+                                  lengthChange: true,
+                                  paging: true,
+                                  searching: true,
+                                  ordering: false,
+                                  info: true,
+                                  autoWidth: false,
+                                  responsive: true,
+                                  select: true,
+                                  pagingType: 'full_numbers',
+                                  processing: true,
+                                  columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
+                                  language: {
+                                  },
+                                });
+                              });
+                      },
+                      (error) => {
+                        console.log('insertApprovedStudentsRank error:', error);
+                        return false;
+                      }
+                    );
+            });
       });
   }
 

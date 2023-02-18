@@ -127,7 +127,17 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     if (!this.period?.phase_state) return;
     if (!this.btnDisabled) {
       if (!this.period.department_id) return;
-      this.depManagerService.insertApprovedStudentsRank(this.period.department_id, this.period.phase_state, this.period.id);
+      // this.depManagerService.insertApprovedStudentsRank(this.period.department_id, this.period.phase_state, this.period.id)
+      // .subscribe(
+      //   (response) => {
+      //     console.log('insertApprovedStudentsRank success:', response);
+      //     return response;
+      //   },
+      //   (error) => {
+      //     console.log('insertApprovedStudentsRank error:', error);
+      //     return false;
+      //   }
+      // );
     }
     return false;
   }

@@ -67,7 +67,6 @@ const getStudentById = async (request, response) => {
 
 const getStudentFilesForAppPrint = async (request, response) => {
   try {
-    console.log("dsf");
     const studentId = request.params.id;
     const doctypes = await studentService.getStudentFilesForAppPrint(studentId);
     response.status(200).json(doctypes);

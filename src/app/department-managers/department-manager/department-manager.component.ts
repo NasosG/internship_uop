@@ -45,7 +45,7 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
     //   });
 
     if (!environment.production) {
-      this.authService.setSessionId(9);
+      this.authService.setSessionId(31);
       // this.depManagerService.getDepManager()
       //   .subscribe((depManager: DepManager) => {
       //     this.depManagerData = depManager;
