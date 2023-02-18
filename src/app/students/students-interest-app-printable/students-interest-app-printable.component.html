@@ -3,11 +3,13 @@
   <p style="text-align: center;"><strong><u>Αίτηση για το πρόγραμμα Πρακτικής Άσκησης με χρηματοδότηση από το ΕΣΠΑ Ακαδ.
         Έτους {{calculateCurrYear()}}
       </u></strong></p>
+  <p style="width: 100%; font-weight: bold; text-align: center;">ΠΑΝΕΠΙΣΤΗΜΙΟ ΠΕΛΟΠΟΝΝΗΣΟΥ</p>
   <table style="width: 100%;">
     <tbody>
       <tr style="vertical-align: top;">
         <td style="border: none; width: 50%;">
-          <div style="text-align: center;"><br><strong>ΑΤΟΜΙΚΑ ΣΤΟΙΧΕΙΑ</strong><br><br></div>
+          <div style="text-align: center;"><br>
+            <br><strong>ΑΤΟΜΙΚΑ ΣΤΟΙΧΕΙΑ</strong><br><br></div>
           <table style="width: 100%; max-width:600px;">
             <tbody>
               <tr>
@@ -24,7 +26,7 @@
                 <td style="width: 50%;">{{this.studentsSSOData[0].mother_name}}</td>
               </tr>
               <tr>
-                <td sstyle="width: 50%; font-weight: bold">Επώνυμο πατέρα</td>
+                <td style="width: 50%; font-weight: bold">Επώνυμο πατέρα</td>
                 <td style="width: 50%;">{{this.studentsSSOData[0].father_last_name}}</td>
               </tr>
               <tr>
@@ -33,7 +35,7 @@
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">Ημ. Γέννησης</td>
-                <td style="width: 50%;">{{this.studentsSSOData[0].date_of_birth}}</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].schacdateofbirth}}</td>
               </tr>
 
               <tr>
@@ -42,7 +44,7 @@
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">Φύλλο</td>
-                <td style="width: 50%;">{{this.studentsSSOData[0].gender}}</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].schacgender==0?'Θήλυ':'Άρρεν'}}</td>
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">email</td>
@@ -50,7 +52,7 @@
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">Τηλέφωνο</td>
-                <td style="width: 50%;">{{this.studentsSSOData[0].telephone}}</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].phone}}</td>
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">Πόλη</td>
@@ -58,7 +60,7 @@
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">ΤΚ</td>
-                <td style="width: 50%;">{{this.studentsSSOData[0].postal_code}}</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].post_address}}</td>
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">Διεύθυνση</td>
@@ -100,7 +102,7 @@
           </table><br>
           <div style="text-align: center;"><strong>ΣΤΟΙΧΕΙΑ ΤΜΗΜΑΤΟΣ</strong></div>
           <br>
-          <table style="width: 100%;max-width:200px;">
+          <table style="width: 100%;max-width:400px;">
             <tbody>
               <tr>
                 <td style="width: 50%; font-weight: bold">Τμήμα</td>
@@ -147,13 +149,13 @@
           </div>
         </td>
         <td style="border: none; vertical-align: top; width: 50.0000%;">
-          <table style="width: 100%; min-width:400px;max-width:500px;">
+          <table style="width: 100%; min-width:400px; max-width:500px;">
             <tbody>
               <tr>
-                <td style="border: none;width: 33%;"><br></td>
+                <!-- <td style="border: none;width: 33%;"><br></td>
                 <td style="border: none; width: 33.4894%;">
                   <div style="text-align: center;"><strong>ΠΡΟΣ&nbsp;</strong></div>
-                </td>
+                </td> -->
                 <td style="border: none; width: 33.4895%;">Α.Π.: {{this.studentsSSOData[0].latest_app_protocol_number}}
                   <br><br></td>
               </tr>
@@ -162,16 +164,17 @@
           <table style="width: 100%;">
             <tbody>
               <tr>
-                <td style="border:none; width: 100.0000%;"><strong>Γραφείο Πρακτικής Άσκησης Πανεπιστήμιο
+                <!-- <td style="border:none; width: 100.0000%;"><strong>Γραφείο Πρακτικής Άσκησης Πανεπιστήμιο
                     Πελοποννήσου</strong><br>Σας υποβάλλω την τρέχουσα αίτηση για αίτηση Πρακτικής Άσκησης στο τρέχον
-                  ακαδημαϊκό έτος.</td>
+                  ακαδημαϊκό έτος.</td> -->
               </tr>
             </tbody>
-          </table><br>
-          <div style="text-align: center;">Τρίπολη, &nbsp; &nbsp; &nbsp; / &nbsp; &nbsp; &nbsp; /<br><br></div>
-          <div style="text-align: center;">Ο/Η Αιτών/ούσα</div>
-          <p><br></p>
-          <p><br></p>
+          </table>
+          <!-- <br> -->
+          <!-- <div style="text-align: center;">Τρίπολη, &nbsp; &nbsp; &nbsp; / &nbsp; &nbsp; &nbsp; /<br><br></div>
+          <div style="text-align: center;">Ο/Η Αιτών/ούσα</div> -->
+          <!-- <p><br></p>
+          <p><br></p> -->
           <table style="width: 100%;">
             <tbody>
               <tr>
@@ -190,8 +193,14 @@
             <tbody>
               <tr>
                 <td style="width: 100.0000%; font-size: 10px;">
-                  Σημείωση: Τα άρθρα αναφέρονται στην Κ.Υ.Α "Καθαρισμός όρων, προϋποθέσεων και διαδικασίας για την
-                  πρακτική άσκηση στους φοιτητές των Α.Ε.Ι" ΦΕΚ' τ. Β' 2020/01-01-2011</td>
+                  Σημείωση: Έγγραφο που παράχθηκε από το Πληροφοριακό Σύστημα της Πρακτικής Άσκησης του Πανεπιστημίου
+                  Πελοποννήσου, το οποίο αναπτύχθηκε
+                  στα πλαίσια της Πράξης &quot;Ενίσχυση και Επιτάχυνση των διαδικασιών συγχωνεύσεων και καταργήσεων
+                  ιδρυμάτων στο Πανεπιστήμιο
+                  Πελοποννήσου&quot; με κωδικό ΟΠΣ 5050659 (Κωδικός Έργου 80560), το οποίο έχει ενταχθεί στο
+                  Επιχειρησιακό Πρόγραμμα «Μεταρρύθμιση
+
+                  Δημοσίου Τομέα 2014-2020»</td>
               </tr>
             </tbody>
           </table>
