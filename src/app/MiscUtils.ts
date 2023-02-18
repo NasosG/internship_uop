@@ -233,4 +233,8 @@ export abstract class Utils {
     { subCategory: 'B1.1', id: 'B1_1', name: 'B1_1', text: 'Αποκτήθηκε εξειδίκευση ως αποτέλεσμα της συμμετοχής σας στην πρακτική άσκηση;' },
   ];
 
+  public static getAM(str: string): string {
+    const personalIdArray = str.split(":");
+    return personalIdArray[personalIdArray.length - 1];
+  }
 }

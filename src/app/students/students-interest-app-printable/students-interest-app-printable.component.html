@@ -40,7 +40,7 @@
 
               <tr>
                 <td style="width: 50%; font-weight: bold">ΑΜ</td>
-                <td style="width: 50%;">{{this.studentsSSOData[0].sn}}</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].schacpersonaluniquecode}}</td>
               </tr>
               <tr>
                 <td style="width: 50%; font-weight: bold">Φύλλο</td>
@@ -156,8 +156,10 @@
                 <td style="border: none; width: 33.4894%;">
                   <div style="text-align: center;"><strong>ΠΡΟΣ&nbsp;</strong></div>
                 </td> -->
-                <td style="border: none; width: 33.4895%;">Α.Π.: {{this.studentsSSOData[0].latest_app_protocol_number}}
-                  <br><br></td>
+                <td style="border: none; text-align: right; width: 33.4895%;"><strong>Α.Π.:
+                    {{this.studentsSSOData[0].latest_app_protocol_number}}</strong>
+                  <br><br>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -185,22 +187,21 @@
             </tbody>
           </table><br>
           <p *ngFor="let item of studentFiles">
-            {{item.doc_type == "AFFIDAVIT" ? 'Υπεύθυνη Δήλωση' : ('Έντυπο ' + item.doc_type)}}</p>
+            {{item.doc_type == "AFFIDAVIT" ? 'Υπεύθυνη Δήλωση' : ('Έντυπο ' + (item.doc_type == 'SSN' ? 'ΑΦΜ' : item.doc_type))}}
+          </p>
           <table style="width: 100%;">
           </table>
           <p><br></p>
           <table style="width: 100%;">
             <tbody>
               <tr>
-                <td style="width: 100.0000%; font-size: 10px;">
-                  Σημείωση: Έγγραφο που παράχθηκε από το Πληροφοριακό Σύστημα της Πρακτικής Άσκησης του Πανεπιστημίου
+                <td style="width: 100.0000%; font-size: 12px;">
+                  Έγγραφο που παράχθηκε από το Πληροφοριακό Σύστημα της Πρακτικής Άσκησης του Πανεπιστημίου
                   Πελοποννήσου, το οποίο αναπτύχθηκε
                   στα πλαίσια της Πράξης &quot;Ενίσχυση και Επιτάχυνση των διαδικασιών συγχωνεύσεων και καταργήσεων
                   ιδρυμάτων στο Πανεπιστήμιο
                   Πελοποννήσου&quot; με κωδικό ΟΠΣ 5050659 (Κωδικός Έργου 80560), το οποίο έχει ενταχθεί στο
-                  Επιχειρησιακό Πρόγραμμα «Μεταρρύθμιση
-
-                  Δημοσίου Τομέα 2014-2020»</td>
+                  Επιχειρησιακό Πρόγραμμα «Μεταρρύθμιση Δημοσίου Τομέα 2014-2020»</td>
               </tr>
             </tbody>
           </table>
