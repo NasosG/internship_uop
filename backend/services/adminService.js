@@ -23,8 +23,6 @@ const mapRoleToDB = (role) => {
 };
 
 const insertRoles = async (username, role, isAdmin, academics) => {
-  console.log("insert roles 1");
-  console.log(academics);
   try {
     role = mapRoleToDB(role);
     const userRole = await pool.query("INSERT INTO users_roles(sso_username, user_role, is_admin)" +

@@ -56,10 +56,6 @@ const storageSsn = multer.diskStorage({
     const fileDir = process.env.UPLOAD_FILE_PATH + "ssns/";
     const path = fileDir + studentId;
 
-    // remove all files before inserting the new one
-    // in order to always keep the one last file student has posted
-    //fsExtra.emptyDirSync(fileDir);
-
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
   },
@@ -91,10 +87,6 @@ const storageAmea = multer.diskStorage({
     const fileDir = process.env.UPLOAD_FILE_PATH + "amea/";
     const path = fileDir + studentId;
 
-    // remove all files before inserting the new one
-    // in order to always keep the one last file student has posted
-    //fsExtra.emptyDirSync(fileDir);
-
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
   },
@@ -111,10 +103,6 @@ const storageAffidavit = multer.diskStorage({
     const studentId = req.params.id;
     const fileDir = process.env.UPLOAD_FILE_PATH + "affidavit/";
     const path = fileDir + studentId;
-
-    // remove all files before inserting the new one
-    // in order to always keep the one last file student has posted
-    //fsExtra.emptyDirSync(fileDir);
 
     fs.mkdirSync(path, { recursive: true });
     return cb(null, path);
@@ -160,7 +148,6 @@ let iban = util.promisify(uploadIban.single("file"));
 let ssn = util.promisify(uploadSsn.single("file"));
 let amea = util.promisify(uploadAmea.single("file"));
 let affidavit = util.promisify(uploadAffidavit.single("file"));
-// module.exports = uploadIban.single("file");
 
 module.exports = {
   iban,

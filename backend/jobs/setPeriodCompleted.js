@@ -11,13 +11,13 @@ const pool = require("../db_config.js");
  * @return {void}
  */
 const setPeriodCompleted = async () => {
-  console.log("Job started at:" + new Date().toLocaleString());
+  console.log("Job started at: " + new Date().toLocaleString());
   try {
     await pool.query("UPDATE period  \
                       SET is_active = 'false', \
                           is_completed = 'true' \
                       WHERE DATE(NOW()) = DATE(date_to) AND phase_state = 3");
-    console.log("Job finished at:" + new Date().toLocaleString());
+    console.log("Job finished at: " + new Date().toLocaleString());
   } catch (error) {
     console.error(error);
     throw Error("Error while updating period in job: " + error.message);
