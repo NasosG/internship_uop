@@ -2,6 +2,8 @@ const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
 const atlasController = require("./atlasController");
 const companyService = require("../services/companyService.js");
+const mainMailer = require('../mailers/mainMailers.js');
+const MiscUtils = require("../MiscUtils.js");
 
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -298,9 +300,11 @@ const insertCommentsByStudentId = async (request, response) => {
   try {
     const id = request.params.id;
     const comments = request.body.comments;
+    const studentMail = request.body.studentMail;
     const subject = "Δικαιολογητικά";
 
     await depManagerService.insertCommentsByStudentId(id, comments, subject);
+    mainMailer.sendCommentEmail(comments, studentMail).catch(console.error);
 
     response
       .status(200)
@@ -319,9 +323,11 @@ const updateCommentsByStudentId = async (request, response) => {
   try {
     const id = request.params.id;
     const comments = request.body.comments;
+    const studentMail = request.body.studentMail;
     const subject = "Δικαιολογητικά";
 
     await depManagerService.updateCommentsByStudentId(id, comments, subject);
+    mainMailer.sendCommentEmail(comments, studentMail).catch(console.error);
 
     response
       .status(200)
@@ -361,7 +367,6 @@ const getCompletedPeriods = async (request, response) => {
     });
   }
 };
-
 
 const updateDepartmentIdByUserId = async (request, response) => {
   const userId = request.params.userId;
@@ -424,8 +429,11 @@ const insertAssignment = async (request, response, next) => {
     console.log(companyData);
 
     let academicId = companyData.department_id;
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (academicId.toString().length == 6) {
+      academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
+    }
     console.log(academicId);
-
     // TO BE TESTED
     const preassignResult = await depManagerService.getPreassignModeByDepartmentId(academicId);
     console.log(preassignResult.preassign);

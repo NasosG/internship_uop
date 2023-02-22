@@ -930,7 +930,7 @@ const getStudentRankedApprovalStatusForPeriod = async (request, response) => {
 
   try {
     const approvalState = await studentService.getStudentRankedApprovalStatusForPeriod(studentId, periodId);
-    console.log(`Student's ranked approval status for period ${periodId} has been successfully retrieved.`);
+    //console.log(`Student's ranked approval status for period ${periodId} has been successfully retrieved.`);
     response.status(200).json(approvalState);
   } catch (error) {
     console.log(`Student's ranked approval status for period ${periodId} has NOT been retrieved.`);

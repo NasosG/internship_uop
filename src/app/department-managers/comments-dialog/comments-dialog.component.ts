@@ -29,10 +29,10 @@ export class CommentsDialogComponent implements OnInit {
 
     if (this.commentExistsInDatabase) {
       // update comment
-      this.depManagerService.updateCommentsByStudentId(this.data.studentsData[this.data.index].uuid, comments);
+      this.depManagerService.updateCommentsByStudentId(this.data.studentsData[this.data.index], comments);
     } else {
       // insert comment
-      this.depManagerService.insertCommentsByStudentId(this.data.studentsData[this.data.index].uuid, comments);
+      this.depManagerService.insertCommentsByStudentId(this.data.studentsData[this.data.index], comments);
     }
 
     this.dialogRef.close();

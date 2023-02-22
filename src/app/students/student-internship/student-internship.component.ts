@@ -59,7 +59,7 @@ export class StudentInternshipComponent implements OnInit {
   constructor(public studentsService: StudentsService) { }
 
   ngOnInit(): void {
-    this.studentsService.getAtlasInstitutions()
+    this.studentsService.getAtlasAEIInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
       });

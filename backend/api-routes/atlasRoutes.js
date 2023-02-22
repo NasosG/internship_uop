@@ -9,6 +9,7 @@ router.get('/getAvailablePositionGroups/:begin', atlasController.getAvailablePos
 router.post('/getAtlasFilteredPositions/:begin', atlasController.getAtlasFilteredPositions);
 router.get('/insertPositionGroup/', atlasController.insertPositionGroup);
 router.get('/getInstitutions', atlasController.getInstitutions);
+router.get('/getAEIInstitutions', atlasController.getAEIInstitutions);
 router.get('/insertTablesFromAtlas', atlasController.insertTablesFromAtlas);
 router.get('/getCities', atlasController.getCities);
 router.get('/getPrefectures', atlasController.getPrefectures);

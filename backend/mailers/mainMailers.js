@@ -1,16 +1,20 @@
 const gmailTransporter = require('../mailer_config.js');
+const commentsTemplate = require('../mail-templates/commentsTemplate.js');
+const pswResetTemplate = require('../mail-templates/passwordResetTemplate.js');
 
-const mainMailer = async (password, mailToSendList) => {
+/**
+ * Send the email to the user to let him know that password has been changed
+ *
+ * @param {string} password The new password
+ * @param {string} mailToSendList The email address to send the email to
+ */
+const sendPasswordResetEmail = async (password, mailToSendList) => {
   try {
     const info = await gmailTransporter.sendMail({
-      from: 'no-reply@pa.uop.gr', // sender address
+      from: 'pa@go.uop.gr', // sender address
       to: mailToSendList, // list of receivers
       subject: 'Password Reset', // Subject line
-      // send the email to the user to let him know that password has been changed
-      html: "<span>Hello, You're receiving this email because you requested a password reset for your account.</span><br><br>" +
-        "<span>Your new password is: <strong>" + password + '</strong></span><br><br>' +
-        "<span>Click on the button below to login with your new password</span><br><br>" +
-        "<a href='http://localhost:4200/credentials-generic' style='border: 1px solid #1b9be9; font-weight: 600; color: #fff; border-radius: 3px; cursor: pointer; outline: none; background: #1b9be9; padding: 4px 15px; display: inline-block; text-decoration: none;'>Login</a>",
+      html: pswResetTemplate.generateEmailBody(password) // mail body
     });
 
     console.log('Message sent: %s', info.messageId);
@@ -19,38 +23,25 @@ const mainMailer = async (password, mailToSendList) => {
   }
 };
 
-const commentMailer = async (comment, mailToSendList) => {
+/**
+ * Send an email with a new comment
+ *
+ * @param {string} comment The comment to send
+ * @param {string} mailToSendList The email address to send the email to
+ */
+const sendCommentEmail = async (comment, mailToSendList) => {
   try {
     const info = await gmailTransporter.sendMail({
-      from: 'no-reply@pa.uop.gr', // sender address
+      from: 'pa@go.uop.gr', // sender address
       to: mailToSendList, // list of receivers
-      subject: 'Νέο Σχόλιο', // Subject line
-      // send the email to the user to let him know that password has been changed
-      html: "<span>Γειά σας. Λαμβάνετε αυτό το email</span><br><br>" +
-        "<span>γιατί λάβατε το παρακάτω σχόλιο <strong>" + comment + '</strong></span><br><br>' +
-        "<span>στο σύστημα της Πρακτικής Άσκησης. Πατήστε στον παρακάτω σύνδεσμο για να συνδεθείτε στο σύστημα</span><br><br>" +
-        "<a href='http://localhost:4200/credentials-generic' style='border: 1px solid #1b9be9; font-weight: 600; color: #fff; border-radius: 3px; cursor: pointer; outline: none; background: #1b9be9; padding: 4px 15px; display: inline-block; text-decoration: none;'>Σύνδεση</a>",
+      subject: 'Νέο Σχόλιο από το σύστημα Πρακτικής Άσκησης', // Subject line
+      html: commentsTemplate.generateEmailBody(comment) // mail body
     });
 
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.error(error);
   }
-};
-
-const sendPasswordResetEmail = async (newPassword = null, userEmail = null) => {
-  const password = 'new-password';
-  const mailToSendList = 'thanasara@windowslive.com';
-  // const mailToSendList = userEmail;
-  await mainMailer(newPassword, mailToSendList);
-};
-commentMailer;
-
-const sendCommentEmail = async (comment = null, userEmail = null) => {
-  const password = 'new-password';
-  const mailToSendList = 'thanasara@windowslive.com';
-  // const mailToSendList = userEmail;
-  await commentMailer(comment, mailToSendList);
 };
 
 module.exports = {

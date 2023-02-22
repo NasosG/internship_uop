@@ -6,7 +6,7 @@ describe('mainMailer function', () => {
   });
 
   it('should return a value', async () => {
-    // const password = '12345';
+    const password = '12345';
     const comment = "Δεν διαβάζεται το ΑΦΜ";
     const mailToSendList = 'user@example.com';
     //const result = await mainMailer.sendPasswordResetEmail(password, mailToSendList);

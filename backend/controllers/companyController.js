@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const companyService = require("../services/companyService");
 const atlasController = require("./atlasController");
+const mainMailer = require('../mailers/mainMailers.js');
 
 const insertCompanyUsers = async (request, response, next) => {
   try {
@@ -220,7 +221,8 @@ const resetPassword = async (request, response) => {
 
     let newPassword = companyService.generatePassword(passwordLength);
     await companyService.updateUserPassword(newPassword, userMail);
-    companyService.mainMailer(newPassword).catch(console.error);
+
+    mainMailer.sendPasswordResetEmail(newPassword, userMail).catch(console.error);
 
     response.status(200).json({
       message: "Your password has been reset successfully"

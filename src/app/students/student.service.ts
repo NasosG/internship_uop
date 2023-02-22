@@ -114,6 +114,11 @@ export class StudentsService {
       .get<Array<Department>>(ATLAS_URL + 'getInstitutions/');
   }
 
+  getAtlasAEIInstitutions(): Observable<Array<Department>> {
+    return this.http
+      .get<Array<Department>>(ATLAS_URL + 'getAEIInstitutions/');
+  }
+
   getAtlasCities(): Observable<Array<City>> {
     return this.http.get<Array<City>>(ATLAS_URL + 'getCities/');
   }

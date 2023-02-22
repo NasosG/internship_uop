@@ -62,6 +62,18 @@ const getInstitutions = async (request, response) => {
   }
 };
 
+const getAEIInstitutions = async (request, response) => {
+  try {
+    const institutions = await atlasService.getAEIInstitutions();
+    response.status(200).json(institutions);
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const getCities = async (request, response) => {
   try {
     const cities = await atlasService.getCities();
@@ -1393,6 +1405,7 @@ module.exports = {
   getAvailablePositionGroups,
   getAtlasFilteredPositions,
   getInstitutions,
+  getAEIInstitutions,
   getCities,
   getPrefectures,
   getCountries,

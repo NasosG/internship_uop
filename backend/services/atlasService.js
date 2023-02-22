@@ -74,6 +74,15 @@ const getInstitutions = async () => {
   }
 };
 
+const getAEIInstitutions = async () => {
+  try {
+    const results = await pool.query("SELECT * FROM atlas_academics where atlas_id<100000");
+    return results.rows;
+  } catch (error) {
+    throw Error("Error while fetching atlas_academics from postgres");
+  }
+};
+
 const getCities = async () => {
   try {
     const results = await pool.query("SELECT atlas_id, name FROM atlas_cities order by name");
@@ -624,6 +633,7 @@ module.exports = {
   getAtlasOldestPositionGroups,
   getAtlasFilteredPositions,
   getInstitutions,
+  getAEIInstitutions,
   getCities,
   getPrefectures,
   getCountries,

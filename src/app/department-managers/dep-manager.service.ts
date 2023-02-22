@@ -228,20 +228,22 @@ export class DepManagerService {
       });
   }
 
-  insertCommentsByStudentId(studentId: number, comments: string) {
-    const commentsJson: any = { 'comments': comments };
+  insertCommentsByStudentId(studentData: any, comments: string) {
+    const bodyJson: any = { 'comments': comments, 'studentMail': studentData.mail};
+    const studentId = studentData.uuid;
     this.http
-      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertCommentsByStudentId/" + studentId, commentsJson)
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertCommentsByStudentId/" + studentId, bodyJson)
       .subscribe(responseData => {
         console.log(responseData.message);
         location.reload();
       });
   }
 
-  updateCommentsByStudentId(studentId: number, comments: string) {
-    const commentsJson: any = { 'comments': comments};
+  updateCommentsByStudentId(studentData: any, comments: string) {
+    const bodyJson: any = { 'comments': comments, 'studentMail': studentData.mail};
+    const studentId = studentData.uuid;
     this.http
-      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateCommentsByStudentId/" + studentId, commentsJson)
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateCommentsByStudentId/" + studentId, bodyJson)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
