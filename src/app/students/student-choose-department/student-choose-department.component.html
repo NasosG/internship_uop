@@ -17,8 +17,9 @@
             <mat-form-field class="mt-2 mat-full-width" appearance="fill">
               <mat-label>Τμήμα</mat-label>
               <mat-select class="mt-2" [formControl]="academics" [required]="true">
-                <mat-option *ngFor="let roles of managedAcademics" [value]="roles.atlas_id">{{roles.department}}
-                  {{roles.atlas_id > 100000 ? '(6 μήνες πρακτική)' : ''}}
+                <mat-option *ngFor="let roles of managedAcademics" [value]="roles.atlas_id">
+                  {{add3Dots(roles.department, 32)}}
+                  {{roles.atlas_id > 100000 ? '(6μηνη πρακτική)' : ''}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

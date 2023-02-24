@@ -71,4 +71,13 @@ export class StudentChooseDepartmentComponent implements OnInit {
     });
   }
 
+  public add3Dots(inputText: string, limit: number): string {
+    let dots = "...";
+    if (inputText.length > limit) {
+      inputText = inputText.substring(0, limit) + dots;
+    }
+
+    return inputText;
+  }
+
 }
