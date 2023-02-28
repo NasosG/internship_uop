@@ -473,6 +473,8 @@ const insertOrUpdateWholeAtlasTables = async () => {
 
     let skip = 0;
     let lastElement = await atlasService.getCountOfPositionPairs();
+    lastElement = Number.parseInt(lastElement);
+
     const batchSize = 500;
 
     do {
@@ -605,6 +607,7 @@ const insertOrUpdateAtlasTables = async () => {
 
     // Get the count of position group pairs of the previous job run (the previous hour)
     let skip = await atlasService.getCountOfPositionPairs();
+    skip = Number.parseInt(skip);
     const batchSize = 200;
 
     do {

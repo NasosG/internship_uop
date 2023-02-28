@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test-proc": "jest ./backend/tests/studentGradeProcedure.test.js",
-    "test-mailer": "jest ./backend/tests/mailer.test.js"
+    "test-mailer": "jest ./backend/tests/mailer.test.js",
+    "test-position-group": "jest ./backend/tests/getAtlasPositionGroup.test.js"
   },
   "private": true,
   "dependencies": {
