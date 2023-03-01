@@ -125,7 +125,14 @@ cron.schedule("58 23 * * *", async () => {
 });
 
 // Update Atlas latest positions / providers, every hour
-setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), MiscUtils.ONE_HOUR);
+//setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), MiscUtils.ONE_HOUR);
+
+const updateAtlasTables = async () => {
+  await atlasController.insertOrUpdateAtlasTables();
+};
+
+setInterval(updateAtlasTables, MiscUtils.TEN_MINUTES);
+
 // Update all Atlas positions / providers, every 30 hours
 setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), MiscUtils.THIRTY_HOURS);
 

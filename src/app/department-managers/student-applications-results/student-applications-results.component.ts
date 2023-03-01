@@ -30,6 +30,8 @@ export class StudentApplicationsResultsComponent implements OnInit {
   @Input()
   period!: Period;
   depManagerDataDepartment!: number;
+  //depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
+  //yearsOfStudy: number | undefined;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -39,6 +41,9 @@ export class StudentApplicationsResultsComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerDataDepartment = depManager.department_id;
+
+        //this.yearsOfStudy = this.depts5yearsStudyPrograms.includes(this.depManagerDataDepartment) ? 5 : 4;
+
         this.depManagerService.getPeriodByDepartmentId(this.depManagerDataDepartment)
             // .pipe(
             //   catchError((error: HttpErrorResponse) => {
@@ -122,6 +127,9 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "Κατάταξη": item.ranking,
         "Αποτελέσματα": (item.phase == 2 ? item.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'),
         "Βαθμολογία": item.score,
+        // "Κριτήριο ΜΟ": (item.score ?? 0) * 0.5,
+        // "Κριτήριο ects": (item.Ects ?? 0) * 0.4,
+        // "Κριτήριο εξάμηνο": (item.score ?? 0) * 0.1,
         "Α.Π.": item.latest_app_protocol_number,
         "ΑΜ": item.schacpersonaluniquecode,
         "Επώνυμο": item.sn,
@@ -134,7 +142,6 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.schacdateofbirth),
-        "Έτος γέννησης": item.schacyearofbirth,
         "Φύλο": item.schacgender == 1 ? 'Άνδρας' : 'Γυναίκα',
         "Τηλέφωνο": item.phone,
         "Πόλη": item.city,
@@ -146,14 +153,6 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "AMKA": item.user_ssn,
         "ΔΟΥ": item.doy,
         "IBAN": item.iban
-        // "Εκπαίδευση": item.education,
-        // "Άλλη εκπαίδευση": item.other_edu,
-        // "Γνώσεις Η/Υ": item.computer_skills,
-        // "skills": item.skills,
-        // "honors": item.honors,
-        // "Εμπειρία": item.experience,
-        // "Γλώσσες": item.languages,
-        // "Ενδιαφέροντα": item.interests
       });
     }
 
@@ -200,7 +199,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "<td>" + (student.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
         "<td>" + (student.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
         "<td>" + (student.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ') + "</td>" +
-        "<td>" + (student.phase == 2 ? 'Έγκριση' : student.phase == 1 ? 'Προς επιλογή' : 'Απόρριψη') + "</td>" +
+        "<td>" + (student.phase == 2 ? student.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη') + "</td>" +
         "</tr>");
       i++;
     }

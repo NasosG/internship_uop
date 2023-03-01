@@ -7,6 +7,7 @@ const FILE_TYPES_WITH_DOT = [
   '.png', '.jpg', '.gif', '.jpeg', '.pdf', '.webp', '.doc', '.docx'
 ];
 
+const TEN_MINUTES = 600000;
 const ONE_HOUR = 3600000;
 const THREE_HOURS = 10800000;
 const THIRTY_HOURS = 108000000;
@@ -130,6 +131,7 @@ const getWeeksFromMonths = (weeksStr) => {
 module.exports = {
   FILE_TYPES,
   FILE_TYPES_WITH_DOT,
+  TEN_MINUTES,
   ONE_HOUR,
   THREE_HOURS,
   THIRTY_HOURS,
