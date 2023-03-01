@@ -1292,8 +1292,9 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
         'access_token': accessToken
       }
     });
-    console.log(atlasResponse.data.Result);
-    // let positionsArray = atlasResponse.data.Result;
+
+    let positionsArray = atlasResponse.data.Result;
+
     return {
       message: positionsArray,
       status: atlasResponse.status
