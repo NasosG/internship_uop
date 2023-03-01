@@ -30,6 +30,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
   @Input()
   period!: Period;
   depManagerDataDepartment!: number;
+  isLoading = true;
   depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
   yearsOfStudy!: number;
 
@@ -86,6 +87,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
                                   },
                                 });
                               });
+                              this.isLoading = false;
                       },
                       (error) => {
                         console.log('insertApprovedStudentsRank error:', error);
@@ -120,15 +122,19 @@ export class StudentApplicationsResultsComponent implements OnInit {
   exportToExcel() {
     let studentsDataJson: any = [];
     for (const item of this.studentsData) {
-      let criteriaGrades = this.getCriteriaGrades(item.Semester, item.Ects, item.Grade);
+      //let criteriaGrades = this.getCriteriaGrades(item.Semester, item.Ects, item.Grade);
+      let gradeFromSemesterΙn100 = this.getSemesterPercent(item.Semester);
       studentsDataJson.push({
         "Κατάταξη": item.ranking,
         "Αποτελέσματα": (item.phase == 2 ? item.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'),
-        "Βαθμολογία": item.score,
-        "Βαθμός - Κριτήριο Μ.Ο.": criteriaGrades[0],
-        "Βαθμός - Κριτήριο ECTS": criteriaGrades[1],
-        "Βαθμός - Κριτήριο εξαμήνου": criteriaGrades[2],
+        "Βαθμολογία (στα 100)": item.score,
+        "Σταθμισμένος Μ.Ο.": item.Grade,
+        "Σύνολο ECTS": item.Ects,
         "Εξάμηνο Φοίτησης": item.Semester,
+        "Βαθμός από Εξάμηνο Φοίτησης (στα 100)": gradeFromSemesterΙn100,
+        // "Βαθμός - Κριτήριο Μ.Ο.": criteriaGrades[0],
+        // "Βαθμός - Κριτήριο ECTS": criteriaGrades[1],
+        // "Βαθμός - Κριτήριο εξαμήνου": criteriaGrades[2],
         "Α.Π.": item.latest_app_protocol_number,
         "ΑΜ": item.schacpersonaluniquecode,
         "Επώνυμο": item.sn,
@@ -278,6 +284,18 @@ export class StudentApplicationsResultsComponent implements OnInit {
     return [grade * 10 * weightGrade,
       (studentsECTS / maxECTS) * 100 * weightSemester,
       yearTotal * weightYearOfStudy];
+  }
+
+  getSemesterPercent(semester: number | undefined) {
+    // max years of study: 4 or 5 years depending on the school
+    this.yearsOfStudy = this.depts5yearsStudyPrograms.includes(this.depManagerDataDepartment) ? 5 : 4;
+
+    let academicYear = Math.round((semester ?? 0) / 2);
+    let yearTotal = (academicYear <= this.yearsOfStudy) ? 100 : 100 - 10 * (academicYear - this.yearsOfStudy);
+    if (yearTotal < 0) yearTotal = 0;
+
+    // return the criterion grade in 100% not weighted
+    return yearTotal;
   }
 
 }

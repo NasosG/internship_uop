@@ -38,8 +38,13 @@
                 <button class="btn btn-primary" (click)="printDataTable()"><i class='fas fa-print'
                     style='font-size:24px'></i> Print</button>
                 <br><br>
+                <ng-container *ngIf="isLoading">
+                  <div class="loading-indicator">
+                    <mat-spinner></mat-spinner>
+                  </div>
+                </ng-container>
                 <!-- <table id="example2" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="example2" #example2 class="table-responsive table-bordered table-striped">
+                <table *ngIf="!isLoading" id="example2" #example2 class="table-responsive table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Επιλογή</th>
