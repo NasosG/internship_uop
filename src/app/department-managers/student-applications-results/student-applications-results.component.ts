@@ -30,8 +30,8 @@ export class StudentApplicationsResultsComponent implements OnInit {
   @Input()
   period!: Period;
   depManagerDataDepartment!: number;
-  //depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
-  // yearsOfStudy!: number;
+  depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
+  yearsOfStudy!: number;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -41,9 +41,6 @@ export class StudentApplicationsResultsComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerDataDepartment = depManager.department_id;
-
-        //this.yearsOfStudy = this.depts5yearsStudyPrograms.includes(this.depManagerDataDepartment) ? 5 : 4;
-
         this.depManagerService.getPeriodByDepartmentId(this.depManagerDataDepartment)
             // .pipe(
             //   catchError((error: HttpErrorResponse) => {
@@ -123,13 +120,15 @@ export class StudentApplicationsResultsComponent implements OnInit {
   exportToExcel() {
     let studentsDataJson: any = [];
     for (const item of this.studentsData) {
+      let criteriaGrades = this.getCriteriaGrades(item.Semester, item.Ects, item.Grade);
       studentsDataJson.push({
         "Κατάταξη": item.ranking,
         "Αποτελέσματα": (item.phase == 2 ? item.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'),
         "Βαθμολογία": item.score,
-        // "Κριτήριο ΜΟ": (item.score ?? 0) * 0.5,
-        // "Κριτήριο ects": (item.Ects ?? 0) * 0.4,
-        // "Κριτήριο εξάμηνο": (item.score ?? 0) * 0.1,
+        "Βαθμός - Κριτήριο Μ.Ο.": criteriaGrades[0],
+        "Βαθμός - Κριτήριο ECTS": criteriaGrades[1],
+        "Βαθμός - Κριτήριο εξαμήνου": criteriaGrades[2],
+        "Εξάμηνο Φοίτησης": item.Semester,
         "Α.Π.": item.latest_app_protocol_number,
         "ΑΜ": item.schacpersonaluniquecode,
         "Επώνυμο": item.sn,
@@ -138,6 +137,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "Μητρώνυμο": item.mother_name,
         "Επώνυμο πατέρα": item.father_last_name,
         "Επώνυμο μητέρας": item.mother_last_name,
+        "email": item.mail,
         "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
@@ -242,27 +242,42 @@ export class StudentApplicationsResultsComponent implements OnInit {
     });
   }
 
-  // calculateScore(semester: number, ects: number, grade: number) {
-  //   const ECTS_PER_SEMESTER = 30;
-  //   // max years of study: 4 or 5 years depending on the school
-  //   const N = (!this.yearsOfStudy) ? 4 : this.yearsOfStudy;
-  //   // all weights sum must be equal to 1
-  //   const weightGrade = 0.5;
-  //   const weightSemester = 0.4;
-  //   const weightYearOfStudy = 0.1;
+  /**
+   * get the grade for each criterion of the algorithm
+   * @param semester the semester of the student
+   * @param ects ects the student has so far
+   * @param grade weighted average based on ects
+   * @returns an array with a grade for each criterion
+   */
+  getCriteriaGrades(semester: number | undefined, ects: number | undefined, grade: number | undefined) {
+    const ECTS_PER_SEMESTER = 30;
 
-  //   let academicYear = Math.round(semester / 2);
-  //   let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear - N);
-  //   if (yearTotal < 0) yearTotal = 0;
+    // checks for undefined values
+    semester = (semester ?? 0);
+    ects = (ects ?? 0);
+    grade = (grade ?? 0);
 
-  //   const capped = 2 * (N - 1);
-  //   const maxECTS = capped * ECTS_PER_SEMESTER;
-  //   const studentsECTS = (ects > maxECTS) ? maxECTS : ects;
+    // max years of study: 4 or 5 years depending on the school
+    this.yearsOfStudy = this.depts5yearsStudyPrograms.includes(this.depManagerDataDepartment) ? 5 : 4;
+    const N = this.yearsOfStudy;
 
-  //   // return the actual calculation
-  //   return [(grade * 10 * weightGrade) ,
-  //     ((studentsECTS / maxECTS) * 100 * weightSemester),
-  //     (yearTotal * weightYearOfStudy)];
-  // }
+    // all weights sum must be equal to 1
+    const weightGrade = 0.5;
+    const weightSemester = 0.4;
+    const weightYearOfStudy = 0.1;
+
+    let academicYear = Math.round((semester ?? 0) / 2);
+    let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear - N);
+    if (yearTotal < 0) yearTotal = 0;
+
+    const capped = 2 * (N - 1);
+    const maxECTS = capped * ECTS_PER_SEMESTER;
+    const studentsECTS = (ects > maxECTS) ? maxECTS : ects;
+
+    // return the actual calculation
+    return [grade * 10 * weightGrade,
+      (studentsECTS / maxECTS) * 100 * weightSemester,
+      yearTotal * weightYearOfStudy];
+  }
 
 }
