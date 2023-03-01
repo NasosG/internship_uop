@@ -613,7 +613,7 @@ const insertOrUpdateAtlasTables = async () => {
 
     do {
       availablePositionGroups = [];
-      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+      availablePositionGroups = await getAvailablePositionGroups(9737, 200, accessToken);
       // console.log("\nGetting skip/res->NumberOfItems");
       console.log(availablePositionGroups.message);
       console.log(availablePositionGroups.message.numberOfItems);
