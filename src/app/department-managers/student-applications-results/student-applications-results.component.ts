@@ -31,7 +31,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
   period!: Period;
   depManagerDataDepartment!: number;
   //depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
-  //yearsOfStudy: number | undefined;
+  // yearsOfStudy!: number;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -241,4 +241,28 @@ export class StudentApplicationsResultsComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  // calculateScore(semester: number, ects: number, grade: number) {
+  //   const ECTS_PER_SEMESTER = 30;
+  //   // max years of study: 4 or 5 years depending on the school
+  //   const N = (!this.yearsOfStudy) ? 4 : this.yearsOfStudy;
+  //   // all weights sum must be equal to 1
+  //   const weightGrade = 0.5;
+  //   const weightSemester = 0.4;
+  //   const weightYearOfStudy = 0.1;
+
+  //   let academicYear = Math.round(semester / 2);
+  //   let yearTotal = (academicYear <= N) ? 100 : 100 - 10 * (academicYear - N);
+  //   if (yearTotal < 0) yearTotal = 0;
+
+  //   const capped = 2 * (N - 1);
+  //   const maxECTS = capped * ECTS_PER_SEMESTER;
+  //   const studentsECTS = (ects > maxECTS) ? maxECTS : ects;
+
+  //   // return the actual calculation
+  //   return [(grade * 10 * weightGrade) ,
+  //     ((studentsECTS / maxECTS) * 100 * weightSemester),
+  //     (yearTotal * weightYearOfStudy)];
+  // }
+
 }
