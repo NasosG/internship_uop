@@ -603,19 +603,26 @@ const insertOrUpdateAtlasTables = async () => {
     let providerInsertList = [];
     let providerUpdateList = [];
     let providerPairUpdates = [];
-    let availablePositionGroups = [];
+    let availablePositionGroups;
 
     // Get the count of position group pairs of the previous job run (the previous hour)
     let skip = await atlasService.getCountOfPositionPairs();
+    console.log("skip " + skip);
     skip = Number.parseInt(skip);
     const batchSize = 200;
 
     do {
+      availablePositionGroups = [];
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
       // console.log("\nGetting skip/res->NumberOfItems");
-      // console.log(availablePositionGroups.message.NumberOfItems);
+      console.log(availablePositionGroups.message.NumberOfItems);
       // console.log("Scanning for updated items...\n");
-
+      console.log(availablePositionGroups.message);
+      console.log(availablePositionGroups.message.Pairs);
+      if (availablePositionGroups.message == null) {
+        console.log("No items found");
+        return;
+      }
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
 
