@@ -606,23 +606,19 @@ const insertOrUpdateAtlasTables = async () => {
     let availablePositionGroups;
 
     // Get the count of position group pairs of the previous job run (the previous hour)
-    let skip = await atlasService.getCountOfPositionPairs();
-    console.log("skip " + skip);
-    skip = Number.parseInt(skip);
+    let skip = 0;//await atlasService.getCountOfPositionPairs();
+    // skip = Number.parseInt(skip);
     const batchSize = 200;
 
+    let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
+    let numberOfItems = itemsAtlas.message.NumberOfItems;
+    console.log(numberOfItems);
     do {
       availablePositionGroups = [];
-      availablePositionGroups = await getAvailablePositionGroups(9737, 200, accessToken);
-      // console.log("\nGetting skip/res->NumberOfItems");
-      console.log(availablePositionGroups.message);
-      console.log(availablePositionGroups.message.numberOfItems);
-      // console.log("Scanning for updated items...\n");
-      console.log(availablePositionGroups.message.Pairs);
-      if (availablePositionGroups.message == null) {
-        console.log("No items found");
-        return;
-      }
+      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+
+      console.log('Processing batch ' + skip + ' to ' + (skip + batchSize) + ' of ' + numberOfItems + ' items');
+
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
 
@@ -723,7 +719,7 @@ const insertOrUpdateAtlasTables = async () => {
       await atlasService.updatePositionGroupRelationsList(providerPairUpdates);
 
       skip += batchSize;
-    } while (skip < availablePositionGroups.message.NumberOfItems);
+    } while (skip < numberOfItems);
     return {
       message: 'done'
     };
@@ -1296,13 +1292,14 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
         'access_token': accessToken
       }
     });
-
-    let positionsArray = atlasResponse.data.Result;
+    console.log(atlasResponse.data.Result);
+    // let positionsArray = atlasResponse.data.Result;
     return {
       message: positionsArray,
       status: atlasResponse.status
     };
   } catch (error) {
+    console.log("error while fetching available positions: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message

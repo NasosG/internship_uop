@@ -131,7 +131,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "Σταθμισμένος Μ.Ο.": item.Grade,
         "Σταθμισμένος Μ.Ο. (στα 100)": criteriaGrades[0],
         "Σύνολο ECTS": item.Ects,
-        "Βαθμός από ECTS (στα 100)": criteriaGrades[1],
+        "Βαθμός από ECTS (στα 100)": criteriaGrades[1].toFixed(2),
         "Εξάμηνο Φοίτησης": item.Semester,
         "Βαθμός από Εξάμηνο Φοίτησης (στα 100)": criteriaGrades[2],
         "Α.Π.": item.latest_app_protocol_number,
