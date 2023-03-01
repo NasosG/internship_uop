@@ -615,9 +615,9 @@ const insertOrUpdateAtlasTables = async () => {
       availablePositionGroups = [];
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
       // console.log("\nGetting skip/res->NumberOfItems");
-      console.log(availablePositionGroups.message.NumberOfItems);
-      // console.log("Scanning for updated items...\n");
       console.log(availablePositionGroups.message);
+      console.log(availablePositionGroups.message.numberOfItems);
+      // console.log("Scanning for updated items...\n");
       console.log(availablePositionGroups.message.Pairs);
       if (availablePositionGroups.message == null) {
         console.log("No items found");
