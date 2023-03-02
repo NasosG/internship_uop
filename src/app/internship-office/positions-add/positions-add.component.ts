@@ -25,10 +25,9 @@ export class PositionsAddComponent implements OnInit {
   @ViewChild('departmentSelect') departmentSelect!: ElementRef;
 
   phaseArray = ["no-state",
-    "1. Φάση ελέγχου επιλεξιμότητας.",
-    "2. Φάση επιλογής φοιτητών",
-    "3. Δήλωση προτίμησης από τους φοιτητές",
-    "4. Ολοκλήρωση - Επιλογή φοιτητών από φορείς"];
+    "1. Αιτήσεις ενδιαφέροντος φοιτητών",
+    "2. Επιλογή θέσεων από φοιτητές",
+    "3. Ολοκλήρωση - Επιλογή φοιτητών από φορείς"];
 
   selectedDepartment: any = {
     academic_id: 0,

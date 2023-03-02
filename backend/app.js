@@ -135,7 +135,7 @@ const updateAtlasTables = async () => {
 setInterval(updateAtlasTables, 1.5 * MiscUtils.ONE_HOUR);
 
 // Update all Atlas positions / providers, every 30 hours
-setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), MiscUtils.THIRTY_HOURS);
+//setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), MiscUtils.THIRTY_HOURS);
 
 /**
  * Update the following Atlas Tables every 30 hours (if there are records to be updated or inserted).

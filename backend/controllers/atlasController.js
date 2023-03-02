@@ -690,7 +690,7 @@ const insertOrUpdateAtlasTables = async () => {
           let positionPushed = false;
           //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
           positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
-          console.log(positionGroupResults.message);
+          // console.log(positionGroupResults.message);
           positionPushed = true;
           // reset the academics array
           academics = [];
@@ -708,7 +708,7 @@ const insertOrUpdateAtlasTables = async () => {
       for (const providerId of providerUpdateList) {
         let providerResults = await getProviderDetails(providerId, accessToken);
         providersArray.push(getProviderJson(providerResults.message));
-        console.log(providersArray);
+        // console.log(providersArray);
       }
 
       // Update the positions list in the local db
