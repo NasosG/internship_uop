@@ -1,3 +1,4 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Period } from 'src/app/department-managers/period.model';
@@ -23,6 +24,8 @@ export class PositionsAddComponent implements OnInit {
   officeUserAcademics!: any[];
   @ViewChild('espaPositions') espaPositions!: ElementRef;
   @ViewChild('departmentSelect') departmentSelect!: ElementRef;
+  isLoading = false;
+  fallbackPositions: number = 0;
 
   phaseArray = ["no-state",
     "1. Αιτήσεις ενδιαφέροντος φοιτητών",
@@ -69,13 +72,33 @@ export class PositionsAddComponent implements OnInit {
   }
 
   onDepartmentChange(value: any) {
+    this.isLoading = true;
     this.selectedDepartment = value;
     this.officeService.getPeriodByDepartmentId(this.selectedDepartment.academic_id)
       .subscribe((periodData: Period) => {
         this.periodData = periodData;
-        this.dateFrom = Utils.changeDateFormat(periodData.date_from);
-        this.dateTo = Utils.changeDateFormat(periodData.date_to);
-    });
+        if (!periodData?.positions) {
+          this.officeService.getEspaPositionsByDepartmentId(this.selectedDepartment.academic_id)
+            .subscribe({
+              next: (positionsCountFetched: any) => {
+              // Set fallbackPositions instead of periodData
+              this.fallbackPositions = positionsCountFetched;
+              this.isLoading = false;
+            }, error: (error: any) => {
+              console.log(error);
+              this.isLoading = false;
+            }
+          });
+        } else {
+          this.fallbackPositions = 0;
+          this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+          this.dateTo = Utils.changeDateFormat(periodData.date_to);
+          this.isLoading = false;
+        }
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+        this.isLoading = false;
+      });
   }
 
   private onSavePositionsAlert() {

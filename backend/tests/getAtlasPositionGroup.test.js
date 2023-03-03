@@ -3,7 +3,6 @@ const atlasService = require("../services/atlasService");
 require('dotenv').config();
 jest.setTimeout(100000);
 
-
 describe('getAtlasPositionGroup function', () => {
   it('should return a value', async () => {
     const loginData = {
@@ -22,7 +21,6 @@ describe('getAtlasPositionGroup function', () => {
 
     let accessToken = atlasResponse.data.Result.AuthToken;
 
-    //await atlasService.getCredentials().access_token;;
     if (!accessToken) {
       return;
     }
@@ -36,9 +34,7 @@ describe('getAtlasPositionGroup function', () => {
     let availablePositionGroups = [];
     do {
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      //console.log("\nGetting skip/res->NumberOfItems");
       //console.log(availablePositionGroups.message.NumberOfItems);
-      //console.log("Scanning for updated items...\n");
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         if (atlasItem.PositionGroupID == positionId) {
           console.log("Found item: " + atlasItem.PositionGroupID);

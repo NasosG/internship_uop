@@ -24,49 +24,63 @@
 </p>
 <hr>
 
-<div *ngIf="periodData.semester == null && departmentSelect.value != null" ngNativeValidate id="dep-manager-no-period"
-  class="alert alert-danger" role="alert">
-  Δεν έχουν οριστεί περιόδοι από τον/την ΤΥ.
-</div>
-<h4 *ngIf="periodData.semester != null && departmentSelect.value != null">
-  Τρέχουσα Περίοδος </h4>
-<table *ngIf="periodData.semester != null && departmentSelect.value != null" ngNativeValidate id="dep-manager-table"
-  class="table table-bordered" style="background-color:white">
-  <thead>
-    <tr>
-      <th scope="col">Εξάμηνο</th>
-      <th scope="col">Φάση Περιόδου</th>
-      <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
-      <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
-      <th scope="col">Αριθμός θέσεων ΕΣΠΑ</th>
-      <th scope="col">Αριθμός θέσεων εκτός ΕΣΠΑ</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">{{periodData?.semester == 1 ? "Εαρινό Εξάμηνο" : "Χειμερινό Εξάμηνο"}} {{periodData?.pyear}}
-      </th>
-      <td>{{phaseArray[(periodData?.phase_state)!]}}</td>
-      <td>{{dateFrom}}</td>
-      <td>{{dateTo}}</td>
-      <td>{{periodData?.positions}}</td>
-      <td>{{periodData?.available_positions}} </td>
-    </tr>
-  </tbody>
-</table><br>
-<div *ngIf="departmentSelect.value != null">
-  <div class="mb-2 mt-2">Οι θέσεις οι οποίες θα ορίσετε πρέπει να είναι ανά ακαδημαικό εξάμηνο/τρέχουσα περίοδο και
-    βάσει
-    αυτών<br> θα
-    πραγματοποιηθεί η διαδικασία επιλογής των επιτυχόντων / επιλαχόντων.</div>
-  <h4>Aνάρτηση θέσεων ΕΣΠΑ <br><strong>ανά Ακαδημαϊκό
-      Εξάμηνο</strong></h4>
-  <div class="form-group row w-25 positions-add-div">
-    <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
-    <div class="col-sm-6">
-      <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="periodData.positions" id="positions"
-        class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+<div class="center">
+  <ng-container *ngIf="isLoading">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
     </div>
-    <button class="btn btn-primary mt-2" (click)="submit()">Υποβολή</button>
+  </ng-container>
+</div>
+<div *ngIf="!isLoading">
+  <div *ngIf="periodData.semester == null && departmentSelect.value != null" ngNativeValidate id="dep-manager-no-period"
+    class="alert alert-danger" role="alert">
+    Δεν έχουν οριστεί περιόδοι από τον/την ΤΥ.
+  </div>
+  <h4 *ngIf="periodData.semester != null && departmentSelect.value != null">
+    Τρέχουσα Περίοδος </h4>
+  <table *ngIf="periodData.semester != null && departmentSelect.value != null" ngNativeValidate id="dep-manager-table"
+    class="table table-bordered" style="background-color:white">
+    <thead>
+      <tr>
+        <th scope="col">Εξάμηνο</th>
+        <th scope="col">Φάση Περιόδου</th>
+        <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
+        <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
+        <th scope="col">Αριθμός θέσεων ΕΣΠΑ</th>
+        <th scope="col">Αριθμός θέσεων εκτός ΕΣΠΑ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">{{periodData?.semester == 1 ? "Εαρινό Εξάμηνο" : "Χειμερινό Εξάμηνο"}} {{periodData?.pyear}}
+        </th>
+        <td>{{phaseArray[(periodData?.phase_state)!]}}</td>
+        <td>{{dateFrom}}</td>
+        <td>{{dateTo}}</td>
+        <td>{{periodData?.positions}}</td>
+        <td>{{periodData?.available_positions}} </td>
+      </tr>
+    </tbody>
+  </table><br>
+  <div *ngIf="departmentSelect.value != null">
+    <div class="mb-2 mt-2">Οι θέσεις οι οποίες θα ορίσετε πρέπει να είναι ανά ακαδημαικό εξάμηνο/τρέχουσα περίοδο και
+      βάσει
+      αυτών<br> θα
+      πραγματοποιηθεί η διαδικασία επιλογής των επιτυχόντων / επιλαχόντων.</div>
+    <h4>Aνάρτηση θέσεων ΕΣΠΑ <br><strong>ανά Ακαδημαϊκό
+        Εξάμηνο</strong></h4>
+    <div class="form-group row w-25 positions-add-div">
+      <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
+      <div class="col-sm-6" *ngIf="fallbackPositions == 0">
+        <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="periodData.positions" id="positions"
+          class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+      </div>
+      <div class="col-sm-6" *ngIf="fallbackPositions != 0">
+        <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="fallbackPositions" id="positions"
+          class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+      </div>
+
+      <button class="btn btn-primary mt-2" (click)="submit()">Υποβολή</button>
+    </div>
   </div>
 </div>

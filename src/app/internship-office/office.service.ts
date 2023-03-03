@@ -91,4 +91,7 @@ export class OfficeService {
       .get<Array<any>>(OFFICE_URL + "getAcademicsByOfficeUserId/" + officeUserId);
   }
 
+  getEspaPositionsByDepartmentId(academicId: any): Observable<any> {
+    return this.http.get<any>(OFFICE_URL + "getEspaPositionsByDepartmentId/" + academicId);
+  }
 }

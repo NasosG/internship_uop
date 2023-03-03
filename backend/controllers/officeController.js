@@ -150,12 +150,29 @@ const updateExitSheetField = async (request, response) => {
   }
 };
 
+const getEspaPositionsByDepartmentId = async (request, response) => {
+  try {
+    const departmentId = request.params.id;
+    const positionsArray = await officeService.getEspaPositionByDepId(departmentId);
+    const positions = positionsArray.rows[0].positions;
+    response.status(200).json(positions);
+  } catch (error) {
+    console.error(error.message);
+    response
+      .status(400)
+      .send({
+        message: error.message
+      });
+  };
+};
+
 module.exports = {
   getPeriodByDepartmentId,
   getOfficeUserById,
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
   getAcademicsByOfficeUserId,
+  getEspaPositionsByDepartmentId,
   insertEspaPosition,
   updateEntrySheetField,
   updateExitSheetField,

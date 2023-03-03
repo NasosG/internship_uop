@@ -116,11 +116,3 @@ export class OfficeComponent implements OnInit {
     return this.router.url === '/office/sheet-output/' + this.authService.getSessionId();
   }
 }
-
-
-
-
-
-
-
-

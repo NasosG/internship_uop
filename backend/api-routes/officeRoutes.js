@@ -5,12 +5,13 @@ const officeController = require("../controllers/officeController.js");
 
 router.get("/getOfficeUserById/:id", officeController.getOfficeUserById);
 router.get("/getPeriodByDepartmentId/:id", officeController.getPeriodByDepartmentId);
+router.get("/getStudentsWithSheetInput/:department_id", officeController.getStudentsWithSheetInput);
+router.get("/getStudentsWithSheetOutput/:department_id", officeController.getStudentsWithSheetOutput);
+router.get("/getAcademicsByOfficeUserId/:id", officeController.getAcademicsByOfficeUserId);
+router.get("/getEspaPositionsByDepartmentId/:id", officeController.getEspaPositionsByDepartmentId);
 router.post("/insertEspaPosition/:id", officeController.insertEspaPosition);
 router.post("/login/", officeController.login);
 router.put("/updateEntrySheetField/:id", officeController.updateEntrySheetField);
 router.put("/updateExitSheetField/:id", officeController.updateExitSheetField);
-router.get("/getStudentsWithSheetInput/:department_id", officeController.getStudentsWithSheetInput);
-router.get("/getStudentsWithSheetOutput/:department_id", officeController.getStudentsWithSheetOutput);
-router.get("/getAcademicsByOfficeUserId/:id", officeController.getAcademicsByOfficeUserId);
 
 module.exports = router;
