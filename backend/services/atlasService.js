@@ -142,6 +142,10 @@ const checkPositionHasAcademics = async (positionId) => {
 };
 
 const checkAcademicPosition = async (positionId, academicId) => {
+  // Atlas has positions only for AEI departments, so need to convert the academicId to the AEIs which they belong
+  if (academicId.toString().length == 6) {
+    academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
+  }
   const result = await pool.query(`SELECT pa.* FROM atlas_position_group g
                                   INNER JOIN position_has_academics pa
                                   ON pa.position_id = g.atlas_position_id
