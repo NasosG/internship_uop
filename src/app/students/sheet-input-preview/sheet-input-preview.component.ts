@@ -31,7 +31,6 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
   // public studentName = this.studentsData[0].givenname + " " + this.data.studentsData[0].sn;
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
-
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
       .subscribe((forms: EntryForm[]) => {
@@ -44,4 +43,13 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
     this.onSaveInputSheetSwal(formData);
   }
 
+  getArrayValueByOptionId(option_id: string): boolean {
+    const arrayKey = option_id as keyof EntryForm;
+    const value: any = this.entryForms[0][arrayKey];
+    if (value === '' || value === 0 || value === undefined || value === null) {
+      return false;
+    }
+
+    return value;
+  }
 }

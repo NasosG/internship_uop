@@ -118,7 +118,6 @@ export class StudentInternshipComponent implements OnInit {
     this.canStudentSubmitApp = period.is_active && period.phase_state >= this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isApproved;
   }
 
-
   fetchMorePositions(beginParam: number) {
     this.begin += this.limit;
     const isFilterArrayEmpty = Object.values(this.filters).every(x => x === null || x === '');
