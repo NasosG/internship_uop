@@ -20,3 +20,28 @@
     width: 420px !important;
   }
 }
+
+::ng-deep .dark-mode .mat-form-field-label {
+  /*change color of label*/
+  color: #ffffffbf !important;
+}
+
+::ng-deep .dark-mode .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+::ng-deep .dark-mode .mat-form-field-flex {
+  /*change color of underline*/
+  background-color: #343a40 !important;
+}
+
+::ng-deep .dark-mode .mat-step {
+  background-color: #3c434a !important;
+  color: white;
+}
+
+::ng-deep .dark-mode .mat-step-text-label {
+  background-color: #3c434a !important;
+  color: white;
+}
