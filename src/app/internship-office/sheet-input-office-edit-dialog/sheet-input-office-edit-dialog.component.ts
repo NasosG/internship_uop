@@ -75,13 +75,4 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
       );
   }
 
-  getArrayValueByOptionId(option_id: string): boolean {
-    const arrayKey = option_id as keyof EntryForm;
-    const value: any = this.entryForms[0][arrayKey];
-    if (value === '' || value === 0 || value === undefined || value === null) {
-      return false;
-    }
-
-    return value;
-  }
 }
