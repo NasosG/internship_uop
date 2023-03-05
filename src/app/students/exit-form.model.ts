@@ -1,6 +1,11 @@
 export interface ExitForm {
   id: number;
   student_id: number;
+
+  // Define an index signature that allows for dynamic properties to be added to the object
+  // The keys of the dynamic properties can be any string, and their values can be any type
+  [key: string]: any;
+
   A1_1: string;
   A1_2: string;
   A1_3: string;

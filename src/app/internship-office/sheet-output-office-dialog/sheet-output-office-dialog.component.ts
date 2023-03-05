@@ -14,11 +14,14 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
   public exitForms: ExitForm[] = [];
   // Global variables
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
+  public workingOptionsOutputSheet = Utils.workingOptionsOutputSheet;
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
   public publicSecOptionsOutputSheet = Utils.publicSecOptionsOutputSheet;
   public selfEmployedOutputSheet = Utils.selfEmployedOutputSheet;
-  public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
+  public jobRelationOtherThanAboveOutputSheet = Utils.jobRelationOtherThanAboveOutputSheet;
+  public specialJobOptionsOutputSheet = Utils.specialJobOptionsOutputSheet;
   public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
+  public educationOptionsOutputSheet = Utils.educationOptionsOutputSheet;
 
   // Details of the student used in printing the input sheet
   public studentFirstName = this.data.studentsData[0].givenname;

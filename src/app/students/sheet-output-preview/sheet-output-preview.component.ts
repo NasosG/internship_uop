@@ -13,11 +13,14 @@ export class SheetOutputPreviewComponent extends SheetOutputComponent implements
   public exitForms: ExitForm[] = [];
   // Global variables
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
+  public workingOptionsOutputSheet = Utils.workingOptionsOutputSheet;
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
   public publicSecOptionsOutputSheet = Utils.publicSecOptionsOutputSheet;
   public selfEmployedOutputSheet = Utils.selfEmployedOutputSheet;
-  public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
+  public jobRelationOtherThanAboveOutputSheet = Utils.jobRelationOtherThanAboveOutputSheet;
+  public specialJobOptionsOutputSheet = Utils.specialJobOptionsOutputSheet;
   public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
+  public educationOptionsOutputSheet = Utils.educationOptionsOutputSheet;
   @Input() studentData!: Student[];
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 

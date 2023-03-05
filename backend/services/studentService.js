@@ -453,15 +453,19 @@ const deletePositionsbyStudentId = async (studentId) => {
 // untested and not used
 const updateStudentExitSheet = async (form, studentId) => {
   try {
-    const updateResults = await pool.query("UPDATE student_users " +
-      "SET " +
-      "A1_1 = $2, A2_1 = $3, A2_2 = $4, A2_3 = $5, A2_4 = $6, A2_5 = $7, A2_6 = $8, A2_7 = $9, A2_8 = $10, A3_1 = $11, A3_2 = $12, A3_3 = $13, A4_1 = $14, A5_1 = $15, " +
-      "A6_1 = $16, A6_2 = $17, A6_3 = $18, B1_1 = $19, B1_2 = $20, B1_3 = $21, B1_4 = $22, B1_5 = $23, B1_6 = $24, B1_7 = $25, B1_8 = $26, C1_1 = $27 " +
-      "WHERE student_id = $1 ",
+    const updateResults = await pool.query('UPDATE student_users ' +
+      'SET ' +
+      '"A1" = $2, "A2" = $3, "A2_0" = $4, "A2_1" = $5, "A2_1_1" = $6, "A2_1_2" = $7, "A2_1_3" = $8, "A2_1_4" = $9, "A2_1_5" = $10, ' +
+      '"A2_1_6" = $11, "A2_2" = $12, "A2_2_1" = $13, "A2_2_2" = $14, "A2_2_3" = $15, "A2_3" = $16, "A2_4" = $17, "A3" = $18, ' +
+      '"A3_1" = $19, "A3_2" = $20, "B" = $21, "B0" = $22, "B1" = $23, "B2" = $24, "B3" = $25, "B4" = $26, "B5" = $27, "B6" = $28, ' +
+      '"E1" = $29, "E2" = $30, "E2_1" = $31, "E2_2" = $32, "E2_3" = $33, "E3" = $34, "E3_1" = $35, "E3_2" = $36, "E3_3" = $37, ' +
+      '"E4" = $38, "E4_1" = $39, "E4_2" = $40, "E4_3" = $41, "E5" = $42, "E5_1" = $43, "E5_2" = $44, "E5_3" = $45 ' +
+      'WHERE student_id = $1 ',
       [studentId,
-        form.A1_1, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6, form.A2_7, form.A2_8,
-        form.A3_1, form.A3_2, form.A3_3, form.A4_1, form.A5_1, form.A6_1, form.A6_2, form.A6_3,
-        form.B1_1, form.B1_2, form.B1_3, form.B1_4, form.B1_5, form.B1_6, form.B1_7, form.B1_8, form.C1_1
+        form.A1, form.A2, form.A2_0, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3, form.A2_1_4, form.A2_1_5,
+        form.A2_1_6, form.A2_2, form.A2_2_1, form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3, form.A3_1, form.A3_2,
+        form.B, form.B0, form.B1, form.B2, form.B3, form.B4, form.B5, form.B6, form.E1, form.E2, form.E2_1, form.E2_2, form.E2_3, form.E3,
+        form.E3_1, form.E3_2, form.E3_3, form.E4, form.E4_1, form.E4_2, form.E4_3, form.E5, form.E5_1, form.E5_2, form.E5_3
       ]);
     return updateResults;
   } catch (error) {
@@ -471,17 +475,20 @@ const updateStudentExitSheet = async (form, studentId) => {
 };
 
 const insertStudentExitSheet = async (form, studentId) => {
-  console.log(form);
+  // console.log(form);
   try {
     const insertResults = await pool.query('INSERT INTO exit_form' +
-      '(student_id, "A1_1", "A1_2", "A1_3", "A1_4", "A2_1", "A2_2", "A2_3", "A2_4", "A2_5", "A2_6", ' +
-      '"A2_7", "A2_8", "A3_1", "A3_2", "A3_3", "A3_4", "A4_1", "A5_1", "A5_2", "A5_3", ' +
-      '"A5_4", "A5_5", "A5_6", "A5_7", "A5_8", "B1_1")' +
-      ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)',
+      '(student_id, "A1", "A2", "A2_0", "A2_1", "A2_1_1", "A2_1_2", "A2_1_3", "A2_1_4", "A2_1_5",' +
+      '"A2_1_6", "A2_2", "A2_2_1", "A2_2_2", "A2_2_3", "A2_3", "A2_4", "A3", "A3_1", "A3_2", ' +
+      '"B", "B0", "B1", "B2", "B3", "B4", "B5", "B6", "E1", "E2", "E2_1", "E2_2", "E2_3", "E3", ' +
+      '"E3_1", "E3_2", "E3_3", "E4", "E4_1", "E4_2", "E4_3", "E5", "E5_1", "E5_2", "E5_3")' +
+      ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, \
+        $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45)',
       [studentId,
-        form.A1_1, form.A1_2, form.A1_3, form.A1_4, form.A2_1, form.A2_2, form.A2_3, form.A2_4, form.A2_5, form.A2_6,
-        form.A2_7, form.A2_8, form.A3_1, form.A3_2, form.A3_3, form.A3_4, form.A4_1, form.A5_1, form.A5_2, form.A5_3,
-        form.A5_4, form.A5_5, form.A5_6, form.A5_7, form.A5_8, form.B1_1,
+        form.A1, form.A2, form.A2_0, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3, form.A2_1_4, form.A2_1_5,
+        form.A2_1_6, form.A2_2, form.A2_2_1, form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3, form.A3_1, form.A3_2,
+        form.B, form.B0, form.B1, form.B2, form.B3, form.B4 ?? "true", form.B5, form.B6, form.E1, form.E2, form.E2_1, form.E2_2, form.E2_3, form.E3,
+        form.E3_1, form.E3_2, form.E3_3, form.E4, form.E4_1, form.E4_2, form.E4_3, form.E5, form.E5_1, form.E5_2, form.E5_3
       ]);
     return insertResults;
   } catch (error) {

@@ -18,7 +18,7 @@ export class SheetOutputOfficeEditDialogComponent implements OnInit {
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
   public publicSecOptionsOutputSheet = Utils.publicSecOptionsOutputSheet;
   public selfEmployedOutputSheet = Utils.selfEmployedOutputSheet;
-  public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
+  // public jobDetailsOutputSheet = Utils.jobDetailsOutputSheet;
   public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
 
   constructor(
