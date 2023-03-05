@@ -8,13 +8,12 @@
       <h4 class="text-dark"> Α1) Ανεργία </h4>
       <div *ngFor="let option of unemployedOption; let i = index" class="container-fluid row">
         <div class="col-10">
-          <label for="{{unemployedOption[0].id}}">
-            <span
-              style="font-weight: 500;">{{unemployedOption[0].subCategory}})&nbsp;</span>{{unemployedOption[0].text}}
+          <label for="{{option.id}}">
+            <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{unemployedOption[0].id}}" ngModel id="{{unemployedOption[0].id}}">
+          <p name="{{option.id}}" ngModel id="{{option.id}}">
             {{ entryForms[0][option.id] == false ? 'OXI' : 'NAI'}}
           </p>
         </div>

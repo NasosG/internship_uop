@@ -55,8 +55,9 @@
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <p class="mt-3">Εάν είστε εργαζόμενος/νη, παρακαλούμε σημειώστε σε ποια από τις παρακάτω κατηγορίες ανήκετε:</p>
-      <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
+      <p class="mt-3"><strong>Εάν είστε εργαζόμενος/νη, παρακαλούμε σημειώστε σε ποια από τις παρακάτω κατηγορίες
+          ανήκετε:</strong></p>
+      <h4 class="text-dark">Α2.1) Ιδιωτικός Τομέας</h4>
       <div class="container-fluid row" *ngFor="let option of privateSecOptionsOutputSheet; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -71,7 +72,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α3) Απασχολούμενος στο Δημόσιο Τομέα</h4>
+      <h4 class="text-dark">Α2.2) Απασχολούμενος στο Δημόσιο Τομέα</h4>
       <div class="container-fluid row" *ngFor="let option of publicSecOptionsOutputSheet; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -125,7 +126,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α6) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
+      <h4 class="text-dark">Α3) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
       <div class="container-fluid row" *ngFor="let option of specialJobOptionsOutputSheet; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
