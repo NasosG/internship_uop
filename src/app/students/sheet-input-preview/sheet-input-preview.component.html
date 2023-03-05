@@ -25,6 +25,19 @@
       </table>
     </div>
     <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
+    <h4 class="text-dark"> Α0) Αναζήτηση Εργασίας </h4>
+    <div *ngFor="let option of workBeforeInternship" class="container-fluid row">
+      <div class="col-10">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{option.id}}" ngModel id="{{option.id}}">
+          {{getArrayValueByOptionId(option.id) === false ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
     <h4 class="text-dark"> Α1) Ανεργία </h4>
     <div class="container-fluid row" *ngFor="let option of unemployedOption">
       <div class="col-10">

@@ -12,6 +12,7 @@ import { DepManagerService } from '../dep-manager.service';
 })
 export class SheetInputPreviewDialogComponent implements OnInit {
   public entryForms: EntryForm[] = [];
+  public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;
   public publicSecOptions = Utils.publicSecOptions;
@@ -63,6 +64,16 @@ export class SheetInputPreviewDialogComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  getArrayValueByOptionId(option_id: string): boolean {
+    const arrayKey = option_id as keyof EntryForm;
+    const value: any = this.entryForms[0][arrayKey];
+    if (value === '' || value === 0 || value === undefined || value === null) {
+      return false;
+    }
+
+    return value;
   }
 
 }

@@ -13,6 +13,7 @@ import { OfficeService } from '../office.service';
 export class SheetInputOfficeEditDialogComponent implements OnInit {
   public yesNoOptions = [true, false];
   public entryForms: EntryForm[] = [];
+  public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;
   public publicSecOptions = Utils.publicSecOptions;
@@ -74,4 +75,13 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
       );
   }
 
+  getArrayValueByOptionId(option_id: string): boolean {
+    const arrayKey = option_id as keyof EntryForm;
+    const value: any = this.entryForms[0][arrayKey];
+    if (value === '' || value === 0 || value === undefined || value === null) {
+      return false;
+    }
+
+    return value;
+  }
 }

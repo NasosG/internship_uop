@@ -13,9 +13,9 @@ import {Student} from '../student.model';
   styleUrls: ['./sheet-input-preview.component.css']
 })
 export class SheetInputPreviewComponent extends SheetInputComponent implements OnInit {
-
   public entryForms: EntryForm[] = [];
   // Global variables
+  public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;
   public publicSecOptions = Utils.publicSecOptions;

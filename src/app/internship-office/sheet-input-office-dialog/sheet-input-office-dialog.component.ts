@@ -12,6 +12,8 @@ import { OfficeService } from '../office.service';
 })
 export class SheetInputOfficeDialogComponent implements OnInit {
   public entryForms: EntryForm[] = [];
+  // Global variables
+  public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;
   public publicSecOptions = Utils.publicSecOptions;
@@ -63,6 +65,16 @@ export class SheetInputOfficeDialogComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  getArrayValueByOptionId(option_id: string): boolean {
+    const arrayKey = option_id as keyof EntryForm;
+    const value: any = this.entryForms[0][arrayKey];
+    if (value === '' || value === 0 || value === undefined || value === null) {
+      return false;
+    }
+
+    return value;
   }
 
 }
