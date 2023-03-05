@@ -392,6 +392,8 @@ const insertStudentApplication = async (body, studentId) => {
     const applicationId = result.rows[0].id;
 
     for (const obj of body) {
+      console.log(obj.upload_date);
+      obj.upload_date = moment(obj.upload_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
       await pool.query("INSERT INTO final_app_positions" +
         "(student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id, application_id)" +
         " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
@@ -399,7 +401,7 @@ const insertStudentApplication = async (body, studentId) => {
     }
 
   } catch (error) {
-    console.log('Error while inserting application to student_applications' + error.message);
+    console.log('Error while inserting application to student_applications ' + error.message + ' for student ' + studentId);
     throw Error('Error while inserting application to student_applications' + error.message);
   }
 };
