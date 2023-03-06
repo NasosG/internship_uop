@@ -1337,7 +1337,13 @@ const testIfTokenIsValid = async (accessToken) => {
       }
     });
 
-    return true;
+    // return result depending whether /GetFundingTypes succeeded
+    if (atlasResponse.data.success) {
+      return true;
+    }
+
+    return false;
+
   } catch (error) {
     return false;
   }
