@@ -16,7 +16,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
     const accessToken = credentials.access_token;
     const tokenIsValid = await testIfTokenIsValid(accessToken);
 
-    if (accessToken != null && tokenIsValid) {
+    if (/*accessToken != null &&*/ tokenIsValid) {
       console.log("access token is valid");
       return accessToken;
     }
@@ -1338,9 +1338,9 @@ const testIfTokenIsValid = async (accessToken) => {
     });
 
     // return result depending whether /GetFundingTypes succeeded
-    if (atlasResponse.data.success) {
-      return true;
-    }
+    // if (atlasResponse.data.success) {
+    //   return true;
+    // }
 
     return false;
 
