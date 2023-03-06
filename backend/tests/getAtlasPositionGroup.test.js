@@ -24,10 +24,10 @@ describe('getAtlasPositionGroup function', () => {
     if (!accessToken) {
       return;
     }
-    let positionId = '245072';
+    let positionId = '245536';
     // let positionGroupResults = await getPositionGroupDetails(positionId, accessToken);
     // console.log(positionGroupResults.message);
-    let skip = await atlasService.getCountOfPositionPairs();
+    let skip = 0;//await atlasService.getCountOfPositionPairs();
     skip = Number.parseInt(skip);
     console.log(skip);
     const batchSize = 200;
@@ -36,7 +36,9 @@ describe('getAtlasPositionGroup function', () => {
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
       //console.log(availablePositionGroups.message.NumberOfItems);
       for (const atlasItem of availablePositionGroups.message.Pairs) {
+        console.log(atlasItem.PositionGroupID);
         if (atlasItem.PositionGroupID == positionId) {
+
           console.log("Found item: " + atlasItem.PositionGroupID);
           return;
         }

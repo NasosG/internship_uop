@@ -1338,9 +1338,9 @@ const testIfTokenIsValid = async (accessToken) => {
     });
 
     // return result depending whether /GetFundingTypes succeeded
-    // if (atlasResponse.data.success) {
-    //   return true;
-    // }
+    if (atlasResponse.data.success) {
+      return true;
+    }
 
     return false;
 

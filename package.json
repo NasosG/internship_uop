@@ -9,7 +9,8 @@
     "test": "ng test",
     "test-proc": "jest ./backend/tests/studentGradeProcedure.test.js",
     "test-mailer": "jest ./backend/tests/mailer.test.js",
-    "test-position-group": "jest ./backend/tests/getAtlasPositionGroup.test.js"
+    "test-position-group": "jest ./backend/tests/getAtlasPositionGroup.test.js",
+    "fix-f-pos": "jest ./backend/tests/insertPositionsFromJson.test.js"
   },
   "private": true,
   "dependencies": {

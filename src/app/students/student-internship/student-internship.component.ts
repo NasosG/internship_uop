@@ -158,7 +158,7 @@ export class StudentInternshipComponent implements OnInit {
       .subscribe((positions: AtlasPosition[]) => {
         this.entries = [];
         this.entries.push(...positions);
-
+        this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
         // if positions are not found by searching
         if (positions.length == 0) {
           this.warnNoResultsFound();
