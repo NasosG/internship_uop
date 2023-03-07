@@ -24,30 +24,59 @@ describe('getAtlasPositionGroup function', () => {
     if (!accessToken) {
       return;
     }
-    let positionId = '245536';
+    let positionId = '219930';
+
+    let geta = GetInstitutions(accessToken);
+    console.log(geta.message);
+
     // let positionGroupResults = await getPositionGroupDetails(positionId, accessToken);
     // console.log(positionGroupResults.message);
-    let skip = 0;//await atlasService.getCountOfPositionPairs();
-    skip = Number.parseInt(skip);
-    console.log(skip);
-    const batchSize = 200;
-    let availablePositionGroups = [];
-    do {
-      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      //console.log(availablePositionGroups.message.NumberOfItems);
-      for (const atlasItem of availablePositionGroups.message.Pairs) {
-        console.log(atlasItem.PositionGroupID);
-        if (atlasItem.PositionGroupID == positionId) {
+    // let skip = 0;//await atlasService.getCountOfPositionPairs();
+    // skip = Number.parseInt(skip);
+    // console.log(skip);
+    // const batchSize = 200;
+    // let availablePositionGroups = [];
+    // do {
+    //   availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+    //   //console.log(availablePositionGroups.message.NumberOfItems);
+    //   for (const atlasItem of availablePositionGroups.message.Pairs) {
+    //     console.log(atlasItem.PositionGroupID);
+    //     if (atlasItem.PositionGroupID == positionId) {
 
-          console.log("Found item: " + atlasItem.PositionGroupID);
-          return;
-        }
-      }
-      skip += batchSize;
-    } while (availablePositionGroups.message.NumberOfItems > skip);
+    //       console.log("Found item: " + atlasItem.PositionGroupID);
+    //       return;
+    //     }
+    //   }
+    //   skip += batchSize;
+    // } while (availablePositionGroups.message.NumberOfItems > skip);
 
   });
 });
+
+const GetInstitutions = async (accessToken) => {
+  try {
+    const ATLAS_PROD = 'https://submit-atlas.grnet.gr/Api/Offices/v1';
+    const atlasResponse = await axios({
+      url: ATLAS_PROD + '/GetInstitutions',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+    console.log(atlasResponse.data);
+    return {
+      message: atlasResponse.data.Result,
+      status: atlasResponse.status
+    };
+  } catch (error) {
+    console.log(error.message);
+    return {
+      message: "something went wrong while fetching position group details",
+      status: "400 bad request"
+    };
+  }
+};
 
 const getPositionGroupDetails = async (positionId, accessToken) => {
   try {

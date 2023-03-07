@@ -313,12 +313,12 @@ export class StudentInternshipComponent implements OnInit {
       return;
     }
 
-    this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
-    .subscribe((responseData: boolean) => {
-      if (responseData !== true) {
-        this.warnDepartmentNotMatchesError();
-        return;
-      }
+    // this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
+    // .subscribe((responseData: boolean) => {
+      // if (responseData !== true) {
+      //   this.warnDepartmentNotMatchesError();
+      //   return;
+      // }
 
       this.studentsService.insertStudentPosition(positionId, atlas).subscribe(responseData => {
         message = responseData.message;
@@ -337,7 +337,7 @@ export class StudentInternshipComponent implements OnInit {
 
         this.addedPositionSuccess();
       });
-    });
+    // });
   }
 
   private addedPositionSuccess(): void {
