@@ -10,7 +10,9 @@
     "test-proc": "jest ./backend/tests/studentGradeProcedure.test.js",
     "test-mailer": "jest ./backend/tests/mailer.test.js",
     "test-position-group": "jest ./backend/tests/getAtlasPositionGroup.test.js",
-    "fix-f-pos": "jest ./backend/tests/insertPositionsFromJson.test.js"
+    "fix-f-pos": "jest ./backend/tests/insertPositionsFromJson.test.js",
+    "test-positions": "jest ./backend/tests/insertPositionsFromJson.test.js",
+    "delete-positions": "jest ./backend/tests/deleteOldPositions.test.js"
   },
   "private": true,
   "dependencies": {
