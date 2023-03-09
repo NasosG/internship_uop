@@ -40,17 +40,17 @@ describe('getAtlasPositionGroup function', () => {
     const ids = await getPositionIdsfromDB();
 
     for (const pos of ids) {
-      let positionGroupResults = await getPositionGroupDetails(pos.atlas_position_id, accessToken);
+      let positionGroupResults = await getPositionGroupDetails(pos.position_group_id, accessToken);
 
       if (positionGroupResults?.message && positionGroupResults?.message?.Success == false) {
         // console.log("position not found in atlas");
         try {
-          let hasStudentChosenPosition = await checkIfPositionHasBeenChosenByStudent(pos.atlas_position_id);
+          let hasStudentChosenPosition = await checkIfPositionHasBeenChosenByStudent(pos.position_group_id);
           if (!hasStudentChosenPosition) {
             TO_BE_DELETED++;
-            await pool.query("DELETE FROM position_has_academics WHERE position_id=$1", [pos.atlas_position_id]);
-            await pool.query("DELETE FROM atlas_position_group WHERE atlas_position_id=$1", [pos.atlas_position_id]);
-            await pool.query("DELETE FROM atlas_position_group_relations WHERE position_group_id=$1", [pos.atlas_position_id]);
+            await pool.query("DELETE FROM position_has_academics WHERE position_id=$1", [pos.position_group_id]);
+            await pool.query("DELETE FROM atlas_position_group WHERE atlas_position_id=$1", [pos.position_group_id]);
+            await pool.query("DELETE FROM atlas_position_group_relations WHERE position_group_id=$1", [pos.position_group_id]);
           }
         } catch (error) {
           console.error(error.message);
@@ -81,7 +81,7 @@ describe('getAtlasPositionGroup function', () => {
 
 const getPositionIdsfromDB = async () => {
   try {
-    const results = await pool.query("SELECT atlas_position_id FROM atlas_position_group");
+    const results = await pool.query("SELECT position_group_id FROM atlas_position_group_relations");
     return results.rows;
   } catch (error) {
     console.log("POSITIONS IN LOCAL DB AND ATLAS TOO: " + error.message);
@@ -91,6 +91,7 @@ const getPositionIdsfromDB = async () => {
 
 const checkIfPositionHasBeenChosenByStudent = async (position) => {
   try {
+    if (!position) return true;
     let rows = await pool.query("SELECT * FROM final_app_positions WHERE position_id=$1", [position]);
     return rows.rowCount > 0;
   } catch (error) {
