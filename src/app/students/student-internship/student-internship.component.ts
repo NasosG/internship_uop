@@ -6,7 +6,7 @@ import { AtlasFilters } from '../atlas-filters.model';
 import { AtlasPosition } from '../atlas-position.model';
 import { City } from '../city.model';
 import { Department } from '../department.model';
-import {PhysicalObject} from '../physical-object.model';
+import { PhysicalObject } from '../physical-object.model';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 
@@ -313,12 +313,12 @@ export class StudentInternshipComponent implements OnInit {
       return;
     }
 
-    // this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
-    // .subscribe((responseData: boolean) => {
-      // if (responseData !== true) {
-      //   this.warnDepartmentNotMatchesError();
-      //   return;
-      // }
+    this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
+    .subscribe((responseData: boolean) => {
+      if (responseData !== true) {
+        this.warnDepartmentNotMatchesError();
+        return;
+      }
 
       this.studentsService.insertStudentPosition(positionId, atlas).subscribe(responseData => {
         message = responseData.message;
@@ -337,7 +337,7 @@ export class StudentInternshipComponent implements OnInit {
 
         this.addedPositionSuccess();
       });
-    // });
+    });
   }
 
   private addedPositionSuccess(): void {
