@@ -44,12 +44,17 @@ describe('getAtlasPositionGroup function', () => {
 
       if (positionGroupResults?.message && positionGroupResults?.message?.Success == false) {
         // console.log("position not found in atlas");
-        let hasStudentChosenPosition = await checkIfPositionHasBeenChosenByStudent(pos.atlas_position_id);
-        if (!hasStudentChosenPosition) {
-          TO_BE_DELETED++;
-          await pool.query("DELETE FROM position_has_academics WHERE position_id=$1", [pos.atlas_position_id]);
-          await pool.query("DELETE FROM atlas_position_group WHERE atlas_position_id=$1", [pos.atlas_position_id]);
+        try {
+          let hasStudentChosenPosition = await checkIfPositionHasBeenChosenByStudent(pos.atlas_position_id);
+          if (!hasStudentChosenPosition) {
+            TO_BE_DELETED++;
+            await pool.query("DELETE FROM position_has_academics WHERE position_id=$1", [pos.atlas_position_id]);
+            await pool.query("DELETE FROM atlas_position_group WHERE atlas_position_id=$1", [pos.atlas_position_id]);
+          }
+        } catch (error) {
+          console.error(error.message);
         }
+
       } else {
         // console.log("position found in atlas");
         FOUND_IN_ATLAS++;
