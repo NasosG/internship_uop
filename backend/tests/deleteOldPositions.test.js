@@ -47,6 +47,7 @@ describe('getAtlasPositionGroup function', () => {
         let hasStudentChosenPosition = await checkIfPositionHasBeenChosenByStudent(pos.atlas_position_id);
         if (!hasStudentChosenPosition) {
           TO_BE_DELETED++;
+          await pool.query("DELETE FROM position_has_academics WHERE position_id=$1", [pos.atlas_position_id]);
           await pool.query("DELETE FROM atlas_position_group WHERE atlas_position_id=$1", [pos.atlas_position_id]);
         }
       } else {
