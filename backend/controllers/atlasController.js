@@ -1210,18 +1210,43 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     positionsPreassignedData.positionData[0].ImplementationEndDate = representation2;
     // END TESTING
 
-    let assignmentData =
-    {
-      // "FundingType": null,
-      //"ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
-      "ImplementationStartDateString": "3/6/13",
-      "ImplementationStartDateStringFormat": "d/M/yy",
-      //"ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
-      "ImplementationEndDateString": "3/9/13",
-      "ImplementationEndDateStringFormat": "d/M/yy",
-      "PositionID": positionsPreassignedData.positionIds[0],
-      "StudentID": studentId
-    };
+    let assignmentData;
+    if (positionsPreassignedData.positionData[0].ImplementationStartDate == null) {
+      assignmentData =
+      {
+        "ImplementationStartDate": null,
+        "ImplementationEndDate": null,
+        "PositionID": positionsPreassignedData.positionIds[0],
+        "StudentID": studentId
+      };
+    } else {
+      // TODO: refactor it / extract to functions
+      let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString;
+      let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString;
+
+      const isWrongFormatStart = moment(implementationStartDate, 'DD/MM/YYYY', true).isValid();
+      const isWrongFormatEnd = moment(implementationEndDate, 'DD/MM/YYYY', true).isValid();
+
+      if (isWrongFormatStart) {
+        implementationStartDate = moment(implementationStartDate, 'DD/MM/YYYY').format('D/M/YY');
+      }
+      if (isWrongFormatEnd) {
+        implementationEndDate = moment(implementationEndDate, 'DD/MM/YYYY').format('D/M/YY');
+      }
+
+      assignmentData =
+      {
+        // "FundingType": null,
+        //"ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
+        "ImplementationStartDateString": implementationStartDate,
+        "ImplementationStartDateStringFormat": "d/M/yy",
+        //"ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
+        "ImplementationEndDateString": implementationEndDate,
+        "ImplementationEndDateStringFormat": "d/M/yy",
+        "PositionID": positionsPreassignedData.positionIds[0],
+        "StudentID": studentId
+      };
+    }
 
     console.log(assignmentData);
 
