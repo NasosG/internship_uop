@@ -410,7 +410,7 @@ const getPeriodAndProtocolNumberByStudentId = async (studentId) => {
   try {
     const depManagerId = await pool.query("SELECT period.id, apps.protocol_number FROM period \
                                           INNER JOIN sso_users ON sso_users.department_id = period.department_id \
-                                          INNER JOIN semester_interest_apps apps ON apps.period_id = period.id \
+                                          INNER JOIN semester_interest_apps apps ON apps.period_id = period.id AND student_id = $1 \
                                           WHERE sso_users.uuid = $1 \
                                           AND period.is_active = 'true'", [studentId]);
 
