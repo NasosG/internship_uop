@@ -173,7 +173,7 @@ const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
 const getStudentActiveApplications = async (deptId) => {
   try {
     const applications = await pool.query(`SELECT * FROM active_applications a
-                                          JOIN(SELECT MAX(id) as max_id FROM period) p
+                                          JOIN(SELECT MAX(id) as max_id FROM period WHERE department_id = $1) p
                                           ON a.period_id = p.max_id
                                           WHERE department_id = $1`, [deptId]);
     return applications.rows;
