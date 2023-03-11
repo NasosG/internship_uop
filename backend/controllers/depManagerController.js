@@ -481,7 +481,7 @@ const insertFinalAssignment = async (request, response) => {
     const studentId = request.params.id;
     const positionId = request.body.position_id;
 
-    const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId);
+    const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId)[0];
     console.log(assignmentData);
     console.log("in final assign - studentId: " + studentId + " - positionId: " + positionId);
 
