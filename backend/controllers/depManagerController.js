@@ -481,7 +481,16 @@ const insertFinalAssignment = async (request, response) => {
     // Get student's AM and department id by student id
     //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
     const student = await companyService.getStudentAMandDepartmentById(assignmentData.student_id);
-    const { registry_number: studentAMNumber, department_id: academicId } = student;
+    // const { registry_number: studentAMNumber, department_id: academicId } = student;
+
+    const studentAMNumber = student.registry_number;
+    let academicId = student.department_id;
+
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (academicId.toString().length == 6) {
+      academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
+    }
+
     console.log(studentAMNumber);
     console.log(academicId);
 
