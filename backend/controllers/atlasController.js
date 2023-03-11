@@ -1260,6 +1260,9 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
       }
     });
 
+    console.log('atlas reponse ');
+    console.log(atlasResponse.data);
+
     return {
       message: atlasResponse.data
     };
