@@ -531,9 +531,24 @@ const insertFinalAssignment = async (request, response) => {
     // console.log(fundingType);
 
     const studentToAssignID = registeredStudent.message.ID || registerResult.message.ID;
-    // assign student to Atlas position
-    let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID);
-    console.log(assignResults);
+
+    try {
+      // assign student to Atlas position
+      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID);
+
+      // If assignment fails, throw an error displaying the message
+      if (assignResults.status == "400 bad request") {
+        throw new Error(assignResults.message);
+      }
+
+      console.log(assignResults);
+    } catch (error) {
+      response.status(500)
+        .json({
+          message: error.message
+        });
+      return;
+    }
 
     // If assignment does not exist, insert it - local db
     if (!(await depManagerService.doesAssignmentExist(assignmentData))) {

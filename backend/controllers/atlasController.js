@@ -1192,22 +1192,22 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     let accessToken = await atlasLogin();
 
     // FOR TESTING PURPOSES
-    let startDateStr = "2014-01-09 10:12:11";
-    const startDate = new Date((startDateStr == null) ? 0000 : startDateStr + "Z");
-    const endDate = new Date("2014-01-09T10:12:12.000Z");
-    let startDateValue = startDate.valueOf();
-    let endDateValue = endDate.valueOf();
+    // let startDateStr = "2014-01-09 10:12:11";
+    // const startDate = new Date((startDateStr == null) ? 0000 : startDateStr + "Z");
+    // const endDate = new Date("2014-01-09T10:12:12.000Z");
+    // let startDateValue = startDate.valueOf();
+    // let endDateValue = endDate.valueOf();
 
-    console.log(startDate.valueOf());
-    console.log(endDate.valueOf());
+    // console.log(startDate.valueOf());
+    // console.log(endDate.valueOf());
 
-    let representation = `\\/Date(${startDateValue}000)\\/`;
-    let representation2 = `\\/Date(${endDateValue}000)\\/`;
-    console.log(representation);
-    console.log(representation2);
+    // let representation = `\\/Date(${startDateValue}000)\\/`;
+    // let representation2 = `\\/Date(${endDateValue}000)\\/`;
+    // console.log(representation);
+    // console.log(representation2);
 
-    positionsPreassignedData.positionData[0].ImplementationStartDate = representation;
-    positionsPreassignedData.positionData[0].ImplementationEndDate = representation2;
+    // positionsPreassignedData.positionData[0].ImplementationStartDate = representation;
+    // positionsPreassignedData.positionData[0].ImplementationEndDate = representation2;
     // END TESTING
 
     let assignmentData;
@@ -1265,7 +1265,7 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     };
     // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while assigning student to Atlas: " + error.message);
+    console.error("error while assigning student to Atlas: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while assigning student to Atlas: " + error.message
