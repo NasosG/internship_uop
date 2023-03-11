@@ -530,8 +530,9 @@ const insertFinalAssignment = async (request, response) => {
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // console.log(fundingType);
 
+    const studentToAssignID = registeredStudent.message.ID || registerResult.message.ID;
     // assign student to Atlas position
-    let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
+    let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID);
     console.log(assignResults);
 
     // If assignment does not exist, insert it - local db
