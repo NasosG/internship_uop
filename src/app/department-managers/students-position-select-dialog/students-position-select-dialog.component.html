@@ -4,10 +4,12 @@
   <p><span>Όνομα Εταιρείας</span>: {{this.position.company}}</p>
 
   <div class="m-auto text-center">
-    <button class="custom-btn btn btn-primary mb-2 w-100" (click)="onSubmitSwal('preassign')" mat-button>Προδέσμευση
+    <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState!=null"
+      (click)="onSubmitSwal('preassign')" mat-button>Προδέσμευση
       Θέσης</button>
     <br>
-    <button class="custom-btn btn btn-primary mb-2 w-100" (click)="onSubmitSwal('assign')" mat-button>Τελική
+    <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0"
+      (click)="onSubmitSwal('assign')" mat-button>Τελική
       ανάθεση</button>
   </div>
 </mat-dialog-content>

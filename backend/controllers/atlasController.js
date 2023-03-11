@@ -1187,7 +1187,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
 /**
 * Returns preassigned positions of group, if none is found it preassigns a single position
 */
-const assignStudent = async (positionsPreassignedData, studentId) => {
+const assignStudent = async (positionsPreassignedData, studentId, isTei = false) => {
   try {
     let accessToken = await atlasLogin();
 
@@ -1220,9 +1220,12 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     //     "StudentID": studentId
     //   };
     // } else {
+
+    const { startDateCalc, endDateCalc } = MiscUtils.calculateDates(isTei);
+
     // TODO: refactor it / extract to functions
-    let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || '01/04/2023';
-    let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || '01/10/2023';
+    let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || startDateCalc.format('DD/MM/YYYY');
+    let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || endDateCalc.format('DD/MM/YYYY');
 
     const isWrongFormatStart = moment(implementationStartDate, 'DD/MM/YYYY', true).isValid();
     const isWrongFormatEnd = moment(implementationEndDate, 'DD/MM/YYYY', true).isValid();

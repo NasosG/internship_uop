@@ -21,3 +21,15 @@ span {
   background-color: #224957 !important;
   cursor: pointer;
 }
+
+
+.custom-btn:disabled {
+  cursor: not-allowed !important;
+  pointer-events: all !important;
+  color: white !important;
+}
+
+.custom-btn:disabled:hover {
+  background-color: #7a7a7a !important;
+
+}

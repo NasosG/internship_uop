@@ -12,6 +12,7 @@ import { DepManagerService } from '../dep-manager.service';
 export class StudentsPositionSelectDialogComponent implements OnInit {
   selectedRow!: number;
   position: any;
+  approvalState?: number | null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private depManagerService: DepManagerService,
@@ -27,6 +28,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
        this.position = positions[this.data.index];
        console.log(this.position);
        this.selectedRow = positions[this.data.index].app_pos_id;
+       this.approvalState = this.data.approvalState;
     });
   }
 

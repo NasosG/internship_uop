@@ -111,6 +111,29 @@ export class StudentMatchComponent implements OnInit {
     return positionIds.some(map => map.get(studentId) === numberParam);
   }
 
+  getApprovalState(state: Map<number, any>[], studentId: number, positionId: number) {
+    // Find the position assigned to the student
+    const assignedPosition = this.positionIds.find(map => map.has(studentId))?.get(studentId);
+    // If the student is not assigned to a position, return null
+    if (assignedPosition === undefined) {
+      return null;
+    }
+    // If the assigned position does not match the specified position, return null
+    if (assignedPosition !== positionId) {
+      return null;
+    }
+    // Find the approval state for the specified position based on studentId
+    const positionState = state.find(map => map.has(studentId))?.get(studentId);
+    // If the approval state was found, return it (0 or 1)
+    if (positionState !== undefined) {
+      return positionState == 1 ? 1 : 0;
+    }
+
+    // If the position ID was not found, return null (or throw an error)
+    return null;
+  }
+
+
   exportToExcel() {
     let studentsDataJson: any = [];
     for (const item of this.activeApplications) {
@@ -229,11 +252,11 @@ export class StudentMatchComponent implements OnInit {
     });
   }
 
-  openStudentsPositionSelectionDialog(appId: any, index: number) {
-    console.log(appId);
+  openStudentsPositionSelectionDialog(appId: any, index: number, studentId:number, position_id: number) {
+    let assignApprovalState = this.getApprovalState(this.state, studentId, position_id);
     const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
       width: '400px',
-      data: { appId: appId, index: index }
+      data: { appId: appId, index: index, approvalState: assignApprovalState }
     });
 
     dialogRef.afterClosed().subscribe(result => {

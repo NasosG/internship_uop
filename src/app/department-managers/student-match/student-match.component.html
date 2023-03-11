@@ -47,7 +47,8 @@
                             {{add3Dots(position.title, 50)}} - {{add3Dots(position.company,16)}}</span>
                         </div>
                         <div class="col-3 text-right" style="width:70px;">
-                          <button (click)="openStudentsPositionSelectionDialog(activeApplication.app_id, idx)"
+                          <button (click)="openStudentsPositionSelectionDialog(activeApplication.app_id, idx,
+                            activeApplication.student_id, activeApplication.positions[idx].position_id)"
                             class="btn custom-btn btn-primary ml-2 mb-1 p-0 pl-2 pr-2 mr-2">Επιλέξτε <i
                               class="fas fa-long-arrow-alt-right"></i></button>
                         </div>

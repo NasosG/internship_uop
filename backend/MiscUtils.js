@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 // All the accepted file types
 const FILE_TYPES = [
   'png', 'jpg', 'gif', 'jpeg', 'pdf', 'webp', 'doc', 'docx'
@@ -127,6 +129,39 @@ const getWeeksFromMonths = (weeksStr) => {
   return weeks2months;
 };
 
+
+function calculateDates(isTEIDepartment) {
+  const today = moment();
+  const currentYear = today.year();
+
+  let startDate;
+  let endDate;
+
+  if (today.month() >= 0 && today.month() <= 4) {
+    startDate = moment(`01/04/${currentYear}`, 'DD/MM/YYYY');
+  } else if (today.month() >= 5 && today.month() <= 6) {
+    startDate = moment(`01/06/${currentYear}`, 'DD/MM/YYYY');
+  } else if (today.month() >= 7 && today.month() < 8) {
+    startDate = moment(`01/08/${currentYear}`, 'DD/MM/YYYY');
+  } else if (today.month() >= 8 && today.month() < 10) {
+    startDate = moment(`01/10/${currentYear}`, 'DD/MM/YYYY');
+  } else if (today.month() == 10) {
+    startDate = moment(`01/11/${currentYear}`, 'DD/MM/YYYY');
+  } else {
+    startDate = moment(`01/12/${currentYear}`, 'DD/MM/YYYY');
+  }
+
+  if (isTEIDepartment) {
+    endDate = startDate.clone().add(5, 'months').endOf('month');
+  } else {
+    endDate = startDate.clone().add(2, 'months').endOf('month');
+  }
+
+  return { startDate, endDate };
+}
+
+
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -144,5 +179,6 @@ module.exports = {
   getAEICodeFromDepartmentId,
   isArrayNotEmpty,
   convertStartEndDateToTimestamp,
-  getWeeksFromMonths
+  getWeeksFromMonths,
+  calculateDates
 };

@@ -480,6 +480,7 @@ const insertFinalAssignment = async (request, response) => {
   try {
     const studentId = request.params.id;
     const positionId = request.body.position_id;
+    let isTEIProgramOfStudy = false;
 
     const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId);
     console.log(assignmentData);
@@ -495,6 +496,7 @@ const insertFinalAssignment = async (request, response) => {
 
     // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
     if (academicId.toString().length == 6) {
+      isTEIProgramOfStudy = true;
       academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
     }
 
@@ -534,7 +536,7 @@ const insertFinalAssignment = async (request, response) => {
 
     try {
       // assign student to Atlas position
-      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID);
+      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy);
 
       // If assignment fails, throw an error displaying the message
       if (assignResults.status == "400 bad request") {
