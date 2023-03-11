@@ -2,6 +2,7 @@ const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
 const atlasController = require("./atlasController");
 const companyService = require("../services/companyService.js");
+const studentService = require("../services/studentService.js");
 const mainMailer = require('../mailers/mainMailers.js');
 const MiscUtils = require("../MiscUtils.js");
 
@@ -442,6 +443,12 @@ const insertAssignment = async (request, response, next) => {
     let positionPreassignment;
     try {
       positionPreassignment = await atlasController.getPositionPreassignment(companyData.position_id, academicId);
+
+      // If preassignment fails, throw an error displaying the message
+      if (positionPreassignment.status == "Error occurred") {
+        throw new Error(positionPreassignment.message);
+      }
+
       console.log(positionPreassignment);
     } catch (error) {
       console.log(error);
@@ -476,7 +483,7 @@ const insertFinalAssignment = async (request, response) => {
 
     const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId);
     console.log(assignmentData);
-    console.log("studentId " + studentId);
+    console.log("in final assign - studentId: " + studentId + " - positionId: " + positionId);
 
     // Get student's AM and department id by student id
     //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
@@ -526,8 +533,14 @@ const insertFinalAssignment = async (request, response) => {
     // assign student to Atlas position
     let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
     console.log(assignResults);
-    // update assignment details - local db
-    await studentService.acceptAssignment(assignmentData);
+
+    // If assignment does not exist, insert it - local db
+    if (!(await depManagerService.doesAssignmentExist(assignmentData))) {
+      await depManagerService.insertAssignment(assignmentData, 1);
+    } else {
+      // update assignment details - local db
+      await studentService.acceptAssignment(assignmentData);
+    }
 
     response.status(201)
       .json({

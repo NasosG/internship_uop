@@ -98,6 +98,7 @@ const getStudentAMandDepartmentById = async (id) => {
     const resultsSSOUsers = await pool.query("SELECT schacpersonaluniquecode as student_registry, department_id FROM sso_users \
                                               WHERE sso_users.uuid = $1", [id]);
     // const student = MiscUtils.splitStudentsAM(resultsSSOUsers.rows[0].student_registry);
+    console.log(id);
     const firstRow = resultsSSOUsers.rows[0];
     const student = {
       registry_number: MiscUtils.splitStudentsAM(firstRow.student_registry),
@@ -105,7 +106,7 @@ const getStudentAMandDepartmentById = async (id) => {
     };
     return student;
   } catch (error) {
-    throw Error('Error while fetching students');
+    throw Error('Error while fetching students' + error.message);
   }
 };
 

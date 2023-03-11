@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test-generic": "jest ./backend/tests/generic_*",
     "test-proc": "jest ./backend/tests/studentGradeProcedure.test.js",
     "test-mailer": "jest ./backend/tests/mailer.test.js",
     "test-position-group": "jest ./backend/tests/getAtlasPositionGroup.test.js",

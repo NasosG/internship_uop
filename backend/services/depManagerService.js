@@ -629,9 +629,21 @@ const getPhaseOfPeriod = async (periodId, phase_state) => {
   }
 };
 
-const insertAssignment = async (body) => {
+const doesAssignmentExist = async (body) => {
   try {
-    const STATE = 0;
+    const result = await pool.query(`SELECT 1 FROM internship_assignment
+      WHERE position_id = $1 AND student_id = $2 AND period_id = $3`, [body.position_id, body.student_id, body.period_id]);
+
+    return result.rows.length > 0;
+  } catch (error) {
+    console.log('Error while checking if assignment exists ' + error.message);
+    throw Error('Error while checking if assignment exists ' + error.message);
+  }
+};
+
+const insertAssignment = async (body, stateOptionalParam = 0) => {
+  try {
+    const STATE = stateOptionalParam || 0;
     let positionData;
 
     const result = await pool.query(`SELECT 1 FROM internship_assignment
@@ -724,6 +736,7 @@ module.exports = {
   getEspaPositionsByDepartmentId,
   getPhaseStateByPeriodId,
   getRankdedStudentsListByDeptAndPeriodId,
+  doesAssignmentExist,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

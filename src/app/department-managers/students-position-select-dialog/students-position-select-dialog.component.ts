@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { catchError, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 
@@ -63,9 +64,27 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
 
   acceptCompanyPosition() {
     this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id)
+    .pipe(
+      catchError((error: any) => {
+        console.error(error);
+         Swal.fire({
+          title: 'Αποτυχία',
+          text: 'Ανεπιτυχής ανάθεση της θέσης με κωδικό group: ' + this.position.position_id,
+          icon: 'error'
+        });
+        return of(null);
+      }))
       .subscribe((response: any) => {
-        console.log(response);
-        location.reload();
+        if (response) {
+          console.log(response);
+          Swal.fire({
+            title: 'Επιτυχία',
+            text: 'Eπιτυχής ανάθεση της θέσης με κωδικό group: ' + this.position.position_id,
+            icon: 'success'
+          }).then(() => {
+            location.reload();
+          });
+        }
       });
   }
 
@@ -102,18 +121,17 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
       // alert(`Εισαγωγή θέσης ${this.selectedRow}`);
       this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
         console.log(responseData.message);
-        location.reload();
+        if (responseData) location.reload();
         //this.ngOnInit();
       }, (error: any) => {
         console.log(error);
         Swal.fire({
           title: 'Αποτυχία',
-          text: 'Η αποδοχή της ανάθεσης απέτυχε',
+          text: 'Ανεπιτυχής προδέσμευση της θέσης με κωδικό group: ' + this.position.position_id,
           icon: 'error',
           confirmButtonText: 'ΟΚ'
         });
       });
-
     });
   }
 }

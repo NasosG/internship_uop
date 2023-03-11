@@ -1,4 +1,5 @@
 import { Component, OnInit} from '@angular/core';
+import { catchError, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
 import Swal from 'sweetalert2';
@@ -65,10 +66,28 @@ export class StudentCompanyAcceptComponent implements OnInit {
   acceptCompanyPosition(positionIndex: number) {
     let assignment = this.assignments[positionIndex];
     this.studentsService.acceptCompanyPosition(assignment)
+      .pipe(
+        catchError((error: any) => {
+          console.error(error);
+          Swal.fire({
+            title: 'Αποτυχία',
+            text: 'Ανεπιτυχής ανάθεση της θέσης με κωδικό group: ' + assignment.position_id,
+            icon: 'error'
+          });
+          return of(null);
+        }))
       .subscribe((response: any) => {
-        console.log(response);
-        location.reload();
-      });
+          if (response) {
+            console.log(response);
+            Swal.fire({
+              title: 'Επιτυχία',
+              text: 'Eπιτυχής ανάθεση της θέσης με κωδικό group: ' + assignment.position_id,
+              icon: 'success'
+            }).then(() => {
+              location.reload();
+            });
+          }
+        });
   }
 
 }

@@ -39,4 +39,5 @@ export interface AcceptedAssignmentsByCompany {
   atlasPositionId: number;
   afm?: string;
   period_id?: number;
+  position_id?: number;
 }
