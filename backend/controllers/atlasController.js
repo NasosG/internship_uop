@@ -1214,8 +1214,8 @@ const assignStudent = async (positionsPreassignedData, studentId) => {
     if (positionsPreassignedData.positionData[0].ImplementationStartDate == null) {
       assignmentData =
       {
-        // "ImplementationStartDate": null,
-        // "ImplementationEndDate": null,
+        "ImplementationStartDate": '',
+        "ImplementationEndDate": '',
         "PositionID": positionsPreassignedData.positionIds[0],
         "StudentID": studentId
       };
