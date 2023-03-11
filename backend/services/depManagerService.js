@@ -694,7 +694,7 @@ const getAssignmentsByStudentAndPositionId = async (studentId, positionId) => {
                                           WHERE internship_assignment.student_id = $1
                                           AND  internship_assignment.position_id = $2 `, [studentId, positionId]);
 
-    return assignments.rows;
+    return assignments.rows[0];
   } catch (error) {
     console.log('Error while getting assignments ' + error.message);
     throw Error('Error while getting assignments');
