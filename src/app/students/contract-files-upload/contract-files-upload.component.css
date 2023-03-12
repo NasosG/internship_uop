@@ -1,0 +1,47 @@
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+.inactive-field {
+  color: rgb(143, 143, 143)
+}
+
+.fa-icon:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 539px) {
+  .set-min-width {
+    width: 420px !important;
+  }
+}
+
+::ng-deep .dark-mode .mat-form-field-label {
+  /*change color of label*/
+  color: #ffffffbf !important;
+}
+
+::ng-deep .dark-mode .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+::ng-deep .dark-mode .mat-form-field-flex {
+  /*change color of underline*/
+  background-color: #343a40 !important;
+}
+
+::ng-deep .dark-mode .mat-step {
+  background-color: #3c434a !important;
+  color: white;
+}
+
+::ng-deep .dark-mode .mat-step-text-label {
+  background-color: #3c434a !important;
+  color: white;
+}

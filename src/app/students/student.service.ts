@@ -235,6 +235,17 @@ export class StudentsService {
     // });
   }
 
+  // Not so much needed as updateStudentFile exists, but changes to prod may create problems
+  updateStudentContractFile(file: any, type: string): any {
+    const id = this.authService.getSessionId();
+    if (type == 'AMA')
+      return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentSSNFile/" + id, file);
+    else if (type == 'POLICEID')
+     return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentIbanFile/" + id, file);
+  }
+
   updateStudentFile(file: any, type: string): any {
     const id = this.authService.getSessionId();
     if (type == 'SSN')

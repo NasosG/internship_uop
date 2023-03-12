@@ -1,5 +1,13 @@
 <div class="container-fluid mt-2 sheets-container">
   <div class="sheets-div">
+    <h2 *ngIf="false">ΕΓΓΡΑΦΑ ΓΙΑ ΣΥΜΒΑΣΗ</h2>
+    <h5 *ngIf="false" class="mb-4">Θα χρειαστεί να ανεβάσετε κάποια έγγραφα όπως το ΑΜΑ πριν την υπογραφή της σύμβασης
+      εργασίας.
+    </h5>
+    <!-- Option 1: Internship Contract -->
+    <button *ngIf="false" [routerLink]="['../student-contract-files/'+ this.authService.getSessionId()]"
+      class="btn btn-primary mb-4">
+      Ανέβασμα εγγράφων απαραίτητα για τη Σύμβαση Εργασιας</button>
     <h2>ΣΥΜΒΑΣΗ</h2>
     <h5 class="mb-4">Απαραίτητη προϋπόθεση για την έναρξη της πρακτικής άσκησης είναι η υπογραφή της σύμβασης εργασίας.
     </h5>

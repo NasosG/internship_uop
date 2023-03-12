@@ -246,4 +246,8 @@ export class StudentComponent implements OnInit, OnDestroy {
   isStudentCompanyAcceptRoute() {
     return this.router.url === '/student/company-accept/' + this.authService.getSessionId();
   }
+
+  isContractFilesUploadRoute() {
+    return this.router.url === '/student/student-contract-files/' + this.authService.getSessionId();
+  }
 }

@@ -1,5 +1,4 @@
 // database connection configuration
-// const { addSyntheticLeadingComment } = require("typescript");
 const pool = require("../db_config.js");
 const MiscUtils = require("../MiscUtils.js");
 const mssql = require("../secretariat_db_config.js");
@@ -919,7 +918,6 @@ module.exports = {
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId,
-  // dummy login
   loginStudent,
   insertOrUpdateMetadataBySSOUid,
   acceptAssignment,

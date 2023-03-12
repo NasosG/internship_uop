@@ -1,0 +1,157 @@
+<!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button> -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Ανέβασμα δικαιολογητικών για Σύμβαση Εργασίας</h1>
+      </div>
+      <div class="col-sm-6">
+        <!-- <ol class=" float-sm-right">
+          <li class="breadcrumb-item"><a href="/student">student</a></li>
+          <li class="breadcrumb-item active">profile</li>
+        </ol> -->
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<div class="alert alert-danger pb-0" role="alert">
+  <ul>
+    <li>Υπενθυμίζεται ότι η ηλεκτρονική αίτηση επέχει θέση υπεύθυνης δήλωσης</li>
+  </ul>
+</div>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Στοιχεία Σύμβασης</ng-template>
+      <!-- <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>ΑΦΜ</mat-label>
+        <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[0]?.ssn" id="inputName" placeholder="ΑΦΜ"
+          formControlName="ssnControl" required>
+      </mat-form-field><br>
+      <mat-form-field appearance="fill">
+        <mat-label>ΔΟΥ</mat-label>
+        <input matInput name="doy" ngModel [ngModel]="studentsSSOData[0]?.doy" id="inputDOY" placeholder="ΔΟΥ*"
+          formControlName="doyControl" required>
+      </mat-form-field><br> -->
+
+      <mat-form-field appearance="fill">
+        <mat-label>ΑΜΑ</mat-label>
+        <input matInput name="ama" ngModel [ngModel]="studentsSSOData[0]?.doy" id="inputAMA" placeholder="ΑΜΑ*"
+          formControlName="amaControl" required>
+      </mat-form-field><br>
+
+      <mat-form-field appearance="fill">
+        <mat-label>ΑΔΤ</mat-label>
+        <input matInput name="policeID" ngModel [ngModel]="studentsSSOData[0]?.doy" id="inputID" placeholder="ΑΔΤ*"
+          formControlName="policeIDControl" required>
+      </mat-form-field><br>
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>IBAN</mat-label>
+        <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[0]?.iban" ngModel placeholder="IBAN*"
+          formControlName="ibanControl" required>
+      </mat-form-field><br> -->
+      <br><br>
+      <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΜΑ <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+        </i></h6>
+      <mat-form-field>
+        <ngx-mat-file-input (change)="validateFiles('amaFile')" formControlName="amaFile" placeholder="Έγγραφο ΑΜΑ">
+        </ngx-mat-file-input>
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε έγγραφο που να απεικονίζεται η αστυνομική σας ταυτότητα <i class="fa fa-info-circle fa-lg fa-icon"
+          data-toggle="tooltip" data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+        </i></h6>
+      <mat-form-field>
+        <ngx-mat-file-input (change)="validateFiles('idFile')" formControlName="idFile"
+          placeholder="Έγγραφο Αστυνομικής Ταυτότητας">
+        </ngx-mat-file-input>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>IBAN</mat-label>
+        <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[0]?.iban" ngModel placeholder="IBAN*"
+          formControlName="ibanControl" required>
+      </mat-form-field><br>
+      <mat-form-field appearance="fill">
+        <mat-label>ΑΜΚΑ</mat-label>
+        <input matInput class="inactive-field" ngModel [ngModel]="studentsSSOData[0]?.user_ssn" id="amka" name="amka"
+          placeholder="ΑΜΚΑ*" formControlName="amkaControl" required readonly>
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΦΜ <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+        </i></h6>
+      <p>Προτείνεται έγγραφο από <a href="https://www1.aade.gr/sgsisapps5/comregistry/#!/arxiki"
+          target="_blank">TaxisNnet</a>
+        (καρτέλα: Στοιχεία Φυσικού προσώπου) ή πρόσφατο εκκαθαριστικό σημείωμα</p>
+      <mat-form-field>
+        <ngx-mat-file-input (change)="validateFiles('ssnFile')" formControlName="ssnFile" placeholder="Έγγραφο ΑΦΜ">
+        </ngx-mat-file-input>
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε έγγραφο που να απεικονίζεται το IBAN <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+        </i></h6>
+      <mat-form-field>
+        <ngx-mat-file-input (change)="validateFiles('ibanFile')" formControlName="ibanFile" placeholder="Έγγραφο ΙΒΑΝ">
+        </ngx-mat-file-input>
+      </mat-form-field> -->
+      <div>
+        <button mat-button matStepperPrevious>Προηγούμενο</button>
+        <button mat-button matStepperNext>Επόμενο</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="contactFormGroup">
+    <form [formGroup]="contactFormGroup">
+      <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="emailCtrl" type="email" id="inputEmail" name="mail" class="inactive-field"
+          [ngModel]="this.studentsSSOData[0]?.mail" placeholder="email" readonly required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Τηλέφωνο</mat-label>
+        <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
+          [ngModel]="studentsSSOData[0]?.phone" size="31" maxlength="31" />
+      </mat-form-field><br>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Οδός</mat-label>
+        <input matInput formControlName="addressCtrl" id="address" name="address" ngModel
+          [ngModel]="studentsSSOData[0]?.address" size="64" maxlength="255">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Περιοχή</mat-label>
+        <input matInput type="text" id="location" name="location" ngModel [ngModel]="studentsSSOData[0]?.location"
+          size="64" maxlength="255" formControlName="locationCtrl" placeholder="Περιοχή" />
+      </mat-form-field><br>
+      <mat-form-field class="mr-2" appearance="fill">
+        <mat-label>Πόλη</mat-label>
+        <input matInput type="text" id="city" name="city" ngModel formControlName="cityCtrl"
+          [ngModel]="studentsSSOData[0]?.city" size="64" maxlength="255" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Ταχυδρομικός κώδικας</mat-label>
+        <input matInput type="text" id="postal-code" name="post_address" ngModel
+          [ngModel]="studentsSSOData[0]?.post_address" size="16" maxlength="16" formControlName="postalCodeCtrl" />
+      </mat-form-field><br>
+      <div>
+        <button mat-button matStepperPrevious>Προηγούμενο</button>
+        <button mat-button matStepperNext (click)="updateStudentsAllDetails()">Επόμενο</button>
+        <!-- <button mat-button matStepperNext>Επόμενο</button> -->
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Ολοκλήρωση αίτησης</ng-template>
+    <p><i class="fas fa-2x fa-check text-success"></i> Καταχωρήθηκε η αίτησή σας, θα γίνει ο έλεγχος και αν πληρείτε τις
+      προϋποθέσεις για πραγματοποίηση πρακτικής άσκησης, θα ενεργοποιήθει η πρόσβαση σας στο σύστημα.</p>
+    <div>
+    </div>
+  </mat-step>
+</mat-stepper>
