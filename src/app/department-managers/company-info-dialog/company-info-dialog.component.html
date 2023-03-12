@@ -13,7 +13,9 @@
   <p><span>AMKA</span>: {{ this.companyData?.user_ssn}}</p>
   <p><span>ΔΟΥ</span>: {{ this.companyData?.doy}}</p>
   <p><span>IBAN</span>: {{ this.companyData?.iban}}</p> -->
-  <br>
+
+  <mat-divider></mat-divider><br>
+  <p><span>Κωδικός Group θέσης</span>: {{ this.data?.groupId}}</p>
 </div>
 <div mat-dialog-actions style='text-align: right'>
   <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>

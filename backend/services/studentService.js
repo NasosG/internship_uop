@@ -267,9 +267,11 @@ const updateStudentContractDetails = async (student, id) => {
 
 const updateStudentExtraContractDetails = async (student, id) => {
   try {
+    console.log(student);
+    console.log(id);
     const updateResults = await pool.query("UPDATE student_users \
-     SET ama_number = $1, police_id = $2 WHERE sso_uid = $4",
-      [student.ama_number, student.police_id, id]
+     SET ama_number = $1, id_card = $2 WHERE sso_uid = $3",
+      [student.ama_number, student.id_card, id]
     );
 
     return updateResults;

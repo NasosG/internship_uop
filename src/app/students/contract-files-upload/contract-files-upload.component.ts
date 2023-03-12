@@ -76,12 +76,12 @@ export class ContractFilesUploadComponent implements OnInit {
       // ssn: this.firstFormGroup.get('ssnControl')?.value,
       // doy: this.firstFormGroup.get('doyControl')?.value,
       // iban: this.firstFormGroup.get('ibanControl')?.value,
-      amaControl: this.firstFormGroup.get('amaControl')?.value,
-      policeIDControl: this.firstFormGroup.get('policeIDControl')?.value
+      ama_number: this.firstFormGroup.get('amaNumberControl')?.value,
+      id_card: this.firstFormGroup.get('policeIDControl')?.value
     };
     const contractFiles: any = {
-      ssnFile: this.firstFormGroup.get('amaFile')?.value,
-      ibanFile: this.firstFormGroup.get('idFile')?.value,
+      amaFile: this.firstFormGroup.get('amaFile')?.value,
+      idFile: this.firstFormGroup.get('idFile')?.value
     };
     const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
@@ -107,12 +107,14 @@ export class ContractFilesUploadComponent implements OnInit {
 
   onSubmitStudentContractDetails(data: any, contractFiles: { amaFile: any; idFile: any }) {
     const fileAMA = this.uploadFile(contractFiles.amaFile);
-    const filePoliceId = this.uploadFile(contractFiles.idFile);
+    const fileIdCard = this.uploadFile(contractFiles.idFile);
 
-    let files = [{ "fileData": fileAMA, "type": 'AMA' },
-    { "fileData": filePoliceId, "type": 'POLICEID' }];
+    let files = [
+    { "fileData": fileAMA, "type": 'AMA' },
+    { "fileData": fileIdCard, "type": 'IDENTITY' }];
 
-    this.studentsService.updateStudentContractDetails(data);
+    // Update student contract details (AMA, Police Identity Card)
+    this.studentsService.updateStudentExtraContractDetails(data);
 
     const filesToSave = from(files).pipe(
       mergeMap(file => this.studentsService.updateStudentContractFile(file.fileData, file.type))
@@ -130,8 +132,8 @@ export class ContractFilesUploadComponent implements OnInit {
 
   onSave() {
     Swal.fire({
-      title: 'Εκδήλωση Ενδιαφέροντος',
-      text: 'Η εκδήλωση ενδιαφέροντος έγινε επιτυχώς',
+      title: 'Επιτυχία',
+      text: 'Τα στοιχεία που υποβάλατε ανέβηκαν επιτυχώς',
       icon: 'success',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',

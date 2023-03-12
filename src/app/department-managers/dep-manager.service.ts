@@ -291,4 +291,17 @@ export class DepManagerService {
   getAssignmentsByStudentId(studentId: number): Observable<Array<AcceptedAssignmentsByCompany>> {
     return this.http.get<Array<AcceptedAssignmentsByCompany>>(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
   }
+
+  insertImplementationDates(implementationDates: any) {
+    const providerId = this.authService.getSessionId();
+    return this.http
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertAssignImplementationDates/" + providerId, implementationDates);
+  }
+
+  getAssignImplementationDates(department_id: number, period_id?: number) : Observable<any> {
+    const params = new HttpParams()
+      .set('department_id', department_id)
+      .set('period_id', period_id == null ? 0 : period_id);
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getAssignImplementationDates/", { params });
+  }
 }

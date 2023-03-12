@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Injectable, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs';
@@ -12,13 +12,67 @@ import { Period } from '../period.model';
 import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
 import { StudentsPositionAssignmentDialogComponent } from '../students-position-assignment-dialog/students-position-assignment-dialog.component';
 import { CompanyInfoDialogComponent } from '../company-info-dialog/company-info-dialog.component';
-import {AcceptedAssignmentsByCompany} from 'src/app/students/accepted-assignments-by-company';
-import {StudentsPositionSelectDialogComponent} from '../students-position-select-dialog/students-position-select-dialog.component';
+import { AcceptedAssignmentsByCompany } from 'src/app/students/accepted-assignments-by-company';
+import { StudentsPositionSelectDialogComponent } from '../students-position-select-dialog/students-position-select-dialog.component';
+import { NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+
+/**
+ * This Service handles how the date is represented in scripts i.e. ngModel.
+ */
+@Injectable()
+export class CustomAdapter extends NgbDateAdapter<string> {
+	readonly DELIMITER = '-';
+
+	fromModel(value: string | null): NgbDateStruct | null {
+		if (value) {
+			const date = value.split(this.DELIMITER);
+			return {
+				day: parseInt(date[2], 10),
+				month: parseInt(date[1], 10),
+				year: parseInt(date[0], 10),
+			};
+		}
+		return null;
+	}
+
+	toModel(date: NgbDateStruct | null): string | null {
+		return date ? date.year + this.DELIMITER + date.month + this.DELIMITER + date.day : null;
+	}
+}
+
+/**
+ * This Service handles how the date is rendered and parsed from keyboard i.e. in the bound input field.
+ */
+@Injectable()
+export class CustomDateParserFormatter extends NgbDateParserFormatter {
+	readonly DELIMITER = '/';
+
+	parse(value: string): NgbDateStruct | null {
+		if (value) {
+			const date = value.split(this.DELIMITER);
+			return {
+				day: parseInt(date[0], 10),
+				month: parseInt(date[1], 10),
+				year: parseInt(date[2], 10),
+			};
+		}
+		return null;
+	}
+
+	format(date: NgbDateStruct | null): string {
+		return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : '';
+	}
+}
 
 @Component({
   selector: 'app-student-match',
   templateUrl: './student-match.component.html',
-  styleUrls: ['./student-match.component.css']
+  styleUrls: ['./student-match.component.css'],
+  providers: [
+		{ provide: NgbDateAdapter, useClass: CustomAdapter },
+		{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+	]
 })
 export class StudentMatchComponent implements OnInit {
   @ViewChild('studentsTable') table: ElementRef | undefined;
@@ -33,7 +87,8 @@ export class StudentMatchComponent implements OnInit {
   state: Array<Map<number, number>> = [];
   assignedPos: Array<Map<number, string>> = [];
   positionIds: Array<Map<number, any>> = [];
-
+  modelImplementationDateFrom!: string;
+  modelImplementationDateTo!: string;
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -95,6 +150,16 @@ export class StudentMatchComponent implements OnInit {
           processing: true,
           columnDefs: [{ orderable: false, targets: [4, 5, 6] }]
         });
+
+        // const department_id = this.activeApplications[0].department_id;
+        // const period_id = this.activeApplications[0].period_id;
+
+        // this.depManagerService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
+        //   alert(dates[0]);
+        //   this.modelImplementationDateFrom = dates[0].implementation_start_date;
+        //   this.modelImplementationDateTo = dates[0].implementation_end_date;
+        // });
+
       });
   }
 
@@ -273,13 +338,85 @@ export class StudentMatchComponent implements OnInit {
     return inputText;
   }
 
-  openCompanyInfoDialog(company: any, afm: string) {
+  openCompanyInfoDialog(company: any, afm: string, positionGroupId: number) {
     const dialogRef = this.dialog.open(CompanyInfoDialogComponent, {
-      data: { company: company, afm: afm }
+      data: { company: company, afm: afm, groupId: positionGroupId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+
+  calculateDates(value: any) {
+    const depId = this.activeApplications[0].department_id;
+    const isTEIDepartment = (depId.toString().length == 6);
+
+    // console.log(value);
+
+    let startDate = moment(value, 'YYYY-MM-DD');
+    let endDate;
+
+    if (isTEIDepartment) {
+      endDate = startDate.clone().add(5, 'months').endOf('month');
+    } else {
+      endDate = startDate.clone().add(2, 'months').endOf('month');
+    }
+
+    return { startDate, endDate };
+  }
+
+  insertImplementationDates() {
+    const implementationDates = {
+      department_id: this.activeApplications[0].department_id,
+      period_id: this.activeApplications[0].period_id,
+      implementation_start_date: this.modelImplementationDateFrom,
+      implementation_end_date: this.modelImplementationDateTo
+    };
+
+    console.log(implementationDates);
+
+    if (implementationDates.implementation_start_date == null || implementationDates.implementation_end_date == null) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Σφάλμα',
+        text: 'Παρακαλώ εισάγετε τις ημερομηνίες εφαρμογής',
+        confirmButtonText: 'Εντάξει'
+      });
+      return;
+    }
+
+    if (implementationDates.implementation_start_date > implementationDates.implementation_end_date) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Σφάλμα',
+        text: 'Η ημερομηνία έναρξης δεν μπορεί να είναι μεγαλύτερη από την ημερομηνία λήξης',
+        confirmButtonText: 'Εντάξει'
+      });
+      return;
+    }
+
+    this.depManagerService.insertImplementationDates(implementationDates).subscribe(
+      (response: any) => {
+        console.log(response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Επιτυχία',
+          text: 'Οι ημερομηνίες εφαρμογής εισήχθησαν με επιτυχία',
+          confirmButtonText: 'Εντάξει'
+        });
+      },
+      (error: any) => {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Σφάλμα',
+          text: 'Παρουσιάστηκε κάποιο σφάλμα κατά την εισαγωγή των ημερομηνιών εφαρμογής',
+          confirmButtonText: 'Εντάξει'
+        });
+      }
+    );
+  }
+
 }

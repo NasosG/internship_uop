@@ -111,7 +111,7 @@ const routes: Routes = [{
       component: StudentComponent
   },
   {
-      path: 'student-contract-files/:id',
+      path: 'contract-files/:id',
       component: StudentComponent
   },
   {

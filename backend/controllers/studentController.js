@@ -736,6 +736,55 @@ const insertAffidavitFile = async (request, response, next) => {
   }
 };
 
+const insertAMAFile = async (request, response, next) => {
+  try {
+    const ssoUserId = request.params.id;
+    const docType = "AMA";
+    const userType = "student";
+    const fileName = userType + ssoUserId + "_" + docType;
+    const filePath = `./uploads/ama/${ssoUserId}`;
+
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.ama(request, response, (err) => validateFile(request, response, err, docType));
+
+    response
+      .status(201)
+      .json({
+        message: "FILE ADDED AMA"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(201).json({
+      message: "ERROR"
+    });
+  }
+};
+
+const insertIdentityCardFile = async (request, response, next) => {
+  try {
+    const ssoUserId = request.params.id;
+    const docType = "IDENTITY";
+    const userType = "student";
+    const fileName = userType + ssoUserId + "_" + docType;
+    const filePath = `./uploads/identity/${ssoUserId}`;
+
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.policeId(request, response, (err) => validateFile(request, response, err, docType));
+
+    response
+
+      .status(201)
+      .json({
+        message: "FILE ADDED IDENTITY CARD"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(201).json({
+      message: "ERROR"
+    });
+  }
+};
+
 const sendFile = async (request, response) => {
   try {
     const id = request.params.id;
@@ -1027,6 +1076,8 @@ module.exports = {
   checkUserAcceptance,
   insertUserAcceptance,
   insertStudentInterestApp,
+  insertAMAFile,
+  insertIdentityCardFile,
   getMergedDepartmentInfoByStudentId,
   updateDepartmentIdByStudentId,
   getProtocolNumberIfInterestAppExists,

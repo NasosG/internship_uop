@@ -30,5 +30,7 @@ router.get("/getPhasesByPeriodId/:periodId", depManagerController.getPhasesByPer
 router.get("/getPositionsByApplicationId/:id", depManagerController.getPositionsByApplicationId);
 router.post("/insertNewAssignment/:id", depManagerController.insertAssignment);
 router.post("/insertFinalAssignment/:id", depManagerController.insertFinalAssignment);
+router.post("/insertAssignImplementationDates/:id", depManagerController.insertAssignImplementationDates);
+router.get("/getAssignImplementationDates/", depManagerController.getAssignImplementationDates);
 
 module.exports = router;

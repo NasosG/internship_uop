@@ -18,6 +18,77 @@
                 style='font-size:24px'></i>
               Print</button>
             <br><br>
+
+            <!-- <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
+              <div class="col-sm-4">
+
+                <div class="pl-0 ml-0 input-group">
+                  <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c3="ngModel"
+                    ngModel ngbDatepicker #datepicker3="ngbDatepicker" [placement]="'left'" [positionTarget]="buttonEl"
+                    required />
+                  <button class="btn btn-outline-secondary" (click)="datepicker3.toggle()" type="button">
+                    <i class="fas fa-calendar-alt"></i>
+                  </button>
+                </div>
+
+              </div>
+
+              <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
+              <div class="col-sm-4">
+                <div class="pl-0 ml-0 input-group">
+                  <input class="form-control ngb-popup-top" placeholder="dd/mm/yyyy" id="date_to" name="date_to"
+                    #c4="ngModel" ngModel ngbDatepicker #datepicker4="ngbDatepicker" [placement]="'left'"
+                    [positionTarget]="buttonEl" required />
+                  <button class="btn btn-outline-secondary" #buttonEl (click)="datepicker4.toggle()" type="button">
+                    <i class="fas fa-calendar-alt"></i>
+                  </button>
+                </div>
+
+              </div>
+            </div> -->
+
+            <div style="background-color: #f4f6f9; padding: 10px; border-radius: 4px; margin-bottom: 7px;">
+              <h5>Ημερομηνίες Διεξαγωγής Πρακτικής Άσκησης Φοιτητών</h5>
+              <mat-divider></mat-divider>
+              <div class="form-group row">
+                <div class="col-sm-6">
+                  <label for="date" class="col-form-label">Από:</label>
+                  <div class="container row">
+                    <div class="pl-0 ml-0 input-group col-12">
+                      <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
+                        [(ngModel)]="modelImplementationDateFrom" ngbDatepicker #datepicker1="ngbDatepicker"
+                        [placement]="'left'" [positionTarget]="buttonEl" />
+                      <button class="btn btn-outline-secondary" (click)="datepicker1.toggle()" type="button">
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label for="date" class="col-form-label">Έως:</label>
+                  <div class="container row">
+                    <div class="pl-0 ml-0 input-group col-12">
+                      <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
+                        [(ngModel)]="modelImplementationDateTo" ngbDatepicker #datepicker2="ngbDatepicker"
+                        [placement]="'left'" [positionTarget]="buttonEl" />
+                      <button class="btn btn-outline-secondary" #buttonEl (click)="datepicker2.toggle()" type="button">
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                    <span class="mt-3 mb-0 input-message">Πιθανή Ημερομηνία Λήξης:
+                      {{modelImplementationDateFrom ? calculateDates(modelImplementationDateFrom).endDate.format('DD/MM/YYYY') : 'Δεν έχει επιλεχθεί ημερομηνία έναρξης ΠΑ'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 submitButton">
+                <button type="submit" (click)="insertImplementationDates()" class="btn btn-primary"
+                  style="width: 120px; margin: auto">
+                  Δημιουργία
+                </button>
+              </div>
+            </div>
+
             <table id="studentsTable" #studentsTable class="table-responsive table-bordered table-striped">
               <thead>
                 <tr>
@@ -42,8 +113,8 @@
                       <div class="container row">
                         <div class="col-9 " style="width:652px;">
                           <span [ngClass]="positionIds && isPositionAssigned(positionIds, activeApplication.student_id, position.position_id) ?
-                            'custom-info-btn green-bckg text-with-dots' : 'custom-info-btn text-with-dots'"
-                            (click)="openCompanyInfoDialog(position.company, position.afm)">{{idx + 1}}.
+                            'custom-info-btn green-bckg text-with-dots' : 'custom-info-btn text-with-dots'" (click)="openCompanyInfoDialog(position.company, position.afm,
+                            position.position_id)">{{idx + 1}}.
                             {{add3Dots(position.title, 50)}} - {{add3Dots(position.company,16)}}</span>
                         </div>
                         <div class="col-3 text-right" style="width:70px;">

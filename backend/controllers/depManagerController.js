@@ -573,6 +573,45 @@ const insertFinalAssignment = async (request, response) => {
   }
 };
 
+const insertAssignImplementationDates = async (request, response) => {
+  try {
+    const body = request.body;
+
+    console.log("in assignment implementation dates");
+    await depManagerService.insertAssignImplementationDates(body);
+
+    response.status(201)
+      .json({
+        message: "assignment implementation dates were inserted successfully"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const getAssignImplementationDates = async (request, response) => {
+  try {
+    console.log("as");
+    const departmentId = request.query.department_id;
+    const periodId = request.query.period_id;
+
+    const assignImplementationDates = await depManagerService.getAssignImplementationDates(departmentId, periodId);
+
+    response.status(200).json(assignImplementationDates);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -600,5 +639,7 @@ module.exports = {
   getRankdedStudentsListByDeptAndPeriodId,
   getPositionsByApplicationId,
   insertAssignment,
-  insertFinalAssignment
+  insertFinalAssignment,
+  insertAssignImplementationDates,
+  getAssignImplementationDates
 };

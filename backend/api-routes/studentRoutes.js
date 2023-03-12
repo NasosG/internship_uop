@@ -39,6 +39,9 @@ router.post("/updateStudentIbanFile/:id", studentController.insertIbanFile);
 router.post("/updateStudentAMEAFile/:id", studentController.insertAMEAFile);
 router.post("/updateStudentAffidavitFile/:id", studentController.insertAffidavitFile);
 router.post("/sendFile/:id", studentController.sendFile);
+// extra contract files
+router.post("/updateStudentAMAFile/:id", studentController.insertAMAFile);
+router.post("/updateStudentIdentityCardFile/:id", studentController.insertIdentityCardFile);
 // end file upload routes
 router.get("/getAssignmentsByStudentId/:id", studentController.getAssignmentsByStudentId);
 router.post("/insertAssignment/:id", studentController.insertAssignment);

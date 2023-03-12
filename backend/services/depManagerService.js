@@ -4,6 +4,7 @@ const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
 const MiscUtils = require("../MiscUtils.js");
 const atlasService = require("./atlasService.js");
+const moment = require('moment');
 
 const login = async (username) => {
   try {
@@ -723,6 +724,31 @@ const getAssignmentsByStudentId = async (studentId) => {
   }
 };
 
+const insertAssignImplementationDates = async (body) => {
+  try {
+    // Delete existing dates of this period and department
+    await pool.query("DELETE FROM assignment_details WHERE department_id = $1 AND period_id = $2", [body.department_id, body.period_id]);
+
+    const formattedStartDate = moment(body.implementation_start_date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    const formattedEndDate = moment(body.implementation_end_date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    await pool.query("INSERT INTO assignment_details(implementation_start_date, implementation_end_date, department_id, period_id) " +
+      " VALUES ($1, $2, $3, $4)",
+      [formattedStartDate, formattedEndDate, body.department_id, body.period_id]);
+
+  } catch (error) {
+    throw Error('Error while inserting assignment implementation dates' + error.message);
+  }
+};
+
+const getAssignImplementationDates = async (departmentId, periodId) => {
+  try {
+    const dates = await pool.query("SELECT * FROM assignment_details WHERE department_id = $1 AND period_id = $2", [departmentId, periodId]);
+    return dates.rows[0];
+  } catch (error) {
+    throw Error('Error while getting assignment implementation dates' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -736,6 +762,7 @@ module.exports = {
   getEspaPositionsByDepartmentId,
   getPhaseStateByPeriodId,
   getRankdedStudentsListByDeptAndPeriodId,
+  getAssignImplementationDates,
   doesAssignmentExist,
   insertPeriod,
   insertApprovedStudentsRank,
@@ -758,5 +785,6 @@ module.exports = {
   insertAssignment,
   getPreassignModeByDepartmentId,
   getAssignmentsByStudentId,
-  getAssignmentsByStudentAndPositionId
+  getAssignmentsByStudentAndPositionId,
+  insertAssignImplementationDates
 };

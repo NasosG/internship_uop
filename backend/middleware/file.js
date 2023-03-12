@@ -186,8 +186,8 @@ let amea = util.promisify(uploadAmea.single("file"));
 let affidavit = util.promisify(uploadAffidavit.single("file"));
 
 // new types to be tested
-const amaNumberStorage = createStorage(process.env.UPLOAD_FILE_PATH + "ama/", 'IBAN');
-const policeIdStorage = createStorage(process.env.UPLOAD_FILE_PATH + "policeid/", 'SSN');
+const amaNumberStorage = createStorage(process.env.UPLOAD_FILE_PATH + "ama/", 'AMA');
+const policeIdStorage = createStorage(process.env.UPLOAD_FILE_PATH + "identity/", 'IDENTITY');
 const ama = util.promisify(createUpload(amaNumberStorage).single("file"));
 const policeId = util.promisify(createUpload(policeIdStorage).single("file"));
 

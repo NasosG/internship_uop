@@ -225,6 +225,15 @@ export class StudentsService {
       });
   }
 
+  updateStudentExtraContractDetails(data: any) {
+    const id = this.authService.getSessionId();
+    this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentExtraContractDetails/" + id, data)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
   updateStudentContractSSNFile(file: any): any {
     const id = this.authService.getSessionId();
     return this.http
@@ -240,10 +249,10 @@ export class StudentsService {
     const id = this.authService.getSessionId();
     if (type == 'AMA')
       return this.http
-      .post<{ message: string }>(STUDENTS_URL + "updateStudentSSNFile/" + id, file);
-    else if (type == 'POLICEID')
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentAMAFile/" + id, file);
+    else if (type == 'IDENTITY')
      return this.http
-      .post<{ message: string }>(STUDENTS_URL + "updateStudentIbanFile/" + id, file);
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentIdentityCardFile/" + id, file);
   }
 
   updateStudentFile(file: any, type: string): any {
