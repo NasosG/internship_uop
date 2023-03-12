@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from, mergeMap } from 'rxjs';
-import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
@@ -15,13 +14,9 @@ import { StudentsService } from '../student.service';
 export class ContractFilesUploadComponent implements OnInit {
   isLinear = true;
   firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
   contactFormGroup!: FormGroup;
-  specialDataFormGroup!: FormGroup;
   studentsSSOData: Student[] = [];
-  gender!: String;
   fileSubmitted: boolean = false;
-  programsOfStudy: string[] = [];
   @Input() periodId!: number;
 
   constructor(public studentsService: StudentsService, private _formBuilder: FormBuilder, private router: Router) { }
@@ -38,7 +33,7 @@ export class ContractFilesUploadComponent implements OnInit {
       // doyControl: ['', Validators.required],
       // amkaControl: ['', Validators.required],
       // ibanControl: ['', Validators.required],
-      amaControl: ['', Validators.required],
+      amaNumberControl: ['', Validators.required],
       policeIDControl: ['', Validators.required],
       // ssnFile: ['', Validators.required],
       // ibanFile: ['', Validators.required]
@@ -48,10 +43,10 @@ export class ContractFilesUploadComponent implements OnInit {
     this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
       phoneCtrl: [],
-      addressCtrl: [],
-      locationCtrl: [],
-      cityCtrl: [],
-      postalCodeCtrl: []
+      addressCtrl: ['', Validators.required],
+      locationCtrl: ['', Validators.required],
+      cityCtrl: ['', Validators.required],
+      postalCodeCtrl: ['', Validators.required]
     });
   }
 
@@ -143,7 +138,7 @@ export class ContractFilesUploadComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then(() => {
-      this.router.navigateByUrl('/student/' + this.studentsSSOData[0].sso_uid);
+      this.router.navigateByUrl('/student/sheets/' + this.studentsSSOData[0].sso_uid);
     });
   }
 
@@ -161,7 +156,7 @@ export class ContractFilesUploadComponent implements OnInit {
 
   validateFiles(formFileName: string) {
     //this.filesSubmitted[formFileName] = false;
-    let formGroup = (this.secondFormGroup.contains(formFileName)) ? this.secondFormGroup : this.specialDataFormGroup;
+    let formGroup = this.firstFormGroup;
     let formFile = formGroup.get(formFileName)?.value;
 
     if (formFile == null) {

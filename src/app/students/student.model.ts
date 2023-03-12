@@ -52,4 +52,6 @@ export interface Student {
   current_study_program?: string;
   is_study_program_upgraded?: boolean;
   latest_app_protocol_number?: string;
+  ama_number?: string;
+  police_id?: string;
 }

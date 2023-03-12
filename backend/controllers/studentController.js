@@ -251,6 +251,26 @@ const updateStudentContractDetails = async (request, response, next) => {
   }
 };
 
+const updateStudentExtraContractDetails = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+
+    await studentService.updateStudentExtraContractDetails(student, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student contract details updated successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updateStudentBio = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -984,6 +1004,7 @@ module.exports = {
   insertStudentPosition,
   updateStudentDetails,
   updateStudentContractDetails,
+  updateStudentExtraContractDetails,
   updateStudentBio,
   updateStudentContact,
   updateStudentSpecialDetails,

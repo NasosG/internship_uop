@@ -265,6 +265,20 @@ const updateStudentContractDetails = async (student, id) => {
   }
 };
 
+const updateStudentExtraContractDetails = async (student, id) => {
+  try {
+    const updateResults = await pool.query("UPDATE student_users \
+     SET ama_number = $1, police_id = $2 WHERE sso_uid = $4",
+      [student.ama_number, student.police_id, id]
+    );
+
+    return updateResults;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while updating students contract details');
+  }
+};
+
 const updateStudentBio = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users " +
@@ -907,6 +921,7 @@ module.exports = {
   insertStudentApplication,
   updateStudentDetails,
   updateStudentContractDetails,
+  updateStudentExtraContractDetails,
   updateStudentBio,
   updateStudentContact,
   updateStudentSpecialDetails,
