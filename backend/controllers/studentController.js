@@ -742,15 +742,22 @@ const insertAssignment = async (request, response, next) => {
     const assignmentData = request.body.assignment;
     const studentId = request.params.id;
 
+    console.log("in final assign of student");
     console.log(assignmentData);
     console.log("studentId " + studentId);
 
     // Get student's AM and department id by student id
     //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
     const student = await companyService.getStudentAMandDepartmentById(assignmentData.student_id);
-    const { registry_number: studentAMNumber, department_id: academicId } = student;
-    console.log(studentAMNumber);
-    console.log(academicId);
+    // const { registry_number: studentAMNumber, department_id: academicId } = student;
+    const studentAMNumber = student.registry_number;
+    let academicId = student.department_id;
+
+    // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+    if (academicId.toString().length == 6) {
+      isTEIProgramOfStudy = true;
+      academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
+    }
 
     let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
@@ -781,9 +788,26 @@ const insertAssignment = async (request, response, next) => {
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // console.log(fundingType);
 
-    // assign student to Atlas position
-    let assignResults = await atlasController.assignStudent(positionPreassignment, registeredStudent.message.ID);
-    console.log(assignResults);
+    const studentToAssignID = registeredStudent.message.ID || registerResult.message.ID;
+
+    try {
+      // assign student to Atlas position
+      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy);
+
+      // If assignment fails, throw an error displaying the message
+      if (assignResults.status == "400 bad request") {
+        throw new Error(assignResults.message);
+      }
+
+      console.log(assignResults);
+    } catch (error) {
+      response.status(500)
+        .json({
+          message: error.message
+        });
+      return;
+    }
+
     // update assignment details - local db
     await studentService.acceptAssignment(assignmentData);
 
