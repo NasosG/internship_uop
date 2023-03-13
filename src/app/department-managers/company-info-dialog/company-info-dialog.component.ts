@@ -20,8 +20,8 @@ export class CompanyInfoDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO: Make a check by afm AND company name to be safer
-    this.companyService.getCompaniesByAfm(this.data.afm).subscribe((company: Company[]) => {
+    // Get company data using afm and company name
+    this.companyService.getCompaniesByAfmAndCompanyName(this.data.afm, this.data.company).subscribe((company: Company[]) => {
       this.companyData = company[0];
     });
   }

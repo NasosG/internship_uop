@@ -32,6 +32,15 @@ export class CompanyService {
     return fetchedCompanies;
   }
 
+  getCompaniesByAfmAndCompanyName(companyAFM: string, companyName: string): Observable<Array<Company>> {
+    const params = new HttpParams()
+      .set('companyName', companyName)
+      .set('companyAFM', companyAFM);
+    const fetchedCompanies = this.http.get<Array<Company>>(this.baseUrl + "/getProviderByAfmAndName", { params });
+
+    return fetchedCompanies;
+  }
+
   public getStudentActiveApplications(companyName: string, companyAFM: string): Observable<Array<CompanysActiveApplications>> {
     const params = new HttpParams()
       .set('companyName', companyName)

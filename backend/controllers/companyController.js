@@ -175,6 +175,21 @@ const getStudentActiveApplications = async (request, response) => {
   }
 };
 
+const getProviderByAfmAndName = async (request, response) => {
+  try {
+    const companyName = request.query.companyName;
+    const companyAFM = request.query.companyAFM;
+
+    const providers = await companyService.getProviderByAfmAndName(companyAFM, companyName);
+
+    response.status(200).json(providers);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 const login = async (request, response) => {
   try {
     const username = request.body.username;
@@ -237,6 +252,7 @@ const resetPassword = async (request, response) => {
 module.exports = {
   insertCompanyUsers,
   getProviderByAfm,
+  getProviderByAfmAndName,
   getProviderById,
   getInternalPositionsByProviderId,
   getStudentAssignedApplications,

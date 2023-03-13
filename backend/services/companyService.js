@@ -222,6 +222,16 @@ const getProviderByAfm = async (afm) => {
   }
 };
 
+const getProviderByAfmAndName = async (afm, companyName) => {
+  try {
+    const providerByAfm = await pool.query("SELECT * FROM atlas_provider WHERE afm = $1 and name = $2", [afm, companyName]);
+    return providerByAfm.rows;
+  } catch (error) {
+    console.error(error);
+    throw Error('Error while fetching providers by afm and name');
+  }
+};
+
 const userAlreadyExists = async (username, password) => {
   try {
     let usernameFoundResult = await pool.query("SELECT * FROM generic_users WHERE username = $1", [username]);
@@ -307,6 +317,7 @@ module.exports = {
   getProviderIdByUserId,
   getInternalPositionByPositionId,
   getProviderByAfm,
+  getProviderByAfmAndName,
   getProviderById,
   getStudentActiveApplications,
   getStudentAssignedApplications,

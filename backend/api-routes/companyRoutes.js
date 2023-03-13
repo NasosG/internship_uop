@@ -3,6 +3,7 @@ const router = express.Router();
 const companyController = require("../controllers/companyController.js");
 
 router.get("/getProviderByAfm/:afm", companyController.getProviderByAfm);
+router.get("/getProviderByAfmAndName/", companyController.getProviderByAfmAndName);
 router.get("/getProviderById/:id", companyController.getProviderById);
 router.get("/getStudentActiveApplications/", companyController.getStudentActiveApplications);
 router.get("/getStudentAssignedApplications/", companyController.getStudentAssignedApplications);

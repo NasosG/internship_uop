@@ -141,6 +141,27 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
   }
 };
 
+const getProviderDetails = async (providerId, accessToken) => {
+  try {
+    const ATLAS_URL = 'https://submit-atlas.grnet.gr/Api/Offices/v1';
+    const atlasResponse = await axios({
+      url: ATLAS_URL + '/GetProviderDetails?ID=' + providerId,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return {
+      message: atlasResponse.data.Result,
+      status: atlasResponse.status
+    };
+  } catch (error) {
+    console.log("something went wrong while fetching provider's details" + error.message);
+  }
+};
+
 const getAvailablePositionGroups = async (begin, end, accessToken) => {
   try {
     const ATLAS_PROD = 'https://submit-atlas.grnet.gr/Api/Offices/v1';
