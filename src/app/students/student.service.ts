@@ -22,6 +22,7 @@ import { AcceptedAssignmentsByCompany } from "./accepted-assignments-by-company"
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const ATLAS_URL = environment.apiUrl + "/atlas/";
+const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -447,9 +448,9 @@ export class StudentsService {
     return this.http.get<Array<AcceptedAssignmentsByCompany>>(STUDENTS_URL + "getAssignmentsByStudentId/" + studentId);
   }
 
-  acceptCompanyPosition(assignment: AcceptedAssignmentsByCompany) {
+  acceptCompanyPosition(assignment: AcceptedAssignmentsByCompany, implementationDates: any = null) {
     const studentId = this.authService.getSessionId();
-    const form: any = { 'assignment': assignment };
+    const form: any = { 'assignment': assignment, implementationDates: implementationDates };
     return this.http
       .post<{ message: string }>(STUDENTS_URL + "insertAssignment/" + studentId, form);
   }
@@ -505,4 +506,10 @@ export class StudentsService {
     return this.http.get<any>(STUDENTS_URL + "getStudentFilesForAppPrint/" + studentId);
   }
 
+  getAssignImplementationDates(department_id: number, period_id?: number) : Observable<any> {
+    const params = new HttpParams()
+      .set('department_id', department_id)
+      .set('period_id', period_id == null ? 0 : period_id);
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getAssignImplementationDates/", { params });
+  }
 }

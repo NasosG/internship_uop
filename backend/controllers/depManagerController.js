@@ -533,7 +533,7 @@ const insertFinalAssignment = async (request, response) => {
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // console.log(fundingType);
 
-    const studentToAssignID = registeredStudent.message.ID || registerResult.message.ID;
+    const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
 
     try {
       // assign student to Atlas position

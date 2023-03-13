@@ -1,4 +1,5 @@
 import { Component, OnInit} from '@angular/core';
+import * as moment from 'moment';
 import { catchError, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
@@ -25,6 +26,8 @@ export class StudentCompanyAcceptComponent implements OnInit {
   assignments!: AcceptedAssignmentsByCompany[];
   positionAssigned: boolean = false;
   positionAssignedIndex: number = 0;
+  modelImplementationDateFrom!: string;
+  modelImplementationDateTo!: string;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
@@ -42,6 +45,14 @@ export class StudentCompanyAcceptComponent implements OnInit {
             break;
           }
         }
+
+        const department_id = this.assignments[0].department_id;
+        const period_id = this.assignments[0].period_id;
+
+        this.studentsService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
+          this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+          this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        });
       });
   }
 
@@ -65,7 +76,24 @@ export class StudentCompanyAcceptComponent implements OnInit {
 
   acceptCompanyPosition(positionIndex: number) {
     let assignment = this.assignments[positionIndex];
-    this.studentsService.acceptCompanyPosition(assignment)
+
+    const implementationDatesArr = {
+      implementation_start_date: moment(this.modelImplementationDateFrom, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      implementation_end_date: moment(this.modelImplementationDateTo, 'YYYY-MM-DD').format('DD/MM/YYYY')
+    };
+
+    console.log(implementationDatesArr.implementation_start_date);
+console.log(implementationDatesArr.implementation_end_date);
+    if (!implementationDatesArr.implementation_start_date || !implementationDatesArr.implementation_end_date) {
+      Swal.fire({
+        title: 'Αποτυχία',
+        text: 'Δεν έχουν δοθεί ημερομηνίες διεξαγωγής πρακτικής άσκησης από τον Τμηματικό Υπεύθυνο',
+        icon: 'error'
+      });
+      return;
+    }
+
+    this.studentsService.acceptCompanyPosition(assignment, implementationDatesArr)
       .pipe(
         catchError((error: any) => {
           console.error(error);

@@ -1197,8 +1197,8 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
     // TODO: refactor it / extract to functions
-    let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || implementation_start_date.format('DD/MM/YYYY');
-    let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || implementation_end_date.format('DD/MM/YYYY');
+    let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || implementation_start_date;
+    let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || implementation_end_date;
 
     const isWrongFormatStart = moment(implementationStartDate, 'DD/MM/YYYY', true).isValid();
     const isWrongFormatEnd = moment(implementationEndDate, 'DD/MM/YYYY', true).isValid();

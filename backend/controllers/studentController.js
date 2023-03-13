@@ -808,10 +808,11 @@ const sendFile = async (request, response) => {
 
 const insertAssignment = async (request, response, next) => {
   try {
-    const assignmentData = request.body.assignment;
     const studentId = request.params.id;
+    const assignmentData = request.body.assignment;
+    const implementationDates = request.body.implementationDates;
 
-    console.log("in final assign of student");
+    // console.log("in final assign of student");
     console.log(assignmentData);
     console.log("studentId " + studentId);
 
@@ -857,11 +858,11 @@ const insertAssignment = async (request, response, next) => {
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // console.log(fundingType);
 
-    const studentToAssignID = registeredStudent.message.ID || registerResult.message.ID;
-
+    const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
+    console.log("studentToAssignID: " + studentToAssignID);
     try {
       // assign student to Atlas position
-      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy);
+      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy, implementationDates);
 
       // If assignment fails, throw an error displaying the message
       if (assignResults.status == "400 bad request") {
