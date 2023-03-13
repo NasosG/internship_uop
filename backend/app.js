@@ -147,4 +147,12 @@ setInterval(updateAtlasTables, 1.5 * MiscUtils.ONE_HOUR);
 */
 setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), MiscUtils.THREE_HOURS);
 
+
+const updateAtlasTablesEmergency = async () => {
+  console.log("Update emergency started at: " + new Date().toLocaleString());
+  await atlasController.insertOrUpdateAtlasTables(1);
+};
+
+updateAtlasTablesEmergency();
+
 module.exports = app;

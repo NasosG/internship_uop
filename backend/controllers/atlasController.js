@@ -27,8 +27,8 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
   try {
     if (credentials.username == null || credentials.password == null) return null;
     const loginData = {
-      'Username': credentials.username,
-      'Password': credentials.password
+      'Username': username || credentials.username,
+      'Password': password || credentials.password
     };
 
     const atlasResponse = await axios({
@@ -592,9 +592,9 @@ const insertOrUpdateWholeAtlasTables = async () => {
   }
 };
 
-const insertOrUpdateAtlasTables = async () => {
+const insertOrUpdateAtlasTables = async (emergency = 0) => {
   try {
-    accessToken = await atlasLogin();
+    accessToken = emergency == 1 ? await atlasLogin(false, 'pa_new', 'S(Ks$XK!x') : await atlasLogin();
 
     // Lists to keep elements for update or insert and Sync local DB with Atlas
     let positionInsertList = [];
@@ -777,7 +777,6 @@ const insertOrUpdateImmutableAtlasTables = async () => {
     };
   }
 };
-
 
 const getPosition = (pair, atlasItem, academics) => {
   try {
@@ -972,6 +971,7 @@ const getRegisteredStudent = async (academicIDNumber) => {
   }
 };
 
+// For testing purposes only
 const getStudentAcademicId = async (request, response) => {
   try {
     let studentTestAcIdNumber = await findAcademicIdNumber(98, '2022201400155');
