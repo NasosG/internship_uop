@@ -141,24 +141,23 @@ export class StudentMatchComponent implements OnInit {
           lengthChange: true,
           paging: true,
           searching: true,
-          ordering: true,
+          ordering: false,
           info: true,
           autoWidth: false,
           responsive: true,
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [4, 5, 6] }]
+          columnDefs: [{ orderable: false, targets: [3, 4, 5] }]
         });
 
-        // const department_id = this.activeApplications[0].department_id;
-        // const period_id = this.activeApplications[0].period_id;
+        const department_id = this.activeApplications[0].department_id;
+        const period_id = this.activeApplications[0].period_id;
 
-        // this.depManagerService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
-        //   alert(dates[0]);
-        //   this.modelImplementationDateFrom = dates[0].implementation_start_date;
-        //   this.modelImplementationDateTo = dates[0].implementation_end_date;
-        // });
+        this.depManagerService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
+          this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+          this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        });
 
       });
   }
@@ -318,10 +317,26 @@ export class StudentMatchComponent implements OnInit {
   }
 
   openStudentsPositionSelectionDialog(appId: any, index: number, studentId:number, position_id: number) {
+    // Users can't do any action if they do not fill implementation dates needed for the assignments
+    if (!this.modelImplementationDateFrom || !this.modelImplementationDateTo) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Σφάλμα',
+        text: 'Παρακαλούμε ορίστε τις ημερομηνίες διεξαγωγής ΠΑ για τους φοιτητές σας',
+        confirmButtonText: 'Εντάξει'
+      });
+      return;
+    }
+
+    const implementationDatesArr = {
+      implementation_start_date: moment(this.modelImplementationDateFrom, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      implementation_end_date: moment(this.modelImplementationDateTo, 'YYYY-MM-DD').format('DD/MM/YYYY')
+    };
+
     let assignApprovalState = this.getApprovalState(this.state, studentId, position_id);
     const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
       width: '400px',
-      data: { appId: appId, index: index, approvalState: assignApprovalState }
+      data: { appId: appId, index: index, approvalState: assignApprovalState, implementationDates: implementationDatesArr }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -348,11 +363,11 @@ export class StudentMatchComponent implements OnInit {
     });
   }
 
-
   calculateDates(value: any) {
     const depId = this.activeApplications[0].department_id;
     const isTEIDepartment = (depId.toString().length == 6);
-
+    const depsWith2MonthsPractice = [190, 400, 104, 1518, 1513];
+    const depsWith4MonthsPractice = [98, 1520];
     // console.log(value);
 
     let startDate = moment(value, 'YYYY-MM-DD');
@@ -361,7 +376,13 @@ export class StudentMatchComponent implements OnInit {
     if (isTEIDepartment) {
       endDate = startDate.clone().add(5, 'months').endOf('month');
     } else {
-      endDate = startDate.clone().add(2, 'months').endOf('month');
+      if (depsWith4MonthsPractice.includes(depId)) {
+        endDate = startDate.clone().add(3, 'months').endOf('month');
+      } else if(depsWith2MonthsPractice.includes(depId)) {
+        endDate = startDate.clone().add(1, 'months').endOf('month');
+      } else {
+        endDate = startDate.clone().add(2, 'months').endOf('month');
+      }
     }
 
     return { startDate, endDate };

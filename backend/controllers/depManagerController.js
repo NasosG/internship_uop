@@ -480,6 +480,7 @@ const insertFinalAssignment = async (request, response) => {
   try {
     const studentId = request.params.id;
     const positionId = request.body.position_id;
+    const implementationDates = request.body.implementationDates;
     let isTEIProgramOfStudy = false;
 
     const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId);
@@ -536,7 +537,7 @@ const insertFinalAssignment = async (request, response) => {
 
     try {
       // assign student to Atlas position
-      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy);
+      let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy, implementationDates);
 
       // If assignment fails, throw an error displaying the message
       if (assignResults.status == "400 bad request") {
@@ -595,7 +596,6 @@ const insertAssignImplementationDates = async (request, response) => {
 
 const getAssignImplementationDates = async (request, response) => {
   try {
-    console.log("as");
     const departmentId = request.query.department_id;
     const periodId = request.query.period_id;
 

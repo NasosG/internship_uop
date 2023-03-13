@@ -65,7 +65,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
   }
 
   acceptCompanyPosition() {
-    this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id)
+    this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id, this.data.implementationDates)
     .pipe(
       catchError((error: any) => {
         console.error(error);

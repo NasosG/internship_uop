@@ -1187,45 +1187,18 @@ const getPositionPreassignment = async (groupId, academicId) => {
 /**
 * Returns preassigned positions of group, if none is found it preassigns a single position
 */
-const assignStudent = async (positionsPreassignedData, studentId, isTei = false) => {
+const assignStudent = async (positionsPreassignedData, studentId, isTei = false, implementationDates = null) => {
   try {
     let accessToken = await atlasLogin();
 
-    // FOR TESTING PURPOSES
-    // let startDateStr = "2014-01-09 10:12:11";
-    // const startDate = new Date((startDateStr == null) ? 0000 : startDateStr + "Z");
-    // const endDate = new Date("2014-01-09T10:12:12.000Z");
-    // let startDateValue = startDate.valueOf();
-    // let endDateValue = endDate.valueOf();
-
-    // console.log(startDate.valueOf());
-    // console.log(endDate.valueOf());
-
-    // let representation = `\\/Date(${startDateValue}000)\\/`;
-    // let representation2 = `\\/Date(${endDateValue}000)\\/`;
-    // console.log(representation);
-    // console.log(representation2);
-
-    // positionsPreassignedData.positionData[0].ImplementationStartDate = representation;
-    // positionsPreassignedData.positionData[0].ImplementationEndDate = representation2;
-    // END TESTING
-
     let assignmentData;
-    // if (positionsPreassignedData.positionData[0].ImplementationStartDate == null) {
-    //   assignmentData =
-    //   {
-    //     "ImplementationStartDate": 0,
-    //     "ImplementationEndDate": 0,
-    //     "PositionID": positionsPreassignedData.positionIds[0],
-    //     "StudentID": studentId
-    //   };
-    // } else {
 
-    const { startDateCalc, endDateCalc } = MiscUtils.calculateDates(isTei);
+    // const { startDateCalc, endDateCalc } = MiscUtils.calculateDates(isTei);
+    const { implementation_start_date, implementation_end_date } = implementationDates;
 
     // TODO: refactor it / extract to functions
-    let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || startDateCalc.format('DD/MM/YYYY');
-    let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || endDateCalc.format('DD/MM/YYYY');
+    let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || implementation_start_date.format('DD/MM/YYYY');
+    let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || implementation_end_date.format('DD/MM/YYYY');
 
     const isWrongFormatStart = moment(implementationStartDate, 'DD/MM/YYYY', true).isValid();
     const isWrongFormatEnd = moment(implementationEndDate, 'DD/MM/YYYY', true).isValid();
@@ -1240,16 +1213,13 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false)
     assignmentData =
     {
       // "FundingType": null,
-      //"ImplementationStartDate": positionsPreassignedData.positionData[0].ImplementationStartDate,
       "ImplementationStartDateString": implementationStartDate,
       "ImplementationStartDateStringFormat": "d/M/yy",
-      //"ImplementationEndDate": positionsPreassignedData.positionData[0].ImplementationEndDate,
       "ImplementationEndDateString": implementationEndDate,
       "ImplementationEndDateStringFormat": "d/M/yy",
       "PositionID": positionsPreassignedData.positionIds[0],
       "StudentID": studentId
     };
-    // }
 
     console.log(assignmentData);
 

@@ -282,10 +282,10 @@ export class DepManagerService {
       .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "/insertNewAssignment/" + providerId, apps);
   }
 
-  acceptCompanyPosition(studentId: number, positionId: number) {
+  acceptCompanyPosition(studentId: number, positionId: number, implementationDates = null) {
     // const form: any = { 'assignment': assignment };
     return this.http
-      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertFinalAssignment/" + studentId, {"position_id": positionId});
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "insertFinalAssignment/" + studentId, {"position_id": positionId, implementationDates: implementationDates});
   }
 
   getAssignmentsByStudentId(studentId: number): Observable<Array<AcceptedAssignmentsByCompany>> {
