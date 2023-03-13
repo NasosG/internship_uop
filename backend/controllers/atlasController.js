@@ -27,9 +27,13 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
   try {
     if (credentials.username == null || credentials.password == null) return null;
     const loginData = {
-      'Username': username || credentials.username,
-      'Password': password || credentials.password
+      'Username': credentials.username,
+      'Password': credentials.password
     };
+    // const loginData = {
+    //   'Username': username || credentials.username,
+    //   'Password': password || credentials.password
+    // };
 
     const atlasResponse = await axios({
       url: ATLAS_URL + '/Login',
@@ -592,10 +596,10 @@ const insertOrUpdateWholeAtlasTables = async () => {
   }
 };
 
-const insertOrUpdateAtlasTables = async (emergency = 0) => {
+const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
   try {
-    accessToken = emergency == 1 ? await atlasLogin(false, 'pa_new', 'S(Ks$XK!x') : await atlasLogin();
-
+    // accessToken = emergency == 1 ? await atlasLogin(false, 'pa_new', 'S(Ks$XK!x') : await atlasLogin();
+    accessToken = await atlasLogin();
     // Lists to keep elements for update or insert and Sync local DB with Atlas
     let positionInsertList = [];
     let positionUpdateList = [];
