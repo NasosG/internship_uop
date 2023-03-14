@@ -1,5 +1,5 @@
 const pool = require("../db_config.js");
-
+const deactivateJob = true;
 /**
  * setPeriodCompleted
  *
@@ -11,6 +11,10 @@ const pool = require("../db_config.js");
  * @return {void}
  */
 const setPeriodCompleted = async () => {
+  if (deactivateJob) {
+    console.log("Period finish job deactivated");
+    return;
+  }
   console.log("Job started at: " + new Date().toLocaleString());
   try {
     await pool.query("UPDATE period  \
