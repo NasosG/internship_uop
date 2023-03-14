@@ -94,11 +94,10 @@ export class PeriodEditComponent implements OnInit {
              this.initialPeriodData = this.periodData;
 
              this.depManagerService.getStudentsApplyPhase()
-      .subscribe((students: Student[]) => {
-
-        this.studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);});
-
-        });
+              .subscribe((students: Student[]) => {
+                this.studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
+              });
+            });
       });
   }
 

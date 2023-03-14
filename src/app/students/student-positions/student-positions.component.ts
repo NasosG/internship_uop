@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
+import { AcceptedAssignmentsByCompany } from '../accepted-assignments-by-company';
 import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
 import { Student } from '../student.model';
@@ -21,6 +22,8 @@ export class StudentPositionsComponent implements OnInit {
   period!: Period;
   dateFrom!: string;
   dateTo!: string;
+  studentAtlasAssignments!: AcceptedAssignmentsByCompany[];
+  canStudentDeleteApplication: boolean = false;
 
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
@@ -42,6 +45,13 @@ export class StudentPositionsComponent implements OnInit {
             // this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
           });
       });
+
+      this.studentsService.getAssignmentsByStudentId()
+        .subscribe((assignments: any) => {
+          this.studentAtlasAssignments = assignments;
+          alert(this.studentAtlasAssignments.length);
+          this.canStudentDeleteApplication = this.studentAtlasAssignments.length == 0;
+        });
   }
 
   applicationsCreator(observablesArray: any, typeValue: any) {
