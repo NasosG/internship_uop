@@ -509,8 +509,9 @@ const insertFinalAssignment = async (request, response) => {
     console.log(academicIDNumber);
 
     let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
-    let registerResult;
     console.log(registeredStudent);
+
+    let registerResult;
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     if (registeredStudent.message != null) {
