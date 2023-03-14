@@ -509,6 +509,7 @@ const insertFinalAssignment = async (request, response) => {
     console.log(academicIDNumber);
 
     let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
+    let registerResult;
     console.log(registeredStudent);
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
@@ -518,7 +519,7 @@ const insertFinalAssignment = async (request, response) => {
     } else {
       console.log('not a registered user');
       // Student SHOULD sign up on this occassion
-      let registerResult = await atlasController.registerNewStudent(academicIDNumber);
+      registerResult = await atlasController.registerNewStudent(academicIDNumber);
       console.log(registerResult);
     }
     // console.log(registeredStudent);
