@@ -866,6 +866,7 @@ const insertAssignment = async (request, response, next) => {
 
       // If assignment fails, throw an error displaying the message
       if (assignResults.status == "400 bad request") {
+        console.error('assignment failed for student: ' + studentId);
         throw new Error(assignResults.message);
       }
 
@@ -881,6 +882,7 @@ const insertAssignment = async (request, response, next) => {
     // update assignment details - local db
     await studentService.acceptAssignment(assignmentData);
 
+    console.log('successful final assignment for student ' + studentId);
     response.status(201)
       .json({
         message: "assignment was inserted successfully"
