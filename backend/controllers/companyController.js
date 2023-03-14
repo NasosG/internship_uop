@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const companyService = require("../services/companyService");
 const atlasController = require("./atlasController");
 const mainMailer = require('../mailers/mainMailers.js');
+const MiscUtils = require("../MiscUtils.js");
 
 const insertCompanyUsers = async (request, response, next) => {
   try {
@@ -73,13 +74,36 @@ const insertAssignment = async (request, response, next) => {
 
     for (let item of potentialAssignments) {
       let academicId = item.department_id;
+      // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
+      if (academicId.toString().length == 6) {
+        academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
+      }
+
       console.log(academicId);
       // TO BE TESTED
       const preassignResult = await companyService.getPreassignModeByDepartmentId(academicId);
       console.log(preassignResult.preassign);
       console.log(item.position_id);
-      let positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, academicId);
-      console.log(positionPreassignment);
+
+      // Get preassigned position or make a new preassignment
+      let positionPreassignment;
+      try {
+        positionPreassignment = await atlasController.getPositionPreassignment(item.position_id, academicId);
+
+        // If preassignment fails, throw an error displaying the message
+        if (positionPreassignment.status == "Error occurred") {
+          throw new Error(positionPreassignment.message);
+        }
+
+        console.log(positionPreassignment);
+      } catch (error) {
+        console.log(error);
+        response.status(500)
+          .json({
+            message: error.message
+          });
+        return;
+      }
 
       // insert assignment details to the local db
       await companyService.insertAssignment(companyData);

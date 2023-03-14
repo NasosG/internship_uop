@@ -19,7 +19,7 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   @ViewChild('appTable') table: ElementRef | undefined;
   company!: Company;
   apps: CompanysActiveApplications[] = [];
-  studentApprovalBtns: boolean[] = [];
+  studentApprovalBtns: Map<string, boolean> = new Map<string, boolean>();
 
   constructor(private chRef: ChangeDetectorRef, public dialog: MatDialog, public companyService: CompanyService) { }
 
@@ -60,17 +60,19 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  changeSelectedColor(selectElementId: string, position_id: number) {
+  changeSelectedColor(selectElementId: string, student_id: number, position_id: number) {
     const inputField = <HTMLInputElement>document.getElementById(selectElementId);
     const index = Number(selectElementId.substring(3));
     console.log(index);
 
+    const tupleKey = position_id + ',' + student_id;
+
     if (inputField.value === "ΟΧΙ") {
-      this.studentApprovalBtns[position_id] = false;
+      this.studentApprovalBtns.delete(tupleKey);
       inputField.classList?.add("text-danger");
       inputField.classList?.remove("text-success");
     } else {
-      this.studentApprovalBtns[position_id] = true;
+      this.studentApprovalBtns.set(tupleKey, false);
       inputField.classList?.add("text-success");
       inputField.classList?.remove("text-danger");
     }
@@ -98,10 +100,16 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
         let positionsDataJson: Assignment[] = [];
 
         for (let position of this.apps) {
-          // TODO: Check for duplicates
-          if (!this.studentApprovalBtns[position.position_id]) {
+          const tupleKey = position.position_id + ',' + position.student_id;
+          if (!this.studentApprovalBtns.has(tupleKey)) {
             continue;
           }
+
+          // TODO: Check for duplicates
+          // Check if the position is already in the positionsDataJson array
+          // if (positionsDataJson.some(p => p.position_id === position.position_id)) {
+          //   continue;
+          // }
 
           positionsDataJson.push({
             position_id: position.position_id,
