@@ -137,10 +137,14 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
             console.log(responseData.message);
             location.reload();
             //this.ngOnInit();
-          }), (error: any) => {
-            console.log(error);
-            alert("Η αποδοχή των φοιτητών απέτυχε");
-          };
+           }, (error: any) => {
+             console.log(error);
+             Swal.fire({
+               icon: 'error',
+               title: 'Αποτυχία',
+               text: 'Η αποδοχή των φοιτητών απέτυχε'
+             });
+           });
         }
       }
     });
