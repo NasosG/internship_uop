@@ -225,9 +225,10 @@ const getPeriodByDepartmentId = async (id) => {
 
 const getPeriodAndDepartmentIdByUserId = async (id) => {
   try {
-    const period = await pool.query(`SELECT period.id, department_id
+    const period = await pool.query(`SELECT period.id, period.department_id
                                     FROM period
-                                    WHERE period.sso_user_id = $1
+                                    JOIN sso_users su ON su.department_id = period.department_id
+                                    WHERE su.uuid = $1
                                     AND period.is_active = 'true'
                                     LIMIT 1`, [id]);
     return period.rows[0];
