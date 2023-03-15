@@ -153,22 +153,18 @@ export class StudentMatchComponent implements OnInit {
           processing: true,
           columnDefs: [{ orderable: false, targets: [3, 4, 5] }]
         });
-
-        const department_id = this.activeApplications[0].department_id;
-        const period_id = this.activeApplications[0].period_id;
-
-        this.depManagerService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
-          this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-          this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-        });
-
       });
 
       this.depManagerService.getPeriodAndDepartmentIdByUserId()
-        .subscribe((response: any) => {
-          this.department_id = response?.department_id;
-          this.period_id = response?.id;
-        });
+          .subscribe((response: any) => {
+            this.department_id = response?.department_id;
+            this.period_id = response?.id;
+
+            this.depManagerService.getAssignImplementationDates(this.department_id, this.period_id).subscribe((dates: any) => {
+              this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+              this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            });
+          });
   }
 
   private getAM(str: string): string {
