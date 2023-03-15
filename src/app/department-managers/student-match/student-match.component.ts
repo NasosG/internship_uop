@@ -156,15 +156,15 @@ export class StudentMatchComponent implements OnInit {
       });
 
       this.depManagerService.getPeriodAndDepartmentIdByUserId()
-          .subscribe((response: any) => {
-            this.department_id = response?.department_id;
-            this.period_id = response?.id;
+        .subscribe((response: any) => {
+          this.department_id = response?.department_id;
+          this.period_id = response?.id;
 
-            this.depManagerService.getAssignImplementationDates(this.department_id, this.period_id).subscribe((dates: any) => {
-              this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-              this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-            });
+          this.depManagerService.getAssignImplementationDates(this.department_id, this.period_id).subscribe((dates: any) => {
+            this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
           });
+        });
   }
 
   private getAM(str: string): string {
