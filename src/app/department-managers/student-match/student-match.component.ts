@@ -89,6 +89,9 @@ export class StudentMatchComponent implements OnInit {
   positionIds: Array<Map<number, any>> = [];
   modelImplementationDateFrom!: string;
   modelImplementationDateTo!: string;
+  department_id!: number;
+  period_id!: number;
+
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -160,6 +163,12 @@ export class StudentMatchComponent implements OnInit {
         });
 
       });
+
+      this.depManagerService.getPeriodAndDepartmentIdByUserId()
+        .subscribe((response: any) => {
+          this.department_id = response?.department_id;
+          this.period_id = response?.id;
+        });
   }
 
   private getAM(str: string): string {
@@ -364,8 +373,8 @@ export class StudentMatchComponent implements OnInit {
   }
 
   calculateDates(value: any) {
-    const depId = this.activeApplications[0].department_id;
-    const isTEIDepartment = (depId.toString().length == 6);
+    const depId = this.department_id ? this.department_id : this.activeApplications[0]?.department_id;
+    const isTEIDepartment = (depId?.toString().length == 6);
     const depsWith2MonthsPractice = [190, 400, 104, 1518, 1513];
     const depsWith4MonthsPractice = [98, 1520];
     // console.log(value);
@@ -378,7 +387,7 @@ export class StudentMatchComponent implements OnInit {
     } else {
       if (depsWith4MonthsPractice.includes(depId)) {
         endDate = startDate.clone().add(3, 'months').endOf('month');
-      } else if(depsWith2MonthsPractice.includes(depId)) {
+      } else if (depsWith2MonthsPractice.includes(depId)) {
         endDate = startDate.clone().add(1, 'months').endOf('month');
       } else {
         endDate = startDate.clone().add(2, 'months').endOf('month');
@@ -390,8 +399,8 @@ export class StudentMatchComponent implements OnInit {
 
   insertImplementationDates() {
     const implementationDates = {
-      department_id: this.activeApplications[0].department_id,
-      period_id: this.activeApplications[0].period_id,
+      department_id: this.department_id ? this.department_id : this.activeApplications[0]?.department_id,
+      period_id: this.period_id ? this.period_id : this.activeApplications[0].period_id,
       implementation_start_date: this.modelImplementationDateFrom,
       implementation_end_date: this.modelImplementationDateTo
     };

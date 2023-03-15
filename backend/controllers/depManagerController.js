@@ -613,6 +613,19 @@ const getAssignImplementationDates = async (request, response) => {
   }
 };
 
+const getPeriodAndDepartmentIdByUserId = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const period = await depManagerService.getPeriodAndDepartmentIdByUserId(id);
+    response.status(200).json(period);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
 
 module.exports = {
   getDepManagerById,
@@ -624,6 +637,7 @@ module.exports = {
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
   getEspaPositionsByDepartmentId,
+  getPeriodAndDepartmentIdByUserId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

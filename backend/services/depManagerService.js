@@ -223,6 +223,20 @@ const getPeriodByDepartmentId = async (id) => {
   }
 };
 
+const getPeriodAndDepartmentIdByUserId = async (id) => {
+  try {
+    const period = await pool.query(`SELECT period.id, department_id
+                                    FROM period
+                                    WHERE period.sso_user_id = $1
+                                    AND period.is_active = 'true'
+                                    LIMIT 1`, [id]);
+    return period.rows[0];
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching period');
+  }
+};
+
 const getPhaseStateByPeriodId = async (id) => {
   try {
     const period = await pool.query("SELECT phase_state FROM period WHERE id = $1 LIMIT 1", [id]);
@@ -763,6 +777,7 @@ module.exports = {
   getPhaseStateByPeriodId,
   getRankdedStudentsListByDeptAndPeriodId,
   getAssignImplementationDates,
+  getPeriodAndDepartmentIdByUserId,
   doesAssignmentExist,
   insertPeriod,
   insertApprovedStudentsRank,

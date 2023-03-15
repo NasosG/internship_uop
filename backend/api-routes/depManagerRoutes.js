@@ -6,6 +6,7 @@ const depManagerController = require("../controllers/depManagerController.js");
 router.get("/getDepManagerById/:id", depManagerController.getDepManagerById);
 router.get("/getPeriodByUserId/:id", depManagerController.getPeriodByUserId);
 router.get("/getPeriodByDepartmentId/:id", depManagerController.getPeriodByDepartmentId);
+router.get("/getPeriodAndDepartmentIdByUserId/:id", depManagerController.getPeriodAndDepartmentIdByUserId);
 router.get("/getStudentsApplyPhase/:id", depManagerController.getStudentsApplyPhase);
 router.get("/getRankedStudentsByDeptId/", depManagerController.getRankedStudentsByDeptId);
 router.get("/getStudentsRankingList/", depManagerController.getRankdedStudentsListByDeptAndPeriodId);

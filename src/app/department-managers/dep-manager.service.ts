@@ -65,6 +65,11 @@ export class DepManagerService {
     return fetchedPeriod;
   }
 
+  getPeriodAndDepartmentIdByUserId(): Observable<any> {
+    const id = this.authService.getSessionId();
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getPeriodAndDepartmentIdByUserId/" + id);
+  }
+
   getEspaPositionsByDepartmentId(departmentId: number): Observable<any> {
     return this.http
       .get<any>(DEPARTMENT_MANAGER_URL + "getEspaPositionsByDepartmentId/" + departmentId);
