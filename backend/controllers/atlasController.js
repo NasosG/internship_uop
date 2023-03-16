@@ -1200,6 +1200,8 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
     // const { startDateCalc, endDateCalc } = MiscUtils.calculateDates(isTei);
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
+    console.log(implementation_start_date);
+    console.log(implementation_end_date);
     // TODO: refactor it / extract to functions
     let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || implementation_start_date;
     let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || implementation_end_date;

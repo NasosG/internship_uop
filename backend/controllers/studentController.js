@@ -812,6 +812,7 @@ const insertAssignment = async (request, response, next) => {
     const studentId = request.params.id;
     const assignmentData = request.body.assignment;
     const implementationDates = request.body.implementationDates;
+    let isTEIProgramOfStudy = false;
 
     // console.log("in final assign of student");
     console.log(assignmentData);
