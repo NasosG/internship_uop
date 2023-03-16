@@ -181,27 +181,24 @@ export class StudentMatchComponent implements OnInit {
   }
 
   getApprovalState(state: Map<number, any>[], studentId: number, positionId: number) {
-    // Find the position assigned to the student
-    const assignedPosition = this.positionIds.find(map => map.has(studentId))?.get(studentId);
-    // If the student is not assigned to a position, return null
-    if (assignedPosition === undefined) {
-      return null;
-    }
-    // If the assigned position does not match the specified position, return null
-    if (assignedPosition !== positionId) {
-      return null;
-    }
-    // Find the approval state for the specified position based on studentId
-    const positionState = state.find(map => map.has(studentId))?.get(studentId);
-    // If the approval state was found, return it (0 or 1)
-    if (positionState !== undefined) {
-      return positionState == 1 ? 1 : 0;
+    // Find the positions assigned to the student
+    const assignedPositions = this.positionIds.filter(map => map.has(studentId)).map(map => map.get(studentId));
+    // For each position, map the corresponding states from an array; position[0]->state[0]
+    const positionStates = state.filter(map => map.has(studentId)).map(map => map.get(studentId));
+    for (let i = 0; i < assignedPositions.length; i++) {
+      // If the student is not assigned to a position, return null
+      if (assignedPositions[i] === undefined) {
+        return null;
+      }
+      // If the assigned position does not match the specified position, return null
+      if (assignedPositions[i] == positionId) {
+        return positionStates[i] == 1 ? 1 : 0;
+      }
     }
 
     // If the position ID was not found, return null (or throw an error)
     return null;
   }
-
 
   exportToExcel() {
     let studentsDataJson: any = [];
@@ -321,7 +318,7 @@ export class StudentMatchComponent implements OnInit {
     });
   }
 
-  openStudentsPositionSelectionDialog(appId: any, index: number, studentId:number, position_id: number) {
+  openStudentsPositionSelectionDialog(appId: any, index: number, studentId: number, position_id: number) {
     // Users can't do any action if they do not fill implementation dates needed for the assignments
     if (!this.modelImplementationDateFrom || !this.modelImplementationDateTo) {
       Swal.fire({
