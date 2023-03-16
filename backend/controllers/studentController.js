@@ -1,5 +1,6 @@
 const studentService = require("../services/studentService.js");
-const companyService = require("../services/companyService.js");
+// const companyService = require("../services/companyService.js");
+const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const upload = require("../middleware/file.js");
@@ -817,8 +818,8 @@ const insertAssignment = async (request, response, next) => {
     console.log("studentId " + studentId);
 
     // Get student's AM and department id by student id
-    //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
-    const student = await companyService.getStudentAMandDepartmentById(assignmentData.student_id);
+    //let studentAMNumber = '2022201400155'; // for atlas pilotiko testingy
+    const student = await depManagerService.getStudentAMandDepartmentByIdForAtlas(assignmentData.student_id);
     // const { registry_number: studentAMNumber, department_id: academicId } = student;
     const studentAMNumber = student.registry_number;
     let academicId = student.department_id;

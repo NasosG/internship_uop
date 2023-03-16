@@ -764,6 +764,22 @@ const getAssignImplementationDates = async (departmentId, periodId) => {
   }
 };
 
+const getStudentAMandDepartmentByIdForAtlas = async (id) => {
+  try {
+    const resultsSSOUsers = await pool.query("SELECT schacpersonaluniquecode as student_registry, department_id FROM sso_users \
+                                              WHERE sso_users.uuid = $1", [id]);
+
+    const firstRow = resultsSSOUsers.rows[0];
+    const student = {
+      registry_number: MiscUtils.splitStudentsAMForAtlas(firstRow.student_registry),
+      department_id: firstRow.department_id
+    };
+    return student;
+  } catch (error) {
+    throw Error('Error while fetching students' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -779,6 +795,7 @@ module.exports = {
   getRankdedStudentsListByDeptAndPeriodId,
   getAssignImplementationDates,
   getPeriodAndDepartmentIdByUserId,
+  getStudentAMandDepartmentByIdForAtlas,
   doesAssignmentExist,
   insertPeriod,
   insertApprovedStudentsRank,

@@ -73,6 +73,13 @@ const splitStudentsAM = (splitString) => {
   return lastArrayPart;
 };
 
+const splitStudentsAMForAtlas = (splitString) => {
+  const splitArray = splitString.split(':');
+  const lastArrayPart = splitArray[splitArray.length - 1];
+
+  return lastArrayPart;
+};
+
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -180,5 +187,6 @@ module.exports = {
   isArrayNotEmpty,
   convertStartEndDateToTimestamp,
   getWeeksFromMonths,
-  calculateDates
+  calculateDates,
+  splitStudentsAMForAtlas
 };
