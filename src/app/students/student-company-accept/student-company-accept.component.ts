@@ -83,7 +83,7 @@ export class StudentCompanyAcceptComponent implements OnInit {
     };
 
     console.log(implementationDatesArr.implementation_start_date);
-console.log(implementationDatesArr.implementation_end_date);
+    console.log(implementationDatesArr.implementation_end_date);
     if (!implementationDatesArr.implementation_start_date || !implementationDatesArr.implementation_end_date) {
       Swal.fire({
         title: 'Αποτυχία',
