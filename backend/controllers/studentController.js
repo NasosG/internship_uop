@@ -861,9 +861,19 @@ const insertAssignment = async (request, response, next) => {
 
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // console.log(fundingType);
+    try {
+      console.log("assign before student" + studentId);
+      const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
+      console.log("studentToAssignID: " + studentToAssignID);
+    } catch (error) {
+      console.error(error.message);
+      response.status(401)
+        .json({
+          message: error.message
+        });
+      return;
+    }
 
-    const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
-    console.log("studentToAssignID: " + studentToAssignID);
     try {
       // assign student to Atlas position
       let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy, implementationDates);
