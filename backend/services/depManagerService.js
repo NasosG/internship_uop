@@ -315,7 +315,7 @@ const getPositionsByApplicationId = async (applicationId) => {
                                         FROM final_app_positions
                                         INNER JOIN sso_users ON sso_users.uuid = final_app_positions.student_id
 										                    INNER JOIN student_applications ON student_applications.id = final_app_positions.application_id
-                                        WHERE application_id = $1`, [applicationId]);
+                                        WHERE application_id = $1 ORDER BY priority`, [applicationId]);
     return positions.rows;
   } catch (error) {
     throw Error('Error while fetching positions by application id' + error.message);
