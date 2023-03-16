@@ -749,6 +749,7 @@ const acceptAssignment = async (assignmentData) => {
     await pool.query("UPDATE internship_assignment SET approval_state = $1 WHERE student_id = $2 AND position_id <> $3",
       [REJECTION_STATE, assignmentData.student_id, assignmentData.position_id]);
   } catch (error) {
+    console.error('Error while updating student assignments' + error.message);
     throw Error('Error while updating student assignments' + error.message);
   }
 };
