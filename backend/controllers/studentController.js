@@ -881,6 +881,7 @@ const insertAssignment = async (request, response, next) => {
 
       console.log(assignResults);
     } catch (error) {
+      console.error(error.message);
       response.status(500)
         .json({
           message: error.message
