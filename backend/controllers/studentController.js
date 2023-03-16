@@ -814,14 +814,15 @@ const insertAssignment = async (request, response, next) => {
     const implementationDates = request.body.implementationDates;
     let isTEIProgramOfStudy = false;
 
-    // console.log("in final assign of student");
+    console.log("in final assign of student");
     console.log(assignmentData);
     console.log("studentId " + studentId);
 
     // Get student's AM and department id by student id
-    //let studentAMNumber = '2022201400155'; // for atlas pilotiko testingy
+    //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
     const student = await depManagerService.getStudentAMandDepartmentByIdForAtlas(assignmentData.student_id);
     // const { registry_number: studentAMNumber, department_id: academicId } = student;
+
     const studentAMNumber = student.registry_number;
     let academicId = student.department_id;
 
@@ -830,6 +831,9 @@ const insertAssignment = async (request, response, next) => {
       isTEIProgramOfStudy = true;
       academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
     }
+
+    console.log(studentAMNumber);
+    console.log(academicId);
 
     let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
@@ -861,26 +865,17 @@ const insertAssignment = async (request, response, next) => {
 
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // console.log(fundingType);
-    try {
-      console.log("assign before student" + studentId);
-      const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
-      console.log("studentToAssignID: " + studentToAssignID);
-    } catch (error) {
-      console.error(error.message);
-      response.status(401)
-        .json({
-          message: error.message
-        });
-      return;
-    }
+
+    const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
 
     try {
+      console.log("be4 final assign of student");
       // assign student to Atlas position
       let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy, implementationDates);
-
+      console.log("after final assign of student");
       // If assignment fails, throw an error displaying the message
       if (assignResults.status == "400 bad request") {
-        console.error('assignment failed for student: ' + studentId);
+        console.error(assignResults.message);
         throw new Error(assignResults.message);
       }
 

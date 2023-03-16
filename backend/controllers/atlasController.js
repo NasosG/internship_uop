@@ -1196,7 +1196,7 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
     let accessToken = await atlasLogin();
 
     let assignmentData;
-
+    console.log('atlas_before_dates');
     // const { startDateCalc, endDateCalc } = MiscUtils.calculateDates(isTei);
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
