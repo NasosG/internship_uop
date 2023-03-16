@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Docxtemplater = require('docxtemplater');
+
 describe('mammoth function', () => {
   it('should return a value', async () => {
     const PizZip = require("pizzip");
@@ -21,12 +22,28 @@ describe('mammoth function', () => {
       linebreaks: true,
     });
 
-    // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
+    // Render the document (Replace placeholders {first_name} by John etc.)
     doc.render({
-      first_name: "John",
-      last_name: "Doe",
-      phone: "0652455478",
-      description: "New Website",
+      CONTRACT_DATE: "20/02/2023",
+      COMPANY_NAME: "LOCOTECH SA",
+      COMPANY_AFM: "0900823422",
+      COMPANY_ADDRESS: "Καραϊσκάκη 123",
+      COMPANY_LIAISON: "ΓΙΩΡΓΟΣ",
+      COMPANY_LIAISON_POSITION: "ΠΑΠΑΓΕΩΡΓΙΟΥ",
+      COMP_END: "20/02/2022",
+      STUDENT_NAME: "ΙΩΑΝΝΗΣ",
+      STUDENT_FATHER_NAME: "ΚΩΝΣΤΑΝΤΙΝΟΣ",
+      DEPT_NAME: "ΠΛΗΡΟΦΟΡΙΚΗΣ Κ ΤΗΛΕΠΙΚΟΙΝΩΝΙΩΝ",
+      ID_NUMBER: "ΑΑ34",
+      AMIKA: "123456789",
+      AMKA: "01010199999",
+      AFM: "123456789",
+      DOY_NAME: "ΑΘΗΝΩΝ",
+      PA_SUBJECT: "IT",
+      PA_SUBJECT_ATLAS: "Πληροφορική",
+      PA_START_DATE: "01/04/2023",
+      PA_END_DATE: "30/06/2023",
+      TY_NAME: "Γ. ΓΕΩΡΓΙΟΥ"
     });
 
     const buf = doc.getZip().generate({

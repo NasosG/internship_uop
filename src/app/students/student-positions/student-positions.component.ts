@@ -49,7 +49,6 @@ export class StudentPositionsComponent implements OnInit {
       this.studentsService.getAssignmentsByStudentId()
         .subscribe((assignments: any) => {
           this.studentAtlasAssignments = assignments;
-          alert(this.studentAtlasAssignments.length);
           this.canStudentDeleteApplication = this.studentAtlasAssignments.length == 0;
         });
   }
