@@ -3,7 +3,7 @@ const axios = require("axios");
 const pool = require("../db_config.js");
 
 // Global variables
-const ATLAS_URL = (process.env.ATLAS_ENV == 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
+const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
 
 let FOUND_IN_ATLAS = 0;
 let TO_BE_DELETED = 0;
