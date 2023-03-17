@@ -25,6 +25,7 @@ describe('mammoth function', () => {
     // Render the document (Replace placeholders {first_name} by John etc.)
     doc.render({
       CONTRACT_DATE: "20/02/2023",
+      COMP_START: "20/02/2023",
       COMPANY_NAME: "LOCOTECH SA",
       COMPANY_AFM: "0900823422",
       COMPANY_ADDRESS: "Καραϊσκάκη 123",
