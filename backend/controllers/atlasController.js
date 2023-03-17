@@ -1447,5 +1447,7 @@ module.exports = {
   insertOrUpdateImmutableAtlasTables,
   findAcademicIdNumber,
   testDeletePosition,
-  getStudentPositionMatchesAcademic
+  getStudentPositionMatchesAcademic,
+  getPositionGroupDetails,
+  atlasLogin
 };

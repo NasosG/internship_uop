@@ -54,5 +54,6 @@ router.patch("/updateDepartmentIdByStudentId/:id", studentController.updateDepar
 router.get("/getProtocolNumberIfInterestAppExists/", studentController.getProtocolNumberIfInterestAppExists);
 router.get("/getStudentRankedApprovalStatusForPeriod/", studentController.getStudentRankedApprovalStatusForPeriod);
 router.get("/getStudentFilesForAppPrint/:id", studentController.getStudentFilesForAppPrint);
+router.post("/checkPositionOfAtlasExists/:id", studentController.checkPositionOfAtlasExists);
 
 module.exports = router;

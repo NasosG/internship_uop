@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
@@ -176,18 +177,58 @@ export class StudentPositionsComponent implements OnInit {
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.studentsService.updateStudentPositions(this.studentPositions);
-        this.studentsService.insertStudentApplication(this.studentPositions);
-        this.studentsService.deleteStudentPositions(this.authService.getSessionId());
-        Swal.fire({
-          title: 'Επιτυχής καταχώρηση',
-          text: 'Η αίτησή σας έχει δημιουργηθεί',
-          icon: 'success',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'ΟΚ'
-        }).then(() => { /* not the best technique */ location.reload(); });
+        this.studentsService.checkPositionOfAtlasExists(this.studentPositions)
+          .pipe(
+            catchError((error: any) => {
+              console.error('An error occurred:', error);
+              const count = error.error.notExist.length;
+
+              let errorMessage;
+              if (count == 1) {
+                errorMessage = 'Η θέση ' + error.error.notExistantPriorities + ' με κωδικό group ' + error.error.notExist + ' δεν υπάρχει πλέον στον ΑΤΛΑ';
+              } else {
+                errorMessage = 'Οι θέσεις ' + error.error.notExistantPriorities + ' με κωδικό group ' + error.error.notExist + ' δεν υπάρχουν πλέον στον ΑΤΛΑ';
+              }
+
+              if (error.error.message == "Position of atlas does not exist") {
+                Swal.fire({
+                  title: 'Αποτυχία Οριστικοποίησης',
+                  text: errorMessage,
+                  icon: 'error',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'ΟΚ'
+                });
+              } else {
+                Swal.fire({
+                  title: 'Αποτυχία Οριστικοποίησης',
+                  text: 'Παρουσιάστηκε κάποιο σφάλμα',
+                  icon: 'error',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'ΟΚ'
+                });
+              }
+
+              throw error;
+            })
+          )
+          .subscribe((response: any) => {
+            this.studentsService.updateStudentPositions(this.studentPositions);
+            this.studentsService.insertStudentApplication(this.studentPositions);
+            this.studentsService.deleteStudentPositions(this.authService.getSessionId());
+            Swal.fire({
+              title: 'Επιτυχής καταχώρηση',
+              text: 'Η αίτησή σας έχει δημιουργηθεί',
+              icon: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'ΟΚ'
+            }).then(() => { /* not the best technique */ location.reload(); });
+          });
       }
     });
   }

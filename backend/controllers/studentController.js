@@ -1046,6 +1046,42 @@ const getStudentRankedApprovalStatusForPeriod = async (request, response) => {
   }
 };
 
+const checkPositionOfAtlasExists = async (request, response) => {
+  const studentId = request.params.id;
+  const positions = request.body.positions;
+
+  try {
+    let notExist = [];
+    let notExistantPriorities = [];
+    for (const position of positions) {
+      const token = await atlasController.atlasLogin();
+      const results = await atlasController.getPositionGroupDetails(position.position_id, token);
+
+      if (!results.message) {
+        notExist.push(position.position_id);
+        notExistantPriorities.push(position.priority);
+      }
+    }
+    if (notExist.length > 0) {
+      response.status(404).json({
+        message: 'Position of atlas does not exist',
+        exists: false,
+        notExist: notExist,
+        notExistantPriorities: notExistantPriorities
+      });
+    } else {
+      response.status(200).json({
+        message: 'Position of atlas exists',
+        exists: true
+      });
+    }
+  } catch (error) {
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1059,6 +1095,7 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
   getStudentRankedApprovalStatusForPeriod,
+  checkPositionOfAtlasExists,
   insertStudentEntrySheet,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,

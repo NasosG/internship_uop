@@ -7,7 +7,9 @@ const bodyParser = require("body-parser");
 const cron = require('node-cron');
 const atlasController = require('./controllers/atlasController.js');
 const MiscUtils = require("./MiscUtils.js");
+// Jobs
 const setPeriodCompletedJob = require('./jobs/setPeriodCompleted.js');
+const deleteOldPositionsAtlasJob = require('./jobs/deleteOldPositionsAtlas.js');
 
 // const log4js = require("log4js");
 // log4js.configure({
@@ -117,7 +119,18 @@ cron.schedule("58 23 * * *", async () => {
   try {
     await setPeriodCompletedJob.setPeriodCompleted();
   } catch (error) {
-    console.log(error);
+    console.error(error);
+  }
+}, {
+  scheduled: true,
+  timezone: "Europe/Athens"
+});
+
+cron.schedule("30 21 * * *", async () => {
+  try {
+    await deleteOldPositionsAtlasJob.doDelete();
+  } catch (error) {
+    console.error(error);
   }
 }, {
   scheduled: true,
@@ -132,7 +145,7 @@ const updateAtlasTables = async () => {
   await atlasController.insertOrUpdateAtlasTables();
 };
 
-setInterval(updateAtlasTables, 1.5 * MiscUtils.ONE_HOUR);
+setInterval(updateAtlasTables, MiscUtils.ONE_HOUR);
 
 // Update all Atlas positions / providers, every 30 hours
 //setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), MiscUtils.THIRTY_HOURS);

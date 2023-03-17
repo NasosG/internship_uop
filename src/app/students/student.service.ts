@@ -442,6 +442,11 @@ export class StudentsService {
       });
   }
 
+  checkPositionOfAtlasExists(positions: any): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    return this.http.post<{ message: string }>(STUDENTS_URL + "checkPositionOfAtlasExists/" + studentId, { positions });
+  }
+
   // get assignments by student id
   getAssignmentsByStudentId(): Observable<Array<AcceptedAssignmentsByCompany>> {
     const studentId = this.authService.getSessionId();
