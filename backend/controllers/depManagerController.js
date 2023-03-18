@@ -627,6 +627,41 @@ const getPeriodAndDepartmentIdByUserId = async (request, response) => {
   }
 };
 
+const submitFinalResultsToOffice = async (request, response) => {
+  const deptManagerId = request.params.id;
+  const data = request.body.data;
+
+  try {
+    console.log(data);
+    const depManagerDetails = await depManagerService.getDepManagerDetails(data.period_id, deptManagerId);
+    const listId = await depManagerService.insertToFinalAssignmentsList(data, depManagerDetails);
+    console.log(listId);
+
+    if (!listId) {
+      response.status(400).json({
+        message: error.message
+      });
+      return;
+    }
+
+    const updateAssignments = await depManagerService.updateStudentFinalAssignments(depManagerDetails, listId, data);
+    console.log(updateAssignments);
+    const deactivatePeriod = await depManagerService.setPeriodCompleted(data);
+    console.log(deactivatePeriod);
+
+    console.log("List insert action completed");
+
+    response.status(200).json({
+      message: 'OK'
+    });
+
+  } catch (error) {
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -657,5 +692,6 @@ module.exports = {
   insertAssignment,
   insertFinalAssignment,
   insertAssignImplementationDates,
-  getAssignImplementationDates
+  getAssignImplementationDates,
+  submitFinalResultsToOffice
 };

@@ -780,6 +780,60 @@ const getStudentAMandDepartmentByIdForAtlas = async (id) => {
   }
 };
 
+const getDepManagerDetails = async (period_id, uuid) => {
+  try {
+    const result = await pool.query(`SELECT department AS dept_name, usr.displayname as department_manager_name, det.implementation_start_date AS start_date, det.implementation_end_date AS end_date
+                            FROM sso_users usr
+                            INNER JOIN atlas_academics ON atlas_academics.atlas_id = usr.department_id
+                            INNER JOIN assignment_details det ON det.department_id = usr.department_id AND det.period_id = $1
+                            WHERE uuid = $2`, [period_id, uuid]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching dep manager details ' + error.message);
+  }
+};
+
+const insertToFinalAssignmentsList = async (body, managerInfo) => {
+  try {
+    const insertResult = await pool.query("INSERT INTO final_assignments_list(department_id, period_id, creation_date, department_manager_name, dept_name, start_date, end_date, arithmos_thematos, arithmos_sunedriashs, ada_number) " +
+      "VALUES ($1, $2, NOW(), $3, $4, $5, $6, $7, $8, $9) RETURNING list_id",
+      [body.department_id, body.period_id, managerInfo.department_manager_name, managerInfo.dept_name, managerInfo.start_date, managerInfo.end_date, null, null, null]);
+
+    return insertResult.rows[0].list_id;
+  } catch (error) {
+    console.error(error.message);
+    throw new Error('Error while inserting to final assignments list ' + error.message);
+  }
+};
+
+const updateStudentFinalAssignments = async (depManagerDetails, listId, body) => {
+  try {
+    const updateResult = await pool.query("UPDATE internship_assignment SET list_id = $1, pa_start_date = $2, pa_end_date = $3 WHERE period_id = $4",
+      [listId, depManagerDetails.start_date, depManagerDetails.end_date, body.period_id]);
+
+    return updateResult.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw new Error('Error while updating internship assignments ' + error.message);
+  }
+};
+
+const setPeriodCompleted = async (body) => {
+  console.log("setPeriodCompleted started for department" + body.department_id + " at: " + new Date().toLocaleString());
+  try {
+    await pool.query("UPDATE period  \
+                      SET is_active = 'false', \
+                          is_completed = 'true' \
+                      WHERE department_id = $1 AND id = $2 AND phase_state = 3",
+      [body.department_id, body.period_id]);
+    console.log("period completed for department" + body.department_id + " at: " + new Date().toLocaleString());
+  } catch (error) {
+    console.error(error.message);
+    throw Error("Error while updating period in job: " + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -819,5 +873,9 @@ module.exports = {
   getPreassignModeByDepartmentId,
   getAssignmentsByStudentId,
   getAssignmentsByStudentAndPositionId,
-  insertAssignImplementationDates
+  insertAssignImplementationDates,
+  insertToFinalAssignmentsList,
+  updateStudentFinalAssignments,
+  getDepManagerDetails,
+  setPeriodCompleted
 };

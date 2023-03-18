@@ -309,4 +309,10 @@ export class DepManagerService {
       .set('period_id', period_id == null ? 0 : period_id);
     return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getAssignImplementationDates/", { params });
   }
+
+  submitFinalResultsToOffice(data: {department_id: number; period_id: number|undefined; implementation_start_date: string; implementation_end_date: string;}) {
+    const providerId = this.authService.getSessionId();
+    return this.http
+      .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "submitFinalResultsToOffice/" + providerId, { data });
+  }
 }

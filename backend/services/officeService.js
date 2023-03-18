@@ -58,7 +58,6 @@ const getPeriodByDepartmentId = async (departmentId) => {
   }
 };
 
-
 const getStudentsWithSheetInput = async (departmentId) => {
   try {
     const students = await pool.query("SELECT * FROM sso_users \

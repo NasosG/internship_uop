@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Injectable, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs';
+import { catchError, mergeMap, of } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import Swal from 'sweetalert2';
@@ -198,6 +198,31 @@ export class StudentMatchComponent implements OnInit {
 
     // If the position ID was not found, return null (or throw an error)
     return null;
+  }
+
+  checkIfAllStudentsAreAssigned(state: Map<number, any>[]): boolean {
+    // For all active applications
+    for (let assignment of this.activeApplications) {
+      let studentId: number = assignment.student_id;
+      // Find the positions assigned to the student
+      const assignedPositions = this.positionIds.filter(map => map.has(studentId)).map(map => map.get(studentId));
+      // For each position, map the corresponding states from an array; position[0]->state[0]
+      const positionStates = state.filter(map => map.has(studentId)).map(map => map.get(studentId));
+      // If the student is not assigned to any position, return false
+      if (assignedPositions.length == 0) return false;
+      for (let i = 0; i < assignedPositions.length; i++) {
+        // If the student is not assigned to a position, return null
+        if (assignedPositions[i] === undefined) {
+          return false;
+        }
+        console.log(positionStates[i]);
+        // If the assigned position does not match the specified position, return false
+        if (positionStates[i] != 1) return false;
+      }
+    }
+
+    // All students are assigned
+    return true;
   }
 
   exportToExcel() {
@@ -440,6 +465,76 @@ export class StudentMatchComponent implements OnInit {
         });
       }
     );
+  }
+
+  submitFinalResultsToOffice() {
+    let areAllStudentsAssigned = this.checkIfAllStudentsAreAssigned(this.state);
+    console.log(areAllStudentsAssigned);
+    if (!areAllStudentsAssigned) {
+      Swal.fire({
+        title: 'Προσοχή',
+        text: 'Δεν έχει γίνει τελική ανάθεση σε όλους τους φοιτητές. Παρακαλώ ελέγξτε τις αναθέσεις και προσπαθήστε ξανά.',
+        icon: 'warning'
+      });
+      return;
+    }
+
+    const data = {
+      department_id: this.department_id ? this.department_id : this.activeApplications[0]?.department_id,
+      period_id: this.period_id ? this.period_id : this.activeApplications[0].period_id,
+      implementation_start_date: this.modelImplementationDateFrom,
+      implementation_end_date: this.modelImplementationDateTo
+    };
+    console.log(data);
+
+    Object.keys(data).forEach(key => {
+      if (!data[key as keyof typeof data]) {
+        console.log(`${key} is empty!`);
+        Swal.fire({
+          icon: 'error',
+          title: 'Σφάλμα',
+          text: 'Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά. Αν το πρόβλημα επιμείνει, επικοινωνήστε με τον διαχειριστή',
+          confirmButtonText: 'Εντάξει'
+        });
+        return;
+      }
+    });
+
+     Swal.fire({
+      title: 'Ολοκλήρωση Περιόδου ΠΑ',
+      text: 'Είστε σίγουροι ότι θέλετε να υποβάλετε τα αποτελέσματα προς ΓΠΑ; Έπειτα από αυτή την ενέργεια, θα ολοκληρωθεί αυτόματα η περίοδος ΠΑ',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.depManagerService.submitFinalResultsToOffice(data)
+          .pipe(
+            catchError((error: any) => {
+              console.error(error);
+              Swal.fire({
+                title: 'Αποτυχία',
+                text: 'Η υποβολή των αποτελεσμάτων προς ΓΠΑ απέτυχε',
+                icon: 'error'
+              });
+              return of(null);
+            })).subscribe((response: any) => {
+              if (!response) return;
+              console.log(`response: ${response}`);
+              Swal.fire({
+                icon: 'success',
+                title: 'Επιτυχία',
+                text: 'Τα αποτελέσματα υποβλήθηκαν με επιτυχία προς ΓΠΑ',
+                confirmButtonText: 'Εντάξει'
+              });
+            });
+      } else {
+        console.log("User pressed Cancel");
+      }
+    });
+
   }
 
 }
