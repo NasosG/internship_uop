@@ -7,7 +7,13 @@ const upload = require("../middleware/file.js");
 const formidable = require('formidable');
 const MiscUtils = require("../MiscUtils.js");
 const atlasController = require("./atlasController");
+const moment = require('moment');
 require('dotenv').config();
+
+const PizZip = require("pizzip");
+const Docxtemplater = require("docxtemplater");
+const fs = require("fs");
+const path = require("path");
 
 // app.post("/api/students/login/:id", (request, response, next) => {
 const login = async (request, response, next) => {
@@ -773,7 +779,6 @@ const insertIdentityCardFile = async (request, response, next) => {
     await upload.policeId(request, response, (err) => validateFile(request, response, err, docType));
 
     response
-
       .status(201)
       .json({
         message: "FILE ADDED IDENTITY CARD"
@@ -1082,6 +1087,99 @@ const checkPositionOfAtlasExists = async (request, response) => {
   }
 };
 
+const produceContractFile = async (request, response) => {
+  try {
+    console.log("produceContractFile");
+    const studentId = request.params.id;
+    const docType = request.body.doctype;
+    const periodId = request.body.periodId;
+    const departmentId = request.body.departmentId;
+
+    // let initialPath = process.env.DEPT_MANAGER_PREVIEW_FILE_PATH;
+
+    let metadata = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
+    console.log(metadata);
+
+    const fileDirAEI = process.env.CONTRACT_FILE_PATH_AEI;
+    const fileDirTEI = process.env.CONTRACT_FILE_PATH_TEI;
+
+    let content;
+
+    if (departmentId.toString().length < 6) {
+      // Load the docx file as binary content
+      content = fs.readFileSync(
+        path.resolve(fileDirAEI),
+        "binary"
+      );
+    } else {
+      // Load the docx file as binary content
+      content = fs.readFileSync(
+        path.resolve(fileDirTEI),
+        "binary"
+      );
+    }
+
+    const zip = new PizZip(content);
+
+    const doc = new Docxtemplater(zip, {
+      paragraphLoop: true,
+      linebreaks: true,
+    });
+
+    // metadata.position_city
+
+    // Render the document (Replace placeholders {first_name} by John etc.)
+    doc.render({
+      CONTRACT_DATE: !metadata.contract_date ? "………………" : moment(metadata.contract_date).format('DD/MM/YYYY'),
+      COMPANY_NAME: metadata.company_name,
+      COMPANY_AFM: metadata.company_afm,
+      COMPANY_ADDRESS: "……………………………………………..",
+      COMPANY_LIAISON: !metadata.company_liaison ? "………………" : metadata.company_liaison,
+      COMPANY_LIAISON_POSITION: !metadata.company_liaison_position ? "………………" : metadata.company_liaison_position,
+      STUDENT_NAME: metadata.displayname,
+      STUDENT_FATHER_NAME: metadata.father_name,
+      DEPT_NAME: metadata.dept_name,
+      ID_NUMBER: metadata.id_number,
+      AMIKA: !metadata.amika ? "………………" : metadata.amika,
+      AMKA: metadata.amka,
+      AFM: metadata.afm,
+      DOY_NAME: metadata.doy_name,
+      PA_SUBJECT: !metadata.pa_subject ? "………………" : metadata.pa_subject,
+      PA_SUBJECT_ATLAS: !metadata.pa_subject_atlas ? "………………" : metadata.pa_subject_atlas,
+      PA_START_DATE: moment(metadata.pa_start_date).format('DD/MM/YYYY'),
+      PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
+      TY_NAME: metadata.department_manager_name
+    });
+
+    const buf = doc.getZip().generate({
+      type: "nodebuffer",
+      // compression: DEFLATE adds a compression step.
+      // For a 50MB output document, expect 500ms additional CPU time
+      compression: "DEFLATE",
+    });
+
+    const fileName = "student" + 10 + "_CONTRACT.docx";
+    const filePath = `../uploads/contracts/${10}`;
+
+    // Make a folder if not exists
+    fs.mkdirSync(filePath, { recursive: true });
+
+    // buf is a nodejs Buffer, you can either write it to a
+    // file or res.send it with express for example.
+    fs.writeFileSync(path.resolve(filePath, fileName), buf);
+
+    response
+      .status(200)
+      .sendFile(path.resolve(filePath, fileName), buf);
+
+  } catch (error) {
+    console.error(error.message);
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1131,5 +1229,6 @@ module.exports = {
   getMergedDepartmentInfoByStudentId,
   updateDepartmentIdByStudentId,
   getProtocolNumberIfInterestAppExists,
-  getStudentFilesForAppPrint
+  getStudentFilesForAppPrint,
+  produceContractFile
 };

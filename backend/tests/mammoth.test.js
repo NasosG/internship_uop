@@ -9,12 +9,17 @@ describe('mammoth function', () => {
     const fs = require("fs");
     const path = require("path");
 
-    // Load the docx file as binary content
-    const content = fs.readFileSync(
-      path.resolve(__dirname, "συμβασηΑει.docx"),
-      "binary"
-    );
+    // const filePath = 'word-contract-templates';
+    // // Load the docx file as binary content
+    // const content = fs.readFileSync(
+    //   path.resolve(filePath, "συμβασηΑει.docx"),
+    //   "binary"
+    // );
 
+    const filePath = './word-contract-templates/συμβασηΑει.docx';
+
+    // Load the docx file as binary content
+    const content = fs.readFileSync(path.resolve(__dirname, '..', filePath), 'binary');
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {

@@ -197,6 +197,14 @@ export class DepManagerService {
     //   filter ( image => !!image));
   }
 
+  receiveContractFile(studentId: number, periodId: any, departmentId: any, docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "produceContractFile/" + studentId;
+    return this.http.post(url, { 'doctype': docType, 'periodId': periodId, 'departmentId': departmentId }, { responseType: 'blob' });
+    // .pipe(
+    //   takeWhile( () => this.alive),
+    //   filter ( image => !!image));
+  }
+
   updatePeriodById(inputForm: any, periodId: number) {
     const form: Period = inputForm;
     this.http
@@ -314,5 +322,13 @@ export class DepManagerService {
     const providerId = this.authService.getSessionId();
     return this.http
       .post<{ message: string }>(DEPARTMENT_MANAGER_URL + "submitFinalResultsToOffice/" + providerId, { data });
+  }
+
+  getStudentListForPeriod(periodId: number): Observable<any> {
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getStudentListForPeriod/" + periodId);
+  }
+
+  getAllPeriodsByDepartmentId(departmentId: number): Observable<any[]> {
+    return this.http.get<Period[]>(DEPARTMENT_MANAGER_URL + "getAllPeriodsByDepartmentId/" + departmentId);
   }
 }

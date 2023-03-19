@@ -627,6 +627,21 @@ const getPeriodAndDepartmentIdByUserId = async (request, response) => {
   }
 };
 
+const getAllPeriodsByDepartmentId = async (request, response) => {
+  try {
+    console.log(request.params.id);
+    const departmentId = request.params.id;
+    const periods = await depManagerService.getAllPeriodsByDepartmentId(departmentId);
+    response.status(200).json(periods);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 const submitFinalResultsToOffice = async (request, response) => {
   const deptManagerId = request.params.id;
   const data = request.body.data;
@@ -647,7 +662,7 @@ const submitFinalResultsToOffice = async (request, response) => {
     const updateAssignments = await depManagerService.updateStudentFinalAssignments(depManagerDetails, listId, data);
     console.log(updateAssignments);
     const deactivatePeriod = await depManagerService.setPeriodCompleted(data);
-    console.log(deactivatePeriod);
+    // console.log(deactivatePeriod);
 
     console.log("List insert action completed");
 
@@ -662,6 +677,20 @@ const submitFinalResultsToOffice = async (request, response) => {
   }
 };
 
+const getStudentListForPeriod = async (request, response) => {
+  try {
+    const periodId = request.params.id;
+    const studentList = await depManagerService.getStudentListForPeriod(periodId);
+    response.status(200).json(studentList);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -673,6 +702,8 @@ module.exports = {
   getStudentsWithSheetOutput,
   getEspaPositionsByDepartmentId,
   getPeriodAndDepartmentIdByUserId,
+  getStudentListForPeriod,
+  getAllPeriodsByDepartmentId,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

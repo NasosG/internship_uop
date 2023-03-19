@@ -7,6 +7,7 @@ router.get("/getDepManagerById/:id", depManagerController.getDepManagerById);
 router.get("/getPeriodByUserId/:id", depManagerController.getPeriodByUserId);
 router.get("/getPeriodByDepartmentId/:id", depManagerController.getPeriodByDepartmentId);
 router.get("/getPeriodAndDepartmentIdByUserId/:id", depManagerController.getPeriodAndDepartmentIdByUserId);
+router.get("/getAllPeriodsByDepartmentId/:id", depManagerController.getAllPeriodsByDepartmentId);
 router.get("/getStudentsApplyPhase/:id", depManagerController.getStudentsApplyPhase);
 router.get("/getRankedStudentsByDeptId/", depManagerController.getRankedStudentsByDeptId);
 router.get("/getStudentsRankingList/", depManagerController.getRankdedStudentsListByDeptAndPeriodId);
@@ -34,5 +35,6 @@ router.post("/insertFinalAssignment/:id", depManagerController.insertFinalAssign
 router.post("/insertAssignImplementationDates/:id", depManagerController.insertAssignImplementationDates);
 router.get("/getAssignImplementationDates/", depManagerController.getAssignImplementationDates);
 router.post("/submitFinalResultsToOffice/:id", depManagerController.submitFinalResultsToOffice);
+router.get("/getStudentListForPeriod/:id", depManagerController.getStudentListForPeriod);
 
 module.exports = router;

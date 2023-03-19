@@ -900,6 +900,25 @@ const getStudentRankedApprovalStatusForPeriod = async (studentId, periodId) => {
   }
 };
 
+const getContractFileMetadataByStudentId = async (studentId, periodId) => {
+  try {
+    const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, grp.city as position_city,
+                  company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka, student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name
+                  FROM final_assignments_list list
+                  INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                  INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
+                  INNER JOIN student_users ON usr.uuid = student_users.sso_uid
+                  INNER JOIN atlas_position_group grp ON asn.position_id = grp.atlas_position_id
+                  INNER JOIN atlas_provider pr on grp.provider_id = pr.atlas_provider_id
+                  WHERE list.period_id = $1 AND asn.student_id = $2`;
+    const result = await pool.query(query, [periodId, studentId]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while fetching contract file metadata: ${error}`);
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -914,6 +933,7 @@ module.exports = {
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
+  getContractFileMetadataByStudentId,
   semesterInterestAppFound,
   findMaxPositions,
   insertStudentEntrySheet,

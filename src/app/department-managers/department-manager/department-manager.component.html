@@ -243,11 +243,10 @@
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/sheet-input/' + this.authService.getSessionId()]"
-              [routerLinkActive]="['active']" [class.disabled]="(period?.phase_state ?? 0) >= 3 ? null :
-              true" class="nav-link">
+              [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-envelope"></i>
               <p>
-                Απογραφικά Δελτία
+                Δελτία - Συμβάσεις
               </p>
             </a>
           </li>
@@ -396,6 +395,7 @@
         </app-student-applications-results>
         <app-sheet-input-deptmanager *ngIf="isSheetInputRoute()"></app-sheet-input-deptmanager>
         <app-sheet-output-deptmanager *ngIf="isSheetOutputRoute()"></app-sheet-output-deptmanager>
+        <app-student-contracts *ngIf="isStudentContractsRoute()"></app-student-contracts>
       </div>
     </section>
     <!-- /.content -->

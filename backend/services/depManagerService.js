@@ -223,6 +223,20 @@ const getPeriodByDepartmentId = async (id) => {
   }
 };
 
+const getAllPeriodsByDepartmentId = async (departmentId) => {
+  try {
+    const period = await pool.query(`SELECT *
+      FROM period
+      INNER JOIN final_assignments_list list ON period.id = list.period_id
+      WHERE period.department_id = $1 ORDER BY period.id DESC`, [departmentId]);
+
+    return period.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching period by department id' + error.message);
+  }
+};
+
 const getPeriodAndDepartmentIdByUserId = async (id) => {
   try {
     const period = await pool.query(`SELECT period.id, period.department_id
@@ -834,6 +848,19 @@ const setPeriodCompleted = async (body) => {
   }
 };
 
+const getStudentListForPeriod = async (periodId) => {
+  try {
+    const result = await pool.query(`SELECT * FROM final_assignments_list list
+                                    INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                                    INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
+                                    WHERE list.period_id = $1`, [periodId]);
+    return result.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching student list for period ' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -850,6 +877,8 @@ module.exports = {
   getAssignImplementationDates,
   getPeriodAndDepartmentIdByUserId,
   getStudentAMandDepartmentByIdForAtlas,
+  getStudentListForPeriod,
+  getAllPeriodsByDepartmentId,
   doesAssignmentExist,
   insertPeriod,
   insertApprovedStudentsRank,

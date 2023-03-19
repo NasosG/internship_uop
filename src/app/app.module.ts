@@ -109,6 +109,7 @@ import { CompanyInfoDialogComponent } from './department-managers/company-info-d
 import { StudentsPositionSelectDialogComponent } from './department-managers/students-position-select-dialog/students-position-select-dialog.component';
 import { StudentsInterestAppPrintableComponent } from './students/students-interest-app-printable/students-interest-app-printable.component';
 import { ContractFilesUploadComponent } from './students/contract-files-upload/contract-files-upload.component';
+import { StudentContractsComponent } from './department-managers/student-contracts/student-contracts.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -197,6 +198,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentsPositionSelectDialogComponent,
     StudentsInterestAppPrintableComponent,
     ContractFilesUploadComponent,
+    StudentContractsComponent,
   ],
   imports: [
     BrowserModule,

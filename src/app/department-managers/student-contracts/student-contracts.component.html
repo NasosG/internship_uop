@@ -8,63 +8,59 @@
           <div class="card-header p-2">
             <ul class="nav nav-pills">
               <li class="nav-item">
-                <a class="nav-link"
-                  [routerLink]="['/department-manager/sheet-input/' + this.authService.getSessionId()]"
-                  data-toggle="tab">Δελτία Εισόδου</a>
+                <a class="nav-link" href="#sheet-input-tab" data-toggle="tab">Δελτία Εισόδου</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active"
+                <a class="nav-link"
                   [routerLink]="['/department-manager/sheet-output/' + this.authService.getSessionId()]"
                   data-toggle="tab">Δελτία εξόδου</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"
+                <a class="nav-link active"
                   [routerLink]="['/department-manager/student-contracts/' + this.authService.getSessionId()]"
                   data-toggle="tab">Συμβάσεις</a>
               </li>
             </ul>
           </div>
+          <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
+            <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
+              Επιλογή Περιόδου: </h5>
+            <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
+            <div class="col-12 col-sm-10 pt-3">
+              <div class="form-group col-md-4 mb-0 pb-0">
+                <mat-form-field appearance="outline" style="min-width:310px;">
+                  <mat-label>Περίοδος</mat-label>
+                  <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let period of this.periods" [value]="period"
+                      (click)="onPeriodChange(period.id)">
+                      {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}
+                      {{'- Λήξη: '}} {{period.date_to | date:'dd/MM/yyyy'}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
           <!-- </div> -->
           <!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content">
-              <div class="tab-pane active" id="sheet-output-tab">
+              <div class="tab-pane active" id="sheet-input-tab">
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="sheetOutputTable" #sheetOutputTable class="table table-bordered table-striped">
+                <table id="contractsTable" #contractsTable class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <!-- <th>Επιλογή</th> -->
                       <th>Ονοματεπώνυμο</th>
-                      <!-- <th>Πατρώνυμο</th> -->
                       <th>ΑΜ</th>
                       <th>email</th>
                       <!-- <th>Έγγραφα</th> -->
-                      <th class="text-center">Ενέργειες</th>
+                      <th class="text-center">Επεξεργασία Σύμβασης</th>
+                      <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
-                      <!-- <td>
-                        <p style="display:none">
-                          {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
-                        <mat-form-field id="{{student.sso_uid}}" name="phase" style="width:100%;" appearance="standard">
-                          <mat-label>Προς επιλογή</mat-label>
-                          <mat-select value="{{student.phase == 2 ? 'option1' : student.phase == 1 ? '' : 'option2'}}"
-                            name="phase">
-                            <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">Προς
-                              επιλογή
-                            </mat-option>
-                            <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
-                            </mat-option>
-                            <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                        <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
-                            class="fas fa-edit"></i> Σχόλιο<br></a>
-                      </td> -->
                       <td>{{student.givenname}} {{student.sn}}</td>
-                      <!-- <td>{{student.father_name}}</td> -->
                       <td>{{student.schacpersonaluniquecode}}</td>
                       <td>{{student.mail}}</td>
 
@@ -82,22 +78,25 @@
                           <i class="fa fa-download" aria-hidden="true"></i> AMEA
                         </button>
                       </td> -->
+
                       <td class="action text-center">
-                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-eye"></i> Προβολή / Εκτύπωση Δελτίου<br></a>
+                        <a (click)="openEditContractDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-cog"></i> Επεξεργασία<br></a>
+                      <td class="action text-center">
+                        <a (click)="downloadContractFileForStudent(student.uuid)" class="text-secondary"
+                          style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
+
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
-                      <!-- <th>Επιλογή</th> -->
                       <th>Ονοματεπώνυμο</th>
-                      <!-- <th>Πατρώνυμο</th> -->
                       <th>ΑΜ</th>
                       <th>email</th>
-                      <!-- <th>Έγγραφα</th> -->
-                      <th class="text-center">Ενέργειες</th>
+                      <th class="text-center">Επεξεργασία Σύμβασης</th>
+                      <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>
                   </tfoot>
                 </table>
