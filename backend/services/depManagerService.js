@@ -811,9 +811,12 @@ const getDepManagerDetails = async (period_id, uuid) => {
 
 const insertToFinalAssignmentsList = async (body, managerInfo) => {
   try {
+    const startDateFormatted = moment(managerInfo.start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    const endDateFormatted = moment(managerInfo.end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
     const insertResult = await pool.query("INSERT INTO final_assignments_list(department_id, period_id, creation_date, department_manager_name, dept_name, start_date, end_date, arithmos_thematos, arithmos_sunedriashs, ada_number) " +
       "VALUES ($1, $2, NOW(), $3, $4, $5, $6, $7, $8, $9) RETURNING list_id",
-      [body.department_id, body.period_id, managerInfo.department_manager_name, managerInfo.dept_name, managerInfo.start_date, managerInfo.end_date, null, null, null]);
+      [body.department_id, body.period_id, managerInfo.department_manager_name, managerInfo.dept_name, startDateFormatted, endDateFormatted, null, null, null]);
 
     return insertResult.rows[0].list_id;
   } catch (error) {
