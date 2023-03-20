@@ -1158,8 +1158,8 @@ const produceContractFile = async (request, response) => {
       compression: "DEFLATE",
     });
 
-    const fileName = "student" + 10 + "_CONTRACT.docx";
-    const filePath = `../uploads/contracts/${10}`;
+    const fileName = "student" + studentId + "_CONTRACT.docx";
+    const filePath = `../uploads/contracts/${studentId}`;
 
     // Make a folder if not exists
     fs.mkdirSync(filePath, { recursive: true });

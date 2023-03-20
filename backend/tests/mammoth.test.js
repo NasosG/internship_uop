@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Docxtemplater = require('docxtemplater');
+require('dotenv').config();
 
 describe('mammoth function', () => {
   it('should return a value', async () => {
@@ -16,10 +17,14 @@ describe('mammoth function', () => {
     //   "binary"
     // );
 
-    const filePath = './word-contract-templates/συμβασηΑει.docx';
+    const filePath = process.env.CONTRACT_FILE_PATH_AEI;
 
     // Load the docx file as binary content
-    const content = fs.readFileSync(path.resolve(__dirname, '..', filePath), 'binary');
+    const content = fs.readFileSync(
+      path.resolve(filePath),
+      "binary"
+    );
+
     const zip = new PizZip(content);
 
     const doc = new Docxtemplater(zip, {
