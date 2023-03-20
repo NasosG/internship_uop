@@ -1180,6 +1180,19 @@ const produceContractFile = async (request, response) => {
   }
 };
 
+const isStudentInAssignmentList = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const isStudentInAssignmentList = await studentService.isStudentInAssignmentList(studentId);
+    response.status(200).json(isStudentInAssignmentList);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1193,6 +1206,7 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
   getStudentRankedApprovalStatusForPeriod,
+  isStudentInAssignmentList,
   checkPositionOfAtlasExists,
   insertStudentEntrySheet,
   insertStudentExitSheet,

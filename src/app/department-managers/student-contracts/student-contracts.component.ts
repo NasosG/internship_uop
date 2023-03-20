@@ -4,11 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
-import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import {Period} from '../period.model';
-import { SheetInputPreviewDialogComponent } from '../sheet-input-preview-dialog/sheet-input-preview-dialog.component';
+import { EditContractDialogComponent } from '../edit-contract-dialog/edit-contract-dialog.component';
+import { Period } from '../period.model';
 
 @Component({
   selector: 'app-student-contracts',
@@ -60,7 +59,7 @@ export class StudentContractsComponent implements OnInit {
                   lengthChange: true,
                   paging: true,
                   searching: true,
-                  ordering: true,
+                  ordering: false,
                   info: true,
                   autoWidth: false,
                   responsive: true,
@@ -97,7 +96,7 @@ export class StudentContractsComponent implements OnInit {
 
   openEditContractDialog(idx: any) {
     console.log(idx);
-    const dialogRef = this.dialog.open(SheetInputPreviewDialogComponent, {
+    const dialogRef = this.dialog.open(EditContractDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '50%',
     });
 
@@ -106,16 +105,10 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
-  // onPeriodChange(event: any) {
-  //   this.selected = event.target.value;
-
-  //   console.log(this.selected);
-  // }
-
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
-    this.depManagerService.getStudentListForPeriod(47)
+    this.depManagerService.getStudentListForPeriod(value)
     .subscribe({
       next: (students: any[]) => {
         this.studentsData = students;
@@ -132,12 +125,11 @@ export class StudentContractsComponent implements OnInit {
   }
 
   downloadContractFileForStudent(studentId: number) {
-    alert(this.selected);
     let initialPeriod: any = !this.periods || !this.periods[0] ? 0 : this.periods[0].id;
 
-     this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.depManagerData?.department_id, "docx")
-     .subscribe(res => {
-        window.open(window.URL.createObjectURL(res));
-      });
+    this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.depManagerData?.department_id, "docx")
+    .subscribe(res => {
+      window.open(window.URL.createObjectURL(res));
+    });
   }
 }

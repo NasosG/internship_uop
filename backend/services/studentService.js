@@ -919,6 +919,19 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
   }
 };
 
+const isStudentInAssignmentList = async (student_id) => {
+  try {
+    const result = await pool.query(`SELECT * FROM final_assignments_list list
+                                    INNER JOIN internship_assignment asn ON asn.list_id = list.list_id
+                                    AND student_id = $1`, [student_id]);
+
+    return result.rows.length > 0;
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while getting student assignment list: ${error.message}`);
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -934,6 +947,7 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
   getContractFileMetadataByStudentId,
+  isStudentInAssignmentList,
   semesterInterestAppFound,
   findMaxPositions,
   insertStudentEntrySheet,

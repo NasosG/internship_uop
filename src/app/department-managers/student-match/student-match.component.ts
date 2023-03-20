@@ -16,6 +16,8 @@ import { AcceptedAssignmentsByCompany } from 'src/app/students/accepted-assignme
 import { StudentsPositionSelectDialogComponent } from '../students-position-select-dialog/students-position-select-dialog.component';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -92,7 +94,8 @@ export class StudentMatchComponent implements OnInit {
   department_id!: number;
   period_id!: number;
 
-  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService,
+    public dialog: MatDialog, private router: Router, private authService: AuthService) { }
 
   dtOptions: any = {};
 
@@ -528,7 +531,9 @@ export class StudentMatchComponent implements OnInit {
                 title: 'Επιτυχία',
                 text: 'Τα αποτελέσματα υποβλήθηκαν με επιτυχία προς ΓΠΑ',
                 confirmButtonText: 'Εντάξει'
-              });
+              }).then(() => {
+                  this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+              })
             });
       } else {
         console.log("User pressed Cancel");

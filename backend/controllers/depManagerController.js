@@ -645,11 +645,12 @@ const getAllPeriodsByDepartmentId = async (request, response) => {
 const submitFinalResultsToOffice = async (request, response) => {
   const deptManagerId = request.params.id;
   const data = request.body.data;
+  let listId;
 
   try {
     console.log(data);
     const depManagerDetails = await depManagerService.getDepManagerDetails(data.period_id, deptManagerId);
-    const listId = await depManagerService.insertToFinalAssignmentsList(data, depManagerDetails);
+    listId = await depManagerService.insertToFinalAssignmentsList(data, depManagerDetails);
     console.log(listId);
 
     if (!listId) {
@@ -661,9 +662,12 @@ const submitFinalResultsToOffice = async (request, response) => {
 
     const updateAssignments = await depManagerService.updateStudentFinalAssignments(depManagerDetails, listId, data);
     console.log(updateAssignments);
-    const deactivatePeriod = await depManagerService.setPeriodCompleted(data);
-    // console.log(deactivatePeriod);
 
+    const updateResults = await depManagerService.updateEspaPositionsOnPeriodCompleted(data, listId);
+
+    const deactivatePeriod = await depManagerService.setPeriodCompleted(data);
+
+    // console.log(deactivatePeriod);
     console.log("List insert action completed");
 
     response.status(200).json({
@@ -671,6 +675,7 @@ const submitFinalResultsToOffice = async (request, response) => {
     });
 
   } catch (error) {
+    await depManagerService.deleteCreatedList(listId, data.period_id);
     response.status(400).json({
       message: error.message
     });

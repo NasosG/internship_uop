@@ -861,6 +861,34 @@ const getStudentListForPeriod = async (periodId) => {
   }
 };
 
+const updateEspaPositionsOnPeriodCompleted = async (data, listId) => {
+  try {
+    const positionEspaCount = await pool.query("SELECT positions FROM espa_positions WHERE department_id = $1", [data.department_id]);
+    const studentsInListCnt = await pool.query(`SELECT count(*) as assignments_count
+                                              FROM final_assignments_list list
+                                              INNER JOIN internship_assignment a
+                                              ON a.period_id = list.period_id
+                                              WHERE list.department_id = $1 AND list.period_id = $2 AND list.list_id = $3`, [data.department_id, data.period_id, listId]);
+
+    const newResultAfterSubstraction = parseInt(positionEspaCount.rows[0].positions) - parseInt(studentsInListCnt.rows[0].assignments_count);
+    const finalResult = await pool.query(`UPDATE espa_positions SET positions = $1 WHERE department_id = $2`, [newResultAfterSubstraction, data.department_id]);
+
+    return finalResult;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching student list for period ' + error.message);
+  }
+};
+
+const deleteCreatedList = async (listId, periodId) => {
+  try {
+    await pool.query(`DELETE FROM final_assignments_list WHERE list_id = $1 AND period_id = $2`, [listId, periodId]);
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching student list for period ' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -888,6 +916,7 @@ module.exports = {
   deletePeriodById,
   insertCommentsByStudentId,
   updateCommentsByStudentId,
+  updateEspaPositionsOnPeriodCompleted,
   getCommentByStudentIdAndSubject,
   getCompletedPeriods,
   getManagedAcademicsByUserId,
@@ -906,5 +935,6 @@ module.exports = {
   insertToFinalAssignmentsList,
   updateStudentFinalAssignments,
   getDepManagerDetails,
-  setPeriodCompleted
+  setPeriodCompleted,
+  deleteCreatedList
 };
