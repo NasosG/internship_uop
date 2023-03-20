@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { concatMap, forkJoin, from, mergeMap } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';

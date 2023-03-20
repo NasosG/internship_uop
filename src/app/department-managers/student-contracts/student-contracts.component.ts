@@ -15,7 +15,7 @@ import { Period } from '../period.model';
   styleUrls: ['./student-contracts.component.css']
 })
 export class StudentContractsComponent implements OnInit {
- @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
+  @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: any[] = [];
   selected = '';
@@ -96,8 +96,9 @@ export class StudentContractsComponent implements OnInit {
 
   openEditContractDialog(idx: any) {
     console.log(idx);
+    console.log(this.studentsData[idx])
     const dialogRef = this.dialog.open(EditContractDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '50%',
+      data: { studentsData: this.studentsData, index: idx }, width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

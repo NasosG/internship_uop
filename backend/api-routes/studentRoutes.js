@@ -57,5 +57,7 @@ router.get("/getStudentFilesForAppPrint/:id", studentController.getStudentFilesF
 router.post("/checkPositionOfAtlasExists/:id", studentController.checkPositionOfAtlasExists);
 router.post("/produceContractFile/:id", studentController.produceContractFile);
 router.post("/isStudentInAssignmentList/:id", studentController.isStudentInAssignmentList);
+router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getContractDetailsByStudentIdAndPeriod);
+router.put("/updateContractDetails/", studentController.updateContractDetails);
 
 module.exports = router;

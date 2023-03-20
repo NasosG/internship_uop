@@ -902,7 +902,7 @@ const getStudentRankedApprovalStatusForPeriod = async (studentId, periodId) => {
 
 const getContractFileMetadataByStudentId = async (studentId, periodId) => {
   try {
-    const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, grp.city as position_city,
+    const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
                   company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka, student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
@@ -929,6 +929,30 @@ const isStudentInAssignmentList = async (student_id) => {
   } catch (error) {
     console.error(error.message);
     throw Error(`An error occured while getting student assignment list: ${error.message}`);
+  }
+};
+
+// TODO IMPLEMENT IT CORRECTLY
+const updateContractDetails = async (studentId, contractDetails) => {
+  try {
+    const result = await pool.query(`UPDATE student_users SET
+                                    company_liaison = $1,
+                                    company_liaison_position = $2,
+                                    company_address = $3,
+                                    company_name = $4,
+                                    company_afm = $5,
+                                    contract_date = $6
+                                    WHERE sso_uid = $7`, [contractDetails.company_liaison,
+    contractDetails.company_liaison_position,
+    contractDetails.company_address,
+    contractDetails.company_name,
+    contractDetails.company_afm,
+    contractDetails.contract_date,
+      studentId]);
+    console.log(`Record with studentId ${studentId} updated successfully`);
+  } catch (error) {
+    console.error(error);
+    throw Error(`An error occured while updating contract details: ${error}`);
   }
 };
 
@@ -967,6 +991,7 @@ module.exports = {
   updateStudentPositions,
   updateStudentExitSheet,
   updatePhase,
+  updateContractDetails,
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId,

@@ -11,6 +11,7 @@ import { EntryForm } from '../students/entry-form.model';
 import { ExitForm } from '../students/exit-form.model';
 import {Phase} from './phase.model';
 import {AcceptedAssignmentsByCompany} from '../students/accepted-assignments-by-company';
+import {Contract} from '../students/contract.model';
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
@@ -330,5 +331,17 @@ export class DepManagerService {
 
   getAllPeriodsByDepartmentId(departmentId: number): Observable<any[]> {
     return this.http.get<Period[]>(DEPARTMENT_MANAGER_URL + "getAllPeriodsByDepartmentId/" + departmentId);
+  }
+
+  getContractDetailsByStudentIdAndPeriodId(studentId: number, periodId: number): Observable<Contract> {
+    const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('periodId', periodId == null ? 0 : periodId);
+    return this.http.get<Contract>(STUDENTS_URL + "getContractDetailsByStudentIdAndPeriod/", { params });
+  }
+
+  onSubmitStudentContractDetails(contract: Contract, studentId: number, periodId: number): Observable<any>{
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateContractDetails/" + studentId, {contract, periodId});
   }
 }

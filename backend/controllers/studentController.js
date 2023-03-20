@@ -1193,6 +1193,41 @@ const isStudentInAssignmentList = async (request, response) => {
   }
 };
 
+const getContractDetailsByStudentIdAndPeriod = async (request, response) => {
+  try {
+    const studentId = request.query.studentId;
+    const periodId = request.query.periodId;
+
+    const contractDetails = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
+
+    response.status(200).json(contractDetails);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const updateContractDetails = async (request, response) => {
+  try {
+    const studentId = request.query.studentId;
+    const periodId = request.query.periodId;
+    const contract = request.query.contract;
+
+    const contractDetails = await studentService.updateContractDetails(studentId, periodId);
+
+    response.status(200).json(contractDetails);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1206,6 +1241,7 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
   getStudentRankedApprovalStatusForPeriod,
+  getContractDetailsByStudentIdAndPeriod,
   isStudentInAssignmentList,
   checkPositionOfAtlasExists,
   insertStudentEntrySheet,
@@ -1223,6 +1259,7 @@ module.exports = {
   updateStudentPositionPriorities,
   updateStudentPositions,
   updatePhase,
+  updateContractDetails,
   deleteEntryFormByStudentId,
   deletePositionsByStudentId,
   deleteApplicationById,
