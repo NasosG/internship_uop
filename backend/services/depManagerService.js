@@ -827,8 +827,11 @@ const insertToFinalAssignmentsList = async (body, managerInfo) => {
 
 const updateStudentFinalAssignments = async (depManagerDetails, listId, body) => {
   try {
+    const startDateFormatted = moment(depManagerDetails.start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    const endDateFormatted = moment(depManagerDetails.end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
     const updateResult = await pool.query("UPDATE internship_assignment SET list_id = $1, pa_start_date = $2, pa_end_date = $3 WHERE period_id = $4 AND approval_state = 1",
-      [listId, depManagerDetails.start_date, depManagerDetails.end_date, body.period_id]);
+      [listId, startDateFormatted, endDateFormatted, body.period_id]);
 
     return updateResult.rows;
   } catch (error) {
