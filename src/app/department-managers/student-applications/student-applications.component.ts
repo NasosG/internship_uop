@@ -31,6 +31,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   hasMadeComment: any = [];
   btnDisabled: boolean = false;
   screenWidth: number = 1800;
+  isActive = false;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 

@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DataTableDirective } from 'angular-datatables';
 import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
@@ -11,16 +10,13 @@ import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.comp
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
 import { DepManager } from '../dep-manager.model';
-import { catchError, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-student-applications-results',
-  templateUrl: './student-applications-results.component.html',
-  styleUrls: ['./student-applications-results.component.css']
+  selector: 'app-student-apps-results-old-periods',
+  templateUrl: './student-apps-results-old-periods.component.html',
+  styleUrls: ['./student-apps-results-old-periods.component.css']
 })
-export class StudentApplicationsResultsComponent implements OnInit {
-
+export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   @ViewChild('example2') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
@@ -33,7 +29,8 @@ export class StudentApplicationsResultsComponent implements OnInit {
   isLoading = true;
   depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
   yearsOfStudy!: number;
-  isActive = false;
+  periods: Period[] | undefined;
+  isActive = true;
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -43,60 +40,72 @@ export class StudentApplicationsResultsComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerDataDepartment = depManager.department_id;
-        this.depManagerService.getPeriodByDepartmentId(this.depManagerDataDepartment)
-            // .pipe(
-            //   catchError((error: HttpErrorResponse) => {
-            //     console.error(error);
-            //     return throwError(error);
-            //   })
-            // )
-            .subscribe((periodData: Period) => {
-              this.period = periodData;
-              this.depManagerService.insertApprovedStudentsRank(this.depManagerDataDepartment, this.period.phase_state, this.period.id)
-                    .subscribe((response: any) => {
-                        console.log('insertApprovedStudentsRank success:', response);
-                        this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, periodData.id)
-                              .subscribe((students: Student[]) => {
-                                this.studentsData = students;
+        this.depManagerService.getAllPeriodsByDepartmentId(this.depManagerDataDepartment)
+          .subscribe((periods: any[]) => {
+            this.periods = periods;
+            this.period = periods[0];
+            this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, this.period.id)
+              .subscribe((students: Student[]) => {
+                this.studentsData = students;
+                for (let i = 0; i < students.length; i++) {
+                  this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+                  this.studentsData[i].user_ssn = students[i].user_ssn;
+                }
+                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
+                this.chRef.detectChanges();
 
-                                for (let i = 0; i < students.length; i++) {
-                                  this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-                                  this.studentsData[i].user_ssn = students[i].user_ssn;
-                                }
-                                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-                                this.chRef.detectChanges();
-
-                                // Use of jQuery DataTables
-                                const table: any = $('#example2');
-                                this.table = table.DataTable({
-                                  lengthMenu: [
-                                    [10, 25, 50, -1],
-                                    [10, 25, 50, 'All']
-                                  ],
-                                  lengthChange: true,
-                                  paging: true,
-                                  searching: true,
-                                  ordering: false,
-                                  info: true,
-                                  autoWidth: false,
-                                  responsive: true,
-                                  select: true,
-                                  pagingType: 'full_numbers',
-                                  processing: true,
-                                  columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
-                                  language: {
-                                  },
-                                });
-                              });
-                              this.isLoading = false;
-                      },
-                      (error) => {
-                        console.log('insertApprovedStudentsRank error:', error);
-                        return false;
-                      }
-                    );
-            });
+                // Use of jQuery DataTables
+                const table: any = $('#example2');
+                this.table = table.DataTable({
+                  lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All']
+                  ],
+                  lengthChange: true,
+                  paging: true,
+                  searching: true,
+                  ordering: false,
+                  info: true,
+                  autoWidth: false,
+                  responsive: true,
+                  select: true,
+                  pagingType: 'full_numbers',
+                  processing: true,
+                  columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
+                  language: {
+                  },
+                });
+              });
+              this.isLoading = false;
+            },
+            (error) => {
+              console.log('insertApprovedStudentsRank error:', error);
+              this.isLoading = false;
+              return false;
+            }
+          );
       });
+  }
+
+  onPeriodChange(valuePeriodId: any) {
+    this.depManagerService.getDepManager()
+      .subscribe((depManager: DepManager) => {
+        this.depManagerDataDepartment = depManager.department_id;
+          this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, valuePeriodId)
+            .subscribe((students: Student[]) => {
+              this.studentsData = students;
+              for (let i = 0; i < students.length; i++) {
+                this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+                this.studentsData[i].user_ssn = students[i].user_ssn;
+              }
+            });
+            this.isLoading = false;
+          },
+          (error) => {
+            console.log('insertApprovedStudentsRank error:', error);
+            this.isLoading = false;
+            return false;
+          });
   }
 
   // This function is used to get the AM of the student
@@ -111,14 +120,6 @@ export class StudentApplicationsResultsComponent implements OnInit {
       window.open(window.URL.createObjectURL(res));
     });
   }
-  // downloadFile(data: any) {
-  //   let blob = new Blob([data]);
-  //   let url = window.URL.createObjectURL(blob);
-  //   let pwa = window.open(url);
-  //   if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-  //       alert('Please disable your Pop-up blocker and try again.');
-  //   }
-  // }
 
   exportToExcel() {
     let studentsDataJson: any = [];
@@ -285,5 +286,4 @@ export class StudentApplicationsResultsComponent implements OnInit {
       (studentsECTS / maxECTS) * 100,
       yearTotal];
   }
-
 }

@@ -264,25 +264,40 @@
               <li> <a class="text-steps" [href]="['student/company-accept/' + this.authService.getSessionId()]">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP4'| translate}}</a>
               </li>
+              <li *ngIf="!areOptionsEnabled"> <a class="text-steps">
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
+              </li>
+              <li *ngIf="areOptionsEnabled"> <a class="text-steps"
+                  [href]="['student/sheets/' + this.authService.getSessionId()]">
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
+              </li>
               <li>
                 <!-- <a class="text-steps" href="student/student-contract"> -->
                 <a class="text-steps">
-                  &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
-              </li>
-              <li *ngIf="!areOptionsEnabled"> <a class="text-steps">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP6'| translate}}</a>
+              </li>
+              <!-- <li *ngIf="!areOptionsEnabled"> <a class="text-steps">
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP7'| translate}}</a>
               </li>
               <li *ngIf="areOptionsEnabled"> <a class="text-steps"
                   [href]="['student/sheets/input-sheet/' + this.authService.getSessionId()]">
-                  &nbsp;{{'STUDENT.INTERNSHIP-STEP6'| translate}}</a>
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP7'| translate}}</a>
               </li>
               <li *ngIf="!areOptionsEnabled"> <a class="text-steps">
-                  &nbsp;{{'STUDENT.INTERNSHIP-STEP7'| translate}}</a>
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP8'| translate}}</a>
               </li>
               <li *ngIf="areOptionsEnabled"> <a class="text-steps"
                   [href]="['student/sheets/output-sheet/' + this.authService.getSessionId()]">
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP8'| translate}}</a>
+              </li> -->
+
+              <li> <a class="text-steps">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP7'| translate}}</a>
               </li>
+              <li> <a class="text-steps">
+                  &nbsp;{{'STUDENT.INTERNSHIP-STEP8'| translate}}</a>
+              </li>
+
             </ul>
           </div>
         </div>

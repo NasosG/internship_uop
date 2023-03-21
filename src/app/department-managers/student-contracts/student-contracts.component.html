@@ -60,7 +60,9 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
-                      <td>{{student.givenname}} {{student.sn}}</td>
+                      <!-- <td>{{student.givenname}} {{student.sn}}</td> -->
+                      <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
+                          {{student.sn}}</a>
                       <td>{{student.schacpersonaluniquecode}}</td>
                       <td>{{student.mail}}</td>
 

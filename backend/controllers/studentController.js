@@ -1153,7 +1153,8 @@ const produceContractFile = async (request, response) => {
       PA_SUBJECT_ATLAS: !metadata.pa_subject_atlas ? "………………" : metadata.pa_subject_atlas,
       PA_START_DATE: moment(metadata.pa_start_date).format('DD/MM/YYYY'),
       PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
-      TY_NAME: metadata.department_manager_name
+      TY_NAME: metadata.department_manager_name,
+      APOFASI_ADA_NUMBER: !metadata.ada_number ? "……………………………………………..." : metadata.ada_number
     });
 
     const buf = doc.getZip().generate({

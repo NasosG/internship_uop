@@ -7,9 +7,13 @@
           <!-- <div class="card-header"> -->
           <div class="card-header p-2">
             <div class="card-tools mr-1 p-1">
-              <button type="button" style="font-size:16px;" class="btn btn-secondary btn-sm daterange"
+              <button [routerLink]="isActive ? ['/department-manager/student-applications', authService.getSessionId()] :
+               ['/department-manager/student-applications/results-old', authService.getSessionId()]" type="button"
+                style="font-size:16px;" [class.btn-secondary]="!isActive" [class.btn-primary]="isActive"
+                [class.active]="isActive" (click)="isActive = !isActive" class="btn btn-sm daterange old-periods active"
                 title="Date range">
-                <i class="far fa-envelope mr-1"></i>Παλιές Αιτήσεις
+                <i class="far fa-envelope mr-1"></i> <a style="text-decoration:none; color:white;"
+                  data-toggle="tab">{{!isActive ? 'Προβολή Παλιών Αιτήσεων':'Προβολή Νέων αιτήσεων'}}</a>
               </button>
             </div>
             <ul class="nav nav-pills">

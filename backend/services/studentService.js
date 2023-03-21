@@ -903,7 +903,8 @@ const getStudentRankedApprovalStatusForPeriod = async (studentId, periodId) => {
 const getContractFileMetadataByStudentId = async (studentId, periodId) => {
   try {
     const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
-                  company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka, student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name
+                  company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka,
+                  student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name, list.ada_number as ada_number
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
                   INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
@@ -964,9 +965,9 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
       contractDetails.pa_start_date, contractDetails.pa_end_date, studentId, periodId]);
 
     const updateFinalListResult = await pool.query(`UPDATE final_assignments_list SET
-                                    department_manager_name = $1
-                                    WHERE period_id = $2`,
-      [contractDetails.department_manager_name, periodId]);
+                                    department_manager_name = $1, ada_number = $2
+                                    WHERE period_id = $3`,
+      [contractDetails.department_manager_name, contractDetails.ada_number, periodId]);
 
     console.log(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {

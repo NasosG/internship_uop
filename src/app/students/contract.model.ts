@@ -18,4 +18,5 @@ export interface Contract {
   pa_start_date: string;
   pa_end_date: string;
   department_manager_name: string;
+  ada_number?: string;
 }

@@ -1,4 +1,4 @@
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Period } from 'src/app/department-managers/period.model';
@@ -42,7 +42,6 @@ export class PositionsAddComponent implements OnInit {
   ngOnInit() {
     this.language = localStorage.getItem('language') || 'gr';
 
-    // this.authService.login('');
     this.officeService.getOfficeUser()
       .subscribe((officeUser: OfficeUser) => {
         this.officeUserData = officeUser;

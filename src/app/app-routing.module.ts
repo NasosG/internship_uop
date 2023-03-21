@@ -153,6 +153,10 @@ const routes: Routes = [{
       {
         path: 'results/:id',
         component: DepartmentManagerComponent
+      },
+      {
+        path: 'results-old/:id',
+        component: DepartmentManagerComponent
       }]
     },
     {

@@ -8,6 +8,7 @@ import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
 import { EditContractDialogComponent } from '../edit-contract-dialog/edit-contract-dialog.component';
 import { Period } from '../period.model';
+import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
 
 @Component({
   selector: 'app-student-contracts',
@@ -133,4 +134,16 @@ export class StudentContractsComponent implements OnInit {
       window.open(window.URL.createObjectURL(res));
     });
   }
+
+  openDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(StudentsMatchedInfoDialogComponent, {
+      data: { index: idx }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }

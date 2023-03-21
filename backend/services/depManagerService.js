@@ -686,10 +686,10 @@ const insertAssignment = async (body, stateOptionalParam = 0) => {
     if (body.position_id != null)
       positionData = await atlasService.getPositionGroupFromDBById(body.position_id);
 
-    await pool.query("INSERT INTO internship_assignment(assignment_id, position_id, internal_position_id, student_id, time_span, physical_objects, city, status, period_id) " +
+    await pool.query("INSERT INTO internship_assignment(assignment_id, position_id, internal_position_id, student_id, time_span, physical_objects, city, status, pa_subject_atlas, period_id) " +
       " VALUES" +
-      " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8)",
-      [body.position_id, body.internal_position_id, body.student_id, positionData.duration, positionData.physical_objects, body.city, STATE, body.period_id]);
+      " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [body.position_id, body.internal_position_id, body.student_id, positionData.duration, positionData.physical_objects, body.city, STATE, positionData.title, body.period_id]);
 
   } catch (error) {
     console.error("insertAssignment error: " + error.message);

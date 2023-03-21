@@ -29,11 +29,7 @@ export class OfficeComponent implements OnInit {
 
   ngOnInit(): void {
     this.language = localStorage.getItem('language') || 'gr';
-    // this.companyService.getProviderById()
-    //   .subscribe((company: Company) => {
-    //     this.company = company;
-    //     console.log(this.company);
-    //   });
+
     if (!environment.production) {
       this.authService.setSessionId(12);
       this.officeService.getOfficeUser()
