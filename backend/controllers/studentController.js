@@ -1133,7 +1133,7 @@ const produceContractFile = async (request, response) => {
       CONTRACT_DATE: !metadata.contract_date ? "………………" : moment(metadata.contract_date).format('DD/MM/YYYY'),
       COMPANY_NAME: metadata.company_name,
       COMPANY_AFM: metadata.company_afm,
-      COMPANY_ADDRESS: "……………………………………………..",
+      COMPANY_ADDRESS: !metadata.company_address ? "…………………………………………….." : metadata.company_address,
       COMPANY_LIAISON: !metadata.company_liaison ? "………………" : metadata.company_liaison,
       COMPANY_LIAISON_POSITION: !metadata.company_liaison_position ? "………………" : metadata.company_liaison_position,
       STUDENT_NAME: metadata.displayname,
@@ -1212,19 +1212,37 @@ const getContractDetailsByStudentIdAndPeriod = async (request, response) => {
 
 const updateContractDetails = async (request, response) => {
   try {
-    const studentId = request.query.studentId;
-    const periodId = request.query.periodId;
-    const contract = request.query.contract;
+    const studentId = request.params.id;
+    const periodId = request.body.periodId;
+    const contract = request.body.contract;
 
-    const contractDetails = await studentService.updateContractDetails(studentId, periodId);
+    const contractDetails = await studentService.updateContractDetails(studentId, periodId, contract);
 
-    response.status(200).json(contractDetails);
+    response.status(200).json({
+      message: "contract Details were updated successfully"
+    });
   } catch (error) {
     console.error(error.message);
     response.status(400)
       .json({
         message: error.message
       });
+  }
+};
+
+const getLatestPeriodOfStudent = async (request, response) => {
+  try {
+    const studentId = request.query.studentId;
+    const departmentId = request.query.departmentId;
+
+    const periodMaxId = await studentService.getLatestPeriodOfStudent(departmentId, studentId);
+
+    response.status(200).json(periodMaxId);
+  } catch (error) {
+    console.error(error.message);
+    response.status(404).send({
+      message: error.message
+    });
   }
 };
 
@@ -1242,6 +1260,7 @@ module.exports = {
   getAssignmentsByStudentId,
   getStudentRankedApprovalStatusForPeriod,
   getContractDetailsByStudentIdAndPeriod,
+  getLatestPeriodOfStudent,
   isStudentInAssignmentList,
   checkPositionOfAtlasExists,
   insertStudentEntrySheet,

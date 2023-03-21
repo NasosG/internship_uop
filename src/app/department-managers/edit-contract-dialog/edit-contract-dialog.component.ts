@@ -4,6 +4,9 @@ import { DepManagerService } from '../dep-manager.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contract } from 'src/app/students/contract.model';
 import * as moment from 'moment';
+import { catchError, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-contract-dialog',
@@ -14,25 +17,25 @@ export class EditContractDialogComponent implements OnInit {
   studentContract!: Contract;
   firstFormGroup: any;
   profileForm = new FormGroup({
-    contract_date: new FormControl('', [Validators.required]),
-    company_name: new FormControl('', [Validators.required]),
-    company_afm: new FormControl('', [Validators.required]),
-    comopany_address: new FormControl('', [Validators.required]),
-    company_liaison: new FormControl('', [Validators.required]),
-    company_liaison_position: new FormControl('', [Validators.required]),
-    displayname: new FormControl('', [Validators.required]),
-    father_name: new FormControl('', [Validators.required]),
-    dept_name: new FormControl('', [Validators.required]),
-    id_number: new FormControl('', [Validators.required]),
-    amika: new FormControl('', [Validators.required]),
-    amka: new FormControl('', [Validators.required]),
-    afm: new FormControl('', [Validators.required]),
-    doy_name: new FormControl('', [Validators.required]),
-    pa_subject: new FormControl('', [Validators.required]),
-    pa_subject_atlas: new FormControl('', [Validators.required]),
-    pa_start_date: new FormControl('', [Validators.required]),
-    pa_end_date: new FormControl('', [Validators.required]),
-    department_manager_name: new FormControl('', [Validators.required])
+    contract_date: new FormControl(''),
+    company_name: new FormControl(''),
+    company_afm: new FormControl(''),
+    company_address: new FormControl(''),
+    company_liaison: new FormControl(''),
+    company_liaison_position: new FormControl(''),
+    displayname: new FormControl(''),
+    father_name: new FormControl(''),
+    dept_name: new FormControl(''),
+    id_number: new FormControl(''),
+    amika: new FormControl(''),
+    amka: new FormControl(''),
+    afm: new FormControl(''),
+    doy_name: new FormControl(''),
+    pa_subject: new FormControl(''),
+    pa_subject_atlas: new FormControl(''),
+    pa_start_date: new FormControl(''),
+    pa_end_date: new FormControl(''),
+    department_manager_name: new FormControl('')
   });
   studentAssignment: any;
 
@@ -67,7 +70,7 @@ export class EditContractDialogComponent implements OnInit {
       contract_date: this.profileForm.get('contract_date')?.value,
       company_name: this.profileForm.get('company_name')?.value,
       company_afm: this.profileForm.get('company_afm')?.value,
-      comopany_address: this.profileForm.get('comopany_address')?.value,
+      company_address: this.profileForm.get('company_address')?.value,
       company_liaison: this.profileForm.get('company_liaison')?.value,
       company_liaison_position: this.profileForm.get('company_liaison_position')?.value,
       displayname: this.profileForm.get('displayname')?.value,
@@ -85,6 +88,27 @@ export class EditContractDialogComponent implements OnInit {
       department_manager_name: this.profileForm.get('department_manager_name')?.value
     };
 
-    this.depManagerService.onSubmitStudentContractDetails(generalDetailsData, this.studentAssignment.student_id, this.studentAssignment.period_id);
+    console.log(generalDetailsData);
+
+    this.depManagerService.onSubmitStudentContractDetails(generalDetailsData,
+      this.studentAssignment.student_id, this.studentAssignment.period_id)
+      .pipe(catchError((error: HttpErrorResponse) => {
+        console.log(error.message);
+        Swal.fire({
+          title: 'Αποτυχία',
+          text: 'Κάποια πεδία δεν άλλαξαν επιτυχώς'
+        });
+        return of(null);
+      }))
+      .subscribe((res: any) => {
+        if (res) {
+          console.log(res);
+          Swal.fire({
+            title: 'Επιτυχία',
+            text: 'Τα πεδία της σύμβασης άλλαξαν',
+            // icon: 'success'
+          });
+        }
+      })
   }
 }

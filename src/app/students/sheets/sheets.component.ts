@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./sheets.component.css']
 })
 export class SheetsComponent implements OnInit {
+  areSheetsDisabled = true;
 
   constructor(public authService: AuthService) { }
 

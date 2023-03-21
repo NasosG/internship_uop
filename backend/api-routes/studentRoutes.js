@@ -58,6 +58,7 @@ router.post("/checkPositionOfAtlasExists/:id", studentController.checkPositionOf
 router.post("/produceContractFile/:id", studentController.produceContractFile);
 router.post("/isStudentInAssignmentList/:id", studentController.isStudentInAssignmentList);
 router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getContractDetailsByStudentIdAndPeriod);
-router.put("/updateContractDetails/", studentController.updateContractDetails);
+router.put("/updateContractDetails/:id", studentController.updateContractDetails);
+router.get("/getLatestPeriodOfStudent/", studentController.getLatestPeriodOfStudent);
 
 module.exports = router;

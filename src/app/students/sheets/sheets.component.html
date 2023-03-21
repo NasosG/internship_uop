@@ -1,11 +1,11 @@
 <div class="container-fluid mt-2 sheets-container">
   <div class="sheets-div">
-    <h2 *ngIf="false">ΕΓΓΡΑΦΑ ΓΙΑ ΣΥΜΒΑΣΗ</h2>
-    <h5 *ngIf="false" class="mb-4">Θα χρειαστεί να ανεβάσετε κάποια έγγραφα όπως το ΑΜΑ πριν την υπογραφή της σύμβασης
+    <h2 *ngIf="true">ΕΓΓΡΑΦΑ ΓΙΑ ΣΥΜΒΑΣΗ</h2>
+    <h5 *ngIf="true" class="mb-4">Θα χρειαστεί να ανεβάσετε κάποια έγγραφα όπως το ΑΜΑ πριν την υπογραφή της σύμβασης
       εργασίας.
     </h5>
     <!-- Option 1: Internship Contract -->
-    <button *ngIf="false" [routerLink]="['../contract-files/'+ this.authService.getSessionId()]"
+    <button *ngIf="true" [routerLink]="['../contract-files/'+ this.authService.getSessionId()]"
       class="btn btn-primary mb-4">
       Ανεβασμα εγγραφων απαραιτητα για τη Συμβαση Εργασιας</button>
     <h2>ΣΥΜΒΑΣΗ</h2>
@@ -14,24 +14,27 @@
     <!-- Option 1: Internship Contract -->
     <button [routerLink]="['../student-contract']" class="btn btn-primary mb-4"> Συμβαση Εργασιας</button>
     <!-- Option 2: Entry/Input Sheet -->
-    <h2>ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ</h2>
+    <h2 [class.disabled]="!areSheetsDisabled ? true : null">ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ</h2>
     <h5 class="mb-4">
       <!-- Μετά τη συμπλήρωση του δελτίου, στη σελίδα: «ΠΡΟΒΟΛΗ», μπορεί να εκτυπωθεί ένα αρχείο PDF το
       οποίο πρέπει κάθε φοιτητής να τυπώσει, υπογράψει και παραδώσει στον τμηματικό υπεύθυνο.  -->
       Το δελτίο εισόδου θα πρέπει να περιέχει πληροφορίες που αφορούν την κατάσταση του φοιτητή πριν ξεκινήσει την
       πρακτική.</h5>
-    <button [routerLink]="['./input-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
+    <button [class.disabled]="areSheetsDisabled ? true : null"
+      [routerLink]="['./input-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο Εισοδου</button>
     <!-- Option 3: Exit/Output Sheet -->
     <h2>ΔΕΛΤΙΟ ΕΞΟΔΟΥ</h2>
     <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, συμπληρώστε το δελτίο εξόδου με βάση την κατάσταση που
       ίσχυε για εσάς αμέσως μετά την ολοκληρωση της πρακτικής άσκησης.</h5>
-    <button [routerLink]="['./output-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
+    <button [class.disabled]="areSheetsDisabled ? true : null"
+      [routerLink]="['./output-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο Εξοδου</button>
     <!-- Option 4: Evaluation Form -->
     <h2>ΑΞΙΟΛΟΓΗΣΗ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ</h2>
     <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, μπορείτε να προβείτε στην αξιολόγησή της.</h5>
-    <button [routerLink]="['./evaluation-form/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
+    <button [class.disabled]="areSheetsDisabled ? true : null"
+      [routerLink]="['./evaluation-form/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο
       Αξιολογησης</button>
   </div>

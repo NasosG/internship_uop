@@ -7,16 +7,9 @@
   <form [formGroup]="profileForm" style="max-width:78%; margin:auto">
     <mat-form-field class="w-40 mt-2 mat-full-width" appearance="fill">
       <mat-label for="contract_date">Ημερομηνία Υπογραφής: </mat-label>
-      <input matInput id="contract_date" type="date" formControlName="firstName">
+      <input matInput id="contract_date" [(ngModel)]="studentContract.contract_date" type="date"
+        formControlName="contract_date">
     </mat-form-field>
-    <!-- <br> -->
-    <!-- <mat-form-field>
-      <mat-label>Ημερομηνία Σύμβασης</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="contract_date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <br> -->
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
       <mat-label for="company_name">Επωνυμία Εταιρείας</mat-label>
       <input id="company_name" matInput [(ngModel)]="studentContract.company_name" formControlName="company_name">
@@ -28,8 +21,8 @@
     </mat-form-field>
 
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="comopany_address">Διεύθυνση Εταιρείας</mat-label>
-      <input id="comopany_address" matInput [(ngModel)]="studentContract.company_address"
+      <mat-label for="company_address">Διεύθυνση Εταιρείας</mat-label>
+      <input id="company_address" matInput [(ngModel)]="studentContract.company_address"
         formControlName="company_address">
     </mat-form-field>
     <br>
@@ -46,7 +39,8 @@
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
       <mat-label for="displayname">Ονοματεπώνυμο Φοιτητή</mat-label>
-      <input id="displayname" matInput [(ngModel)]="studentContract.displayname" formControlName="displayname">
+      <input id="displayname" class="inactive-field" matInput [(ngModel)]="studentContract.displayname" readonly
+        formControlName="displayname">
     </mat-form-field>
 
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
@@ -56,7 +50,8 @@
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
       <mat-label for="dept_name">Τμήμα</mat-label>
-      <input id="dept_name" matInput [(ngModel)]="studentContract.dept_name" formControlName="dept_name">
+      <input id="dept_name" class="inactive-field" readonly matInput [(ngModel)]="studentContract.dept_name"
+        formControlName="dept_name">
     </mat-form-field>
 
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
@@ -71,7 +66,8 @@
 
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
       <mat-label for="amka">ΑΜΚΑ</mat-label>
-      <input id="amka" matInput [(ngModel)]="studentContract.amka" formControlName="amka">
+      <input id="amka" matInput [(ngModel)]="studentContract.amka" class="inactive-field" readonly
+        formControlName="amka">
     </mat-form-field>
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">

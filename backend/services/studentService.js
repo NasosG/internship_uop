@@ -932,27 +932,61 @@ const isStudentInAssignmentList = async (student_id) => {
   }
 };
 
-// TODO IMPLEMENT IT CORRECTLY
-const updateContractDetails = async (studentId, contractDetails) => {
+const updateContractDetails = async (studentId, periodId, contractDetails) => {
   try {
-    const result = await pool.query(`UPDATE student_users SET
+    console.log(studentId);
+    const updateStudentUserResult = await pool.query(`UPDATE student_users SET
+                                    id_card = $1, ama_number = $2, ssn = $3, father_name = $4, doy = $5
+                                    WHERE sso_uid = $6`, [contractDetails.id_number,
+    contractDetails.amika, contractDetails.afm, contractDetails.father_name,
+    contractDetails.doy_name, studentId]);
+
+    contractDetails.contract_date = !contractDetails.contract_date ? null
+      : moment(contractDetails.contract_date).format('YYYY-MM-DD');
+    contractDetails.contract_date = !contractDetails.contract_date ? null
+      : moment(contractDetails.pa_start_date).format('YYYY-MM-DD');
+    contractDetails.pa_end_date = !contractDetails.pa_end_date ? null
+      : moment(contractDetails.pa_end_date).format('YYYY-MM-DD');
+
+    // contractDetails.contract_date = !contractDetails.contract_date ? null : contractDetails.contract_date;
+    const updateAssignmentsResult = await pool.query(`UPDATE internship_assignment SET
                                     company_liaison = $1,
                                     company_liaison_position = $2,
                                     company_address = $3,
-                                    company_name = $4,
-                                    company_afm = $5,
-                                    contract_date = $6
-                                    WHERE sso_uid = $7`, [contractDetails.company_liaison,
-    contractDetails.company_liaison_position,
-    contractDetails.company_address,
-    contractDetails.company_name,
-    contractDetails.company_afm,
-    contractDetails.contract_date,
-      studentId]);
+                                    sign_date = $4,
+                                    pa_subject = $5,
+                                    pa_subject_atlas = $6,
+                                    pa_start_date = $7,
+                                    pa_end_date = $8
+                                    WHERE student_id = $9 AND period_id = $10`,
+      [contractDetails.company_liaison, contractDetails.company_liaison_position, contractDetails.company_address,
+      contractDetails.contract_date, contractDetails.pa_subject, contractDetails.pa_subject_atlas,
+      contractDetails.pa_start_date, contractDetails.pa_end_date, studentId, periodId]);
+
+    const updateFinalListResult = await pool.query(`UPDATE final_assignments_list SET
+                                    department_manager_name = $1
+                                    WHERE period_id = $2`,
+      [contractDetails.department_manager_name, periodId]);
+
     console.log(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
-    console.error(error);
-    throw Error(`An error occured while updating contract details: ${error}`);
+    console.error(error.message);
+    throw Error(`An error occured while updating contract details: ${error.message}`);
+  }
+};
+
+const getLatestPeriodOfStudent = async (departmentId, studentId) => {
+  try {
+    const depManagerId = await pool.query(`SELECT MAX(prd.ID) as maxid
+                                          FROM period prd
+                                          INNER JOIN internship_assignment asn
+                                          ON asn.period_id = prd.id
+                                          AND prd.department_id = $1 AND student_id = $2`,
+      [departmentId, studentId]);
+
+    return depManagerId.rows[0].maxid;
+  } catch (error) {
+    throw Error('Error while getting phase for departments' + error.message);
   }
 };
 
@@ -967,6 +1001,7 @@ module.exports = {
   getStudentActiveApplication,
   getStudentRankedApprovalStatusForPeriod,
   getPhase,
+  getLatestPeriodOfStudent,
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,

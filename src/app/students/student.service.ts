@@ -148,6 +148,16 @@ export class StudentsService {
     // return this.http.get<Period>(STUDENTS_URL + 'getPhase/' + departmentId);
   }
 
+  getLatestPeriodOfStudent(departmentId: number): Observable<any> {
+    const studentId = this.authService.getSessionId();
+
+    const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('departmentId', departmentId);
+
+    return this.http.get<any>(STUDENTS_URL + 'getLatestPeriodOfStudent/', { params });
+  }
+
   getPeriod(): any {
     if (!this.period) return null;
     return this.period;
@@ -516,5 +526,15 @@ export class StudentsService {
       .set('department_id', department_id)
       .set('period_id', period_id == null ? 0 : period_id);
     return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getAssignImplementationDates/", { params });
+  }
+
+  receiveFile(studentId: number, docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "sendFile/" + studentId;
+    return this.http.post(url, { 'doctype': docType }, { responseType: 'blob' });
+   }
+
+  receiveContractFile(studentId: number, periodId: any, departmentId: any, docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "produceContractFile/" + studentId;
+    return this.http.post(url, { 'doctype': docType, 'periodId': periodId, 'departmentId': departmentId }, { responseType: 'blob' });
   }
 }
