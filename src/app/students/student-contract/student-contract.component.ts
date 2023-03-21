@@ -12,6 +12,8 @@ import { StudentsService } from '../student.service';
 export class StudentContractComponent implements OnInit {
   periodId!: number;
   studentsSSOData!: Student[];
+  showDownloadMessage = false;
+
   constructor(private studentsService: StudentsService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -20,6 +22,11 @@ export class StudentContractComponent implements OnInit {
         this.studentsSSOData = students;
         this.studentsService.getLatestPeriodOfStudent(this.studentsSSOData[0].department_id)
           .subscribe((periodMaxId: any) => {
+            console.log(periodMaxId);
+            if (!periodMaxId) {
+              this.showDownloadMessage = true;
+              return;
+            }
             this.periodId = periodMaxId;
           })
       });

@@ -975,7 +975,7 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
   }
 };
 
-const getLatestPeriodOfStudent = async (departmentId, studentId) => {
+const getLatestPeriodOfAssignedStudent = async (departmentId, studentId) => {
   try {
     const depManagerId = await pool.query(`SELECT MAX(prd.ID) as maxid
                                           FROM period prd
@@ -983,6 +983,10 @@ const getLatestPeriodOfStudent = async (departmentId, studentId) => {
                                           ON asn.period_id = prd.id
                                           AND prd.department_id = $1 AND student_id = $2`,
       [departmentId, studentId]);
+
+    if (depManagerId.rows.length === 0) {
+      return null;
+    }
 
     return depManagerId.rows[0].maxid;
   } catch (error) {
@@ -1001,7 +1005,7 @@ module.exports = {
   getStudentActiveApplication,
   getStudentRankedApprovalStatusForPeriod,
   getPhase,
-  getLatestPeriodOfStudent,
+  getLatestPeriodOfAssignedStudent,
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,

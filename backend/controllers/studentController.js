@@ -1235,9 +1235,15 @@ const getLatestPeriodOfStudent = async (request, response) => {
     const studentId = request.query.studentId;
     const departmentId = request.query.departmentId;
 
-    const periodMaxId = await studentService.getLatestPeriodOfStudent(departmentId, studentId);
+    const periodMaxId = await studentService.getLatestPeriodOfAssignedStudent(departmentId, studentId);
 
-    response.status(200).json(periodMaxId);
+    if (periodMaxId === null) {
+      response.status(204).send({
+        message: "No results for assigned student found"
+      });
+    } else {
+      response.status(200).json(periodMaxId);
+    }
   } catch (error) {
     console.error(error.message);
     response.status(404).send({

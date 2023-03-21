@@ -1,5 +1,6 @@
 <h1>Σύμβαση Εργασίας</h1>
 <p>Πατήστε το παρακάτω κουμπί για να κατεβάσετε το αρχείο της σύμβασης</p>
 
-<a (click)="downloadContractFileForStudent()" class="text-secondary" style="cursor: pointer;"><i
-    class="fa fa-download"></i> Κατέβασμα<br></a>
+<p *ngIf="showDownloadMessage" class="text-secondary">Δεν βρέθηκε κάποιο αρχείο σύμβασης προς κατέβασμα.</p>
+<a *ngIf="!showDownloadMessage" (click)="downloadContractFileForStudent()" class="text-secondary"
+  style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
