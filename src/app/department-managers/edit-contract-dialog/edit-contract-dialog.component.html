@@ -17,7 +17,8 @@
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
       <mat-label for="company_afm">ΑΦΜ Εταιρείας</mat-label>
-      <input id="company_afm" matInput [(ngModel)]="studentContract.company_afm" formControlName="company_afm">
+      <input id="company_afm" matInput [(ngModel)]="studentContract.company_afm" class="inactive-field" readonly
+        formControlName="company_afm">
     </mat-form-field>
 
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
@@ -60,7 +61,7 @@
     </mat-form-field>
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="amika">ΑΜΙΚΑ</mat-label>
+      <mat-label for="amika">ΑΜΑ-ΙΚΑ</mat-label>
       <input id="amika" matInput [(ngModel)]="studentContract.amika" formControlName="amika">
     </mat-form-field>
 
@@ -88,8 +89,8 @@
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
       <mat-label for="pa_subject_atlas">Από ΑΤΛΑ - Αντικείμενο ΠΑ
       </mat-label>
-      <input id="pa_subject_atlas" matInput [(ngModel)]="studentContract.pa_subject_atlas"
-        formControlName="pa_subject_atlas">
+      <input id="pa_subject_atlas" matInput [(ngModel)]="studentContract.pa_subject_atlas" class="inactive-field"
+        readonly formControlName="pa_subject_atlas">
     </mat-form-field>
     <br>
     <h4>Ημερομηνίες Υλοποίησης Πρακτικής Άσκησης</h4>

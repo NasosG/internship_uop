@@ -44,7 +44,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
           .subscribe((periods: any[]) => {
             this.periods = periods;
             this.period = periods[0];
-            this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, this.period.id)
+            this.depManagerService.getStudentsRankingListFromAPI(this.depManagerDataDepartment, this.period.id)
               .subscribe((students: Student[]) => {
                 this.studentsData = students;
                 for (let i = 0; i < students.length; i++) {
@@ -79,7 +79,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
               this.isLoading = false;
             },
             (error) => {
-              console.log('insertApprovedStudentsRank error:', error);
+              console.log('get Old Periods error:', error);
               this.isLoading = false;
               return false;
             }
@@ -102,7 +102,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
             this.isLoading = false;
           },
           (error) => {
-            console.log('insertApprovedStudentsRank error:', error);
+            console.log('get Old Periods error:', error);
             this.isLoading = false;
             return false;
           });
