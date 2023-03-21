@@ -545,6 +545,11 @@ const insertFinalAssignment = async (request, response) => {
       if (assignResults.status == "400 bad request") {
         throw new Error(assignResults.message);
       }
+      // If assignment fails for business reason, throw an error displaying the message
+      if (!assignResults.Success) {
+        console.error("atlas assign failed: " + assignResults.Message);
+        throw new Error(assignResults.Message);
+      }
 
       console.log(assignResults);
     } catch (error) {
