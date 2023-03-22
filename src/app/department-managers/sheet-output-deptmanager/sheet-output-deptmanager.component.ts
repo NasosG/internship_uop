@@ -75,15 +75,6 @@ export class SheetOutputDeptmanagerComponent implements OnInit {
     });
   }
 
-  onSubmitSelect(option: string, studentId: number) {
-    // this.validateFormData(formData);
-    let phase;
-    phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
-    console.log("phase: " + phase + " stId: " + (studentId));
-    this.depManagerService.updatePhaseByStudentId(phase, studentId);
-    // this.onSavePeriodAlert();
-  }
-
   openDialog(idx: any) {
     console.log(idx);
     const dialogRef = this.dialog.open(SheetOutputPreviewDialogComponent, {

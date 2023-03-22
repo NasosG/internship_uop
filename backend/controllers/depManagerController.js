@@ -279,10 +279,11 @@ const deletePeriodById = async (request, response, next) => {
 
 const updatePhaseByStudentId = async (request, response, next) => {
   try {
-    const id = request.params.id;
+    const studentId = request.params.id;
     const phaseNumber = request.body.phase;
+    const periodId = request.body.periodId;
 
-    await depManagerService.updatePhaseByStudentId(phaseNumber, id);
+    await depManagerService.updatePhaseByStudentId(phaseNumber, studentId, periodId);
 
     response
       .status(200)

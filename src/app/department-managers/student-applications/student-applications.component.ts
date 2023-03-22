@@ -182,7 +182,8 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     let phase;
     phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
     console.log("phase: " + phase + " stId: " + (studentId));
-    this.depManagerService.updatePhaseByStudentId(phase, studentId);
+    const periodId = this.period?.id ? this.period.id : null;
+    this.depManagerService.updatePhaseByStudentId(phase, studentId, periodId);
 
     this.depManagerService.getStudentsApplyPhase().subscribe((students: Student[]) => {
       const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);

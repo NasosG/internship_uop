@@ -187,16 +187,6 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     windowPrint?.close();
   }
 
-
-  onSubmitSelect(option: string, studentId: number) {
-    // this.validateFormData(formData);
-    let phase;
-    phase = (option == "option1") ? 2 : -1;
-    console.log("phase: " + phase + " stId: " + (studentId));
-    this.depManagerService.updatePhaseByStudentId(phase, studentId);
-    // this.onSavePeriodAlert();
-  }
-
   openDialog(idx: any) {
     const dialogRef = this.dialog.open(StudentsAppsPreviewDialogComponent, {
       // width: '350px',

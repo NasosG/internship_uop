@@ -223,8 +223,8 @@ export class DepManagerService {
       });
   }
 
-  updatePhaseByStudentId(phase: number, studentId: number) {
-    const phaseJson: any = { 'phase': phase };
+  updatePhaseByStudentId(phase: number, studentId: number, periodId: number | null) {
+    const phaseJson: any = { 'phase': phase, 'periodId': periodId };
     console.log(phaseJson);
     this.http
       .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updatePhaseByStudentId/" + studentId, phaseJson)

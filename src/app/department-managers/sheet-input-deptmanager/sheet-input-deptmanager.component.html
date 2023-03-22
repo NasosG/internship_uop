@@ -42,25 +42,6 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
-                      <!-- <td>
-                        <p style="display:none">
-                          {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
-                        <mat-form-field id="{{student.sso_uid}}" name="phase" style="width:100%;" appearance="standard">
-                          <mat-label>Προς επιλογή</mat-label>
-                          <mat-select value="{{student.phase == 2 ? 'option1' : student.phase == 1 ? '' : 'option2'}}"
-                            name="phase">
-                            <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">Προς
-                              επιλογή
-                            </mat-option>
-                            <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
-                            </mat-option>
-                            <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                        <a class="text-secondary w-100" style="cursor: pointer;" (click)="openCommentsDialog(idx)"><i
-                            class="fas fa-edit"></i> Σχόλιο<br></a>
-                      </td> -->
                       <td>{{student.givenname}} {{student.sn}}</td>
                       <!-- <td>{{student.father_name}}</td> -->
                       <td>{{student.schacpersonaluniquecode}}</td>

@@ -86,15 +86,6 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
-  onSubmitSelect(option: string, studentId: number) {
-    // this.validateFormData(formData);
-    let phase;
-    phase = (option == "option1") ? 2 : (option == "option2") ? -1 : 1;
-    console.log("phase: " + phase + " stId: " + (studentId));
-    this.depManagerService.updatePhaseByStudentId(phase, studentId);
-    // this.onSavePeriodAlert();
-  }
-
   openEditContractDialog(idx: any) {
     console.log(idx);
     console.log(this.studentsData[idx])

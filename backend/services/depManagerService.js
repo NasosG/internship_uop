@@ -495,11 +495,44 @@ const updatePeriodById = async (body, id) => {
   }
 };
 
-const updatePhaseByStudentId = async (phase, studentId) => {
+const updatePhaseByStudentId = async (phase, studentId, periodId) => {
   try {
+    const status = {
+      APP_INACTIVE: false,
+      APP_ACTIVE: true
+    };
+
     const insertResults = await pool.query("UPDATE student_users \
                                             SET phase = $1 WHERE sso_uid = $2 ", [phase, studentId]);
+
+    if (phase && Number(phase) == -1) {
+      await deactivateApplicationIfExists(status.APP_INACTIVE, studentId, periodId);
+    } else if (phase && Number(phase) == 2) {
+      await deactivateApplicationIfExists(status.APP_ACTIVE, studentId, periodId);
+    }
+
     return insertResults;
+  } catch (error) {
+    console.log('Error while updating students phase' + error.message);
+    throw Error('Error while updating students phase');
+  }
+};
+
+const deactivateApplicationIfExists = async (updateStatus, studentId, periodId) => {
+  try {
+    if (!periodId || !studentId) {
+      return;
+    }
+
+    const studentHasAppQuery = await pool.query(`SELECT id FROM student_applications
+                                                WHERE student_id = $1 AND period_id = $2
+                                                ORDER BY id DESC LIMIT 1`, [studentId, periodId]);
+    const latestAppId = studentHasAppQuery?.rows[0]?.id;
+    if (studentHasAppQuery.rows.length > 0) {
+      await pool.query(`UPDATE student_applications
+                        SET application_status = $1
+                        WHERE student_id = $2 AND period_id = $3 AND id = $4`, [updateStatus, studentId, periodId, latestAppId]);
+    }
   } catch (error) {
     console.log('Error while updating students phase' + error.message);
     throw Error('Error while updating students phase');
