@@ -38,9 +38,8 @@ export class StudentContractsOfficeComponent implements OnInit {
   dateTo: string = "";
   officeUserData!: OfficeUser;
   officeUserAcademics!: any[];
-  @ViewChild('espaPositions') espaPositions!: ElementRef;
+  @ViewChild('periodFormSelect') periodFormSelect!: ElementRef;
   @ViewChild('departmentSelect') departmentSelect!: ElementRef;
-  fallbackPositions: number = 0;
 
   phaseArray = ["no-state",
     "1. Αιτήσεις ενδιαφέροντος φοιτητών",
@@ -64,47 +63,52 @@ export class StudentContractsOfficeComponent implements OnInit {
         this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
         this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 
-        this.depManagerService.getAllPeriodsByDepartmentId(this.officeUserData.department_id)
-          .subscribe((periods: any[]) => {
-            this.periods = periods;
+        // SOS - THIS IS A HACK
+        // TODO: FIX IT PROPERLY
+        this.officeService.getStudentListForPeriodAndAcademic(152201, 63)
+          .subscribe({
+            next: (students: any) => {
+            this.studentsData = students;
+            for (let i = 0; i < students.length; i++) {
+              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+              this.studentsData[i].user_ssn = students[i].user_ssn;
+            }
 
-            this.depManagerService.getStudentListForPeriod(periods[0].id)
-              .subscribe((students: any[]) => {
+            this.isLoading = false;
+              // Have to wait till the changeDetection occurs. Then, project data into the HTML template
+            this.chRef.detectChanges();
 
-                this.studentsData = students;
-                for (let i = 0; i < students.length; i++) {
-                  this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-                  this.studentsData[i].user_ssn = students[i].user_ssn;
-                }
-                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-                this.chRef.detectChanges();
+            // Use of jQuery DataTables
+            const table: any = $('#contractsTable');
+            this.contractsTable = table.DataTable({
+              lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, 'All']
+              ],
+              lengthChange: true,
+              paging: true,
+              searching: true,
+              ordering: false,
+              info: true,
+              autoWidth: false,
+              responsive: true,
+              select: true,
+              pagingType: 'full_numbers',
+              processing: true,
+              columnDefs: [{ orderable: false, targets: [3] }]
+            });
 
-                // Use of jQuery DataTables
-                const table: any = $('#contractsTable');
-                this.contractsTable = table.DataTable({
-                  lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, 'All']
-                  ],
-                  lengthChange: true,
-                  paging: true,
-                  searching: true,
-                  ordering: false,
-                  info: true,
-                  autoWidth: false,
-                  responsive: true,
-                  select: true,
-                  pagingType: 'full_numbers',
-                  processing: true,
-                  columnDefs: [{ orderable: false, targets: [3] }]
-                });
+            this.studentsData.splice(0, this.studentsData.length);
 
-                this.officeService.getAcademicsByOfficeUserId()
-                  .subscribe((academics: any) => {
-                    this.officeUserAcademics = academics;
-                    console.log(academics);
-                });
-              });
+          }, error: (error: any) => {
+            console.log(error);
+            this.isLoading = false;
+          }
+        });
+
+        this.officeService.getAcademicsByOfficeUserId()
+          .subscribe((academics: any) => {
+            this.officeUserAcademics = academics;
         });
     });
   }
@@ -141,6 +145,7 @@ export class StudentContractsOfficeComponent implements OnInit {
     this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
       .subscribe({
         next: (students: any) => {
+          this.studentsData.splice(0,this.studentsData.length);
         this.studentsData = students;
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
@@ -155,10 +160,44 @@ export class StudentContractsOfficeComponent implements OnInit {
     });
   }
 
+  onDepartmentChange(value: any) {
+    this.isLoading = true;
+    this.selectedDepartment = value;
+    this.periods = [];
+
+    this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
+      .subscribe((periods: any[]) => {
+        this.periods = periods;
+        let periodId: any = this.selected ? this.selected : this?.periods ? this.periods[0].id : 0;
+        if (!this.selected) return;
+        this.officeService.getStudentListForPeriodAndAcademic(Number(this.selectedDepartment.academic_id), periodId)
+        .subscribe({
+          next: (students: any) => {
+            if (!this.selected) return;
+            if (students.length == 0) {
+              this.selected = "";
+              this.periods = [];
+            }
+
+            this.studentsData = students;
+            for (let i = 0; i < students.length; i++) {
+              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+              this.studentsData[i].user_ssn = students[i].user_ssn;
+            }
+
+            this.isLoading = false;
+          }, error: (error: any) => {
+            console.log(error);
+            this.isLoading = false;
+          }
+        });
+    });
+  }
+
   downloadContractFileForStudent(studentId: number) {
     let initialPeriod: any = !this.periods || !this.periods[0] ? 0 : this.periods[0].id;
 
-    this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.depManagerData?.department_id, "docx")
+    this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.selectedDepartment?.academic_id, "docx")
     .subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
@@ -217,37 +256,6 @@ export class StudentContractsOfficeComponent implements OnInit {
 
       /* Save to file */
       XLSX.writeFile(wb, excelFileName);
-    });
-  }
-
-  onDepartmentChange(value: any) {
-    this.isLoading = true;
-    this.selectedDepartment = value;
-    this.periods = [];
-    this.depManagerService.getAllPeriodsByDepartmentId(this.officeUserData.department_id)
-      .subscribe((periods: any[]) => {
-        this.periods = periods;
-        let periodId:any = this.selected? this.selected : this?.periods ? this.periods[0].id : 0;
-        this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
-        .subscribe({
-          next: (students: any) => {
-            if (students.length == 0) {
-              this.selected = "";
-              this.periods = [];
-            }
-
-            this.studentsData = students;
-            for (let i = 0; i < students.length; i++) {
-              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-              this.studentsData[i].user_ssn = students[i].user_ssn;
-            }
-
-            this.isLoading = false;
-          }, error: (error: any) => {
-            console.log(error);
-            this.isLoading = false;
-          }
-        });
     });
   }
 }

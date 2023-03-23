@@ -48,12 +48,18 @@
               <div class="form-group col-md-4 mb-0 pb-0">
                 <mat-form-field appearance="outline" style="min-width:310px;">
                   <mat-label>Περίοδος</mat-label>
-                  <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
-                    <mat-option *ngFor="let period of this.periods" [value]="period"
-                      (click)="onPeriodChange(period.id)">
-                      {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}
-                      {{'- Λήξη: '}} {{period.date_to | date:'dd/MM/yyyy'}}
+                  <mat-select #periodFormSelect formControlName="period_form" [disableOptionCentering]="true">
+                    <mat-option *ngIf="periods && this.periods.length == 0" [value]="null"
+                      (click)="onPeriodChange(null)">
+                      {{'καμία επιλογή'}}
                     </mat-option>
+                    <div *ngIf="periods && periods.length > 0">
+                      <mat-option *ngFor="let period of this.periods" [value]="period"
+                        (click)="onPeriodChange(period?.id||null)">
+                        {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}
+                        {{'- Λήξη: '}} {{period?.date_to | date:'dd/MM/yyyy'}}
+                      </mat-option>
+                    </div>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -68,9 +74,9 @@
                     style='font-size:24px'></i> Excel</button>
                 &nbsp;<br><br>
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="contractsTable" #contractsTable class="table table-bordered table-striped">
+                <table id="contractsTable" #contractsTable ngbTable class="table table-bordered table-striped">
                   <thead>
-                    <tr>
+                    <tr ngbTableRow>
                       <th>Ονοματεπώνυμο</th>
                       <th>ΑΜ</th>
                       <th>email</th>
@@ -79,7 +85,7 @@
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody ngbTableBody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
                       <!-- <td>{{student.givenname}} {{student.sn}}</td> -->
                       <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
