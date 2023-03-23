@@ -65,14 +65,14 @@ export class StudentContractsOfficeComponent implements OnInit {
 
         // SOS - THIS IS A HACK
         // TODO: FIX IT PROPERLY
-        this.officeService.getStudentListForPeriodAndAcademic(152201, 63)
-          .subscribe({
-            next: (students: any) => {
-            this.studentsData = students;
-            for (let i = 0; i < students.length; i++) {
-              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-              this.studentsData[i].user_ssn = students[i].user_ssn;
-            }
+        // this.officeService.getStudentListForPeriodAndAcademic(152201, 63)
+        //   .subscribe({
+        //     next: (students: any) => {
+        //     this.studentsData = students;
+        //     for (let i = 0; i < students.length; i++) {
+        //       this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+        //       this.studentsData[i].user_ssn = students[i].user_ssn;
+        //     }
 
             this.isLoading = false;
               // Have to wait till the changeDetection occurs. Then, project data into the HTML template
@@ -98,13 +98,13 @@ export class StudentContractsOfficeComponent implements OnInit {
               columnDefs: [{ orderable: false, targets: [3] }]
             });
 
-            this.studentsData.splice(0, this.studentsData.length);
+            // this.studentsData.splice(0, this.studentsData.length);
 
-          }, error: (error: any) => {
-            console.log(error);
-            this.isLoading = false;
-          }
-        });
+        //   }, error: (error: any) => {
+        //     console.log(error);
+        //     this.isLoading = false;
+        //   }
+        // });
 
         this.officeService.getAcademicsByOfficeUserId()
           .subscribe((academics: any) => {
