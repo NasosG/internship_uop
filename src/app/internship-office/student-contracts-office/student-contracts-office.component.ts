@@ -4,20 +4,23 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
-import { DepManager } from '../dep-manager.model';
-import { DepManagerService } from '../dep-manager.service';
-import { EditContractDialogComponent } from '../edit-contract-dialog/edit-contract-dialog.component';
-import { Period } from '../period.model';
-import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { DepManager } from 'src/app/department-managers/dep-manager.model';
+import { Period } from 'src/app/department-managers/period.model';
+import { EditContractDialogComponent } from 'src/app/department-managers/edit-contract-dialog/edit-contract-dialog.component';
+import { StudentsMatchedInfoDialogComponent } from 'src/app/department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
+import { OfficeUser } from '../office-user.model';
+import { OfficeService } from '../office.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-student-contracts',
-  templateUrl: './student-contracts.component.html',
-  styleUrls: ['./student-contracts.component.css']
+  selector: 'app-student-contracts-office',
+  templateUrl: './student-contracts-office.component.html',
+  styleUrls: ['./student-contracts-office.component.css']
 })
-export class StudentContractsComponent implements OnInit {
+export class StudentContractsOfficeComponent implements OnInit {
   @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: any[] = [];
@@ -28,17 +31,40 @@ export class StudentContractsComponent implements OnInit {
   periods: Period[] | undefined;
   isLoading: boolean = false;
   studentContract: any;
+  public periodData!: Period;
+  fontSize: number = 100;
+  private language!: string;
+  dateFrom: string = "";
+  dateTo: string = "";
+  officeUserData!: OfficeUser;
+  officeUserAcademics!: any[];
+  @ViewChild('espaPositions') espaPositions!: ElementRef;
+  @ViewChild('departmentSelect') departmentSelect!: ElementRef;
+  fallbackPositions: number = 0;
 
-  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  phaseArray = ["no-state",
+    "1. Αιτήσεις ενδιαφέροντος φοιτητών",
+    "2. Επιλογή θέσεων από φοιτητές",
+    "3. Ολοκλήρωση - Συμβάσεις"];
+
+  selectedDepartment: any = {
+    academic_id: 0,
+    department: ''
+  };
+
+  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService,
+    private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog, private officeService: OfficeService) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
-    this.depManagerService.getDepManager()
-      .subscribe((depManager: DepManager) => {
-        this.depManagerData = depManager;
+    this.officeService.getOfficeUser()
+      .subscribe((officeUser: OfficeUser) => {
+        this.officeUserData = officeUser;
+        this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
+        this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 
-        this.depManagerService.getAllPeriodsByDepartmentId(this.depManagerData.department_id)
+        this.depManagerService.getAllPeriodsByDepartmentId(this.officeUserData.department_id)
           .subscribe((periods: any[]) => {
             this.periods = periods;
 
@@ -72,6 +98,12 @@ export class StudentContractsComponent implements OnInit {
                   processing: true,
                   columnDefs: [{ orderable: false, targets: [3] }]
                 });
+
+                this.officeService.getAcademicsByOfficeUserId()
+                  .subscribe((academics: any) => {
+                    this.officeUserAcademics = academics;
+                    console.log(academics);
+                });
               });
         });
     });
@@ -104,18 +136,21 @@ export class StudentContractsComponent implements OnInit {
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
-    this.depManagerService.getStudentListForPeriod(value)
-    .subscribe({
-      next: (students: any[]) => {
+
+    let periodId = value? value: this?.periods ? this.periods[0].id : 0;
+    this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
+      .subscribe({
+        next: (students: any) => {
         this.studentsData = students;
-          for (let i = 0; i < students.length; i++) {
-            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-            this.studentsData[i].user_ssn = students[i].user_ssn;
-          }
+        for (let i = 0; i < students.length; i++) {
+          this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+          this.studentsData[i].user_ssn = students[i].user_ssn;
+        }
+
         this.isLoading = false;
       }, error: (error: any) => {
-          console.log(error);
-          this.isLoading = false;
+        console.log(error);
+        this.isLoading = false;
       }
     });
   }
@@ -185,4 +220,34 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
+  onDepartmentChange(value: any) {
+    this.isLoading = true;
+    this.selectedDepartment = value;
+    this.periods = [];
+    this.depManagerService.getAllPeriodsByDepartmentId(this.officeUserData.department_id)
+      .subscribe((periods: any[]) => {
+        this.periods = periods;
+        let periodId:any = this.selected? this.selected : this?.periods ? this.periods[0].id : 0;
+        this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
+        .subscribe({
+          next: (students: any) => {
+            if (students.length == 0) {
+              this.selected = "";
+              this.periods = [];
+            }
+
+            this.studentsData = students;
+            for (let i = 0; i < students.length; i++) {
+              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+              this.studentsData[i].user_ssn = students[i].user_ssn;
+            }
+
+            this.isLoading = false;
+          }, error: (error: any) => {
+            console.log(error);
+            this.isLoading = false;
+          }
+        });
+    });
+  }
 }

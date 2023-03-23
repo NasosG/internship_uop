@@ -268,6 +268,10 @@ const routes: Routes = [{
     path: 'sheet-output/:id',
     component: OfficeComponent,
   },
+  {
+    path: 'student-contracts/:id',
+    component: OfficeComponent,
+  }
 ]
 },
 {

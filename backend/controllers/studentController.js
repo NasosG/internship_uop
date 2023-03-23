@@ -1100,8 +1100,6 @@ const produceContractFile = async (request, response) => {
     const periodId = request.body.periodId;
     const departmentId = request.body.departmentId;
 
-    // let initialPath = process.env.DEPT_MANAGER_PREVIEW_FILE_PATH;
-
     let metadata = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
     console.log(metadata);
 
@@ -1130,8 +1128,6 @@ const produceContractFile = async (request, response) => {
       paragraphLoop: true,
       linebreaks: true,
     });
-
-    // metadata.position_city
 
     // Render the document (Replace placeholders {first_name} by John etc.)
     doc.render({

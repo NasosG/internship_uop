@@ -9,6 +9,7 @@ router.get("/getStudentsWithSheetInput/:department_id", officeController.getStud
 router.get("/getStudentsWithSheetOutput/:department_id", officeController.getStudentsWithSheetOutput);
 router.get("/getAcademicsByOfficeUserId/:id", officeController.getAcademicsByOfficeUserId);
 router.get("/getEspaPositionsByDepartmentId/:id", officeController.getEspaPositionsByDepartmentId);
+router.get("/getStudentListForPeriodAndAcademic/", officeController.getStudentListForPeriodAndAcademic);
 router.post("/insertEspaPosition/:id", officeController.insertEspaPosition);
 router.post("/login/", officeController.login);
 router.put("/updateEntrySheetField/:id", officeController.updateEntrySheetField);

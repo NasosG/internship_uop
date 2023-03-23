@@ -94,4 +94,11 @@ export class OfficeService {
   getEspaPositionsByDepartmentId(academicId: any): Observable<any> {
     return this.http.get<any>(OFFICE_URL + "getEspaPositionsByDepartmentId/" + academicId);
   }
+
+  getStudentListForPeriodAndAcademic(departmentId: number, periodId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('departmentId', departmentId)
+      .set('periodId', periodId == null ? 0 : periodId);
+    return this.http.get<any>(OFFICE_URL + "getStudentListForPeriodAndAcademic/", { params });
+  }
 }

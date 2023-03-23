@@ -8,21 +8,39 @@
           <div class="card-header p-2">
             <ul class="nav nav-pills">
               <li class="nav-item">
-                <a class="nav-link" href="#sheet-input-tab" data-toggle="tab">Δελτία Εισόδου</a>
+                <a class="nav-link" [routerLink]="['/office/sheet-input/' + this.authService.getSessionId()]"
+                  data-toggle="tab">Δελτία Εισόδου</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"
-                  [routerLink]="['/department-manager/sheet-output/' + this.authService.getSessionId()]"
+                <a class="nav-link" [routerLink]="['/office/sheet-output/' + this.authService.getSessionId()]"
                   data-toggle="tab">Δελτία εξόδου</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active"
-                  [routerLink]="['/department-manager/student-contracts/' + this.authService.getSessionId()]"
+                  [routerLink]="['/office/student-contracts/' + this.authService.getSessionId()]"
                   data-toggle="tab">Συμβάσεις</a>
               </li>
             </ul>
           </div>
           <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
+            <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
+              Επιλογή Τμήματος: </h5>
+            <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
+            <div class="col-12 col-sm-10 pt-3">
+              <div class="form-group col-md-4 mb-0 pb-0">
+                <mat-form-field appearance="outline" style="min-width:310px;">
+                  <mat-label>Τμήμα</mat-label>
+                  <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let academic of officeUserAcademics" [value]="academic"
+                      (click)="onDepartmentChange(academic)">
+                      {{academic.department}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="pb-0 mt-0 mb-0 pl-3 container-responsive row my-container">
             <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
               Επιλογή Περιόδου: </h5>
             <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->

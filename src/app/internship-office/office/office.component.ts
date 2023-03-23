@@ -111,4 +111,8 @@ export class OfficeComponent implements OnInit {
   isSheetOutputRoute() {
     return this.router.url === '/office/sheet-output/' + this.authService.getSessionId();
   }
+
+  isStudentContractsRoute() {
+    return this.router.url === '/office/student-contracts/' + this.authService.getSessionId();
+  }
 }

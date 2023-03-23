@@ -598,7 +598,7 @@ const insertOrUpdateWholeAtlasTables = async () => {
 
 const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
   try {
-    // accessToken = emergency == 1 ? await atlasLogin(false, 'pa_new', 'S(Ks$XK!x') : await atlasLogin();
+    // accessToken = emergency == 1 ? await atlasLogin(false, 'pa_user', 'pa_pass') : await atlasLogin();
     accessToken = await atlasLogin();
     // Lists to keep elements for update or insert and Sync local DB with Atlas
     let positionInsertList = [];

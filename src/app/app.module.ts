@@ -112,6 +112,7 @@ import { ContractFilesUploadComponent } from './students/contract-files-upload/c
 import { StudentContractsComponent } from './department-managers/student-contracts/student-contracts.component';
 import { EditContractDialogComponent } from './department-managers/edit-contract-dialog/edit-contract-dialog.component';
 import { StudentAppsResultsOldPeriodsComponent } from './department-managers/student-apps-results-old-periods/student-apps-results-old-periods.component';
+import { StudentContractsOfficeComponent } from './internship-office/student-contracts-office/student-contracts-office.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -203,6 +204,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentContractsComponent,
     EditContractDialogComponent,
     StudentAppsResultsOldPeriodsComponent,
+    StudentContractsOfficeComponent,
   ],
   imports: [
     BrowserModule,

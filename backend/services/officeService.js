@@ -104,6 +104,19 @@ const getAcademicsByOfficeUserId = async (userId) => {
   }
 };
 
+const getStudentListForPeriodAndAcademic = async (periodId, departmentId) => {
+  try {
+    const result = await pool.query(`SELECT * FROM final_assignments_list list
+                                    INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                                    INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
+                                    WHERE list.period_id = $1 AND list.department_id = $2`, [periodId, departmentId]);
+    return result.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching student list for period ' + error.message);
+  }
+};
+
 const insertEspaPosition = async (body, departmentId) => {
   try {
     const positions = await pool.query("INSERT INTO espa_positions" +
@@ -178,6 +191,7 @@ module.exports = {
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,
   getAcademicsByOfficeUserId,
+  getStudentListForPeriodAndAcademic,
   insertOrUpdateEspaPositionsByDepId,
   updateEntrySheetField,
   updateExitSheetField,
