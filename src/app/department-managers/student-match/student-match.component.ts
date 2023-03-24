@@ -471,16 +471,18 @@ export class StudentMatchComponent implements OnInit {
   }
 
   submitFinalResultsToOffice() {
-    let areAllStudentsAssigned = this.checkIfAllStudentsAreAssigned(this.state);
-    console.log(areAllStudentsAssigned);
-    if (!areAllStudentsAssigned) {
-      Swal.fire({
-        title: 'Προσοχή',
-        text: 'Δεν έχει γίνει τελική ανάθεση σε όλους τους φοιτητές. Παρακαλώ ελέγξτε τις αναθέσεις και προσπαθήστε ξανά.',
-        icon: 'warning'
-      });
-      return;
-    }
+    // let areAllStudentsAssigned = this.checkIfAllStudentsAreAssigned(this.state);
+    // console.log(areAllStudentsAssigned);
+    // if (!areAllStudentsAssigned) {
+    //   Swal.fire({
+    //     title: 'Προσοχή',
+    //     text: 'Δεν έχει γίνει τελική ανάθεση σε όλους τους φοιτητές. Παρακαλώ ελέγξτε τις αναθέσεις και προσπαθήστε ξανά.',
+    //     icon: 'warning'
+    //   });
+    //   return;
+    // }
+
+
 
     const data = {
       department_id: this.department_id ? this.department_id : this.activeApplications[0]?.department_id,

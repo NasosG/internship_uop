@@ -174,7 +174,7 @@ const getRankdedStudentsListByDeptAndPeriodId = async (deptId, periodId) => {
 const getStudentActiveApplications = async (deptId) => {
   try {
     const applications = await pool.query(`SELECT * FROM active_applications a
-                                          JOIN(SELECT MAX(id) as max_id FROM period WHERE department_id = $1) p
+                                          JOIN(SELECT MAX(id) as max_id FROM period WHERE department_id = $1 AND is_active = true) p
                                           ON a.period_id = p.max_id
                                           WHERE department_id = $1`, [deptId]);
     return applications.rows;
@@ -858,6 +858,20 @@ const insertToFinalAssignmentsList = async (body, managerInfo) => {
   }
 };
 
+const doesListExistForDepartmentAndPeriod = async (body) => {
+  try {
+    const insertResult = await pool.query("SELECT * FROM final_assignments_list WHERE department_id = $1 AND period_id = $2",
+      [body.department_id, body.period_id]);
+
+    const listExists = insertResult?.rows?.length > 0;
+    const listId = listExists ? insertResult.rows[0].list_id : null;
+    return { listExists, listId };
+  } catch (error) {
+    console.error(error.message);
+    throw new Error('Error while checking if list exists ' + error.message);
+  }
+};
+
 const updateStudentFinalAssignments = async (depManagerDetails, listId, body) => {
   try {
     const startDateFormatted = moment(depManagerDetails.start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -948,6 +962,7 @@ module.exports = {
   getStudentListForPeriod,
   getAllPeriodsByDepartmentId,
   doesAssignmentExist,
+  doesListExistForDepartmentAndPeriod,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

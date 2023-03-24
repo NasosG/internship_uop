@@ -63,12 +63,7 @@ export class StudentContractsOfficeComponent implements OnInit {
         this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
         this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 
-            this.isLoading = false;
-              // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-            // this.chRef.detectChanges();
-
-            // Use of jQuery DataTables
-
+        this.isLoading = false;
 
         this.officeService.getAcademicsByOfficeUserId()
           .subscribe((academics: any) => {
