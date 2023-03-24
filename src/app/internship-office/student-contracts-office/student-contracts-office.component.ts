@@ -63,53 +63,18 @@ export class StudentContractsOfficeComponent implements OnInit {
         this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
         this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 
-        // SOS - THIS IS A HACK
-        // TODO: FIX IT PROPERLY
-        // this.officeService.getStudentListForPeriodAndAcademic(152201, 63)
-        //   .subscribe({
-        //     next: (students: any) => {
-        //     this.studentsData = students;
-        //     for (let i = 0; i < students.length; i++) {
-        //       this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-        //       this.studentsData[i].user_ssn = students[i].user_ssn;
-        //     }
-
             this.isLoading = false;
               // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-            this.chRef.detectChanges();
+            // this.chRef.detectChanges();
 
             // Use of jQuery DataTables
-            const table: any = $('#contractsTable');
-            this.contractsTable = table.DataTable({
-              lengthMenu: [
-                [10, 25, 50, -1],
-                [10, 25, 50, 'All']
-              ],
-              lengthChange: true,
-              paging: true,
-              searching: true,
-              ordering: false,
-              info: true,
-              autoWidth: false,
-              responsive: true,
-              select: true,
-              pagingType: 'full_numbers',
-              processing: true,
-              columnDefs: [{ orderable: false, targets: [3] }]
-            });
 
-            // this.studentsData.splice(0, this.studentsData.length);
-
-        //   }, error: (error: any) => {
-        //     console.log(error);
-        //     this.isLoading = false;
-        //   }
-        // });
 
         this.officeService.getAcademicsByOfficeUserId()
           .subscribe((academics: any) => {
             this.officeUserAcademics = academics;
         });
+        //  this.initDataTable(); // Call it here
     });
   }
 
@@ -140,19 +105,21 @@ export class StudentContractsOfficeComponent implements OnInit {
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
+    this.studentsData = [];
 
     let periodId = value? value: this?.periods ? this.periods[0].id : 0;
     this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
       .subscribe({
         next: (students: any) => {
           this.studentsData.splice(0,this.studentsData.length);
-        this.studentsData = students;
-        for (let i = 0; i < students.length; i++) {
-          this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-          this.studentsData[i].user_ssn = students[i].user_ssn;
-        }
+          this.studentsData = students;
+          for (let i = 0; i < students.length; i++) {
+            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+            this.studentsData[i].user_ssn = students[i].user_ssn;
+          }
 
-        this.isLoading = false;
+          this.initDataTable();
+          this.isLoading = false;
       }, error: (error: any) => {
         console.log(error);
         this.isLoading = false;
@@ -160,16 +127,48 @@ export class StudentContractsOfficeComponent implements OnInit {
     });
   }
 
+  private initDataTable(): void {
+  // if (this.contractsTable) {
+  //   (this.contractsTable as any).destroy();
+  // }
+  this.chRef.detectChanges();
+  // Use of jQuery DataTables
+  const table: any = $('#contractsTable');
+  this.contractsTable = table.DataTable({
+    destroy: true,
+    lengthMenu: [
+      [10, 25, 50, -1],
+      [10, 25, 50, 'All']
+    ],
+    lengthChange: true,
+    paging: true,
+    searching: true,
+    ordering: false,
+    info: true,
+    autoWidth: false,
+    responsive: true,
+    select: true,
+    pagingType: 'full_numbers',
+    processing: true,
+    columnDefs: [{ orderable: false, targets: [3] }]
+  });
+}
+
+
   onDepartmentChange(value: any) {
     this.isLoading = true;
-    this.selectedDepartment = value;
     this.periods = [];
+    let previous = this.selectedDepartment;
+    this.selectedDepartment = value;
 
     this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
       .subscribe((periods: any[]) => {
         this.periods = periods;
         let periodId: any = this.selected ? this.selected : this?.periods ? this.periods[0].id : 0;
-        if (!this.selected) return;
+        if (!this.selected || previous == value) {
+          this.studentsData = [];
+          return;
+        }
         this.officeService.getStudentListForPeriodAndAcademic(Number(this.selectedDepartment.academic_id), periodId)
         .subscribe({
           next: (students: any) => {

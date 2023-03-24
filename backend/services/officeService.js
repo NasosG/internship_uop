@@ -28,7 +28,7 @@ const getDepManagerById = async (id) => {
     let departmentManagerDetails = Object.assign(finalDepManagerResults, department);
     return departmentManagerDetails;
   } catch (error) {
-    throw Error('Error while fetching Department Manager');
+    throw Error('Error while fetching Office User');
   }
 };
 
