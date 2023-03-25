@@ -1140,7 +1140,7 @@ const produceContractFile = async (request, response) => {
       STUDENT_NAME: metadata.displayname,
       STUDENT_FATHER_NAME: metadata.father_name,
       DEPT_NAME: metadata.dept_name,
-      ID_NUMBER: metadata.id_number,
+      ID_NUMBER: !metadata.id_number ? "………………" : metadata.id_number,
       AMIKA: !metadata.amika ? "………………" : metadata.amika,
       AMKA: metadata.amka,
       AFM: metadata.afm,
@@ -1150,7 +1150,8 @@ const produceContractFile = async (request, response) => {
       PA_START_DATE: moment(metadata.pa_start_date).format('DD/MM/YYYY'),
       PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
       TY_NAME: metadata.department_manager_name,
-      APOFASI_ADA_NUMBER: !metadata.ada_number ? "……………………………………………..." : metadata.ada_number
+      APOFASI_ADA_NUMBER: !metadata.ada_number ? "……………………………………………..." : metadata.ada_number,
+      STUDENT_WAGES: !metadata.student_fee ? "……………… " : metadata.student_fee
     });
 
     const buf = doc.getZip().generate({

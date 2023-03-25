@@ -41,12 +41,15 @@
          <a style="cursor:pointer" (click)="openDialog(periodData?.id)" class="text-dark"><i class="fa fa-eye"
              aria-hidden="true"></i>
            Προβολή</a><br>
-
          <a class="text-dark" [routerLink]="['/department-manager/edit-period/' + this.authService.getSessionId()]"><i
              class="fa fa-pencil-alt"></i>
            Επεξεργασία</a><br>
          <a [routerLink]="['delete-period/' + this.authService.getSessionId()]" (click)="deletePeriodById()"
            class="delete text-danger"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
+         <br>
+         <a *ngIf="periodData?.phase_state == 3" (click)="completePeriodById()" style="cursor: pointer"
+           class="text-success"><i class="fa fa-check"></i>
+           Ολοκλήρωση</a>
        </td>
      </tr>
    </tbody>

@@ -36,7 +36,8 @@ export class EditContractDialogComponent implements OnInit {
     pa_start_date: new FormControl(''),
     pa_end_date: new FormControl(''),
     department_manager_name: new FormControl(''),
-    ada_number: new FormControl('')
+    ada_number: new FormControl(''),
+    student_wages: new FormControl('')
   });
   studentAssignment: any;
 
@@ -87,7 +88,8 @@ export class EditContractDialogComponent implements OnInit {
       pa_start_date: this.profileForm.get('pa_start_date')?.value,
       pa_end_date: this.profileForm.get('pa_end_date')?.value,
       department_manager_name: this.profileForm.get('department_manager_name')?.value,
-      ada_number: this.profileForm.get('ada_number')?.value
+      ada_number: this.profileForm.get('ada_number')?.value,
+      student_wages: this.profileForm.get('student_wages')?.value
     };
 
     console.log(generalDetailsData);

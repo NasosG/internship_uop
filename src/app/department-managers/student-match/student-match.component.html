@@ -98,6 +98,7 @@
                   <th>Επιλογές Φοιτητή / Ενέργειες Ανάθεσης</th>
                   <th>Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
                   <th>Τελικές Αναθέσεις <br>(εκ μέρους φοιτητή)</th>
+                  <th>Ανέβηκε προς ΓΠΑ (Εκκρεμεί Σύμβαση)</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,6 +151,22 @@
                       </span>
                     </div>
                   </td>
+                  <td class="text-center">
+                    <!-- <button (click)="openPositionSelectionDialog(activeApplication.app_id, 'assign')"
+                      class="btn btn-primary"> Επιλογή φορέα </button> -->
+                    <!-- <span *ngIf="state.get(activeApplication.student_id) == 1">
+                      {{assignedPos.get(activeApplication.student_id)}}</span> -->
+                    <div>
+                      <span [ngStyle]="isStudentInList(studentsInList, activeApplication.student_id) ? {'color': 'green'} :
+                        {'color': '#C62828'}">
+                        {{isStudentInList(studentsInList, activeApplication.student_id) ? 'ΝΑΙ' : 'ΟΧΙ'}}
+                      </span>
+
+                      <!-- <span>
+                        {{isStudentInList(studentsInList, activeApplication.student_id) ? <span style='color:"#224957"''>'ΝΑΙ'</span> : 'ΟΧΙ'}}
+                      </span> -->
+                    </div>
+                  </td>
 
                 </tr>
               </tbody>
@@ -161,6 +178,7 @@
                   <th>Επιλογές Φοιτητή / Ενέργειες Ανάθεσης</th>
                   <th style="min-width:190px;">Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
                   <th style="min-width:180px;">Τελικές Αναθέσεις <br>(εκ μέρους φοιτητή)</th>
+                  <th>Ανέβηκε προς ΓΠΑ (Εκκρεμεί Σύμβαση)</th>
                 </tr>
               </tfoot>
             </table>
@@ -173,8 +191,8 @@
         <!-- /.card -->
       </div>
       <div style="display: flex; justify-content: left;">
-        <button (click)="submitFinalResultsToOffice()" class="btn btn-primary mb-4 p-2 px-4 text-center">Υποβολή Τελικής
-          Λίστας Προς ΓΠΑ</button>
+        <button (click)="submitFinalResultsToOffice()" class="btn btn-primary mb-4 p-2 px-4 text-center">Υποβολή
+          Αντιστοιχισμένων φοιτητών προς ΓΠΑ</button>
       </div>
       <br>
       <!-- /.col -->

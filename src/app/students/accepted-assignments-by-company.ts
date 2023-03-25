@@ -40,4 +40,5 @@ export interface AcceptedAssignmentsByCompany {
   afm?: string;
   period_id?: number;
   position_id?: number;
+  list_id?: number;
 }

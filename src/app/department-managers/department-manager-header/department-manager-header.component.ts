@@ -91,6 +91,39 @@ export class DepartmentManagerHeaderComponent implements OnInit {
     });
   }
 
+  completePeriodById() {
+    const inputText = 'Είστε σίγουροι ότι θέλετε να ολοκληρωθεί η περίοδος; Η ενέργεια αυτή είναι μη αναστρέψιμη. Θα πρέπει να έχετε στείλει την τελική λίστα με τους φοιτητές προς ΓΠΑ πριν συνεχίσετε.';
+
+    Swal.fire({
+      title: 'Ολοκλήρωση Περιόδου',
+      text: inputText,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.depManagerService.completePeriodById(this.periodData.id, this.periodData.department_id)
+          .subscribe((result: any) => {
+            Swal.fire({
+              title: 'Επιτυχής Ολοκλήρωση περιόδου',
+              text: 'Η περίοδος ολοκληρώθηκε.',
+              icon: 'success',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'ΟΚ'
+            }).then(() => {
+                if (this.router.url != '/department-manager/' + this.authService.getSessionId())
+                  this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+                else location.reload();
+            });
+          });
+      }
+    });
+  }
+
   openDialog(periodIdParam: any) {
     const dialogRef = this.dialog.open(PeriodPreviewDialogComponent, {
       // width: '350px',

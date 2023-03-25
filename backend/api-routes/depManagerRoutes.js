@@ -36,5 +36,6 @@ router.post("/insertAssignImplementationDates/:id", depManagerController.insertA
 router.get("/getAssignImplementationDates/", depManagerController.getAssignImplementationDates);
 router.post("/submitFinalResultsToOffice/:id", depManagerController.submitFinalResultsToOffice);
 router.get("/getStudentListForPeriod/:id", depManagerController.getStudentListForPeriod);
+router.put("/completePeriodById/:id", depManagerController.completePeriodById);
 
 module.exports = router;

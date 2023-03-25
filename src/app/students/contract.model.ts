@@ -19,4 +19,5 @@ export interface Contract {
   pa_end_date: string;
   department_manager_name: string;
   ada_number?: string;
+  student_wages?: string;
 }

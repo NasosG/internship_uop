@@ -89,6 +89,7 @@ export class StudentMatchComponent implements OnInit {
   state: Array<Map<number, number>> = [];
   assignedPos: Array<Map<number, string>> = [];
   positionIds: Array<Map<number, any>> = [];
+  studentsInList: Array<Map<number, boolean>> = [];
   modelImplementationDateFrom!: string;
   modelImplementationDateTo!: string;
   department_id!: number;
@@ -124,9 +125,11 @@ export class StudentMatchComponent implements OnInit {
                 let positionIdsMap = new Map<number, any>([[application.student_id, (assignment as any).position_id]]);
                 let assignedPosMap = new Map<number, string>([[application.student_id, assignment.title + ' - ' + assignment.name]]);
                 let stateMap: Map<number, number> = new Map<number, number>([[application.student_id, assignment.approval_state == 1 ? 1 : 0]]);
+                let studentInListMap: Map<number, boolean> = new Map<number, boolean>([[application.student_id, assignment.list_id != null]]);
                 this.positionIds.push(positionIdsMap);
                 this.assignedPos.push(assignedPosMap);
                 this.state.push(stateMap);
+                this.studentsInList.push(studentInListMap);
               }
             }
           });
@@ -182,6 +185,18 @@ export class StudentMatchComponent implements OnInit {
   hasStateWithNumber(positionIds: Map<number, any>[], studentId: number, numberParam: number): boolean {
     return positionIds.some(map => map.get(studentId) === numberParam);
   }
+
+  isStudentInList(studentsInList: Map<number, boolean>[], studentId: number): boolean {
+    // Iterate through the studentsInList array
+    for (const studentMap of studentsInList) {
+      // Check if the studentMap contains the studentId and if the value is true
+      if (studentMap.has(studentId) && studentMap.get(studentId)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   getApprovalState(state: Map<number, any>[], studentId: number, positionId: number) {
     // Find the positions assigned to the student
@@ -482,8 +497,6 @@ export class StudentMatchComponent implements OnInit {
     //   return;
     // }
 
-
-
     const data = {
       department_id: this.department_id ? this.department_id : this.activeApplications[0]?.department_id,
       period_id: this.period_id ? this.period_id : this.activeApplications[0].period_id,
@@ -505,9 +518,9 @@ export class StudentMatchComponent implements OnInit {
       }
     });
 
-     Swal.fire({
+    Swal.fire({
       title: 'Ολοκλήρωση Περιόδου ΠΑ',
-      text: 'Είστε σίγουροι ότι θέλετε να υποβάλετε τα αποτελέσματα προς ΓΠΑ; Έπειτα από αυτή την ενέργεια, θα ολοκληρωθεί αυτόματα η περίοδος ΠΑ',
+      text: 'Είστε σίγουροι ότι θέλετε να υποβάλετε τα αποτελέσματα για τους αντιστοιχισμένους φοιτητές προς ΓΠΑ;',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -534,7 +547,8 @@ export class StudentMatchComponent implements OnInit {
                 text: 'Τα αποτελέσματα υποβλήθηκαν με επιτυχία προς ΓΠΑ',
                 confirmButtonText: 'Εντάξει'
               }).then(() => {
-                  this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
+                  location.reload();
+                  // this.router.navigateByUrl('/department-manager/' + this.authService.getSessionId());
               })
             });
       } else {

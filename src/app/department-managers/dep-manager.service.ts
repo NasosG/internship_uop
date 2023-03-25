@@ -223,6 +223,11 @@ export class DepManagerService {
       });
   }
 
+  completePeriodById(periodId: number, departmentId?: number): Observable<{ message: string; }> {
+    return this.http
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "completePeriodById/" + periodId, { departmentId });
+  }
+
   updatePhaseByStudentId(phase: number, studentId: number, periodId: number | null) {
     const phaseJson: any = { 'phase': phase, 'periodId': periodId };
     console.log(phaseJson);

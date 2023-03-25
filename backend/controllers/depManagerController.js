@@ -277,6 +277,30 @@ const deletePeriodById = async (request, response, next) => {
   }
 };
 
+const completePeriodById = async (request, response) => {
+  try {
+    const periodId = request.params.id;
+    const departmentId = request.body.departmentId;
+    data = {
+      period_id: periodId,
+      department_id: departmentId
+    };
+    console.log(data);
+    await depManagerService.setPeriodCompleted(data);
+
+    response
+      .status(201)
+      .json({
+        message: 'Period completed successfully'
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const updatePhaseByStudentId = async (request, response, next) => {
   try {
     const studentId = request.params.id;
@@ -729,6 +753,7 @@ module.exports = {
   updatePeriodById,
   updatePhaseByStudentId,
   updateStudentRanking,
+  completePeriodById,
   deletePeriodById,
   insertCommentsByStudentId,
   updateCommentsByStudentId,
