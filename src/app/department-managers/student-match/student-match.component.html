@@ -98,7 +98,7 @@
                   <th>Επιλογές Φοιτητή / Ενέργειες Ανάθεσης</th>
                   <th>Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
                   <th>Τελικές Αναθέσεις <br>(εκ μέρους φοιτητή)</th>
-                  <th>Ανέβηκε προς ΓΠΑ (Εκκρεμεί Σύμβαση)</th>
+                  <th>Ανέβηκε προς ΓΠΑ</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,13 +112,13 @@
                   <td>
                     <div *ngFor="let position of activeApplication.positions; let idx=index" [attr.data-index]="idx">
                       <div class="container row">
-                        <div class="col-9 " style="width:652px;">
+                        <div class="col-9 " style="width:605px;">
                           <span [ngClass]="positionIds && isPositionAssigned(positionIds, activeApplication.student_id, position.position_id) ?
                             'custom-info-btn green-bckg text-with-dots' : 'custom-info-btn text-with-dots'" (click)="openCompanyInfoDialog(position.company, position.afm,
                             position.position_id)">{{idx + 1}}.
-                            {{add3Dots(position.title, 50)}} - {{add3Dots(position.company,16)}}</span>
+                            {{add3Dots(position.title, 50)}} - {{add3Dots(position.company, 16)}}</span>
                         </div>
-                        <div class="col-3 text-right" style="width:70px;">
+                        <div class="col-3 text-right" style="width:65px;">
                           <button (click)="openStudentsPositionSelectionDialog(activeApplication.app_id, idx,
                             activeApplication.student_id, activeApplication.positions[idx].position_id)"
                             class="btn custom-btn btn-primary ml-2 mb-1 p-0 pl-2 pr-2 mr-2">Επιλέξτε <i
@@ -176,9 +176,9 @@
                   <th>Oνοματεπώνυμο</th>
                   <th>ΑΜ</th>
                   <th>Επιλογές Φοιτητή / Ενέργειες Ανάθεσης</th>
-                  <th style="min-width:190px;">Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
+                  <th style="min-width:180px;">Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
                   <th style="min-width:180px;">Τελικές Αναθέσεις <br>(εκ μέρους φοιτητή)</th>
-                  <th>Ανέβηκε προς ΓΠΑ (Εκκρεμεί Σύμβαση)</th>
+                  <th>Ανέβηκε προς ΓΠΑ</th>
                 </tr>
               </tfoot>
             </table>
