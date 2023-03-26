@@ -1,19 +1,16 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
-import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Period } from 'src/app/department-managers/period.model';
 import { EditContractDialogComponent } from 'src/app/department-managers/edit-contract-dialog/edit-contract-dialog.component';
 import { StudentsMatchedInfoDialogComponent } from 'src/app/department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
 import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Contract } from 'src/app/students/contract.model';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -21,30 +18,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./student-contracts-office.component.css']
 })
 export class StudentContractsOfficeComponent implements OnInit {
-  @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  studentsData: any[] = [];
-  selected = '';
-  ngSelect = '';
-  depManagerData: DepManager | undefined;
-  studentName!: string;
-  periods: Period[] | undefined;
-  isLoading: boolean = false;
-  studentContract: any;
+  @ViewChild('contractsTable') public contractsTable?: ElementRef;
+  public studentsData: any[] = [];
+  private selected = '';
+  public periods?: Period[];
+  public isLoading: boolean = false;
+  private studentContract!: Contract;
   public periodData!: Period;
-  fontSize: number = 100;
-  private language!: string;
-  dateFrom: string = "";
-  dateTo: string = "";
-  officeUserData!: OfficeUser;
-  officeUserAcademics!: any[];
-  @ViewChild('periodFormSelect') periodFormSelect!: ElementRef;
-  @ViewChild('departmentSelect') departmentSelect!: ElementRef;
-
-  phaseArray = ["no-state",
-    "1. Αιτήσεις ενδιαφέροντος φοιτητών",
-    "2. Επιλογή θέσεων από φοιτητές",
-    "3. Ολοκλήρωση - Συμβάσεις"];
+  private officeUserData!: OfficeUser;
+  public officeUserAcademics!: any[];
+  @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
+  @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
 
   selectedDepartment: any = {
     academic_id: 0,
@@ -52,7 +36,7 @@ export class StudentContractsOfficeComponent implements OnInit {
   };
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService,
-    private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog, private officeService: OfficeService) { }
+    private chRef: ChangeDetectorRef, public dialog: MatDialog, private officeService: OfficeService) { }
 
   dtOptions: any = {};
 
@@ -69,7 +53,6 @@ export class StudentContractsOfficeComponent implements OnInit {
           .subscribe((academics: any) => {
             this.officeUserAcademics = academics;
         });
-        //  this.initDataTable(); // Call it here
     });
   }
 
@@ -123,32 +106,31 @@ export class StudentContractsOfficeComponent implements OnInit {
   }
 
   private initDataTable(): void {
-  // if (this.contractsTable) {
-  //   (this.contractsTable as any).destroy();
-  // }
-  this.chRef.detectChanges();
-  // Use of jQuery DataTables
-  const table: any = $('#contractsTable');
-  this.contractsTable = table.DataTable({
-    destroy: true,
-    lengthMenu: [
-      [10, 25, 50, -1],
-      [10, 25, 50, 'All']
-    ],
-    lengthChange: true,
-    paging: true,
-    searching: true,
-    ordering: false,
-    info: true,
-    autoWidth: false,
-    responsive: true,
-    select: true,
-    pagingType: 'full_numbers',
-    processing: true,
-    columnDefs: [{ orderable: false, targets: [3] }]
-  });
-}
-
+    // if (this.contractsTable) {
+    //   (this.contractsTable as any).destroy();
+    // }
+    this.chRef.detectChanges();
+    // Use of jQuery DataTables
+    const table: any = $('#contractsTable');
+    this.contractsTable = table.DataTable({
+      destroy: true,
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All']
+      ],
+      lengthChange: true,
+      paging: true,
+      searching: true,
+      ordering: false,
+      info: true,
+      autoWidth: false,
+      responsive: true,
+      select: true,
+      pagingType: 'full_numbers',
+      processing: true,
+      columnDefs: [{ orderable: false, targets: [3] }]
+    });
+  }
 
   onDepartmentChange(value: any) {
     this.isLoading = true;
@@ -211,7 +193,12 @@ export class StudentContractsOfficeComponent implements OnInit {
   exportToExcel() {
     let studentsDataJson: any = [];
     this.depManagerService.getContractDetailsByStudentIdAndPeriodId(this.studentsData[0].student_id, Number(this.selected ? this.selected: this.periods? this.periods[0].id : 0))
-    .subscribe((contract: any) => {
+    .subscribe((contract: Contract) => {
+      if (!contract) {
+        console.error('No contracts found for the given student and period.');
+        return;
+      }
+
       this.studentContract = contract;
       this.studentContract.contract_date = moment(this.studentContract.contract_date).format('YYYY-MM-DD');
       this.studentContract.pa_start_date = moment(this.studentContract.pa_start_date).format('YYYY-MM-DD');
