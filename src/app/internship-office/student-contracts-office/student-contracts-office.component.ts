@@ -19,6 +19,9 @@ import { Contract } from 'src/app/students/contract.model';
 })
 export class StudentContractsOfficeComponent implements OnInit {
   @ViewChild('contractsTable') public contractsTable?: ElementRef;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
+  @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
   public studentsData: any[] = [];
   private selected = '';
   public periods?: Period[];
@@ -27,8 +30,7 @@ export class StudentContractsOfficeComponent implements OnInit {
   public periodData!: Period;
   private officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
-  @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
-  @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
+  public filteredData: any = [];
 
   selectedDepartment: any = {
     academic_id: 0,
@@ -54,6 +56,15 @@ export class StudentContractsOfficeComponent implements OnInit {
             this.officeUserAcademics = academics;
         });
     });
+  }
+
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
   }
 
   // This function is used to get the AM of the student
@@ -84,12 +95,13 @@ export class StudentContractsOfficeComponent implements OnInit {
     this.isLoading = true;
     this.selected = value;
     this.studentsData = [];
+    this.filteredData = [];
 
-    let periodId = value? value: this?.periods ? this.periods[0].id : 0;
+    let periodId = value ? value : 0;
+    console.log(this.selectedDepartment.academic_id);
     this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
-      .subscribe({
-        next: (students: any) => {
-          this.studentsData.splice(0,this.studentsData.length);
+      .subscribe((students: any) => {
+          // this.studentsData.splice(0, this.studentsData.length);
           this.studentsData = students;
           for (let i = 0; i < students.length; i++) {
             this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
@@ -98,76 +110,57 @@ export class StudentContractsOfficeComponent implements OnInit {
 
           // this.initDataTable();
           this.isLoading = false;
-      }, error: (error: any) => {
-        console.log(error);
-        this.isLoading = false;
-      }
+      // }, error: (error: any) => {
+      //   console.log(error);
+      //   this.isLoading = false;
+      // }
     });
   }
 
-  private initDataTable(): void {
-    // if (this.contractsTable) {
-    //   (this.contractsTable as any).destroy();
-    // }
-    this.chRef.detectChanges();
-    // Use of jQuery DataTables
-    const table: any = $('#contractsTable');
-    this.contractsTable = table.DataTable({
-      destroy: true,
-      lengthMenu: [
-        [10, 25, 50, -1],
-        [10, 25, 50, 'All']
-      ],
-      lengthChange: true,
-      paging: true,
-      searching: true,
-      ordering: false,
-      info: true,
-      autoWidth: false,
-      responsive: true,
-      select: true,
-      pagingType: 'full_numbers',
-      processing: true,
-      columnDefs: [{ orderable: false, targets: [3] }]
-    });
-  }
+  // private initDataTable(): void {
+  //   // if (this.contractsTable) {
+  //   //   (this.contractsTable as any).destroy();
+  //   // }
+  //   this.chRef.detectChanges();
+  //   // Use of jQuery DataTables
+  //   const table: any = $('#contractsTable');
+  //   this.contractsTable = table.DataTable({
+  //     destroy: true,
+  //     lengthMenu: [
+  //       [10, 25, 50, -1],
+  //       [10, 25, 50, 'All']
+  //     ],
+  //     lengthChange: true,
+  //     paging: true,
+  //     searching: true,
+  //     ordering: false,
+  //     info: true,
+  //     autoWidth: false,
+  //     responsive: true,
+  //     select: true,
+  //     pagingType: 'full_numbers',
+  //     processing: true,
+  //     columnDefs: [{ orderable: false, targets: [3] }]
+  //   });
+  // }
 
   onDepartmentChange(value: any) {
     this.isLoading = true;
     this.periods = [];
-    let previous = this.selectedDepartment;
     this.selectedDepartment = value;
+    this.studentsData = [];
+    this.filteredData = [];
 
     this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
-      .subscribe((periods: any[]) => {
-        this.periods = periods;
-        let periodId: any = this.selected ? this.selected : this?.periods ? this.periods[0].id : 0;
-        if (!this.selected || previous == value) {
-          this.studentsData = [];
-          return;
+      .subscribe({
+        next:(periods: any[]) => {
+          this.periods = periods;
+          this.isLoading = false;
+        }, error: (error: any) => {
+          console.log(error);
+          this.isLoading = false;
         }
-        this.officeService.getStudentListForPeriodAndAcademic(Number(this.selectedDepartment.academic_id), periodId)
-        .subscribe({
-          next: (students: any) => {
-            if (!this.selected) return;
-            if (students.length == 0) {
-              this.selected = "";
-              this.periods = [];
-            }
-
-            this.studentsData = students;
-            for (let i = 0; i < students.length; i++) {
-              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-              this.studentsData[i].user_ssn = students[i].user_ssn;
-            }
-
-            this.isLoading = false;
-          }, error: (error: any) => {
-            console.log(error);
-            this.isLoading = false;
-          }
-        });
-    });
+      });
   }
 
   downloadContractFileForStudent(studentId: number) {

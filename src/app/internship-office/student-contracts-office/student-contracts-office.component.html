@@ -73,7 +73,20 @@
                 <button class="btn btn-primary mt-0" (click)="exportToExcel()"><i class='fas fa-file-export'
                     style='font-size:24px'></i> Excel</button>
                 &nbsp;<br><br>
-                <div class="pl-2 pb-2">Αριθμός Συμβάσεων: {{studentsData.length}}</div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="pl-2 pb-0">
+                    <strong>Πλήθος Συμβάσεων:</strong> {{studentsData.length}}
+                  </div>
+                  <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
+                    <mat-label>Αναζήτηση</mat-label>
+                    <input matInput #inputSearch (keyup)="searchStudents()">
+                    <!-- <button *ngIf="inputSearch.value" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="inputSearch.value=''">
+                      <i>close</i>
+                    </button> -->
+                  </mat-form-field>
+                </div>
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
                 <table id="contractsTable" #contractsTable ngbTable class="table table-bordered table-striped">
                   <thead>
@@ -87,7 +100,8 @@
                     </tr>
                   </thead>
                   <tbody ngbTableBody>
-                    <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                    <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData) ; let idx=index"
+                      [attr.data-index]="idx">
                       <!-- <td>{{student.givenname}} {{student.sn}}</td> -->
                       <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
                           {{student.sn}}</a>
