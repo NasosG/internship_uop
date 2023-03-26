@@ -96,7 +96,7 @@ export class StudentContractsOfficeComponent implements OnInit {
             this.studentsData[i].user_ssn = students[i].user_ssn;
           }
 
-          this.initDataTable();
+          // this.initDataTable();
           this.isLoading = false;
       }, error: (error: any) => {
         console.log(error);
