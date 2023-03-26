@@ -374,13 +374,13 @@ export class StudentMatchComponent implements OnInit {
     }
 
     const implementationDatesArr = {
-      implementation_start_date: moment(this.modelImplementationDateFrom, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      implementation_end_date: moment(this.modelImplementationDateTo, 'YYYY-MM-DD').format('DD/MM/YYYY')
+      implementation_start_date: this.modelImplementationDateFrom,
+      implementation_end_date: this.modelImplementationDateTo
     };
 
     let assignApprovalState = this.getApprovalState(this.state, studentId, position_id);
     const dialogRef = this.dialog.open(StudentsPositionSelectDialogComponent, {
-      width: '400px',
+      width: '470px',
       data: { appId: appId, index: index, approvalState: assignApprovalState, implementationDates: implementationDatesArr }
     });
 
@@ -453,7 +453,7 @@ export class StudentMatchComponent implements OnInit {
       return;
     }
 
-    if (implementationDates.implementation_start_date > implementationDates.implementation_end_date) {
+    if (moment(implementationDates.implementation_start_date,'YYYY-MM-DD') > moment(implementationDates.implementation_end_date,'YYYY-MM-DD')) {
       Swal.fire({
         icon: 'error',
         title: 'Σφάλμα',

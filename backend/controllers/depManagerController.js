@@ -735,6 +735,43 @@ const getStudentListForPeriod = async (request, response) => {
   }
 };
 
+const getImplementationDatesByStudentAndPeriod = async (request, response) => {
+  try {
+    const studentId = request.query.studentId;
+    const periodId = request.query.periodId;
+    const positionId = request.query.positionId;
+
+    const implementationDates = await depManagerService.getImplementationDatesByStudentAndPeriod(studentId, periodId, positionId);
+    response.status(200).json(implementationDates);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
+const updateImplementationDatesByStudentAndPeriod = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const periodId = request.body.periodId;
+    const implementationDates = request.body.implementationDates;
+    const positionId = request.body.positionId;
+
+    await depManagerService.updateImplementationDatesByStudentAndPeriod(studentId, periodId, implementationDates, positionId);
+    response.status(201).json({
+      message: 'implementation dates were updated successfully'
+    });
+  } catch (error) {
+    console.error(error.message);
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
+
+
 module.exports = {
   getDepManagerById,
   getPeriodByUserId,
@@ -748,11 +785,13 @@ module.exports = {
   getPeriodAndDepartmentIdByUserId,
   getStudentListForPeriod,
   getAllPeriodsByDepartmentId,
+  getImplementationDatesByStudentAndPeriod,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,
   updatePhaseByStudentId,
   updateStudentRanking,
+  updateImplementationDatesByStudentAndPeriod,
   completePeriodById,
   deletePeriodById,
   insertCommentsByStudentId,

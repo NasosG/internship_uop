@@ -8,9 +8,47 @@
       (click)="onSubmitSwal('preassign')" mat-button>Προδέσμευση
       Θέσης</button>
     <br>
-    <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0"
+    <button *ngIf="approvalState!=0" class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0"
       (click)="onSubmitSwal('assign')" mat-button>Τελική
       ανάθεση</button>
+    <div *ngIf="approvalState==0"
+      style="background-color: #f4f6f9; padding: 10px; border-radius: 4px; margin-bottom: 7px;">
+      <h6>Αλλαγή Ημερομηνιών Διεξαγωγής ΠΑ Φοιτητή</h6>
+      <mat-divider></mat-divider>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <label for="date_from" class="col-form-label">Από:</label>
+          <div class="container row">
+            <div class="pl-0 ml-0 input-group col-12">
+              <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
+                [(ngModel)]="modelImplementationDateFrom" ngbDatepicker #datepicker1="ngbDatepicker"
+                [placement]="'right'" [positionTarget]="buttonEl" (input)="updateImplementationDates()" />
+              <button class="btn btn-outline-secondary" (blur)="updateImplementationDates()"
+                (click)="datepicker1.toggle()" type="button">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="date_to" class="col-form-label">Έως:</label>
+          <div class="container row">
+            <div class="pl-0 ml-0 input-group col-12">
+              <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
+                [(ngModel)]="modelImplementationDateTo" ngbDatepicker #datepicker2="ngbDatepicker" [placement]="'left'"
+                [positionTarget]="buttonEl" (input)="updateImplementationDates()" />
+              <button class="btn btn-outline-secondary" #buttonEl (blur)="updateImplementationDates()"
+                (click)="datepicker2.toggle()" type="button">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0"
+        (click)="onSubmitSwal('assign')" mat-button>Τελική
+        ανάθεση</button>
+    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

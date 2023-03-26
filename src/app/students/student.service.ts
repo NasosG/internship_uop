@@ -537,4 +537,13 @@ export class StudentsService {
     const url = STUDENTS_URL + "produceContractFile/" + studentId;
     return this.http.post(url, { 'doctype': docType, 'periodId': periodId, 'departmentId': departmentId }, { responseType: 'blob' });
   }
+
+  getImplementationDatesByStudentAndPeriod(periodId?: number, positionId?: number): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('periodId', periodId == null ? 0 : periodId)
+      .set('positionId', positionId == null ? 0 : positionId);
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getImplementationDatesByStudentAndPeriod/", { params });
+  }
 }

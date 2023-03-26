@@ -349,4 +349,17 @@ export class DepManagerService {
     return this.http
       .put<{ message: string }>(STUDENTS_URL + "updateContractDetails/" + studentId, {contract, periodId});
   }
+
+  getImplementationDatesByStudentAndPeriod(studentId: number, periodId: number, positionId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('studentId', studentId)
+      .set('periodId', periodId == null ? 0 : periodId)
+      .set('positionId', positionId == null ? 0 : positionId);
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getImplementationDatesByStudentAndPeriod/", { params });
+  }
+
+  updateImplementationDatesByStudentAndPeriod(studentId: number, periodId: number, implementationDates: any, positionId: number) {
+    return this.http
+      .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateImplementationDatesByStudentAndPeriod/" + studentId, { periodId, implementationDates, positionId });
+  }
 }

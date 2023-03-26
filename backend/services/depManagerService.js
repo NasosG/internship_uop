@@ -336,6 +336,31 @@ const getPositionsByApplicationId = async (applicationId) => {
   }
 };
 
+const getImplementationDatesByStudentAndPeriod = async (studentId, periodId, positionId) => {
+  try {
+    const positions = await pool.query(`SELECT to_char(\"pa_start_date\", 'YYYY-MM-DD') as pa_start_date, to_char(\"pa_end_date\", 'YYYY-MM-DD') as pa_end_date
+                                        FROM internship_assignment
+                                        WHERE student_id = $1 AND period_id = $2 AND position_id = $3`, [studentId, periodId, positionId]);
+    return positions.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching implementation dates by student and period ids' + error.message);
+  }
+};
+
+const updateImplementationDatesByStudentAndPeriod = async (studentId, periodId, implementationDates, positionId) => {
+  try {
+    const positions = await pool.query(`UPDATE internship_assignment
+                                        SET pa_start_date = $1, pa_end_date = $2
+                                        WHERE student_id = $3 AND period_id = $4 AND position_id = $5`,
+      [implementationDates.implementation_start_date, implementationDates.implementation_end_date, studentId, periodId, positionId]);
+    return positions.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while updating implementation dates by student and period ids' + error.message);
+  }
+};
+
 const insertPeriod = async (body, id, departmentId) => {
   try {
     await deactivateAllPeriodsByDepartmentId(departmentId);
@@ -982,6 +1007,8 @@ module.exports = {
   getPhaseOfPeriod,
   updatePhaseOfPeriod,
   getPositionsByApplicationId,
+  getImplementationDatesByStudentAndPeriod,
+  updateImplementationDatesByStudentAndPeriod,
   insertAssignment,
   getPreassignModeByDepartmentId,
   getAssignmentsByStudentId,

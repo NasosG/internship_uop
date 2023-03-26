@@ -1,18 +1,74 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { catchError, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
+import { NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+
+/**
+ * This Service handles how the date is represented in scripts i.e. ngModel.
+ */
+@Injectable()
+export class CustomAdapter extends NgbDateAdapter<string> {
+	readonly DELIMITER = '-';
+
+	fromModel(value: string | null): NgbDateStruct | null {
+		if (value) {
+			const date = value.split(this.DELIMITER);
+			return {
+				day: parseInt(date[2], 10),
+				month: parseInt(date[1], 10),
+				year: parseInt(date[0], 10),
+			};
+		}
+		return null;
+	}
+
+	toModel(date: NgbDateStruct | null): string | null {
+		return date ? date.year + this.DELIMITER + date.month + this.DELIMITER + date.day : null;
+	}
+}
+
+/**
+ * This Service handles how the date is rendered and parsed from keyboard i.e. in the bound input field.
+ */
+@Injectable()
+export class CustomDateParserFormatter extends NgbDateParserFormatter {
+	readonly DELIMITER = '/';
+
+	parse(value: string): NgbDateStruct | null {
+		if (value) {
+			const date = value.split(this.DELIMITER);
+			return {
+				day: parseInt(date[0], 10),
+				month: parseInt(date[1], 10),
+				year: parseInt(date[2], 10),
+			};
+		}
+		return null;
+	}
+
+	format(date: NgbDateStruct | null): string {
+		return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : '';
+	}
+}
 
 @Component({
   selector: 'app-students-position-select-dialog',
   templateUrl: './students-position-select-dialog.component.html',
-  styleUrls: ['./students-position-select-dialog.component.css']
+  styleUrls: ['./students-position-select-dialog.component.css'],
+  providers: [
+		{ provide: NgbDateAdapter, useClass: CustomAdapter },
+		{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+	]
 })
 export class StudentsPositionSelectDialogComponent implements OnInit {
   selectedRow!: number;
   position: any;
   approvalState?: number | null;
+  modelImplementationDateFrom!: string;
+  modelImplementationDateTo!: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private depManagerService: DepManagerService,
@@ -25,10 +81,26 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.depManagerService.getPositionsByApplicationId(this.data.appId).subscribe((positions: any[]) => {
-       this.position = positions[this.data.index];
-       console.log(this.position);
-       this.selectedRow = positions[this.data.index].app_pos_id;
-       this.approvalState = this.data.approvalState;
+      this.position = positions[this.data.index];
+      console.log(this.position);
+      this.selectedRow = positions[this.data.index].app_pos_id;
+      this.approvalState = this.data.approvalState;
+
+      this.depManagerService.getImplementationDatesByStudentAndPeriod(this.position.student_id, this.position.period_id, this.position.position_id).subscribe((dates: any) => {
+        let updatedStartDate = moment(dates[0].pa_start_date, 'YYYY-MM-DD').format('YYYY-MM-DD');
+        let updatedEndDate = moment(dates[0].pa_end_date, 'YYYY-MM-DD').format('YYYY-MM-DD');
+
+        let implementationDateFromDatePaternB = moment(updatedStartDate, 'YYYY-MM-DD', true);
+        let implementationDateToDatePaternB = moment(updatedEndDate, 'YYYY-MM-DD', true);
+        // Insert default values if the dates are not valid
+        if (!implementationDateFromDatePaternB.isValid() || !implementationDateToDatePaternB.isValid()) {
+          this.modelImplementationDateFrom = this.data.implementationDates.implementation_start_date;
+          this.modelImplementationDateTo =  this.data.implementationDates.implementation_end_date;
+        } else {
+          this.modelImplementationDateFrom = updatedStartDate;
+          this.modelImplementationDateTo = updatedEndDate;
+        }
+      });
     });
   }
 
@@ -64,8 +136,47 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
     });
   }
 
+  updateImplementationDates() {
+    // if this.modelImplementationDateFrom is valid date of format YYYY-MM-DD or YYYY-M-D
+    let implementationDateFromDatePaternA = moment(this.modelImplementationDateFrom, 'YYYY-M-D', true);
+    let implementationDateFromDatePaternB = moment(this.modelImplementationDateFrom, 'YYYY-MM-DD', true);
+    let implementationDateToDatePaternA = moment(this.modelImplementationDateTo, 'YYYY-M-D', true);
+    let implementationDateToDatePaternB = moment(this.modelImplementationDateTo, 'YYYY-MM-DD', true);
+
+    if (!implementationDateFromDatePaternA.isValid() && !implementationDateFromDatePaternB.isValid()) {
+      console.log("invalid 'FROM' date");
+      return;
+    }
+    if (!implementationDateToDatePaternA.isValid() && !implementationDateToDatePaternB.isValid()) {
+      console.log("invalid 'TO' date");
+      return;
+    }
+
+    let implementationDatesArray = {
+      implementation_start_date: moment(this.modelImplementationDateFrom, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+      implementation_end_date: moment(this.modelImplementationDateTo, 'YYYY-MM-DD').format('YYYY-MM-DD')
+    };
+
+    this.depManagerService.updateImplementationDatesByStudentAndPeriod(this.position.student_id, this.position.period_id, implementationDatesArray, this.position.position_id)
+      .subscribe((response: any) => {
+        console.log(response);
+      });
+  }
+
   acceptCompanyPosition() {
-    this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id, this.data.implementationDates)
+    let implementationDatesArray: any = null;
+
+    if (!this.modelImplementationDateFrom || !this.modelImplementationDateTo) {
+      Swal.fire({ icon: 'error', title: 'Σφάλμα', text: 'Παρακαλώ εισάγετε τις ημερομηνίες διεξαγωγής ΠΑ', confirmButtonText: 'Εντάξει' });
+      return;
+    }
+
+    implementationDatesArray = {
+      implementation_start_date: moment(this.modelImplementationDateFrom, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      implementation_end_date: moment(this.modelImplementationDateTo, 'YYYY-MM-DD').format('DD/MM/YYYY')
+    };
+
+    this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id, implementationDatesArray)
     .pipe(
       catchError((error: any) => {
         console.error(error);

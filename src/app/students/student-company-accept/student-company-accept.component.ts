@@ -48,12 +48,27 @@ export class StudentCompanyAcceptComponent implements OnInit {
 
         const department_id = this.assignments[0].department_id;
         const period_id = this.assignments[0].period_id;
-
-        this.studentsService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
-          this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-          this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        const positionId = this.assignments[0].position_id;
+        this.studentsService.getImplementationDatesByStudentAndPeriod(period_id, positionId).subscribe((datesByStudent: any) => {
+          console.log(datesByStudent[0]);
+          if (this.areDatesValid(datesByStudent[0])) {
+            this.modelImplementationDateFrom = datesByStudent[0].pa_start_date;
+            this.modelImplementationDateTo = datesByStudent[0].pa_end_date;
+          } else {
+            this.studentsService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
+              this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+              this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            });
+          }
         });
       });
+  }
+
+  areDatesValid(dates: any) {
+    if (dates && dates.pa_start_date && dates.pa_end_date) {
+      return true;
+    }
+    return false;
   }
 
   acceptCompanyPositionAlert(positionIndex: number) {

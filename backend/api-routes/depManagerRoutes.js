@@ -37,5 +37,7 @@ router.get("/getAssignImplementationDates/", depManagerController.getAssignImple
 router.post("/submitFinalResultsToOffice/:id", depManagerController.submitFinalResultsToOffice);
 router.get("/getStudentListForPeriod/:id", depManagerController.getStudentListForPeriod);
 router.put("/completePeriodById/:id", depManagerController.completePeriodById);
+router.get("/getImplementationDatesByStudentAndPeriod/", depManagerController.getImplementationDatesByStudentAndPeriod);
+router.put("/updateImplementationDatesByStudentAndPeriod/:id", depManagerController.updateImplementationDatesByStudentAndPeriod);
 
 module.exports = router;
