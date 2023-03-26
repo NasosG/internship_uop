@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Renderer2, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -7,11 +7,60 @@ import Swal from 'sweetalert2';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'UOPinternship';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private renderer: Renderer2, private el: ElementRef) {}
 
+  /**
+   * Updates all tables with the 'table' class to have or not have the 'table-dark' class
+   * based on the current dark mode setting. (mostly for bootstrap tables)
+  */
+  updateTableDarkMode() {
+    const tables = this.el.nativeElement.querySelectorAll('.table');
+    tables.forEach((table: HTMLElement) => {
+      if (this.isDarkModeEnabled) {
+        this.renderer.addClass(table, 'table-dark');
+      } else {
+        this.renderer.removeClass(table, 'table-dark');
+      }
+    });
+  }
+
+  /**
+   * Observes changes to the body's class list and updates the table's dark mode accordingly.
+  */
+  observeBodyClassChanges() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          this.updateTableDarkMode();
+        }
+      });
+    });
+
+    observer.observe(document.body, { attributes: true });
+  }
+
+  /**
+   * Angular lifecycle hook that is called after a component's view has been fully initialized.
+  */
+  ngAfterViewInit() {
+    this.observeBodyClassChanges();
+    this.updateTableDarkMode();
+  }
+
+  /**
+   * Checks if the dark mode is enabled or not.
+   * @returns {boolean} - true if dark mode is enabled, false otherwise.
+  */
+  get isDarkModeEnabled(): boolean {
+    return localStorage.getItem("mode") === "dark";
+  }
+
+  /**
+   * Loads the custom script (assets/js/script.js) into the head of the document.
+  */
   public loadScript() {
     console.log("preparing to load...");
     let node = document.createElement("script");

@@ -8,3 +8,50 @@
   color: #224957;
   text-decoration: underline;
 }
+
+::ng-deep .dark-mode .mat-form-field-outline {
+  color: #fff !important;
+  border-color: #fff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+::ng-deep .dark-mode .mat-select-value-text {
+  color: white !important;
+}
+
+::ng-deep .dark-mode .mat-select-arrow {
+  color: white;
+}
+
+::ng-deep .dark-mode .mat-select-arrow-wrapper {
+  color: white;
+}
+
+::ng-deep .dark-mode .mat-form-field-type-mat-select .mat-form-field-label {
+  color: white;
+}
+
+::ng-deep .dark-mode ._ngcontent-oux-c304 {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+::ng-deep .dark-mode .mat-select-panel {
+  background-color: rgba(27, 27, 27, 0.87) !important;
+}
+
+::ng-deep .dark-mode .mat-option {
+  color: #fff !important;
+}
+
+::ng-deep .dark-mode .mat-option:hover {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+::ng-deep .dark-mode .mat-option.mat-selected:not(:hover) {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+::ng-deep .dark-mode table tr a {
+  color: white !important;
+}
