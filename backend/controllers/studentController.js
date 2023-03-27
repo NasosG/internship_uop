@@ -1151,7 +1151,7 @@ const produceContractFile = async (request, response) => {
       PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
       TY_NAME: metadata.department_manager_name,
       APOFASI_ADA_NUMBER: !metadata.ada_number ? "……………………………………………..." : metadata.ada_number,
-      STUDENT_WAGES: !metadata.student_fee ? "……………… " : metadata.student_fee
+      STUDENT_WAGES: !metadata.student_wages ? "……………… " : metadata.student_wages
     });
 
     const buf = doc.getZip().generate({

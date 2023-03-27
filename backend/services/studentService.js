@@ -936,7 +936,7 @@ const isStudentInAssignmentList = async (student_id) => {
 
 const updateContractDetails = async (studentId, periodId, contractDetails) => {
   try {
-    console.log(studentId);
+    // console.log(contractDetails);
     const updateStudentUserResult = await pool.query(`UPDATE student_users SET
                                     id_card = $1, ama_number = $2, ssn = $3, father_name = $4, doy = $5
                                     WHERE sso_uid = $6`, [contractDetails.id_number,
@@ -945,7 +945,7 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
 
     contractDetails.contract_date = !contractDetails.contract_date ? null
       : moment(contractDetails.contract_date).format('YYYY-MM-DD');
-    contractDetails.contract_date = !contractDetails.contract_date ? null
+    contractDetails.pa_start_date = !contractDetails.pa_start_date ? null
       : moment(contractDetails.pa_start_date).format('YYYY-MM-DD');
     contractDetails.pa_end_date = !contractDetails.pa_end_date ? null
       : moment(contractDetails.pa_end_date).format('YYYY-MM-DD');
