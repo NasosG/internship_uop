@@ -1150,7 +1150,9 @@ const produceContractFile = async (request, response) => {
       PA_START_DATE: moment(metadata.pa_start_date).format('DD/MM/YYYY'),
       PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
       TY_NAME: metadata.department_manager_name,
-      APOFASI_ADA_NUMBER: !metadata.ada_number ? "……………………………………………..." : metadata.ada_number,
+      APOFASI: !metadata.apofasi ? "……………………………………………..." : metadata.apofasi,
+      ARITHMOS_SUNEDRIASHS: !metadata.arithmos_sunedriashs ? "……………………………………………..." : metadata.arithmos_sunedriashs,
+      APOFASI_ADA_NUMBER: !metadata.ada_number ? "……….." : metadata.ada_number,
       STUDENT_WAGES: !metadata.student_wages ? "……………… " : metadata.student_wages
     });
 
@@ -1202,6 +1204,23 @@ const getContractDetailsByStudentIdAndPeriod = async (request, response) => {
     const periodId = request.query.periodId;
 
     const contractDetails = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
+
+    response.status(200).json(contractDetails);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const getContractDetailsByDepartmentAndPeriod = async (request, response) => {
+  try {
+    const departmentId = request.query.departmentId;
+    const periodId = request.query.periodId;
+
+    const contractDetails = await studentService.getContractDetailsByDepartmentAndPeriod(departmentId, periodId);
 
     response.status(200).json(contractDetails);
   } catch (error) {
@@ -1269,6 +1288,7 @@ module.exports = {
   getAssignmentsByStudentId,
   getStudentRankedApprovalStatusForPeriod,
   getContractDetailsByStudentIdAndPeriod,
+  getContractDetailsByDepartmentAndPeriod,
   getLatestPeriodOfStudent,
   isStudentInAssignmentList,
   checkPositionOfAtlasExists,

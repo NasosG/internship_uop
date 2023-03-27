@@ -26,7 +26,7 @@ export class StudentContractsOfficeComponent implements OnInit {
   private selected = '';
   public periods?: Period[];
   public isLoading: boolean = false;
-  private studentContract!: Contract;
+  private studentContracts!: Contract[];
   public periodData!: Period;
   private officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
@@ -185,42 +185,41 @@ export class StudentContractsOfficeComponent implements OnInit {
 
   exportToExcel() {
     let studentsDataJson: any = [];
-    this.depManagerService.getContractDetailsByStudentIdAndPeriodId(this.studentsData[0].student_id, Number(this.selected ? this.selected: this.periods? this.periods[0].id : 0))
-    .subscribe((contract: Contract) => {
-      if (!contract) {
+    this.depManagerService.getContractDetailsByDepartmentAndPeriod(this.studentsData[0].department_id, this.studentsData[0].period_id)
+    .subscribe((contracts: Contract[]) => {
+      if (!contracts) {
         console.error('No contracts found for the given student and period.');
         return;
       }
 
-      this.studentContract = contract;
-      this.studentContract.contract_date = moment(this.studentContract.contract_date).format('YYYY-MM-DD');
-      this.studentContract.pa_start_date = moment(this.studentContract.pa_start_date).format('YYYY-MM-DD');
-      this.studentContract.pa_end_date = moment(this.studentContract.pa_end_date).format('YYYY-MM-DD');
-
-      for (const item of this.studentsData) {
+      this.studentContracts = contracts;
+      for (let i = 0; i < this.studentContracts.length; i++) {
+        this.studentContracts[i].contract_date = moment(this.studentContracts[i].contract_date).format('YYYY-MM-DD');
+        this.studentContracts[i].pa_start_date = moment(this.studentContracts[i].pa_start_date).format('YYYY-MM-DD');
+        this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
         studentsDataJson.push({
-          "A/A": this.studentsData.indexOf(item) + 1,
-          "ΑΜ": item.schacpersonaluniquecode,
-          "Ημερομηνία Υπογραφής": this.studentContract.contract_date,
-          "Επωνυμία Εταιρείας": this.studentContract.company_name,
-          "ΑΦΜ Εταιρείας": this.studentContract.company_afm,
-          "Διεύθυνση Εταιρείας": this.studentContract.company_address,
-          "Εκπρόσωπος Εταιρείας": this.studentContract.company_liaison,
-          "Θέση Εκπροσώπου Εταιρείας": item.company_liaison_position,
-          "Ονοματεπώνυμο": this.studentContract.displayname,
-          "Πατρώνυμο": this.studentContract.father_name,
-          "Τμήμα": this.studentContract.dept_name,
-          "Αριθμός Ταυτότητας": this.studentContract.id_number,
-          "ΑΜΑ-ΙΚΑ": this.studentContract.amika,
-          "ΑΜΚΑ": this.studentContract.amka,
-          "ΑΦΜ": this.studentContract.afm,
-          "ΔΟΥ": this.studentContract.doy_name,
-          "Αντικείμενο Πρακτικής Άσκησης": this.studentContract.pa_subject,
-          "Από ΑΤΛΑ - Αντικείμενο ΠΑ": this.studentContract.pa_subject_atlas,
-          "Ημερομηνία Έναρξης ΠΑ": this.studentContract.pa_start_date,
-          "Ημερομηνία Λήξης ΠΑ": this.studentContract.pa_end_date,
-          "Όνομα ΤΥ": this.studentContract.department_manager_name,
-          "email": item.mail,
+          "A/A": i + 1,
+          "ΑΜ": this.studentsData[i].schacpersonaluniquecode,
+          "Ημερομηνία Υπογραφής": this.studentContracts[i].contract_date,
+          "Επωνυμία Εταιρείας": this.studentContracts[i].company_name,
+          "ΑΦΜ Εταιρείας": this.studentContracts[i].company_afm,
+          "Διεύθυνση Εταιρείας": this.studentContracts[i].company_address,
+          "Εκπρόσωπος Εταιρείας": this.studentContracts[i].company_liaison,
+          "Θέση Εκπροσώπου Εταιρείας": this.studentContracts[i].company_liaison_position,
+          "Ονοματεπώνυμο": this.studentContracts[i].displayname,
+          "Πατρώνυμο": this.studentContracts[i].father_name,
+          "Τμήμα": this.studentContracts[i].dept_name,
+          "Αριθμός Ταυτότητας": this.studentContracts[i].id_number,
+          "ΑΜΑ-ΙΚΑ": this.studentContracts[i].amika,
+          "ΑΜΚΑ": this.studentContracts[i].amka,
+          "ΑΦΜ": this.studentContracts[i].afm,
+          "ΔΟΥ": this.studentContracts[i].doy_name,
+          "Αντικείμενο Πρακτικής Άσκησης": this.studentContracts[i].pa_subject,
+          "Από ΑΤΛΑ - Αντικείμενο ΠΑ": this.studentContracts[i].pa_subject_atlas,
+          "Ημερομηνία Έναρξης ΠΑ": this.studentContracts[i].pa_start_date,
+          "Ημερομηνία Λήξης ΠΑ": this.studentContracts[i].pa_end_date,
+          "Όνομα ΤΥ": this.studentContracts[i].department_manager_name,
+          "email": this.studentsData[i].mail
         });
       }
       const excelFileName: string = "StudentsContracts.xlsx";

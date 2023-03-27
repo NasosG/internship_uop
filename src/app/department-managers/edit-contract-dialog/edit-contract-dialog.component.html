@@ -111,8 +111,19 @@
       <input id="department_manager_name" matInput [(ngModel)]="studentContract.department_manager_name"
         formControlName="department_manager_name">
     </mat-form-field>
-    <mat-form-field class="w-40 ml-2 mt-2 mat-full-width" appearance="fill">
-      <mat-label for="ada_number">Απόφαση / ΑΔΑ: </mat-label>
+
+    <mat-form-field class="ml-2 mt-2 w-40 mat-full-width" appearance="fill">
+      <mat-label for="apofasi">Απόφαση: </mat-label>
+      <input id="apofasi" matInput [(ngModel)]="studentContract.apofasi" formControlName="apofasi">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="w-40 mat-full-width" appearance="fill">
+      <mat-label for="arithmos_sunedriashs">Αριθμός Συνεδρίασης: </mat-label>
+      <input matInput id="arithmos_sunedriashs" type="number" [(ngModel)]="studentContract.arithmos_sunedriashs"
+        formControlName="arithmos_sunedriashs">
+    </mat-form-field>
+    <mat-form-field class="ml-2 mt-2 w-40 mat-full-width" appearance="fill">
+      <mat-label for="ada_number">ΑΔΑ: </mat-label>
       <input matInput id="ada_number" type="text" [(ngModel)]="studentContract.ada_number" formControlName="ada_number">
     </mat-form-field>
     <br>

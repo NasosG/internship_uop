@@ -91,6 +91,7 @@
                 <table id="contractsTable" #contractsTable ngbTable class="table table-bordered table-striped">
                   <thead>
                     <tr ngbTableRow>
+                      <th>A/A</th>
                       <th>Ονοματεπώνυμο</th>
                       <th>ΑΜ</th>
                       <th>email</th>
@@ -102,7 +103,7 @@
                   <tbody ngbTableBody>
                     <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData) ; let idx=index"
                       [attr.data-index]="idx">
-                      <!-- <td>{{student.givenname}} {{student.sn}}</td> -->
+                      <td>{{idx + 1}}</td>
                       <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
                           {{student.sn}}</a>
                       <td>{{student.schacpersonaluniquecode}}</td>
@@ -136,6 +137,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
+                      <th>A/A</th>
                       <th>Ονοματεπώνυμο</th>
                       <th>ΑΜ</th>
                       <th>email</th>

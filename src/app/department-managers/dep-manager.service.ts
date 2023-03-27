@@ -345,6 +345,13 @@ export class DepManagerService {
     return this.http.get<Contract>(STUDENTS_URL + "getContractDetailsByStudentIdAndPeriod/", { params });
   }
 
+  getContractDetailsByDepartmentAndPeriod(departmentId: number, periodId: number): Observable<Array<Contract>> {
+    const params = new HttpParams()
+      .set('departmentId', departmentId)
+      .set('periodId', periodId == null ? 0 : periodId);
+    return this.http.get<Array<Contract>>(STUDENTS_URL + "getContractDetailsByDepartmentAndPeriod/", { params });
+  }
+
   onSubmitStudentContractDetails(contract: Contract, studentId: number, periodId: number): Observable<any>{
     return this.http
       .put<{ message: string }>(STUDENTS_URL + "updateContractDetails/" + studentId, {contract, periodId});

@@ -905,7 +905,7 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
     const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
                   company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka,
                   student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name,
-                  list.ada_number as ada_number, asn.student_fee as student_wages
+                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
                   INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
@@ -920,6 +920,28 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
     throw Error(`An error occured while fetching contract file metadata: ${error}`);
   }
 };
+
+const getContractDetailsByDepartmentAndPeriod = async (departmentId, periodId) => {
+  try {
+    const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
+                  company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka,
+                  student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name,
+                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages
+                  FROM final_assignments_list list
+                  INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                  INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
+                  INNER JOIN student_users ON usr.uuid = student_users.sso_uid
+                  INNER JOIN atlas_position_group grp ON asn.position_id = grp.atlas_position_id
+                  INNER JOIN atlas_provider pr on grp.provider_id = pr.atlas_provider_id
+                  WHERE list.period_id = $1 AND list.department_id = $2`;
+    const result = await pool.query(query, [periodId, departmentId]);
+    return result.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while fetching contract file metadata (by department/period): ${error}`);
+  }
+};
+
 
 const isStudentInAssignmentList = async (student_id) => {
   try {
@@ -967,9 +989,9 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
       contractDetails.pa_start_date, contractDetails.pa_end_date, contractDetails.student_wages, studentId, periodId]);
 
     const updateFinalListResult = await pool.query(`UPDATE final_assignments_list SET
-                                    department_manager_name = $1, ada_number = $2
-                                    WHERE period_id = $3`,
-      [contractDetails.department_manager_name, contractDetails.ada_number, periodId]);
+                                    department_manager_name = $1, ada_number = $2, apofasi = $3, arithmos_sunedriashs = $4
+                                    WHERE period_id = $5`,
+      [contractDetails.department_manager_name, contractDetails.ada_number, contractDetails.apofasi, contractDetails.arithmos_sunedriashs, periodId]);
 
     console.log(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
@@ -1013,6 +1035,7 @@ module.exports = {
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
   getContractFileMetadataByStudentId,
+  getContractDetailsByDepartmentAndPeriod,
   isStudentInAssignmentList,
   semesterInterestAppFound,
   findMaxPositions,

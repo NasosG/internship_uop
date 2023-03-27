@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import {Period} from 'src/app/department-managers/period.model';
-import {Student} from '../student.model';
+import { Period } from 'src/app/department-managers/period.model';
+import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 
 @Component({

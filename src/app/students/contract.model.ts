@@ -20,4 +20,6 @@ export interface Contract {
   department_manager_name: string;
   ada_number?: string;
   student_wages?: string;
+  apofasi?: string;
+  arithmos_sunedriashs?: string;
 }
