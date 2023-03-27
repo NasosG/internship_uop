@@ -965,12 +965,13 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
     contractDetails.amika, contractDetails.afm, contractDetails.father_name,
     contractDetails.doy_name, studentId]);
 
-    contractDetails.contract_date = !contractDetails.contract_date ? null
-      : moment(contractDetails.contract_date).format('YYYY-MM-DD');
-    contractDetails.pa_start_date = !contractDetails.pa_start_date ? null
-      : moment(contractDetails.pa_start_date).format('YYYY-MM-DD');
-    contractDetails.pa_end_date = !contractDetails.pa_end_date ? null
-      : moment(contractDetails.pa_end_date).format('YYYY-MM-DD');
+    const inputDateFormat = 'YYYY-MM-DD';
+    contractDetails.contract_date = !contractDetails.contract_date || !moment(contractDetails.contract_date, inputDateFormat, true).isValid() ? null
+      : moment(contractDetails.contract_date, inputDateFormat).format('YYYY-MM-DD');
+    contractDetails.pa_start_date = !contractDetails.pa_start_date || !moment(contractDetails.pa_start_date, inputDateFormat, true).isValid() ? null
+      : moment(contractDetails.pa_start_date, inputDateFormat).format('YYYY-MM-DD');
+    contractDetails.pa_end_date = !contractDetails.pa_end_date || !moment(contractDetails.pa_end_date, inputDateFormat, true).isValid() ? null
+      : moment(contractDetails.pa_end_date, inputDateFormat).format('YYYY-MM-DD');
 
     // contractDetails.contract_date = !contractDetails.contract_date ? null : contractDetails.contract_date;
     const updateAssignmentsResult = await pool.query(`UPDATE internship_assignment SET
