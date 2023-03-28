@@ -59,7 +59,7 @@
                       <th>Ονοματεπώνυμο</th>
                       <th>ΑΜ</th>
                       <th>email</th>
-                      <!-- <th>Έγγραφα</th> -->
+                      <th>Φορέας</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>
@@ -71,7 +71,9 @@
                           {{student.sn}}</a>
                       <td>{{student.schacpersonaluniquecode}}</td>
                       <td>{{student.mail}}</td>
-
+                      <td class="action text-center"><span (click)="openCompanyInfoDialog(student.position_id)" class="text-secondary custom-info-btn
+                          text-with-dots">
+                          <i class="fa fa-eye"></i> Στοιχεία Φορέα</span></td>
                       <!-- <td class="reponsive-text-center-td">
                         <button (click)="receiveFile(student.sso_uid, 'IBAN')"
                           class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
@@ -93,7 +95,6 @@
                       <td class="action text-center">
                         <a (click)="downloadContractFileForStudent(student.uuid)" class="text-secondary"
                           style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
-
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
                     </tr>
@@ -104,6 +105,7 @@
                       <th>Ονοματεπώνυμο</th>
                       <th>ΑΜ</th>
                       <th>email</th>
+                      <th>Φορέας</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>

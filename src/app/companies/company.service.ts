@@ -41,6 +41,11 @@ export class CompanyService {
     return fetchedCompanies;
   }
 
+  //make a function like the above one but with the position id and get position and company details
+  public getCompanyDetailsByPositionId(positionId: string): Observable<Company> {
+    return this.http.get<Company>(this.baseUrl + "/getProviderByPositionId/" + positionId);
+  }
+
   public getStudentActiveApplications(companyName: string, companyAFM: string): Observable<Array<CompanysActiveApplications>> {
     const params = new HttpParams()
       .set('companyName', companyName)

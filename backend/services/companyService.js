@@ -313,6 +313,17 @@ const generatePassword = (passwordLength) => {
   return password;
 };
 
+const getProviderByPositionId = async (positionId) => {
+  try {
+    const providerByPositionId = await pool.query(`SELECT name, contact_email, contact_phone, afm, contact_name FROM atlas_position_group
+                                                  INNER JOIN atlas_provider ON provider_id = atlas_provider_id
+                                                  WHERE atlas_position_id = $1`, [positionId]);
+    return providerByPositionId.rows[0];
+  } catch (error) {
+    throw Error('Error while fetching provider by position id');
+  }
+};
+
 module.exports = {
   getInternalPositionsByProviderId,
   getProviderIdByUserId,
@@ -324,6 +335,7 @@ module.exports = {
   getStudentAssignedApplications,
   getPreassignModeByDepartmentId,
   getStudentAMandDepartmentById,
+  getProviderByPositionId,
   insertCompanyUsers,
   insertProviders,
   insertInternalPositionGroup,

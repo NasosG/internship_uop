@@ -271,6 +271,22 @@ const resetPassword = async (request, response) => {
       message: "Your password has not been reset successfully: " + error.message
     });
   }
+
+};
+
+const getProviderByPositionId = async (request, response) => {
+  try {
+    const positionId = request.params.id;
+    const providers = await companyService.getProviderByPositionId(positionId);
+    response.status(200).json(providers);
+
+  } catch (error) {
+    console.error(error.message);
+    response.status(404)
+      .json({
+        message: error.message
+      });
+  }
 };
 
 module.exports = {
@@ -280,6 +296,7 @@ module.exports = {
   getProviderById,
   getInternalPositionsByProviderId,
   getStudentAssignedApplications,
+  getProviderByPositionId,
   insertInternalPositionGroup,
   insertAssignment,
   getStudentActiveApplications,

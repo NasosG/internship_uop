@@ -13,5 +13,6 @@ router.post("/insertNewAssignment/:id", companyController.insertAssignment);
 router.post("/insertInternalPosition/:id", companyController.insertInternalPositionGroup);
 router.post("/login/", companyController.login);
 router.post("/resetPassword/", companyController.resetPassword);
+router.get("/getProviderByPositionId/:id", companyController.getProviderByPositionId);
 
 module.exports = router;

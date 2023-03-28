@@ -12,6 +12,7 @@ import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dia
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import {Contract} from 'src/app/students/contract.model';
+import {CompanyAndPositionInfoDialogComponent} from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
 
 @Component({
   selector: 'app-student-contracts',
@@ -192,4 +193,15 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
+  openCompanyInfoDialog(positionId: any) {
+    console.log(positionId);
+    // alert(positionId);
+    const dialogRef = this.dialog.open(CompanyAndPositionInfoDialogComponent, {
+      data: { positionId: positionId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
