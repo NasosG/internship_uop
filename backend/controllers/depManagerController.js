@@ -287,6 +287,7 @@ const completePeriodById = async (request, response) => {
     };
     console.log(data);
     await depManagerService.setPeriodCompleted(data);
+    await depManagerService.updateEspaPositionsOnPeriodCompleted(data);
 
     response
       .status(201)
@@ -769,8 +770,6 @@ const updateImplementationDatesByStudentAndPeriod = async (request, response) =>
     });
   }
 };
-
-
 
 module.exports = {
   getDepManagerById,

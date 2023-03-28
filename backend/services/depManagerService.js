@@ -913,7 +913,7 @@ const updateStudentFinalAssignments = async (depManagerDetails, listId, body) =>
 };
 
 const setPeriodCompleted = async (body) => {
-  console.log("setPeriodCompleted started for department" + body.department_id + " at: " + new Date().toLocaleString());
+  console.log("setPeriodCompleted started for department " + body.department_id + " at: " + new Date().toLocaleString());
   try {
     await pool.query("UPDATE period  \
                       SET is_active = 'false', \
@@ -940,14 +940,14 @@ const getStudentListForPeriod = async (periodId) => {
   }
 };
 
-const updateEspaPositionsOnPeriodCompleted = async (data, listId) => {
+const updateEspaPositionsOnPeriodCompleted = async (data) => {
   try {
     const positionEspaCount = await pool.query("SELECT positions FROM espa_positions WHERE department_id = $1", [data.department_id]);
     const studentsInListCnt = await pool.query(`SELECT count(*) as assignments_count
                                               FROM final_assignments_list list
                                               INNER JOIN internship_assignment a
                                               ON a.period_id = list.period_id
-                                              WHERE list.department_id = $1 AND list.period_id = $2 AND list.list_id = $3`, [data.department_id, data.period_id, listId]);
+                                              WHERE list.department_id = $1 AND list.period_id = $2`, [data.department_id, data.period_id]);
 
     const newResultAfterSubstraction = parseInt(positionEspaCount.rows[0].positions) - parseInt(studentsInListCnt.rows[0].assignments_count);
     const finalResult = await pool.query(`UPDATE espa_positions SET positions = $1 WHERE department_id = $2`, [newResultAfterSubstraction, data.department_id]);
