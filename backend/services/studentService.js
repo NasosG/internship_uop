@@ -926,7 +926,7 @@ const getContractDetailsByDepartmentAndPeriod = async (departmentId, periodId) =
     const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
                   company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka,
                   student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name,
-                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages
+                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages, asn.student_id
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
                   INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
@@ -973,7 +973,6 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
     contractDetails.pa_end_date = !contractDetails.pa_end_date || !moment(contractDetails.pa_end_date, inputDateFormat, true).isValid() ? null
       : moment(contractDetails.pa_end_date, inputDateFormat).format('YYYY-MM-DD');
 
-    // contractDetails.contract_date = !contractDetails.contract_date ? null : contractDetails.contract_date;
     const updateAssignmentsResult = await pool.query(`UPDATE internship_assignment SET
                                     company_liaison = $1,
                                     company_liaison_position = $2,
@@ -983,11 +982,16 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
                                     pa_subject_atlas = $6,
                                     pa_start_date = $7,
                                     pa_end_date = $8,
-                                    student_fee = $9
-                                    WHERE student_id = $10 AND period_id = $11`,
+                                    student_fee = $9,
+                                    apofasi = $10,
+                                    arithmos_sunedriashs = $11,
+                                    ada_number = $12,
+                                    WHERE student_id = $13 AND period_id = $14`,
       [contractDetails.company_liaison, contractDetails.company_liaison_position, contractDetails.company_address,
       contractDetails.contract_date, contractDetails.pa_subject, contractDetails.pa_subject_atlas,
-      contractDetails.pa_start_date, contractDetails.pa_end_date, contractDetails.student_wages, studentId, periodId]);
+      contractDetails.pa_start_date, contractDetails.pa_end_date, contractDetails.student_wages,
+      contractDetails.apofasi, contractDetails.arithmos_sunedriashs, contractDetails.ada_number,
+        studentId, periodId]);
 
     const updateFinalListResult = await pool.query(`UPDATE final_assignments_list SET
                                     department_manager_name = $1, ada_number = $2, apofasi = $3, arithmos_sunedriashs = $4

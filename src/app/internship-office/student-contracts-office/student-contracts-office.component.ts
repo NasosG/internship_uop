@@ -193,13 +193,17 @@ export class StudentContractsOfficeComponent implements OnInit {
       }
 
       this.studentContracts = contracts;
+
       for (let i = 0; i < this.studentContracts.length; i++) {
         this.studentContracts[i].contract_date = moment(this.studentContracts[i].contract_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_start_date = moment(this.studentContracts[i].pa_start_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
+
+        let studentIndex = this.studentsData.findIndex(student => student.uuid == this.studentContracts[i].student_id);
+
         studentsDataJson.push({
           "A/A": i + 1,
-          "ΑΜ": this.studentsData[i].schacpersonaluniquecode,
+          "ΑΜ": studentIndex !== -1 ? this.studentsData[studentIndex].displayname : null,
           "Ημερομηνία Υπογραφής": this.studentContracts[i].contract_date,
           "Επωνυμία Εταιρείας": this.studentContracts[i].company_name,
           "ΑΦΜ Εταιρείας": this.studentContracts[i].company_afm,
@@ -219,7 +223,7 @@ export class StudentContractsOfficeComponent implements OnInit {
           "Ημερομηνία Έναρξης ΠΑ": this.studentContracts[i].pa_start_date,
           "Ημερομηνία Λήξης ΠΑ": this.studentContracts[i].pa_end_date,
           "Όνομα ΤΥ": this.studentContracts[i].department_manager_name,
-          "email": this.studentsData[i].mail
+          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null
         });
       }
       const excelFileName: string = "StudentsContracts.xlsx";

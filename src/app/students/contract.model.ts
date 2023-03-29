@@ -22,4 +22,5 @@ export interface Contract {
   student_wages?: string;
   apofasi?: string;
   arithmos_sunedriashs?: string;
+  student_id?: string;
 }
