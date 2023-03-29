@@ -66,6 +66,26 @@ export class EditContractDialogComponent implements OnInit {
         this.studentContract.contract_date = moment(this.studentContract.contract_date).format('YYYY-MM-DD');
         this.studentContract.pa_start_date = moment(this.studentContract.pa_start_date).format('YYYY-MM-DD');
         this.studentContract.pa_end_date = moment(this.studentContract.pa_end_date).format('YYYY-MM-DD');
+
+        /* Default values UI */
+        // Show atlas subject for position if no subject has been filled by user
+        if (!this.studentContract.pa_subject) {
+          this.studentContract.pa_subject = this.studentContract.pa_subject_atlas;
+        }
+        // Show internship start date as default if no contract date has been filled by user
+        if (isNaN(Date.parse(this.studentContract.contract_date))) {
+          this.studentContract.contract_date = this.studentContract.pa_start_date;
+        }
+        // Show internship single assignment date as default and override the generic list's one.
+        if (this.studentContract.assignment_ada_number) {
+          this.studentContract.ada_number = this.studentContract.assignment_ada_number
+        }
+        if (this.studentContract.assignment_apofasi) {
+          this.studentContract.apofasi = this.studentContract.assignment_apofasi
+        }
+        if (this.studentContract.assignment_arithmos_sunedriashs) {
+          this.studentContract.arithmos_sunedriashs = this.studentContract.assignment_arithmos_sunedriashs
+        }
       });
   }
 

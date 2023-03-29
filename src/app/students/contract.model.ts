@@ -23,4 +23,7 @@ export interface Contract {
   apofasi?: string;
   arithmos_sunedriashs?: string;
   student_id?: string;
+  assignment_ada_number?: string;
+  assignment_apofasi?: string;
+  assignment_arithmos_sunedriashs?: string;
 }

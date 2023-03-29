@@ -905,7 +905,8 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
     const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
                   company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka,
                   student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name,
-                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages
+                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages,
+                  asn.ada_number as assignment_ada_number, asn.apofasi as assignment_apofasi, asn.arithmos_sunedriashs as assignment_arithmos_sunedriashs
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
                   INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
@@ -985,7 +986,7 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
                                     student_fee = $9,
                                     apofasi = $10,
                                     arithmos_sunedriashs = $11,
-                                    ada_number = $12,
+                                    ada_number = $12
                                     WHERE student_id = $13 AND period_id = $14`,
       [contractDetails.company_liaison, contractDetails.company_liaison_position, contractDetails.company_address,
       contractDetails.contract_date, contractDetails.pa_subject, contractDetails.pa_subject_atlas,
@@ -994,7 +995,10 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
         studentId, periodId]);
 
     const updateFinalListResult = await pool.query(`UPDATE final_assignments_list SET
-                                    department_manager_name = $1, ada_number = $2, apofasi = $3, arithmos_sunedriashs = $4
+                                    department_manager_name = $1,
+                                    ada_number = COALESCE(ada_number, $2),
+                                    apofasi = COALESCE(apofasi, $3),
+                                    arithmos_sunedriashs = COALESCE(arithmos_sunedriashs, $4)
                                     WHERE period_id = $5`,
       [contractDetails.department_manager_name, contractDetails.ada_number, contractDetails.apofasi, contractDetails.arithmos_sunedriashs, periodId]);
 
