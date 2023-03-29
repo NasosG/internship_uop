@@ -1,4 +1,9 @@
-<h3>Στοιχεία Συμβάσης</h3>
+<div class="dialog-header">
+  <h3>Στοιχεία Συμβάσης</h3>
+  <div mat-icon-button class="close-button" (click)="closeDialog()">
+    <i class="fa fa-times"></i>
+  </div>
+</div>
 <mat-dialog-content class="mat-typography">
   <br>
   <p><span>Ονοματεπώνυμο</span>: {{ this.data.studentsData[this.data.index].givenname}}

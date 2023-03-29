@@ -54,6 +54,10 @@ export class EditContractDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   ngOnInit(): void {
     this.studentAssignment = this.data.studentsData[this.data.index];
     this.depManagerService.getContractDetailsByStudentIdAndPeriodId(this.studentAssignment.student_id, this.studentAssignment.period_id)
