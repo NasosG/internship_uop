@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
+import {StudentsService} from '../student.service';
 
 @Component({
   selector: 'app-sheets',
@@ -7,11 +8,14 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./sheets.component.css']
 })
 export class SheetsComponent implements OnInit {
-  areSheetsDisabled = true;
+  public areSheetsDisabled: boolean = true;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private studentsService: StudentsService) { }
 
   ngOnInit(): void {
+    this.studentsService.isSheetEnabledForStudent().subscribe((enabledResult: boolean) => {
+        this.areSheetsDisabled = !enabledResult;
+    });
   }
 
 }

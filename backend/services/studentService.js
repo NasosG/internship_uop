@@ -1028,6 +1028,21 @@ const getLatestPeriodOfAssignedStudent = async (departmentId, studentId) => {
   }
 };
 
+const isSheetEnabledForStudent = async (studentId) => {
+  try {
+    const query = `SELECT asn.*
+                    FROM internship_assignment asn
+                    WHERE asn.student_id = $1`;
+
+    const result = await pool.query(query, [studentId]);
+
+    return result.rows.length > 0;
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while getting student assignment list: ${error.message}`);
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1081,5 +1096,6 @@ module.exports = {
   insertOrUpdateStudentInterestApp,
   getSemesterProtocolNumberIfExistsOrNull,
   updateDepartmentIdByStudentId,
-  getStudentFilesForAppPrint
+  getStudentFilesForAppPrint,
+  isSheetEnabledForStudent
 };

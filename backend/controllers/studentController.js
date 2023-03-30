@@ -1274,6 +1274,21 @@ const getLatestPeriodOfStudent = async (request, response) => {
   }
 };
 
+const isSheetEnabledForStudent = async (request, response) => {
+  try {
+    const studentId = request.query.studentId;
+
+    const areSheetsEnabledForStudent = await studentService.isSheetEnabledForStudent(studentId);
+
+    response.status(200).json(areSheetsEnabledForStudent);
+  } catch (error) {
+    console.error(error.message);
+    response.status(404).send({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1329,5 +1344,6 @@ module.exports = {
   updateDepartmentIdByStudentId,
   getProtocolNumberIfInterestAppExists,
   getStudentFilesForAppPrint,
-  produceContractFile
+  produceContractFile,
+  isSheetEnabledForStudent
 };

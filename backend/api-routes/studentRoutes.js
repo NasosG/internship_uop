@@ -61,5 +61,6 @@ router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getCont
 router.get("/getContractDetailsByDepartmentAndPeriod/", studentController.getContractDetailsByDepartmentAndPeriod);
 router.put("/updateContractDetails/:id", studentController.updateContractDetails);
 router.get("/getLatestPeriodOfStudent/", studentController.getLatestPeriodOfStudent);
+router.get("/isSheetEnabledForStudent/", studentController.isSheetEnabledForStudent);
 
 module.exports = router;

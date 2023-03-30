@@ -546,4 +546,11 @@ export class StudentsService {
       .set('positionId', positionId == null ? 0 : positionId);
     return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getImplementationDatesByStudentAndPeriod/", { params });
   }
+
+  isSheetEnabledForStudent(): Observable<boolean> {
+    const studentId = this.authService.getSessionId();
+    const params = new HttpParams()
+      .set('studentId', studentId);
+    return this.http.get<boolean>(STUDENTS_URL + "isSheetEnabledForStudent/", { params });
+  }
 }
