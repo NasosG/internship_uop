@@ -11,6 +11,7 @@ import { StudentsMatchedInfoDialogComponent } from 'src/app/department-managers/
 import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
 import { Contract } from 'src/app/students/contract.model';
+import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -233,6 +234,18 @@ export class StudentContractsOfficeComponent implements OnInit {
 
       /* Save to file */
       XLSX.writeFile(wb, excelFileName);
+    });
+  }
+
+  openCompanyInfoDialog(positionId: any) {
+    console.log(positionId);
+    // alert(positionId);
+    const dialogRef = this.dialog.open(CompanyAndPositionInfoDialogComponent, {
+      data: { positionId: positionId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 }

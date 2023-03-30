@@ -11,8 +11,8 @@ import { Period } from '../period.model';
 import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
-import {Contract} from 'src/app/students/contract.model';
-import {CompanyAndPositionInfoDialogComponent} from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
+import { Contract } from 'src/app/students/contract.model';
+import { CompanyAndPositionInfoDialogComponent } from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
 
 @Component({
   selector: 'app-student-contracts',

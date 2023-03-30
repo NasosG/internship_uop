@@ -124,8 +124,8 @@ const getStudentActiveApplications = async (request, response) => {
 
 const getStudentsWithSheetInput = async (request, response) => {
   try {
-    const departmentId = request.params.department_id;
-    const users = await depManagerService.getStudentsWithSheetInput(departmentId);
+    const periodId = request.params.period_id;
+    const users = await depManagerService.getStudentsWithSheetInput(periodId);
     response.status(200).json(users);
   } catch (error) {
     response.status(404).json({
@@ -136,8 +136,8 @@ const getStudentsWithSheetInput = async (request, response) => {
 
 const getStudentsWithSheetOutput = async (request, response) => {
   try {
-    const departmentId = request.params.department_id;
-    const users = await depManagerService.getStudentsWithSheetOutput(departmentId);
+    const periodId = request.params.period_id;
+    const users = await depManagerService.getStudentsWithSheetOutput(periodId);
     response.status(200).json(users);
   } catch (error) {
     response.status(404).json({

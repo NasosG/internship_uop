@@ -8,6 +8,7 @@ import { StudentsService } from 'src/app/students/student.service';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
+import { Period } from '../period.model';
 import { SheetInputPreviewDialogComponent } from '../sheet-input-preview-dialog/sheet-input-preview-dialog.component';
 
 @Component({
@@ -23,6 +24,8 @@ export class SheetInputDeptmanagerComponent implements OnInit {
   ngSelect = '';
   depManagerData: DepManager | undefined;
   studentName!: string;
+  periods: Period[] | undefined;
+  isLoading: boolean = false;
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -33,37 +36,43 @@ export class SheetInputDeptmanagerComponent implements OnInit {
       .subscribe((depManager: DepManager) => {
         this.depManagerData = depManager;
 
-        this.depManagerService.getStudentsWithSheetInput(this.depManagerData.department_id)
-          .subscribe((students: any[]) => {
-            this.studentsData = students;
-            for (let i = 0; i < students.length; i++) {
-              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-              this.studentsData[i].user_ssn = students[i].user_ssn;
-            }
-            // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-            this.chRef.detectChanges();
+        this.depManagerService.getAllPeriodsByDepartmentId(this.depManagerData.department_id)
+          .subscribe((periods: any[]) => {
+            this.periods = periods;
+            console.log(this.periods[0].id);
+          this.depManagerService.getStudentsWithSheetInput(this.periods[0].id)
+            .subscribe((students: any[]) => {
+              console.log(students);
+              this.studentsData = students;
+              for (let i = 0; i < students.length; i++) {
+                this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+                this.studentsData[i].user_ssn = students[i].user_ssn;
+              }
+              // Have to wait till the changeDetection occurs. Then, project data into the HTML template
+              this.chRef.detectChanges();
 
-            // Use of jQuery DataTables
-            const table: any = $('#sheetInputTable');
-            this.sheetInputTable = table.DataTable({
-              lengthMenu: [
-                [10, 25, 50, -1],
-                [10, 25, 50, 'All']
-              ],
-              lengthChange: true,
-              paging: true,
-              searching: true,
-              ordering: true,
-              info: true,
-              autoWidth: false,
-              responsive: true,
-              select: true,
-              pagingType: 'full_numbers',
-              processing: true,
-              columnDefs: [{ orderable: false, targets: [3] }]
+              // Use of jQuery DataTables
+              const table: any = $('#sheetInputTable');
+              this.sheetInputTable = table.DataTable({
+                lengthMenu: [
+                  [10, 25, 50, -1],
+                  [10, 25, 50, 'All']
+                ],
+                lengthChange: true,
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                select: true,
+                pagingType: 'full_numbers',
+                processing: true,
+                columnDefs: [{ orderable: false, targets: [3] }]
+              });
             });
-          });
-      });
+        });
+     });
   }
 
   // This function is used to get the AM of the student
@@ -99,4 +108,25 @@ export class SheetInputDeptmanagerComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  onPeriodChange(value: any) {
+    this.isLoading = true;
+    this.selected = value;
+
+    this.depManagerService.getStudentsWithSheetInput(value)
+      .subscribe({
+        next: (students: any[]) => {
+          this.studentsData = students;
+            for (let i = 0; i < students.length; i++) {
+              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+              this.studentsData[i].user_ssn = students[i].user_ssn;
+            }
+          this.isLoading = false;
+        }, error: (error: any) => {
+            console.log(error);
+            this.isLoading = false;
+        }
+      });
+  }
+
 }

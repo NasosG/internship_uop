@@ -147,14 +147,14 @@ export class DepManagerService {
       .get<Array<ActiveApplication>>(DEPARTMENT_MANAGER_URL + "getStudentActiveApplications/" + departmentId);
   }
 
-  getStudentsWithSheetInput(departmentId: number): Observable<Array<any>> {
+  getStudentsWithSheetInput(periodId: number): Observable<Array<any>> {
     return this.http
-      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetInput/" + departmentId);
+      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetInput/" + periodId);
   }
 
-  getStudentsWithSheetOutput(departmentId: number): Observable<Array<any>> {
+  getStudentsWithSheetOutput(periodId: number): Observable<Array<any>> {
     return this.http
-      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetOutput/" + departmentId);
+      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetOutput/" + periodId);
   }
 
   getStudentEntrySheetsByStudentId(studentId: string): Observable<Array<EntryForm>> {
