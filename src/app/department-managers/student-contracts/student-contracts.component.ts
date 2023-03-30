@@ -162,7 +162,7 @@ export class StudentContractsComponent implements OnInit {
 
         studentsDataJson.push({
           "A/A": i + 1,
-          "ΑΜ": studentIndex !== -1 ? this.studentsData[studentIndex].displayname : null,
+          "ΑΜ": studentIndex !== -1 ? this.studentsData[studentIndex].schacpersonaluniquecode : null,
           "Ημερομηνία Υπογραφής": this.studentContracts[i].contract_date,
           "Επωνυμία Εταιρείας": this.studentContracts[i].company_name,
           "ΑΦΜ Εταιρείας": this.studentContracts[i].company_afm,
