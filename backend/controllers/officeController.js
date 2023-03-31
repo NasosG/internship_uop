@@ -55,8 +55,9 @@ const getPeriodByDepartmentId = async (request, response) => {
 
 const getStudentsWithSheetInput = async (request, response) => {
   try {
-    const departmentId = request.params.department_id;
-    const users = await officeService.getStudentsWithSheetInput(departmentId);
+    const periodId = request.params.period_id;
+
+    const users = await officeService.getStudentsWithSheetInput(periodId);
     response.status(200).json(users);
   } catch (error) {
     response.status(404).json({
@@ -67,8 +68,8 @@ const getStudentsWithSheetInput = async (request, response) => {
 
 const getStudentsWithSheetOutput = async (request, response) => {
   try {
-    const departmentId = request.params.department_id;
-    const users = await officeService.getStudentsWithSheetOutput(departmentId);
+    const periodId = request.params.period_id;
+    const users = await officeService.getStudentsWithSheetOutput(periodId);
     response.status(200).json(users);
   } catch (error) {
     response.status(404).json({

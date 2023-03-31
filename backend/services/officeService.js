@@ -58,33 +58,32 @@ const getPeriodByDepartmentId = async (departmentId) => {
   }
 };
 
-const getStudentsWithSheetInput = async (departmentId) => {
+const getStudentsWithSheetInput = async (periodId) => {
   try {
-    const students = await pool.query("SELECT * FROM sso_users \
-                                      INNER JOIN student_users \
-                                      ON sso_users.uuid = student_users.sso_uid \
-                                      INNER JOIN entry_form \
-                                      ON student_users.sso_uid = entry_form.student_id \
-                                      WHERE sso_users.edupersonprimaryaffiliation='student' \
-                                      AND sso_users.department_id = $1", [departmentId]);
-    //  AND student_users.phase = '2' \
-    // AND sso_users.department_id = $1", [departmentId]);
+    const students = await pool.query(`SELECT * FROM sso_users
+                                      INNER JOIN student_users
+                                      ON sso_users.uuid = student_users.sso_uid
+                                      INNER JOIN entry_form
+                                      ON student_users.sso_uid = entry_form.student_id
+                                      INNER JOIN internship_assignment
+                                      ON internship_assignment.student_id = sso_users.uuid
+                                      WHERE internship_assignment.period_id = $1`, [periodId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students with input sheet' + error.message);
   }
 };
 
-const getStudentsWithSheetOutput = async (departmentId) => {
+const getStudentsWithSheetOutput = async (periodId) => {
   try {
-    const students = await pool.query("SELECT * FROM sso_users \
-                                      INNER JOIN student_users \
-                                      ON sso_users.uuid = student_users.sso_uid \
-                                      INNER JOIN exit_form \
-                                      ON student_users.sso_uid = exit_form.student_id \
-                                      WHERE sso_users.edupersonprimaryaffiliation='student' \
-                                      AND student_users.phase = '2' \
-                                      AND sso_users.department_id = $1", [departmentId]);
+    const students = await pool.query(`SELECT * FROM sso_users
+                                    INNER JOIN student_users
+                                    ON sso_users.uuid = student_users.sso_uid
+                                    INNER JOIN exit_form
+                                    ON student_users.sso_uid = exit_form.student_id
+                                    INNER JOIN internship_assignment
+                                    ON internship_assignment.student_id = sso_users.uuid
+                                    WHERE internship_assignment.period_id = $1`, [periodId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students with output sheet' + error.message);

@@ -21,12 +21,68 @@
               </li>
             </ul>
           </div>
+          <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
+            <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
+              Επιλογή Τμήματος: </h5>
+            <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
+            <div class="col-12 col-sm-10 pt-3">
+              <div class="form-group col-md-4 mb-0 pb-0">
+                <mat-form-field appearance="outline" style="min-width:310px;">
+                  <mat-label>Τμήμα</mat-label>
+                  <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let academic of officeUserAcademics" [value]="academic"
+                      (click)="onDepartmentChange(academic)">
+                      {{academic.department}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="pb-0 mt-0 mb-0 pl-3 container-responsive row my-container">
+            <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
+              Επιλογή Περιόδου: </h5>
+            <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
+            <div class="col-12 col-sm-10 pt-3">
+              <div class="form-group col-md-4 mb-0 pb-0">
+                <mat-form-field appearance="outline" style="min-width:310px;">
+                  <mat-label>Περίοδος</mat-label>
+                  <mat-select #periodFormSelect formControlName="period_form" [disableOptionCentering]="true">
+                    <mat-option *ngIf="periods && this.periods.length == 0" [value]="null"
+                      (click)="onPeriodChange(null)">
+                      {{'καμία επιλογή'}}
+                    </mat-option>
+                    <div *ngIf="periods && periods.length > 0">
+                      <mat-option *ngFor="let period of this.periods" [value]="period"
+                        (click)="onPeriodChange(period?.id||null)">
+                        {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}
+                        {{'- Λήξη: '}} {{period?.date_to | date:'dd/MM/yyyy'}}
+                      </mat-option>
+                    </div>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
           <!-- </div> -->
           <!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane active" id="sheet-output-tab">
-                <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="pl-2 pb-0">
+                    <strong>Πλήθος Συμβάσεων:</strong> {{studentsData.length}}
+                  </div>
+                  <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
+                    <mat-label>Αναζήτηση</mat-label>
+                    <input matInput #inputSearch (keyup)="searchStudents()">
+                    <!-- <button *ngIf="inputSearch.value" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="inputSearch.value=''">
+                      <i>close</i>
+                    </button> -->
+                  </mat-form-field>
+                </div>
                 <table id="sheetOutputTable" #sheetOutputTable class="table table-bordered table-striped">
                   <thead>
                     <tr>

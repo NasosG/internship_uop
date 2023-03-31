@@ -65,14 +65,24 @@ export class OfficeService {
       .put<{ message: string }>(OFFICE_URL + "updateExitSheetField/" + formId, { "fieldId": fieldId, "elementValue": elementValue });
   }
 
-  getStudentsWithSheetInput(departmentId: number): Observable<Array<any>> {
+  // getStudentsWithSheetInput(departmentId: number): Observable<Array<any>> {
+  //   return this.http
+  //     .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetInput/" + departmentId);
+  // }
+
+  // getStudentsWithSheetOutput(departmentId: number): Observable<Array<any>> {
+  //   return this.http
+  //     .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetOutput/" + departmentId);
+  // }
+
+  getStudentsWithSheetInput(periodId: number): Observable<Array<any>> {
     return this.http
-      .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetInput/" + departmentId);
+      .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetInput/" + periodId);
   }
 
-  getStudentsWithSheetOutput(departmentId: number): Observable<Array<any>> {
+  getStudentsWithSheetOutput(periodId: number): Observable<Array<any>> {
     return this.http
-      .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetOutput/" + departmentId);
+      .get<Array<any>>(OFFICE_URL + "getStudentsWithSheetOutput/" + periodId);
   }
 
   getStudentEntrySheetsByStudentId(studentId: string): Observable<Array<EntryForm>> {

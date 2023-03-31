@@ -3,11 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CommentsDialogComponent } from 'src/app/department-managers/comments-dialog/comments-dialog.component';
-import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Student } from 'src/app/students/student.model';
 import { OfficeService } from '../office.service';
 import { SheetOutputOfficeDialogComponent } from '../sheet-output-office-dialog/sheet-output-office-dialog.component';
 import { SheetOutputOfficeEditDialogComponent } from '../sheet-output-office-edit-dialog/sheet-output-office-edit-dialog.component';
+import { Period } from 'src/app/department-managers/period.model';
+import { OfficeUser } from '../office-user.model';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-sheet-output-office',
@@ -16,52 +19,45 @@ import { SheetOutputOfficeEditDialogComponent } from '../sheet-output-office-edi
 })
 export class SheetOutputOfficeComponent implements OnInit {
   @ViewChild('sheetOutputTable') sheetOutputTable: ElementRef | undefined;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
+  @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   selected = '';
   ngSelect = '';
-  depManagerData: DepManager | undefined;
+  public periods?: Period[];
+  public isLoading: boolean = false;
+  public periodData!: Period;
+  private officeUserData!: OfficeUser;
+  public officeUserAcademics!: any[];
+  public filteredData: any = [];
 
-  constructor(public officeService: OfficeService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  selectedDepartment: any = {
+    academic_id: 0,
+    department: ''
+  };
+
+  constructor(public officeService: OfficeService, public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
     this.officeService.getOfficeUser()
-      .subscribe((depManager: DepManager) => {
-        this.depManagerData = depManager;
+      .subscribe((officeUser: OfficeUser) => {
+        this.officeUserData = officeUser;
 
-        this.officeService.getStudentsWithSheetOutput(this.depManagerData.department_id)
-          .subscribe((students: any[]) => {
-            this.studentsData = students;
-            for (let i = 0; i < students.length; i++) {
-              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-              this.studentsData[i].user_ssn = students[i].user_ssn;
-            }
-            // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-            this.chRef.detectChanges();
+        this.officeUserData = officeUser;
+        this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
+        this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 
-            // Use of jQuery DataTables
-            const table: any = $('#sheetOutputTable');
-            this.sheetOutputTable = table.DataTable({
-              lengthMenu: [
-                [10, 25, 50, -1],
-                [10, 25, 50, 'All']
-              ],
-              lengthChange: true,
-              paging: true,
-              searching: true,
-              ordering: true,
-              info: true,
-              autoWidth: false,
-              responsive: true,
-              select: true,
-              pagingType: 'full_numbers',
-              processing: true,
-              columnDefs: [{ orderable: false, targets: [3, 4] }]
-            });
+        this.isLoading = false;
+
+        this.officeService.getAcademicsByOfficeUserId()
+          .subscribe((academics: any) => {
+            this.officeUserAcademics = academics;
         });
-    });
+      });
   }
 
   // This function is used to get the AM of the student
@@ -103,4 +99,60 @@ export class SheetOutputOfficeComponent implements OnInit {
     });
   }
 
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
+  }
+
+  onPeriodChange(value: any) {
+    this.isLoading = true;
+    this.selected = value;
+    this.studentsData = [];
+    this.filteredData = [];
+
+    let periodId = value ? value : 0;
+    console.log(this.selectedDepartment.academic_id);
+    this.officeService.getStudentsWithSheetOutput(periodId)
+      .pipe(
+        catchError((error: any) => {
+          console.error(error);
+          this.isLoading = false;
+
+          return of([]);
+        })
+      )
+      .subscribe((students: any) => {
+          // this.studentsData.splice(0, this.studentsData.length);
+          this.studentsData = students;
+          for (let i = 0; i < students.length; i++) {
+            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+            this.studentsData[i].user_ssn = students[i].user_ssn;
+          }
+
+          this.isLoading = false;
+    });
+  }
+
+  onDepartmentChange(value: any) {
+    this.isLoading = true;
+    this.periods = [];
+    this.selectedDepartment = value;
+    this.studentsData = [];
+    this.filteredData = [];
+
+    this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
+      .subscribe({
+        next:(periods: any[]) => {
+          this.periods = periods;
+          this.isLoading = false;
+        }, error: (error: any) => {
+          console.log(error);
+          this.isLoading = false;
+        }
+      });
+  }
 }

@@ -1,4 +1,5 @@
 export interface OfficeUser {
+  academics: any[];
   uuid: number;
   id: string;
   sn: string;

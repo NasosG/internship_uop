@@ -8,6 +8,11 @@ import { StudentsService } from 'src/app/students/student.service';
 import { OfficeService } from '../office.service';
 import { SheetInputOfficeDialogComponent } from '../sheet-input-office-dialog/sheet-input-office-dialog.component';
 import { SheetInputOfficeEditDialogComponent } from '../sheet-input-office-edit-dialog/sheet-input-office-edit-dialog.component';
+import {OfficeUser} from '../office-user.model';
+import {Period} from 'src/app/department-managers/period.model';
+import {Contract} from 'src/app/students/contract.model';
+import {DepManagerService} from 'src/app/department-managers/dep-manager.service';
+import {catchError, of, throwError} from 'rxjs';
 
 @Component({
   selector: 'app-sheet-input-office',
@@ -19,50 +24,43 @@ export class SheetInputOfficeComponent implements OnInit {
   @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
-  selected = '';
+  private selected = '';
   ngSelect = '';
-  depManagerData: DepManager | undefined;
   studentName!: string;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
+  @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
+  public periods?: Period[];
+  public isLoading: boolean = false;
+  public periodData!: Period;
+  private officeUserData!: OfficeUser;
+  public officeUserAcademics!: any[];
+  public filteredData: any = [];
 
-  constructor(public officeService: OfficeService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  selectedDepartment: any = {
+    academic_id: 0,
+    department: ''
+  };
+
+  constructor(public officeService: OfficeService, public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
   ngOnInit() {
     this.officeService.getOfficeUser()
-      .subscribe((depManager: DepManager) => {
-        this.depManagerData = depManager;
+      .subscribe((officeUser: OfficeUser) => {
+        this.officeUserData = officeUser;
 
-        this.officeService.getStudentsWithSheetInput(this.depManagerData.department_id)
-          .subscribe((students: any[]) => {
-            this.studentsData = students;
-            for (let i = 0; i < students.length; i++) {
-              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-              this.studentsData[i].user_ssn = students[i].user_ssn;
-            }
-            // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-            this.chRef.detectChanges();
+        this.officeUserData = officeUser;
+        this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
+        this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 
-            // Use of jQuery DataTables
-            const table: any = $('#sheetInputTable');
-            this.sheetInputTable = table.DataTable({
-              lengthMenu: [
-                [10, 25, 50, -1],
-                [10, 25, 50, 'All']
-              ],
-              lengthChange: true,
-              paging: true,
-              searching: true,
-              ordering: true,
-              info: true,
-              autoWidth: false,
-              responsive: true,
-              select: true,
-              pagingType: 'full_numbers',
-              processing: true,
-              columnDefs: [{ orderable: false, targets: [3, 4] }]
-            });
-          });
+        this.isLoading = false;
+
+        this.officeService.getAcademicsByOfficeUserId()
+          .subscribe((academics: any) => {
+            this.officeUserAcademics = academics;
+        });
       });
   }
 
@@ -92,6 +90,63 @@ export class SheetInputOfficeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  onPeriodChange(value: any) {
+    this.isLoading = true;
+    this.selected = value;
+    this.studentsData = [];
+    this.filteredData = [];
+
+    let periodId = value ? value : 0;
+    console.log(this.selectedDepartment.academic_id);
+    this.officeService.getStudentsWithSheetInput(periodId)
+      .pipe(
+        catchError((error: any) => {
+          console.error(error);
+          this.isLoading = false;
+
+          return of([]);
+        })
+      )
+      .subscribe((students: any) => {
+          // this.studentsData.splice(0, this.studentsData.length);
+          this.studentsData = students;
+          for (let i = 0; i < students.length; i++) {
+            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+            this.studentsData[i].user_ssn = students[i].user_ssn;
+          }
+
+          this.isLoading = false;
+    });
+  }
+
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
+  }
+
+  onDepartmentChange(value: any) {
+    this.isLoading = true;
+    this.periods = [];
+    this.selectedDepartment = value;
+    this.studentsData = [];
+    this.filteredData = [];
+
+    this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
+      .subscribe({
+        next:(periods: any[]) => {
+          this.periods = periods;
+          this.isLoading = false;
+        }, error: (error: any) => {
+          console.log(error);
+          this.isLoading = false;
+        }
+      });
   }
 
 }
