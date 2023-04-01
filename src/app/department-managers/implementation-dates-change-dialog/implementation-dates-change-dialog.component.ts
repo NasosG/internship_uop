@@ -157,6 +157,7 @@ export class ImplementationDatesChangeDialogComponent implements OnInit {
         })
       )
       .subscribe((response: any) => {
+        console.log(response);
         Swal.fire({
           title: 'Επιτυχής ενημέρωση',
           text: 'Οι ημερομηνίες εκτέλεσης ΠΑ στο ΑΤΛΑΣ έχουν αλλάξει.',

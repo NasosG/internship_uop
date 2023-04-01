@@ -1463,7 +1463,6 @@ const changeImplementationData = async (positionData) => {
 
 const changeImplementationDatesAtlas = async (request, response) => {
   try {
-    return response.status(400).json({ "message": "error changing implementation data" });
     const { id: assignedPositionId } = request.params;
     const { implementationDates } = request.body;
     const { implementation_start_date, implementation_end_date } = implementationDates;
