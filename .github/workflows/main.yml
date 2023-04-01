@@ -1,0 +1,53 @@
+name: Angular CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build --prod
+
+    - name: Set deploy_enabled flag
+      id: deploy_enabled
+      env:
+        DEPLOY_ENABLED: ${{ secrets.DEPLOY_ENABLED }}
+      run: |
+        echo "::set-output name=deploy_enabled::$DEPLOY_ENABLED"
+
+    - name: Deploy to Ubuntu Server
+      if: steps.deploy_enabled.outputs.deploy_enabled == 'true'
+      env:
+        DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        APP_NAME: ${{ secrets.APP_NAME }}
+      run: |
+        echo "$DEPLOY_KEY" > deploy_key
+        chmod 600 deploy_key
+        scp -i deploy_key -r -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dist/$APP_NAME $DEPLOY_USER@$DEPLOY_SERVER:/var/www/html/$APP_NAME
+        rm deploy_key
