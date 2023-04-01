@@ -114,6 +114,7 @@ import { EditContractDialogComponent } from './department-managers/edit-contract
 import { StudentAppsResultsOldPeriodsComponent } from './department-managers/student-apps-results-old-periods/student-apps-results-old-periods.component';
 import { StudentContractsOfficeComponent } from './internship-office/student-contracts-office/student-contracts-office.component';
 import { CompanyAndPositionInfoDialogComponent } from './department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
+import { ImplementationDatesChangeDialogComponent } from './department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -207,6 +208,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentAppsResultsOldPeriodsComponent,
     StudentContractsOfficeComponent,
     CompanyAndPositionInfoDialogComponent,
+    ImplementationDatesChangeDialogComponent,
   ],
   imports: [
     BrowserModule,

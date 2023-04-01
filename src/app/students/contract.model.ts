@@ -26,4 +26,5 @@ export interface Contract {
   assignment_ada_number?: string;
   assignment_apofasi?: string;
   assignment_arithmos_sunedriashs?: string;
+  assigned_position_id?: number
 }

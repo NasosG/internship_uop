@@ -13,6 +13,8 @@ import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
+import Swal from 'sweetalert2';
+import {ImplementationDatesChangeDialogComponent} from '../implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 
 @Component({
   selector: 'app-student-contracts',
@@ -207,4 +209,23 @@ export class StudentContractsComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
+    const implementationDatesArr = {
+      implementation_start_date: this.studentsData[idx].pa_start_date,
+      implementation_end_date: this.studentsData[idx].pa_end_date
+    };
+
+    console.log(implementationDatesArr.implementation_start_date);
+
+    const dialogRef = this.dialog.open(ImplementationDatesChangeDialogComponent, {
+      width: '600px',
+      data: { assigned_position_id: assigned_position_id, implementationDates: implementationDatesArr }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }

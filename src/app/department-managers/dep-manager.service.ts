@@ -9,12 +9,13 @@ import { ActiveApplication } from './active-application.model';
 import { environment } from "src/environments/environment";
 import { EntryForm } from '../students/entry-form.model';
 import { ExitForm } from '../students/exit-form.model';
-import {Phase} from './phase.model';
-import {AcceptedAssignmentsByCompany} from '../students/accepted-assignments-by-company';
-import {Contract} from '../students/contract.model';
+import { Phase } from './phase.model';
+import { AcceptedAssignmentsByCompany } from '../students/accepted-assignments-by-company';
+import { Contract } from '../students/contract.model';
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const DEPARTMENT_MANAGER_URL = environment.apiUrl + "/depmanager/";
+const ATLAS_URL = environment.apiUrl + "/atlas/"
 
 @Injectable({
   providedIn: 'root'
@@ -368,5 +369,10 @@ export class DepManagerService {
   updateImplementationDatesByStudentAndPeriod(studentId: number, periodId: number, implementationDates: any, positionId: number) {
     return this.http
       .put<{ message: string }>(DEPARTMENT_MANAGER_URL + "updateImplementationDatesByStudentAndPeriod/" + studentId, { periodId, implementationDates, positionId });
+  }
+
+  changeImplementationDatesAtlasByAssignedPositionId(assignedPositionId: number, implementationDates: any): Observable<any> {
+    return this.http
+      .post<{ message: string }>(ATLAS_URL + "changeImplementationDatesAtlas/" + assignedPositionId, { implementationDates });
   }
 }

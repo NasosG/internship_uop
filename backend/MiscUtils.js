@@ -62,6 +62,13 @@ function formatDocExtension(ext) {
   return ext;
 }
 
+/**
+ * Extract the student Registry ID after the last colon (:) and after the optional slash (/) in the given string.
+ * Mostly for students of technological departments. e.g for AM: 1513/1234567 the function will return 1234567.
+ *
+ * @param {string} splitString - The input string to be split and processed.
+ * @returns {string} The extracted student ID.
+ */
 const splitStudentsAM = (splitString) => {
   const splitArray = splitString.split(':');
   const lastArrayPart = splitArray[splitArray.length - 1];
@@ -73,6 +80,12 @@ const splitStudentsAM = (splitString) => {
   return lastArrayPart;
 };
 
+/**
+ * Extract the last part of the string after the last colon (:) and take the whole Registry ID.
+ *
+ * @param {string} splitString - The input string to be split and processed.
+ * @returns {string} The extracted last part of the string.
+ */
 const splitStudentsAMForAtlas = (splitString) => {
   const splitArray = splitString.split(':');
   const lastArrayPart = splitArray[splitArray.length - 1];
@@ -80,6 +93,12 @@ const splitStudentsAMForAtlas = (splitString) => {
   return lastArrayPart;
 };
 
+/**
+ * Extract the second to last part of the string after splitting by colon (:), which is the department ID.
+ *
+ * @param {string} splitString - The input string to be split and processed.
+ * @returns {string} The extracted second to last part of the string.
+ */
 const splitScholarsPersonalData = (splitString) => {
   const splitArray = splitString.split(':');
   return splitArray[splitArray.length - 2];
@@ -136,7 +155,6 @@ const getWeeksFromMonths = (weeksStr) => {
   return weeks2months;
 };
 
-
 function calculateDates(isTEIDepartment) {
   const today = moment();
   const currentYear = today.year();
@@ -167,6 +185,19 @@ function calculateDates(isTEIDepartment) {
   return { startDate, endDate };
 }
 
+/**
+ * Convert date from 'YYYY-MM-DD' format to 'D/M/YY' format.
+ * If the input date is not in 'YYYY-MM-DD' format, the original date is returned.
+ *
+ * @param {string} date - The input date string.
+ * @returns {string} The converted date string in 'D/M/YY' format or the original date string.
+ */
+const convertDateFromYearMonthDayToDayMonthYear = (date) => {
+  if (moment(date, 'YYYY-MM-DD', true).isValid()) {
+    return moment(date, 'YYYY-MM-DD').format('D/M/YY');
+  }
+  return date;
+};
 
 
 // Export list
@@ -188,5 +219,6 @@ module.exports = {
   convertStartEndDateToTimestamp,
   getWeeksFromMonths,
   calculateDates,
-  splitStudentsAMForAtlas
+  splitStudentsAMForAtlas,
+  convertDateFromYearMonthDayToDayMonthYear
 };
