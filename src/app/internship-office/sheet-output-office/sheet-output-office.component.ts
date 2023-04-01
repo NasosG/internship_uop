@@ -11,6 +11,7 @@ import { Period } from 'src/app/department-managers/period.model';
 import { OfficeUser } from '../office-user.model';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { catchError, of } from 'rxjs';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-sheet-output-office',
@@ -18,14 +19,12 @@ import { catchError, of } from 'rxjs';
   styleUrls: ['./sheet-output-office.component.css']
 })
 export class SheetOutputOfficeComponent implements OnInit {
-  @ViewChild('sheetOutputTable') sheetOutputTable: ElementRef | undefined;
+  @ViewChild('sheetOutputTable') public sheetOutputTable: ElementRef | undefined;
   @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
   @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
   @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  studentsData: Student[] = [];
-  selected = '';
-  ngSelect = '';
+  public studentsData: Student[] = [];
+  private selected = '';
   public periods?: Period[];
   public isLoading: boolean = false;
   public periodData!: Period;
@@ -67,6 +66,10 @@ export class SheetOutputOfficeComponent implements OnInit {
   }
 
   openDialog(idx: any) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να δείτε το δελτίο του φοιτητή.');
+      return;
+    }
     console.log(idx);
     const dialogRef = this.dialog.open(SheetOutputOfficeDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '50%',
@@ -78,6 +81,10 @@ export class SheetOutputOfficeComponent implements OnInit {
   }
 
   openEditDialog(idx: any) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να επεξεργαστείτε το δελτίο του φοιτητή.');
+      return;
+    }
     console.log(idx);
     const dialogRef = this.dialog.open(SheetOutputOfficeEditDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '50%',
@@ -108,6 +115,13 @@ export class SheetOutputOfficeComponent implements OnInit {
     );
   }
 
+  submitOPSDialog(idx: any) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να ανεβάσετε το δελτίο στο ΟΠΣ.');
+      return;
+    }
+  }
+
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
@@ -126,7 +140,6 @@ export class SheetOutputOfficeComponent implements OnInit {
         })
       )
       .subscribe((students: any) => {
-          // this.studentsData.splice(0, this.studentsData.length);
           this.studentsData = students;
           for (let i = 0; i < students.length; i++) {
             this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);

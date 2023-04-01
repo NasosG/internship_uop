@@ -15,11 +15,12 @@ const login = async (username) => {
   }
 };
 
-const getDepManagerById = async (id) => {
+const getOfficeUserById = async (id) => {
   try {
-    const resultsSSOUsers = await pool.query("SELECT * FROM sso_users WHERE uuid=$1", [id]);
+    const resultsSSOUsers = await pool.query(`SELECT sso_users.*, users_roles.is_admin FROM sso_users
+                                              INNER JOIN users_roles ON sso_users.id = users_roles.sso_username
+                                              WHERE uuid = $1`, [id]);
     const finalDepManagerResults = resultsSSOUsers.rows[0];
-    // const departmentNumber = MiscUtils.splitScholarsPersonalData(finalDepManagerResults.schacpersonaluniquecode);
     const departmentNumber = finalDepManagerResults.department_id;
     const departmentDetails = await getDepartmentNameByNumber(departmentNumber);
     const department = {
@@ -28,6 +29,7 @@ const getDepManagerById = async (id) => {
     let departmentManagerDetails = Object.assign(finalDepManagerResults, department);
     return departmentManagerDetails;
   } catch (error) {
+    console.error(error.message);
     throw Error('Error while fetching Office User');
   }
 };
@@ -185,7 +187,7 @@ const updateExitSheetField = async (id, body) => {
 
 module.exports = {
   getPeriodByDepartmentId,
-  getDepManagerById,
+  getOfficeUserById,
   getEspaPositionByDepId,
   getStudentsWithSheetInput,
   getStudentsWithSheetOutput,

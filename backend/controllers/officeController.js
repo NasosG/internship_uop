@@ -32,7 +32,7 @@ const login = async (request, response, next) => {
 const getOfficeUserById = async (request, response) => {
   try {
     const id = request.params.id;
-    const users = await officeService.getDepManagerById(id);
+    const users = await officeService.getOfficeUserById(id);
     response.status(200).json(users);
   } catch (error) {
     response.send({

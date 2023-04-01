@@ -15,6 +15,7 @@ export interface OfficeUser {
   phase: number;
   department: string;
   department_id: number;
+  is_admin?: boolean;
   // schacpersonaluniquecode:"urn: mace: terena.org: schac: personalUniqueCode: gr: uop.gr: 98: 2021208605102",
 }
 

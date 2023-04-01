@@ -2,17 +2,16 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { DepManager } from 'src/app/department-managers/dep-manager.model';
 import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
 import { OfficeService } from '../office.service';
 import { SheetInputOfficeDialogComponent } from '../sheet-input-office-dialog/sheet-input-office-dialog.component';
 import { SheetInputOfficeEditDialogComponent } from '../sheet-input-office-edit-dialog/sheet-input-office-edit-dialog.component';
-import {OfficeUser} from '../office-user.model';
-import {Period} from 'src/app/department-managers/period.model';
-import {Contract} from 'src/app/students/contract.model';
-import {DepManagerService} from 'src/app/department-managers/dep-manager.service';
-import {catchError, of, throwError} from 'rxjs';
+import { OfficeUser } from '../office-user.model';
+import { Period } from 'src/app/department-managers/period.model';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { catchError, of } from 'rxjs';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-sheet-input-office',
@@ -21,19 +20,16 @@ import {catchError, of, throwError} from 'rxjs';
 })
 export class SheetInputOfficeComponent implements OnInit {
 
-  @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  studentsData: Student[] = [];
-  private selected = '';
-  ngSelect = '';
-  studentName!: string;
+  @ViewChild('sheetInputTable') public sheetInputTable: ElementRef | undefined;
   @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
   @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
   @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
+  public studentsData: Student[] = [];
+  private selected = '';
   public periods?: Period[];
   public isLoading: boolean = false;
   public periodData!: Period;
-  private officeUserData!: OfficeUser;
+  public officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
   public filteredData: any = [];
 
@@ -71,6 +67,10 @@ export class SheetInputOfficeComponent implements OnInit {
   }
 
   openDialog(idx: any) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να δείτε το δελτίο του φοιτητή.');
+      return;
+    }
     console.log(idx);
     const dialogRef = this.dialog.open(SheetInputOfficeDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '50%',
@@ -82,6 +82,10 @@ export class SheetInputOfficeComponent implements OnInit {
   }
 
   openEditDialog(idx: any) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να επεξεργαστείτε το δελτίο του φοιτητή.');
+      return;
+    }
     console.log(idx);
     const dialogRef = this.dialog.open(SheetInputOfficeEditDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '50%',
@@ -90,6 +94,13 @@ export class SheetInputOfficeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  submitOPSDialog(idx: any) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να ανεβάσετε το δελτίο στο ΟΠΣ.');
+      return;
+    }
   }
 
   onPeriodChange(value: any) {

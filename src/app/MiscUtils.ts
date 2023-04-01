@@ -121,6 +121,14 @@ export abstract class Utils {
     return personalIdArray[personalIdArray.length - 1];
   }
 
+  public static displayErrorPrivilegesSwal(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Ανεπαρκή δικαιώματα χρήστη',
+      text: message,
+    });
+  }
+
   // InputSheets
   public static workBeforeInternship = [
     { subCategory: 'A0.1', id: 'A0_1', name: 'A0_1', text: 'Πριν την αίτηση συμμετοχής σας στο πρόγραμμα αναζητούσατε εργασία;' },
