@@ -12,6 +12,7 @@ import { OfficeUser } from '../office-user.model';
 import { OfficeService } from '../office.service';
 import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
+import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -242,6 +243,25 @@ export class StudentContractsOfficeComponent implements OnInit {
     // alert(positionId);
     const dialogRef = this.dialog.open(CompanyAndPositionInfoDialogComponent, {
       data: { positionId: positionId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
+    const implementationDatesArr = {
+      implementation_start_date: this.studentsData[idx].pa_start_date,
+      implementation_end_date: this.studentsData[idx].pa_end_date
+    };
+
+    console.log(implementationDatesArr.implementation_start_date);
+
+    const dialogRef = this.dialog.open(ImplementationDatesChangeDialogComponent, {
+      width: '600px',
+      data: { assigned_position_id: assigned_position_id, implementationDates: implementationDatesArr }
     });
 
     dialogRef.afterClosed().subscribe(result => {

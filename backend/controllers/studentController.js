@@ -900,7 +900,7 @@ const insertAssignment = async (request, response, next) => {
     }
 
     // update assignment details - local db
-    await studentService.acceptAssignment(assignmentData);
+    await studentService.acceptAssignment(assignmentData, positionPreassignment.positionIds[0]);
 
     console.log('successful final assignment for student ' + studentId);
     response.status(201)

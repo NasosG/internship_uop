@@ -740,12 +740,13 @@ const updateFileDataBySSOUid = async (studentId, docType, filePath, fileName) =>
   }
 };
 
-const acceptAssignment = async (assignmentData) => {
+const acceptAssignment = async (assignmentData, assignedPositionId = 0) => {
   const APPROVAL_STATE = 1;
   const REJECTION_STATE = -1;
   try {
-    await pool.query("UPDATE internship_assignment SET approval_state = $1 WHERE student_id = $2 AND position_id = $3",
-      [APPROVAL_STATE, assignmentData.student_id, assignmentData.position_id]);
+    // assignmentData.position_id is the group id whereas assignedPositionId is the new position id after preassign
+    await pool.query("UPDATE internship_assignment SET approval_state = $1, assigned_position_id = $2 WHERE student_id = $3 AND position_id = $4",
+      [APPROVAL_STATE, assignedPositionId, assignmentData.student_id, assignmentData.position_id]);
     await pool.query("UPDATE internship_assignment SET approval_state = $1 WHERE student_id = $2 AND position_id <> $3",
       [REJECTION_STATE, assignmentData.student_id, assignmentData.position_id]);
   } catch (error) {

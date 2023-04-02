@@ -551,7 +551,6 @@ const insertFinalAssignment = async (request, response) => {
     }
     // console.log(registeredStudent);
 
-    // TO BE TESTED
     // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
     // console.log(preassignResult.preassign);
     console.log(assignmentData.position_id);
@@ -591,7 +590,7 @@ const insertFinalAssignment = async (request, response) => {
       await depManagerService.insertAssignment(assignmentData, 1);
     } else {
       // update assignment details - local db
-      await studentService.acceptAssignment(assignmentData);
+      await studentService.acceptAssignment(assignmentData, positionPreassignment.positionIds[0]);
     }
 
     response.status(201)

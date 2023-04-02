@@ -115,7 +115,6 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   }
 
   receiveFile(studentId: number, docType: string) {
-    // this.depManagerService.receiveFile();
     this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
@@ -166,7 +165,6 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
     }
 
     const excelFileName: string = "StudentsPhase1.xlsx";
-    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table?.nativeElement);
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("example2") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');

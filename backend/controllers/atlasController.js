@@ -1197,7 +1197,6 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
 
     let assignmentData;
     console.log('atlas_before_dates');
-    // const { startDateCalc, endDateCalc } = MiscUtils.calculateDates(isTei);
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
     console.log(implementation_start_date);
@@ -1245,7 +1244,6 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
     return {
       message: atlasResponse.data
     };
-    // return response.status(200).json(positionsArray);
   } catch (error) {
     console.error("error while assigning student to Atlas: " + error.message);
     return {

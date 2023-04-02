@@ -96,6 +96,7 @@
                       <th>ΑΜ</th>
                       <th>email</th>
                       <th>Φορέας</th>
+                      <th>Ενέργειες Άτλα</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>
@@ -125,7 +126,14 @@
                           <i class="fa fa-download" aria-hidden="true"></i> AMEA
                         </button>
                       </td> -->
-
+                      <td class="action text-center">
+                        <span (click)="openImplementationDatesChangeDialog(idx, student.assigned_position_id)" class="text-secondary custom-info-btn
+                          text-with-dots">
+                          <i class="fa fa-pencil-alt"></i> Αλλαγή Ημ/νιών</span>
+                        <!-- <span (click)="openImplementationDatesChangeDialog(idx, student.assigned_position_id)" class="ml-2 text-secondary custom-info-btn
+                          text-with-dots">
+                          <i class="fa fa-check"></i> Ολοκλήρωση</span> -->
+                      </td>
                       <td class="action text-center">
                         <a (click)="openEditContractDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                             class="fa fa-cog"></i> Επεξεργασία<br></a>
@@ -144,6 +152,7 @@
                       <th>ΑΜ</th>
                       <th>email</th>
                       <th>Φορέας</th>
+                      <th>Ενέργειες Άτλα</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
                     </tr>

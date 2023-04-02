@@ -44,58 +44,58 @@ export class StudentApplicationsResultsComponent implements OnInit {
       .subscribe((depManager: DepManager) => {
         this.depManagerDataDepartment = depManager.department_id;
         this.depManagerService.getPeriodByDepartmentId(this.depManagerDataDepartment)
-            // .pipe(
-            //   catchError((error: HttpErrorResponse) => {
-            //     console.error(error);
-            //     return throwError(error);
-            //   })
-            // )
-            .subscribe((periodData: Period) => {
-              this.period = periodData;
-              this.depManagerService.insertApprovedStudentsRank(this.depManagerDataDepartment, this.period.phase_state, this.period.id)
-                    .subscribe((response: any) => {
-                        console.log('insertApprovedStudentsRank success:', response);
-                        this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, periodData.id)
-                              .subscribe((students: Student[]) => {
-                                this.studentsData = students;
+          // .pipe(
+          //   catchError((error: HttpErrorResponse) => {
+          //     console.error(error);
+          //     return throwError(error);
+          //   })
+          // )
+          .subscribe((periodData: Period) => {
+            this.period = periodData;
+            this.depManagerService.insertApprovedStudentsRank(this.depManagerDataDepartment, this.period.phase_state, this.period.id)
+              .subscribe((response: any) => {
+                console.log('insertApprovedStudentsRank success:', response);
+                this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, periodData.id)
+                  .subscribe((students: Student[]) => {
+                    this.studentsData = students;
 
-                                for (let i = 0; i < students.length; i++) {
-                                  this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-                                  this.studentsData[i].user_ssn = students[i].user_ssn;
-                                }
-                                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-                                this.chRef.detectChanges();
+                    for (let i = 0; i < students.length; i++) {
+                      this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+                      this.studentsData[i].user_ssn = students[i].user_ssn;
+                    }
+                    // Have to wait till the changeDetection occurs. Then, project data into the HTML template
+                    this.chRef.detectChanges();
 
-                                // Use of jQuery DataTables
-                                const table: any = $('#example2');
-                                this.table = table.DataTable({
-                                  lengthMenu: [
-                                    [10, 25, 50, -1],
-                                    [10, 25, 50, 'All']
-                                  ],
-                                  lengthChange: true,
-                                  paging: true,
-                                  searching: true,
-                                  ordering: false,
-                                  info: true,
-                                  autoWidth: false,
-                                  responsive: true,
-                                  select: true,
-                                  pagingType: 'full_numbers',
-                                  processing: true,
-                                  columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
-                                  language: {
-                                  },
-                                });
-                              });
-                              this.isLoading = false;
+                    // Use of jQuery DataTables
+                    const table: any = $('#example2');
+                    this.table = table.DataTable({
+                      lengthMenu: [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, 'All']
+                      ],
+                      lengthChange: true,
+                      paging: true,
+                      searching: true,
+                      ordering: false,
+                      info: true,
+                      autoWidth: false,
+                      responsive: true,
+                      select: true,
+                      pagingType: 'full_numbers',
+                      processing: true,
+                      columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
+                      language: {
                       },
-                      (error) => {
-                        console.log('insertApprovedStudentsRank error:', error);
-                        return false;
-                      }
-                    );
-            });
+                    });
+                  });
+                  this.isLoading = false;
+                },
+                (error) => {
+                  console.log('insertApprovedStudentsRank error:', error);
+                  return false;
+                }
+              );
+          });
       });
   }
 

@@ -64,11 +64,9 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 	]
 })
 export class ImplementationDatesChangeDialogComponent implements OnInit {
-  selectedRow!: number;
   position: any;
-  approvalState?: number | null;
-  modelImplementationDateFrom!: string;
-  modelImplementationDateTo!: string;
+  public modelImplementationDateFrom!: string;
+  public modelImplementationDateTo!: string;
   public isLoading: boolean = false;
 
   constructor(
