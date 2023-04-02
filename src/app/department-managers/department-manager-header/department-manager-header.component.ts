@@ -26,8 +26,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
 
   phaseArray = ["no-state",
     "1. Αιτήσεις ενδιαφέροντος φοιτητών",
-    "2. Επιλογή θέσεων από φοιτητές",
-    "3. Ολοκλήρωση - Συμβάσεις"];
+    "2. Επιλογή θέσεων από φοιτητές"];
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private router: Router, public dialog: MatDialog) { }
 

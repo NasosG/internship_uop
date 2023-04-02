@@ -29,8 +29,7 @@ export class PositionsAddComponent implements OnInit {
 
   phaseArray = ["no-state",
     "1. Αιτήσεις ενδιαφέροντος φοιτητών",
-    "2. Επιλογή θέσεων από φοιτητές",
-    "3. Ολοκλήρωση - Συμβάσεις"];
+    "2. Επιλογή θέσεων από φοιτητές"];
 
   selectedDepartment: any = {
     academic_id: 0,

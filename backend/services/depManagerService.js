@@ -918,7 +918,7 @@ const setPeriodCompleted = async (body) => {
     await pool.query("UPDATE period  \
                       SET is_active = 'false', \
                           is_completed = 'true' \
-                      WHERE department_id = $1 AND id = $2 AND phase_state = 3",
+                      WHERE department_id = $1 AND id = $2 AND phase_state >= 2",
       [body.department_id, body.period_id]);
     console.log("period completed for department" + body.department_id + " at: " + new Date().toLocaleString());
   } catch (error) {

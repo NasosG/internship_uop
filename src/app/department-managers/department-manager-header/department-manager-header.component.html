@@ -47,8 +47,8 @@
          <a [routerLink]="['delete-period/' + this.authService.getSessionId()]" (click)="deletePeriodById()"
            class="delete text-danger"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
          <br>
-         <a *ngIf="periodData?.phase_state == 3" (click)="completePeriodById()" style="cursor: pointer"
-           class="text-success"><i class="fa fa-check"></i>
+         <a *ngIf="periodData?.phase_state == 2 || periodData?.phase_state == 3" (click)="completePeriodById()"
+           style="cursor: pointer" class="text-success"><i class="fa fa-check"></i>
            Ολοκλήρωση</a>
        </td>
      </tr>

@@ -22,13 +22,11 @@ export class StudentHomeComponent implements OnInit {
   comment: any;
   isApproved: boolean = false;
 
-  phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2", "STUDENT.PHASE-2"];
+  phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2"];
   isDeclarationEnabled: boolean|undefined;
   areOptionsEnabled: boolean|undefined;
 
   private INTEREST_EXPRESSION_PHASE: number = 1;
-  // private STUDENT_SELECTION_PHASE: number = 2;
-  // private PREFERENCE_DECLARATION_PHASE: number = 3;
   private PREFERENCE_DECLARATION_PHASE: number = 2;
   isResultsPhase: any;
   @ViewChild('printComponent')
