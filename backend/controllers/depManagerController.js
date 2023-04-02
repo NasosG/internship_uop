@@ -590,7 +590,7 @@ const insertFinalAssignment = async (request, response) => {
       await depManagerService.insertAssignment(assignmentData, 1);
     } else {
       // update assignment details - local db
-      await studentService.acceptAssignment(assignmentData, positionPreassignment.positionIds[0]);
+      await studentService.acceptAssignment(assignmentData, positionPreassignment?.positionIds[0]);
     }
 
     response.status(201)
