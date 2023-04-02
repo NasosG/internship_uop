@@ -10,6 +10,7 @@ import { DepManagerService } from '../dep-manager.service';
 import { mergeMap } from 'rxjs';
 import { StudentsAppsPreviewDialogComponent } from '../students-apps-preview-dialog/students-apps-preview-dialog.component';
 import {Period} from '../period.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-students-approved',
@@ -272,5 +273,40 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
    */
   async delay(ms: number): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyDataTable();
+  }
+
+  destroyDataTable(): void {
+    if ($.fn.DataTable()) {
+      $('#example').DataTable().destroy();
+    }
+  }
+
+  runAlgorithm() {
+    this.depManagerService.getDepManager()
+      .pipe(
+        mergeMap((result: { department_id: number; }) =>
+          this.depManagerService.insertApprovedStudentsRank(result?.department_id, this.period?.phase_state as any, this.periodId)
+        )
+      )
+      .subscribe((students: any) => {
+        Swal.fire({
+          title: 'Ανανέωση Αποτελεσμάτων',
+          text: 'Είστε σίγουροι ότι θέλετε να ανανεώσετε τα αποτελέσματα; Αν έχετε κάνει αλλαγές στις προτεραιότητες, θα γίνει επαναφορά στην αρχική τους κατάσταση.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.destroyDataTable();
+            this.ngOnInit();
+          }
+        });
+      });
   }
 }

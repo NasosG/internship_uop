@@ -9,8 +9,12 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <h4 class="mb-3" *ngIf="period != null">Τρέχουσα Περίοδος:
-              {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
+            <div class="mb-3" style="display: flex; justify-content: space-between;">
+              <h4 class="mb-3" *ngIf="period != null">Τρέχουσα Περίοδος:
+                {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
+              <button class="btn btn-primary" style="float:right" (click)="runAlgorithm()">Ανανέωση
+                Αποτελεσμάτων</button>
+            </div>
             <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
                 style='font-size:24px'></i> Excel</button>
             &nbsp;
