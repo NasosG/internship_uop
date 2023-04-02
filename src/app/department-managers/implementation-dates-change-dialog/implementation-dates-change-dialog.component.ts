@@ -69,6 +69,7 @@ export class ImplementationDatesChangeDialogComponent implements OnInit {
   approvalState?: number | null;
   modelImplementationDateFrom!: string;
   modelImplementationDateTo!: string;
+  public isLoading: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private depManagerService: DepManagerService,
@@ -80,41 +81,29 @@ export class ImplementationDatesChangeDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(moment(this.data.implementationDates.implementation_start_date, 'YYYY-MM-DD').format('YYYY-MM-DD'));
-    let updatedStartDate = moment(this.data.implementationDates.implementation_start_date, 'YYYY-MM-DD').format('YYYY-MM-DD');
-    let updatedEndDate = moment(this.data.implementationDates.implementation_end_date, 'YYYY-MM-DD').format('YYYY-MM-DD');
-
-    let implementationDateFromDatePaternB = moment(updatedStartDate, 'YYYY-MM-DD', true);
-    let implementationDateToDatePaternB = moment(updatedEndDate, 'YYYY-MM-DD', true);
-    // Insert default values if the dates are not valid
-    if (!implementationDateFromDatePaternB.isValid() || !implementationDateToDatePaternB.isValid()) {
-      console.log("Dates are not valid");
-    } else {
-      this.modelImplementationDateFrom = updatedStartDate;
-      this.modelImplementationDateTo = updatedEndDate;
-    }
-  }
-
-  onSubmitSwal(assignMode: string) {
-    this.onSubmitAssignmentSwal();
-  }
-
-  onSubmitAssignmentSwal() {
-    Swal.fire({
-      title: 'Είστε σίγουρος/η για την αποδοχή της θέσης εργασίας;',
-      text: 'Η επιλογή είναι οριστική και δεν μπορεί να αναιρεθεί.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ναι, αποδέχομαι',
-      cancelButtonText: 'Όχι, ακύρωση'
-    }).then((result) => {
-      // if user clicks on confirmation button, call acceptPosition() method
-      if (result.isConfirmed) {
-
-      }
-    });
+    this.isLoading = true;
+    this.depManagerService.getAssignedPositionById(this.data.assigned_position_id)
+      .pipe(
+        catchError((error: any) => {
+          Swal.fire({
+            title: 'Σφάλμα',
+            text: 'Σφάλμα κατά την άντληση των ημερομηνιών εκτέλεσης ΠΑ από ΑΤΛΑ',
+            icon: 'error',
+            confirmButtonText: 'Εντάξει'
+          });
+          this.isLoading = false;
+          throw error;
+        })
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+        // Needed performance, so I removed the validations, because I was confident that dates are DD/MM/YYYY
+        let updatedStartDate = moment(res.ImplementationStartDateString, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        let updatedEndDate = moment(res.ImplementationEndDateString, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        this.modelImplementationDateFrom = updatedStartDate;
+        this.modelImplementationDateTo = updatedEndDate;
+        this.isLoading = false;
+    })
   }
 
   updateImplementationDates() {

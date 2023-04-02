@@ -25,3 +25,9 @@
   /* Change this value according to your needs */
   overflow-y: clip;
 }
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

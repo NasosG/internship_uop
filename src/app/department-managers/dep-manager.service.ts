@@ -375,4 +375,8 @@ export class DepManagerService {
     return this.http
       .post<{ message: string }>(ATLAS_URL + "changeImplementationDatesAtlas/" + assignedPositionId, { implementationDates });
   }
+
+  getAssignedPositionById(assignedPositionId: number): Observable<any> {
+    return this.http.get<any>(ATLAS_URL + "getAssignedPositionById/" + assignedPositionId);
+  }
 }

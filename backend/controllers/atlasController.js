@@ -1375,7 +1375,7 @@ const getRegisteredStudents = async (request, response) => {
   }
 };
 
-const getAssignedPositions = async (request, response) => {
+const getAssignedPositions = async () => {
   try {
     let accessToken = await atlasLogin();
     const atlasResponse = await axios({
@@ -1387,8 +1387,29 @@ const getAssignedPositions = async (request, response) => {
       }
     });
 
-    return response.status(200).json(atlasResponse.data.Result);
+    return atlasResponse.data.Result;
   } catch (error) {
+    return { "message": "error retrieving assigned positions" };
+  }
+};
+
+const getAssignedPositionById = async (request, response) => {
+  try {
+    const atlasPositionId = parseInt(request.params.id);
+    const assignedPositions = await getAssignedPositions();
+
+    const position = assignedPositions.find(position => position.ID == atlasPositionId);
+
+    if (!position) {
+      return response.status(404).json({ "message": "Assigned position not found" });
+    }
+
+    return response.status(200).json({
+      "ImplementationEndDateString": position.ImplementationEndDateString,
+      "ImplementationStartDateString": position.ImplementationStartDateString,
+    });
+  } catch (error) {
+    console.error(error.message);
     return response.status(400).json({ "message": "error retrieving assigned positions" });
   }
 };
@@ -1522,5 +1543,6 @@ module.exports = {
   getStudentPositionMatchesAcademic,
   getPositionGroupDetails,
   atlasLogin,
-  changeImplementationDatesAtlas
+  changeImplementationDatesAtlas,
+  getAssignedPositionById
 };
