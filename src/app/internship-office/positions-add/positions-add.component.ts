@@ -81,6 +81,10 @@ export class PositionsAddComponent implements OnInit {
               next: (positionsCountFetched: any) => {
               // Set fallbackPositions instead of periodData
               this.fallbackPositions = positionsCountFetched;
+              // If 0 positions are fetched it is not an issue, there are simply no positions left
+              if (this.fallbackPositions == 0) {
+                this.periodData.positions = 0;
+              }
               this.isLoading = false;
             }, error: (error: any) => {
               console.log(error);
