@@ -13,6 +13,7 @@ import { OfficeService } from '../office.service';
 import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
 import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -267,5 +268,24 @@ export class StudentContractsOfficeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
+    Swal.fire({
+      title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
+      text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Εντάξει'
+    });
+    // const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
+    //   width: '600px',
+    //   data: { assigned_position_id: assigned_position_id }
+    // });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 }

@@ -228,4 +228,23 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
+  openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
+    Swal.fire({
+      title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
+      text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Εντάξει'
+    });
+    // const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
+    //   width: '600px',
+    //   data: { assigned_position_id: assigned_position_id }
+    // });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
+  }
+
 }
