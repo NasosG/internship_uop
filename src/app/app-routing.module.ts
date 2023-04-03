@@ -158,30 +158,30 @@ const routes: Routes = [{
         path: 'results-old/:id',
         component: DepartmentManagerComponent
       }]
-    },
-    {
-      path: 'sheet-input/:id',
-      component: DepartmentManagerComponent,
-    },
-    {
-      path: 'sheet-output/:id',
-      component: DepartmentManagerComponent,
-    },
-    {
-      path: 'student-contracts/:id',
-      component: DepartmentManagerComponent,
-    },
-    {
-      path: 'match-students/:id',
-      component: DepartmentManagerComponent
-    },
-    {
-      path: 'contact',
-      component: DepartmentManagerComponent
-    },
-    {
-      path: 'about',
-      component: DepartmentManagerComponent
+  },
+  {
+    path: 'sheet-input/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'sheet-output/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'student-contracts/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'match-students/:id',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'contact',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'about',
+    component: DepartmentManagerComponent
   },
   {
     path: 'manuals',

@@ -1,0 +1,227 @@
+<!-- <section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+
+      </div>
+      <div class="col-sm-6">
+        <div class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="/student">student</a></li>
+          <li class="breadcrumb-item active">profile</li>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
+  <i class="fas fa-search mr-1"></i>
+  Φιλτρα Αναζητησης &nbsp;<i style="font-size:16px;" class="fa fa-angle-down"></i><br>
+</button>
+<div id="demo" class="card mb-3 collapse">
+  <div class="pl-3 mt-3 card-body">
+    <div class="tab-content p-0">
+      <div class="chart tab-pane active" id="searchFilters">
+        <div class="col-12">
+          <div class="container-fluid row">
+            <!-- Sorting -->
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
+              <h4>Ημ/νία Δημοσίευσης</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByDate($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Χωρίς χρονικό περιορισμό</option>
+                <option value="recent">Νεότερες</option>
+                <option value="oldest">Παλαιότερες</option>
+                <!-- <option value="abroad">Εξωτερικού Πρώτα</option> -->
+                <!-- <option value="local">Έλλαδας Πρώτα</option> -->
+                <!-- <option value="incomehigh">Απολαβές – Αύξουσα Σειρά</option>
+        <option value="incomelow">Απολαβές – Φθίνουσα Σειρά</option> -->
+              </select>
+            </div>
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
+              <h4>Τμήμα</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByDepartment($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Όλα τα τμήματα</option>
+                <option *ngFor="let option of departments" value={{option.atlas_id}}>{{option.department}}
+                </option>
+              </select>
+            </div>
+            <!-- Location -->
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
+              <h4>Τοποθεσία</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByCity($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Όλοι οι Δήμοι</option>
+                <option *ngFor="let city of cities" value={{city.name}}>{{city.name}}
+                </option>
+              </select>
+              <!-- <form action="#" method="get"> -->
+              <!-- <input type="text" placeholder="State / Province" value="" />
+                <input type="text" placeholder="Πόλη" value="" /> -->
+
+              <!-- </form> -->
+            </div>
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
+              <h4>Φορέας</h4>
+              <input type="text" placeholder="Φορέας" [value]="" (keyup)="searchFor($event.target)" autocomplete="on" />
+            </div>
+            <div class="widget col-6 col-sm-2 pl-2 pr-2">
+              <h4>Μήνες Απασχόλησης</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByMonths($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Όλες οι επιλογές</option>
+                <option value="months2">Έως 2 μήνες</option>
+                <option value="months3">Έως 3 μήνες</option>
+                <option value="months6">Έως 6 μήνες</option>
+              </select>
+            </div>
+
+            <div class="widget col-6 col-sm-2 pl-2 pr-4">
+              <h4>Αντικείμενο Θέσης</h4>
+              <select data-placeholder="Choose Category" style="padding: 14px 18px;"
+                (change)="fetchPositionsByPhysicalObject($event.target)" class="chosen-select-no-single">
+                <option selected="selected" value="unselected">Όλες οι επιλογές</option>
+                <option *ngFor="let physicalObject of physicalObjects" value={{physicalObject.name}}>
+                  {{physicalObject.name}}
+                </option>
+              </select>
+            </div>
+            <!-- Work Hours -->
+            <!-- <div class="widget col-2 pl-2 pr-2">
+              <h4>Ώρες Εργασίας</h4>
+              <ul class="checkboxes">
+                <li>
+                  <input id="select-all" type="checkbox" (click)="selectAll()" name="select-all" value="unselected"
+                    checked>
+                  <label for="select-all">Όλα</label>
+                </li>
+                <li>
+                  <input id="check-2" type="checkbox" (click)="selectOneOption('check-2')" name="check-boxes"
+                    value="fulltime">
+                  <label for="check-2">Full-Time<span></span></label>
+                </li>
+                <li>
+                  <input id="check-3" type="checkbox" (click)="selectOneOption('check-3')" name="check-boxes"
+                    value="parttime">
+                  <label for="check-3">Part-Time</label>
+                </li>
+              </ul>
+            </div> -->
+            <!-- <button style="width: 180px;" class="mb-4 button btn-primary ">Αναζητηση&nbsp;<i
+                class="pl-2 fa fa-search"></i></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- αναζήτηση με βάση συγκεκριμένο κωδικό θέσης στον άτλα (αν υπάρχει) -->
+<!-- πρέπει να κάνουμε μία συζήτηση για αυτό -->
+<div class="topnav mt-4 pt-0">
+  <div class="search-container mt-0 pt-0 mb-2 pb-2" style="width:100%; margin:auto;">
+    <form action="">
+      <div class="container-fluid row">
+        <input #searchInput type="search" class="interns-positions-search col-md-11 card" style="margin-top:3px;"
+          placeholder="Aναζήτηση (βάσει κωδικού θέσης ή περιγραφής)..." name="search">
+        <button (click)="fetchGenericSearchPositions()" class="ml-0" class="col-md-1" type="submit"
+          style="margin-top: 2px;"><i class=" fa fa-search"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
+  Προσθέστε έως 5 θέσεις για πρακτική άσκηση
+</div>
+<div class="container-fluid row">
+  <!-- Internship Positions -->
+  <div class="col-12 col-md-7">
+    <div class="padding-right">
+      <h3 class="margin-bottom-18">Θέσεις Πρακτικής</h3>
+      <ul class="job-list">
+        <!-- <li *ngFor="let entry of this.entries" class="highlighted"><a href=""></a> -->
+        <li class="custom-height" *ngFor="let entry of this.entries; let i = index">
+          <a class="cursor-pointer" (click)="displayDescription(i)">
+            <div class="dark-div">
+              <img class="mr-2" src="assets/images/job_offer.jpg" alt="">
+              <div class="job-list-content" class="pt-2 pt-sm-4 pt-xl-2">
+                <h4 class="text-with-dots">{{entry.title}}
+                  <!-- <span class="full-time">Internship</span> -->
+                </h4>
+                <div class="job-icons">
+                  <!-- <span><i class="fa fa-briefcase"></i> Full-time</span> -->
+                  <span><i class="fa fa-map-marker"></i> {{entry.city}} </span>
+                  <span><i class="far fa-building"></i>&nbsp;{{shortCompanyName[i]}}</span>
+                  <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{entry.duration}} εβδομάδες</span>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="clearfix"></div>
+        </li>
+      </ul>
+      <a (click)="this.fetchMorePositions(this.begin + this.limit)" class="button centered btn-primary"><i
+          class="fa fa-plus-circle"></i>
+        Περισσοτερες
+        θεσεις</a>
+      <div class="margin-bottom-55"></div>
+    </div>
+  </div>
+
+  <!-- Internship Description -->
+  <div id="pos" class="col-12 col-md-4">
+    <h3 class="margin-bottom-18">Περιγραφή Θέσης</h3>
+    <div class="clearfix"></div>
+    <!-- Internship Description Container -->
+    <div id="job-description" class="showbiz-container">
+      <div>
+        <div class="overflowholder">
+          <ul>
+            <li>
+              <div class="dark-div job-description">
+                <a>
+                  <h4>{{this.jobTitle}}
+                    <!-- <span class="part-time">Internship</span> -->
+                  </h4>
+                </a>
+                <span style="word-break: break-all;"><strong>Αντικείμενο Θέσης:
+                  </strong>{{this.jobPhysicalObjects}}</span>
+                <br>
+                <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
+                <br>
+                <span><i class="fa fa-briefcase"></i>
+                  {{this.positionType == null ? 'Πλήρες Ωράριο' : this.positionType}}</span>
+                <span><i class="fa fa-map-marker"></i> {{this.jobCity}}</span>
+                <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
+                <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} εβδομάδες</span>
+                <span><i class="fa fa-business-time" aria-hidden="true"></i>{{this.jobAvailablePositions}}
+                  {{this.jobAvailablePositions == 1 ? 'διαθέσιμη θέση' : 'διαθέσιμες θέσεις'}}
+                </span>
+                <div class="pt-2" style="font-size:14px; line-height: 150%;">
+                  {{this.jobDescription}}
+                </div>
+                <table class="mt-2">
+                  <tr><i class="fa fa-user"></i> <strong> Όνομα Υπεύθυνου:</strong>
+                    {{this.providerContactEmail ? this.providerContactName : 'Δεν διατίθεται'}}
+                  </tr>
+                  <tr><i class="fa fa-phone"></i> <strong> Τηλέφωνο:
+                    </strong>{{this.providerContactEmail ? this.providerContactPhone : 'Δεν διατίθεται'}}
+                  </tr>
+                  <tr><i class="fa fa-envelope"></i> <strong> Email:</strong>
+                    {{this.providerContactEmail ? this.providerContactEmail : 'Δεν διατίθεται'}}</tr>
+                </table>
+                <a *ngIf="!this.isAppActive" id="addPositionsBtn"
+                  (click)="addPosition(this.jobPositionId, this.jobInternalPositionId, jobAvailablePositions)"
+                  [class.disabled]="!canStudentSubmitApp ? true : null" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ
+                  ΘΕΣΗ</a>
+              </div>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

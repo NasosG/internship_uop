@@ -14,7 +14,7 @@ import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
 import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import Swal from 'sweetalert2';
-import {Utils} from 'src/app/MiscUtils';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -238,8 +238,7 @@ export class StudentContractsOfficeComponent implements OnInit {
           "Πόλη": studentIndex !== -1 ? this.studentsData[studentIndex].city : null,
           "ΤΚ": studentIndex !== -1 ? this.studentsData[studentIndex].post_address : null,
           "Τοποθεσία": studentIndex !== -1 ? this.studentsData[studentIndex].location : null,
-          "IBAN": studentIndex !== -1 ? this.studentsData[studentIndex].iban : null,
-          "Χώρα": studentIndex !== -1 ? this.studentsData[studentIndex].country == "gr" ? 'Ελλάδα' : this.studentsData[studentIndex].country : null
+          "IBAN": studentIndex !== -1 ? this.studentsData[studentIndex].iban : null
         });
       }
       const excelFileName: string = "StudentsContracts.xlsx";
