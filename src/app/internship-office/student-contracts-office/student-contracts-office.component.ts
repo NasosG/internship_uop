@@ -14,6 +14,7 @@ import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
 import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import Swal from 'sweetalert2';
+import {Utils} from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -213,20 +214,32 @@ export class StudentContractsOfficeComponent implements OnInit {
           "Διεύθυνση Εταιρείας": this.studentContracts[i].company_address,
           "Εκπρόσωπος Εταιρείας": this.studentContracts[i].company_liaison,
           "Θέση Εκπροσώπου Εταιρείας": this.studentContracts[i].company_liaison_position,
-          "Ονοματεπώνυμο": this.studentContracts[i].displayname,
+          "Ονοματεπώνυμο Φοιτητή": this.studentContracts[i].displayname,
           "Πατρώνυμο": this.studentContracts[i].father_name,
+          "Επώνυμο πατέρα": studentIndex !== -1 ? this.studentsData[studentIndex].father_last_name: null,
+          "Μητρώνυμο": studentIndex !== -1 ? this.studentsData[studentIndex].mother_name: null,
+          "Επώνυμο μητέρας": studentIndex !== -1 ? this.studentsData[studentIndex].mother_last_name: null,
           "Τμήμα": this.studentContracts[i].dept_name,
           "Αριθμός Ταυτότητας": this.studentContracts[i].id_number,
           "ΑΜΑ-ΙΚΑ": this.studentContracts[i].amika,
           "ΑΜΚΑ": this.studentContracts[i].amka,
           "ΑΦΜ": this.studentContracts[i].afm,
           "ΔΟΥ": this.studentContracts[i].doy_name,
+          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(studentIndex !== -1 ? this.studentsData[studentIndex].schacdateofbirth : null),
           "Αντικείμενο Πρακτικής Άσκησης": this.studentContracts[i].pa_subject,
           "Από ΑΤΛΑ - Αντικείμενο ΠΑ": this.studentContracts[i].pa_subject_atlas,
           "Ημερομηνία Έναρξης ΠΑ": this.studentContracts[i].pa_start_date,
           "Ημερομηνία Λήξης ΠΑ": this.studentContracts[i].pa_end_date,
           "Όνομα ΤΥ": this.studentContracts[i].department_manager_name,
-          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null
+          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null,
+          "Φύλο": studentIndex !== -1 ? this.studentsData[studentIndex].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα' : null,
+          "Τηλέφωνο": studentIndex !== -1 ? this.studentsData[studentIndex].phone : null,
+          "Διεύθυνση": studentIndex !== -1 ? this.studentsData[studentIndex].address : null,
+          "Πόλη": studentIndex !== -1 ? this.studentsData[studentIndex].city : null,
+          "ΤΚ": studentIndex !== -1 ? this.studentsData[studentIndex].post_address : null,
+          "Τοποθεσία": studentIndex !== -1 ? this.studentsData[studentIndex].location : null,
+          "IBAN": studentIndex !== -1 ? this.studentsData[studentIndex].iban : null,
+          "Χώρα": studentIndex !== -1 ? this.studentsData[studentIndex].country == "gr" ? 'Ελλάδα' : this.studentsData[studentIndex].country : null
         });
       }
       const excelFileName: string = "StudentsContracts.xlsx";

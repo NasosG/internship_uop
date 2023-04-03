@@ -109,7 +109,8 @@ const getStudentListForPeriodAndAcademic = async (periodId, departmentId) => {
   try {
     const result = await pool.query(`SELECT * FROM final_assignments_list list
                                     INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
-                                    INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
+                                    INNER JOIN sso_users usr ON usr.uuid = asn.student_id
+                                    INNER JOIN student_users stu ON stu.sso_uid = usr.uuid
                                     WHERE list.period_id = $1 AND list.department_id = $2`, [periodId, departmentId]);
     return result.rows;
   } catch (error) {
