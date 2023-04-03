@@ -190,6 +190,10 @@ const routes: Routes = [{
   {
     path: 'students-approved/:id',
     component: DepartmentManagerComponent
+  },
+  {
+    path: 'atlas-positions/:id',
+    component: DepartmentManagerComponent
   }
   ]
 },
@@ -271,6 +275,10 @@ const routes: Routes = [{
   {
     path: 'student-contracts/:id',
     component: OfficeComponent,
+  },
+  {
+    path: 'atlas-positions/:id',
+    component: OfficeComponent
   }
   ]
 },
@@ -289,7 +297,6 @@ const routes: Routes = [{
     component: AdminPanelComponent
   }]
 }
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { enableTracing: true })],

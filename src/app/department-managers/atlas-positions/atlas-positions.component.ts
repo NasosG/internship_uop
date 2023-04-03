@@ -1,14 +1,14 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import {Utils} from 'src/app/MiscUtils';
-import {AtlasFilters} from 'src/app/students/atlas-filters.model';
-import {AtlasPosition} from 'src/app/students/atlas-position.model';
-import {City} from 'src/app/students/city.model';
-import {Department} from 'src/app/students/department.model';
-import {PhysicalObject} from 'src/app/students/physical-object.model';
-import {Student} from 'src/app/students/student.model';
-import {StudentsService} from 'src/app/students/student.service';
+import { Utils } from 'src/app/MiscUtils';
+import { AtlasFilters } from 'src/app/students/atlas-filters.model';
+import { AtlasPosition } from 'src/app/students/atlas-position.model';
+import { City } from 'src/app/students/city.model';
+import { Department } from 'src/app/students/department.model';
+import { PhysicalObject } from 'src/app/students/physical-object.model';
+import { Student } from 'src/app/students/student.model';
+import { StudentsService } from 'src/app/students/student.service';
 import Swal from 'sweetalert2';
-import {Period} from '../period.model';
+import { Period } from '../period.model';
 
 @Component({
   selector: 'app-atlas-positions',
@@ -45,9 +45,6 @@ export class AtlasPositionsComponent implements OnInit {
   waitTime: number = 500;       // Wait time in milliseconds
 
   canStudentSubmitApp!: boolean;
-  private INTEREST_EXPRESSION_PHASE: number = 1;
-  // private STUDENT_SELECTION_PHASE: number = 2;
-  private PREFERENCE_DECLARATION_PHASE: number = 2;
   public is_active: number = 0;
   period: Period | undefined;
   isDeclarationEnabled!: boolean;
@@ -219,93 +216,11 @@ export class AtlasPositionsComponent implements OnInit {
     }, this.waitTime);
   }
 
-  addPosition(positionId: number, jobInternalPositionId: number, availablePositions: number) {
-    let message = "";
-
-    if (!this.canStudentSubmitApp) {
-      (document.getElementById("addPositionsBtn") as HTMLButtonElement).textContent = "ΧΩΡΙΣ ΔΥΝΑΤΟΤΗΤΑ ΠΡΟΣΘΗΚΗΣ ΘΕΣΗΣ";
-      return;
-    }
-    let atlas = true;
-    // Below "if" was used for job positions that were not from atlas but from our database
-    if (!positionId) {
-      positionId = jobInternalPositionId;
-      atlas = false;
-    }
-
-    if (availablePositions == 0) {
-       Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: "Οι διαθέσιμες θέσεις για αυτή τη θέση πρακτικής έχουν εκπληρωθεί",
-        showConfirmButton: false,
-        timer: 1500
-      });
-      return;
-    }
-
-    this.studentsService.getStudentPositionMatchesAcademic(positionId, this.studentsSSOData[0].department_id)
-    .subscribe((responseData: boolean) => {
-      if (responseData !== true) {
-        this.warnDepartmentNotMatchesError();
-        return;
-      }
-
-      this.studentsService.insertStudentPosition(positionId, atlas).subscribe(responseData => {
-        message = responseData.message;
-
-        // check if student tries to choose more than 5 positions
-        if (message === "Student can't choose more than 5 positions") {
-          console.log("Can't choose more than 5 positions");
-          this.warnIllegalPositionNumber();
-          return;
-        }
-        // check if student tries to select the same position or another error occurrs
-        else if (message.includes("Error while inserting student positions")) {
-          this.warnError();
-          return;
-        }
-
-        this.addedPositionSuccess();
-      });
-    });
-  }
-
-  private addedPositionSuccess(): void {
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: "Η θέση προστέθηκε",
-      showConfirmButton: false,
-      timer: 1500
-    });
-  }
-
-  private warnError(): void {
-    Swal.fire({
-      position: 'center',
-      icon: 'error',
-      title: "Δεν μπορείτε να επιλέξετε την ίδια θέση.",
-      showConfirmButton: false,
-      timer: 1500
-    });
-  }
-
   private warnDepartmentNotMatchesError(): void {
     Swal.fire({
       position: 'center',
       icon: 'error',
       title: "Αυτή η θέση δεν είναι διαθέσιμη για το τμήμα σας",
-      showConfirmButton: false,
-      timer: 1500
-    });
-  }
-
-  private warnIllegalPositionNumber(): void {
-    Swal.fire({
-      position: 'center',
-      icon: 'info',
-      title: "Δε μπορείτε να επιλέξετε πάνω από 5 θέσεις",
       showConfirmButton: false,
       timer: 1500
     });
@@ -319,16 +234,5 @@ export class AtlasPositionsComponent implements OnInit {
       showConfirmButton: false,
       timer: 1500
     });
-  }
-
-  checkIfActiveAppExists() {
-    this.studentsService.getStudentActiveApplication()
-      .subscribe((num: number) => {
-        console.log(num);
-        // if (num == 1) return true;
-        // else return false;
-      });
-
-    return false;
   }
 }

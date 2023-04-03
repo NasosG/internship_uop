@@ -104,6 +104,11 @@
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Στοιχεία Σύμβασης</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>ΑΔΤ</mat-label>
+        <input matInput name="id_card" ngModel [ngModel]="studentsSSOData[0]?.id_card" id="inputID" placeholder="ΑΔΤ*"
+          formControlName="policeIDControl" required>
+      </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>ΑΦΜ</mat-label>
         <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[0]?.ssn" id="inputName" placeholder="ΑΦΜ"

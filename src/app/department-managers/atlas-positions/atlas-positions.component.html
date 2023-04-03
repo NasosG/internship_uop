@@ -1,18 +1,3 @@
-<!-- <section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-
-      </div>
-      <div class="col-sm-6">
-        <div class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="/student">student</a></li>
-          <li class="breadcrumb-item active">profile</li>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
   <i class="fas fa-search mr-1"></i>
   Φιλτρα Αναζητησης &nbsp;<i style="font-size:16px;" class="fa fa-angle-down"></i><br>
@@ -86,29 +71,6 @@
                 </option>
               </select>
             </div>
-            <!-- Work Hours -->
-            <!-- <div class="widget col-2 pl-2 pr-2">
-              <h4>Ώρες Εργασίας</h4>
-              <ul class="checkboxes">
-                <li>
-                  <input id="select-all" type="checkbox" (click)="selectAll()" name="select-all" value="unselected"
-                    checked>
-                  <label for="select-all">Όλα</label>
-                </li>
-                <li>
-                  <input id="check-2" type="checkbox" (click)="selectOneOption('check-2')" name="check-boxes"
-                    value="fulltime">
-                  <label for="check-2">Full-Time<span></span></label>
-                </li>
-                <li>
-                  <input id="check-3" type="checkbox" (click)="selectOneOption('check-3')" name="check-boxes"
-                    value="parttime">
-                  <label for="check-3">Part-Time</label>
-                </li>
-              </ul>
-            </div> -->
-            <!-- <button style="width: 180px;" class="mb-4 button btn-primary ">Αναζητηση&nbsp;<i
-                class="pl-2 fa fa-search"></i></button> -->
           </div>
         </div>
       </div>
@@ -211,10 +173,6 @@
                   <tr><i class="fa fa-envelope"></i> <strong> Email:</strong>
                     {{this.providerContactEmail ? this.providerContactEmail : 'Δεν διατίθεται'}}</tr>
                 </table>
-                <a *ngIf="!this.isAppActive" id="addPositionsBtn"
-                  (click)="addPosition(this.jobPositionId, this.jobInternalPositionId, jobAvailablePositions)"
-                  [class.disabled]="!canStudentSubmitApp ? true : null" class="button btn-primary">ΠΡΟΣΘΕΣΤΕ
-                  ΘΕΣΗ</a>
               </div>
             </li>
           </ul>
@@ -225,3 +183,4 @@
     </div>
   </div>
 </div>
+<br>

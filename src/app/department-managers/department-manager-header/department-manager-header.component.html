@@ -2,13 +2,13 @@
    <p>Τμήμα: {{depManagerData?.department}}<br>Τμηματικός/η Υπεύθυνος/η:
      {{depManagerData?.givenname}} {{depManagerData?.sn}}</p>
  </div>
- <div class="card-header p-2 mb-0" style="border:none;">
+ <!-- <div class="card-header p-2 mb-0" style="border:none;">
    <div class="card-tools mb-0 mr-1 p-1">
      <button type="button" style="font-size:16px;" class="btn btn-secondary btn-sm">
        <i class="far fa-envelope mr-1"></i>Παλιές Περιόδοι
      </button>
    </div>
- </div>
+ </div> -->
  <div *ngIf="!periodData || periodData.semester == null" ngNativeValidate id="dep-manager-no-period"
    class="alert alert-danger" role="alert">
    Δεν
