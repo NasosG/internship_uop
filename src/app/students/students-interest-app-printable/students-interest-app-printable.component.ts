@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxPrintModule } from 'ngx-print';
-import {Period} from 'src/app/department-managers/period.model';
-import {Utils} from 'src/app/MiscUtils';
-import {Student} from '../student.model';
-import {StudentsService} from '../student.service';
-
+import { Period } from 'src/app/department-managers/period.model';
+import { Utils } from 'src/app/MiscUtils';
+import { Student } from '../student.model';
+import { StudentsService } from '../student.service';
+import { DocTypeLabels } from '../doc-type-labels.model';
 
 @Component({
   selector: 'app-students-interest-app-printable',
@@ -13,9 +13,16 @@ import {StudentsService} from '../student.service';
   styleUrls: ['./students-interest-app-printable.component.css']
 })
 export class StudentsInterestAppPrintableComponent implements OnInit {
-  studentsSSOData: any;
   period!: Period;
-  studentFiles!: any[];
+  public studentsSSOData: any;
+  public studentFiles!: any[];
+  public docTypeLabels: DocTypeLabels = {
+    AFFIDAVIT: 'Υπεύθυνη Δήλωση',
+    SSN: 'Έντυπο ΑΦΜ',
+    IDENTITY: 'Έντυπο ΑΔΤ',
+    IBAN: 'Έντυπο IBAN',
+    AMA: 'Έντυπο ΑΜΑ'
+  };
 
   constructor(private studentsService: StudentsService) { }
 

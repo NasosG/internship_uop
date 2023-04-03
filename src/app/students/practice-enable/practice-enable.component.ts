@@ -168,6 +168,7 @@ export class PracticeEnableComponent implements OnInit {
       mother_last_name: this.firstFormGroup.get('motherSurnameCtrl')?.value
     };
     const contractsData: any = {
+      id_card: this.secondFormGroup.get('policeIDControl')?.value,
       ssn: this.secondFormGroup.get('ssnControl')?.value,
       doy: this.secondFormGroup.get('doyControl')?.value,
       iban: this.secondFormGroup.get('ibanControl')?.value
@@ -179,7 +180,6 @@ export class PracticeEnableComponent implements OnInit {
       affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value
     };
     const contactDetails: any = {
-      id_card: this.firstFormGroup.get('policeIDControl')?.value,
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
       address: this.contactFormGroup.get('addressCtrl')?.value,
       location: this.contactFormGroup.get('locationCtrl')?.value,

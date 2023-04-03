@@ -71,6 +71,10 @@
                 <td style="width: 50%;">{{this.studentsSSOData[0].location}}</td>
               </tr>
               <tr>
+                <td style="width: 50%; font-weight: bold">ΑΔΤ</td>
+                <td style="width: 50%;">{{this.studentsSSOData[0].id_card}}</td>
+              </tr>
+              <tr>
                 <td style="width: 50%; font-weight: bold">ΑΦΜ</td>
                 <td style="width: 50%;">{{this.studentsSSOData[0].ssn}}</td>
               </tr>
@@ -187,7 +191,7 @@
             </tbody>
           </table><br>
           <p *ngFor="let item of studentFiles">
-            {{item.doc_type == "AFFIDAVIT" ? 'Υπεύθυνη Δήλωση' : ('Έντυπο ' + (item.doc_type == 'SSN' ? 'ΑΦΜ' : item.doc_type))}}
+            {{docTypeLabels[item.doc_type]}}
           </p>
           <table style="width: 100%;">
           </table>
