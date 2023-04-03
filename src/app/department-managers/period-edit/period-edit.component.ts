@@ -146,7 +146,23 @@ export class PeriodEditComponent implements OnInit {
   }
 
   insertPhase2StudentsRank() {
-    this.depManagerService.insertApprovedStudentsRank(this.depManagerData.department_id, this.periodData.phase_state, this.periodData.id);
+    if (parseInt(this.selectPhase.nativeElement.value) == 1) {
+      return;
+    }
+    if (this.phaseBe4Update < parseInt(this.selectPhase.nativeElement.value)) {
+      if (this.phaseBe4Update == 1 && this.periodHasNotEnded()) {
+        return;
+      }
+    }
+    let allStudentsApplicationsDone = this.studentWithPhaseZero !== undefined;
+    if (allStudentsApplicationsDone) {
+      return;
+    }
+
+    this.depManagerService.insertApprovedStudentsRank(this.depManagerData.department_id, this.periodData.phase_state, this.periodData.id)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 
   back(): void {
