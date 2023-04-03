@@ -105,20 +105,20 @@ const routes: Routes = [{
         path: 'evaluation-form/:id',
         component: StudentComponent
       }]
-    },
-    {
-      path: 'student-contract',
-      component: StudentComponent
   },
   {
-      path: 'contract-files/:id',
-      component: StudentComponent
+    path: 'student-contract',
+    component: StudentComponent
+  },
+  {
+    path: 'contract-files/:id',
+    component: StudentComponent
   },
   {
     path: 'contact',
     component: StudentComponent
   }
-]
+  ]
 },
 {
   path: 'department-manager',
@@ -191,7 +191,7 @@ const routes: Routes = [{
     path: 'students-approved/:id',
     component: DepartmentManagerComponent
   }
-]
+  ]
 },
 {
   path: 'companies',
@@ -211,10 +211,10 @@ const routes: Routes = [{
         path: ':id/upload',
         component: CompanyComponent
       }]
-    },
-    {
-      path: 'students-applications/:id',
-      component: CompanyComponent
+  },
+  {
+    path: 'students-applications/:id',
+    component: CompanyComponent
   },
   {
     path: 'selected-students/:id',
@@ -232,7 +232,7 @@ const routes: Routes = [{
     path: 'manuals',
     component: CompanyComponent
   }
-]
+  ]
 },
 {
   path: 'office',
@@ -272,7 +272,7 @@ const routes: Routes = [{
     path: 'student-contracts/:id',
     component: OfficeComponent,
   }
-]
+  ]
 },
 {
   path: 'admin',
