@@ -255,8 +255,8 @@ const updateStudentDetails = async (student, id) => {
 const updateStudentContractDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
-     SET " + "ssn = $1, doy = $2, iban = $3 WHERE sso_uid = $4",
-      [student.ssn, student.doy, student.iban, id]
+     SET " + "ssn = $1, doy = $2, iban = $3, id_card = $4 WHERE sso_uid = $5",
+      [student.ssn, student.doy, student.iban, student.id_card, id]
     );
 
     return updateResults;

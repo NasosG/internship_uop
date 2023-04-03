@@ -189,4 +189,8 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   isStudentAppsResultsOldPeriodsRoute() {
     return this.router.url === '/department-manager/student-applications/results-old/' + this.authService.getSessionId();
   }
+
+  isAtlasPositionsRoute() {
+    return this.router.url === '/department-manager/atlas-positions/' + this.authService.getSessionId();
+  }
 }

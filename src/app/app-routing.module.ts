@@ -105,20 +105,20 @@ const routes: Routes = [{
         path: 'evaluation-form/:id',
         component: StudentComponent
       }]
-    },
-    {
-      path: 'student-contract',
-      component: StudentComponent
   },
   {
-      path: 'contract-files/:id',
-      component: StudentComponent
+    path: 'student-contract',
+    component: StudentComponent
+  },
+  {
+    path: 'contract-files/:id',
+    component: StudentComponent
   },
   {
     path: 'contact',
     component: StudentComponent
   }
-]
+  ]
 },
 {
   path: 'department-manager',
@@ -158,30 +158,30 @@ const routes: Routes = [{
         path: 'results-old/:id',
         component: DepartmentManagerComponent
       }]
-    },
-    {
-      path: 'sheet-input/:id',
-      component: DepartmentManagerComponent,
-    },
-    {
-      path: 'sheet-output/:id',
-      component: DepartmentManagerComponent,
-    },
-    {
-      path: 'student-contracts/:id',
-      component: DepartmentManagerComponent,
-    },
-    {
-      path: 'match-students/:id',
-      component: DepartmentManagerComponent
-    },
-    {
-      path: 'contact',
-      component: DepartmentManagerComponent
-    },
-    {
-      path: 'about',
-      component: DepartmentManagerComponent
+  },
+  {
+    path: 'sheet-input/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'sheet-output/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'student-contracts/:id',
+    component: DepartmentManagerComponent,
+  },
+  {
+    path: 'match-students/:id',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'contact',
+    component: DepartmentManagerComponent
+  },
+  {
+    path: 'about',
+    component: DepartmentManagerComponent
   },
   {
     path: 'manuals',
@@ -190,8 +190,12 @@ const routes: Routes = [{
   {
     path: 'students-approved/:id',
     component: DepartmentManagerComponent
+  },
+  {
+    path: 'atlas-positions/:id',
+    component: DepartmentManagerComponent
   }
-]
+  ]
 },
 {
   path: 'companies',
@@ -211,10 +215,10 @@ const routes: Routes = [{
         path: ':id/upload',
         component: CompanyComponent
       }]
-    },
-    {
-      path: 'students-applications/:id',
-      component: CompanyComponent
+  },
+  {
+    path: 'students-applications/:id',
+    component: CompanyComponent
   },
   {
     path: 'selected-students/:id',
@@ -232,7 +236,7 @@ const routes: Routes = [{
     path: 'manuals',
     component: CompanyComponent
   }
-]
+  ]
 },
 {
   path: 'office',
@@ -271,8 +275,12 @@ const routes: Routes = [{
   {
     path: 'student-contracts/:id',
     component: OfficeComponent,
+  },
+  {
+    path: 'atlas-positions/:id',
+    component: OfficeComponent
   }
-]
+  ]
 },
 {
   path: 'admin',
@@ -289,7 +297,6 @@ const routes: Routes = [{
     component: AdminPanelComponent
   }]
 }
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { enableTracing: true })],

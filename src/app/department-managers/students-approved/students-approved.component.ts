@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DepManagerService } from '../dep-manager.service';
 import { mergeMap } from 'rxjs';
 import { StudentsAppsPreviewDialogComponent } from '../students-apps-preview-dialog/students-apps-preview-dialog.component';
-import {Period} from '../period.model';
+import { Period } from '../period.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -26,7 +26,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
   ngSelect = "";
   depId: any;
   @Input('espaPositions') espaPositions: number = 0;
-  @Input('period') period: Period  | undefined;
+  @Input('period') period: Period | undefined;
   @Input('periodId') periodId: number = 0;
   constructor(public depManagerService: DepManagerService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -102,6 +102,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "Βαθμολογία(στα 100)": item.score,
         "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "ΑΜ": item.schacpersonaluniquecode,
+        "email": item.mail,
         "Επώνυμο": item.sn,
         "Όνομα": item.givenname,
         "Πατρώνυμο": item.father_name,
@@ -122,14 +123,14 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "IBAN": item.iban,
         "AMA": item.ama_number,
         "ΑΔΤ": item.id_card,
-        "Εκπαίδευση": item.education,
-        "Άλλη εκπαίδευση": item.other_edu,
-        "Γνώσεις Η/Υ": item.computer_skills,
-        "skills": item.skills,
-        "honors": item.honors,
-        "Εμπειρία": item.experience,
-        "Γλώσσες": item.languages,
-        "Ενδιαφέροντα": item.interests,
+        //"Εκπαίδευση": item.education,
+        //"Άλλη εκπαίδευση": item.other_edu,
+        //"Γνώσεις Η/Υ": item.computer_skills,
+        //"skills": item.skills,
+        //"honors": item.honors,
+        //"Εμπειρία": item.experience,
+        //"Γλώσσες": item.languages,
+        //"Ενδιαφέροντα": item.interests,
         "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
         "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ'
         // "Αποτελέσματα": (item.phase == 2 ? 'Επιλέχτηκε' : item.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε')
@@ -247,7 +248,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
     this.studentsData[positionIndex + 1].is_approved = this.checkIsApproved(tempRank, this.studentsData[positionIndex + 1].ranking);
   }
 
-  checkIsApproved(studentRanking: number|undefined, statementNum: number|undefined): boolean {
+  checkIsApproved(studentRanking: number | undefined, statementNum: number | undefined): boolean {
     const ESPA_POSITIONS = this.espaPositions;
     if (!statementNum) return false;
     if (!studentRanking) return false;

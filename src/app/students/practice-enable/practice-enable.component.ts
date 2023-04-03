@@ -115,6 +115,7 @@ export class PracticeEnableComponent implements OnInit {
       programOfStudyMergedCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
+      policeIDControl: ['', Validators.required],
       ssnControl: ['', Validators.required],
       doyControl: ['', Validators.required],
       amkaControl: ['', Validators.required],
@@ -125,10 +126,10 @@ export class PracticeEnableComponent implements OnInit {
     this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
       phoneCtrl: [],
-      addressCtrl: [],
-      locationCtrl: [],
-      cityCtrl: [],
-      postalCodeCtrl: []
+      addressCtrl: ['', Validators.required],
+      locationCtrl: ['', Validators.required],
+      cityCtrl: ['', Validators.required],
+      postalCodeCtrl: ['', Validators.required]
     });
     this.specialDataFormGroup = this._formBuilder.group({
       ameaCatCtrl: ['', Validators.required],
@@ -178,6 +179,7 @@ export class PracticeEnableComponent implements OnInit {
       affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value
     };
     const contactDetails: any = {
+      id_card: this.firstFormGroup.get('policeIDControl')?.value,
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
       address: this.contactFormGroup.get('addressCtrl')?.value,
       location: this.contactFormGroup.get('locationCtrl')?.value,
