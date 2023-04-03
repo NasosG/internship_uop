@@ -125,10 +125,10 @@ export class PracticeEnableComponent implements OnInit {
     this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
       phoneCtrl: [],
-      addressCtrl: [],
-      locationCtrl: [],
-      cityCtrl: [],
-      postalCodeCtrl: []
+      addressCtrl: ['', Validators.required],
+      locationCtrl: ['', Validators.required],
+      cityCtrl: ['', Validators.required],
+      postalCodeCtrl: ['', Validators.required]
     });
     this.specialDataFormGroup = this._formBuilder.group({
       ameaCatCtrl: ['', Validators.required],

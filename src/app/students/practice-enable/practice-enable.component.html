@@ -71,7 +71,8 @@
       </mat-form-field>
       <br>
       <p *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)">Προέρχεστε από πρώην ΤΕΙ και ενταχθήκατε σε
-        <br>Πανεπιστημιακό Πρόγραμμα Σπουδών για αναβάθμιση πτυχίου;</p>
+        <br>Πανεπιστημιακό Πρόγραμμα Σπουδών για αναβάθμιση πτυχίου;
+      </p>
       <mat-form-field *ngIf="isProgramOfStudyMerged(studentsSSOData[0]?.department_id)" class="mr-2 mt-0 set-min-width"
         appearance="fill">
         <mat-label>Αναβάθμιση Πτυχίου</mat-label>
@@ -225,27 +226,28 @@
       <mat-form-field appearance="fill">
         <mat-label>Τηλέφωνο</mat-label>
         <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
-          [ngModel]="studentsSSOData[0]?.phone" size="31" maxlength="31" />
+          [ngModel]="studentsSSOData[0]?.phone" size="31" maxlength="31" required>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Οδός</mat-label>
         <input matInput formControlName="addressCtrl" id="address" name="address" ngModel
-          [ngModel]="studentsSSOData[0]?.address" size="64" maxlength="255">
+          [ngModel]="studentsSSOData[0]?.address" size="64" maxlength="255" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Περιοχή</mat-label>
         <input matInput type="text" id="location" name="location" ngModel [ngModel]="studentsSSOData[0]?.location"
-          size="64" maxlength="255" formControlName="locationCtrl" placeholder="Περιοχή" />
+          size="64" maxlength="255" formControlName="locationCtrl" placeholder="Περιοχή" required>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Πόλη</mat-label>
         <input matInput type="text" id="city" name="city" ngModel formControlName="cityCtrl"
-          [ngModel]="studentsSSOData[0]?.city" size="64" maxlength="255" />
+          [ngModel]="studentsSSOData[0]?.city" size="64" maxlength="255" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Ταχυδρομικός κώδικας</mat-label>
         <input matInput type="text" id="postal-code" name="post_address" ngModel
-          [ngModel]="studentsSSOData[0]?.post_address" size="16" maxlength="16" formControlName="postalCodeCtrl" />
+          [ngModel]="studentsSSOData[0]?.post_address" size="16" maxlength="16" formControlName="postalCodeCtrl"
+          required>
       </mat-form-field><br>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
