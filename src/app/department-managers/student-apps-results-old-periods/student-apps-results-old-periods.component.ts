@@ -42,8 +42,12 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
         this.depManagerDataDepartment = depManager.department_id;
         this.depManagerService.getAllPeriodsByDepartmentId(this.depManagerDataDepartment)
           .subscribe((periods: any[]) => {
-            this.periods = periods;
+            this.periods = periods = periods.filter((period: Period) => !period.is_active);
             this.period = periods[0];
+            if (this.periods?.length == 0) {
+              this.isLoading = false;
+              return;
+            }
             this.depManagerService.getStudentsRankingListFromAPI(this.depManagerDataDepartment, this.period.id)
               .subscribe((students: Student[]) => {
                 this.studentsData = students;
