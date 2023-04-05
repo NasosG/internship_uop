@@ -5,9 +5,8 @@
     </div>
     <div id="entrySheetPreviewContent">
       <div id="headerShownInPrintOnly">
-        <img id="espaSheetLogo" class="w-75 mb-4" src="/assets/images/sheet_espa_logo.jpg">
-        <br>
-        <img id="pelopasLogo" class="" src="/assets/images/v110_3.png">
+        <img id="pelopasLogo" class="mr-4" src="/assets/images/v110_3.png">
+        <img id="espaSheetLogo" class="w-75 mb-3" src="/assets/images/sheet_espa_logo.jpg">
         <h3 style='text-align: center;'><br>ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ ΓΙΑ ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ<br></h3>
         <h3 style='text-align: center;'>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ</h3>
         <table class="mt-4 mb-3" id="headerPrintTable">
@@ -22,6 +21,9 @@
           </tr>
           <tr>
             <td><strong>Τηλέφωνο:</strong> {{studentPhone}} </td>
+          </tr>
+          <tr>
+            <td><strong>Ημερομηνία συμπλήρωσης:</strong> {{currentDate}} </td>
           </tr>
         </table>
       </div>
@@ -207,14 +209,14 @@
           </p>
         </div>
       </div>
-      <div id="footerShownInPrintOnly">
+      <!-- <div id="footerShownInPrintOnly">
         <br><br><br><br>
         <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3>
         <br>
         <h3 style='text-align: right;'>Υπογραφή</h3>
         <h5 style='text-align: right;'> {{currentDate}} </h5><br><br><br>
         <h5 style='text-align: right;'> {{studentName}} </h5>
-      </div>
+      </div> -->
     </div>
   </form>
 </mat-dialog-content>

@@ -1,6 +1,6 @@
 <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Εκτυπώστε και υπογράψτε το δελτίο σας.
+    Εκτυπώστε και αποθηκεύστε το δελτίο σας.
   </div>
   <div id="exitSheetPreviewContent">
     <!-- <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας Κατά την Έξοδο</h3> -->
@@ -8,9 +8,8 @@
       Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, Α3, Α4, Α5, A6 θα πρέπει να είναι ΝΑΙ
     </p> -->
     <div id="headerShownInPrintOnly">
-      <img id="espaSheetLogo" class="w-75 mb-4" src="/assets/images/sheet_espa_logo.jpg">
-      <br>
-      <img id="pelopasLogo" class="" src="/assets/images/v110_3.png">
+      <img id="pelopasLogo" class="mr-4" src="/assets/images/v110_3.png">
+      <img id="espaSheetLogo" class="w-75 mb-3" src="/assets/images/sheet_espa_logo.jpg">
       <h3 style='text-align: center;'><br>ΔΕΛΤΙΟ ΕΞΟΔΟΥ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ<br></h3>
       <h3 style='text-align: center;'>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ</h3>
       <table class="mt-4 mb-3" id="headerPrintTable">
@@ -25,6 +24,9 @@
         </tr>
         <tr>
           <td><strong>Τηλέφωνο:</strong> {{studentData[0].phone}} </td>
+        </tr>
+        <tr>
+          <td><strong>Ημερομηνία συμπλήρωσης:</strong> {{currentDate}}</td>
         </tr>
       </table>
     </div>
@@ -128,7 +130,7 @@
     </div>
 
     <mat-divider class="mt-2 mb-2"></mat-divider>
-    <h4 class="text-dark">Α6) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
+    <h4 class="text-dark">Α3) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
     <div class="container-fluid row" *ngFor="let option of specialJobOptionsOutputSheet; let i = index">
       <div class="col-10">
         <label for="{{option.id}}">
@@ -201,14 +203,14 @@
       </div>
     </div>
 
-    <div id="footerShownInPrintOnly">
+    <!-- <div id="footerShownInPrintOnly">
       <br><br><br><br>
       <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3>
       <br>
       <h3 style='text-align: right;'>Υπογραφή</h3>
       <h5 style='text-align: right;'> {{currentDate}} </h5><br><br><br>
       <h5 style='text-align: right;'> {{this.studentData[0].givenname + " " + this.studentData[0].sn}} </h5>
-    </div>
+    </div> -->
   </div>
   <br>
   <button class="back-btn" [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2">
