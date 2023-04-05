@@ -28,6 +28,8 @@ export class SheetOutputPreviewComponent extends SheetOutputComponent implements
     this.studentsService.getStudentExitSheets()
       .subscribe((forms: ExitForm[]) => {
         this.exitForms = forms;
+        const creationDate = this.exitForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.exitForms[0].creation_date) : this.currentDate;
+        this.currentDate = creationDate;
       });
   }
 
