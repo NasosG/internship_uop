@@ -6,6 +6,8 @@ export interface ExitForm {
   // The keys of the dynamic properties can be any string, and their values can be any type
   [key: string]: any;
 
+  creation_date: Date;
+
   A1_1: string;
   A1_2: string;
   A1_3: string;

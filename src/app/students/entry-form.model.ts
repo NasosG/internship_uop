@@ -9,6 +9,8 @@ export interface EntryForm {
   // The keys of the dynamic properties can be any string, and their values can be any type
   [key: string]: any;
 
+  creation_date: Date;
+
   // All fields of entry form - can be used as string properties for specific keys
   A0_1: string;
   A0_2: string;

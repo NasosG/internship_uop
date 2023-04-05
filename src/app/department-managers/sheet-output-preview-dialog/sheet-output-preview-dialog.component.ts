@@ -24,11 +24,12 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
   public educationOptionsOutputSheet = Utils.educationOptionsOutputSheet;
 
   // Details of the student used in printing the input sheet
-  public studentFirstName = this.data.studentsData[0].givenname;
-  public studentLastName = this.data.studentsData[0].sn;
-  public studentEmail = this.data.studentsData[0].mail;
-  public studentPhone = this.data.studentsData[0].phone;
-  public studentName = this.data.studentsData[0].givenname + " " + this.data.studentsData[0].sn;
+  public studentFirstName!: string;
+  public studentLastName!: string;
+  public studentEmail!: string;
+  public studentPhone!: string;
+  public studentName!: string;
+
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
   constructor(
@@ -42,6 +43,14 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
       .subscribe((forms: ExitForm[]) => {
         this.exitForms = forms;
         console.log(this.exitForms);
+        const creationDate = this.exitForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.exitForms[0].creation_date) : this.currentDate;
+        this.currentDate = creationDate;
+
+        this.studentFirstName = this.data.studentsData[this.data.index].givenname;
+        this.studentLastName = this.data.studentsData[this.data.index].sn;
+        this.studentEmail = this.data.studentsData[this.data.index].mail;
+        this.studentPhone = this.data.studentsData[this.data.index].phone;
+        this.studentName = this.data.studentsData[this.data.index].givenname + " " + this.data.studentsData[this.data.index].sn;
       });
   }
 

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { SheetInputComponent } from '../sheet-input/sheet-input.component';
 import { EntryForm } from '../entry-form.model';
 import {Student} from '../student.model';
+import * as moment from 'moment';
 
 
 @Component({
@@ -36,6 +37,8 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
       .subscribe((forms: EntryForm[]) => {
         this.entryForms = forms;
         console.log(this.entryForms);
+        const creationDate = this.entryForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.entryForms[0].creation_date) : this.currentDate;
+        this.currentDate = creationDate;
       });
   }
 
