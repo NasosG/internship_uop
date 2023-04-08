@@ -1,5 +1,4 @@
 const express = require('express');
-const soap = require('soap');
 const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
 const atlasController = require("./atlasController");
@@ -7,170 +6,203 @@ const companyService = require("../services/companyService.js");
 const studentService = require("../services/studentService.js");
 const mainMailer = require('../mailers/mainMailers.js');
 const MiscUtils = require("../MiscUtils.js");
+const axios = require("axios");
 require('dotenv').config();
+const xml2js = require('xml2js');
 
 const createMicrodata = (id, answer) => {
-  const apantshValue = answer === 1 ? 5321 : answer === 0 ? 5322 : 5323;
+   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
 
-  return {
-    ID_MICRODATA: id,
-    APANTHSH_VALUE: apantshValue,
-    ST_FLAG: 1
-  };
+   return `<KPS5_DELTIO_MICRODATA>
+               <ID_MICRODATA>${id}</ID_MICRODATA>
+               <APANTHSH_VALUE>${answerValue}</APANTHSH_VALUE>
+               <ST_FLAG>1</ST_FLAG>
+            </KPS5_DELTIO_MICRODATA>\n\t  `;
 };
 
 
 const sendDeltioEisodouWS = async (req, res) => {
-  const studentId = 8;
-  const results = studentService.getStudentEntrySheets(studentId);
+   let finalCode;
+   try {
+      const studentId = 8;
+      const results = await studentService.getStudentEntrySheets(studentId);
+      // const field_oaed_karta = '';
+      // console.log(results.rows);
 
-  const kps5OfeloumenoiArray = results.map(node => {
-    const kps5Ofeloumenoi = new builder.Element("KPS5_OFELOYMENOI");
+      let microdata = '';
 
-    const answers = [
-      { id: 3, value: node.A1 },
-      { id: 4, value: node.A1_1 },
-      { id: 5, value: node.A1_2 },
-      { id: 99, value: node.field_oaed_karta },
-      { id: 6, value: node.A2 },
-      { id: 7, value: node.A2_1 },
-      { id: 8, value: node.A2_1_1 },
-      { id: 9, value: node.A2_1_2 },
-      { id: 10, value: node.A2_1_3 },
-      { id: 11, value: node.A2_1_4 },
-      { id: 12, value: node.A2_1_5 },
-      { id: 13, value: node.A2_1_6 },
-      { id: 14, value: node.A2_2 },
-      { id: 15, value: node.A2_2_1 },
-      { id: 16, value: node.A2_2_2 },
-      { id: 17, value: node.A2_2_3 },
-      { id: 18, value: node.A2_3 },
-      { id: 19, value: node.A2_4 },
-      { id: 20, value: node.A3 },
-      { id: 21, value: node.A3_1 },
-      { id: 81, value: node.A3_1_1 },
-      { id: 82, value: node.A3_1_2 },
-      { id: 65, value: node.A3_2 },
-      { id: 57, value: 0 }, // set to OXI!
-      { id: 27, value: node.C1 },
-      { id: 28, value: node.C2 },
-      { id: 29, value: node.C3 },
-      { id: -1, value: node.C4 },
-      { id: 30, value: node.C5 },
-      { id: 31, value: node.C6 },
-      { id: 32, value: node.C7 },
-      { id: 33, value: node.C8 },
-      { id: 38, value: node.C9 },
-      { id: 39, value: node.D1 },
-      { id: 40, value: node.D2 },
-      { id: 41, value: node.D3 },
-      { id: 62, value: node.D4 },
-      { id: 47, value: node.D5 },
-      { id: 48, value: node.D6 },
-      { id: 45, value: node.D7 },
-      { id: 46, value: node.D8 },
-      { id: 49, value: node.D9 },
-      { id: 50, value: node.D10 },
-      { id: 63, value: node.D11 },
-      { id: 64, value: node.D12 }
-    ];
+      const answers = [
+         { id: 3, value: results.rows[0]?.A1 ?? null },
+         { id: 4, value: results.rows[0]?.A1_1 ?? null },
+         { id: 5, value: results.rows[0]?.A1_2 ?? null },
+         // { id: 99, value: field_oaed_karta ?? null },
+         { id: 6, value: results.rows[0]?.A2 ?? null },
+         { id: 7, value: results.rows[0]?.A2_1 ?? null },
+         { id: 8, value: results.rows[0]?.A2_1_1 ?? null },
+         { id: 9, value: results.rows[0]?.A2_1_2 ?? null },
+         { id: 10, value: results.rows[0]?.A2_1_3 ?? null },
+         { id: 11, value: results.rows[0]?.A2_1_4 ?? null },
+         { id: 12, value: results.rows[0]?.A2_1_5 ?? null },
+         { id: 13, value: results.rows[0]?.A2_1_6 ?? null },
+         { id: 14, value: results.rows[0]?.A2_2 ?? null },
+         { id: 15, value: results.rows[0]?.A2_2_1 ?? null },
+         { id: 16, value: results.rows[0]?.A2_2_2 ?? null },
+         { id: 17, value: results.rows[0]?.A2_2_3 ?? null },
+         { id: 18, value: results.rows[0]?.A2_3 ?? null },
+         { id: 63, value: true },
+         { id: 19, value: results.rows[0]?.A2_4 ?? null },
+         { id: 20, value: results.rows[0]?.A3 ?? null },
+         { id: 21, value: results.rows[0]?.A3_1 ?? null },
+         { id: 81, value: results.rows[0]?.A3_1_1 ?? null },
+         { id: 82, value: results.rows[0]?.A3_1_2 ?? null },
+         { id: 65, value: results.rows[0]?.A3_2 ?? null },
+         { id: 57, value: false }, // set to OXI!
+         { id: 27, value: results.rows[0]?.C1 ?? null },
+         { id: 28, value: results.rows[0]?.C2 ?? null },
+         { id: 29, value: results.rows[0]?.C3 ?? null },
+         // { id: -1, value: results.rows[0].C4 ?? null },
+         { id: 30, value: results.rows[0]?.C5 ?? null },
+         { id: 31, value: results.rows[0]?.C6 ?? null },
+         { id: 32, value: results.rows[0]?.C7 ?? null },
+         { id: 33, value: results.rows[0]?.C8 ?? null },
+         { id: 34, value: results.rows[0]?.C8 ?? null },
+         { id: 46, value: results.rows[0]?.D8 ?? null },
+         { id: 47, value: results.rows[0]?.D5 ?? null },
+         { id: 48, value: results.rows[0]?.D6 ?? null },
+         { id: 49, value: results.rows[0]?.D9 ?? null },
+         { id: 50, value: results.rows[0]?.D10 ?? null },
+         { id: 38, value: results.rows[0]?.C9 ?? null },
+         { id: 39, value: results.rows[0]?.D1 ?? null },
+         { id: 40, value: results.rows[0]?.D2 ?? null },
+         { id: 41, value: results.rows[0]?.D3 ?? null },
+         { id: 62, value: results.rows[0]?.D4 ?? null },
+         { id: 45, value: results.rows[0]?.D7 ?? null }
+         // { id: 64, value: node.D12 }
+      ];
 
-    if (node.field_ergasia_idiotikos === 1 ||
-      node.field_ergasia_dimosios === 1 ||
-      node.field_ergasia_aftoapasxoloumenos === 1) {
-      answers.find(answer => answer.id === 6).value = 1;
-    }
+      // if (node.field_ergasia_idiotikos === 1 ||
+      //   node.field_ergasia_dimosios === 1 ||
+      //   node.field_ergasia_aftoapasxoloumenos === 1) {
+      //   answers.find(answer => answer.id === 6).value = 1;
+      // }
 
-    $answer_63 = 0;
-    $answer_64 = 2;
-    if ($answer_6 == 1) {
-      $answer_64 = 0;
-    }
+      // answers[63] = 0;
+      // answers[64] = 2;
+      // if (answers[6] == 1) {
+      //   answers[64] = 0;
+      // }
 
-    answers.forEach(answer => {
-      const microdata = createMicrodata(answer.id, answer.value);
-      kps5Ofeloumenoi.importDocument(microdata);
-    });
+      answers.forEach(answer => {
+         microdata += createMicrodata(answer.id, answer.value);
+      });
 
-    return kps5Ofeloumenoi;
-  });
+      console.log(microdata);
+      // Prepare XML
+      finalCode = `<soapenv:Body>
+      <det:eisagwghOfelWithDeltiaOfel>
+         <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
+         <![CDATA[
+         <SYM xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
+               <KPS5_OFELOYMENOI>
+                  <AFM>test</AFM>
+                  <AMKA>test</AMKA>
+                  <DATE_GENNHSHS>2001-08-02</DATE_GENNHSHS>
+                  <FYLLO_VALUE>5301</FYLLO_VALUE>
+                  <ID_ALLO>ΑΜ 111222</ID_ALLO>
+                  <OFEL_DIEYTHYNSH>test</OFEL_DIEYTHYNSH>
+                  <OFEL_TK>2test6504</OFEL_TK>
+                  <OFEL_ONOMATEPONYMO>MICHAEL SCOTT</OFEL_ONOMATEPONYMO>
+                  <OFEL_TEL>test</OFEL_TEL>
+                  <ST_FLAG>1</ST_FLAG>
+                  <KPS5_DELTIO_OFELOYMENOI>
+                     <EISODOS_FLAG>1</EISODOS_FLAG>
+                     <KODIKOS_MIS>5033384</KODIKOS_MIS>
+                     <KODIKOS_YPOERGOY>5035</KODIKOS_YPOERGOY>
+                     <ID_GEO_DHMOS>48</ID_GEO_DHMOS>
+                     <DATE_DELTIOY>2023-01-01</DATE_DELTIOY>
+                     <OLOKLHROSH_FLAG>1</OLOKLHROSH_FLAG>
+                     <OFEL_TK>test</OFEL_TK>
+                     <ST_FLAG>1</ST_FLAG>
+                  </KPS5_DELTIO_OFELOYMENOI>
+                  ${microdata}
+               </KPS5_OFELOYMENOI>
+            </SYM>`;
 
-  kps5OfeloumenoiArray.forEach(kps5Ofeloumenoi => {
-    xml.importDocument(kps5Ofeloumenoi);
-  });
+      // console.log(finalCode);
+   } catch (exc) {
+      console.error(exc);
+   }
+   // SOAP Request
+   const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL"; // asmx URL of WSDL
 
-  // Prepare XML
-  const xml = new XMLSerializer().serializeToString(microdata45); // You'll need to convert 'microdata45' to an XML object
-  const startposition = xml.indexOf("<SYM");
-  const finalCode = xml.substring(startposition);
+   const xmlPostString = `
+   <soapenv:Envelope xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+         <soapenv:Header>
+            <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+               <wsse:UsernameToken wsu:Id="UsernameToken-1">
+                     <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
+                     <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
+               </wsse:UsernameToken>
+            </wsse:Security>
+         </soapenv:Header>
+         <soapenv:Body>
+            <det:eisagwghOfelWithDeltiaOfel>
+               <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
+                     <![CDATA[
+                        ${finalCode}
+                     ]]>
+               </det:XmlRequest>
+            </det:eisagwghOfelWithDeltiaOfel>
+         </soapenv:Body>
+   </soapenv:Envelope>`;
 
-  // SOAP Request
-  const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL"; // asmx URL of WSDL
+   const response = await axios.post(soapUrl, xmlPostString, {
+      headers: {
+         'Content-Type': 'text/xml;charset=UTF-8',
+         // 'SOAPAction': 'http://your-web-service-namespace/eisagwghOfelWithDeltiaOfel',
+      },
+   });
+   console.log(response.data);
 
-  const xmlPostString = `
-  <soapenv:Envelope xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-      <soapenv:Header>
-          <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-              <wsse:UsernameToken wsu:Id="UsernameToken-1">
-                  <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
-                  <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
-              </wsse:UsernameToken>
-          </wsse:Security>
-      </soapenv:Header>
-      <soapenv:Body>
-          <det:eisagwghOfelWithDeltiaOfel>
-              <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
-                  <![CDATA[
-                      ${finalCode}
-                  ]]>
-              </det:XmlRequest>
-          </det:eisagwghOfelWithDeltiaOfel>
-      </soapenv:Body>
-  </soapenv:Envelope>`;
+   const parsedResponse = await parseXmlResponse(response.data);
 
-  // (async () => {
-  //   const client = await soap.createClientAsync(soapUrl);
-  //   const args = {
-  //     XmlRequest: xmlPostString
-  //   };
+   console.log('idOfel:', parsedResponse.idOfel);
+   console.log('kodikosMis:', parsedResponse.kodikosMis);
+   console.log('idDeltiou:', parsedResponse.idDeltiou);
+   console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
+   console.log('errorDescr:', parsedResponse.errorDescr);
 
-  //   const result = await client.eisagwghOfelWithDeltiaOfelAsync(args);
-  //   console.log(result);
-  // })().catch((error) => {
-  //   console.error(error);
-  // });
-
-  const client = await soap.createClientAsync(soapUrl);
-  const args = {
-    XmlRequest: xmlPostString
-  };
-
-  client.eisagwghOfelWithDeltiaOfel(args, (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('SOAP request failed');
-      return;
-    }
-    const response = result.XmlResponse;
-    const start = response.indexOf("<env:Body>");
-    const response1 = response.substring(start);
-
-    // Do something with the response1
-    res.send(response1);
-  });
+   res.send(response.data);
 };
 
 const sendDeltioExodouWS = async (request, response) => {
-  try {
-    response.status(200).send('SOAP request not implemented yet');
-  }
-  catch (error) {
-    console.error(error);
-    response.status(500).send('SOAP request failed');
-  }
+   try {
+      response.status(200).send('SOAP request not implemented yet');
+   }
+   catch (error) {
+      console.error(error);
+      response.status(500).send('SOAP request failed');
+   }
 };
 
+// Parse the response data (XML) and extract the information needed
+const parseXmlResponse = async (xml) => {
+   const parser = new xml2js.Parser({ explicitArray: false, ignoreAttrs: true });
+   const parsedXml = await parser.parseStringPromise(xml);
+
+   const response = parsedXml['env:Envelope']['env:Body']['eisagwghOfelWithDeltiaOfelResponse'];
+
+   return {
+      idOfel: response.idOfel,
+      kodikosMis: response.kodikosMis,
+      idDeltiou: response.idDeltiou,
+      eidosDeltiou: response.eidosDeltiou,
+      errorDescr: response.errorDescr
+   };
+};
+
+
 module.exports = {
-  sendDeltioEisodouWS,
-  sendDeltioExodouWS
+   sendDeltioEisodouWS,
+   sendDeltioExodouWS
 };

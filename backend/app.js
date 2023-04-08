@@ -63,7 +63,7 @@ app.use("/api/depmanager", depManagerRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/office", officeRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("api/ops", opsRoutes);
+app.use("/api/ops", opsRoutes);
 
 // test CAS
 var session = require('express-session');
