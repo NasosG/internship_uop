@@ -48,7 +48,7 @@ const sendDeltioEisodouWS = async (req, res) => {
       { id: 17, value: results.rows[0]?.A2_2_3 ?? null },
       { id: 18, value: results.rows[0]?.A2_3 ?? null },
       { id: 63, value: true },
-      { id: 19, value: results.rows[0]?.A2_4 ?? null },
+      // { id: 19, value: results.rows[0]?.A2_4 ?? null },
       { id: 20, value: results.rows[0]?.A3 ?? null },
       { id: 21, value: results.rows[0]?.A3_1 ?? null },
       { id: 81, value: results.rows[0]?.A3_1_1 ?? null },
@@ -63,32 +63,46 @@ const sendDeltioEisodouWS = async (req, res) => {
       { id: 31, value: results.rows[0]?.C6 ?? null },
       { id: 32, value: results.rows[0]?.C7 ?? null },
       { id: 33, value: results.rows[0]?.C8 ?? null },
-      { id: 34, value: results.rows[0]?.C8 ?? null },
+      { id: 34, value: results.rows[0]?.C9 ?? null },
       { id: 46, value: results.rows[0]?.D8 ?? null },
       { id: 47, value: results.rows[0]?.D5 ?? null },
       { id: 48, value: results.rows[0]?.D6 ?? null },
       { id: 49, value: results.rows[0]?.D9 ?? null },
       { id: 50, value: results.rows[0]?.D10 ?? null },
       { id: 38, value: results.rows[0]?.C9 ?? null },
-      { id: 39, value: results.rows[0]?.D1 ?? null },
-      { id: 40, value: results.rows[0]?.D2 ?? null },
-      { id: 41, value: results.rows[0]?.D3 ?? null },
-      { id: 62, value: results.rows[0]?.D4 ?? null },
-      { id: 45, value: results.rows[0]?.D7 ?? null }
+      { id: 39, value: results.rows[0]?.D4 ?? null },
+      { id: 40, value: results.rows[0]?.D5 ?? null },
+      { id: 41, value: results.rows[0]?.D6 ?? null },
+      { id: 62, value: results.rows[0]?.D7 ?? null },
+      { id: 45, value: results.rows[0]?.D8 ?? null }
       // { id: 64, value: node.D12 }
     ];
 
-    // if (node.field_ergasia_idiotikos === 1 ||
-    //   node.field_ergasia_dimosios === 1 ||
-    //   node.field_ergasia_aftoapasxoloumenos === 1) {
-    //   answers.find(answer => answer.id === 6).value = 1;
-    // }
+    if (results.rows[0].C9 == true) {
+      results.rows[0].C8 = false;
+      results.rows[0].C7 = false;
+      results.rows[0].C6 = false;
+      results.rows[0].C5 = false;
+    } else if (results.rows[0].C8 == true) {
+      results.rows[0].C7 = false;
+      results.rows[0].C6 = false;
+      results.rows[0].C5 = false;
+    } else if (results.rows[0].C7 == true) {
+      results.rows[0].C6 = false;
+      results.rows[0].C5 = false;
+    } else if (results.rows[0].C6 == true) {
+      results.rows[0].C5 = false;
+    } else {
+      results.rows[0].C5 = true;
+    }
 
-    // answers[63] = 0;
-    // answers[64] = 2;
-    // if (answers[6] == 1) {
-    //   answers[64] = 0;
-    // }
+    if (results.rows[0].A2_1 === true ||
+      results.rows[0].A2_2 === true ||
+      results.rows[0].A2_3 === true) {
+      answers.find(answer => answer.id === 6).value = true;
+    }
+
+    answers.find(answer => answer.id == 63).value = false;
 
     answers.forEach(answer => {
       microdata += createMicrodata(answer.id, answer.value);
@@ -97,10 +111,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log(microdata);
     // let deltioCandidateInfo = await getDataOfeloumenou(studentInfo);
     // Prepare XML
-    finalCode = `<soapenv:Body>
-      <det:eisagwghOfelWithDeltiaOfel>
-         <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
-         <![CDATA[
+    finalCode = `
          <SYM xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
                <KPS5_OFELOYMENOI>
                   <AFM>test</AFM>
@@ -118,9 +129,9 @@ const sendDeltioEisodouWS = async (req, res) => {
                      <KODIKOS_MIS>5033384</KODIKOS_MIS>
                      <KODIKOS_YPOERGOY>5035</KODIKOS_YPOERGOY>
                      <ID_GEO_DHMOS>48</ID_GEO_DHMOS>
-                     <DATE_DELTIOY>2023-01-01</DATE_DELTIOY>
+                     <DATE_DELTIOY>2022-07-01</DATE_DELTIOY>
                      <OLOKLHROSH_FLAG>1</OLOKLHROSH_FLAG>
-                     <OFEL_TK>test</OFEL_TK>
+                     <OFEL_TK>26504</OFEL_TK>
                      <ST_FLAG>1</ST_FLAG>
                   </KPS5_DELTIO_OFELOYMENOI>
                   ${microdata}
@@ -152,6 +163,7 @@ const sendDeltioEisodouWS = async (req, res) => {
          </soapenv:Body>
    </soapenv:Envelope>`;
 
+    console.log(xmlPostString);
     const response = await axios.post(soapUrl, xmlPostString, {
       headers: {
         'Content-Type': 'text/xml;charset=UTF-8',
