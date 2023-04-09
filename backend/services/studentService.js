@@ -1044,6 +1044,24 @@ const isSheetEnabledForStudent = async (studentId) => {
   }
 };
 
+const getApprovedAssignmentInfoByStudentId = async (studentId) => {
+  try {
+    const query = `
+      SELECT *
+      FROM internship_assignment
+      WHERE student_id = $1
+      AND approval_state = 1`;
+
+    const result = await pool.query(query, [studentId]);
+
+    return result.rows[0];
+  } catch (error) {
+    console.error(`Error fetching assignment details for student ID ${studentId}: `, error);
+    throw Error('Error fetching assignment details.');
+  }
+};
+
+
 module.exports = {
   getAllStudents,
   getStudentById,
@@ -1059,17 +1077,26 @@ module.exports = {
   getFileMetadataByStudentId,
   getCommentByStudentIdAndSubject,
   getAssignmentsByStudentId,
+  getApprovedAssignmentInfoByStudentId,
   getContractFileMetadataByStudentId,
   getContractDetailsByDepartmentAndPeriod,
+  getMergedDepartmentInfoByStudentId,
+  getSemesterProtocolNumberIfExistsOrNull,
+  getStudentFilesForAppPrint,
   isStudentInAssignmentList,
   semesterInterestAppFound,
   findMaxPositions,
+  mergedDepartmentResultFound,
+  checkUserAcceptance,
+  isSheetEnabledForStudent,
   insertStudentEntrySheet,
   insertStudentPositions,
   insertStudentPositionsFromUser,
   insertStudentExitSheet,
   insertStudentEvaluationSheet,
   insertStudentApplication,
+  insertMergedDepartmentDetails,
+  insertUserAcceptance,
   updateStudentDetails,
   updateStudentContractDetails,
   updateStudentExtraContractDetails,
@@ -1082,21 +1109,13 @@ module.exports = {
   updateStudentExitSheet,
   updatePhase,
   updateContractDetails,
+  updateMergedDepartmentDetails,
+  updateDepartmentIdByStudentId,
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId,
   loginStudent,
   insertOrUpdateMetadataBySSOUid,
-  acceptAssignment,
-  mergedDepartmentResultFound,
-  insertMergedDepartmentDetails,
-  updateMergedDepartmentDetails,
-  checkUserAcceptance,
-  insertUserAcceptance,
-  getMergedDepartmentInfoByStudentId,
   insertOrUpdateStudentInterestApp,
-  getSemesterProtocolNumberIfExistsOrNull,
-  updateDepartmentIdByStudentId,
-  getStudentFilesForAppPrint,
-  isSheetEnabledForStudent
+  acceptAssignment
 };

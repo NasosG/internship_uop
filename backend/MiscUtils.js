@@ -199,6 +199,34 @@ const convertDateFromYearMonthDayToDayMonthYear = (date) => {
   return date;
 };
 
+/**
+ * Formats a date string in 'yyyymmdd' format to 'Y-m-d' format.
+ *
+ * @param {string} dateString - The date string in 'yyyymmdd' format.
+ * @returns {string} The formatted date string in 'Y-m-d' format.
+ */
+const formatDateToISO = (dateString) => {
+  const year = dateString.slice(0, 4);
+  const month = dateString.slice(4, 6);
+  const day = dateString.slice(6, 8);
+
+  return `${year}-${month}-${day}`;
+};
+
+/**
+ * Formats a date string or timestamp to 'Y-m-d' format.
+ *
+ * @param {string | number} inputDate - The date string or timestamp to be formatted.
+ * @returns {string} The formatted date string in 'Y-m-d' format.
+ */
+const formatDateString = (inputDate) => {
+  const date = new Date(inputDate);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
 
 // Export list
 module.exports = {
@@ -220,5 +248,7 @@ module.exports = {
   getWeeksFromMonths,
   calculateDates,
   splitStudentsAMForAtlas,
-  convertDateFromYearMonthDayToDayMonthYear
+  convertDateFromYearMonthDayToDayMonthYear,
+  formatDateToISO,
+  formatDateString
 };
