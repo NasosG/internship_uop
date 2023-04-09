@@ -96,11 +96,26 @@ export class SheetInputOfficeComponent implements OnInit {
     });
   }
 
-  submitOPSDialog(idx: any) {
+  submitOPSDialog(studentId: any, type: string) {
+    console.log(studentId);
     if (!this.officeUserData?.is_admin) {
       Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να ανεβάσετε το δελτίο στο ΟΠΣ.');
       return;
     }
+
+    this.officeService.sendSheetWS(studentId, type).subscribe((res: any) => {
+      if (res.status == 200) {
+
+        if(res.message == 'deactivated') {
+          alert("Currently deactivated");
+          return;
+        }
+
+        Utils.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
+      } else {
+        Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
+      }
+    });
   }
 
   onPeriodChange(value: any) {

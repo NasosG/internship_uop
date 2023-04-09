@@ -30,7 +30,7 @@
     </div>
   </div>
   <p class="text-danger pt-4 mt-2">
-    Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, Α2.2, Α2.3, Α2.4, A3 θα πρέπει να είναι ΝΑΙ
+    Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, A3 θα πρέπει να είναι ΝΑΙ
   </p>
   <h4 class="text-dark"> Α1) Ανεργία </h4>
   <div *ngFor="let option of unemployedOption" class="container-fluid row">
@@ -46,11 +46,11 @@
       </mat-radio-group>
     </div>
   </div>
-
   <mat-divider class="mt-2 mb-2"></mat-divider>
-
-  <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
+  <h4 class="text-dark">Α2) Εργαζόμενοι/ες</h4>
   <div *ngFor="let option of privateSecOptions" class="container-fluid row">
+    <!-- <mat-divider *ngIf="option.id=='A2_1'" class="mt-2 mb-2"></mat-divider> -->
+    <h4 *ngIf="option.id=='A2_1'" class="ml-0 pl-0 text-dark">Α2.1) Ιδιωτικός Τομέας</h4>
     <div class="col-10">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  <mat-divider class="mt-2 mb-2"></mat-divider>
+  <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
 
   <h4 class="text-dark">Α2.2) Απασχολούμενος στο Δημόσιο Τομέα</h4>
   <div *ngFor="let option of publicSecOptions" class="container-fluid row">
@@ -81,7 +81,7 @@
     </div>
   </div>
 
-  <mat-divider class="mt-2 mb-2"></mat-divider>
+  <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
 
   <h4 class="text-dark">Α2.3) Αυτοαπασχολούμενος</h4>
   <div class="container-fluid row">
@@ -105,7 +105,7 @@
     </div>
   </div>
 
-  <mat-divider class="mt-2 mb-2"></mat-divider>
+  <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
 
   <h4 class="text-dark">Α2.4) Άλλη σχέση εργασίας</h4>
   <div class="container-fluid row">
@@ -150,16 +150,20 @@
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" *ngIf="option.id!='B4'" required
-        aria-label="Select an option">
+      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
-      <mat-radio-group name="{{option.id}}" [(ngModel)]="selectedYESOption" id="{{option.id}}" *ngIf="option.id=='B4'"
+      <!-- <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" *ngIf="option.id!='B4'" required
+        aria-label="Select an option">
+        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+      </mat-radio-group> -->
+      <!-- <mat-radio-group name="{{option.id}}" [(ngModel)]="selectedYESOption" id="{{option.id}}" *ngIf="option.id=='B4'"
         [disabled]="true" aria-label="Select an option">
         <mat-radio-button [checked]="true" [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
+      </mat-radio-group> -->
     </div>
   </div>
 

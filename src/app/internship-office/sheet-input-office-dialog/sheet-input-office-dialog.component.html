@@ -56,8 +56,10 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
+      <h4 class="text-dark">Α2) Εργαζόμενοι/ες</h4>
+      <!-- <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4> -->
       <div class="container-fluid row" *ngFor="let option of privateSecOptions; let i = index">
+        <h4 *ngIf="option.id=='A2_1'" class="ml-0 pl-0 text-dark">Α2.1) Ιδιωτικός Τομέας</h4>
         <div class="col-10">
           <label for="{{option.id}}">
             <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -70,7 +72,7 @@
         </div>
       </div>
 
-      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
       <h4 class="text-dark">Α2.2) Απασχολούμενος στο Δημόσιο Τομέα</h4>
       <div class="container-fluid row" *ngFor="let option of publicSecOptions; let i = index">
         <div class="col-10">
@@ -85,7 +87,7 @@
         </div>
       </div>
 
-      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
       <h4 class="text-dark">A2.3) Αυτοαπασχολούμενος</h4>
       <div class="container-fluid row">
         <div class="col-10 ">
@@ -109,7 +111,7 @@
         </div>
       </div>
 
-      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
       <h4 class="text-dark">Α2.4) Άλλη σχέση εργασίας</h4>
       <div class="container-fluid row" *ngFor="let option of jobRelationOtherThanAbove; let i = index">
         <div class="col-10">

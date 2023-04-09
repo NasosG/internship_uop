@@ -3,6 +3,30 @@ import Swal from 'sweetalert2';
 
 export abstract class Utils {
 
+  static displayErrorSwal(displayText: string) {
+    Swal.fire({
+      title: 'Σφάλμα',
+      text: displayText,
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
+  static displaySuccessSwal(displayText: string) {
+    Swal.fire({
+      title: 'Επιτυχία',
+      text: displayText,
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
   public static onSaveSwal() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',

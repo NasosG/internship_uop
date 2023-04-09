@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { mergeMap, Observable, Subject } from "rxjs";
+import { mergeMap, Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../department-managers/period.model';
@@ -10,6 +10,7 @@ import { EntryForm } from '../students/entry-form.model';
 
 const OFFICE_URL = environment.apiUrl + "/office/";
 const STUDENTS_URL = environment.apiUrl + "/students/";
+const OPS_URL = environment.apiUrl + "/ops/";
 
 @Injectable({
   providedIn: 'root'
@@ -110,5 +111,16 @@ export class OfficeService {
       .set('departmentId', departmentId)
       .set('periodId', periodId == null ? 0 : periodId);
     return this.http.get<any>(OFFICE_URL + "getStudentListForPeriodAndAcademic/", { params });
+  }
+
+  sendSheetWS(studentId: number, type: string): Observable<any> {
+    switch (type) {
+      case "entry":
+        return this.http.post<any>(OPS_URL + "sendDeltioEisodouWS/" + studentId, {});
+      case "exit":
+        return this.http.post<any>(OPS_URL + "sendDeltioExodouWS/" + studentId, {});
+      default:
+        return of([]);
+    }
   }
 }

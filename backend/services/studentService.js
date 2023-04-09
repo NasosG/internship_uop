@@ -329,7 +329,7 @@ const updateStudentEntrySheet = async (form, studentId) => {
      SET " + '"A0_1" = $1, "A0_2" = $2, "A1" = $3, "A1_1" = $4, "A1_2" = $5, "A2" = $6, "A2_1" = $7, "A2_1_1" = $8, "A2_1_2" = $9, "A2_1_3" = $10, "A2_1_4" = $11, ' +
       '"A2_1_5" = $12, "A2_1_6" = $13, "A2_2" = $14, "A2_2_1" = $15, "A2_2_2" = $16, "A2_2_3" = $17, "A2_3" = $18, "A2_4" = $19, "A3" = $20, "A3_1" = $21, "A3_1_1" = $22, "A3_1_2" = $23, ' +
       '"A3_2" = $24, "B" = $25, "B1" = $26, "B2" = $27, "B3" = $28, "B4" = $29, "B5" = $30, "B6" = $31, "C1" = $32, "C2" = $33, "C3" = $34, "C4" = $35, "C5" = $36, "C6" = $37, ' +
-      '"C7" = $38, "C8" = $39, "C9" = $40, "D4" = $41, "D5" = $42, "D6" = $43, "D7" = $44, "D8" = $45, "D9" = $46, "D10" = $47, "D11" = $48, "D12" = $49, "D13" = $50, "D14" = $51, creation_date=NOW()' +
+      '"C7" = $38, "C8" = $39, "C9" = $40, "D4" = $41, "D5" = $42, "D6" = $43, "D7" = $44, "D8" = $45, "D9" = $46, "D10" = $47, "D11" = $48, "D12" = $49, "D13" = $50, "D14" = $51, creation_date=NOW(), ops_number_eisodou = null' +
       " WHERE student_id = $52 ",
       [form.A0_1, form.A0_2, 'false', 'false', 'false', form.A2, form.A2_1,
       form.A2_1_1, form.A2_1_2, form.A2_1_3, form.A2_1_4, form.A2_1_5, form.A2_1_6, form.A2_2, form.A2_2_1,
@@ -360,14 +360,14 @@ const insertStudentEntrySheet = async (form, studentId) => {
     const insertResults = await pool.query("INSERT INTO entry_form" +
       ' ("A0_1", "A0_2", "A1", "A1_1", "A1_2", "A2", "A2_1", "A2_1_1", "A2_1_2", "A2_1_3", "A2_1_4", "A2_1_5", "A2_1_6", "A2_2", "A2_2_1", "A2_2_2", "A2_2_3", "A2_3", "A2_4", "A3",' +
       ' "A3_1", "A3_1_1", "A3_1_2", "A3_2", "B", "B1", "B2", "B3", "B4", "B5", "B6", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "D4", "D5", "D6", "D7", "D8",' +
-      ' "D9", "D10", "D11", "D12", "D13", "D14", creation_date, student_id) ' +
+      ' "D9", "D10", "D11", "D12", "D13", "D14", creation_date, student_id, ops_number_eisodou) ' +
       ' VALUES ' + '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, \
         $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, \
-        $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, NOW(), $52)',
+        $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, NOW(), $52, null)',
       [form.A0_1, form.A0_2, 'false', 'false', 'false', form.A2, form.A2_1,
       form.A2_1_1, form.A2_1_2, form.A2_1_3, form.A2_1_4, form.A2_1_5, form.A2_1_6, form.A2_2, form.A2_2_1,
       form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3, form.A3_1, form.A3_1_1, form.A3_1_2, form.A3_2, form.B,
-      form.B1, form.B2, form.B3, 'true', form.B5, form.B6, 'false', 'false', 'false', form.C4, form.C5,
+      form.B1, form.B2, form.B3, form.B4, form.B5, form.B6, 'false', 'false', 'false', form.C4, form.C5,
       form.C6, form.C7, form.C8, form.C9, form.D4, form.D5, form.D6, form.D7, form.D8, form.D9, form.D10,
       form.D11, form.D12, form.D13, form.D14, studentId]);
     return insertResults;
