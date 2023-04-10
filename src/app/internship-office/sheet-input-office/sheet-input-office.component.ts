@@ -37,6 +37,7 @@ export class SheetInputOfficeComponent implements OnInit {
     academic_id: 0,
     department: ''
   };
+  xmlData!: any;
 
   constructor(public officeService: OfficeService, public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -115,6 +116,35 @@ export class SheetInputOfficeComponent implements OnInit {
       } else {
         Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
       }
+    });
+  }
+
+  getXML(studentId: any, type: string) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να ανεβάσετε το δελτίο στο ΟΠΣ.');
+      return;
+    }
+
+    this.officeService.getSheetXML(studentId, type).subscribe((data: any) => {
+      if (!data) {
+        Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
+        return;
+      }
+      const filename = `deltioEisodou${studentId}.xml`;
+      const xmlBlob = new Blob([data], { type: 'text/xml;charset=utf-8' });
+      const xmlURL = URL.createObjectURL(xmlBlob);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = xmlURL;
+      downloadLink.download = filename;
+      downloadLink.click();
+
+      // Clean up
+      URL.revokeObjectURL(xmlURL);
+      downloadLink.remove();
+    },
+    (error) => {
+      console.error(error);
     });
   }
 

@@ -137,6 +137,35 @@ export class SheetOutputOfficeComponent implements OnInit {
     });
   }
 
+  getXML(studentId: any, type: string) {
+    if (!this.officeUserData?.is_admin) {
+      Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να ανεβάσετε το δελτίο στο ΟΠΣ.');
+      return;
+    }
+
+    this.officeService.getSheetXML(studentId, type).subscribe((data: any) => {
+      if (!data) {
+        Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
+        return;
+      }
+      const filename = `deltioEisodou${studentId}.xml`;
+      const xmlBlob = new Blob([data], { type: 'text/xml;charset=utf-8' });
+      const xmlURL = URL.createObjectURL(xmlBlob);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = xmlURL;
+      downloadLink.download = filename;
+      downloadLink.click();
+
+      // Clean up
+      URL.revokeObjectURL(xmlURL);
+      downloadLink.remove();
+    },
+    (error) => {
+      console.error(error);
+    });
+  }
+
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;

@@ -123,4 +123,15 @@ export class OfficeService {
         return of([]);
     }
   }
+
+  getSheetXML(studentId: string, type: string): Observable<any> {
+    switch (type) {
+      case "entry":
+        return this.http.post(OPS_URL + "sendDeltioEisodouXML/" + studentId, {}, { responseType: 'text' });
+      case "exit":
+        return this.http.post(OPS_URL + "sendDeltioExodouXML/" + studentId, {}, { responseType: 'text' });
+      default:
+        return of([]);
+    }
+  }
 }

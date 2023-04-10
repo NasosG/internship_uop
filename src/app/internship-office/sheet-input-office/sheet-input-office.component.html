@@ -91,6 +91,8 @@
                       <th>ΑΜ</th>
                       <th>email</th>
                       <!-- <th>Έγγραφα</th> -->
+                      <th>Αριθμός Δελτίου Online</th>
+                      <th>XML</th>
                       <th class="text-center">Ενέργειες</th>
                       <th class="text-center">ΟΠΣ</th>
                     </tr>
@@ -136,6 +138,11 @@
                           <i class="fa fa-download" aria-hidden="true"></i> AMEA
                         </button>
                       </td> -->
+                      <td>{{student.ops_number_eisodou ?? 'Δεν έχει ανέβει ακόμη'}}</td>
+                      <td>
+                        <a (click)="getXML(student.uuid, 'entry')" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-file-export"></i>&nbsp;Εξαγωγή</a>
+                      </td>
                       <td class="action text-center">
                         <!-- <table>
                           <tr>
@@ -171,6 +178,8 @@
                       <th>ΑΜ</th>
                       <th>email</th>
                       <!-- <th>Έγγραφα</th> -->
+                      <th>Αριθμός Δελτίου Online</th>
+                      <th>XML</th>
                       <th class="text-center">Ενέργειες</th>
                       <th class="text-center">ΟΠΣ</th>
                     </tr>
