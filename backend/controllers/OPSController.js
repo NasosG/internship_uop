@@ -200,7 +200,7 @@ const getDataOfeloumenou = async (studentInfo, position) => {
   const gender = studentInfo.schacgender;
   const street = studentInfo.address;
   const city = studentInfo.city;
-  // const additional = studentInfo.additional;
+  const location = studentInfo.location;
   const postal = studentInfo.post_address;
   const phone = studentInfo.phone;
   const studentName = studentInfo.displayname;
@@ -225,7 +225,7 @@ const getDataOfeloumenou = async (studentInfo, position) => {
     gender,
     street,
     city,
-    // additional,
+    location,
     postal,
     phone,
     studentName,
@@ -517,7 +517,7 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType) =>
             <DATE_GENNHSHS>${deltioCandidateInfo.dobFormatted}</DATE_GENNHSHS>
             <FYLLO_VALUE>${deltioCandidateInfo.genderProcessed}</FYLLO_VALUE>
             <ID_ALLO>${deltioCandidateInfo.adt}</ID_ALLO>
-            <OFEL_DIEYTHYNSH>${deltioCandidateInfo.street + ' ' + deltioCandidateInfo.city}</OFEL_DIEYTHYNSH>
+            <OFEL_DIEYTHYNSH>${deltioCandidateInfo.street + ' ' + deltioCandidateInfo.location + ' ' + deltioCandidateInfo.city}</OFEL_DIEYTHYNSH>
             <OFEL_TK>${deltioCandidateInfo.postal}</OFEL_TK>
             <OFEL_ONOMATEPONYMO>${deltioCandidateInfo.studentName}</OFEL_ONOMATEPONYMO>
             <OFEL_TEL>${deltioCandidateInfo.phone}</OFEL_TEL>
