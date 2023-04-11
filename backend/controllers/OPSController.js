@@ -525,7 +525,7 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType) =>
             <KPS5_DELTIO_OFELOYMENOI>
                 <EISODOS_FLAG>${deltioType}</EISODOS_FLAG>
                 <KODIKOS_MIS>${deltioCandidateInfo.kodikosMIS}</KODIKOS_MIS>
-                <KODIKOS_YPOERGOY>5035</KODIKOS_YPOERGOY>
+                <KODIKOS_YPOERGOY>${deltioCandidateInfo.kodikosYpoergou}</KODIKOS_YPOERGOY>
                 <ID_GEO_DHMOS>48</ID_GEO_DHMOS>
                 <DATE_DELTIOY>${deltioCandidateInfo.startTimeFormatted}</DATE_DELTIOY>
                 <OLOKLHROSH_FLAG>1</OLOKLHROSH_FLAG>
