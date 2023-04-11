@@ -104,19 +104,27 @@ export class SheetInputOfficeComponent implements OnInit {
       return;
     }
 
-    this.officeService.sendSheetWS(studentId, type).subscribe((res: any) => {
-      if (res.status == 200) {
+    this.officeService.sendSheetWS(studentId, type)
+      .pipe(
+        catchError((error: any) => {
+          console.error(error);
+          Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
+          return of([]);
+        })
+      )
+      .subscribe((res: any) => {
+        if (res.status == 200) {
 
-        if(res.message == 'deactivated') {
-          alert("Currently deactivated");
-          return;
+          if (res.message == 'deactivated') {
+            alert("Currently deactivated");
+            return;
+          }
+
+          Utils.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
+        } else {
+          Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
         }
-
-        Utils.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
-      } else {
-        Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
-      }
-    });
+      });
   }
 
   getXML(studentId: any, type: string) {
