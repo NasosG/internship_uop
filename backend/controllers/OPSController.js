@@ -1,8 +1,5 @@
-const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
-const companyService = require("../services/companyService.js");
 const studentService = require("../services/studentService.js");
-const mainMailer = require('../mailers/mainMailers.js');
 const MiscUtils = require("../MiscUtils.js");
 const axios = require("axios");
 require('dotenv').config();
@@ -22,12 +19,13 @@ const sendDeltioEisodouWS = async (req, res) => {
   try {
     const studentId = req.params.id;
     const MODE = 'WS';
-    const activeStatus = false;
-    if (!activeStatus) {
+    const activeStatus = true;
+    if (!activeStatus || process.env.ENV == 'DEV') {
       return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
     }
+    const sheetResults = await studentService.getStudentEntrySheets(studentId);
 
-    const xmlPostString = await getXmlPostStringEisodou(studentId, MODE);
+    const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
     console.log(xmlPostString);
 
     // asmx URL of WSDL
@@ -43,12 +41,33 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log(response.data);
 
     const parsedResponse = await parseXmlResponse(response.data);
+    const errorCode = parsedResponse.errorCode;
 
-    console.log('idOfel:', parsedResponse.idOfel);
-    console.log('kodikosMis:', parsedResponse.kodikosMis);
-    console.log('idDeltiou:', parsedResponse.idDeltiou);
-    console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
-    console.log('errorDescr:', parsedResponse.errorDescr);
+    if (Number(errorCode) == 0) {
+      console.log('idOfel:', parsedResponse.idOfel);
+      console.log('kodikosMis:', parsedResponse.kodikosMis);
+      console.log('idDeltiou:', parsedResponse.idDeltiou);
+      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      console.log('errorDescr:', parsedResponse.errorDescr);
+
+      let idDeltiou = parsedResponse.idDeltiou;
+
+      // Could also keep the idOfel in the database, but it's not necessary.
+      if (parsedResponse.idOfel && !sheetResults[0].ops_number_eisodou) {
+        await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults[0].id, 'entry');
+      }
+      console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
+    } else if (Number(errorCode) == -11) {
+      console.log('idOfel:', parsedResponse.idOfel);
+      console.log('kodikosMis:', parsedResponse.kodikosMis);
+      console.log('idDeltiou:', parsedResponse.idDeltiou);
+      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      console.log('errorDescr:', parsedResponse.errorDescr);
+
+      console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
+    } else {
+      console.warn('OPS entry sheet WS response: ', parsedResponse);
+    }
 
     res.status(200).send(response.data);
     // return res.status(200).json(response.data);
@@ -66,10 +85,11 @@ const sendDeltioExodouWS = async (req, res) => {
     if (!activeStatus) {
       return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
     }
+    const sheetResults = await studentService.getStudentExitSheets(studentId);
 
     /** WARNING **/
     // TODO: Make adjustments for exit sheet fields
-    const xmlPostString = await getXmlPostStringExodou(studentId, MODE);
+    const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
 
     console.log(xmlPostString);
 
@@ -84,11 +104,31 @@ const sendDeltioExodouWS = async (req, res) => {
 
     const parsedResponse = await parseXmlResponse(response.data);
 
-    console.log('idOfel:', parsedResponse.idOfel);
-    console.log('kodikosMis:', parsedResponse.kodikosMis);
-    console.log('idDeltiou:', parsedResponse.idDeltiou);
-    console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
-    console.log('errorDescr:', parsedResponse.errorDescr);
+    if (Number(errorCode) == 0) {
+      console.log('idOfel:', parsedResponse.idOfel);
+      console.log('kodikosMis:', parsedResponse.kodikosMis);
+      console.log('idDeltiou:', parsedResponse.idDeltiou);
+      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      console.log('errorDescr:', parsedResponse.errorDescr);
+
+      let idDeltiou = parsedResponse.idDeltiou;
+
+      // Could also keep the idOfel in the database, but it's not necessary.
+      if (parsedResponse.idOfel && !sheetResults[0].ops_number_exodou) {
+        await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults[0].id, 'exit');
+      }
+      console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
+    } else if (Number(errorCode) == -11) {
+      console.log('idOfel:', parsedResponse.idOfel);
+      console.log('kodikosMis:', parsedResponse.kodikosMis);
+      console.log('idDeltiou:', parsedResponse.idDeltiou);
+      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      console.log('errorDescr:', parsedResponse.errorDescr);
+
+      console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
+    } else {
+      console.warn('OPS entry sheet WS response: ', parsedResponse);
+    }
 
     res.send(response.data);
   } catch (error) {
@@ -101,7 +141,8 @@ const sendDeltioEisodouXML = async (req, res) => {
   try {
     const studentId = req.params.id;
     const MODE = 'XML';
-    const xmlPostString = await getXmlPostStringEisodou(studentId, MODE);
+    const sheetResults = await studentService.getStudentEntrySheets(studentId);
+    const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
     console.log(xmlPostString);
 
     const filename = `deltioEisodou${studentId}.xml`;
@@ -121,7 +162,8 @@ const sendDeltioExodouXML = async (req, res) => {
   try {
     const studentId = req.params.id;
     const MODE = 'XML';
-    const xmlPostString = await getXmlPostStringExodou(studentId, MODE);
+    const sheetResults = await studentService.getStudentExitSheets(studentId);
+    const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
     console.log(xmlPostString);
 
     const filename = `deltioExodou${studentId}.xml`;
@@ -168,7 +210,7 @@ const getDataOfeloumenou = async (studentInfo, position) => {
   const stFlag = 1;
   const eisodosFlag = 1;
   const kodikosMIS = 5184863;
-  const kodikosYpoergou = 5035;
+  const kodikosYpoergou = '';//5035;
   const idGeoDimos = 48;
   const startTime = position.pa_start_date;
   const endTime = position.pa_end_date;
@@ -203,88 +245,85 @@ const getDataOfeloumenou = async (studentInfo, position) => {
   };
 };
 
-const getXmlPostStringEisodou = async (studentId, mode) => {
+const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
   let finalCode;
   try {
-    const results = await studentService.getStudentEntrySheets(studentId);
     const studentInfo = await studentService.getStudentById(studentId);
     const assignmenInfo = await studentService.getApprovedAssignmentInfoByStudentId(studentId);
-    // const field_oaed_karta = '';
-    // console.log(results.rows);
 
     let microdata = '';
 
     const answers = [
-      { id: 3, value: results.rows[0]?.A1 ?? null },
-      { id: 4, value: results.rows[0]?.A1_1 ?? null },
-      { id: 5, value: results.rows[0]?.A1_2 ?? null },
+      { id: 3, value: sheets.rows[0]?.A1 ?? null },
+      { id: 4, value: sheets.rows[0]?.A1_1 ?? null },
+      { id: 5, value: sheets.rows[0]?.A1_2 ?? null },
       // { id: 99, value: field_oaed_karta ?? null },
-      { id: 6, value: results.rows[0]?.A2 ?? null },
-      { id: 7, value: results.rows[0]?.A2_1 ?? null },
-      { id: 8, value: results.rows[0]?.A2_1_1 ?? null },
-      { id: 9, value: results.rows[0]?.A2_1_2 ?? null },
-      { id: 10, value: results.rows[0]?.A2_1_3 ?? null },
-      { id: 11, value: results.rows[0]?.A2_1_4 ?? null },
-      { id: 12, value: results.rows[0]?.A2_1_5 ?? null },
-      { id: 13, value: results.rows[0]?.A2_1_6 ?? null },
-      { id: 14, value: results.rows[0]?.A2_2 ?? null },
-      { id: 15, value: results.rows[0]?.A2_2_1 ?? null },
-      { id: 16, value: results.rows[0]?.A2_2_2 ?? null },
-      { id: 17, value: results.rows[0]?.A2_2_3 ?? null },
-      { id: 18, value: results.rows[0]?.A2_3 ?? null },
+      { id: 6, value: sheets.rows[0]?.A2 ?? null },
+      { id: 7, value: sheets.rows[0]?.A2_1 ?? null },
+      { id: 8, value: sheets.rows[0]?.A2_1_1 ?? null },
+      { id: 9, value: sheets.rows[0]?.A2_1_2 ?? null },
+      { id: 10, value: sheets.rows[0]?.A2_1_3 ?? null },
+      { id: 11, value: sheets.rows[0]?.A2_1_4 ?? null },
+      { id: 12, value: sheets.rows[0]?.A2_1_5 ?? null },
+      { id: 13, value: sheets.rows[0]?.A2_1_6 ?? null },
+      { id: 14, value: sheets.rows[0]?.A2_2 ?? null },
+      { id: 15, value: sheets.rows[0]?.A2_2_1 ?? null },
+      { id: 16, value: sheets.rows[0]?.A2_2_2 ?? null },
+      { id: 17, value: sheets.rows[0]?.A2_2_3 ?? null },
+      { id: 18, value: sheets.rows[0]?.A2_3 ?? null },
       { id: 63, value: true },
-      // { id: 19, value: results.rows[0]?.A2_4 ?? null },
-      { id: 20, value: results.rows[0]?.A3 ?? null },
-      { id: 21, value: results.rows[0]?.A3_1 ?? null },
-      { id: 81, value: results.rows[0]?.A3_1_1 ?? null },
-      { id: 82, value: results.rows[0]?.A3_1_2 ?? null },
-      { id: 65, value: results.rows[0]?.A3_2 ?? null },
+      // { id: 19, value: sheets.rows[0]?.A2_4 ?? null },
+      { id: 20, value: sheets.rows[0]?.A3 ?? null },
+      { id: 21, value: sheets.rows[0]?.A3_1 ?? null },
+      { id: 81, value: sheets.rows[0]?.A3_1_1 ?? null },
+      { id: 82, value: sheets.rows[0]?.A3_1_2 ?? null },
+      { id: 65, value: sheets.rows[0]?.A3_2 ?? null },
       { id: 57, value: false }, // set to OXI!
-      { id: 27, value: results.rows[0]?.C1 ?? null },
-      { id: 28, value: results.rows[0]?.C2 ?? null },
-      { id: 29, value: results.rows[0]?.C3 ?? null },
-      // { id: -1, value: results.rows[0].C4 ?? null },
-      { id: 30, value: results.rows[0]?.C5 ?? null },
-      { id: 31, value: results.rows[0]?.C6 ?? null },
-      { id: 32, value: results.rows[0]?.C7 ?? null },
-      { id: 33, value: results.rows[0]?.C8 ?? null },
-      { id: 34, value: results.rows[0]?.C9 ?? null },
-      { id: 46, value: results.rows[0]?.D12 ?? null },
-      { id: 47, value: results.rows[0]?.D9 ?? null },
-      { id: 48, value: results.rows[0]?.D10 ?? null },
-      { id: 49, value: results.rows[0]?.D13 ?? null },
-      { id: 50, value: results.rows[0]?.D14 ?? null },
-      { id: 38, value: results.rows[0]?.D4 ?? null },
-      { id: 39, value: results.rows[0]?.D5 ?? null },
-      { id: 40, value: results.rows[0]?.D6 ?? null },
-      { id: 41, value: results.rows[0]?.D7 ?? null },
-      { id: 62, value: results.rows[0]?.D8 ?? null },
-      { id: 45, value: results.rows[0]?.D11 ?? null }
+      { id: 27, value: sheets.rows[0]?.C1 ?? null },
+      { id: 28, value: sheets.rows[0]?.C2 ?? null },
+      { id: 29, value: sheets.rows[0]?.C3 ?? null },
+      // { id: -1, value: sheets.rows[0].C4 ?? null },
+      { id: 30, value: sheets.rows[0]?.C5 ?? null },
+      { id: 31, value: sheets.rows[0]?.C6 ?? null },
+      { id: 32, value: sheets.rows[0]?.C7 ?? null },
+      { id: 33, value: sheets.rows[0]?.C8 ?? null },
+      { id: 34, value: sheets.rows[0]?.C9 ?? null },
+      { id: 46, value: sheets.rows[0]?.D12 ?? null },
+      { id: 47, value: sheets.rows[0]?.D9 ?? null },
+      { id: 48, value: sheets.rows[0]?.D10 ?? null },
+      { id: 49, value: sheets.rows[0]?.D13 ?? null },
+      { id: 50, value: sheets.rows[0]?.D14 ?? null },
+      { id: 38, value: sheets.rows[0]?.D4 ?? null },
+      { id: 39, value: sheets.rows[0]?.D5 ?? null },
+      { id: 40, value: sheets.rows[0]?.D6 ?? null },
+      { id: 41, value: sheets.rows[0]?.D7 ?? null },
+      { id: 62, value: sheets.rows[0]?.D8 ?? null },
+      { id: 45, value: sheets.rows[0]?.D11 ?? null }
       // { id: 64, value: node.D12 }
     ];
 
-    if (results.rows[0]) {
-      if (results.rows[0]?.C9 == true) {
-        results.rows[0].C8 = false;
-        results.rows[0].C7 = false;
-        results.rows[0].C6 = false;
-        results.rows[0].C5 = false;
-      } else if (results.rows[0]?.C8 == true) {
-        results.rows[0].C7 = false;
-        results.rows[0].C6 = false;
-        results.rows[0].C5 = false;
-      } else if (results.rows[0]?.C7 == true) {
-        results.rows[0].C6 = false;
-        results.rows[0].C5 = false;
-      } else if (results.rows[0]?.C6 == true) {
-        results.rows[0].C5 = false;
+    if (sheets.rows[0]) {
+      if (sheets.rows[0]?.C9 == true) {
+        sheets.rows[0].C8 = false;
+        sheets.rows[0].C7 = false;
+        sheets.rows[0].C6 = false;
+        sheets.rows[0].C5 = false;
+      } else if (sheets.rows[0]?.C8 == true) {
+        sheets.rows[0].C7 = false;
+        sheets.rows[0].C6 = false;
+        sheets.rows[0].C5 = false;
+      } else if (sheets.rows[0]?.C7 == true) {
+        sheets.rows[0].C6 = false;
+        sheets.rows[0].C5 = false;
+      } else if (sheets.rows[0]?.C6 == true) {
+        sheets.rows[0].C5 = false;
       } else {
-        results.rows[0].C5 = true;
+        sheets.rows[0].C5 = true;
       }
 
-      if (results.rows[0]?.A2_1 === true ||
-        results.rows[0].A2_2 === true ||
-        results.rows[0].A2_3 === true) {
+      if (sheets.rows[0]?.A2_1 === true ||
+        sheets.rows[0].A2_2 === true ||
+        sheets.rows[0].A2_3 === true) {
         answers.find(answer => answer.id === 6).value = true;
       }
     }
@@ -344,8 +383,6 @@ const getXmlPostStringExodou = async (studentId, mode) => {
     const results = await studentService.getStudentExitSheets(studentId);
     const studentInfo = await studentService.getStudentById(studentId);
     const assignmenInfo = await studentService.getApprovedAssignmentInfoByStudentId(studentId);
-    // const field_oaed_karta = '';
-    // console.log(results.rows);
 
     let microdata = '';
 

@@ -1061,6 +1061,26 @@ const getApprovedAssignmentInfoByStudentId = async (studentId) => {
   }
 };
 
+const updateSheetOpsNumberById = async (id, opsNumber, sheetType) => {
+  try {
+    let updateResults;
+    if (sheetType == 'entry') {
+      updateResults = await pool.query(`UPDATE entry_form
+                            SET ops_number_eisodou = $1 WHERE id = $2`, [opsNumber, id]);
+    } else if (sheetType == 'exit') {
+      updateResults = await pool.query(`UPDATE exit_form
+                            SET ops_number_exodou = $1 WHERE id = $2`, [opsNumber, id]);
+    } else {
+      console.error('Invalid sheet type given');
+      throw Error('Invalid sheet type given');
+    }
+
+    return updateResults;
+  } catch (error) {
+    console.error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType);
+    throw Error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType);
+  }
+};
 
 module.exports = {
   getAllStudents,
@@ -1111,6 +1131,7 @@ module.exports = {
   updateContractDetails,
   updateMergedDepartmentDetails,
   updateDepartmentIdByStudentId,
+  updateSheetOpsNumberById,
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId,
