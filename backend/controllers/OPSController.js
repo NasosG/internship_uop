@@ -65,8 +65,10 @@ const sendDeltioEisodouWS = async (req, res) => {
       console.log('errorDescr:', parsedResponse.errorDescr);
 
       console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
+      return res.status(400).json({ message: 'Sheet already exists' });
     } else {
       console.warn('OPS entry sheet WS response: ', parsedResponse);
+      return res.status(400).json({ message: 'Entry sheet - SOAP request failed' });
     }
 
     res.status(200).send(response.data);
