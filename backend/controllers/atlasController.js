@@ -1480,6 +1480,26 @@ const changeImplementationData = async (positionData) => {
   }
 };
 
+const completePositionRequest = async (positionData) => {
+  try {
+    let accessToken = await atlasLogin();
+    const completePositionResponse = await axios({
+      url: ATLAS_URL + '/CompletePosition',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      },
+      data: positionData
+    });
+
+    return { result: completePositionResponse.data, "status": "success" };
+  } catch (error) {
+    console.error(error.message);
+    return { "message": "error changing implementation data" };
+  }
+};
+
 const changeImplementationDatesAtlas = async (request, response) => {
   try {
     const { id: assignedPositionId } = request.params;
@@ -1508,6 +1528,38 @@ const changeImplementationDatesAtlas = async (request, response) => {
   } catch (error) {
     console.error(error.message);
     return response.status(400).json({ "message": "error changing implementation data" });
+  }
+};
+
+const completeAtlasPosition = async (request, response) => {
+  try {
+    const { id: assignedPositionId } = request.params;
+    const { implementationDates, completionComments } = request.body;
+    const { implementation_start_date, implementation_end_date } = implementationDates;
+
+    console.log("completeAtlasPosition assigned_position: " + assignedPositionId);
+
+    const implementationStartDate = MiscUtils.convertDateFromYearMonthDayToDayMonthYear(implementation_start_date);
+    const implementationEndDate = MiscUtils.convertDateFromYearMonthDayToDayMonthYear(implementation_end_date);
+
+    console.log("completeAtlasPosition start_date: " + implementationStartDate);
+    console.log("completeAtlasPosition end_date: " + implementationEndDate);
+    console.log("completeAtlasPosition completionComments: " + completionComments);
+
+    const positionData = {
+      "PositionID": assignedPositionId,
+      "CompletionComments": completionComments,
+      "ImplementationStartDateString": implementationStartDate,
+      "ImplementationStartDateStringFormat": "d/M/yy",
+      "ImplementationEndDateString": implementationEndDate,
+      "ImplementationEndDateStringFormat": "d/M/yy"
+    };
+
+    const completePositionResponse = await completePositionRequest(positionData);
+
+    return response.status(200).json(completePositionResponse.result);
+  } catch (error) {
+    return response.status(400).json({ "message": "error completing position" });
   }
 };
 
@@ -1542,5 +1594,6 @@ module.exports = {
   getPositionGroupDetails,
   atlasLogin,
   changeImplementationDatesAtlas,
-  getAssignedPositionById
+  getAssignedPositionById,
+  completeAtlasPosition
 };

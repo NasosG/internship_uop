@@ -379,4 +379,9 @@ export class DepManagerService {
   getAssignedPositionById(assignedPositionId: number): Observable<any> {
     return this.http.get<any>(ATLAS_URL + "getAssignedPositionById/" + assignedPositionId);
   }
+
+  completeAtlasPosition(assignedPositionId: number,  implementationDates: any, completionComments: string): Observable<any> {
+    return this.http
+      .post<{ message: string }>(ATLAS_URL + "completeAtlasPosition/" + assignedPositionId, { implementationDates, completionComments });
+  }
 }

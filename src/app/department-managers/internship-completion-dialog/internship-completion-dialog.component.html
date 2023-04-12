@@ -1,0 +1,65 @@
+<div class="dialog-header">
+  <h3>Ημερομηνίες Εκτέλεσης ΠΑ</h3>
+  <div mat-icon-button class="close-button" (click)="onCancel()">
+    <i class="fa fa-times"></i>
+  </div>
+</div>
+<mat-dialog-content>
+  <br>
+  <!-- <br><br> -->
+  <ng-container *ngIf="isLoading">
+    <div class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+  <div *ngIf="!isLoading" class="m-auto text-center">
+    <div style="background-color: #f4f6f9; padding: 10px; border-radius: 4px; margin-bottom: 7px;">
+      <!-- <h6>Ημερομηνίες Εκτέλεσης ΠΑ</h6> -->
+      <!-- <mat-divider></mat-divider> -->
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <label for="date_from" class="col-form-label">Ημ/νία Έναρξης Πρακτικής:</label>
+          <div class="container row">
+            <div class="pl-0 ml-0 input-group col-12">
+              <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
+                [(ngModel)]="modelImplementationDateFrom" ngbDatepicker #datepicker1="ngbDatepicker"
+                [placement]="'right'" [positionTarget]="buttonEl" style="z-index:99999" />
+              <button class="btn btn-outline-secondary" style="z-index:99999" (click)="datepicker1.toggle()"
+                type="button">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="date_to" class="col-form-label">Ημ/νία Λήξης Πρακτικής:</label>
+          <div class="container row">
+            <div class="pl-0 ml-0 input-group col-12">
+              <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
+                [(ngModel)]="modelImplementationDateTo" ngbDatepicker #datepicker2="ngbDatepicker" [placement]="'left'"
+                [positionTarget]="buttonEl" />
+              <button class="btn btn-outline-secondary" #buttonEl (click)="datepicker2.toggle()" type="button">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="form-group">
+          <label for="commentsArea">Παρατηρήσεις (αν υπάρχουν)</label>
+          <textarea class="form-control" id="commentsArea" rows="8" [(ngModel)]="completionComments"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="col-sm-6 submitButton">
+    <button mat-button type="submit" (click)="submitPositionCompletion()" class="btn btn-primary mat-button"
+      style=" margin: auto">
+      Αλλαγή Ημ/νιών στο ΑΤΛΑΣ
+    </button>
+  </div>
+</mat-dialog-actions>
