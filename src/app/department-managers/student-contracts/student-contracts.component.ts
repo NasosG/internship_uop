@@ -230,23 +230,28 @@ export class StudentContractsComponent implements OnInit {
   }
 
   openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    // Swal.fire({
-    //   title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
-    //   text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
-    //   icon: 'warning',
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Εντάξει'
-    // });
+    Swal.fire({
+      title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
+      text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Εντάξει'
+    });
     const implementationDatesArr = {
       implementation_start_date: this.studentsData[idx].pa_start_date,
       implementation_end_date: this.studentsData[idx].pa_end_date
     };
-
+    // console.log(assigned_position_id);
     console.log(implementationDatesArr.implementation_start_date);
     const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
       width: '600px',
-      data: { assigned_position_id: assigned_position_id, implementationDates: implementationDatesArr }
+      data: {
+        assigned_position_id: assigned_position_id,
+        studentId: this.studentsData[idx].student_id,
+        periodId: this.studentsData[idx].period_id,
+        implementationDates: implementationDatesArr
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -145,12 +145,18 @@ export class InternshipCompletionDialogComponent implements OnInit {
       )
       .subscribe((response: any) => {
         console.log(response);
+        if (!response) return;
         Swal.fire({
           title: 'Επιτυχής ολοκλήρωση',
           text: 'Η ΠΑ ολοκληρώθηκε με επιτυχία',
           icon: 'success',
           confirmButtonText: 'Εντάξει'
         });
+
+        this.depManagerService.updateAssignmentStateByStudentAndPosition(this.data.studentId, this.data.assigned_position_id, this.data.periodId)
+          .subscribe((data: any ) => {
+            console.log(`gucci ${data}`);
+          });
       });
   }
 

@@ -547,10 +547,17 @@ export class StudentsService {
     return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getImplementationDatesByStudentAndPeriod/", { params });
   }
 
-  isSheetEnabledForStudent(): Observable<boolean> {
+  isEntrySheetEnabledForStudent(): Observable<boolean> {
     const studentId = this.authService.getSessionId();
     const params = new HttpParams()
       .set('studentId', studentId);
-    return this.http.get<boolean>(STUDENTS_URL + "isSheetEnabledForStudent/", { params });
+    return this.http.get<boolean>(STUDENTS_URL + "isEntrySheetEnabledForStudent/", { params });
+  }
+
+  isExitSheetEnabledForStudent(): Observable<boolean> {
+    const studentId = this.authService.getSessionId();
+    const params = new HttpParams()
+      .set('studentId', studentId);
+    return this.http.get<boolean>(STUDENTS_URL + "isExitSheetEnabledForStudent/", { params });
   }
 }

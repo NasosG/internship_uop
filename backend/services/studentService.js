@@ -1010,6 +1010,19 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
   }
 };
 
+const updateAssignmentStateByStudentAndPosition = async (studentId, periodId, positionId) => {
+  try {
+    const COMPLETED_IN_ATLAS = 1;
+    await pool.query(`UPDATE internship_assignment
+                                        SET status = $1
+                                        WHERE student_id = $2 AND period_id = $3 AND assigned_position_id = $4`,
+      [COMPLETED_IN_ATLAS, studentId, periodId, positionId]);
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while updating assignment state by student and period ids' + error.message);
+  }
+};
+
 const getLatestPeriodOfAssignedStudent = async (departmentId, studentId) => {
   try {
     const depManagerId = await pool.query(`SELECT MAX(prd.ID) as maxid
@@ -1029,11 +1042,26 @@ const getLatestPeriodOfAssignedStudent = async (departmentId, studentId) => {
   }
 };
 
-const isSheetEnabledForStudent = async (studentId) => {
+const isEntrySheetEnabledForStudent = async (studentId) => {
   try {
     const query = `SELECT asn.*
                     FROM internship_assignment asn
                     WHERE asn.student_id = $1`;
+
+    const result = await pool.query(query, [studentId]);
+
+    return result.rows.length > 0;
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while getting student assignment list: ${error.message}`);
+  }
+};
+
+const isExitSheetEnabledForStudent = async (studentId) => {
+  try {
+    const query = `SELECT asn.*
+                    FROM internship_assignment asn
+                    WHERE asn.student_id = $1 AND status = 1`;
 
     const result = await pool.query(query, [studentId]);
 
@@ -1108,7 +1136,8 @@ module.exports = {
   findMaxPositions,
   mergedDepartmentResultFound,
   checkUserAcceptance,
-  isSheetEnabledForStudent,
+  isEntrySheetEnabledForStudent,
+  isExitSheetEnabledForStudent,
   insertStudentEntrySheet,
   insertStudentPositions,
   insertStudentPositionsFromUser,
@@ -1132,6 +1161,7 @@ module.exports = {
   updateMergedDepartmentDetails,
   updateDepartmentIdByStudentId,
   updateSheetOpsNumberById,
+  updateAssignmentStateByStudentAndPosition,
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId,

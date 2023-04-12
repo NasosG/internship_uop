@@ -384,4 +384,10 @@ export class DepManagerService {
     return this.http
       .post<{ message: string }>(ATLAS_URL + "completeAtlasPosition/" + assignedPositionId, { implementationDates, completionComments });
   }
+
+  updateAssignmentStateByStudentAndPosition(studentId: number, positionId: number, periodId: number): Observable<any> {
+    console.log(positionId);
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateAssignmentStateByStudentAndPosition/" + studentId, { positionId, periodId });
+  }
 }

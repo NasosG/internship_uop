@@ -20,20 +20,20 @@
       οποίο πρέπει κάθε φοιτητής να τυπώσει, υπογράψει και παραδώσει στον τμηματικό υπεύθυνο.  -->
       Το δελτίο εισόδου θα πρέπει να περιέχει πληροφορίες που αφορούν την κατάσταση του φοιτητή πριν ξεκινήσει την
       πρακτική.</h5>
-    <button [class.disabled]="areSheetsDisabled ? true : null"
+    <button [class.disabled]="areEntrySheetsDisabled ? true : null"
       [routerLink]="['./input-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο Εισοδου</button>
     <!-- Option 3: Exit/Output Sheet -->
     <h2>ΔΕΛΤΙΟ ΕΞΟΔΟΥ</h2>
     <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, συμπληρώστε το δελτίο εξόδου με βάση την κατάσταση που
       ίσχυε για εσάς αμέσως μετά την ολοκληρωση της πρακτικής άσκησης.</h5>
-    <button [class.disabled]="areSheetsDisabled ? true : null"
+    <button [class.disabled]="areExitSheetsDisabled ? true : null"
       [routerLink]="['./output-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο Εξοδου</button>
     <!-- Option 4: Evaluation Form -->
     <h2>ΑΞΙΟΛΟΓΗΣΗ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ</h2>
     <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, μπορείτε να προβείτε στην αξιολόγησή της.</h5>
-    <button [class.disabled]="areSheetsDisabled ? true : null"
+    <button [class.disabled]="areExitSheetsDisabled ? true : null"
       [routerLink]="['./evaluation-form/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο
       Αξιολογησης</button>

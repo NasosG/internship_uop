@@ -1274,13 +1274,46 @@ const getLatestPeriodOfStudent = async (request, response) => {
   }
 };
 
-const isSheetEnabledForStudent = async (request, response) => {
+const isEntrySheetEnabledForStudent = async (request, response) => {
   try {
     const studentId = request.query.studentId;
 
-    const areSheetsEnabledForStudent = await studentService.isSheetEnabledForStudent(studentId);
+    const areSheetsEnabledForStudent = await studentService.isEntrySheetEnabledForStudent(studentId);
 
     response.status(200).json(areSheetsEnabledForStudent);
+  } catch (error) {
+    console.error(error.message);
+    response.status(404).send({
+      message: error.message
+    });
+  }
+};
+
+const isExitSheetEnabledForStudent = async (request, response) => {
+  try {
+    const studentId = request.query.studentId;
+
+    const areSheetsEnabledForStudent = await studentService.isExitSheetEnabledForStudent(studentId);
+
+    response.status(200).json(areSheetsEnabledForStudent);
+  } catch (error) {
+    console.error(error.message);
+    response.status(404).send({
+      message: error.message
+    });
+  }
+};
+
+const updateAssignmentStateByStudentAndPosition = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const { positionId, periodId } = request.body;
+    console.log(request.body);
+
+    await studentService.updateAssignmentStateByStudentAndPosition(studentId, periodId, positionId);
+    response.status(200).send({
+      message: "Student assignment status updated successfully"
+    });
   } catch (error) {
     console.error(error.message);
     response.status(404).send({
@@ -1323,6 +1356,7 @@ module.exports = {
   updateStudentPositions,
   updatePhase,
   updateContractDetails,
+  updateAssignmentStateByStudentAndPosition,
   deleteEntryFormByStudentId,
   deletePositionsByStudentId,
   deleteApplicationById,
@@ -1345,5 +1379,6 @@ module.exports = {
   getProtocolNumberIfInterestAppExists,
   getStudentFilesForAppPrint,
   produceContractFile,
-  isSheetEnabledForStudent
+  isEntrySheetEnabledForStudent,
+  isExitSheetEnabledForStudent
 };

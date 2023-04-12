@@ -1556,7 +1556,9 @@ const completeAtlasPosition = async (request, response) => {
     };
 
     const completePositionResponse = await completePositionRequest(positionData);
-
+    if (!completePositionResponse?.result?.Success) {
+      return response.status(500).json({ "message": "error completing position" });
+    }
     return response.status(200).json(completePositionResponse.result);
   } catch (error) {
     return response.status(400).json({ "message": "error completing position" });

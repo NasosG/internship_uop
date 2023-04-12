@@ -30,6 +30,7 @@ router.put("/updateStudentEntrySheet/:id", /*checkAuth,*/ studentController.upda
 router.put("/updateStudentPositionPriorities/:id", /*checkAuth,*/ studentController.updateStudentPositionPriorities);
 router.put("/updateStudentPositions/:id", /*checkAuth,*/ studentController.updateStudentPositions);
 router.put("/updateStudentSpecialDetails/:id", /*checkAuth,*/ studentController.updateStudentSpecialDetails);
+router.put("/updateAssignmentStateByStudentAndPosition/:id", studentController.updateAssignmentStateByStudentAndPosition);
 router.delete("/deleteEntryFormByStudentId/:id", /*checkAuth,*/ studentController.deleteEntryFormByStudentId);
 router.delete("/deletePositionsByStudentId/:id", /*checkAuth,*/ studentController.deletePositionsByStudentId);
 router.delete("/deleteApplicationById/:id", /*checkAuth,*/ studentController.deleteApplicationById);
@@ -61,6 +62,7 @@ router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getCont
 router.get("/getContractDetailsByDepartmentAndPeriod/", studentController.getContractDetailsByDepartmentAndPeriod);
 router.put("/updateContractDetails/:id", studentController.updateContractDetails);
 router.get("/getLatestPeriodOfStudent/", studentController.getLatestPeriodOfStudent);
-router.get("/isSheetEnabledForStudent/", studentController.isSheetEnabledForStudent);
+router.get("/isEntrySheetEnabledForStudent/", studentController.isEntrySheetEnabledForStudent);
+router.get("/isExitSheetEnabledForStudent/", studentController.isExitSheetEnabledForStudent);
 
 module.exports = router;

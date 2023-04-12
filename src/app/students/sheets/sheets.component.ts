@@ -8,13 +8,17 @@ import {StudentsService} from '../student.service';
   styleUrls: ['./sheets.component.css']
 })
 export class SheetsComponent implements OnInit {
-  public areSheetsDisabled: boolean = true;
+  public areEntrySheetsDisabled: boolean = true;
+  public areExitSheetsDisabled: boolean = true;
 
   constructor(public authService: AuthService, private studentsService: StudentsService) { }
 
   ngOnInit(): void {
-    this.studentsService.isSheetEnabledForStudent().subscribe((enabledResult: boolean) => {
-        this.areSheetsDisabled = !enabledResult;
+    this.studentsService.isEntrySheetEnabledForStudent().subscribe((enabledResult: boolean) => {
+        this.areEntrySheetsDisabled = !enabledResult;
+    });
+    this.studentsService.isExitSheetEnabledForStudent().subscribe((enabledResult: boolean) => {
+        this.areExitSheetsDisabled = !enabledResult;
     });
   }
 
