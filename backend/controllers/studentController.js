@@ -1150,9 +1150,9 @@ const produceContractFile = async (request, response) => {
       PA_START_DATE: moment(metadata.pa_start_date).format('DD/MM/YYYY'),
       PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
       TY_NAME: metadata.department_manager_name,
-      APOFASI: !metadata.apofasi ? "……………………………………………..." : metadata.apofasi,
-      ARITHMOS_SUNEDRIASHS: !metadata.arithmos_sunedriashs ? "……………………………………………..." : metadata.arithmos_sunedriashs,
-      APOFASI_ADA_NUMBER: !metadata.ada_number ? "……….." : metadata.ada_number,
+      APOFASI: metadata.assignment_apofasi ?? metadata.apofasi ?? "……………………………………………...",
+      ARITHMOS_SUNEDRIASHS: metadata.assignment_arithmos_sunedriashs ?? metadata.arithmos_sunedriashs ?? "……………………………………………...",
+      APOFASI_ADA_NUMBER: metadata.assignment_ada_number ?? metadata.ada_number ?? "………..",
       STUDENT_WAGES: !metadata.student_wages ? "……………… " : metadata.student_wages
     });
 
