@@ -63,6 +63,7 @@
                       <th>Ενέργειες Άτλα</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
+                      <th>Ολοκληρωμένη ΠΑ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -93,6 +94,7 @@
                         <span (click)="openImplementationDatesChangeDialog(idx, student.assigned_position_id)" class="text-secondary custom-info-btn
                           text-with-dots">
                           <i class="fa fa-pencil-alt"></i> Αλλαγή Ημ/νιών</span>
+                        <br>
                         <span (click)="openInternshipCompletionDialog(idx, student.assigned_position_id)" class="ml-2 text-secondary custom-info-btn
                           text-with-dots">
                           <i class="fa fa-check"></i> Ολοκλήρωση</span>
@@ -105,6 +107,7 @@
                           style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
+                      <td>{{student?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ'}}</td>
                     </tr>
                   </tbody>
                   <tfoot>
@@ -117,6 +120,7 @@
                       <th>Ενέργειες Άτλα</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
+                      <th>Ολοκληρωμένη ΠΑ</th>
                     </tr>
                   </tfoot>
                 </table>
