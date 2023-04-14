@@ -230,16 +230,16 @@ export class StudentContractsComponent implements OnInit {
   }
 
   openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    const disabled = true;
-    Swal.fire({
-      title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
-      text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Εντάξει'
-    });
-    if (disabled) return;
+    // const disabled = true;
+    // Swal.fire({
+    //   title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
+    //   text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
+    //   icon: 'warning',
+    //   confirmButtonColor: '#3085d6',
+    //   cancelButtonColor: '#d33',
+    //   confirmButtonText: 'Εντάξει'
+    // });
+    // if (disabled) return;
     const implementationDatesArr = {
       implementation_start_date: this.studentsData[idx].pa_start_date,
       implementation_end_date: this.studentsData[idx].pa_end_date

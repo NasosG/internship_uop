@@ -15,6 +15,7 @@ import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-manage
 import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import Swal from 'sweetalert2';
 import { Utils } from 'src/app/MiscUtils';
+import {InternshipCompletionDialogComponent} from 'src/app/department-managers/internship-completion-dialog/internship-completion-dialog.component';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -283,21 +284,32 @@ export class StudentContractsOfficeComponent implements OnInit {
   }
 
   openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    Swal.fire({
-      title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
-      text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Εντάξει'
+    // Swal.fire({
+    //   title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
+    //   text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
+    //   icon: 'warning',
+    //   confirmButtonColor: '#3085d6',
+    //   cancelButtonColor: '#d33',
+    //   confirmButtonText: 'Εντάξει'
+    // });
+    const implementationDatesArr = {
+      implementation_start_date: this.studentsData[idx].pa_start_date,
+      implementation_end_date: this.studentsData[idx].pa_end_date
+    };
+    // console.log(assigned_position_id);
+    console.log(implementationDatesArr.implementation_start_date);
+    const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
+      width: '600px',
+      data: {
+        assigned_position_id: assigned_position_id,
+        studentId: this.studentsData[idx].student_id,
+        periodId: this.studentsData[idx].period_id,
+        implementationDates: implementationDatesArr
+      }
     });
-    // const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
-    //   width: '600px',
-    //   data: { assigned_position_id: assigned_position_id }
-    // });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }
