@@ -1185,6 +1185,81 @@ const produceContractFile = async (request, response) => {
   }
 };
 
+
+const producePaymentOrderFile = async (request, response) => {
+  try {
+    console.log("producePaymentOrderFile");
+    const studentId = request.params.id;
+    const docType = request.body.doctype;
+    const periodId = request.body.periodId;
+    const departmentId = request.body.departmentId;
+
+    let metadata = await studentService.getPaymentOrderMetadataByStudentId(studentId, periodId);
+    console.log(metadata);
+
+    const fileDir = process.env.PAYMENT_ORDER_FILE_PATH;
+
+    // Load the docx file as binary content
+    let content = fs.readFileSync(
+      path.resolve(fileDir),
+      "binary"
+    );
+
+    const zip = new PizZip(content);
+
+    const doc = new Docxtemplater(zip, {
+      paragraphLoop: true,
+      linebreaks: true,
+    });
+
+    // Render the document (Replace placeholders {first_name} by John etc.)
+    doc.render({
+      CONTRACT_DATE: !metadata.contract_date ? "………………" : moment(metadata.contract_date).format('DD/MM/YYYY'),
+      STUDENT_NAME: metadata.displayname,
+      // STUDENT_FATHER_NAME: metadata.father_name,
+      STUDENT_PRONOUN: !(metadata?.student_gender) ? 'O/H' : (metadata?.student_gender == '1' ? 'Ο' : 'Η'),
+      STUDENT_PRONOUN2: !(metadata?.student_gender) ? 'ΤOΥ/ΤHΣ' : (metadata?.student_gender == '1' ? 'ΤΟΥ' : 'ΤΗΣ'),
+      DEPT_NAME: metadata.dept_name,
+      TY_NAME: metadata.department_manager_name,
+      TY_PRONOUN: !(metadata?.department_manager_gender) ? 'O/H Τμηματικός Υπεύθυνος/η' : (metadata?.department_manager_gender == '1' ? 'Ο Τμηματικός Υπεύθυνος' : 'Η Τμηματική Υπεύθυνη'),
+      PA_START_DATE: moment(metadata.pa_start_date).format('DD/MM/YYYY'),
+      PA_END_DATE: moment(metadata.pa_end_date).format('DD/MM/YYYY'),
+      APOFASI: metadata.assignment_apofasi ?? metadata.apofasi ?? "……………………………………………...",
+      ARITHMOS_SUNEDRIASHS: metadata.assignment_arithmos_sunedriashs ?? metadata.arithmos_sunedriashs ?? "……………………………………………...",
+      APOFASI_ADA_NUMBER: metadata.assignment_ada_number ?? metadata.ada_number ?? "………..",
+      STUDENT_WAGES: !metadata.student_wages ? "……………… " : metadata.student_wages
+    });
+
+    const buf = doc.getZip().generate({
+      type: "nodebuffer",
+      // compression: DEFLATE adds a compression step.
+      // For a 50MB output document, expect 500ms additional CPU time
+      compression: "DEFLATE",
+    });
+
+    const fileName = "student" + studentId + "_PAYMENTORDER.docx";
+    const filePath = `../uploads/payments/${studentId}`;
+
+    // Make a folder if not exists
+    fs.mkdirSync(filePath, { recursive: true });
+
+    // buf is a nodejs Buffer, you can either write it to a
+    // file or res.send it with express for example.
+    fs.writeFileSync(path.resolve(filePath, fileName), buf);
+
+    response
+      .status(200)
+      .sendFile(path.resolve(filePath, fileName), buf);
+
+  } catch (error) {
+    console.error(error.message);
+    response.status(401).json({
+      message: error.message
+    });
+  }
+};
+
+
 const isStudentInAssignmentList = async (request, response) => {
   try {
     const studentId = request.params.id;
@@ -1242,6 +1317,26 @@ const updateContractDetails = async (request, response) => {
 
     response.status(200).json({
       message: "contract Details were updated successfully"
+    });
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
+const updatePaymentOrderDetails = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const periodId = request.body.periodId;
+    const paymentOrderInfo = request.body.contract;
+
+    await studentService.updatePaymentOrderDetails(studentId, periodId, paymentOrderInfo);
+
+    response.status(200).json({
+      message: "Payment Order Details were updated successfully"
     });
   } catch (error) {
     console.error(error.message);
@@ -1356,6 +1451,7 @@ module.exports = {
   updateStudentPositions,
   updatePhase,
   updateContractDetails,
+  updatePaymentOrderDetails,
   updateAssignmentStateByStudentAndPosition,
   deleteEntryFormByStudentId,
   deletePositionsByStudentId,
@@ -1379,6 +1475,7 @@ module.exports = {
   getProtocolNumberIfInterestAppExists,
   getStudentFilesForAppPrint,
   produceContractFile,
+  producePaymentOrderFile,
   isEntrySheetEnabledForStudent,
   isExitSheetEnabledForStudent
 };

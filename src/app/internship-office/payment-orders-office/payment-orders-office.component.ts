@@ -1,32 +1,35 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { StudentsService } from 'src/app/students/student.service';
 import * as XLSX from 'xlsx';
 import * as moment from 'moment';
-import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
-import { Period } from 'src/app/department-managers/period.model';
-import { EditContractDialogComponent } from 'src/app/department-managers/edit-contract-dialog/edit-contract-dialog.component';
-import { StudentsMatchedInfoDialogComponent } from 'src/app/department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
-import { OfficeUser } from '../office-user.model';
-import { OfficeService } from '../office.service';
 import { Contract } from 'src/app/students/contract.model';
-import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
-import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
-import Swal from 'sweetalert2';
 import { Utils } from 'src/app/MiscUtils';
+
+import Swal from 'sweetalert2';
+import {OfficeUser} from '../office-user.model';
+import {OfficeService} from '../office.service';
+import {DepManagerService} from 'src/app/department-managers/dep-manager.service';
+import {Period} from 'src/app/department-managers/period.model';
+import {EditPaymentOrderDialogComponent} from 'src/app/department-managers/edit-payment-order-dialog/edit-payment-order-dialog.component';
+import {StudentsMatchedInfoDialogComponent} from 'src/app/department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
+import {CompanyAndPositionInfoDialogComponent} from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
+import {ImplementationDatesChangeDialogComponent} from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import {InternshipCompletionDialogComponent} from 'src/app/department-managers/internship-completion-dialog/internship-completion-dialog.component';
 
 @Component({
-  selector: 'app-student-contracts-office',
-  templateUrl: './student-contracts-office.component.html',
-  styleUrls: ['./student-contracts-office.component.css']
+  selector: 'app-payment-orders-office',
+  templateUrl: './payment-orders-office.component.html',
+  styleUrls: ['./payment-orders-office.component.css']
 })
-export class StudentContractsOfficeComponent implements OnInit {
-  @ViewChild('contractsTable') public contractsTable?: ElementRef;
+export class PaymentOrdersOfficeComponent implements OnInit {
+  @ViewChild('paymentsTable') public paymentsTable?: ElementRef;
   @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
   @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
   @ViewChild('departmentSelect') public departmentSelect!: ElementRef;
+
   public studentsData: any[] = [];
   private selected = '';
   public periods?: Period[];
@@ -42,10 +45,7 @@ export class StudentContractsOfficeComponent implements OnInit {
     department: ''
   };
 
-  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService,
-    public dialog: MatDialog, private officeService: OfficeService) { }
-
-  dtOptions: any = {};
+  constructor(public officeService: OfficeService, public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.officeService.getOfficeUser()
@@ -63,14 +63,7 @@ export class StudentContractsOfficeComponent implements OnInit {
     });
   }
 
-  searchStudents() {
-    const inputText = this.inputElement.nativeElement.value;
-    this.filteredData = this.studentsData.filter(
-      student => student.givenname.includes(inputText.toUpperCase())
-      || student.schacpersonaluniquecode.includes(inputText)
-      || student.sn.includes(inputText.toUpperCase())
-    );
-  }
+  formatDate = (date: any) => { return Utils.getAtlasPreferredTimestamp(date); }
 
   // This function is used to get the AM of the student
   private getAM(str: string): string {
@@ -78,22 +71,25 @@ export class StudentContractsOfficeComponent implements OnInit {
     return personalIdArray[personalIdArray.length - 1];
   }
 
-  receiveFile(studentId: number, docType: string) {
-    this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
-      window.open(window.URL.createObjectURL(res));
-    });
-  }
-
-  openEditContractDialog(idx: any) {
+  openEditPaymentOrderDialog(idx: any) {
     console.log(idx);
     console.log(this.studentsData[idx])
-    const dialogRef = this.dialog.open(EditContractDialogComponent, {
+    const dialogRef = this.dialog.open(EditPaymentOrderDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
   }
 
   onPeriodChange(value: any) {
@@ -113,41 +109,9 @@ export class StudentContractsOfficeComponent implements OnInit {
             this.studentsData[i].user_ssn = students[i].user_ssn;
           }
 
-          // this.initDataTable();
           this.isLoading = false;
-      // }, error: (error: any) => {
-      //   console.log(error);
-      //   this.isLoading = false;
-      // }
     });
   }
-
-  // private initDataTable(): void {
-  //   // if (this.contractsTable) {
-  //   //   (this.contractsTable as any).destroy();
-  //   // }
-  //   this.chRef.detectChanges();
-  //   // Use of jQuery DataTables
-  //   const table: any = $('#contractsTable');
-  //   this.contractsTable = table.DataTable({
-  //     destroy: true,
-  //     lengthMenu: [
-  //       [10, 25, 50, -1],
-  //       [10, 25, 50, 'All']
-  //     ],
-  //     lengthChange: true,
-  //     paging: true,
-  //     searching: true,
-  //     ordering: false,
-  //     info: true,
-  //     autoWidth: false,
-  //     responsive: true,
-  //     select: true,
-  //     pagingType: 'full_numbers',
-  //     processing: true,
-  //     columnDefs: [{ orderable: false, targets: [3] }]
-  //   });
-  // }
 
   onDepartmentChange(value: any) {
     this.isLoading = true;
@@ -167,11 +131,15 @@ export class StudentContractsOfficeComponent implements OnInit {
         }
       });
   }
+  downloadPaymentOrderFileForStudent(studentId: number, index: number) {
+    if (this.studentsData[index].status != 1) {
+      Swal.fire({ title: 'Αποτυχία', text: "Πρέπει να ολοκληρωθεί η ΠΑ (στην καρτέλα \"Συμβάσεις\") για να βγάλετε εντολή πληρωμής", icon: 'warning' });
+      return;
+    }
 
-  downloadContractFileForStudent(studentId: number) {
     let initialPeriod: any = !this.periods || !this.periods[0] ? 0 : this.periods[0].id;
 
-    this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.selectedDepartment?.academic_id, "docx")
+    this.depManagerService.receivePaymentOrderFile(studentId, this.selected ? this.selected: initialPeriod , this.officeUserData?.department_id, "docx")
     .subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
@@ -198,7 +166,6 @@ export class StudentContractsOfficeComponent implements OnInit {
       }
 
       this.studentContracts = contracts;
-
       for (let i = 0; i < this.studentContracts.length; i++) {
         this.studentContracts[i].contract_date = moment(this.studentContracts[i].contract_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_start_date = moment(this.studentContracts[i].pa_start_date).format('YYYY-MM-DD');
@@ -215,33 +182,23 @@ export class StudentContractsOfficeComponent implements OnInit {
           "Διεύθυνση Εταιρείας": this.studentContracts[i].company_address,
           "Εκπρόσωπος Εταιρείας": this.studentContracts[i].company_liaison,
           "Θέση Εκπροσώπου Εταιρείας": this.studentContracts[i].company_liaison_position,
-          "Ονοματεπώνυμο Φοιτητή": this.studentContracts[i].displayname,
+          "Ονοματεπώνυμο": this.studentContracts[i].displayname,
           "Πατρώνυμο": this.studentContracts[i].father_name,
-          "Επώνυμο πατέρα": studentIndex !== -1 ? this.studentsData[studentIndex].father_last_name: null,
-          "Μητρώνυμο": studentIndex !== -1 ? this.studentsData[studentIndex].mother_name: null,
-          "Επώνυμο μητέρας": studentIndex !== -1 ? this.studentsData[studentIndex].mother_last_name: null,
           "Τμήμα": this.studentContracts[i].dept_name,
           "Αριθμός Ταυτότητας": this.studentContracts[i].id_number,
           "ΑΜΑ-ΙΚΑ": this.studentContracts[i].amika,
           "ΑΜΚΑ": this.studentContracts[i].amka,
           "ΑΦΜ": this.studentContracts[i].afm,
           "ΔΟΥ": this.studentContracts[i].doy_name,
-          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(studentIndex !== -1 ? this.studentsData[studentIndex].schacdateofbirth : null),
           "Αντικείμενο Πρακτικής Άσκησης": this.studentContracts[i].pa_subject,
           "Από ΑΤΛΑ - Αντικείμενο ΠΑ": this.studentContracts[i].pa_subject_atlas,
           "Ημερομηνία Έναρξης ΠΑ": this.studentContracts[i].pa_start_date,
           "Ημερομηνία Λήξης ΠΑ": this.studentContracts[i].pa_end_date,
           "Όνομα ΤΥ": this.studentContracts[i].department_manager_name,
-          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null,
-          "Φύλο": studentIndex !== -1 ? this.studentsData[studentIndex].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα' : null,
-          "Τηλέφωνο": studentIndex !== -1 ? this.studentsData[studentIndex].phone : null,
-          "Διεύθυνση": studentIndex !== -1 ? this.studentsData[studentIndex].address : null,
-          "Πόλη": studentIndex !== -1 ? this.studentsData[studentIndex].city : null,
-          "ΤΚ": studentIndex !== -1 ? this.studentsData[studentIndex].post_address : null,
-          "Τοποθεσία": studentIndex !== -1 ? this.studentsData[studentIndex].location : null,
-          "IBAN": studentIndex !== -1 ? this.studentsData[studentIndex].iban : null
+          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null
         });
       }
+
       const excelFileName: string = "StudentsContracts.xlsx";
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson);
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -254,7 +211,7 @@ export class StudentContractsOfficeComponent implements OnInit {
 
   openCompanyInfoDialog(positionId: any) {
     console.log(positionId);
-    // alert(positionId);
+
     const dialogRef = this.dialog.open(CompanyAndPositionInfoDialogComponent, {
       data: { positionId: positionId }
     });
@@ -264,14 +221,11 @@ export class StudentContractsOfficeComponent implements OnInit {
     });
   }
 
-
   openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
     const implementationDatesArr = {
       implementation_start_date: this.studentsData[idx].pa_start_date,
       implementation_end_date: this.studentsData[idx].pa_end_date
     };
-
-    console.log(implementationDatesArr.implementation_start_date);
 
     const dialogRef = this.dialog.open(ImplementationDatesChangeDialogComponent, {
       width: '600px',
@@ -284,14 +238,6 @@ export class StudentContractsOfficeComponent implements OnInit {
   }
 
   openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    // Swal.fire({
-    //   title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
-    //   text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
-    //   icon: 'warning',
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Εντάξει'
-    // });
     const implementationDatesArr = {
       implementation_start_date: this.studentsData[idx].pa_start_date,
       implementation_end_date: this.studentsData[idx].pa_end_date

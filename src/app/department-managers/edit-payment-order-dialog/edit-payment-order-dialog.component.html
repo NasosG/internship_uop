@@ -1,140 +1,45 @@
 <div class="dialog-header">
-  <h3>Στοιχεία Συμβάσης</h3>
+  <h3>Στοιχεία Εντολής Πληρωμής</h3>
   <div mat-icon-button class="close-button" (click)="closeDialog()">
     <i class="fa fa-times"></i>
   </div>
 </div>
 <mat-dialog-content class="mat-typography">
   <br>
-  <p><span>Ονοματεπώνυμο</span>: {{ this.data.studentsData[this.data.index].givenname}}
+  <p><span><strong>Φοιτητής/ρια</strong></span>: {{ this.data.studentsData[this.data.index].givenname}}
     {{ this.data.studentsData[this.data.index].sn}}
   </p>
   <form [formGroup]="profileForm" style="max-width:78%; margin:auto">
-    <mat-form-field class="w-40 mt-2 mat-full-width" appearance="fill">
-      <mat-label for="contract_date">Ημερομηνία Υπογραφής: </mat-label>
-      <input matInput id="contract_date" [(ngModel)]="studentContract.contract_date" type="date"
-        formControlName="contract_date">
-    </mat-form-field>
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="company_name">Επωνυμία Εταιρείας</mat-label>
-      <input id="company_name" matInput [(ngModel)]="studentContract.company_name" formControlName="company_name">
+    <br>
+    <mat-form-field class="mt-2 w-100 mat-full-width" appearance="fill">
+      <mat-label for="department_manager_name">Τμηματικός Υπεύθυνος</mat-label>
+      <input id="department_manager_name" matInput [(ngModel)]="studentPaymentDetails.department_manager_name"
+        formControlName="department_manager_name">
     </mat-form-field>
     <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="company_afm">ΑΦΜ Εταιρείας</mat-label>
-      <input id="company_afm" matInput [(ngModel)]="studentContract.company_afm" class="inactive-field" readonly
-        formControlName="company_afm">
-    </mat-form-field>
-
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="company_address">Διεύθυνση Εταιρείας</mat-label>
-      <input id="company_address" matInput [(ngModel)]="studentContract.company_address"
-        formControlName="company_address">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="company_liaison">Εκπρόσωπος Εταιρείας</mat-label>
-      <input id="company_liaison" matInput [(ngModel)]="studentContract.company_liaison"
-        formControlName="company_liaison">
-    </mat-form-field>
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="company_liaison_position">Θέση Εκπροσώπου Εταιρείας</mat-label>
-      <input id="company_liaison_position" matInput [(ngModel)]="studentContract.company_liaison_position"
-        formControlName="company_liaison_position">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="displayname">Ονοματεπώνυμο Φοιτητή</mat-label>
-      <input id="displayname" class="inactive-field" matInput [(ngModel)]="studentContract.displayname" readonly
-        formControlName="displayname">
-    </mat-form-field>
-
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="father_name">Όνομα Πατρός</mat-label>
-      <input id="father_name" matInput [(ngModel)]="studentContract.father_name" formControlName="father_name">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
+    <mat-form-field class="w-100 mat-full-width" appearance="fill">
       <mat-label for="dept_name">Τμήμα</mat-label>
-      <input id="dept_name" class="inactive-field" readonly matInput [(ngModel)]="studentContract.dept_name"
+      <input id="dept_name" class="inactive-field" readonly matInput [(ngModel)]="studentPaymentDetails.dept_name"
         formControlName="dept_name">
     </mat-form-field>
-
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="id_number">Αριθμός Ταυτότητας</mat-label>
-      <input id="id_number" matInput [(ngModel)]="studentContract.id_number" formControlName="id_number">
-    </mat-form-field>
     <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="amika">ΑΜΑ-ΙΚΑ</mat-label>
-      <input id="amika" matInput [(ngModel)]="studentContract.amika" formControlName="amika">
-    </mat-form-field>
-
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="amka">ΑΜΚΑ</mat-label>
-      <input id="amka" matInput [(ngModel)]="studentContract.amka" class="inactive-field" readonly
-        formControlName="amka">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="afm">ΑΦΜ</mat-label>
-      <input id="afm" matInput [(ngModel)]="studentContract.afm" formControlName="afm">
-    </mat-form-field>
-
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="doy_name">ΔΟΥ</mat-label>
-      <input id="doy_name" matInput [(ngModel)]="studentContract.doy_name" formControlName="doy_name">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="pa_subject">Αντικείμενο Πρακτικής Άσκησης</mat-label>
-      <input id="pa_subject" matInput [(ngModel)]="studentContract.pa_subject" formControlName="pa_subject">
-    </mat-form-field>
-
-    <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
-      <mat-label for="pa_subject_atlas">Από ΑΤΛΑ - Αντικείμενο ΠΑ
-      </mat-label>
-      <input id="pa_subject_atlas" matInput [(ngModel)]="studentContract.pa_subject_atlas" class="inactive-field"
-        readonly formControlName="pa_subject_atlas">
+    <mat-form-field class="w-100 mat-full-width" appearance="fill">
+      <mat-label for="student_wages">Ποσό. Αμοιβής φοιτητή/ριας(ευρώ)</mat-label>
+      <input id="student_wages" matInput [(ngModel)]="studentPaymentDetails.student_wages"
+        formControlName="student_wages">
     </mat-form-field>
     <br>
     <h4>Ημερομηνίες Υλοποίησης Πρακτικής Άσκησης</h4>
 
     <mat-form-field class="w-40 mt-2 mat-full-width" appearance="fill">
       <mat-label for="pa_start_date">Ημερομηνία Έναρξης: </mat-label>
-      <input matInput id="pa_start_date" [(ngModel)]="studentContract.pa_start_date" type="date"
-        formControlName="pa_start_date">
+      <input matInput id="pa_start_date" [(ngModel)]="studentPaymentDetails.pa_start_date" type="date"
+        class="date-input" formControlName="pa_start_date">
     </mat-form-field>
     <mat-form-field class="w-40 ml-2 mt-2 mat-full-width" appearance="fill">
       <mat-label for="pa_end_date">Ημερομηνία Λήξης: </mat-label>
-      <input matInput id="pa_end_date" type="date" [(ngModel)]="studentContract.pa_end_date"
+      <input matInput id="pa_end_date" type="date" [(ngModel)]="studentPaymentDetails.pa_end_date" class="date-input"
         formControlName="pa_end_date">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="department_manager_name">Τμηματικός Υπεύθυνος</mat-label>
-      <input id="department_manager_name" matInput [(ngModel)]="studentContract.department_manager_name"
-        formControlName="department_manager_name">
-    </mat-form-field>
-
-    <mat-form-field class="ml-2 mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="apofasi">Απόφαση: </mat-label>
-      <input id="apofasi" matInput [(ngModel)]="studentContract.apofasi" formControlName="apofasi">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="w-40 mat-full-width" appearance="fill">
-      <mat-label for="arithmos_sunedriashs">Αριθμός Συνεδρίασης: </mat-label>
-      <input matInput id="arithmos_sunedriashs" type="number" [(ngModel)]="studentContract.arithmos_sunedriashs"
-        formControlName="arithmos_sunedriashs">
-    </mat-form-field>
-    <mat-form-field class="ml-2 mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="ada_number">ΑΔΑ: </mat-label>
-      <input matInput id="ada_number" type="text" [(ngModel)]="studentContract.ada_number" formControlName="ada_number">
-    </mat-form-field>
-    <br>
-    <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
-      <mat-label for="student_wages">(Μόνο ΑΕΙ) Συνολ. Αμοιβή φοιτητή/ριας</mat-label>
-      <input id="student_wages" matInput [(ngModel)]="studentContract.student_wages" formControlName="student_wages">
     </mat-form-field>
   </form>
   <br>

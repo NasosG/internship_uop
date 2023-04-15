@@ -281,6 +281,10 @@ const routes: Routes = [{
     component: OfficeComponent,
   },
   {
+    path: 'payment-orders/:id',
+    component: OfficeComponent,
+  },
+  {
     path: 'atlas-positions/:id',
     component: OfficeComponent
   }

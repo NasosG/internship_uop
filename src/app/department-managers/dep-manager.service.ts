@@ -207,6 +207,11 @@ export class DepManagerService {
     //   filter ( image => !!image));
   }
 
+  receivePaymentOrderFile (studentId: number, periodId: any, departmentId: any, docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "producePaymentOrderFile/" + studentId;
+    return this.http.post(url, { 'doctype': docType, 'periodId': periodId, 'departmentId': departmentId }, { responseType: 'blob' });
+  }
+
   updatePeriodById(inputForm: any, periodId: number) {
     const form: Period = inputForm;
     this.http
@@ -356,6 +361,11 @@ export class DepManagerService {
   onSubmitStudentContractDetails(contract: Contract, studentId: number, periodId: number): Observable<any>{
     return this.http
       .put<{ message: string }>(STUDENTS_URL + "updateContractDetails/" + studentId, {contract, periodId});
+  }
+
+  onSubmitStudentPaymentDetails(contract: Contract, studentId: number, periodId: number): Observable<any>{
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updatePaymentOrderDetails/" + studentId, {contract, periodId});
   }
 
   getImplementationDatesByStudentAndPeriod(studentId: number, periodId: number, positionId: number): Observable<any> {

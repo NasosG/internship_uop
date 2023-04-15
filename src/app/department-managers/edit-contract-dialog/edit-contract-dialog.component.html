@@ -13,7 +13,7 @@
     <mat-form-field class="w-40 mt-2 mat-full-width" appearance="fill">
       <mat-label for="contract_date">Ημερομηνία Υπογραφής: </mat-label>
       <input matInput id="contract_date" [(ngModel)]="studentContract.contract_date" type="date"
-        formControlName="contract_date">
+        formControlName="contract_date" class="date-input">
     </mat-form-field>
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
       <mat-label for="company_name">Επωνυμία Εταιρείας</mat-label>
@@ -102,12 +102,12 @@
 
     <mat-form-field class="w-40 mt-2 mat-full-width" appearance="fill">
       <mat-label for="pa_start_date">Ημερομηνία Έναρξης: </mat-label>
-      <input matInput id="pa_start_date" [(ngModel)]="studentContract.pa_start_date" type="date"
+      <input matInput id="pa_start_date" [(ngModel)]="studentContract.pa_start_date" type="date" class="date-input"
         formControlName="pa_start_date">
     </mat-form-field>
     <mat-form-field class="w-40 ml-2 mt-2 mat-full-width" appearance="fill">
       <mat-label for="pa_end_date">Ημερομηνία Λήξης: </mat-label>
-      <input matInput id="pa_end_date" type="date" [(ngModel)]="studentContract.pa_end_date"
+      <input matInput id="pa_end_date" type="date" [(ngModel)]="studentContract.pa_end_date" class="date-input"
         formControlName="pa_end_date">
     </mat-form-field>
     <br>

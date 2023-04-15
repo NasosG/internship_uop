@@ -4,22 +4,10 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <!-- <div class="card-header"> -->
-          <div class="card-header p-2">
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a class="nav-link active" href="#sheet-input-tab" data-toggle="tab">Δελτία Εισόδου</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/office/sheet-output/' + this.authService.getSessionId()]"
-                  data-toggle="tab">Δελτία εξόδου</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/office/student-contracts/' + this.authService.getSessionId()]"
-                  data-toggle="tab">Συμβάσεις</a>
-              </li>
-            </ul>
-          </div>
+
+          <!-- The nav menu for all the options in that specific screen. -->
+          <app-sheets-contracts-nav-menu-office [activeLink]="'sheet-input'"></app-sheets-contracts-nav-menu-office>
+
           <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
             <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
               Επιλογή Τμήματος: </h5>

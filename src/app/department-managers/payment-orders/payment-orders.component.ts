@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { StudentsService } from 'src/app/students/student.service';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import { EditContractDialogComponent } from '../edit-contract-dialog/edit-contract-dialog.component';
 import { Period } from '../period.model';
 import { StudentsMatchedInfoDialogComponent } from '../students-matched-info-dialog/students-matched-info-dialog.component';
 import * as XLSX from 'xlsx';
@@ -15,6 +14,8 @@ import { CompanyAndPositionInfoDialogComponent } from '../company-and-position-i
 import { ImplementationDatesChangeDialogComponent } from '../implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import { InternshipCompletionDialogComponent } from '../internship-completion-dialog/internship-completion-dialog.component';
 import { Utils } from 'src/app/MiscUtils';
+import { EditPaymentOrderDialogComponent } from '../edit-payment-order-dialog/edit-payment-order-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment-orders',
@@ -87,16 +88,10 @@ export class PaymentOrdersComponent implements OnInit {
     return personalIdArray[personalIdArray.length - 1];
   }
 
-  receiveFile(studentId: number, docType: string) {
-    this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
-      window.open(window.URL.createObjectURL(res));
-    });
-  }
-
   openEditPaymentOrderDialog(idx: any) {
     console.log(idx);
     console.log(this.studentsData[idx])
-    const dialogRef = this.dialog.open(EditContractDialogComponent, {
+    const dialogRef = this.dialog.open(EditPaymentOrderDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }, width: '600px',
     });
 
@@ -124,10 +119,17 @@ export class PaymentOrdersComponent implements OnInit {
     });
   }
 
-  downloadPaymentOrderFileForStudent(studentId: number) {
+  downloadPaymentOrderFileForStudent(studentId: number, index: number) {
+    console.log(this.studentsData[0]);
+
+    if (this.studentsData[index].status != 1) {
+      Swal.fire({ title: 'Αποτυχία', text: "Πρέπει να ολοκληρωθεί η ΠΑ (στην καρτέλα \"Συμβάσεις\") για να βγάλετε εντολή πληρωμής", icon: 'warning' });
+      return;
+    }
+
     let initialPeriod: any = !this.periods || !this.periods[0] ? 0 : this.periods[0].id;
 
-    this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.depManagerData?.department_id, "docx")
+    this.depManagerService.receivePaymentOrderFile(studentId, this.selected ? this.selected: initialPeriod , this.depManagerData?.department_id, "docx")
     .subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });

@@ -119,4 +119,8 @@ export class OfficeComponent implements OnInit {
   isAtlasPositionsRoute() {
     return this.router.url === '/office/atlas-positions/' + this.authService.getSessionId();
   }
+
+  isPaymentOrdersRoute() {
+    return this.router.url === '/office/payment-orders/' + this.authService.getSessionId();
+  }
 }

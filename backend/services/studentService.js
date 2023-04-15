@@ -910,10 +910,31 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
                   asn.ada_number as assignment_ada_number, asn.apofasi as assignment_apofasi, asn.arithmos_sunedriashs as assignment_arithmos_sunedriashs
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
-                  INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
+                  INNER JOIN sso_users usr ON usr.uuid = asn.student_id
                   INNER JOIN student_users ON usr.uuid = student_users.sso_uid
                   INNER JOIN atlas_position_group grp ON asn.position_id = grp.atlas_position_id
                   INNER JOIN atlas_provider pr on grp.provider_id = pr.atlas_provider_id
+                  WHERE list.period_id = $1 AND asn.student_id = $2`;
+    const result = await pool.query(query, [periodId, studentId]);
+    return result.rows[0];
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while fetching contract file metadata: ${error}`);
+  }
+};
+
+const getPaymentOrderMetadataByStudentId = async (studentId, periodId) => {
+  try {
+    const query = `SELECT sign_date as contract_date, usr.displayname, dept_name, pa_start_date, pa_end_date, department_manager_name,
+                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages,
+                  asn.ada_number as assignment_ada_number, asn.apofasi as assignment_apofasi, asn.arithmos_sunedriashs as assignment_arithmos_sunedriashs,
+                  usr.schacgender as student_gender, mgr.schacgender as department_manager_gender
+                  FROM final_assignments_list list
+                  INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                  INNER JOIN sso_users usr ON usr.uuid = asn.student_id
+                  INNER JOIN student_users ON usr.uuid = student_users.sso_uid
+                  INNER JOIN period ON period.id = list.period_id
+                  INNER JOIN sso_users mgr ON mgr.uuid = period.sso_user_id
                   WHERE list.period_id = $1 AND asn.student_id = $2`;
     const result = await pool.query(query, [periodId, studentId]);
     return result.rows[0];
@@ -1002,6 +1023,38 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
                                     arithmos_sunedriashs = COALESCE(arithmos_sunedriashs, $4)
                                     WHERE period_id = $5`,
       [contractDetails.department_manager_name, contractDetails.ada_number, contractDetails.apofasi, contractDetails.arithmos_sunedriashs, periodId]);
+
+    console.log(`Record with studentId ${studentId} updated successfully`);
+  } catch (error) {
+    console.error(error.message);
+    throw Error(`An error occured while updating contract details: ${error.message}`);
+  }
+};
+
+const updatePaymentOrderDetails = async (studentId, periodId, contractDetails) => {
+  try {
+    console.log(contractDetails);
+    // await pool.query(`UPDATE student_users SET father_name = $1
+    //                                 WHERE sso_uid = $2`, [contractDetails.father_name, studentId]);
+
+    const inputDateFormat = 'YYYY-MM-DD';
+
+    contractDetails.pa_start_date = !contractDetails.pa_start_date || !moment(contractDetails.pa_start_date, inputDateFormat, true).isValid() ? null
+      : moment(contractDetails.pa_start_date, inputDateFormat).format('YYYY-MM-DD');
+    contractDetails.pa_end_date = !contractDetails.pa_end_date || !moment(contractDetails.pa_end_date, inputDateFormat, true).isValid() ? null
+      : moment(contractDetails.pa_end_date, inputDateFormat).format('YYYY-MM-DD');
+
+    await pool.query(`UPDATE internship_assignment SET
+                                    pa_start_date = $1,
+                                    pa_end_date = $2,
+                                    student_fee = $3
+                                    WHERE student_id = $4 AND period_id = $5`,
+      [contractDetails.pa_start_date, contractDetails.pa_end_date, contractDetails.student_wages, studentId, periodId]);
+
+    await pool.query(`UPDATE final_assignments_list SET
+                                    department_manager_name = $1
+                                    WHERE period_id = $2`,
+      [contractDetails.department_manager_name, periodId]);
 
     console.log(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
@@ -1127,6 +1180,7 @@ module.exports = {
   getAssignmentsByStudentId,
   getApprovedAssignmentInfoByStudentId,
   getContractFileMetadataByStudentId,
+  getPaymentOrderMetadataByStudentId,
   getContractDetailsByDepartmentAndPeriod,
   getMergedDepartmentInfoByStudentId,
   getSemesterProtocolNumberIfExistsOrNull,
@@ -1158,6 +1212,7 @@ module.exports = {
   updateStudentExitSheet,
   updatePhase,
   updateContractDetails,
+  updatePaymentOrderDetails,
   updateMergedDepartmentDetails,
   updateDepartmentIdByStudentId,
   updateSheetOpsNumberById,

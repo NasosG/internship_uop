@@ -120,6 +120,8 @@ import { InternshipCompletionDialogComponent } from './department-managers/inter
 import { PaymentOrdersComponent } from './department-managers/payment-orders/payment-orders.component';
 import { SheetsContractsNavMenuComponent } from './department-managers/sheets-contracts-nav-menu/sheets-contracts-nav-menu.component';
 import { EditPaymentOrderDialogComponent } from './department-managers/edit-payment-order-dialog/edit-payment-order-dialog.component';
+import { PaymentOrdersOfficeComponent } from './internship-office/payment-orders-office/payment-orders-office.component';
+import { SheetsContractsNavMenuOfficeComponent } from './internship-office/sheets-contracts-nav-menu-office/sheets-contracts-nav-menu-office.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -219,6 +221,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PaymentOrdersComponent,
     SheetsContractsNavMenuComponent,
     EditPaymentOrderDialogComponent,
+    PaymentOrdersOfficeComponent,
+    SheetsContractsNavMenuOfficeComponent,
   ],
   imports: [
     BrowserModule,

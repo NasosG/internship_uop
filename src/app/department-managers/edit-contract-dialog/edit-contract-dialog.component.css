@@ -19,3 +19,13 @@
   cursor: pointer;
   padding: 4px 10px;
 }
+
+.mat-form-field-flex {
+  align-items: safe center !important
+}
+
+.date-input {
+  height: 1.1rem;
+  line-height: 1.2rem;
+  font-size: 14px;
+}

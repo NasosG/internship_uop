@@ -1,0 +1,24 @@
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': activeLink === 'sheet-input'}"
+                  [routerLink]="['/office/sheet-input/' + authService.getSessionId()]" data-toggle="tab">Δελτία
+                  Εισόδου</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': activeLink === 'sheet-output'}"
+                  [routerLink]="['/office/sheet-output/' + authService.getSessionId()]" data-toggle="tab">Δελτία
+                  εξόδου</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': activeLink === 'student-contracts'}"
+                  [routerLink]="['/office/student-contracts/' + authService.getSessionId()]"
+                  data-toggle="tab">Συμβάσεις</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': activeLink === 'payment-orders'}"
+                  [routerLink]="['/office/payment-orders/' + this.authService.getSessionId()]" data-toggle="tab">Εντολές
+                  Πληρωμών</a>
+              </li>
+            </ul>
+          </div>

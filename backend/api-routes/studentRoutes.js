@@ -57,10 +57,12 @@ router.get("/getStudentRankedApprovalStatusForPeriod/", studentController.getStu
 router.get("/getStudentFilesForAppPrint/:id", studentController.getStudentFilesForAppPrint);
 router.post("/checkPositionOfAtlasExists/:id", studentController.checkPositionOfAtlasExists);
 router.post("/produceContractFile/:id", studentController.produceContractFile);
+router.post("/producePaymentOrderFile/:id", studentController.producePaymentOrderFile);
 router.post("/isStudentInAssignmentList/:id", studentController.isStudentInAssignmentList);
 router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getContractDetailsByStudentIdAndPeriod);
 router.get("/getContractDetailsByDepartmentAndPeriod/", studentController.getContractDetailsByDepartmentAndPeriod);
 router.put("/updateContractDetails/:id", studentController.updateContractDetails);
+router.put("/updatePaymentOrderDetails/:id", studentController.updatePaymentOrderDetails);
 router.get("/getLatestPeriodOfStudent/", studentController.getLatestPeriodOfStudent);
 router.get("/isEntrySheetEnabledForStudent/", studentController.isEntrySheetEnabledForStudent);
 router.get("/isExitSheetEnabledForStudent/", studentController.isExitSheetEnabledForStudent);
