@@ -4,9 +4,8 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-
           <!-- The nav menu for all the options in that specific screen. -->
-          <app-sheets-contracts-nav-menu [activeLink]="'sheet-output'"></app-sheets-contracts-nav-menu>
+          <app-sheets-contracts-nav-menu [activeLink]="'payment-orders'"></app-sheets-contracts-nav-menu>
 
           <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
             <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
@@ -31,27 +30,34 @@
           <!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content">
-              <div class="tab-pane active" id="sheet-output-tab">
+              <div class="tab-pane active" id="sheet-input-tab">
+                <button class="btn btn-primary mt-0" (click)="exportToExcel()"><i class='fas fa-file-export'
+                    style='font-size:24px'></i> Excel</button>
+                &nbsp;<br><br>
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="sheetOutputTable" #sheetOutputTable class="table table-bordered table-striped">
+                <table id="contractsTable" #contractsTable class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <!-- <th>Επιλογή</th> -->
+                      <th>A/A</th>
                       <th>Ονοματεπώνυμο</th>
-                      <!-- <th>Πατρώνυμο</th> -->
                       <th>ΑΜ</th>
-                      <th>email</th>
-                      <!-- <th>Έγγραφα</th> -->
-                      <th class="text-center">Ενέργειες</th>
+                      <th>Φορέας</th>
+                      <th>Υπογραφή Σύμβασης</th>
+                      <th>Χρονικό Διάστημα</th>
+                      <th class="text-center">Επεξεργασία Εντολής</th>
+                      <th class="text-center">Κατέβασμα Εντολής</th>
+                      <th>Ολοκληρωμένη ΠΑ</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
-                      <td>{{student.givenname}} {{student.sn}}</td>
-                      <!-- <td>{{student.father_name}}</td> -->
+                      <td>{{idx + 1}}</td>
+                      <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
+                          {{student.sn}}</a>
                       <td>{{student.schacpersonaluniquecode}}</td>
-                      <td>{{student.mail}}</td>
-
+                      <td class="action text-center"><span (click)="openCompanyInfoDialog(student.position_id)" class="text-secondary custom-info-btn
+                          text-with-dots">
+                          <i class="fa fa-eye"></i> Στοιχεία Φορέα</span></td>
                       <!-- <td class="reponsive-text-center-td">
                         <button (click)="receiveFile(student.sso_uid, 'IBAN')"
                           class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
@@ -67,21 +73,33 @@
                         </button>
                       </td> -->
                       <td class="action text-center">
-                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-eye"></i> Προβολή / Εκτύπωση Δελτίου<br></a>
+                        {{formatDate(student.sign_date)}}
+                      </td>
+                      <td class="action text-center">
+                        {{formatDate(student.pa_start_date) + ' - ' + formatDate(student.pa_end_date)}}
+                      </td>
+                      <td class="action text-center">
+                        <a (click)="openEditPaymentOrderDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-cog"></i> Επεξεργασία<br></a>
+                      <td class="action text-center">
+                        <a (click)="downloadPaymentOrderFileForStudent(student.uuid)" class="text-secondary"
+                          style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
+                      <td>{{student?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ'}}</td>
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
-                      <!-- <th>Επιλογή</th> -->
+                      <th>A/A</th>
                       <th>Ονοματεπώνυμο</th>
-                      <!-- <th>Πατρώνυμο</th> -->
                       <th>ΑΜ</th>
-                      <th>email</th>
-                      <!-- <th>Έγγραφα</th> -->
-                      <th class="text-center">Ενέργειες</th>
+                      <th>Φορέας</th>
+                      <th>Υπογραφή σύμβασης</th>
+                      <th>Χρονικό Διάστημα</th>
+                      <th class="text-center">Επεξεργασία Σύμβασης</th>
+                      <th class="text-center">Κατέβασμα Σύμβασης</th>
+                      <th>Ολοκληρωμένη ΠΑ</th>
                     </tr>
                   </tfoot>
                 </table>

@@ -1,0 +1,10 @@
+.custom-info-btn {
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+}
+
+.custom-info-btn:hover {
+  color: #224957;
+  text-decoration: underline;
+}

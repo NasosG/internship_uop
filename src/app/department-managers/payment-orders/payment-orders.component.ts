@@ -12,16 +12,16 @@ import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
-import Swal from 'sweetalert2';
 import { ImplementationDatesChangeDialogComponent } from '../implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import { InternshipCompletionDialogComponent } from '../internship-completion-dialog/internship-completion-dialog.component';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
-  selector: 'app-student-contracts',
-  templateUrl: './student-contracts.component.html',
-  styleUrls: ['./student-contracts.component.css']
+  selector: 'app-payment-orders',
+  templateUrl: './payment-orders.component.html',
+  styleUrls: ['./payment-orders.component.css']
 })
-export class StudentContractsComponent implements OnInit {
+export class PaymentOrdersComponent implements OnInit {
   @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: any[] = [];
@@ -35,52 +35,51 @@ export class StudentContractsComponent implements OnInit {
   studentContract: any;
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
-
-  dtOptions: any = {};
-
   ngOnInit() {
     this.depManagerService.getDepManager()
-      .subscribe((depManager: DepManager) => {
-        this.depManagerData = depManager;
+    .subscribe((depManager: DepManager) => {
+      this.depManagerData = depManager;
 
-        this.depManagerService.getAllPeriodsByDepartmentId(this.depManagerData.department_id)
-          .subscribe((periods: any[]) => {
-            this.periods = periods;
+      this.depManagerService.getAllPeriodsByDepartmentId(this.depManagerData.department_id)
+      .subscribe((periods: any[]) => {
+        this.periods = periods;
 
-            this.depManagerService.getStudentListForPeriod(periods[0].id)
-              .subscribe((students: any[]) => {
+        this.depManagerService.getStudentListForPeriod(periods[0].id)
+        .subscribe((students: any[]) => {
 
-                this.studentsData = students;
-                for (let i = 0; i < students.length; i++) {
-                  this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-                  this.studentsData[i].user_ssn = students[i].user_ssn;
-                }
-                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-                this.chRef.detectChanges();
+          this.studentsData = students;
+          for (let i = 0; i < students.length; i++) {
+            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+            this.studentsData[i].user_ssn = students[i].user_ssn;
+          }
+          // Have to wait till the changeDetection occurs. Then, project data into the HTML template
+          this.chRef.detectChanges();
 
-                // Use of jQuery DataTables
-                const table: any = $('#contractsTable');
-                this.contractsTable = table.DataTable({
-                  lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, 'All']
-                  ],
-                  lengthChange: true,
-                  paging: true,
-                  searching: true,
-                  ordering: false,
-                  info: true,
-                  autoWidth: false,
-                  responsive: true,
-                  select: true,
-                  pagingType: 'full_numbers',
-                  processing: true,
-                  columnDefs: [{ orderable: false, targets: [3] }]
-                });
-              });
+          // Use of jQuery DataTables
+          const table: any = $('#contractsTable');
+          this.contractsTable = table.DataTable({
+            lengthMenu: [
+              [10, 25, 50, -1],
+              [10, 25, 50, 'All']
+            ],
+            lengthChange: true,
+            paging: true,
+            searching: true,
+            ordering: false,
+            info: true,
+            autoWidth: false,
+            responsive: true,
+            select: true,
+            pagingType: 'full_numbers',
+            processing: true,
+            columnDefs: [{ orderable: false, targets: [3] }]
+          });
         });
+      });
     });
   }
+
+  formatDate = (date: any) => { return Utils.getAtlasPreferredTimestamp(date); }
 
   // This function is used to get the AM of the student
   private getAM(str: string): string {
@@ -94,7 +93,7 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
-  openEditContractDialog(idx: any) {
+  openEditPaymentOrderDialog(idx: any) {
     console.log(idx);
     console.log(this.studentsData[idx])
     const dialogRef = this.dialog.open(EditContractDialogComponent, {
@@ -125,7 +124,7 @@ export class StudentContractsComponent implements OnInit {
     });
   }
 
-  downloadContractFileForStudent(studentId: number) {
+  downloadPaymentOrderFileForStudent(studentId: number) {
     let initialPeriod: any = !this.periods || !this.periods[0] ? 0 : this.periods[0].id;
 
     this.depManagerService.receiveContractFile(studentId, this.selected ? this.selected: initialPeriod , this.depManagerData?.department_id, "docx")
