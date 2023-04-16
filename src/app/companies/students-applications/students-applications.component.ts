@@ -8,7 +8,7 @@ import { Utils } from 'src/app/MiscUtils';
 import { ApplicationsPreviewDialogComponent } from '../applications-preview-dialog/applications-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Assignment } from '../assignment.model';
-import {CompanysActiveApplications} from '../companys-active-applications.model';
+import { CompanysActiveApplications } from '../companys-active-applications.model';
 
 @Component({
   selector: 'companies-students-applications',
