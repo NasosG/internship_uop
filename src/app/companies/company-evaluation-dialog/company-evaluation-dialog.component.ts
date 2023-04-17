@@ -14,17 +14,16 @@ export class CompanyEvaluationDialogComponent implements OnInit {
 
   public companyEvaluation = [
     { subCategory: '1', id: 'q1', name: 'q1', text: 'Σε ποιο βαθμό προσέφερε η Πρακτική Άσκηση ανατροφοδότηση στο φορέα σας; ' },
-
     { subCategory: '2', id: 'q2', name: 'q2', text: 'Είστε ικανοποιημένος από τη συνεργασία με τους υπευθύνους της Πρακτικής Άσκησης;' },
     { subCategory: '3', id: 'q3', name: 'q3', text: 'Είστε ικανοποιημένος από το σχεδιασμό του προγράμματος της Πρακτικής Άσκησης;' },
-    { subCategory: '4', id: 'q4', name: 'q4', text: 'Σκοπεύετε να επαναλάβετε τη συνεργασία σας με το Πανεπιστήμιο Πελοποννήσου στο πλαίσιο της Πρακτικής Άσκησης;' },
+    { subCategory: '4', id: 'q4', name: 'q4', text: 'Σκοπεύετε να επαναλάβετε τη συνεργασία σας με το Πανεπιστήμιο Πελοποννήσου στο πλαίσιο της Πρακτικής Άσκησης;' }
   ];
 
   public questionsAboutStudent = [
     { subCategory: '5', id: 'q5', name: 'q5', text: 'Θεωρείτε ότι ο φοιτητής είχε την κατάλληλη εκπαίδευση ώστε να ανταποκριθεί στις ανάγκες των εργασιών που ανατέθηκαν; ' },
     { subCategory: '6', id: 'q6', name: 'q6', text: 'Θεωρείτε ότι η πρακτική άσκηση βοήθησε το φοιτητή να αποκτήσει νέες τεχνικές γνώσεις και δεξιότητες;' },
     { subCategory: '7', id: 'q7', name: 'q7', text: 'Θεωρείτε ότι η πρακτική άσκηση ήταν σημαντική για τον φοιτητή και θα τον βοηθήσει στην εξεύρεση εργασιας;' },
-    { subCategory: '8', id: 'q8', name: 'q8', text: 'Μείνατε ικανοποιημένοι από την απόδοση του φοιτητή;' },
+    { subCategory: '8', id: 'q8', name: 'q8', text: 'Μείνατε ικανοποιημένοι από την απόδοση του φοιτητή;' }
   ]
 
   public companyEvaluateStudent = [
@@ -42,7 +41,7 @@ export class CompanyEvaluationDialogComponent implements OnInit {
   ]
 
   public companyEvaluationText = [
-    { subCategory: '17', id: 'comments', name: 'comments', text: 'Γενικά Σχόλια' },
+    { subCategory: '17', id: 'comments', name: 'comments', text: 'Γενικά Σχόλια' }
   ];
 
   public isEditEnabled = true;
@@ -50,7 +49,6 @@ export class CompanyEvaluationDialogComponent implements OnInit {
   studentName!: string;
 
   getDisplayValue(value: number | string) {
-
     if (typeof value != 'number') {
       return value;
     }
@@ -67,7 +65,6 @@ export class CompanyEvaluationDialogComponent implements OnInit {
   printEvaluationSheet() {
   let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
   const printContent = document.getElementById("evaluationSheetPreviewContent");
-  this.studentName = 'billy kuriakopoulos';
   const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
 
   const printResults = (results: any[]) => {

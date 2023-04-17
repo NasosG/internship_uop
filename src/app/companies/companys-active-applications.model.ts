@@ -7,6 +7,7 @@ export interface CompanysActiveApplications {
   applicationDateStr: string;
   application_status: boolean;
   approval_state: number;
+  status?: number;
   sso_name: string;
   lastname: string;
   firstname: string;

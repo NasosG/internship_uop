@@ -107,8 +107,16 @@ export class SelectedStudentsComponent implements OnInit {
     });
   }
 
-  openEvaluationDialog(data: ActiveApplicationsRanked, positionTitle: string, studentId: number, positionId: number, studentName: string) {
-    console.log(positionId, studentId);
+  openEvaluationDialog(data: ActiveApplicationsRanked, positionTitle: string, studentId: number, positionId: number, studentName: string, index: number) {
+    if (this.apps[index]?.status != 1) {
+      Swal.fire({
+        title: 'Αποτυχία',
+        text: 'Πρέπει να ολοκληρωθεί η Πρακτική Άσκηση για να προβείτε σε αξιολόγηση',
+        icon: 'warning'
+      });
+      return;
+    }
+    // console.log(positionId, studentId);
     const dialogRef = this.dialog.open(CompanyEvaluationDialogComponent, {
       data: { application: data, positionTitle: positionTitle, studentId, positionId, studentName: studentName },
       maxWidth: '1200px'

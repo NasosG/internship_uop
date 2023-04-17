@@ -78,14 +78,15 @@ const updateUserPassword = async (userPassword, userMail) => {
 
 const getStudentAssignedApplications = async (companyName, companyAFM) => {
   try {
-    const STATUS = 0; //status = 0 means that the application is active
-    const applications = await pool.query(`SELECT final_app_positions.*, active_applications_ranked.*, internship_assignment.approval_state
+    const STATUS_ACTIVE = 0; // status = 0 means that the assignment is active
+    const STATUS_COMPLETED = 1; // status = 1 means that the internship is completed
+    const applications = await pool.query(`SELECT final_app_positions.*, active_applications_ranked.*, internship_assignment.approval_state, internship_assignment.status
                         FROM final_app_positions
                         INNER JOIN active_applications_ranked ON active_applications_ranked.app_id = final_app_positions.application_id
                         INNER JOIN internship_assignment ON final_app_positions.position_id = internship_assignment.position_id
                         AND active_applications_ranked.student_id = internship_assignment.student_id
                         WHERE company = $1 AND afm = $2
-                        AND internship_assignment.status = $3 `, [companyName, companyAFM, STATUS]);
+                        AND internship_assignment.status = $3 OR internship_assignment.status = $4`, [companyName, companyAFM, STATUS_ACTIVE, STATUS_COMPLETED]);
 
     return applications.rows;
   } catch (error) {
