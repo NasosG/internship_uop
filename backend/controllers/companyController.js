@@ -291,23 +291,44 @@ const getProviderByPositionId = async (request, response) => {
 
 const insertOrUpdateEvaluationSheet = async (request, response) => {
   try {
-    const { companyId, studentId, positionId } = request.query;
+    const { providerId, studentId, positionId } = request.query;
     const { evaluationFormData } = request.body;
     console.log(request.body);
 
-    const evaluationExists = await companyService.checkIfEvaluationExists(companyId, studentId, positionId);
+    const evaluationExists = await companyService.checkIfEvaluationExists(studentId, positionId);
 
     if (evaluationExists) {
       await companyService.updateStudentEvaluationSheet(studentId, positionId, evaluationFormData);
       response.status(200).json({
-        message: 'Evaluation successfully updated'
+        message: 'Company Evaluation successfully updated'
       });
     } else {
       await companyService.insertStudentEvaluationSheet(studentId, positionId, evaluationFormData);
       response.status(201).json({
-        message: 'Evaluation successfully created'
+        message: 'Company Evaluation successfully created'
       });
     }
+  } catch (error) {
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
+const getCompanysEvaluationForm = async (request, response) => {
+  try {
+    const { studentId, positionId } = request.query;
+
+    const evaluationFormRow = await companyService.getCompanysEvaluationForm(studentId, positionId);
+
+    if (evaluationFormRow) {
+      console.log(evaluationFormRow);
+      return response.status(200).json(evaluationFormRow);
+    }
+
+    return response.status(204).json({
+      message: 'Company Evaluation does not exist'
+    });
   } catch (error) {
     response.status(400).json({
       message: error.message
@@ -323,6 +344,7 @@ module.exports = {
   getInternalPositionsByProviderId,
   getStudentAssignedApplications,
   getProviderByPositionId,
+  getCompanysEvaluationForm,
   insertInternalPositionGroup,
   insertAssignment,
   insertOrUpdateEvaluationSheet,

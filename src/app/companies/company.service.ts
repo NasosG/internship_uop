@@ -137,6 +137,15 @@ export class CompanyService {
       });
   }
 
+  getCompanysEvaluationForm(studentId: number, positionId: number): Observable<CompanyEvaluationForm | { message: string }> {
+    const params = new HttpParams()
+      .set('positionId', positionId.toString())
+      .set('studentId', studentId.toString());
+
+    return this.http
+      .get<CompanyEvaluationForm | { message: string }>(this.baseUrl + "/getCompanysEvaluationForm/", { params })
+  }
+
   public resetPassword(email: string) {
     console.log(email);
     return this.http.post<any>(this.baseUrl + "/resetPassword", {"providerMail": email}, {observe: 'response'});

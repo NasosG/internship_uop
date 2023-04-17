@@ -1,6 +1,7 @@
 export interface CompanyEvaluationForm {
-  id: number;
+  comp_ev_id: number;
   student_id: number;
+  position_id: number;
   q1: string;
   q2: string;
   q3: string;
@@ -11,5 +12,11 @@ export interface CompanyEvaluationForm {
   q8: string;
   q9: string;
   q10: string;
+  q11: string;
+  q12: string;
+  q13: string;
+  q14: string;
+  q15: string;
+  q16: string;
   comments: string;
 }

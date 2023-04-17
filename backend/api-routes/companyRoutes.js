@@ -8,6 +8,7 @@ router.get("/getProviderById/:id", companyController.getProviderById);
 router.get("/getStudentActiveApplications/", companyController.getStudentActiveApplications);
 router.get("/getStudentAssignedApplications/", companyController.getStudentAssignedApplications);
 router.get("/getInternalPositionsByProviderId/:id", companyController.getInternalPositionsByProviderId);
+router.get("/getCompanysEvaluationForm/", companyController.getCompanysEvaluationForm);
 router.post("/insertCompanyUser/", companyController.insertCompanyUsers);
 router.post("/insertNewAssignment/:id", companyController.insertAssignment);
 router.post("/insertInternalPosition/:id", companyController.insertInternalPositionGroup);

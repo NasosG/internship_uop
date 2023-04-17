@@ -51,9 +51,8 @@
                     <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(position, position.title)"><i
                         class="fa fa-eye"></i>
                       Προβολή<br></a>
-                    <a class="text-secondary" style="cursor: pointer;"
-                      (click)="openEvaluationDialog(position, position.title, position.student_id, position.position_id)"><i
-                        class="fa fa-edit"></i>
+                    <a class="text-secondary" style="cursor: pointer;" (click)="openEvaluationDialog(position, position.title, position.student_id,
+                      position.position_id, (position.firstname + ' ' + position.lastname))"><i class="fa fa-edit"></i>
                       Αξιολόγηση Φοιτητή<br></a>
                   </td>
                 </tr>

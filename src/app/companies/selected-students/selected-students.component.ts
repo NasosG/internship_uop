@@ -107,10 +107,10 @@ export class SelectedStudentsComponent implements OnInit {
     });
   }
 
-  openEvaluationDialog(data: ActiveApplicationsRanked, positionTitle: string, studentId: number, positionId: number) {
+  openEvaluationDialog(data: ActiveApplicationsRanked, positionTitle: string, studentId: number, positionId: number, studentName: string) {
     console.log(positionId, studentId);
     const dialogRef = this.dialog.open(CompanyEvaluationDialogComponent, {
-      data: { application: data, positionTitle: positionTitle, studentId, positionId },
+      data: { application: data, positionTitle: positionTitle, studentId, positionId, studentName: studentName },
       maxWidth: '1200px'
     });
   }

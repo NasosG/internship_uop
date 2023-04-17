@@ -10,7 +10,7 @@ import {CompanyService} from '../company.service';
   styleUrls: ['./company-evaluation-dialog.component.css']
 })
 export class CompanyEvaluationDialogComponent implements OnInit {
-  entries!: CompanyEvaluationForm[];
+  entries!: CompanyEvaluationForm;
 
   public companyEvaluation = [
     { subCategory: '1', id: 'q1', name: 'q1', text: 'Σε ποιο βαθμό προσέφερε η Πρακτική Άσκηση ανατροφοδότηση στο φορέα σας; ' },
@@ -49,21 +49,64 @@ export class CompanyEvaluationDialogComponent implements OnInit {
   studentsData: any;
   studentName!: string;
 
-  printEvaluationSheet() {
-    let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
-    const printContent = document.getElementById("evaluationSheetPreviewContent");
-    // this.studentsData = [...this.studentService.students];
-    this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
-    const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
-    windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: right;'>Υπογραφή</h3>");
-    windowPrint?.document.write("<h5 style='text-align: right;'>" + currentDate + "</h5><br><br><br>");
-    windowPrint?.document.write("<h5 style='text-align: right;'>" + this.studentName + "</h5>");
-    windowPrint?.document.close();
-    windowPrint?.focus();
-    windowPrint?.print();
-    windowPrint?.close();
+  getDisplayValue(value: number | string) {
+
+    if (typeof value != 'number') {
+      return value;
+    }
+
+    const valuesToDisplay = ['ΑΝΕΠΑΡΚΩΣ', 'ΜΕΤΡΙΑ', 'ΚΑΛΑ', 'ΠΟΛΥ ΚΑΛΑ'];
+
+    if (value >= 1 && value <= 4) {
+      return valuesToDisplay[value - 1];
+    }
+
+    return value.toString();
   }
+
+  printEvaluationSheet() {
+  let currentDate = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+  const printContent = document.getElementById("evaluationSheetPreviewContent");
+  this.studentName = 'billy kuriakopoulos';
+  const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+
+  const printResults = (results: any[]) => {
+    return results.map(result => `<tr><td>${result.text}</td><td style="text-align: center;">${this.getDisplayValue(result.value)}</td></tr>`).join('');
+  };
+
+  const allResults = [
+    ...this.companyEvaluation,
+    ...this.questionsAboutStudent,
+    ...this.companyEvaluateStudent,
+    ...this.companyEvaluationOptions,
+    ...this.companyEvaluationText
+  ].map(result => ({ ...result, value: (this.entries as any)[result.name] }));
+
+  const resultsTable = `
+    <table>
+      <thead>
+        <tr>
+          <th>Ερώτηση</th>
+          <th>Απάντηση</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${printResults(allResults)}
+      </tbody>
+    </table>`;
+
+  windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
+  windowPrint?.document.write("<h5 style='text-align: left;'>ΑΞΙΟΛΟΓΗΣΗ ΦΟΙΤΗΤΗ</h5>");
+  windowPrint?.document.write(`<p style='text-align: left;'> Ημ. Εκτύπωσης: ${currentDate}</p>`);
+  windowPrint?.document.write(`<p style='text-align: left;'><strong>Φοιτητής:</strong> ${this.data.studentName}</p>`);
+  windowPrint?.document.write(`<p style='text-align: left;'><strong>Θέση φοιτητή:</strong> ${this.data.positionTitle}</p>`);
+
+  windowPrint?.document.write(resultsTable);
+  windowPrint?.document.close();
+  windowPrint?.focus();
+  windowPrint?.print();
+  windowPrint?.close();
+}
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
@@ -71,7 +114,14 @@ export class CompanyEvaluationDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CompanyEvaluationDialogComponent>
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.companyService.getCompanysEvaluationForm(this.data.studentId, this.data.positionId)
+      .subscribe((responseData:any) => {
+        console.log(responseData);
+        if (!responseData?.message)
+        this.entries = responseData;
+      });
+  }
 
   onCancel(): void {
     this.dialogRef.close();

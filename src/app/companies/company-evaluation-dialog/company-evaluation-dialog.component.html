@@ -1,13 +1,13 @@
-<h3>Στοιχεία Θέσης</h3>
+<h3>Αξιολόγηση Φοιτητή</h3>
 <mat-dialog-content class="mat-typography">
-  <br>
-  <!-- <div *ngIf="this.entries[0]!=null">
-    <div class="alert alert-danger mt-3 mb-2" role="alert">
-      Η αξιολόγηση της πρακτικής άσκησης έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα 'Προβολή' για να την υπογράψετε, να
-      την
-      αποθηκεύσετε και να την εκτυπώσετε.
-    </div>
-  </div> -->
+  <!-- <br> -->
+  <div *ngIf="this.entries">
+    <h4 class=" mt-3 mb-2">
+      Έχετε κάνει ήδη μία αξιολόγηση σε αυτή τη θέση Πρακτικής, για τον/την συγκεκριμένο φοιτητή/ρια.<br>
+      Πατήστε <a (click)="printEvaluationSheet()" style="cursor: pointer; color: green;">Εκτύπωση</a> για να δείτε τις
+      επιλογές σας.
+    </h4>
+  </div>
   <form ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal"
     (ngSubmit)="onSubmitCompanyEvaluationSheet(studentEvaluationForm.value)">
     <div class="alert alert-danger mt-3 mb-3" role="alert">
