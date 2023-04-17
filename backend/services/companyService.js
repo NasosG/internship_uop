@@ -324,6 +324,55 @@ const getProviderByPositionId = async (positionId) => {
   }
 };
 
+const checkIfEvaluationExists = async (studentId, positionId) => {
+  try {
+    const query = `
+      SELECT comp_ev_id
+      FROM evaluation_form_company
+      WHERE student_id = $1 AND position_id = $2;
+    `;
+
+    const { rows } = await pool.query(query, [studentId, positionId]);
+
+    return rows.length > 0;
+  } catch (error) {
+    console.error('Error checking if evaluation exists:', error.message);
+    throw Error('Error checking if evaluation exists');
+  }
+};
+
+const updateStudentEvaluationSheet = async (studentId, positionId, evaluationData) => {
+  try {
+    const { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments } = evaluationData;
+    const query = `
+      UPDATE evaluation_form_company
+      SET q1 = $3, q2 = $4, q3 = $5, q4 = $6, q5 = $7, q6 = $8, q7 = $9, q8 = $10, q9 = $11, q10 = $12, q11 = $13, q12 = $14, q13 = $15, q14 = $16, q15 = $17, q16 = $18, comments = $19
+      WHERE student_id = $1 AND position_id = $2;
+    `;
+
+    await pool.query(query, [studentId, positionId, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments]);
+  } catch (error) {
+    console.error('Error updating student evaluation sheet:', error.message);
+    throw Error('Error updating student evaluation sheet');
+  }
+};
+
+const insertStudentEvaluationSheet = async (studentId, positionId, evaluationData) => {
+  try {
+    console.log(evaluationData);
+    const { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments } = evaluationData;
+    const query = `
+      INSERT INTO evaluation_form_company (student_id, position_id, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19);
+    `;
+
+    await pool.query(query, [studentId, positionId, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments]);
+  } catch (error) {
+    console.error('Error inserting student evaluation sheet:', error.message);
+    throw Error('Error inserting student evaluation sheet');
+  }
+};
+
 module.exports = {
   getInternalPositionsByProviderId,
   getProviderIdByUserId,
@@ -336,12 +385,15 @@ module.exports = {
   getPreassignModeByDepartmentId,
   getStudentAMandDepartmentById,
   getProviderByPositionId,
+  checkIfEvaluationExists,
   insertCompanyUsers,
   insertProviders,
   insertInternalPositionGroup,
   insertAssignment,
+  insertStudentEvaluationSheet,
   loginCompany,
   checkIfEmailExists,
   updateUserPassword,
-  generatePassword
+  updateStudentEvaluationSheet,
+  generatePassword,
 };

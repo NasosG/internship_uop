@@ -9,6 +9,7 @@ import { ApplicationsPreviewDialogComponent } from '../applications-preview-dial
 import { MatDialog } from '@angular/material/dialog';
 import { Assignment } from '../assignment.model';
 import { CompanysActiveApplications } from '../companys-active-applications.model';
+import {CompanyEvaluationDialogComponent} from '../company-evaluation-dialog/company-evaluation-dialog.component';
 
 @Component({
   selector: 'app-selected-students',
@@ -103,6 +104,14 @@ export class SelectedStudentsComponent implements OnInit {
   openDialog(data: ActiveApplicationsRanked, positionTitle: string) {
     const dialogRef = this.dialog.open(ApplicationsPreviewDialogComponent, {
       data: { application: data, positionTitle: positionTitle }
+    });
+  }
+
+  openEvaluationDialog(data: ActiveApplicationsRanked, positionTitle: string, studentId: number, positionId: number) {
+    console.log(positionId, studentId);
+    const dialogRef = this.dialog.open(CompanyEvaluationDialogComponent, {
+      data: { application: data, positionTitle: positionTitle, studentId, positionId },
+      maxWidth: '1200px'
     });
   }
 }

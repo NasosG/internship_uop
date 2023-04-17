@@ -14,5 +14,6 @@ router.post("/insertInternalPosition/:id", companyController.insertInternalPosit
 router.post("/login/", companyController.login);
 router.post("/resetPassword/", companyController.resetPassword);
 router.get("/getProviderByPositionId/:id", companyController.getProviderByPositionId);
+router.post("/insertOrUpdateEvaluationSheet/", companyController.insertOrUpdateEvaluationSheet);
 
 module.exports = router;

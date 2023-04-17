@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
     translate.setDefaultLang('gr');
 
     const browserLang = localStorage.getItem('language') || null;
-    translate.use((browserLang!=null) ? browserLang : 'gr');
+    translate.use((browserLang != null) ? browserLang : 'gr');
   }
 
   ngOnInit(): void {

@@ -8,6 +8,7 @@ import { ActiveApplicationsRanked } from './active-applications-ranked.model';
 import { InternalPosition } from './internal-position.model';
 import { environment } from 'src/environments/environment';
 import {CompanysActiveApplications} from './companys-active-applications.model';
+import {CompanyEvaluationForm} from './company-evaluation-form.model';
 
 @Injectable({
   providedIn: 'root'
@@ -117,6 +118,24 @@ export class CompanyService {
       .post<{ message: string }>(this.baseUrl + "/insertNewAssignment/" + providerId, apps);
   }
 
+  insertStudentEvaluationSheet(studentId: number, positionId: number, evaluationForm: any) {
+    const providerId = this.authService.getSessionId();
+
+    const params = new HttpParams()
+      .set('providerId', providerId.toString())
+      .set('positionId', positionId.toString())
+      .set('studentId', studentId.toString());
+
+    // Prepare the request options, including the query parameters
+    const requestOptions = { params: params };
+    const form: CompanyEvaluationForm = evaluationForm;
+
+    this.http
+      .post<{ message: string }>(this.baseUrl + "/insertOrUpdateEvaluationSheet/", { evaluationFormData: form }, requestOptions)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
 
   public resetPassword(email: string) {
     console.log(email);

@@ -289,6 +289,32 @@ const getProviderByPositionId = async (request, response) => {
   }
 };
 
+const insertOrUpdateEvaluationSheet = async (request, response) => {
+  try {
+    const { companyId, studentId, positionId } = request.query;
+    const { evaluationFormData } = request.body;
+    console.log(request.body);
+
+    const evaluationExists = await companyService.checkIfEvaluationExists(companyId, studentId, positionId);
+
+    if (evaluationExists) {
+      await companyService.updateStudentEvaluationSheet(studentId, positionId, evaluationFormData);
+      response.status(200).json({
+        message: 'Evaluation successfully updated'
+      });
+    } else {
+      await companyService.insertStudentEvaluationSheet(studentId, positionId, evaluationFormData);
+      response.status(201).json({
+        message: 'Evaluation successfully created'
+      });
+    }
+  } catch (error) {
+    response.status(400).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   insertCompanyUsers,
   getProviderByAfm,
@@ -299,6 +325,7 @@ module.exports = {
   getProviderByPositionId,
   insertInternalPositionGroup,
   insertAssignment,
+  insertOrUpdateEvaluationSheet,
   getStudentActiveApplications,
   login,
   resetPassword

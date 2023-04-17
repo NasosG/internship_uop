@@ -1,0 +1,123 @@
+<h3>Στοιχεία Θέσης</h3>
+<mat-dialog-content class="mat-typography">
+  <br>
+  <!-- <div *ngIf="this.entries[0]!=null">
+    <div class="alert alert-danger mt-3 mb-2" role="alert">
+      Η αξιολόγηση της πρακτικής άσκησης έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα 'Προβολή' για να την υπογράψετε, να
+      την
+      αποθηκεύσετε και να την εκτυπώσετε.
+    </div>
+  </div> -->
+  <form ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal"
+    (ngSubmit)="onSubmitCompanyEvaluationSheet(studentEvaluationForm.value)">
+    <div class="alert alert-danger mt-3 mb-3" role="alert">
+      Τα δεδομένα των απαντήσεών σας θα τύχουν επεξεργασίας από τις αρμόδιες υπηρεσίες (Ειδική Υπηρεσία Διαχείρισης Ε.Π.
+      «Ανάπτυξη Ανθρώπινου Δυναμικού, Εκπαίδευση & Δια βίου Μάθηση», (Ίδρυμα Ανώτατης Εκπαίδευσης)., για το σκοπό της
+      παρακολούθησης του προγράμματος, προκειμένου να εξαχθούν στατιστικά στοιχεία (δείκτες) και για το σκοπό των
+      προβλεπόμενων ερευνών και αξιολογήσεων, σύμφωνα με τις ισχύουσες νομοθετικές διατάξεις του ΕΚΤ.
+    </div>
+    <h4 class="text-danger mt-2 mb-3"> Ερωτήσεις πολλαπλής επιλογής</h4>
+    <div class="container-fluid row">
+      <div class="col xxl-8 col-xl-7 col-12">
+      </div>
+      <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
+        <span class="mr-3">1. ΑΝΕΠΑΡΚΩΣ</span>
+        <span class="mr-3">2. ΜΕΤΡΙΑ</span>
+        <span class="mr-3">3. ΚΑΛΑ</span>
+        <span class="mr-xl-3">4. ΠΟΛΥ ΚΑΛΑ</span>
+      </div>
+    </div>
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <h4>ΕΡΩΤΗΣΕΙΣ ΣΧΕΤΙΚΑ ΜΕ ΤΗΝ ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ</h4>
+    <div *ngFor="let option of companyEvaluation" class="container-fluid row">
+      <div class="col xxl-8 col-xl-7 col-12">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
+        <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
+          <mat-radio-button [value]="1" class="mr-5">1</mat-radio-button>
+          <mat-radio-button [value]="2" class="mr-5">2</mat-radio-button>
+          <mat-radio-button [value]="3" class="mr-5">3</mat-radio-button>
+          <mat-radio-button [value]="4" class="mr-5">4</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <h4>ΕΡΩΤΗΣΕΙΣ ΣΧΕΤΙΚΑ ΜΕ ΤΟ ΦΟΙΤΗΤΗ</h4>
+    <div *ngFor="let option of questionsAboutStudent" class="container-fluid row">
+      <div class="col xxl-8 col-xl-7 col-12">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
+        <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
+          <mat-radio-button [value]="1" class="mr-5">1</mat-radio-button>
+          <mat-radio-button [value]="2" class="mr-5">2</mat-radio-button>
+          <mat-radio-button [value]="3" class="mr-5">3</mat-radio-button>
+          <mat-radio-button [value]="4" class="mr-5">4</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <h4>ΑΞΙΟΛΟΓΗΣΗ ΦΟΙΤΗΤΗ</h4>
+    <div *ngFor="let option of companyEvaluateStudent" class="container-fluid row">
+      <div class="col xxl-8 col-xl-7 col-12">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
+        <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
+          <mat-radio-button [value]="1" class="mr-5">1</mat-radio-button>
+          <mat-radio-button [value]="2" class="mr-5">2</mat-radio-button>
+          <mat-radio-button [value]="3" class="mr-5">3</mat-radio-button>
+          <mat-radio-button [value]="4" class="mr-5">4</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <h4>ΠΟΥ ΣΥΝΕΒΑΛΕ Η ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ</h4>
+    <div *ngFor="let option of companyEvaluationOptions" class="container-fluid row">
+      <div class="col xxl-8 col-xl-7 col-12">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col-12 text-right">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Αποτυπώστε τις παρατηρήσεις σας</mat-label>
+          <textarea name="{{option.id}}" ngModel id="{{option.id}}" matInput
+            placeholder="Αποτυπώστε τις παρατηρήσεις σας"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-divider class="mt-2 mb-3"></mat-divider>
+    <!-- text questions -->
+    <h4 class="text-danger mt-2 mb-3">Ελεύθερα Σχόλια</h4>
+    <div *ngFor="let option of companyEvaluationText" class="">
+      <div class="col-12">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col-12 text-right">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Αφήστε σχόλιο</mat-label>
+          <textarea name="{{option.id}}" ngModel id="{{option.id}}" matInput
+            placeholder="Αποτυπώστε τις παρατηρήσεις σας"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <br>
+    <button (click)="onCancel()" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i> Πίσω</button>
+    <button class="btn btn-primary">Αποθήκευση</button>
+  </form>
+</mat-dialog-content>
+<!-- <mat-dialog-actions style='text-align: right'>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+</mat-dialog-actions> -->
