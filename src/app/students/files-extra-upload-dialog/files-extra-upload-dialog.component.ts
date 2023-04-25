@@ -20,6 +20,7 @@ export class FilesExtraUploadDialogComponent implements OnInit {
   fileSubmitted: boolean = false;
   @ViewChild('commentsArea') commentsArea!: ElementRef;
   comment!: any;
+  public isStudentAMEA5!: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -38,6 +39,7 @@ export class FilesExtraUploadDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isStudentAMEA5 = this.data.studentsData.amea_cat;
     this.filesUploadFormGroup = this._formBuilder.group({
       ameaFile: [''],
       affidavitFile: ['', Validators.required],

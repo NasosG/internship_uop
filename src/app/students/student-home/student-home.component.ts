@@ -87,7 +87,7 @@ export class StudentHomeComponent implements OnInit {
 
   openExtraFilesUploadDialog() {
     const dialogRef = this.dialog.open(FilesExtraUploadDialogComponent, {
-      data: { studentsData: this.studentsSSOData, index: 0 }
+      data: { studentsData: this.studentsSSOData[0] }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
