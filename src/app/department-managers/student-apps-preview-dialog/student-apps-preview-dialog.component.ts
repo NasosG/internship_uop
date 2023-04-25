@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Utils } from 'src/app/MiscUtils';
+import { BankUtils } from 'src/app/BankUtils';
 
 @Component({
   selector: 'app-student-apps-preview-dialog',
@@ -8,6 +9,7 @@ import { Utils } from 'src/app/MiscUtils';
   styleUrls: ['./student-apps-preview-dialog.component.css']
 })
 export class StudentAppsPreviewDialogComponent implements OnInit {
+  public bank: string = BankUtils.getBankNameByIBAN(this.data.studentsData[this.data.index].iban);
   public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
 
   constructor(

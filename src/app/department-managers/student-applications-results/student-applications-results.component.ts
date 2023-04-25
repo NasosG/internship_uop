@@ -13,6 +13,7 @@ import { Period } from '../period.model';
 import { DepManager } from '../dep-manager.model';
 import { catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BankUtils } from 'src/app/BankUtils';
 
 @Component({
   selector: 'app-student-applications-results',
@@ -158,6 +159,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
         "ΑΦΜ": item.ssn,
         "AMKA": item.user_ssn,
         "ΔΟΥ": item.doy,
+        "Τράπεζα": BankUtils.getBankNameByIBAN(item.iban),
         "IBAN": item.iban,
         "AMA": item.ama_number,
         "ΑΔΤ": item.id_card

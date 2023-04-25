@@ -10,6 +10,7 @@ import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.comp
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
 import { DepManager } from '../dep-manager.model';
+import { BankUtils } from 'src/app/BankUtils';
 
 @Component({
   selector: 'app-student-apps-results-old-periods',
@@ -162,6 +163,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
         "ΑΦΜ": item.ssn,
         "AMKA": item.user_ssn,
         "ΔΟΥ": item.doy,
+        "Τράπεζα": BankUtils.getBankNameByIBAN(item.iban),
         "IBAN": item.iban,
         "AMA": item.ama_number,
         "ΑΔΤ": item.id_card

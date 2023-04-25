@@ -11,6 +11,7 @@ import { mergeMap } from 'rxjs';
 import { StudentsAppsPreviewDialogComponent } from '../students-apps-preview-dialog/students-apps-preview-dialog.component';
 import { Period } from '../period.model';
 import Swal from 'sweetalert2';
+import {BankUtils} from 'src/app/BankUtils';
 
 @Component({
   selector: 'app-students-approved',
@@ -120,6 +121,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
         "ΑΦΜ": item.ssn,
         "AMKA": item.user_ssn,
         "ΔΟΥ": item.doy,
+        "Τράπεζα": BankUtils.getBankNameByIBAN(item.iban),
         "IBAN": item.iban,
         "AMA": item.ama_number,
         "ΑΔΤ": item.id_card,
@@ -137,7 +139,7 @@ export class StudentsApprovedComponent implements OnInit, AfterViewInit {
       });
     }
 
-    const excelFileName: string = "StudentsPhase1.xlsx";
+    const excelFileName: string = "StudentsApproved.xlsx";
     // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table?.nativeElement);
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("example") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
