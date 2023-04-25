@@ -48,8 +48,7 @@ export abstract class BankUtils {
     const bankName = Object.entries(BankUtils.bankNames)
                            .find(([name, code]) => code == bankCode);
 
-    if (!bankName) return "Bank not found";
-    return bankName[0] || "Bank not found";
+    return bankName ? bankName[0] : "Bank not found";
   }
 
 }
