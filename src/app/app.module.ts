@@ -123,6 +123,7 @@ import { EditPaymentOrderDialogComponent } from './department-managers/edit-paym
 import { PaymentOrdersOfficeComponent } from './internship-office/payment-orders-office/payment-orders-office.component';
 import { SheetsContractsNavMenuOfficeComponent } from './internship-office/sheets-contracts-nav-menu-office/sheets-contracts-nav-menu-office.component';
 import { CompanyEvaluationDialogComponent } from './companies/company-evaluation-dialog/company-evaluation-dialog.component';
+import { FilesExtraUploadDialogComponent } from './students/files-extra-upload-dialog/files-extra-upload-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -225,6 +226,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PaymentOrdersOfficeComponent,
     SheetsContractsNavMenuOfficeComponent,
     CompanyEvaluationDialogComponent,
+    FilesExtraUploadDialogComponent,
   ],
   imports: [
     BrowserModule,

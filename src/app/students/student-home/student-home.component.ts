@@ -7,6 +7,8 @@ import { StudentsService } from '../student.service';
 import { Utils } from '../../MiscUtils'
 import * as moment from 'moment';
 import { StudentsInterestAppPrintableComponent } from '../students-interest-app-printable/students-interest-app-printable.component';
+import { MatDialog } from '@angular/material/dialog';
+import { FilesExtraUploadDialogComponent } from '../files-extra-upload-dialog/files-extra-upload-dialog.component';
 
 @Component({
   selector: 'app-student-home',
@@ -33,7 +35,7 @@ export class StudentHomeComponent implements OnInit {
   printComponent!: StudentsInterestAppPrintableComponent;
   data: any = this.studentsSSOData;
 
-  constructor(public studentsService: StudentsService, public authService: AuthService) { }
+  constructor(public studentsService: StudentsService, public authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.studentsService.getStudents()
@@ -81,5 +83,15 @@ export class StudentHomeComponent implements OnInit {
     //       this.dateFrom = this.reformatDate(this.period.date_from);
     //       this.dateTo = this.reformatDate(this.period.date_to);
     //     });
+  }
+
+  openExtraFilesUploadDialog() {
+    const dialogRef = this.dialog.open(FilesExtraUploadDialogComponent, {
+      data: { studentsData: this.studentsSSOData, index: 0 }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

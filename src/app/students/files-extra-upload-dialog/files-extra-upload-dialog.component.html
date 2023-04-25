@@ -1,0 +1,102 @@
+ <mat-dialog-content class="mat-typography">
+   <h1 for="managerReview">Επανυποβολή Δικαιολογητικών</h1>
+
+   <div class="alert alert-secondary pb-0" role="alert">
+     <p>Αν κάποιο δικαιολογητικό που έχετε ανεβάσει χρειάζεται τροποποίηση, μπορείτε να το ανεβάσετε ξανά
+       χρησιμοποιώντας τα παρακάτω πεδία.</p>
+   </div>
+   <form [formGroup]="filesUploadFormGroup">
+     <h2>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΦΜ <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+         data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+       </i></h2>
+     <p>Προτείνεται έγγραφο από <a href="https://www1.aade.gr/sgsisapps5/comregistry/#!/arxiki"
+         target="_blank">TaxisNet</a>
+       (καρτέλα: Στοιχεία Φυσικού προσώπου) ή πρόσφατο εκκαθαριστικό σημείωμα</p>
+     <mat-form-field class="mt-0 pt-0 mb-3">
+       <ngx-mat-file-input (change)="validateFiles('ssnFile')" formControlName="ssnFile" placeholder="Έγγραφο ΑΦΜ">
+       </ngx-mat-file-input>
+     </mat-form-field>
+     <br>
+     <button class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a class="view-link"
+         (click)="receiveFile('ssnFile')" target="_blank">
+         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+     <button class="btn btn-secondary view-btn" (click)="onSubmitFile('ssnFile', 'SSN')" style="width:185px">
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+     <i *ngIf="filesSubmitted.ssnFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
+       </i> </i><br><br>
+     <h2>Ανεβάστε έγγραφο που να απεικονίζεται το IBAN <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+         data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+       </i></h2>
+     <mat-form-field class="mt-0 pt-0 mb-3">
+       <ngx-mat-file-input (change)="validateFiles('ibanFile')" formControlName="ibanFile" placeholder="Έγγραφο ΙΒΑΝ">
+       </ngx-mat-file-input>
+     </mat-form-field>
+     <br>
+     <button class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a class="view-link"
+         (click)="receiveFile('ibanFile')" target="_blank">
+         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+     <button class="btn btn-secondary view-btn" (click)="onSubmitFile('ibanFile', 'IBAN')" style="width:185px">
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+     <i *ngIf="filesSubmitted.ibanFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
+       </i> </i><br><br>
+
+     <ng-template matStepLabel>Υπεύθυνες Δηλώσεις</ng-template>
+     <h2 class="pb-0 mb-0"> Ανήκω σε Άτομα με Αναπηρίες (ΑμεΑ) κατηγορίας 5</h2>
+     <h5> Ανεβάστε το ΜΟΝΟ αν ανήκετε σε ατόμα με Αναπηρίες (ΑμεΑ) κατηγορίας 5</h5>
+     <mat-form-field class="mr-2" appearance="fill">
+       <mat-label>Επιλέξτε</mat-label>
+       <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
+         <mat-option (click)="hideFileIfNotAMEA(true)" value="1">Ανήκω</mat-option>
+         <mat-option (click)="hideFileIfNotAMEA(false)" value=" 0">Δεν ανήκω</mat-option>
+       </mat-select>
+     </mat-form-field>
+     <br>
+     <h2 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
+         class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
+         title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+       </i></h2>
+     <mat-form-field class="mt-0 pt-0 mb-3" *ngIf="fileSubmitted == true">
+       <ngx-mat-file-input #ameaFileInput id="ameaFileInput" (change)="validateFiles('ameaFile')"
+         formControlName="ameaFile" placeholder="Βεβαίωση ΑΜΕΑ Κατηγορίας 5">
+       </ngx-mat-file-input>
+     </mat-form-field>
+     <br>
+     <button *ngIf="fileSubmitted == true" class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a
+         class="view-link" (click)="receiveFile('ameaFile')" target="_blank">
+         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+     <button *ngIf="fileSubmitted == true" class="btn btn-secondary view-btn" (click)="onSubmitFile('ameaFile', 'AMEA')"
+       style="width:185px">
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+     <i *ngIf="filesSubmitted.ameaFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
+       </i> </i><br><br>
+
+     <h2 class="pb-0 mb-0"> Ανεβάστε την παρακάτω υπεύθυνη δήλωση υπογεγραμμένη. Προτείνεται η διαδικασία να
+       γίνει μέσω του gov.gr. </h2>
+     <a href="src=../../../assets/documents/affidavit.doc" target="_blank">Δείτε το υπόδειγμα Υπεύθυνης δήλωσης</a>
+     <br>
+     <h2 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
+         class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
+         title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+       </i></h2>
+
+     <mat-form-field class="mt-0 pt-0 mb-3">
+       <ngx-mat-file-input #affidavitFileInput id="affidavitFileInput" (change)="validateFiles('affidavitFile')"
+         formControlName="affidavitFile" placeholder="Ανεβάστε αρχείο Υπεύθυνης δήλωσης">
+       </ngx-mat-file-input>
+     </mat-form-field>
+     <br>
+     <button class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a class="view-link"
+         (click)="receiveFile('affidavitFile')" target="_blank">
+         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+     <button class="btn btn-secondary view-btn" (click)="onSubmitFile('affidavitFile', 'AFFIDAVIT')"
+       style="width:185px">
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+     <i *ngIf="filesSubmitted.affidavitFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
+       </i> </i><br><br>
+   </form>
+
+ </mat-dialog-content>
+ <mat-dialog-actions style='text-align: right'>
+   <!-- <button mat-button class="btn btn-primary mat-button" (click)="updateFiles()">Επόμενο</b?utton> -->
+   <button mat-button class="btn btn-primary mat-button" (click)="onClose()">Κλείσιμο</button>
+ </mat-dialog-actions>
