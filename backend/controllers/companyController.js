@@ -68,7 +68,6 @@ const insertInternalPositionGroup = async (request, response, next) => {
 const insertAssignment = async (request, response, next) => {
   try {
     const companyData = request.body;
-    // const userId = request.params.id;
 
     const potentialAssignments = Object.assign(companyData);
 
@@ -78,9 +77,8 @@ const insertAssignment = async (request, response, next) => {
       if (academicId.toString().length == 6) {
         academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
       }
-
       console.log(academicId);
-      // TO BE TESTED
+
       const preassignResult = await companyService.getPreassignModeByDepartmentId(academicId);
       console.log(preassignResult.preassign);
       console.log(item.position_id);
@@ -106,7 +104,7 @@ const insertAssignment = async (request, response, next) => {
       }
 
       // insert assignment details to the local db
-      await companyService.insertAssignment(companyData);
+      await companyService.insertAssignment(item);
     }
 
     response.status(201)

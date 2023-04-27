@@ -146,26 +146,29 @@ const getPreassignModeByDepartmentId = async (departmentId) => {
   }
 };
 
-const insertAssignment = async (body) => {
+const insertAssignment = async (item) => {
   try {
-    const myObj = Object.assign(body);
     const STATE = 0;
+    let positionData;
 
-    for (let item of myObj) {
-      let positionData;
+    // Get position details depending if it's atlas or internal position
+    if (item.position_id != null)
+      positionData = await atlasService.getPositionGroupFromDBById(item.position_id);
+    else if (item.internal_position_id != null)
+      positionData = await getInternalPositionByPositionId(item.internal_position_id);
 
-      // Get position details depending if it's atlas or internal position
-      if (item.position_id != null)
-        positionData = await atlasService.getPositionGroupFromDBById(item.position_id);
-      else if (item.internal_position_id != null)
-        positionData = await getInternalPositionByPositionId(item.internal_position_id);
+    // Check if the combination of position_id and student_id already exists
+    const checkIfExists = await pool.query(`SELECT * FROM internship_assignment WHERE position_id = $1 AND student_id = $2`, [item.position_id, item.student_id]);
 
-      await pool.query("INSERT INTO internship_assignment(assignment_id, position_id, internal_position_id, student_id, time_span, physical_objects, city, status, pa_subject_atlas, period_id) " +
-        " VALUES" +
-        " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)",
-        [item.position_id, item.internal_position_id, item.student_id, positionData.duration, positionData.physical_objects, item.city, STATE, positionData.title, item.period_id]);
+    if (checkIfExists.rowCount > 0) {
+      console.log(`Record with position_id ${item.position_id} and student_id ${item.student_id} already exists.`);
+      return;
     }
 
+    await pool.query("INSERT INTO internship_assignment(assignment_id, position_id, internal_position_id, student_id, time_span, physical_objects, city, status, pa_subject_atlas, period_id) " +
+      " VALUES" +
+      " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)",
+      [item.position_id, item.internal_position_id, item.student_id, positionData.duration, positionData.physical_objects, item.city, STATE, positionData.title, item.period_id]);
   } catch (error) {
     console.error("insertAssignment error: " + error.message);
     throw Error('Error while inserting assignment');
