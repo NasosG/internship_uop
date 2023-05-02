@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-buttons.component.css']
 })
 export class HomeButtonsComponent implements OnInit {
+  public maintenance = false;
 
   constructor() { }
 

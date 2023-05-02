@@ -519,7 +519,7 @@ export class StudentMatchComponent implements OnInit {
     });
 
     Swal.fire({
-      title: 'Ολοκλήρωση Περιόδου ΠΑ',
+      title: 'Αποστολή αντιστοιχισμένων φοιτητών προς ΓΠΑ',
       text: 'Είστε σίγουροι ότι θέλετε να υποβάλετε τα αποτελέσματα για τους αντιστοιχισμένους φοιτητές προς ΓΠΑ;',
       icon: 'warning',
       showCancelButton: true,

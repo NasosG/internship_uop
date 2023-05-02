@@ -19,4 +19,11 @@
                 [routerLink]="['/company-terms']">{{ 'HOME.CREDENTIALS-LOGIN' | translate }}</button>
             </div>
           </div>
+          <br>
+          <div *ngIf="maintenance"
+            style="background:#d6433b; color:white; padding: 15px; border-radius: 10px; opacity: 0.97">
+            <h3 style="margin-top: 0;">Προγραμματισμένη Συντήρηση</h3>
+            <p>Το σύστημα της Πρακτικής Άσκησης θα είναι εκτός λειτουργίας για προγραμματισμένη συντήρηση, στις
+              2/5/2023 και ώρα από 9:30 έως 14:00</p>
+          </div>
         </div>
