@@ -369,7 +369,7 @@
           <app-student-profile *ngIf="isProfileRoute()"></app-student-profile>
           <app-student-internship *ngIf="isInternshipRoute()">
           </app-student-internship>
-          <app-student-positions *ngIf="isPositionsRoute()">
+          <app-student-positions [amaValue]="this.studentsSSOData[0].ama_number" *ngIf="isPositionsRoute()">
           </app-student-positions>
           <app-about *ngIf="isAboutRoute()"></app-about>
           <app-manuals *ngIf="isManualsRoute()"></app-manuals>

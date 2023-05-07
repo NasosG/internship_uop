@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from 'src/app/department-managers/period.model';
@@ -9,6 +9,7 @@ import { Application } from '../application.model';
 import { StudentPositions } from '../student-positions.model';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-positions',
@@ -16,6 +17,7 @@ import { StudentsService } from '../student.service';
   styleUrls: ['./student-positions.component.css']
 })
 export class StudentPositionsComponent implements OnInit {
+  @Input() amaValue: any;
   studentPositions!: StudentPositions[];
   studentApplications!: Application[];
   studentsData!: Student[];
@@ -26,7 +28,7 @@ export class StudentPositionsComponent implements OnInit {
   studentAtlasAssignments!: AcceptedAssignmentsByCompany[];
   canStudentDeleteApplication: boolean = false;
 
-  constructor(public studentsService: StudentsService, public authService: AuthService) { }
+  constructor(public studentsService: StudentsService, public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     // this.studentsService.getStudentPositions()
@@ -177,6 +179,20 @@ export class StudentPositionsComponent implements OnInit {
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
       if (result.isConfirmed) {
+        if (!this.amaValue) {
+          Swal.fire({
+            title: 'Απαιτείται Αριθμός ΑΜΑ-ΙΚΑ',
+            text: 'Πρέπει να εισάγετε τον αριθμό ΑΜΑ-ΙΚΑ σας για να συνεχίσετε',
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Insert AMA',
+            cancelButtonText: 'Back'
+          });
+
+          return;
+        }
         this.studentsService.checkPositionOfAtlasExists(this.studentPositions)
           .pipe(
             catchError((error: any) => {

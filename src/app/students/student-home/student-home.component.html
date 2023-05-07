@@ -273,17 +273,14 @@
               <li> <a class="text-steps" [href]="['student/myinternship/' + this.authService.getSessionId()]">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP2'| translate}}</a>
               </li>
-              <li> <a class="text-steps" [href]="['student/positions/' + this.authService.getSessionId()]">
+              <li> <a class="text-steps" [href]="['student/contract-files/' + this.authService.getSessionId()]">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP3'| translate}}</a>
               </li>
-              <li> <a class="text-steps" [href]="['student/company-accept/' + this.authService.getSessionId()]">
+              <li> <a class="text-steps" [href]="['student/positions/' + this.authService.getSessionId()]">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP4'| translate}}</a>
               </li>
-              <li *ngIf="!areOptionsEnabled"> <a class="text-steps">
-                  &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
-              </li>
-              <li *ngIf="areOptionsEnabled"> <a class="text-steps"
-                  [href]="['student/sheets/' + this.authService.getSessionId()]">
+
+              <li> <a class="text-steps" [href]="['student/company-accept/' + this.authService.getSessionId()]">
                   &nbsp;{{'STUDENT.INTERNSHIP-STEP5'| translate}}</a>
               </li>
               <li>
