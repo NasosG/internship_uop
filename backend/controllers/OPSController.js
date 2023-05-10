@@ -212,7 +212,7 @@ const getDataOfeloumenou = async (studentInfo, position) => {
   const stFlag = 1;
   const eisodosFlag = 1;
   const kodikosMIS = 5184863;
-  const kodikosYpoergou = '';//5035;
+  const kodikosYpoergou = (studentInfo.department_id.toString().length == 4) ? 349817 : ''; //5035;
   const idGeoDimos = 48;
   const startTime = position.pa_start_date;
   const endTime = position.pa_end_date;
