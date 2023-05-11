@@ -187,8 +187,12 @@ export class StudentPositionsComponent implements OnInit {
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Insert AMA',
+            confirmButtonText: 'Εισαγωγή AMA',
             cancelButtonText: 'Back'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                this.router.navigate(['student/contract-files/' + this.authService.getSessionId()]);
+            }
           });
 
           return;
