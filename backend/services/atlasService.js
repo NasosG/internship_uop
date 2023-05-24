@@ -357,14 +357,13 @@ const updatePositionsList = async (data) => {
         item.atlasPositionId
         ]);
 
-      // Insert academics into academics table
-      // for (let academic of item.academics) {
-      //   const result = await pool.query("SELECT * FROM position_has_academics WHERE position_id=$1 AND academic_id=$2", [item.atlasPositionId, academic.academicsId]);
-      //   if (result.rowCount === 0) {
-      //     await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
-      //       " VALUES ($1, $2)", [item.atlasPositionId, academic.academicsId]);
-      //   }
-      // }
+      // Delete all previous academics for this position id
+      await pool.query("DELETE FROM position_has_academics WHERE position_id = $1", [item.atlasPositionId]);
+      // Re - Insert academics into academics table
+      for (let academic of item.academics) {
+        await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
+          " VALUES ($1, $2)", [item.atlasPositionId, academic.academicsId]);
+      }
 
     }
     // return updateResults;
