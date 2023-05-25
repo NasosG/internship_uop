@@ -257,7 +257,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
 
     const answers = [
       { id: 3, value: sheets.rows[0]?.A1 ?? null },
-      { id: 4, value: sheets.rows[0]?.A1_1 ?? null },
+      // { id: 4, value: sheets.rows[0]?.A1_1 ?? null },
       { id: 5, value: sheets.rows[0]?.A1_2 ?? null },
       // { id: 99, value: field_oaed_karta ?? null },
       { id: 6, value: sheets.rows[0]?.A2 ?? null },
@@ -277,7 +277,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       // { id: 19, value: sheets.rows[0]?.A2_4 ?? null },
       { id: 20, value: sheets.rows[0]?.A3 ?? null },
       { id: 21, value: sheets.rows[0]?.A3_1 ?? null },
-      { id: 81, value: sheets.rows[0]?.A3_1_1 ?? null },
+      // { id: 81, value: sheets.rows[0]?.A3_1_1 ?? null },
       { id: 82, value: sheets.rows[0]?.A3_1_2 ?? null },
       { id: 65, value: sheets.rows[0]?.A3_2 ?? null },
       { id: 57, value: false }, // set to OXI!
