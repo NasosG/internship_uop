@@ -273,7 +273,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       { id: 16, value: sheets.rows[0]?.A2_2_2 ?? null },
       { id: 17, value: sheets.rows[0]?.A2_2_3 ?? null },
       { id: 18, value: sheets.rows[0]?.A2_3 ?? null },
-      { id: 63, value: true },
+      { id: 63, value: false },
       // { id: 19, value: sheets.rows[0]?.A2_4 ?? null },
       { id: 20, value: sheets.rows[0]?.A3 ?? null },
       { id: 21, value: sheets.rows[0]?.A3_1 ?? null },
@@ -284,15 +284,15 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       { id: 27, value: sheets.rows[0]?.C1 ?? null },
       { id: 28, value: sheets.rows[0]?.C2 ?? null },
       { id: 29, value: sheets.rows[0]?.C3 ?? null },
-      // { id: -1, value: sheets.rows[0].C4 ?? null },
-      { id: 30, value: sheets.rows[0]?.C5 ?? null },
-      { id: 31, value: sheets.rows[0]?.C6 ?? null },
+      { id: 99, value: sheets.rows[0].C4 ?? null },
+      { id: 100, value: sheets.rows[0]?.C5 ?? null },
+      { id: 101, value: sheets.rows[0]?.C6 ?? null },
       { id: 32, value: sheets.rows[0]?.C7 ?? null },
       { id: 33, value: sheets.rows[0]?.C8 ?? null },
       { id: 34, value: sheets.rows[0]?.C9 ?? null },
-      { id: 46, value: sheets.rows[0]?.D12 ?? null },
-      { id: 47, value: sheets.rows[0]?.D9 ?? null },
-      { id: 48, value: sheets.rows[0]?.D10 ?? null },
+      { id: 46, value: sheets.rows[0]?.D10 ?? null },
+      { id: 47, value: sheets.rows[0]?.D11 ?? null },
+      { id: 48, value: sheets.rows[0]?.D12 ?? null },
       { id: 49, value: sheets.rows[0]?.D13 ?? null },
       { id: 50, value: sheets.rows[0]?.D14 ?? null },
       { id: 38, value: sheets.rows[0]?.D4 ?? null },
@@ -300,7 +300,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       { id: 40, value: sheets.rows[0]?.D6 ?? null },
       { id: 41, value: sheets.rows[0]?.D7 ?? null },
       { id: 62, value: sheets.rows[0]?.D8 ?? null },
-      { id: 45, value: sheets.rows[0]?.D11 ?? null }
+      { id: 45, value: sheets.rows[0]?.D9 ?? null }
       // { id: 64, value: node.D12 }
     ];
 
