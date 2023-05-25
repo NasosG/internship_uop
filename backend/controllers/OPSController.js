@@ -191,7 +191,8 @@ const parseXmlResponse = async (xml) => {
     kodikosMis: response.kodikosMis,
     idDeltiou: response.idDeltiou,
     eidosDeltiou: response.eidosDeltiou,
-    errorDescr: response.errorDescr
+    errorDescr: response.errorDescr,
+    errorCode: response.errorCode
   };
 };
 
