@@ -28,24 +28,24 @@ describe('syncAtlasPositionAcademics function', () => {
         return;
       }
 
-      const result = await pool.query(`SELECT * FROM position_has_academics
-                                      WHERE position_id IS NOT NULL
-                                      AND academic_id IS NULL`);
+      const result = await pool.query(`SELECT * FROM atlas_position_group`);
       console.log("Query executed successfully");
 
       for (const obj of result.rows) {
 
-        let positionGroupResults = await getPositionGroupDetails(obj.position_id, accessToken);
+        let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
         let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
 
         try {
-          await pool.query("DELETE FROM position_has_academics WHERE position_id = $1", [obj.position_id]);
-          for (let academic of academics) {
-            await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
-              " VALUES ($1, $2)", [obj.position_id, academic.academicsId]);
+          let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
+          if (res.rows.length === 0) {
+            for (let academic of academics) {
+              await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
+                " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
+            }
           }
         } catch (error) {
-          console.log('Error while updating position_has_academics for position ' + obj.position_id + ' error: ' + error.message);
+          console.log('Error while updating position_has_academics for position ' + obj.atlas_position_id + ' error: ' + error.message);
         }
       }
 
