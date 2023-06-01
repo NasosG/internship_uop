@@ -553,7 +553,7 @@ const insertOrUpdateWholeAtlasTables = async () => {
         try {
           let positionPushed = false;
           //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
-          positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
+          positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, [...academics]));
           console.log(positionGroupResults.message);
           positionPushed = true;
           // reset the academics array
