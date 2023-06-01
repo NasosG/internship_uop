@@ -14,7 +14,8 @@
     "fix-f-pos": "jest ./backend/tests/insertPositionsFromJson.test.js",
     "test-positions": "jest ./backend/tests/insertPositionsFromJson.test.js",
     "delete-positions": "jest ./backend/tests/deleteOldPositions.test.js",
-    "mammoth": "jest ./backend/tests/mammoth.test.js"
+    "mammoth": "jest ./backend/tests/mammoth.test.js",
+    "pos-acads-sync": "jest ./backend/tests/syncAtlasPositionAcademics.test.js"
   },
   "private": true,
   "dependencies": {
