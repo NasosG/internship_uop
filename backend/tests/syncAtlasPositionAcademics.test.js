@@ -27,13 +27,12 @@ describe('syncAtlasPositionAcademics function', () => {
       if (!accessToken) {
         return;
       }
-      console.log(atlasResponse.data.Result);
+
       const result = await pool.query(`SELECT * FROM atlas_position_group`);
       console.log("Query executed successfully");
 
       for (const obj of result.rows) {
         let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
-        if (obj.atlas_position_id == '255334') console.log(positionGroupResults);
         if (!positionGroupResults?.message?.Academics) continue;
         let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
         try {
