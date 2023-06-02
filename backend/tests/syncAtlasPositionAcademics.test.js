@@ -38,8 +38,9 @@ describe('syncAtlasPositionAcademics function', () => {
 
         try {
           let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
-          if (res.rows.length === 0) console.log('Query result:', res.rows);
+          // if (res.rows.length === 0) console.log('Query result:', res.rows);
           if (res.rows.length === 0) {
+            console.log(academics.length);
             for (let academic of academics) {
               await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
                 " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
