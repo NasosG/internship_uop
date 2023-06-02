@@ -66,6 +66,7 @@ describe('syncAtlasPositionAcademics function', () => {
 
 const getPositionGroupDetails = async (positionId, accessToken) => {
   try {
+    const ATLAS_URL = 'https://submit-atlas.grnet.gr/Api/Offices/v1';
     const atlasResponse = await axios({
       url: ATLAS_URL + '/GetPositionGroupDetails?ID=' + positionId,
       method: 'GET',
