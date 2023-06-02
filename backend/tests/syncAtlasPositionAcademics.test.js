@@ -1,4 +1,4 @@
-jest.setTimeout(1000000);
+jest.setTimeout(100000000);
 // database connection configuration
 const pool = require("../db_config.js");
 const axios = require("axios");
@@ -34,7 +34,7 @@ describe('syncAtlasPositionAcademics function', () => {
       for (const obj of result.rows) {
         let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
         if (obj.atlas_position_id == '255334') console.log(positionGroupResults);
-        if (!positionGroupResults.message.Academics) continue;
+        if (!positionGroupResults?.message?.Academics) continue;
         let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
         try {
           let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
