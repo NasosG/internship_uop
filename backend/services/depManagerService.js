@@ -9,7 +9,7 @@ const moment = require('moment');
 const login = async (username) => {
   try {
     const resultsSSOUsers = await pool.query("SELECT * FROM sso_users \
-                                              WHERE sso_users.id=$1", [username]);
+                                              WHERE sso_users.id = $1", [username]);
     if (resultsSSOUsers.rowCount >= 1) {
       return resultsSSOUsers.rows[0].uuid;
     }
