@@ -290,7 +290,8 @@ const getStudentsWithSheetInput = async (periodId) => {
                                       ON student_users.sso_uid = entry_form.student_id
                                       INNER JOIN internship_assignment
                                       ON internship_assignment.student_id = sso_users.uuid
-                                      WHERE internship_assignment.period_id = $1`, [periodId]);
+                                      WHERE internship_assignment.period_id = $1
+                                      AND approval_state = 1`, [periodId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students with input sheet' + error.message);
@@ -306,7 +307,8 @@ const getStudentsWithSheetOutput = async (periodId) => {
                                     ON student_users.sso_uid = exit_form.student_id
                                     INNER JOIN internship_assignment
                                     ON internship_assignment.student_id = sso_users.uuid
-                                    WHERE internship_assignment.period_id = $1`, [periodId]);
+                                    WHERE internship_assignment.period_id = $1
+                                    AND approval_state = 1`, [periodId]);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students with output sheet' + error.message);
