@@ -735,6 +735,20 @@ const getStudentListForPeriod = async (request, response) => {
   }
 };
 
+const getStudentPaymentsListForPeriod = async (request, response) => {
+  try {
+    const periodId = request.params.id;
+    const studentList = await depManagerService.getStudentPaymentsListForPeriod(periodId);
+    response.status(200).json(studentList);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 const getImplementationDatesByStudentAndPeriod = async (request, response) => {
   try {
     const studentId = request.query.studentId;
@@ -782,6 +796,7 @@ module.exports = {
   getEspaPositionsByDepartmentId,
   getPeriodAndDepartmentIdByUserId,
   getStudentListForPeriod,
+  getStudentPaymentsListForPeriod,
   getAllPeriodsByDepartmentId,
   getImplementationDatesByStudentAndPeriod,
   insertPeriod,

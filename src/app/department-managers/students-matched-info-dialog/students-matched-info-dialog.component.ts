@@ -21,6 +21,7 @@ export class StudentsMatchedInfoDialogComponent implements OnInit {
   ngOnInit(): void {
     this.studentsService.getStudentByIdFromDialog(this.data.index).subscribe((student: Student[]) => {
       this.studentsData = student[0];
+      this.studentsData.schacpersonaluniquecode = Utils.getAM(this.studentsData.schacpersonaluniquecode);
     });
   }
 

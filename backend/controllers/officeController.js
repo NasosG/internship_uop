@@ -183,6 +183,22 @@ const getStudentListForPeriodAndAcademic = async (request, response) => {
   }
 };
 
+const getStudentPaymentsListForPeriodAndAcademic = async (request, response) => {
+  try {
+    const departmentId = request.query.departmentId;
+    const periodId = request.query.periodId;
+
+    const studentList = await officeService.getStudentPaymentsListForPeriodAndAcademic(periodId, departmentId);
+    response.status(200).json(studentList);
+  } catch (error) {
+    console.error(error.message);
+    response.status(400)
+      .json({
+        message: error.message
+      });
+  }
+};
+
 module.exports = {
   getPeriodByDepartmentId,
   getOfficeUserById,
@@ -191,6 +207,7 @@ module.exports = {
   getAcademicsByOfficeUserId,
   getEspaPositionsByDepartmentId,
   getStudentListForPeriodAndAcademic,
+  getStudentPaymentsListForPeriodAndAcademic,
   insertEspaPosition,
   updateEntrySheetField,
   updateExitSheetField,

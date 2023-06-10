@@ -100,7 +100,7 @@ export class PaymentOrdersOfficeComponent implements OnInit {
 
     let periodId = value ? value : 0;
     console.log(this.selectedDepartment.academic_id);
-    this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
+    this.officeService.getStudentPaymentsListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
       .subscribe((students: any) => {
           // this.studentsData.splice(0, this.studentsData.length);
           this.studentsData = students;

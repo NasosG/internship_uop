@@ -45,7 +45,7 @@ export class PaymentOrdersComponent implements OnInit {
       .subscribe((periods: any[]) => {
         this.periods = periods;
 
-        this.depManagerService.getStudentListForPeriod(periods[0].id)
+        this.depManagerService.getStudentPaymentsListForPeriod(periods[0].id)
         .subscribe((students: any[]) => {
 
           this.studentsData = students;
@@ -103,7 +103,7 @@ export class PaymentOrdersComponent implements OnInit {
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
-    this.depManagerService.getStudentListForPeriod(value)
+    this.depManagerService.getStudentPaymentsListForPeriod(value)
     .subscribe({
       next: (students: any[]) => {
         this.studentsData = students;

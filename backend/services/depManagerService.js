@@ -933,12 +933,27 @@ const getStudentListForPeriod = async (periodId) => {
   try {
     const result = await pool.query(`SELECT * FROM final_assignments_list list
                                     INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
-                                    INNER JOIN sso_users usr ON usr.uuid =  asn.student_id AND asn.list_id IS NOT NULL
+                                    INNER JOIN sso_users usr ON usr.uuid = asn.student_id AND asn.list_id IS NOT NULL
                                     WHERE list.period_id = $1`, [periodId]);
     return result.rows;
   } catch (error) {
     console.error(error.message);
     throw Error('Error while fetching student list for period ' + error.message);
+  }
+};
+
+const getStudentPaymentsListForPeriod = async (periodId) => {
+  try {
+    const result = await pool.query(`SELECT list.*, asn.*, usr.*, exit_form.ops_number_exodou
+                                    FROM final_assignments_list list
+                                    INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                                    INNER JOIN sso_users usr ON usr.uuid = asn.student_id AND asn.list_id IS NOT NULL
+                                    INNER JOIN exit_form ON usr.uuid = exit_form.student_id
+                                    WHERE list.period_id = $1`, [periodId]);
+    return result.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching student list (payment-orders) for period ' + error.message);
   }
 };
 
@@ -987,6 +1002,7 @@ module.exports = {
   getPeriodAndDepartmentIdByUserId,
   getStudentAMandDepartmentByIdForAtlas,
   getStudentListForPeriod,
+  getStudentPaymentsListForPeriod,
   getAllPeriodsByDepartmentId,
   doesAssignmentExist,
   doesListExistForDepartmentAndPeriod,

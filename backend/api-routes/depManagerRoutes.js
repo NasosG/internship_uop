@@ -36,6 +36,7 @@ router.post("/insertAssignImplementationDates/:id", depManagerController.insertA
 router.get("/getAssignImplementationDates/", depManagerController.getAssignImplementationDates);
 router.post("/submitFinalResultsToOffice/:id", depManagerController.submitFinalResultsToOffice);
 router.get("/getStudentListForPeriod/:id", depManagerController.getStudentListForPeriod);
+router.get("/getStudentPaymentsListForPeriod/:id", depManagerController.getStudentPaymentsListForPeriod);
 router.put("/completePeriodById/:id", depManagerController.completePeriodById);
 router.get("/getImplementationDatesByStudentAndPeriod/", depManagerController.getImplementationDatesByStudentAndPeriod);
 router.put("/updateImplementationDatesByStudentAndPeriod/:id", depManagerController.updateImplementationDatesByStudentAndPeriod);

@@ -118,11 +118,19 @@
                        <td class="action text-center">
                          <a (click)="openEditPaymentOrderDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                              class="fa fa-cog"></i> Επεξεργασία<br></a>
-                       <td class="action text-center">
+                       </td>
+                       <td class="action text-center"
+                         *ngIf="student.ops_number_exodou !='' &&  student.ops_number_exodou != null">
                          <a (click)="downloadPaymentOrderFileForStudent(student.uuid, idx)" class="text-secondary"
                            style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
                          <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                        </td>
+                       <td class="action text-center"
+                         *ngIf="student.ops_number_exodou == '' || student.ops_number_exodou == null">
+                         <a> Εκκρεμούν Απ. Δελτία</a>
+                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
+                       </td>
+
                        <td>{{student?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ'}}</td>
                      </tr>
                    </tbody>

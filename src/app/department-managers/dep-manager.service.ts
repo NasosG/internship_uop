@@ -340,6 +340,10 @@ export class DepManagerService {
     return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getStudentListForPeriod/" + periodId);
   }
 
+  getStudentPaymentsListForPeriod(periodId: number): Observable<any> {
+    return this.http.get<any>(DEPARTMENT_MANAGER_URL + "getStudentPaymentsListForPeriod/" + periodId);
+  }
+
   getAllPeriodsByDepartmentId(departmentId: number): Observable<any[]> {
     return this.http.get<Period[]>(DEPARTMENT_MANAGER_URL + "getAllPeriodsByDepartmentId/" + departmentId);
   }

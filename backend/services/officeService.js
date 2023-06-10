@@ -121,6 +121,22 @@ const getStudentListForPeriodAndAcademic = async (periodId, departmentId) => {
   }
 };
 
+const getStudentPaymentsListForPeriodAndAcademic = async (periodId, departmentId) => {
+  try {
+    const result = await pool.query(`SELECT list.*, asn.*, usr.*, stu.*, exit_form.ops_number_exodou
+                                    FROM final_assignments_list list
+                                    INNER JOIN internship_assignment asn ON asn.list_id = list.list_id
+                                    INNER JOIN sso_users usr ON usr.uuid = asn.student_id
+                                    INNER JOIN student_users stu ON stu.sso_uid = usr.uuid
+                                    INNER JOIN exit_form ON stu.sso_uid = exit_form.student_id
+                                    WHERE list.period_id = $1 AND list.department_id = $2`, [periodId, departmentId]);
+    return result.rows;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while fetching student list (payment orders) for period ' + error.message);
+  }
+};
+
 const insertEspaPosition = async (body, departmentId) => {
   try {
     const positions = await pool.query("INSERT INTO espa_positions" +
@@ -196,6 +212,7 @@ module.exports = {
   getStudentsWithSheetOutput,
   getAcademicsByOfficeUserId,
   getStudentListForPeriodAndAcademic,
+  getStudentPaymentsListForPeriodAndAcademic,
   insertOrUpdateEspaPositionsByDepId,
   updateEntrySheetField,
   updateExitSheetField,

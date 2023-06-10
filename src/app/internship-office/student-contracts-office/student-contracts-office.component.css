@@ -55,3 +55,7 @@
 ::ng-deep .dark-mode table tr a {
   color: white !important;
 }
+
+.red-bckg-cancelled {
+  background-color: #f2604b;
+}

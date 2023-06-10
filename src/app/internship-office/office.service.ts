@@ -113,6 +113,13 @@ export class OfficeService {
     return this.http.get<any>(OFFICE_URL + "getStudentListForPeriodAndAcademic/", { params });
   }
 
+  getStudentPaymentsListForPeriodAndAcademic(departmentId: number, periodId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('departmentId', departmentId)
+      .set('periodId', periodId == null ? 0 : periodId);
+    return this.http.get<any>(OFFICE_URL + "getStudentPaymentsListForPeriodAndAcademic/", { params });
+  }
+
   sendSheetWS(studentId: number, type: string): Observable<any> {
     switch (type) {
       case "entry":

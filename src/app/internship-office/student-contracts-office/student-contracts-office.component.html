@@ -90,11 +90,14 @@
                     </tr>
                   </thead>
                   <tbody ngbTableBody>
-                    <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData) ; let idx=index"
+                    <tr [ngClass]="student.status == -1 ? 'red-bckg-cancelled' : '' "
+                      *ngFor="let student of (filteredData.length ? filteredData : studentsData) ; let idx=index"
                       [attr.data-index]="idx">
                       <td>{{idx + 1}}</td>
                       <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
                           {{student.sn}}</a>
+                        <span *ngIf="student.status == -1"><br><strong>(ΑΚΥΡΩΜΕΝΗ)</strong></span>
+                      </td>
                       <td>{{student.schacpersonaluniquecode}}</td>
                       <td>{{student.mail}}</td>
                       <td class="action text-center"><span (click)="openCompanyInfoDialog(student.position_id)" class="text-secondary custom-info-btn
@@ -114,7 +117,7 @@
                           <i class="fa fa-download" aria-hidden="true"></i> AMEA
                         </button>
                       </td> -->
-                      <td class="action text-center">
+                      <td class="action text-center" *ngIf="student.status != -1">
                         <span (click)="openImplementationDatesChangeDialog(idx, student.assigned_position_id)" class="text-secondary custom-info-btn
                           text-with-dots">
                           <i class="fa fa-pencil-alt"></i> Αλλαγή Ημ/νιών</span>
@@ -123,13 +126,19 @@
                           text-with-dots">
                           <i class="fa fa-check"></i> Ολοκλήρωση</span>
                       </td>
-                      <td class="action text-center">
+                      <td class="action text-center" *ngIf="student.status == -1">
+                        <span> Αδυναμία Ενεργειών</span>
+                      </td>
+                      <td class="action text-center" *ngIf="student.status != -1">
                         <a (click)="openEditContractDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-cog"></i> Επεξεργασία<br></a>
+                            class="fa fa-cog"></i>
+                          Επεξεργασία<br></a>
+                      <td class="action text-center" *ngIf="student.status == -1">
+                        <span> Αδυναμία Επεξεργασίας</span>
+                      </td>
                       <td class="action text-center">
                         <a (click)="downloadContractFileForStudent(student.uuid)" class="text-secondary"
                           style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
-
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
                       <td>{{student?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ'}}</td>
