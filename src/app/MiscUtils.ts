@@ -64,6 +64,10 @@ export abstract class Utils {
   }
 
   public static reformatDateOfBirth(dateOfBirth: string) {
+    if (!dateOfBirth) {
+      return '';
+    }
+
     let startDate = dateOfBirth;
 
     let year = startDate.substring(0, 4);

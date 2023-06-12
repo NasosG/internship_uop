@@ -951,7 +951,7 @@ const getContractDetailsByDepartmentAndPeriod = async (departmentId, periodId) =
                   student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name,
                   list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages, asn.student_id
                   FROM final_assignments_list list
-                  INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
+                  INNER JOIN internship_assignment asn ON asn.period_id = list.period_id AND asn.list_id IS NOT NULL
                   INNER JOIN sso_users usr ON usr.uuid =  asn.student_id
                   INNER JOIN student_users ON usr.uuid = student_users.sso_uid
                   INNER JOIN atlas_position_group grp ON asn.position_id = grp.atlas_position_id
