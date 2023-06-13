@@ -15,7 +15,8 @@ import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-manage
 import { ImplementationDatesChangeDialogComponent } from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import Swal from 'sweetalert2';
 import { Utils } from 'src/app/MiscUtils';
-import {InternshipCompletionDialogComponent} from 'src/app/department-managers/internship-completion-dialog/internship-completion-dialog.component';
+import { InternshipCompletionDialogComponent } from 'src/app/department-managers/internship-completion-dialog/internship-completion-dialog.component';
+import { BankUtils } from 'src/app/BankUtils';
 
 @Component({
   selector: 'app-student-contracts-office',
@@ -239,6 +240,7 @@ export class StudentContractsOfficeComponent implements OnInit {
           "Πόλη": studentIndex !== -1 ? this.studentsData[studentIndex].city : null,
           "ΤΚ": studentIndex !== -1 ? this.studentsData[studentIndex].post_address : null,
           "Τοποθεσία": studentIndex !== -1 ? this.studentsData[studentIndex].location : null,
+          "Τράπεζα": studentIndex !== -1 ? BankUtils.getBankNameByIBAN(this.studentsData[studentIndex].iban) : null,
           "IBAN": studentIndex !== -1 ? this.studentsData[studentIndex].iban : null
         });
       }

@@ -40,6 +40,8 @@ export abstract class BankUtils {
   }
 
   public static getBankNameByIBAN(iban: string): string {
+    if (!iban) return '';
+
     // Remove all spaces and colons from the IBAN
     iban = iban.replace(/[\s:]/g, '');
 
