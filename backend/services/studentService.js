@@ -1114,7 +1114,9 @@ const isExitSheetEnabledForStudent = async (studentId) => {
   try {
     const query = `SELECT asn.*
                     FROM internship_assignment asn
-                    WHERE asn.student_id = $1 AND status = 1`;
+                    WHERE asn.student_id = $1
+                    AND status = 1
+                    AND pa_end_date < NOW()`;
 
     const result = await pool.query(query, [studentId]);
 
