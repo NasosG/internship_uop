@@ -10,6 +10,7 @@ const MiscUtils = require("./MiscUtils.js");
 // Jobs
 const setPeriodCompletedJob = require('./jobs/setPeriodCompleted.js');
 const deleteOldPositionsAtlasJob = require('./jobs/deleteOldPositionsAtlas.js');
+const syncAtlasPositionAcademics = require('./jobs/syncAtlasPositionAcademics.js');
 
 // const log4js = require("log4js");
 // log4js.configure({
@@ -131,6 +132,17 @@ cron.schedule("58 23 * * *", async () => {
 cron.schedule("30 21 * * *", async () => {
   try {
     await deleteOldPositionsAtlasJob.doDelete();
+  } catch (error) {
+    console.error(error);
+  }
+}, {
+  scheduled: true,
+  timezone: "Europe/Athens"
+});
+
+cron.schedule("37 01 * * *", async () => {
+  try {
+    await syncAtlasPositionAcademics.executeSync();
   } catch (error) {
     console.error(error);
   }
