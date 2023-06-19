@@ -23,7 +23,7 @@ const getAvailablePositionsUI = async (offset, limit) => {
   try {
     const results = await pool.query("SELECT *, g.id as g_position_id FROM atlas_position_group g "
       + " INNER JOIN atlas_provider p "
-      + " ON g.provider_id = p.atlas_provider_id ORDER BY last_update_string DESC"
+      + " ON g.provider_id = p.atlas_provider_id AND is_available = true ORDER BY last_update_string DESC"
       + " OFFSET $1 LIMIT $2", [offset, limit]);
     return results.rows;
   } catch (error) {
@@ -31,17 +31,17 @@ const getAvailablePositionsUI = async (offset, limit) => {
   }
 };
 
-const getAvailablePositionsUIUnion = async (offset, limit) => {
-  try {
-    const results = await pool.query("SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
-      + " INNER JOIN atlas_provider p "
-      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
-      + " OFFSET $1 LIMIT $2", [offset, limit]);
-    return results.rows;
-  } catch (error) {
-    throw Error('Error while fetching positions/providers from postgres');
-  }
-};
+// const getAvailablePositionsUIUnion = async (offset, limit) => {
+//   try {
+//     const results = await pool.query("SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+//       + " INNER JOIN atlas_provider p "
+//       + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
+//       + " OFFSET $1 LIMIT $2", [offset, limit]);
+//     return results.rows;
+//   } catch (error) {
+//     throw Error('Error while fetching positions/providers from postgres');
+//   }
+// };
 
 const getPositionGroupFromDBById = async (atlasPositionId) => {
   try {
@@ -157,13 +157,14 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
   console.log("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
   try {
-    //let queryStr = "SELECT * FROM atlas_position_group g "
     let queryStr = "SELECT *, g.id as g_position_id FROM"
-      + " (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+      + " atlas_position_group g"
       + " INNER JOIN atlas_provider p "
-      //old working before union added
-      //+ " ON g.provider_id = p.atlas_provider_id ";
-      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id)";
+      + " ON g.provider_id = p.atlas_provider_id ";
+    // old working with union added
+    //let queryStr = "SELECT *, g.id as g_position_id FROM"
+    //+ " (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+    //+ " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id)";
     // TODO: make query run faster maybe maybe filter the result more before joining
     if (filters.institution) {
       queryStr += "INNER JOIN position_has_academics pa ON pa.position_id = g.atlas_position_id ";
@@ -235,9 +236,14 @@ const getGenericPositionSearch = async (text, offset, limit) => {
         + " OFFSET $2 LIMIT $3";
     } else {
       if (text.length < 3) return [];
-      queryText = "SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+      // queryText = "SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+      //   + " INNER JOIN atlas_provider p "
+      //   + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
+      //   + " WHERE g.description ILIKE $1 "
+      //   + " OFFSET $2 LIMIT $3";
+      queryText = "SELECT *, g.id as g_position_id FROM atlas_position_group g"
         + " INNER JOIN atlas_provider p "
-        + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
+        + " ON g.provider_id = p.atlas_provider_id "
         + " WHERE g.description ILIKE $1 "
         + " OFFSET $2 LIMIT $3";
       text = '%' + text + '%';

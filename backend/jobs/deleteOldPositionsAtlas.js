@@ -37,6 +37,10 @@ const doDelete = async () => {
 
     if (positionGroupResults?.message && positionGroupResults?.message?.Success == false) {
       // console.log("position not found in atlas");
+
+      // Update availability status to false
+      await pool.query("UPDATE atlas_position_group SET is_available = false WHERE atlas_position_id = $1", [pos.atlas_position_id]);
+
       try {
         let hasStudentChosenPosition = await checkIfPositionHasBeenChosenByStudent(pos.atlas_position_id);
         if (!hasStudentChosenPosition) {
