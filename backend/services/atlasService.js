@@ -31,17 +31,17 @@ const getAvailablePositionsUI = async (offset, limit) => {
   }
 };
 
-// const getAvailablePositionsUIUnion = async (offset, limit) => {
-//   try {
-//     const results = await pool.query("SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
-//       + " INNER JOIN atlas_provider p "
-//       + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
-//       + " OFFSET $1 LIMIT $2", [offset, limit]);
-//     return results.rows;
-//   } catch (error) {
-//     throw Error('Error while fetching positions/providers from postgres');
-//   }
-// };
+const getAvailablePositionsUIUnion = async (offset, limit) => {
+  try {
+    const results = await pool.query("SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
+      + " INNER JOIN atlas_provider p "
+      + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
+      + " OFFSET $1 LIMIT $2", [offset, limit]);
+    return results.rows;
+  } catch (error) {
+    throw Error('Error while fetching positions/providers from postgres');
+  }
+};
 
 const getPositionGroupFromDBById = async (atlasPositionId) => {
   try {
