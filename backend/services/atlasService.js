@@ -170,8 +170,7 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
       queryStr += "INNER JOIN position_has_academics pa ON pa.position_id = g.atlas_position_id ";
       queryStr += "INNER JOIN atlas_academics ac ON ac.atlas_id = pa.academic_id ";
       queryStr += ` WHERE pa.academic_id = '${filters.institution}'`;
-      // MAYBE USE THIS VERSION
-      // queryStr += ` AND pa.academic_id = '${filters.institution}'`;
+
       moreThanOneFilters = true;
     }
 
@@ -203,6 +202,7 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     if (filters.provider) {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " p.name ILIKE '%" + filters.provider + "%'";
     }
+    queryStr += " AND g.is_available = true";
     if (filters.publicationDate) {
       queryStr += " ORDER BY last_update_string ";
       queryStr += filters.publicationDate == "newest" ? " DESC" : " ASC";
@@ -233,20 +233,22 @@ const getGenericPositionSearch = async (text, offset, limit) => {
         + " INNER JOIN atlas_provider p "
         + " ON g.provider_id = p.atlas_provider_id"
         + " WHERE g.atlas_position_id = $1"
+        + " AND g.is_available = true"
         + " OFFSET $2 LIMIT $3";
     } else {
       if (text.length < 3) return [];
+      queryText = "SELECT *, g.id as g_position_id FROM atlas_position_group g"
+        + " INNER JOIN atlas_provider p "
+        + " ON g.provider_id = p.atlas_provider_id "
+        + " WHERE g.description ILIKE $1 "
+        + " AND g.is_available = true"
+        + " OFFSET $2 LIMIT $3";
+      text = '%' + text + '%';
       // queryText = "SELECT *, g.id as g_position_id FROM (SELECT * FROM atlas_position_group UNION SELECT * FROM internal_position_group) g"
       //   + " INNER JOIN atlas_provider p "
       //   + " ON g.provider_id = p.atlas_provider_id OR (g.atlas_position_id IS NULL AND g.provider_id = p.id) "
       //   + " WHERE g.description ILIKE $1 "
       //   + " OFFSET $2 LIMIT $3";
-      queryText = "SELECT *, g.id as g_position_id FROM atlas_position_group g"
-        + " INNER JOIN atlas_provider p "
-        + " ON g.provider_id = p.atlas_provider_id "
-        + " WHERE g.description ILIKE $1 "
-        + " OFFSET $2 LIMIT $3";
-      text = '%' + text + '%';
     }
 
     const results = await pool.query(queryText, [text, offset, limit]);
