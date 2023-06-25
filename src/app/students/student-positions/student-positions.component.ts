@@ -10,6 +10,8 @@ import { StudentPositions } from '../student-positions.model';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import {ExtraFieldsUpdateDialogComponent} from '../extra-fields-update-dialog/extra-fields-update-dialog.component';
 
 @Component({
   selector: 'app-student-positions',
@@ -28,7 +30,7 @@ export class StudentPositionsComponent implements OnInit {
   studentAtlasAssignments!: AcceptedAssignmentsByCompany[];
   canStudentDeleteApplication: boolean = false;
 
-  constructor(public studentsService: StudentsService, public authService: AuthService, private router: Router) { }
+  constructor(public studentsService: StudentsService, public authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     // this.studentsService.getStudentPositions()
@@ -191,7 +193,8 @@ export class StudentPositionsComponent implements OnInit {
             cancelButtonText: 'Back'
           }).then((result) => {
             if (result.isConfirmed) {
-                this.router.navigate(['student/contract-files/' + this.authService.getSessionId()]);
+              this.openAMAInsertionDialog(1);
+              //this.router.navigate(['student/contract-files/' + this.authService.getSessionId()]);
             }
           });
 
@@ -249,6 +252,76 @@ export class StudentPositionsComponent implements OnInit {
               confirmButtonText: 'ΟΚ'
             }).then(() => { /* not the best technique */ location.reload(); });
           });
+      }
+    });
+  }
+
+  saveApp() {
+    this.studentsService.checkPositionOfAtlasExists(this.studentPositions)
+      .pipe(
+        catchError((error: any) => {
+          console.error('An error occurred:', error);
+          const count = error.error.notExist.length;
+
+          let errorMessage;
+          if (count == 1) {
+            errorMessage = 'Η θέση ' + error.error.notExistantPriorities + ' με κωδικό group ' + error.error.notExist + ' δεν υπάρχει πλέον στον ΑΤΛΑ';
+          } else {
+            errorMessage = 'Οι θέσεις ' + error.error.notExistantPriorities + ' με κωδικό group ' + error.error.notExist + ' δεν υπάρχουν πλέον στον ΑΤΛΑ';
+          }
+
+          if (error.error.message == "Position of atlas does not exist") {
+            Swal.fire({
+              title: 'Αποτυχία Οριστικοποίησης',
+              text: errorMessage,
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'ΟΚ'
+            });
+          } else {
+            Swal.fire({
+              title: 'Αποτυχία Οριστικοποίησης',
+              text: 'Παρουσιάστηκε κάποιο σφάλμα',
+              icon: 'error',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'ΟΚ'
+            });
+          }
+
+          throw error;
+        })
+      )
+      .subscribe((response: any) => {
+        this.studentsService.updateStudentPositions(this.studentPositions);
+        this.studentsService.insertStudentApplication(this.studentPositions);
+        this.studentsService.deleteStudentPositions(this.authService.getSessionId());
+        Swal.fire({
+          title: 'Επιτυχής καταχώρηση',
+          text: 'Η αίτησή σας έχει δημιουργηθεί',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ΟΚ'
+        }).then(() => { /* not the best technique */ location.reload(); });
+      });
+  }
+
+  openAMAInsertionDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(ExtraFieldsUpdateDialogComponent, {
+      data: { studentsData: this.studentsData, index: idx },
+      width: "800px"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result && Number(result) == 1) {
+        this.saveApp();
       }
     });
   }

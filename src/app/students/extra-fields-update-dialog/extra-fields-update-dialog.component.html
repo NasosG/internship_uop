@@ -1,0 +1,113 @@
+<div class="dialog-header">
+  <h3>Απαραίτητα δικαιολογητικά για Σύμβαση Εργασίας</h3>
+  <div mat-icon-button class="close-button" (click)="onCancel()">
+    <i class="fa fa-times"></i>
+  </div>
+</div>
+<mat-dialog-content>
+  <div class="alert alert-danger pb-0" role="alert">
+    <ul>
+      <li>Υπενθυμίζεται ότι η ηλεκτρονική αίτηση επέχει θέση υπεύθυνης δήλωσης</li>
+    </ul>
+  </div>
+  <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Στοιχεία Σύμβασης</ng-template>
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>ΑΜΑ</mat-label>
+          <input matInput name="ama_number" ngModel [ngModel]="studentsSSOData[0]?.ama_number" id="inputAMA"
+            placeholder="ΑΜΑ*" formControlName="amaNumberControl" required>
+        </mat-form-field><br>
+
+        <mat-form-field appearance="fill">
+          <mat-label>ΑΔΤ</mat-label>
+          <input matInput name="id_card" ngModel [ngModel]="studentsSSOData[0]?.id_card" id="inputID" placeholder="ΑΔΤ*"
+            formControlName="policeIDControl" required>
+        </mat-form-field><br>
+
+        <br><br>
+        <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΜΑ ΙΚΑ <i class="fa fa-info-circle fa-lg fa-icon"
+            data-toggle="tooltip" data-placement="top"
+            title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+          </i></h6>
+        <mat-form-field>
+          <ngx-mat-file-input (change)="validateFiles('amaFile')" formControlName="amaFile" placeholder="Έγγραφο ΑΜΑ">
+          </ngx-mat-file-input>
+        </mat-form-field>
+        <br><br>
+        <h6>Ανεβάστε έγγραφο που να απεικονίζεται η αστυνομική σας ταυτότητα (2 όψεις) <i
+            class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
+            title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+          </i></h6>
+        <mat-form-field>
+          <ngx-mat-file-input (change)="validateFiles('idFile')" formControlName="idFile"
+            placeholder="Έγγραφο Αστυνομικής Ταυτότητας">
+          </ngx-mat-file-input>
+        </mat-form-field>
+
+        <div>
+          <button mat-button matStepperPrevious>Προηγούμενο</button>
+          <button mat-button matStepperNext>Επόμενο</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="contactFormGroup">
+      <form [formGroup]="contactFormGroup">
+        <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
+        <mat-form-field class="mr-2" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="emailCtrl" type="email" id="inputEmail" name="mail" class="inactive-field"
+            [ngModel]="this.studentsSSOData[0]?.mail" placeholder="email" readonly required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Τηλέφωνο</mat-label>
+          <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
+            [ngModel]="studentsSSOData[0]?.phone" size="31" maxlength="31" />
+        </mat-form-field><br>
+        <mat-form-field class="mr-2" appearance="fill">
+          <mat-label>Οδός</mat-label>
+          <input matInput formControlName="addressCtrl" id="address" name="address" ngModel
+            [ngModel]="studentsSSOData[0]?.address" size="64" maxlength="255">
+          <mat-error *ngIf="contactFormGroup.controls['addressCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Περιοχή</mat-label>
+          <input matInput type="text" id="location" name="location" ngModel [ngModel]="studentsSSOData[0]?.location"
+            size="64" maxlength="255" formControlName="locationCtrl" placeholder="Περιοχή" />
+          <mat-error *ngIf="contactFormGroup.controls['locationCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+          </mat-error>
+        </mat-form-field><br>
+        <mat-form-field class="mr-2" appearance="fill">
+          <mat-label>Πόλη</mat-label>
+          <input matInput type="text" id="city" name="city" ngModel formControlName="cityCtrl"
+            [ngModel]="studentsSSOData[0]?.city" size="64" maxlength="255" />
+          <mat-error *ngIf="contactFormGroup.controls['cityCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Ταχυδρομικός κώδικας</mat-label>
+          <input matInput type="text" id="postal-code" name="post_address" ngModel
+            [ngModel]="studentsSSOData[0]?.post_address" size="16" maxlength="16" formControlName="postalCodeCtrl" />
+          <mat-error *ngIf="contactFormGroup.controls['postalCodeCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+          </mat-error>
+        </mat-form-field><br>
+        <div>
+          <button mat-button matStepperPrevious>Προηγούμενο</button>
+          <button mat-button matStepperNext [disabled]="!contactFormGroup.valid" (click)="
+          updateStudentsAllDetails()">Επόμενο</button>
+          <!-- <button mat-button matStepperNext>Επόμενο</button> -->
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Ολοκλήρωση αίτησης</ng-template>
+      <p><i class="fas fa-2x fa-check text-success"></i> Τα στοιχεία σας καταχωρήκαν</p>
+      <div>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</mat-dialog-content>

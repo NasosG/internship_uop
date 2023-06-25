@@ -1,0 +1,31 @@
+.inactive-field {
+  color: rgb(143, 143, 143)
+}
+
+.dialog-header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+/* .mat-dialog-content {
+  height: 48vh;
+} */
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
