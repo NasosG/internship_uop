@@ -46,8 +46,17 @@
       Επιλέξτε τις θέσεις στις οποίες έχετε κάνει αίτηση κατά σειρά προτίμησης και έπειτα οριστικοποιήστε την αίτησή
       σας.
     </div>
+
+    <ng-container *ngIf="isLoading">
+      <br>
+      <div class="loading-indicator" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
+      <br>
+      <h2>Περιμένετε να δημιουργηθεί η αίτησή σας</h2>
+    </ng-container>
     <!-- Positions Table -->
-    <table id="positionsTable" class="manage-table resumes responsive-table dark-div mt-3">
+    <table id="positionsTable" class="manage-table resumes responsive-table dark-div mt-3" *ngIf="!isLoading">
       <tr>
         <th><i class="fas fa-sort"></i> Προτεραιότητα</th>
         <th><i class="fa fa-building"></i> Εταιρεία</th>

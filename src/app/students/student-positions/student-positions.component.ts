@@ -29,6 +29,7 @@ export class StudentPositionsComponent implements OnInit {
   dateTo!: string;
   studentAtlasAssignments!: AcceptedAssignmentsByCompany[];
   canStudentDeleteApplication: boolean = false;
+  isLoading: boolean = false;
 
   constructor(public studentsService: StudentsService, public authService: AuthService, private router: Router, public dialog: MatDialog) { }
 
@@ -257,6 +258,7 @@ export class StudentPositionsComponent implements OnInit {
   }
 
   saveApp() {
+    this.isLoading = true;
     this.studentsService.checkPositionOfAtlasExists(this.studentPositions)
       .pipe(
         catchError((error: any) => {
@@ -299,6 +301,7 @@ export class StudentPositionsComponent implements OnInit {
         this.studentsService.updateStudentPositions(this.studentPositions);
         this.studentsService.insertStudentApplication(this.studentPositions);
         this.studentsService.deleteStudentPositions(this.authService.getSessionId());
+        this.isLoading = false;
         Swal.fire({
           title: 'Επιτυχής καταχώρηση',
           text: 'Η αίτησή σας έχει δημιουργηθεί',
@@ -307,7 +310,10 @@ export class StudentPositionsComponent implements OnInit {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'ΟΚ'
-        }).then(() => { /* not the best technique */ location.reload(); });
+        }).then(() => {
+          /* not the best technique */
+          location.reload();
+        });
       });
   }
 

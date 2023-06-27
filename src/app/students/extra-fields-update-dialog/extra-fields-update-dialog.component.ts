@@ -126,12 +126,12 @@ isLinear = true;
   onSave() {
     Swal.fire({
       title: 'Επιτυχής Ενημέρωση Στοιχείων',
-      text: 'Πατήστε ΟΚ για να δημιουργηθεί η αίτησή σας.',
+      text: 'Πατήστε Οριστικοποίηση για να δημιουργηθεί η αίτησή σας.',
       icon: 'success',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'ΟΚ'
+      confirmButtonText: 'Οριστικοποίηση Αίτησης'
     }).then(() => {
       this.dialogRef.close(1);
       //this.router.navigateByUrl('/student/positions/' + this.studentsSSOData[0].sso_uid);

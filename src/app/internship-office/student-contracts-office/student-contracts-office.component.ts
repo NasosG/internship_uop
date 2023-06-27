@@ -86,10 +86,9 @@ export class StudentContractsOfficeComponent implements OnInit {
   }
 
   openEditContractDialog(idx: any) {
-    console.log(idx);
-    console.log(this.studentsData[idx])
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(EditContractDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '600px',
+      data: { studentsData: studentFinalData, index: idx }, width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -268,9 +267,10 @@ export class StudentContractsOfficeComponent implements OnInit {
 
 
   openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
+      implementation_start_date: studentFinalData[idx].pa_start_date,
+      implementation_end_date: studentFinalData[idx].pa_end_date
     };
 
     console.log(implementationDatesArr.implementation_start_date);
@@ -294,9 +294,10 @@ export class StudentContractsOfficeComponent implements OnInit {
     //   cancelButtonColor: '#d33',
     //   confirmButtonText: 'Εντάξει'
     // });
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
+      implementation_start_date: studentFinalData[idx].pa_start_date,
+      implementation_end_date: studentFinalData[idx].pa_end_date
     };
     // console.log(assigned_position_id);
     console.log(implementationDatesArr.implementation_start_date);
