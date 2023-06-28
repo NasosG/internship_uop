@@ -1420,14 +1420,20 @@ const getAssignedPositionByIdHandler = async (request, response) => {
   try {
     const atlasPositionId = parseInt(request.params.id);
 
+    const batchSize = 200;
     let nextBatchItemsNo = 0;
     let positionFound = {};
-    while (positionFound.status != '-1' && positionFound.status != MiscUtils.AssignedPositionStatus.FOUND) {
+
+    while (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
+      positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
+    ) {
       positionFound = await getAssignedPositionById(atlasPositionId, nextBatchItemsNo);
-      nextBatchItemsNo += 200;
+      nextBatchItemsNo += batchSize;
     }
 
-    if (positionFound.status != '-1' && positionFound.status != MiscUtils.AssignedPositionStatus.FOUND) {
+    if (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
+      positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
+    ) {
       return response.status(404).json({ "message": "Assigned position not found" });
     }
 
@@ -1455,7 +1461,6 @@ const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
     }
 
     const position = assignedPositions.find(position => position.ID == atlasPositionId);
-    console.log(position ? 'found' : 'not found');
 
     if (!position) {
       return {
