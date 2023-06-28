@@ -1391,26 +1391,89 @@ const getAssignedPositions = async () => {
   }
 };
 
-const getAssignedPositionById = async (request, response) => {
+
+const getAssignedPositionsPerBatch = async (nextBatchItemsNo) => {
+  try {
+    let requestData = {
+      'Skip': nextBatchItemsNo,
+      'Take': 200
+    };
+
+    let accessToken = await atlasLogin();
+    const atlasResponse = await axios({
+      url: ATLAS_URL + '/GetAssignedPositions',
+      method: 'POST',
+      data: requestData,
+      headers: {
+        'Content-Type': 'application/json',
+        'access_token': accessToken
+      }
+    });
+
+    return atlasResponse.data.Result;
+  } catch (error) {
+    return { "message": "error retrieving assigned positions" };
+  }
+};
+
+const getAssignedPositionByIdHandler = async (request, response) => {
   try {
     const atlasPositionId = parseInt(request.params.id);
-    const assignedPositions = await getAssignedPositions();
 
-    console.log(assignedPositions);
-    const position = assignedPositions.find(position => position.ID == atlasPositionId);
-    console.log(position);
+    let nextBatchItemsNo = 0;
+    let positionFound = {};
+    while (positionFound.status != '-1' && positionFound.status != MiscUtils.AssignedPositionStatus.FOUND) {
+      positionFound = await getAssignedPositionById(atlasPositionId, nextBatchItemsNo);
+      nextBatchItemsNo += 200;
+    }
 
-    if (!position) {
+    if (positionFound.status != '-1' && positionFound.status != MiscUtils.AssignedPositionStatus.FOUND) {
       return response.status(404).json({ "message": "Assigned position not found" });
     }
 
     return response.status(200).json({
-      "ImplementationEndDateString": position.ImplementationEndDateString,
-      "ImplementationStartDateString": position.ImplementationStartDateString,
+      "ImplementationEndDateString": positionFound.ImplementationEndDateString,
+      "ImplementationStartDateString": positionFound.ImplementationStartDateString,
     });
   } catch (error) {
     console.error(error.message);
     return response.status(400).json({ "message": "error retrieving assigned positions" });
+  }
+};
+
+
+const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
+  try {
+    const assignedPositions = await getAssignedPositionsPerBatch(nextBatchItemsNo);
+
+    if (!assignedPositions || assignedPositions.length == 0) {
+      return {
+        "status": MiscUtils.AssignedPositionStatus.NO_MORE_DATA,
+        "ImplementationEndDateString": null,
+        "ImplementationStartDateString": null
+      };
+    }
+
+    const position = assignedPositions.find(position => position.ID == atlasPositionId);
+    console.log(position ? 'found' : 'not found');
+
+    if (!position) {
+      return {
+        status: MiscUtils.AssignedPositionStatus.NOT_FOUND,
+        ImplementationEndDateString: null,
+        ImplementationStartDateString: null
+      };
+    }
+
+    return {
+      "status": MiscUtils.AssignedPositionStatus.FOUND,
+      "ImplementationEndDateString": position.ImplementationEndDateString,
+      "ImplementationStartDateString": position.ImplementationStartDateString
+    };
+
+  } catch (error) {
+    console.error(error.message);
+    throw error("getAssignedPositionById: error retrieving assigned positions");
   }
 };
 
@@ -1598,6 +1661,6 @@ module.exports = {
   getPositionGroupDetails,
   atlasLogin,
   changeImplementationDatesAtlas,
-  getAssignedPositionById,
+  getAssignedPositionByIdHandler,
   completeAtlasPosition
 };

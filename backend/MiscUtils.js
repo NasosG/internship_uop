@@ -228,6 +228,12 @@ const formatDateString = (inputDate) => {
   return `${year}-${month}-${day}`;
 };
 
+const AssignedPositionStatus = {
+  NOT_FOUND: 0,
+  FOUND: 1,
+  NO_MORE_DATA: -1
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -238,6 +244,7 @@ module.exports = {
   THIRTY_HOURS,
   SALT_ROUNDS,
   departmentsMap,
+  AssignedPositionStatus,
   formatDocExtension,
   splitStudentsAM,
   splitScholarsPersonalData,
