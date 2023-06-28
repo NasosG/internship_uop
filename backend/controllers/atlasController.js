@@ -1396,7 +1396,9 @@ const getAssignedPositionById = async (request, response) => {
     const atlasPositionId = parseInt(request.params.id);
     const assignedPositions = await getAssignedPositions();
 
+    console.log(assignedPositions);
     const position = assignedPositions.find(position => position.ID == atlasPositionId);
+    console.log(position);
 
     if (!position) {
       return response.status(404).json({ "message": "Assigned position not found" });
