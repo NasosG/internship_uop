@@ -921,30 +921,30 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
     const contractMetadata = result.rows[0];
 
     // Fetch pa_start_date and pa_end_date from Atlas API
-    const atlasPositionId = parseInt(contractMetadata.position_id);
+    // const atlasPositionId = parseInt(contractMetadata.position_id);
 
-    const batchSize = 200;
-    let nextBatchItemsNo = 0;
-    let positionFound = {};
+    // const batchSize = 200;
+    // let nextBatchItemsNo = 0;
+    // let positionFound = {};
 
-    while (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
-      positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
-    ) {
-      positionFound = await atlasController.getAssignedPositionById(atlasPositionId, nextBatchItemsNo);
-      nextBatchItemsNo += batchSize;
-    }
+    // while (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
+    //   positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
+    // ) {
+    //   positionFound = await atlasController.getAssignedPositionById(atlasPositionId, nextBatchItemsNo);
+    //   nextBatchItemsNo += batchSize;
+    // }
 
-    if (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
-      positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
-    ) {
-      return contractMetadata;
-    }
+    // if (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
+    //   positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
+    // ) {
+    //   return contractMetadata;
+    // }
 
-    const { ImplementationEndDateString, ImplementationStartDateString } = positionFound;
+    // const { ImplementationEndDateString, ImplementationStartDateString } = positionFound;
 
-    // Update the contractMetadata object with the values from the API
-    contractMetadata.pa_start_date = ImplementationStartDateString;
-    contractMetadata.pa_end_date = ImplementationEndDateString;
+    // // Update the contractMetadata object with the values from the API
+    // contractMetadata.pa_start_date = ImplementationStartDateString;
+    // contractMetadata.pa_end_date = ImplementationEndDateString;
 
     return contractMetadata;
   } catch (error) {
