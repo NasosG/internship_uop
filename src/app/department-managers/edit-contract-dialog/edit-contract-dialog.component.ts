@@ -42,6 +42,7 @@ export class EditContractDialogComponent implements OnInit {
     arithmos_sunedriashs: new FormControl(''),
   });
   studentAssignment: any;
+  public isLoading: boolean = false;
 
   // public dateOfBirth: string = Utils.reformatDateOfBirth(this.data.studentsData[this.data.index].schacdateofbirth);
 
@@ -59,10 +60,12 @@ export class EditContractDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.studentAssignment = this.data.studentsData[this.data.index];
     this.depManagerService.getContractDetailsByStudentIdAndPeriodId(this.studentAssignment.student_id, this.studentAssignment.period_id)
     .subscribe((contract: Contract) => {
         this.studentContract = contract;
+        this.isLoading = false;
         this.studentContract.contract_date = moment(this.studentContract.contract_date).format('YYYY-MM-DD');
         this.studentContract.pa_start_date = moment(this.studentContract.pa_start_date).format('YYYY-MM-DD');
         this.studentContract.pa_end_date = moment(this.studentContract.pa_end_date).format('YYYY-MM-DD');

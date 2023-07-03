@@ -4,6 +4,7 @@ const MiscUtils = require("../MiscUtils.js");
 const mssql = require("../secretariat_db_config.js");
 const msql = require('mssql');
 const moment = require('moment');
+const atlasController = require("../controllers/atlasController.js");
 require('dotenv').config();
 
 const getAllStudents = async () => {
@@ -906,7 +907,7 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
     const query = `SELECT sign_date as contract_date, pr.name as company_name, pr.afm as company_afm, asn.company_address as company_address,
                   company_liaison, company_liaison_position, displayname, father_name, dept_name, id_card as id_number, ama_number as amika, usr.user_ssn as amka,
                   student_users.ssn as afm, doy as doy_name, pa_subject, pa_subject_atlas, pa_start_date, pa_end_date, department_manager_name,
-                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages,
+                  list.ada_number as ada_number, list.apofasi, list.arithmos_sunedriashs, asn.student_fee as student_wages, asn.position_id
                   asn.ada_number as assignment_ada_number, asn.apofasi as assignment_apofasi, asn.arithmos_sunedriashs as assignment_arithmos_sunedriashs
                   FROM final_assignments_list list
                   INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
@@ -916,7 +917,18 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
                   INNER JOIN atlas_provider pr on grp.provider_id = pr.atlas_provider_id
                   WHERE list.period_id = $1 AND asn.student_id = $2`;
     const result = await pool.query(query, [periodId, studentId]);
-    return result.rows[0];
+
+    const contractMetadata = result.rows[0];
+
+    // Fetch pa_start_date and pa_end_date from Atlas API
+    const apiResponse = await atlasController.getAssignedPositionByIdHandler(contractMetadata.position_id);
+    const { ImplementationEndDateString, ImplementationStartDateString } = apiResponse;
+
+    // Update the contractMetadata object with the values from the API
+    contractMetadata.pa_start_date = ImplementationStartDateString;
+    contractMetadata.pa_end_date = ImplementationEndDateString;
+
+    return contractMetadata;
   } catch (error) {
     console.error(error.message);
     throw Error(`An error occured while fetching contract file metadata: ${error}`);
