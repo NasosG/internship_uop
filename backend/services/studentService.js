@@ -921,8 +921,26 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
     const contractMetadata = result.rows[0];
 
     // Fetch pa_start_date and pa_end_date from Atlas API
-    const apiResponse = await atlasController.getAssignedPositionByIdHandler(contractMetadata.position_id);
-    const { ImplementationEndDateString, ImplementationStartDateString } = apiResponse;
+    const atlasPositionId = parseInt(contractMetadata.position_id);
+
+    const batchSize = 200;
+    let nextBatchItemsNo = 0;
+    let positionFound = {};
+
+    while (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
+      positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
+    ) {
+      positionFound = await atlasController.getAssignedPositionById(atlasPositionId, nextBatchItemsNo);
+      nextBatchItemsNo += batchSize;
+    }
+
+    if (positionFound.status != MiscUtils.AssignedPositionStatus.NO_MORE_DATA &&
+      positionFound.status != MiscUtils.AssignedPositionStatus.FOUND
+    ) {
+      return contractMetadata;
+    }
+
+    const { ImplementationEndDateString, ImplementationStartDateString } = positionFound;
 
     // Update the contractMetadata object with the values from the API
     contractMetadata.pa_start_date = ImplementationStartDateString;

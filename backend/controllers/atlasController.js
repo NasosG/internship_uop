@@ -1653,6 +1653,7 @@ module.exports = {
   getFundingType,
   getFundingTypes,
   getAssignedPositions,
+  getAssignedPositionById,
   registerNewStudent,
   assignStudent,
   insertTablesFromAtlas,
