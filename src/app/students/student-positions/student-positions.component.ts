@@ -11,7 +11,7 @@ import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import {ExtraFieldsUpdateDialogComponent} from '../extra-fields-update-dialog/extra-fields-update-dialog.component';
+import { ExtraFieldsUpdateDialogComponent } from '../extra-fields-update-dialog/extra-fields-update-dialog.component';
 
 @Component({
   selector: 'app-student-positions',
