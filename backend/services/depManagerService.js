@@ -901,11 +901,8 @@ const doesListExistForDepartmentAndPeriod = async (body) => {
 
 const updateStudentFinalAssignments = async (depManagerDetails, listId, body) => {
   try {
-    const startDateFormatted = moment(depManagerDetails.start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    const endDateFormatted = moment(depManagerDetails.end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-
-    const updateResult = await pool.query("UPDATE internship_assignment SET list_id = $1, pa_start_date = $2, pa_end_date = $3 WHERE period_id = $4 AND approval_state = 1",
-      [listId, startDateFormatted, endDateFormatted, body.period_id]);
+    const updateResult = await pool.query("UPDATE internship_assignment SET list_id = $1 WHERE period_id = $2 AND approval_state = 1",
+      [listId, body.period_id]);
 
     return updateResult.rows;
   } catch (error) {
@@ -989,11 +986,13 @@ const deleteCreatedList = async (listId, periodId) => {
 const updateAssignmentImplementationDates = async (implementationDates, assignment) => {
   try {
     const { implementation_start_date, implementation_end_date } = implementationDates;
+    const startDateFormatted = moment(implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    const endDateFormatted = moment(implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
     await pool.query(`UPDATE internship_assignment
                       SET pa_start_date = $1, pa_end_date = $2
                       WHERE position_id = $3
                       AND student_id = $4
-                      AND period_id = $5`, [implementation_start_date, implementation_end_date, assignment.position_id, assignment.student_id, assignment.period_id]);
+                      AND period_id = $5`, [startDateFormatted, endDateFormatted, assignment.position_id, assignment.student_id, assignment.period_id]);
   } catch (error) {
     console.error(error.message);
     throw Error('Error while updating assignment implementation dates for position: ' + assignment.position_id +
