@@ -986,6 +986,22 @@ const deleteCreatedList = async (listId, periodId) => {
   }
 };
 
+const updateAssignmentImplementationDates = async (implementationDates, assignment) => {
+  try {
+    const { implementation_start_date, implementation_end_date } = implementationDates;
+    await pool.query(`UPDATE internship_assignment
+                      SET pa_start_date = $1, pa_end_date = $2
+                      WHERE position_id = $3
+                      AND student_id = $4
+                      AND period_id = $5`, [implementation_start_date, implementation_end_date, assignment.position_id, assignment.student_id, assignment.period_id]);
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error while updating assignment implementation dates for position: ' + assignment.position_id +
+      ' student: ' + assignment.student_id +
+      ' error: ' + error.message);
+  }
+};
+
 module.exports = {
   getDepManagerById,
   getDepartmentNameByNumber,
@@ -1012,6 +1028,7 @@ module.exports = {
   updatePeriodById,
   updatePhaseByStudentId,
   updateStudentRanking,
+  updateAssignmentImplementationDates,
   deletePeriodById,
   insertCommentsByStudentId,
   updateCommentsByStudentId,

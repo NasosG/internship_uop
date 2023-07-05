@@ -589,9 +589,12 @@ const insertFinalAssignment = async (request, response) => {
     if (!(await depManagerService.doesAssignmentExist(assignmentData))) {
       await depManagerService.insertAssignment(assignmentData, 1);
     } else {
-      // update assignment details - local db
+      // Update assignment details - local db
       await studentService.acceptAssignment(assignmentData, positionPreassignment?.positionIds[0]);
     }
+
+    // TODO: Update assignment implementation dates so as our local DB to be aligned whith ATLAS
+    // await depManagerService.updateAssignmentImplementationDates(implementationDates, assignmentData);
 
     response.status(201)
       .json({

@@ -1185,7 +1185,6 @@ const produceContractFile = async (request, response) => {
   }
 };
 
-
 const producePaymentOrderFile = async (request, response) => {
   try {
     console.log("producePaymentOrderFile");
@@ -1258,7 +1257,6 @@ const producePaymentOrderFile = async (request, response) => {
     });
   }
 };
-
 
 const isStudentInAssignmentList = async (request, response) => {
   try {

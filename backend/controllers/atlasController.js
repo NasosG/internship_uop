@@ -1354,7 +1354,6 @@ const testIfTokenIsValid = async (accessToken) => {
   }
 };
 
-
 const getRegisteredStudents = async (request, response) => {
   try {
     let accessToken = await atlasLogin();
@@ -1390,7 +1389,6 @@ const getAssignedPositions = async () => {
     return { "message": "error retrieving assigned positions" };
   }
 };
-
 
 const getAssignedPositionsPerBatch = async (nextBatchItemsNo) => {
   try {
@@ -1446,7 +1444,6 @@ const getAssignedPositionByIdHandler = async (request, response) => {
     return response.status(400).json({ "message": "error retrieving assigned positions" });
   }
 };
-
 
 const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
   try {
