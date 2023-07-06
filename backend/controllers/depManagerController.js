@@ -594,7 +594,7 @@ const insertFinalAssignment = async (request, response) => {
     }
 
     // TODO: Update assignment implementation dates so as our local DB to be aligned whith ATLAS
-    // await depManagerService.updateAssignmentImplementationDates(implementationDates, assignmentData);
+    await depManagerService.updateAssignmentImplementationDates(implementationDates, assignmentData);
 
     response.status(201)
       .json({
