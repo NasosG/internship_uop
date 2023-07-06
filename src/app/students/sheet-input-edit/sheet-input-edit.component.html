@@ -150,10 +150,36 @@
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" [(ngModel)]="selectedNOOption" id="{{option.id}}" [disabled]="true" required
+      <mat-radio-group
+        *ngIf="option.id == 'B1' || option.id == 'B2' || option.id == 'B3' || option.id == 'B5' || option.id == 'B6'"
+        name="{{option.id}}" [(ngModel)]="selectedNOOption" id="{{option.id}}" [disabled]="true" required
         aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-radio-group *ngIf="option.id == 'B'" name="{{option.id}}" [(ngModel)]="optionValue" id="{{option.id}}"
+        required aria-label="Select an option">
+        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-radio-group *ngIf="option.id == 'B4' && optionValue == 1" name="{{option.id}}"
+        [(ngModel)]="selectedYESOption" id="{{option.id}}" required aria-label="Select an option">
+        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0" [disabled]="true">ΟΧΙ</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-radio-group *ngIf="option.id == 'B4' && optionValue == 0" name="{{option.id}}" [(ngModel)]="selectedNOOption"
+        id="{{option.id}}" required aria-label="Select an option">
+        <mat-radio-button [value]="1" [disabled]="true">ΝΑΙ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-radio-group *ngIf="option.id == 'B4' && optionValue == null" name="{{option.id}}" id="{{option.id}}" required
+        aria-label="Select an option">
+        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
       <!-- <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" *ngIf="option.id!='B4'" required
         aria-label="Select an option">

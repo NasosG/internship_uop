@@ -24,6 +24,7 @@ export class SheetInputEditComponent extends SheetInputComponent implements OnIn
   // YES/NO options for the form and pre-selected fields
   public selectedYESOption: number = 1;
   public selectedNOOption: number = 0;
+  public optionValue: number | null = null;
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
@@ -31,5 +32,4 @@ export class SheetInputEditComponent extends SheetInputComponent implements OnIn
         this.entries = forms;
       });
   }
-
 }

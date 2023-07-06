@@ -70,7 +70,7 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
     this.officeService.updateEntrySheetField(formId, fieldId, elementValue)
       .subscribe(
          res => console.log('HTTP response', res),
-         err => alert('Error while updating entry sheet field') ,
+         err => alert('Error while updating entry sheet field'),
          () => console.log('HTTP request completed.')
       );
   }
