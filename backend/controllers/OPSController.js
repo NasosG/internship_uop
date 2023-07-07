@@ -281,7 +281,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       // { id: 81, value: sheets.rows[0]?.A3_1_1 ?? null },
       { id: 82, value: sheets.rows[0]?.A3_1_2 ?? null },
       { id: 65, value: sheets.rows[0]?.A3_2 ?? null },
-      { id: 57, value: false }, // set to OXI!
+      // { id: 57, value: false }, // set to OXI!
       { id: 27, value: sheets.rows[0]?.C1 ?? null },
       { id: 28, value: sheets.rows[0]?.C2 ?? null },
       { id: 29, value: sheets.rows[0]?.C3 ?? null },
@@ -328,6 +328,12 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
         sheets.rows[0].A2_2 === true ||
         sheets.rows[0].A2_3 === true) {
         answers.find(answer => answer.id === 6).value = true;
+      }
+
+      if (sheets.rows[0]?.B4 === true) {
+        answers.push({ id: 25, value: true });
+      } else {
+        answers.push({ id: 57, value: false });
       }
     }
 
