@@ -1148,6 +1148,7 @@ const getApprovedAssignmentInfoByStudentId = async (studentId) => {
 
 const updateSheetOpsNumberById = async (id, opsNumber, sheetType) => {
   try {
+    console.log("updateSheetOpsNumberById");
     let updateResults;
     if (sheetType == 'entry') {
       updateResults = await pool.query(`UPDATE entry_form
