@@ -332,6 +332,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
 
       if (sheets.rows[0]?.B4 === true) {
         answers.push({ id: 25, value: true });
+        answers.push({ id: 57, value: true });
       } else {
         answers.push({ id: 57, value: false });
       }
