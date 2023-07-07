@@ -373,7 +373,7 @@ const insertStudentEntrySheet = async (form, studentId) => {
       form.D11, form.D12, form.D13, form.D14, studentId]);
     return insertResults;
   } catch (error) {
-    console.log('Error while inserting students entry form' + error.message);
+    console.error('Error while inserting students entry form ' + error.message + " - studentId:" + studentId);
     throw Error('Error while inserting students entry form');
   }
 };
