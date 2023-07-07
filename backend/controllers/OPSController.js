@@ -53,9 +53,8 @@ const sendDeltioEisodouWS = async (req, res) => {
       let idDeltiou = parsedResponse.idDeltiou;
 
       // Could also keep the idOfel in the database, but it's not necessary.
-      if (parsedResponse.idOfel) {
+      if (parsedResponse.idOfel && !sheetResults.rows[0].ops_number_eisodou) {
         console.log("inside if of result");
-        console.log("res of ops_number: " + (!sheetResults.rows[0].ops_number_eisodou));
         await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults.rows[0].id, 'entry');
       }
       console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
