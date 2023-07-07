@@ -1148,10 +1148,10 @@ const getApprovedAssignmentInfoByStudentId = async (studentId) => {
 
 const updateSheetOpsNumberById = async (opsNumber, id, sheetType) => {
   try {
-    console.log("updateSheetOpsNumberById");
+    console.log("updateSheetOpsNumberById: sheetType " + sheetType + " opsNumber " + opsNumber + " id " + id);
+
     let updateResults;
     if (sheetType == 'entry') {
-      console.log("entry " + opsNumber + " id " + id);
       updateResults = await pool.query(`UPDATE entry_form
                             SET ops_number_eisodou = $1 WHERE id = $2`, [opsNumber, id]);
     } else if (sheetType == 'exit') {

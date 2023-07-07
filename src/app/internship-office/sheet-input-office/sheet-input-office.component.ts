@@ -12,6 +12,7 @@ import { Period } from 'src/app/department-managers/period.model';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { catchError, of } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sheet-input-office',
@@ -113,18 +114,32 @@ export class SheetInputOfficeComponent implements OnInit {
         })
       )
       .subscribe((res: any) => {
-        if (res.status == 200) {
+        if (res.status == 'DONE') {
 
           if (res.message == 'deactivated') {
             alert("Currently deactivated");
             return;
           }
 
-          Utils.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
+          this.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
         } else {
           Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
         }
       });
+  }
+
+  public displaySuccessSwal(displayText: string) {
+    Swal.fire({
+      title: 'Επιτυχία',
+      text: displayText,
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      this.onPeriodChange(null);
+    });
   }
 
   getXML(studentId: any, type: string) {

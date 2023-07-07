@@ -42,6 +42,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     const parsedResponse = await parseXmlResponse(response.data);
     const errorCode = parsedResponse.errorCode;
+    let idDeltiou;
 
     if (Number(errorCode) == 0) {
       console.log('idOfel:', parsedResponse.idOfel);
@@ -50,11 +51,10 @@ const sendDeltioEisodouWS = async (req, res) => {
       console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
       console.log('errorDescr:', parsedResponse.errorDescr);
 
-      let idDeltiou = parsedResponse.idDeltiou;
+      idDeltiou = parsedResponse.idDeltiou;
 
       // Could also keep the idOfel in the database, but it's not necessary.
       if (parsedResponse.idOfel && !sheetResults.rows[0].ops_number_eisodou) {
-        console.log("inside if of result");
         await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults.rows[0].id, 'entry');
       }
       console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
@@ -72,8 +72,7 @@ const sendDeltioEisodouWS = async (req, res) => {
       return res.status(400).json({ message: 'Entry sheet - SOAP request failed' });
     }
 
-    res.status(200).send(response.data);
-    // return res.status(200).json(response.data);
+    return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (exc) {
     console.error(exc);
     return res.status(500).send({ message: 'Entry sheet - SOAP request failed' });
