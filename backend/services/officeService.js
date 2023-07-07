@@ -185,12 +185,9 @@ const insertOrUpdateEspaPositionsByDepId = async (body, departmentId) => {
 
 const updateEntrySheetField = async (id, body) => {
   try {
-    console.log("START OF trying to make query");
-    console.log('UPDATE entry_form SET "' + body.fieldId + '" = ' + body.elementValue + ' WHERE id = ' + id);
     await pool.query('UPDATE entry_form SET "' + body.fieldId + '" = $1 WHERE id = $2',
       [body.elementValue, id]);
 
-    console.log("END OF trying to make query");
   } catch (error) {
     console.log('Error while updating entry sheet field ' + error.message);
     throw Error('Error while updating entry sheet field');

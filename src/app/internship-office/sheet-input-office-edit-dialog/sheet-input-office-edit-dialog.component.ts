@@ -63,16 +63,22 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  submitFieldValue(fieldId : string, elementValue : boolean) {
+  submitFieldValue(fieldId: string, elementValue: boolean) {
     // We get 2 ids from join becasuse 2 tables have id field, this one is the id of the entry sheet
-    let formId = this.data.studentsData[0].id;
+    let formId = this.data.studentsData[this.data.index].id;
     // use a service function to send element and fieldId to the backend
     this.officeService.updateEntrySheetField(formId, fieldId, elementValue)
-      .subscribe(
-         res => console.log('HTTP response', res),
-         err => alert('Error while updating entry sheet field'),
-         () => console.log('HTTP request completed.')
-      );
+      .subscribe({
+        next: res => {
+          console.log('HTTP response', res);
+        },
+        error: err => {
+          alert('Error while updating the entry sheet field');
+        },
+        complete: () => {
+          console.log('HTTP request completed.');
+        }
+      });
   }
 
 }

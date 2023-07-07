@@ -86,7 +86,7 @@ export class SheetOutputOfficeEditDialogComponent implements OnInit {
   }
 
   submitFieldValue(fieldId : string, elementValue : boolean) {
-    let formId = this.data.studentsData[0].exit_id;
+    let formId = this.data.studentsData[this.data.index].exit_id;
     // use a service function to send element and fieldId to the backend
     this.officeService.updateExitSheetField(formId, fieldId, elementValue)
       .subscribe(
