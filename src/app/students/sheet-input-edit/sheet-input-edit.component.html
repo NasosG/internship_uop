@@ -23,14 +23,15 @@
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" id="{{option.id}}" aria-label="Select an option">
+      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" id="{{option.id}}" required
+        aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
   <p class="text-danger pt-4 mt-2">
-    Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, A3 θα πρέπει να είναι ΝΑΙ
+    Προσοχή! <strong>Μία</strong> απο τις ερωτήσεις Α1, Α2, A3 θα πρέπει να είναι ΝΑΙ
   </p>
   <h4 class="text-dark"> Α1) Ανεργία </h4>
   <div *ngFor="let option of unemployedOption" class="container-fluid row">
