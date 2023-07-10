@@ -414,7 +414,7 @@ const insertStudentEntrySheet = async (request, response, next) => {
       });
   } catch (error) {
     console.error(error.message);
-    response.send({
+    response.status(400).send({
       message: error.message
     });
   }
@@ -434,7 +434,7 @@ const insertStudentExitSheet = async (request, response, next) => {
       });
   } catch (error) {
     console.error(error.message);
-    response.send({
+    response.status(400).send({
       message: error.message
     });
   }

@@ -275,7 +275,6 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       { id: 17, value: sheets.rows[0]?.A2_2_3 ?? null },
       { id: 18, value: sheets.rows[0]?.A2_3 ?? null },
       { id: 63, value: false },
-      // { id: 19, value: sheets.rows[0]?.A2_4 ?? null },
       { id: 20, value: sheets.rows[0]?.A3 ?? null },
       { id: 21, value: sheets.rows[0]?.A3_1 ?? null },
       // { id: 81, value: sheets.rows[0]?.A3_1_1 ?? null },
@@ -414,60 +413,46 @@ const getXmlPostStringExodou = async (studentId, mode) => {
       { id: 16, value: results.rows[0]?.A2_2_2 ?? null },
       { id: 17, value: results.rows[0]?.A2_2_3 ?? null },
       { id: 18, value: results.rows[0]?.A2_3 ?? null },
-      { id: 63, value: true },
-      // { id: 19, value: results.rows[0]?.A2_4 ?? null },
+      { id: 63, value: results.rows[0]?.A2_4 ?? null },
       { id: 20, value: results.rows[0]?.A3 ?? null },
       { id: 21, value: results.rows[0]?.A3_1 ?? null },
       { id: 81, value: results.rows[0]?.A3_1_1 ?? null },
       { id: 82, value: results.rows[0]?.A3_1_2 ?? null },
       { id: 65, value: results.rows[0]?.A3_2 ?? null },
-      { id: 57, value: false }, // set to OXI!
-      { id: 27, value: results.rows[0]?.C1 ?? null },
-      { id: 28, value: results.rows[0]?.C2 ?? null },
-      { id: 29, value: results.rows[0]?.C3 ?? null },
-      // { id: -1, value: results.rows[0].C4 ?? null },
-      { id: 30, value: results.rows[0]?.C5 ?? null },
-      { id: 31, value: results.rows[0]?.C6 ?? null },
-      { id: 32, value: results.rows[0]?.C7 ?? null },
-      { id: 33, value: results.rows[0]?.C8 ?? null },
-      { id: 34, value: results.rows[0]?.C9 ?? null },
-      { id: 46, value: results.rows[0]?.D12 ?? null },
-      { id: 47, value: results.rows[0]?.D9 ?? null },
-      { id: 48, value: results.rows[0]?.D10 ?? null },
-      { id: 49, value: results.rows[0]?.D13 ?? null },
-      { id: 50, value: results.rows[0]?.D14 ?? null },
-      { id: 38, value: results.rows[0]?.D4 ?? null },
-      { id: 39, value: results.rows[0]?.D5 ?? null },
-      { id: 40, value: results.rows[0]?.D6 ?? null },
-      { id: 41, value: results.rows[0]?.D7 ?? null },
-      { id: 62, value: results.rows[0]?.D8 ?? null },
-      { id: 45, value: results.rows[0]?.D11 ?? null }
-      // { id: 64, value: node.D12 }
+      { id: 56, value: results.rows[0]?.E ?? null },
+      { id: 51, value: results.rows[0]?.E1 ?? null },
+      { id: 58, value: results.rows[0]?.E2 ?? null },
+      { id: 67, value: results.rows[0]?.E2_1 ?? null },
+      { id: 68, value: results.rows[0]?.E2_2 ?? null },
+      { id: 69, value: results.rows[0]?.E2_3 ?? null },
+      { id: 59, value: results.rows[0]?.E3 ?? null },
+      { id: 70, value: results.rows[0]?.E3_1 ?? null },
+      { id: 71, value: results.rows[0]?.E3_2 ?? null },
+      { id: 72, value: results.rows[0]?.E3_3 ?? null },
+      { id: 61, value: results.rows[0]?.E4 ?? null },
+      { id: 73, value: results.rows[0]?.E4_1 ?? null },
+      { id: 74, value: results.rows[0]?.E4_2 ?? null },
+      { id: 75, value: results.rows[0]?.E4_3 ?? null },
+      { id: 60, value: results.rows[0]?.E5 ?? null },
+      { id: 76, value: results.rows[0]?.E5_1 ?? null },
+      { id: 77, value: results.rows[0]?.E5_2 ?? null },
+      { id: 78, value: results.rows[0]?.E5_3 ?? null }
     ];
 
     if (results.rows[0]) {
-      if (results.rows[0]?.C9 == true) {
-        results.rows[0].C8 = false;
-        results.rows[0].C7 = false;
-        results.rows[0].C6 = false;
-        results.rows[0].C5 = false;
-      } else if (results.rows[0]?.C8 == true) {
-        results.rows[0].C7 = false;
-        results.rows[0].C6 = false;
-        results.rows[0].C5 = false;
-      } else if (results.rows[0]?.C7 == true) {
-        results.rows[0].C6 = false;
-        results.rows[0].C5 = false;
-      } else if (results.rows[0]?.C6 == true) {
-        results.rows[0].C5 = false;
-      } else {
-        results.rows[0].C5 = true;
-      }
 
       if (results.rows[0]?.A2_1 === true ||
         results.rows[0].A2_2 === true ||
         results.rows[0].A2_3 === true) {
         answers.find(answer => answer.id === 6).value = true;
+      }
+
+      if (sheets.rows[0]?.B4 === true) {
+        answers.push({ id: 25, value: true });
+        answers.push({ id: 57, value: true });
+      } else {
+        // Set to OXI
+        answers.push({ id: 57, value: false });
       }
     }
 

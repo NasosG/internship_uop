@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import {AuthService} from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { StudentsService } from '../student.service';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-sheet-input',
@@ -57,16 +58,26 @@ export class SheetInputComponent implements OnInit {
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.studentsService.insertStudentEntrySheet(formData);
-        Swal.fire({
-          title: 'Επιτυχής καταχώρηση',
-          text: 'Πηγαίνετε στη καρτέλα "Προβολή" για να δείτε και να εκτυπώσετε το προς υπογραφή δελτίο σας.',
-          icon: 'success',
-          showCancelButton: false,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'ΟΚ'
-        }).then(() => { /* not the best technique */ location.reload() });
+        this.studentsService.insertStudentEntrySheet(formData)
+          .subscribe({
+            next: (responseData: any) => {
+              console.log(responseData.message);
+              Swal.fire({
+                title: 'Επιτυχής καταχώρηση',
+                text: 'Πηγαίνετε στη καρτέλα "Προβολή" για να δείτε και να εκτυπώσετε το προς υπογραφή δελτίο σας.',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ΟΚ'
+              }).then(() => { /* not the best technique */ location.reload() });
+            },
+            error: (error: any) => {
+              console.error(error);
+              const errorMessage = "Σφάλμα κατά την εισαγωγή του δελτίου. Προσπαθήστε ξανά.";
+              Utils.displayErrorSwal(errorMessage);
+            }
+          });
       }
     });
   }

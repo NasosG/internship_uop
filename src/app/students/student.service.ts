@@ -136,7 +136,6 @@ export class StudentsService {
     return this.http.get<Array<PhysicalObject>>(ATLAS_URL + 'getPhysicalObjects/');
   }
 
-
   getPhase(departmentId: number): Observable<Period> {
     // fetchedPeriodObservable
     const fetchedPeriod = this.http.get<Period>(STUDENTS_URL + 'getPhase/' + departmentId);
@@ -249,10 +248,6 @@ export class StudentsService {
     const id = this.authService.getSessionId();
     return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentSSNFile/" + id, file);
-    // .subscribe(responseData => {
-    // console.log("ssn " + responseData.message);
-    // return responseData.message;
-    // });
   }
 
   // Not so much needed as updateStudentFile exists, but changes to prod may create problems
@@ -330,25 +325,19 @@ export class StudentsService {
       });
   }
 
-  insertStudentEntrySheet(inputForm: any) {
+  insertStudentEntrySheet(inputForm: any): Observable<any> {
     const studentId = this.authService.getSessionId();
     const form: EntryForm = inputForm;
-    // console.log(inputForm);
-    this.http
-      .post<{ message: string }>(STUDENTS_URL + "insertStudentEntrySheet/" + studentId, form)
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+
+    return this.http
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentEntrySheet/" + studentId, form);
   }
 
-  insertStudentExitSheet(exitForm: any) {
+  insertStudentExitSheet(exitForm: any): Observable<any> {
     const studentId = this.authService.getSessionId();
     const form: ExitForm = exitForm;
-    this.http
-      .post<{ message: string }>(STUDENTS_URL + "insertStudentExitSheet/" + studentId, form)
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+    return this.http
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentExitSheet/" + studentId, form);
   }
 
   insertStudentEvaluationSheet(evaluationForm: any) {

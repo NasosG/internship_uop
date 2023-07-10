@@ -23,11 +23,19 @@ export class SheetOutputEditComponent extends SheetOutputComponent implements On
   // YES/NO options for the form and pre-selected fields
   public selectedYESOption: number = 1;
   public selectedNOOption: number = 0;
+  public optionValue: number | null = null;
 
   override ngOnInit(): void {
     this.studentsService.getStudentExitSheets()
-      .subscribe((forms: ExitForm[]) => {
-        this.entries = forms;
+      .subscribe({
+        next: (forms: ExitForm[]) => {
+          this.entries = forms;
+        },
+        error: (error: any) => {
+          console.error(error);
+          const errorMessage = "Σφάλμα κατά τη φόρτωση του δελτίου. Προσπαθήστε ξανά.";
+          Utils.displayErrorSwal(errorMessage);
+        }
       });
   }
 }

@@ -388,7 +388,7 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
       ]);
     return insertResults;
   } catch (error) {
-    console.log('Error while inserting students evaluation form' + error.message);
+    console.error('Error while inserting students evaluation form' + error.message);
     throw Error('Error while inserting students evaluation form');
   }
 };
@@ -417,7 +417,7 @@ const insertStudentApplication = async (body, studentId) => {
     }
 
   } catch (error) {
-    console.log('Error while inserting application to student_applications ' + error.message + ' for student ' + studentId);
+    console.error('Error while inserting application to student_applications ' + error.message + ' for student ' + studentId);
     throw Error('Error while inserting application to student_applications' + error.message);
   }
 };
@@ -495,6 +495,7 @@ const updateStudentExitSheet = async (form, studentId) => {
 const insertStudentExitSheet = async (form, studentId) => {
   // console.log(form);
   try {
+    form.B0 = form.B1 = form.B2 = form.B3 = form.B5 = form.B6 = false;
     const insertResults = await pool.query('INSERT INTO exit_form' +
       '(student_id, "A1", "A2", "A2_0", "A2_1", "A2_1_1", "A2_1_2", "A2_1_3", "A2_1_4", "A2_1_5",' +
       '"A2_1_6", "A2_2", "A2_2_1", "A2_2_2", "A2_2_3", "A2_3", "A2_4", "A3", "A3_1", "A3_2", ' +
@@ -510,7 +511,7 @@ const insertStudentExitSheet = async (form, studentId) => {
       ]);
     return insertResults;
   } catch (error) {
-    console.log('Error while inserting students exit form' + error.message);
+    console.error('Error while inserting students exit form' + error.message);
     throw Error('Error while inserting students exit form');
   }
 };

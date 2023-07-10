@@ -28,8 +28,15 @@ export class SheetInputEditComponent extends SheetInputComponent implements OnIn
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
-      .subscribe((forms: EntryForm[]) => {
-        this.entries = forms;
+      .subscribe({
+        next: (forms: EntryForm[]) => {
+          this.entries = forms;
+        },
+        error: (error: any) => {
+          console.error(error);
+          const errorMessage = "Σφάλμα κατά τη φόρτωση του δελτίου. Προσπαθήστε ξανά.";
+          Utils.displayErrorSwal(errorMessage);
+        }
       });
   }
 }
