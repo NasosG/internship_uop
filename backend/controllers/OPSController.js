@@ -398,53 +398,53 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     let microdata = '';
 
     const answers = [
-      { id: 3, value: sheets.rows[0]?.A1 ?? null },
-      { id: 6, value: sheets.rows[0]?.A2 ?? null },
-      { id: 64, value: sheets.rows[0]?.A2_0 ?? null },
-      { id: 7, value: sheets.rows[0]?.A2_1 ?? null },
-      { id: 8, value: sheets.rows[0]?.A2_1_1 ?? null },
-      { id: 9, value: sheets.rows[0]?.A2_1_2 ?? null },
-      { id: 10, value: sheets.rows[0]?.A2_1_3 ?? null },
-      { id: 11, value: sheets.rows[0]?.A2_1_4 ?? null },
-      { id: 12, value: sheets.rows[0]?.A2_1_5 ?? null },
-      { id: 13, value: sheets.rows[0]?.A2_1_6 ?? null },
-      { id: 14, value: sheets.rows[0]?.A2_2 ?? null },
-      { id: 15, value: sheets.rows[0]?.A2_2_1 ?? null },
-      { id: 16, value: sheets.rows[0]?.A2_2_2 ?? null },
-      { id: 17, value: sheets.rows[0]?.A2_2_3 ?? null },
-      { id: 18, value: sheets.rows[0]?.A2_3 ?? null },
-      { id: 63, value: sheets.rows[0]?.A2_4 ?? null },
-      { id: 20, value: sheets.rows[0]?.A3 ?? null },
-      { id: 21, value: sheets.rows[0]?.A3_1 ?? null },
-      { id: 65, value: sheets.rows[0]?.A3_2 ?? null },
-      { id: 51, value: sheets.rows[0]?.E1 ?? null },
-      { id: 58, value: sheets.rows[0]?.E2 ?? null },
-      { id: 67, value: sheets.rows[0]?.E2_1 ?? null },
-      { id: 68, value: sheets.rows[0]?.E2_2 ?? null },
-      { id: 69, value: sheets.rows[0]?.E2_3 ?? null },
-      { id: 59, value: sheets.rows[0]?.E3 ?? null },
-      { id: 70, value: sheets.rows[0]?.E3_1 ?? null },
-      { id: 71, value: sheets.rows[0]?.E3_2 ?? null },
-      { id: 72, value: sheets.rows[0]?.E3_3 ?? null },
-      { id: 61, value: sheets.rows[0]?.E4 ?? null },
-      { id: 73, value: sheets.rows[0]?.E4_1 ?? null },
-      { id: 74, value: sheets.rows[0]?.E4_2 ?? null },
-      { id: 75, value: sheets.rows[0]?.E4_3 ?? null },
-      { id: 60, value: sheets.rows[0]?.E5 ?? null },
-      { id: 76, value: sheets.rows[0]?.E5_1 ?? null },
-      { id: 77, value: sheets.rows[0]?.E5_2 ?? null },
-      { id: 78, value: sheets.rows[0]?.E5_3 ?? null }
+      { id: 3, value: sheets?.A1 ?? null },
+      { id: 6, value: sheets?.A2 ?? null },
+      { id: 64, value: sheets?.A2_0 ?? null },
+      { id: 7, value: sheets?.A2_1 ?? null },
+      { id: 8, value: sheets?.A2_1_1 ?? null },
+      { id: 9, value: sheets?.A2_1_2 ?? null },
+      { id: 10, value: sheets?.A2_1_3 ?? null },
+      { id: 11, value: sheets?.A2_1_4 ?? null },
+      { id: 12, value: sheets?.A2_1_5 ?? null },
+      { id: 13, value: sheets?.A2_1_6 ?? null },
+      { id: 14, value: sheets?.A2_2 ?? null },
+      { id: 15, value: sheets?.A2_2_1 ?? null },
+      { id: 16, value: sheets?.A2_2_2 ?? null },
+      { id: 17, value: sheets?.A2_2_3 ?? null },
+      { id: 18, value: sheets?.A2_3 ?? null },
+      { id: 63, value: sheets?.A2_4 ?? null },
+      { id: 20, value: sheets?.A3 ?? null },
+      { id: 21, value: sheets?.A3_1 ?? null },
+      { id: 65, value: sheets?.A3_2 ?? null },
+      { id: 51, value: sheets?.E1 ?? null },
+      { id: 58, value: sheets?.E2 ?? null },
+      { id: 67, value: sheets?.E2_1 ?? null },
+      { id: 68, value: sheets?.E2_2 ?? null },
+      { id: 69, value: sheets?.E2_3 ?? null },
+      { id: 59, value: sheets?.E3 ?? null },
+      { id: 70, value: sheets?.E3_1 ?? null },
+      { id: 71, value: sheets?.E3_2 ?? null },
+      { id: 72, value: sheets?.E3_3 ?? null },
+      { id: 61, value: sheets?.E4 ?? null },
+      { id: 73, value: sheets?.E4_1 ?? null },
+      { id: 74, value: sheets?.E4_2 ?? null },
+      { id: 75, value: sheets?.E4_3 ?? null },
+      { id: 60, value: sheets?.E5 ?? null },
+      { id: 76, value: sheets?.E5_1 ?? null },
+      { id: 77, value: sheets?.E5_2 ?? null },
+      { id: 78, value: sheets?.E5_3 ?? null }
     ];
 
-    if (sheets.rows[0]) {
+    if (sheets) {
 
-      if (sheets.rows[0]?.A2_1 === true ||
-        sheets.rows[0].A2_2 === true ||
-        sheets.rows[0].A2_3 === true) {
+      if (sheets?.A2_1 === true ||
+        sheets.A2_2 === true ||
+        sheets.A2_3 === true) {
         answers.find(answer => answer.id === 6).value = true;
       }
 
-      if (sheets.rows[0]?.B4 === true) {
+      if (sheets?.B4 === true) {
         answers.push({ id: 25, value: true });
         answers.push({ id: 57, value: true });
       } else {
