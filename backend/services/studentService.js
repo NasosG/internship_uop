@@ -1157,7 +1157,7 @@ const updateSheetOpsNumberById = async (opsNumber, id, sheetType) => {
                             SET ops_number_eisodou = $1 WHERE id = $2`, [opsNumber, id]);
     } else if (sheetType == 'exit') {
       updateResults = await pool.query(`UPDATE exit_form
-                            SET ops_number_exodou = $1 WHERE id = $2`, [opsNumber, id]);
+                            SET ops_number_exodou = $1 WHERE exit_id = $2`, [opsNumber, id]);
     } else {
       console.error('Invalid sheet type given');
       throw Error('Invalid sheet type given');
