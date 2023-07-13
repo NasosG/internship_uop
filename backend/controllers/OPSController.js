@@ -93,6 +93,9 @@ const sendDeltioExodouWS = async (req, res) => {
 
     console.log(xmlPostString);
 
+    // asmx URL of WSDL
+    const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
+
     // SOAP Request
     const response = await axios.post(soapUrl, xmlPostString, {
       headers: {
@@ -103,6 +106,8 @@ const sendDeltioExodouWS = async (req, res) => {
     console.log(response.data);
 
     const parsedResponse = await parseXmlResponse(response.data);
+    const errorCode = parsedResponse.errorCode;
+    let idDeltiou;
 
     if (Number(errorCode) == 0) {
       console.log('idOfel:', parsedResponse.idOfel);
@@ -111,11 +116,11 @@ const sendDeltioExodouWS = async (req, res) => {
       console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
       console.log('errorDescr:', parsedResponse.errorDescr);
 
-      let idDeltiou = parsedResponse.idDeltiou;
+      idDeltiou = parsedResponse.idDeltiou;
 
       // Could also keep the idOfel in the database, but it's not necessary.
-      if (parsedResponse.idOfel && !sheetResults[0].ops_number_exodou) {
-        await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults[0].id, 'exit');
+      if (parsedResponse.idOfel && !sheetResults.ops_number_exodou) {
+        await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults.exit_id, 'exit');
       }
       console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
     } else if (Number(errorCode) == -11) {
@@ -126,11 +131,16 @@ const sendDeltioExodouWS = async (req, res) => {
       console.log('errorDescr:', parsedResponse.errorDescr);
 
       console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
+      return res.status(400).json({ message: 'Sheet already exists' });
     } else {
       console.warn('OPS entry sheet WS response: ', parsedResponse);
+      return res.status(400).json({ message: 'Entry sheet - SOAP request failed' });
     }
 
-    res.send(response.data);
+    return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
+
+
+
   } catch (error) {
     console.error(error);
     res.status(500).send('SOAP request failed');
@@ -437,7 +447,6 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     ];
 
     if (sheets) {
-
       if (sheets?.A2_1 === true ||
         sheets.A2_2 === true ||
         sheets.A2_3 === true) {
