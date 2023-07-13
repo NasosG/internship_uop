@@ -196,7 +196,7 @@ const parseXmlResponse = async (xml) => {
   };
 };
 
-const getDataOfeloumenou = async (studentInfo, position) => {
+const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   const afm = studentInfo.ssn;
   const amka = studentInfo.user_ssn;
   const adt = studentInfo.id_card;
@@ -211,7 +211,8 @@ const getDataOfeloumenou = async (studentInfo, position) => {
   const dob = studentInfo.schacdateofbirth;
   const dobFormatted = MiscUtils.formatDateToISO(dob);
   const stFlag = 1;
-  const eisodosFlag = 1;
+  // 0: for exit sheets - 1: for entry sheets
+  const eisodosFlag = sheetType == 'entry' ? 1 : 0;
   const kodikosMIS = 5184863;
   const kodikosYpoergou = (studentInfo.department_id.toString().length <= 4) ? 349817 : ''; //5035;
   const idGeoDimos = 48;
@@ -248,6 +249,9 @@ const getDataOfeloumenou = async (studentInfo, position) => {
   };
 };
 
+/**
+ * Get Post string to be used for XML download or API call for entry sheets
+*/
 const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
   let finalCode;
   try {
@@ -344,16 +348,16 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
     });
 
     // console.log(microdata);
-    let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo);
+    let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'entry');
     console.log(deltioCandidateInfo);
 
     // Prepare XML string
     if (mode == 'XML') {
       finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
-      return finalCode + returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 1);
+      return finalCode + returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 1, 'entry');
     }
 
-    finalCode = returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 1);
+    finalCode = returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 1, 'entry');
 
     // Whole XML string used for post
     const xmlPostString = `
@@ -384,8 +388,9 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
   }
 };
 
-// TODO: Make adjustments for exit sheet fields
-// For now code is just copied and pasted from above
+/**
+ * Get Post string to be used for XML download or API call for exit sheets
+*/
 const getXmlPostStringExodou = async (studentId, mode) => {
   let finalCode;
   try {
@@ -462,16 +467,15 @@ const getXmlPostStringExodou = async (studentId, mode) => {
       microdata += createMicrodata(answer.id, answer.value);
     });
 
-    // console.log(microdata);
-    let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo);
+    let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'exit');
     console.log(deltioCandidateInfo);
 
     if (mode == 'XML') {
       finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
-      return finalCode + returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 0);
+      return finalCode + returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 0, 'exit');
     }
 
-    finalCode = returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 0);
+    finalCode = returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 0, 'exit');
 
     // Whole XML string used for post
     const xmlPostString = `
@@ -502,7 +506,15 @@ const getXmlPostStringExodou = async (studentId, mode) => {
   }
 };
 
-const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType) => {
+const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sheetType) => {
+  let sheetDate;
+
+  if (sheetType === 'entry') {
+    sheetDate = deltioCandidateInfo.startTimeFormatted;
+  } else {
+    sheetDate = deltioCandidateInfo.endTimeFormatted;
+  }
+
   // Prepare XML
   return `
       <SYM xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
@@ -522,7 +534,7 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType) =>
                 <KODIKOS_MIS>${deltioCandidateInfo.kodikosMIS}</KODIKOS_MIS>
                 <KODIKOS_YPOERGOY>${deltioCandidateInfo.kodikosYpoergou}</KODIKOS_YPOERGOY>
                 <ID_GEO_DHMOS>48</ID_GEO_DHMOS>
-                <DATE_DELTIOY>${deltioCandidateInfo.startTimeFormatted}</DATE_DELTIOY>
+                <DATE_DELTIOY>${sheetDate}</DATE_DELTIOY>
                 <OLOKLHROSH_FLAG>1</OLOKLHROSH_FLAG>
                 <OFEL_TK>${deltioCandidateInfo.postal}</OFEL_TK>
                 <ST_FLAG>1</ST_FLAG>
