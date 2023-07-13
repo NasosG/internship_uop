@@ -402,10 +402,8 @@ const getXmlPostStringExodou = async (studentId, mode) => {
 
     const answers = [
       { id: 3, value: results.rows[0]?.A1 ?? null },
-      { id: 4, value: results.rows[0]?.A1_1 ?? null },
-      { id: 5, value: results.rows[0]?.A1_2 ?? null },
-      // { id: 99, value: field_oaed_karta ?? null },
       { id: 6, value: results.rows[0]?.A2 ?? null },
+      { id: 64, value: results.rows[0]?.A2_0 ?? null },
       { id: 7, value: results.rows[0]?.A2_1 ?? null },
       { id: 8, value: results.rows[0]?.A2_1_1 ?? null },
       { id: 9, value: results.rows[0]?.A2_1_2 ?? null },
