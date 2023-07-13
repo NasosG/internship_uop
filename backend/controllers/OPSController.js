@@ -84,13 +84,11 @@ const sendDeltioExodouWS = async (req, res) => {
     const studentId = req.params.id;
     const MODE = 'WS';
     const activeStatus = false;
-    if (!activeStatus) {
+    if (!activeStatus || process.env.ENV == 'DEV') {
       return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
     }
     const sheetResults = await studentService.getStudentExitSheets(studentId);
 
-    /** WARNING **/
-    // TODO: Make adjustments for exit sheet fields
     const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
 
     console.log(xmlPostString);
@@ -391,7 +389,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
 /**
  * Get Post string to be used for XML download or API call for exit sheets
 */
-const getXmlPostStringExodou = async (studentId, mode) => {
+const getXmlPostStringExodou = async (studentId, mode, sheets) => {
   let finalCode;
   try {
     const results = await studentService.getStudentExitSheets(studentId);
