@@ -83,7 +83,7 @@ const sendDeltioExodouWS = async (req, res) => {
   try {
     const studentId = req.params.id;
     const MODE = 'WS';
-    const activeStatus = false;
+    const activeStatus = true;
     if (!activeStatus || process.env.ENV == 'DEV') {
       return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
     }
