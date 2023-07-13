@@ -156,7 +156,7 @@ export class SheetOutputOfficeComponent implements OnInit {
         Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
         return;
       }
-      const filename = `deltioEisodou${studentId}.xml`;
+      const filename = `deltioExodou${studentId}.xml`;
       const xmlBlob = new Blob([data], { type: 'text/xml;charset=utf-8' });
       const xmlURL = URL.createObjectURL(xmlBlob);
 
