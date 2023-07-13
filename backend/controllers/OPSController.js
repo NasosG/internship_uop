@@ -133,14 +133,11 @@ const sendDeltioExodouWS = async (req, res) => {
       console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
       return res.status(400).json({ message: 'Sheet already exists' });
     } else {
-      console.warn('OPS entry sheet WS response: ', parsedResponse);
-      return res.status(400).json({ message: 'Entry sheet - SOAP request failed' });
+      console.warn('OPS exit sheet WS response: ', parsedResponse);
+      return res.status(400).json({ message: 'Exit sheet - SOAP request failed' });
     }
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
-
-
-
   } catch (error) {
     console.error(error);
     res.status(500).send('SOAP request failed');
@@ -410,7 +407,7 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     const answers = [
       { id: 3, value: sheets?.A1 ?? null },
       { id: 6, value: sheets?.A2 ?? null },
-      { id: 64, value: sheets?.A2_0 ?? null },
+      // { id: 64, value: sheets?.A2_0 ?? null },
       { id: 7, value: sheets?.A2_1 ?? null },
       { id: 8, value: sheets?.A2_1_1 ?? null },
       { id: 9, value: sheets?.A2_1_2 ?? null },
@@ -428,22 +425,22 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
       { id: 21, value: sheets?.A3_1 ?? null },
       { id: 65, value: sheets?.A3_2 ?? null },
       { id: 51, value: sheets?.E1 ?? null },
-      { id: 58, value: sheets?.E2 ?? null },
-      { id: 67, value: sheets?.E2_1 ?? null },
-      { id: 68, value: sheets?.E2_2 ?? null },
-      { id: 69, value: sheets?.E2_3 ?? null },
-      { id: 59, value: sheets?.E3 ?? null },
-      { id: 70, value: sheets?.E3_1 ?? null },
-      { id: 71, value: sheets?.E3_2 ?? null },
-      { id: 72, value: sheets?.E3_3 ?? null },
-      { id: 61, value: sheets?.E4 ?? null },
-      { id: 73, value: sheets?.E4_1 ?? null },
-      { id: 74, value: sheets?.E4_2 ?? null },
-      { id: 75, value: sheets?.E4_3 ?? null },
-      { id: 60, value: sheets?.E5 ?? null },
-      { id: 76, value: sheets?.E5_1 ?? null },
-      { id: 77, value: sheets?.E5_2 ?? null },
-      { id: 78, value: sheets?.E5_3 ?? null }
+      // { id: 58, value: sheets?.E2 ?? null },
+      // { id: 67, value: sheets?.E2_1 ?? null },
+      // { id: 68, value: sheets?.E2_2 ?? null },
+      // { id: 69, value: sheets?.E2_3 ?? null },
+      // { id: 59, value: sheets?.E3 ?? null },
+      // { id: 70, value: sheets?.E3_1 ?? null },
+      // { id: 71, value: sheets?.E3_2 ?? null },
+      // { id: 72, value: sheets?.E3_3 ?? null },
+      // { id: 61, value: sheets?.E4 ?? null },
+      // { id: 73, value: sheets?.E4_1 ?? null },
+      // { id: 74, value: sheets?.E4_2 ?? null },
+      // { id: 75, value: sheets?.E4_3 ?? null },
+      // { id: 60, value: sheets?.E5 ?? null },
+      // { id: 76, value: sheets?.E5_1 ?? null },
+      // { id: 77, value: sheets?.E5_2 ?? null },
+      // { id: 78, value: sheets?.E5_3 ?? null }
     ];
 
     if (sheets) {
