@@ -119,8 +119,8 @@ const sendDeltioExodouWS = async (req, res) => {
       idDeltiou = parsedResponse.idDeltiou;
 
       // Could also keep the idOfel in the database, but it's not necessary.
-      if (parsedResponse.idOfel && !sheetResults.ops_number_exodou) {
-        await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults.exit_id, 'exit');
+      if (parsedResponse.idOfel && !sheetResults[0].ops_number_exodou) {
+        await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults[0].exit_id, 'exit');
       }
       console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
     } else if (Number(errorCode) == -11) {
@@ -398,6 +398,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
 */
 const getXmlPostStringExodou = async (studentId, mode, sheets) => {
   let finalCode;
+  console.log(studentId, mode, sheets[0].A3);
   try {
     const studentInfo = await studentService.getStudentById(studentId);
     const assignmenInfo = await studentService.getApprovedAssignmentInfoByStudentId(studentId);
@@ -405,52 +406,52 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     let microdata = '';
 
     const answers = [
-      { id: 3, value: sheets?.A1 ?? null },
-      { id: 6, value: sheets?.A2 ?? null },
-      // { id: 64, value: sheets?.A2_0 ?? null },
-      { id: 7, value: sheets?.A2_1 ?? null },
-      { id: 8, value: sheets?.A2_1_1 ?? null },
-      { id: 9, value: sheets?.A2_1_2 ?? null },
-      { id: 10, value: sheets?.A2_1_3 ?? null },
-      { id: 11, value: sheets?.A2_1_4 ?? null },
-      { id: 12, value: sheets?.A2_1_5 ?? null },
-      { id: 13, value: sheets?.A2_1_6 ?? null },
-      { id: 14, value: sheets?.A2_2 ?? null },
-      { id: 15, value: sheets?.A2_2_1 ?? null },
-      { id: 16, value: sheets?.A2_2_2 ?? null },
-      { id: 17, value: sheets?.A2_2_3 ?? null },
-      { id: 18, value: sheets?.A2_3 ?? null },
-      { id: 63, value: sheets?.A2_4 ?? null },
-      { id: 20, value: sheets?.A3 ?? null },
-      { id: 21, value: sheets?.A3_1 ?? null },
-      { id: 65, value: sheets?.A3_2 ?? null },
-      { id: 51, value: sheets?.E1 ?? null },
-      // { id: 58, value: sheets?.E2 ?? null },
-      // { id: 67, value: sheets?.E2_1 ?? null },
-      // { id: 68, value: sheets?.E2_2 ?? null },
-      // { id: 69, value: sheets?.E2_3 ?? null },
-      // { id: 59, value: sheets?.E3 ?? null },
-      // { id: 70, value: sheets?.E3_1 ?? null },
-      // { id: 71, value: sheets?.E3_2 ?? null },
-      // { id: 72, value: sheets?.E3_3 ?? null },
-      // { id: 61, value: sheets?.E4 ?? null },
-      // { id: 73, value: sheets?.E4_1 ?? null },
-      // { id: 74, value: sheets?.E4_2 ?? null },
-      // { id: 75, value: sheets?.E4_3 ?? null },
-      // { id: 60, value: sheets?.E5 ?? null },
-      // { id: 76, value: sheets?.E5_1 ?? null },
-      // { id: 77, value: sheets?.E5_2 ?? null },
-      // { id: 78, value: sheets?.E5_3 ?? null }
+      { id: 3, value: sheets[0]?.A1 ?? null },
+      { id: 6, value: sheets[0]?.A2 ?? null },
+      // { id: 64, value: sheets[0]?.A2_0 ?? null },
+      { id: 7, value: sheets[0]?.A2_1 ?? null },
+      { id: 8, value: sheets[0]?.A2_1_1 ?? null },
+      { id: 9, value: sheets[0]?.A2_1_2 ?? null },
+      { id: 10, value: sheets[0]?.A2_1_3 ?? null },
+      { id: 11, value: sheets[0]?.A2_1_4 ?? null },
+      { id: 12, value: sheets[0]?.A2_1_5 ?? null },
+      { id: 13, value: sheets[0]?.A2_1_6 ?? null },
+      { id: 14, value: sheets[0]?.A2_2 ?? null },
+      { id: 15, value: sheets[0]?.A2_2_1 ?? null },
+      { id: 16, value: sheets[0]?.A2_2_2 ?? null },
+      { id: 17, value: sheets[0]?.A2_2_3 ?? null },
+      { id: 18, value: sheets[0]?.A2_3 ?? null },
+      { id: 63, value: sheets[0]?.A2_4 ?? null },
+      { id: 20, value: sheets[0]?.A3 ?? null },
+      { id: 21, value: sheets[0]?.A3_1 ?? null },
+      { id: 65, value: sheets[0]?.A3_2 ?? null },
+      { id: 51, value: sheets[0]?.E1 ?? null },
+      // { id: 58, value: sheets[0]?.E2 ?? null },
+      // { id: 67, value: sheets[0]?.E2_1 ?? null },
+      // { id: 68, value: sheets[0]?.E2_2 ?? null },
+      // { id: 69, value: sheets[0]?.E2_3 ?? null },
+      // { id: 59, value: sheets[0]?.E3 ?? null },
+      // { id: 70, value: sheets[0]?.E3_1 ?? null },
+      // { id: 71, value: sheets[0]?.E3_2 ?? null },
+      // { id: 72, value: sheets[0]?.E3_3 ?? null },
+      // { id: 61, value: sheets[0]?.E4 ?? null },
+      // { id: 73, value: sheets[0]?.E4_1 ?? null },
+      // { id: 74, value: sheets[0]?.E4_2 ?? null },
+      // { id: 75, value: sheets[0]?.E4_3 ?? null },
+      // { id: 60, value: sheets[0]?.E5 ?? null },
+      // { id: 76, value: sheets[0]?.E5_1 ?? null },
+      // { id: 77, value: sheets[0]?.E5_2 ?? null },
+      // { id: 78, value: sheets[0]?.E5_3 ?? null }
     ];
 
-    if (sheets) {
-      if (sheets?.A2_1 === true ||
-        sheets.A2_2 === true ||
-        sheets.A2_3 === true) {
+    if (sheets[0]) {
+      if (sheets[0]?.A2_1 === true ||
+        sheets[0].A2_2 === true ||
+        sheets[0].A2_3 === true) {
         answers.find(answer => answer.id === 6).value = true;
       }
 
-      if (sheets?.B4 === true) {
+      if (sheets[0]?.B4 === true) {
         answers.push({ id: 25, value: true });
         answers.push({ id: 57, value: true });
       } else {
@@ -459,7 +460,7 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
       }
     }
 
-    answers.find(answer => answer.id == 63).value = false;
+    // answers.find(answer => answer.id == 63).value = false;
 
     answers.forEach(answer => {
       microdata += createMicrodata(answer.id, answer.value);
