@@ -1156,8 +1156,10 @@ const updateSheetOpsNumberById = async (opsNumber, id, sheetType) => {
       updateResults = await pool.query(`UPDATE entry_form
                             SET ops_number_eisodou = $1 WHERE id = $2`, [opsNumber, id]);
     } else if (sheetType == 'exit') {
+      console.log('B4 EXIT QUERY');
       updateResults = await pool.query(`UPDATE exit_form
                             SET ops_number_exodou = $1 WHERE exit_id = $2`, [opsNumber, id]);
+      console.log('AFTER EXIT QUERY');
     } else {
       console.error('Invalid sheet type given');
       throw Error('Invalid sheet type given');
@@ -1165,7 +1167,7 @@ const updateSheetOpsNumberById = async (opsNumber, id, sheetType) => {
 
     return updateResults;
   } catch (error) {
-    console.error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType);
+    console.error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType + " error: " + error.message);
     throw Error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType);
   }
 };
