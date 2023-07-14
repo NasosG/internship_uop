@@ -312,14 +312,16 @@ export class StudentContractsComponent implements OnInit {
       ολοκλήρωσε την Πρακτική Άσκηση:<br>
       ${student.assigned_position_id} - ${student.pa_subject}<br><br>
       στο χρονικό διάστημα ${this.turnTimestampToDatePrint(student.pa_start_date)} εώς ${this.turnTimestampToDatePrint(student.pa_end_date)}<br><br>
-      στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.company_liaison}.<br><br>
-      Ως επόπτης για την εκπόνηση της εν λόγω Πρακτικής Άσκησης ανέλαβε ο/η ${student.company_liaison}.
+
       </div>
       <br><br><br>
       <div style="width: 55%; margin: auto;">
         <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
       </div>
       </html>`;
+
+      //  στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.company_name}.<br><br>
+      // Ως επόπτης για την εκπόνηση της εν λόγω Πρακτικής Άσκησης ανέλαβε ο/η ${student.company_liaison ?? '-'}.
 
       const filename = `completion_certificate.html`;
       const pdfBlob = new Blob([pdfContent]);
