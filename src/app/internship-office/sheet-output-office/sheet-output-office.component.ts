@@ -12,6 +12,7 @@ import { OfficeUser } from '../office-user.model';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { catchError, of } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sheet-output-office',
@@ -31,6 +32,7 @@ export class SheetOutputOfficeComponent implements OnInit {
   private officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
   public filteredData: any = [];
+  private periodIdAfterChange!: number;
 
   selectedDepartment: any = {
     academic_id: 0,
@@ -131,18 +133,32 @@ export class SheetOutputOfficeComponent implements OnInit {
           })
       )
       .subscribe((res: any) => {
-        if (res.status == 200) {
+        if (res.status == 'DONE') {
 
           if (res.message == 'deactivated') {
             alert("Currently deactivated");
             return;
           }
 
-          Utils.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
+          this.displaySuccessSwal('Το δελτίο ανέβηκε με επιτυχία.');
         } else {
           Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
         }
       });
+  }
+
+  public displaySuccessSwal(displayText: string) {
+    Swal.fire({
+      title: 'Επιτυχία',
+      text: displayText,
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    }).then((result) => {
+      this.onPeriodChange(this.periodIdAfterChange || null);
+    });
   }
 
   getXML(studentId: any, type: string) {
@@ -183,6 +199,7 @@ export class SheetOutputOfficeComponent implements OnInit {
     this.filteredData = [];
 
     let periodId = value ? value : 0;
+    this.periodIdAfterChange = value;
     console.log(this.selectedDepartment.academic_id);
     this.officeService.getStudentsWithSheetOutput(periodId)
       .pipe(

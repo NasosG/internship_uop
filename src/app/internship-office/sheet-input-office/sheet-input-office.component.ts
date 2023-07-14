@@ -33,6 +33,7 @@ export class SheetInputOfficeComponent implements OnInit {
   public officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
   public filteredData: any = [];
+  private periodIdAfterChange!: number;
 
   selectedDepartment: any = {
     academic_id: 0,
@@ -138,7 +139,7 @@ export class SheetInputOfficeComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'ΟΚ'
     }).then((result) => {
-      this.onPeriodChange(null);
+      this.onPeriodChange(this.periodIdAfterChange || null);
     });
   }
 
@@ -178,6 +179,7 @@ export class SheetInputOfficeComponent implements OnInit {
     this.filteredData = [];
 
     let periodId = value ? value : 0;
+    this.periodIdAfterChange = value;
     console.log(this.selectedDepartment.academic_id);
     this.officeService.getStudentsWithSheetInput(periodId)
       .pipe(
