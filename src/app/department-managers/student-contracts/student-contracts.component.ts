@@ -35,6 +35,7 @@ export class StudentContractsComponent implements OnInit {
   periods: Period[] | undefined;
   isLoading: boolean = false;
   studentContract: any;
+  private periodIdAfterChange: number | null = null;
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -111,6 +112,7 @@ export class StudentContractsComponent implements OnInit {
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
+    this.periodIdAfterChange = value;
     this.depManagerService.getStudentListForPeriod(value)
     .subscribe({
       next: (students: any[]) => {
@@ -269,6 +271,68 @@ export class StudentContractsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      if (result === Utils.CustomDialogAction.OK) {
+        let initialPeriod = this.periods != null ? this.periods[0].id : null;
+        this.onPeriodChange(this.periodIdAfterChange || initialPeriod);
+      }
+    });
+  }
+
+
+  private turnTimestampToDatePrint(timestamp: any) {
+    return moment(timestamp).format('DD/MM/YYYY');
+  }
+
+  printCompletionCertificate(idx: number, student:any) {
+    if (!student) return;
+    let studentName = student.givenname + " " + student.sn;
+
+    const imageUrls = [
+      'assets/images/logoPaymentOrder.jpg',
+      'assets/images/espaImage2a.jpg'
+    ];
+
+    const imagePromises = imageUrls.map(url => Utils.getBase64Image(url));
+
+    Promise.all(imagePromises).then(base64Images => {
+      const [image1, image2] = base64Images;
+
+      const pdfContent = `
+      <html>
+      <div style="width: 59%; margin: auto;">
+        <img style="width:400px;" src="${image1}" alt="UOP Logo" >
+      </div>
+      <div style="text-align: center">
+        <p style="color:#2d05ce">Σύστημα Κεντρικής Υποστήριξης της Πρακτικής Άσκησης Φοιτητών</p><br>
+        <strong>Βεβαίωση Ολοκλήρωσης Πρακτικής Άσκησης</strong><br><br>
+      </div>
+      <div>
+      Βεβαιώνεται ότι ο/η ${studentName} φοιτητής/τρια στο τμήμα ${student.dept_name} του Ιδρύματος ΠΑΝΕΠΙΣΤΗΜΙΟ
+      ΠΕΛΟΠΟΝΝΗΣΟΥ με Αριθμό Μητρώου ${student.schacpersonaluniquecode} <br><br>
+      ολοκλήρωσε την Πρακτική Άσκηση:<br>
+      ${student.assigned_position_id} - ${student.pa_subject}<br><br>
+      στο χρονικό διάστημα ${this.turnTimestampToDatePrint(student.pa_start_date)} εώς ${this.turnTimestampToDatePrint(student.pa_end_date)}<br><br>
+      στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.company_liaison}.<br><br>
+      Ως επόπτης για την εκπόνηση της εν λόγω Πρακτικής Άσκησης ανέλαβε ο/η ${student.company_liaison}.
+      </div>
+      <br><br><br>
+      <div style="width: 55%; margin: auto;">
+        <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
+      </div>
+      </html>`;
+
+      const filename = `completion_certificate.html`;
+      const pdfBlob = new Blob([pdfContent]);
+      const xmlURL = URL.createObjectURL(pdfBlob);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = xmlURL;
+      downloadLink.download = filename;
+      downloadLink.click();
+
+      // Clean up
+      URL.revokeObjectURL(xmlURL);
+      downloadLink.remove();
     });
   }
 

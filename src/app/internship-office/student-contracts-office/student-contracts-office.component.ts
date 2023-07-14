@@ -37,6 +37,7 @@ export class StudentContractsOfficeComponent implements OnInit {
   private officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
   public filteredData: any = [];
+  private periodIdAfterChange!: number;
 
   selectedDepartment: any = {
     academic_id: 0,
@@ -103,6 +104,7 @@ export class StudentContractsOfficeComponent implements OnInit {
     this.filteredData = [];
 
     let periodId = value ? value : 0;
+    this.periodIdAfterChange = value;
     console.log(this.selectedDepartment.academic_id);
     this.officeService.getStudentListForPeriodAndAcademic(this.selectedDepartment.academic_id, periodId)
       .subscribe((students: any) => {
@@ -113,41 +115,9 @@ export class StudentContractsOfficeComponent implements OnInit {
             this.studentsData[i].user_ssn = students[i].user_ssn;
           }
 
-          // this.initDataTable();
           this.isLoading = false;
-      // }, error: (error: any) => {
-      //   console.log(error);
-      //   this.isLoading = false;
-      // }
     });
   }
-
-  // private initDataTable(): void {
-  //   // if (this.contractsTable) {
-  //   //   (this.contractsTable as any).destroy();
-  //   // }
-  //   this.chRef.detectChanges();
-  //   // Use of jQuery DataTables
-  //   const table: any = $('#contractsTable');
-  //   this.contractsTable = table.DataTable({
-  //     destroy: true,
-  //     lengthMenu: [
-  //       [10, 25, 50, -1],
-  //       [10, 25, 50, 'All']
-  //     ],
-  //     lengthChange: true,
-  //     paging: true,
-  //     searching: true,
-  //     ordering: false,
-  //     info: true,
-  //     autoWidth: false,
-  //     responsive: true,
-  //     select: true,
-  //     pagingType: 'full_numbers',
-  //     processing: true,
-  //     columnDefs: [{ orderable: false, targets: [3] }]
-  //   });
-  // }
 
   onDepartmentChange(value: any) {
     this.isLoading = true;
@@ -313,6 +283,67 @@ export class StudentContractsOfficeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      if (result === Utils.CustomDialogAction.OK) {
+        this.onPeriodChange(this.periodIdAfterChange || null);
+      }
     });
   }
+
+  private turnTimestampToDatePrint(timestamp: any) {
+    return moment(timestamp).format('DD/MM/YYYY');
+  }
+
+  printCompletionCertificate(idx: number, student:any) {
+    if (!student) return;
+    let studentName = student.givenname + " " + student.sn;
+
+    const imageUrls = [
+      'assets/images/logoPaymentOrder.jpg',
+      'assets/images/espaImage2a.jpg'
+    ];
+
+    const imagePromises = imageUrls.map(url => Utils.getBase64Image(url));
+
+    Promise.all(imagePromises).then(base64Images => {
+      const [image1, image2] = base64Images;
+
+      const pdfContent = `
+      <html>
+      <div style="width: 59%; margin: auto;">
+        <img style="width:400px;" src="${image1}" alt="UOP Logo" >
+      </div>
+      <div style="text-align: center">
+        <p style="color:#2d05ce">Σύστημα Κεντρικής Υποστήριξης της Πρακτικής Άσκησης Φοιτητών</p><br>
+        <strong>Βεβαίωση Ολοκλήρωσης Πρακτικής Άσκησης</strong><br><br>
+      </div>
+      <div>
+      Βεβαιώνεται ότι ο/η ${studentName} φοιτητής/τρια στο τμήμα ${student.dept_name} του Ιδρύματος ΠΑΝΕΠΙΣΤΗΜΙΟ
+      ΠΕΛΟΠΟΝΝΗΣΟΥ με Αριθμό Μητρώου ${student.schacpersonaluniquecode} <br><br>
+      ολοκλήρωσε την Πρακτική Άσκηση:<br>
+      ${student.assigned_position_id} - ${student.pa_subject}<br><br>
+      στο χρονικό διάστημα ${this.turnTimestampToDatePrint(student.pa_start_date)} εώς ${this.turnTimestampToDatePrint(student.pa_end_date)}<br><br>
+      στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.company_liaison}.<br><br>
+      Ως επόπτης για την εκπόνηση της εν λόγω Πρακτικής Άσκησης ανέλαβε ο/η ${student.company_liaison}.
+      </div>
+      <br><br><br>
+      <div style="width: 55%; margin: auto;">
+        <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
+      </div>
+      </html>`;
+
+      const filename = `completion_certificate.html`;
+      const pdfBlob = new Blob([pdfContent]);
+      const xmlURL = URL.createObjectURL(pdfBlob);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = xmlURL;
+      downloadLink.download = filename;
+      downloadLink.click();
+
+      // Clean up
+      URL.revokeObjectURL(xmlURL);
+      downloadLink.remove();
+    });
+  }
+
 }

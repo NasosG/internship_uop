@@ -82,7 +82,12 @@
                           text-with-dots">
                           <i class="fa fa-pencil-alt"></i> Αλλαγή Ημ/νιών</span>
                         <br>
-                        <span (click)="openInternshipCompletionDialog(idx, student.assigned_position_id)" class="ml-2 text-secondary custom-info-btn
+                        <span *ngIf="student?.status == 1" class="ml-2 text-secondary custom-info-btn text-with-dots"
+                          (click)="printCompletionCertificate(idx, student)">
+                          <i class="fa fa-download"></i> Βεβαίωση </span>
+
+                        <span *ngIf="student?.status != 1"
+                          (click)="openInternshipCompletionDialog(idx, student.assigned_position_id)" class="ml-2 text-secondary custom-info-btn
                           text-with-dots">
                           <i class="fa fa-check"></i> Ολοκλήρωση</span>
                       </td>

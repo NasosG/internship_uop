@@ -27,6 +27,11 @@ export abstract class Utils {
     });
   }
 
+  public static CustomDialogAction = {
+    CANCEL : 'CANCEL',
+    OK : 'OK'
+  }
+
   public static onSaveSwal() {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
@@ -154,6 +159,17 @@ export abstract class Utils {
       icon: 'error',
       title: 'Ανεπαρκή δικαιώματα χρήστη',
       text: message,
+    });
+  }
+
+  public static async getBase64Image(imageUrl: string): Promise<string> {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
     });
   }
 

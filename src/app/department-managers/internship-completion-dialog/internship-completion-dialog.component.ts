@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { DepManagerService } from '../dep-manager.service';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { Utils } from 'src/app/MiscUtils';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -75,7 +76,7 @@ export class InternshipCompletionDialogComponent implements OnInit {
   ) { }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(Utils.CustomDialogAction.CANCEL);
   }
 
   ngOnInit(): void {
@@ -155,7 +156,8 @@ export class InternshipCompletionDialogComponent implements OnInit {
 
         this.depManagerService.updateAssignmentStateByStudentAndPosition(this.data.studentId, this.data.assigned_position_id, this.data.periodId)
           .subscribe((data: any ) => {
-            console.log(`gucci ${data}`);
+            console.log(`updateAssignmentState good - data: ${data}`);
+            this.dialogRef.close(Utils.CustomDialogAction.OK);
           });
       });
   }
