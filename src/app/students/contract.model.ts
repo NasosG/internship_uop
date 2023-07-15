@@ -1,6 +1,7 @@
 export interface Contract {
   contract_date: string;
   company_name: string;
+  asgmt_company_name?: string;
   company_afm: string;
   company_address: string;
   company_liaison: string;

@@ -37,7 +37,7 @@ export class StudentContractsComponent implements OnInit {
   studentContract: any;
   private periodIdAfterChange: number | null = null;
 
-  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private elRef: ElementRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
@@ -113,15 +113,24 @@ export class StudentContractsComponent implements OnInit {
     this.isLoading = true;
     this.selected = value;
     this.periodIdAfterChange = value;
+
     this.depManagerService.getStudentListForPeriod(value)
     .subscribe({
       next: (students: any[]) => {
-        this.studentsData = students;
-          for (let i = 0; i < students.length; i++) {
-            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-            this.studentsData[i].user_ssn = students[i].user_ssn;
-          }
+        this.studentsData = students.map(student => ({
+          ...student,
+          schacpersonaluniquecode: this.getAM(student.schacpersonaluniquecode),
+          user_ssn: student.user_ssn
+        }));
+
         this.isLoading = false;
+
+        // Trigger change detection to update the template with new data
+        this.chRef.detectChanges();
+
+        // Show all results by changing the page length to -1
+        const table = $(this.elRef.nativeElement).find('#contractsTable');
+        table.DataTable().page.len(-1).draw();
       }, error: (error: any) => {
           console.log(error);
           this.isLoading = false;

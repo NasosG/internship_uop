@@ -22,7 +22,8 @@
     </mat-form-field>
     <mat-form-field class="mt-2 w-40 ml-2 mat-full-width" appearance="fill">
       <mat-label for="company_name">Επωνυμία Εταιρείας</mat-label>
-      <input id="company_name" matInput [(ngModel)]="studentContract.company_name" formControlName="company_name">
+      <input id="company_name" matInput [(ngModel)]="studentContract.asgmt_company_name || studentContract.company_name"
+        formControlName="company_name">
     </mat-form-field>
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
