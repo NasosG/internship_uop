@@ -1132,7 +1132,7 @@ const produceContractFile = async (request, response) => {
     // Render the document (Replace placeholders {first_name} by John etc.)
     doc.render({
       CONTRACT_DATE: !metadata.contract_date ? "………………" : moment(metadata.contract_date).format('DD/MM/YYYY'),
-      COMPANY_NAME: metadata.company_name,
+      COMPANY_NAME: metadata.asgmt_company_name || metadata.company_name,
       COMPANY_AFM: metadata.company_afm,
       COMPANY_ADDRESS: !metadata.company_address ? "…………………………………………….." : metadata.company_address,
       COMPANY_LIAISON: !metadata.company_liaison ? "………………" : metadata.company_liaison,
