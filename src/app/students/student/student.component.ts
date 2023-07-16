@@ -30,9 +30,9 @@ export class StudentComponent implements OnInit, OnDestroy {
   dateTo!: string;
   isDeclarationEnabled!: boolean;
   areOptionsEnabled!: boolean;
+  public comment: any;
   private INTEREST_EXPRESSION_PHASE: number = 1;
   private PREFERENCE_DECLARATION_PHASE: number = 2;
-  public comment: any;
 
   constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute,
               public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
@@ -141,7 +141,8 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   changeFont(operator: string) {
-    operator === '+' ? this.fontSize += 10 : this.fontSize -= 10; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    operator === '+' ? this.fontSize += 10 : this.fontSize -= 10;
+    (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
     if (this.fontSize >= 200) this.fontSize = 200;
     else if (this.fontSize <= 70) this.fontSize = 70;
 
@@ -149,7 +150,8 @@ export class StudentComponent implements OnInit, OnDestroy {
   }
 
   resetFont() {
-    this.fontSize = 100; (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
+    this.fontSize = 100;
+    (document.getElementById('content-wrapper'))!.style.fontSize = `${this.fontSize}%`;
     document.getElementById('fontSizeSpan')!.innerHTML = `${this.fontSize}%`;
   }
 

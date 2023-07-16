@@ -185,11 +185,12 @@ export class PaymentOrdersComponent implements OnInit {
           "Ημερομηνία Έναρξης ΠΑ": this.studentContracts[i].pa_start_date,
           "Ημερομηνία Λήξης ΠΑ": this.studentContracts[i].pa_end_date,
           "Όνομα ΤΥ": this.studentContracts[i].department_manager_name,
-          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null
+          "email": studentIndex !== -1 ? this.studentsData[studentIndex].mail : null,
+          "Ολοκλήρωση": studentIndex !== -1 ? this.studentsData[studentIndex]?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ' : null
         });
       }
 
-      const excelFileName: string = "StudentsContracts.xlsx";
+      const excelFileName: string = "StudentsPaymentOrders.xlsx";
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson);
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');

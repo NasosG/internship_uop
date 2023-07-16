@@ -1,7 +1,6 @@
 <div class="pb-0 mb-4 pl-3 container-responsive row my-container">
   <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
     Επιλογή Τμήματος: </h5>
-  <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
   <div class="col-12 col-sm-10 pt-3">
     <div class="form-group col-md-4 mb-0 pb-0">
       <mat-form-field appearance="outline" style="min-width:310px;">
@@ -38,7 +37,7 @@
   <h4 *ngIf="periodData.semester != null && departmentSelect.value != null">
     Τρέχουσα Περίοδος </h4>
   <table *ngIf="periodData.semester != null && departmentSelect.value != null" ngNativeValidate id="dep-manager-table"
-    class="table table-bordered" style="background-color:white">
+    class="table table-bordered" style="background-color: white">
     <thead>
       <tr>
         <th scope="col">Εξάμηνο</th>
@@ -69,7 +68,7 @@
     <h4>Aνάρτηση θέσεων ΕΣΠΑ <br><strong>ανά Ακαδημαϊκό
         Εξάμηνο</strong></h4>
     <div class="form-group row w-25 positions-add-div">
-      <label for="inputPassword" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
+      <label for="positions" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
       <div class="col-sm-6" *ngIf="fallbackPositions == 0">
         <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="periodData.positions" id="positions"
           class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
