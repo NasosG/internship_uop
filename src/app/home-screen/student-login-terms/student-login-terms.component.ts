@@ -42,7 +42,7 @@ export class StudentLoginTermsComponent implements OnInit {
                   // If student has more than one department, he/she must choose
                   this.router.navigateByUrl('/student/choose-dept/' + this.authService.getSessionId());
                 }
-            });
+              });
           }
         });
     }

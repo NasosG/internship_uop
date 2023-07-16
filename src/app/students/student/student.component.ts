@@ -31,17 +31,15 @@ export class StudentComponent implements OnInit, OnDestroy {
   isDeclarationEnabled!: boolean;
   areOptionsEnabled!: boolean;
   private INTEREST_EXPRESSION_PHASE: number = 1;
-  // private STUDENT_SELECTION_PHASE: number = 2;
-  // private PREFERENCE_DECLARATION_PHASE: number = 3;
   private PREFERENCE_DECLARATION_PHASE: number = 2;
   public comment: any;
 
   constructor(public studentsService: StudentsService, private router: Router, private route: ActivatedRoute,
-    public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
+              public authService: AuthService, public translate: TranslateService, public dialog: MatDialog) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd && window.matchMedia('(max-width: 991px)').matches) {
-         document.body.classList.add('sidebar-collapse');
-         document.body.classList.add('sidebar-closed');
+        document.body.classList.add('sidebar-collapse');
+        document.body.classList.add('sidebar-closed');
       }
     });
     translate.addLangs(['en', 'gr']);
@@ -101,37 +99,31 @@ export class StudentComponent implements OnInit, OnDestroy {
   // ngAfterViewInit(): void { }
 
   public fetchStudentAndPeriod() {
-    //this.authService.login('pcst19003')
-      //.subscribe((response) => {
-        //this.authService.setToken(response.token);
-        //this.authService.setSessionId(response.userId);
-       // console.log(response);
-        this.studentsService.getStudents()
-          .subscribe((students: Student[]) => {
-            this.studentsSSOData = students;
-            this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
-            this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
-            this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
-              .subscribe((period: Period) => {
-                this.period = period;
-                this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
-                this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
+    this.studentsService.getStudents()
+      .subscribe((students: Student[]) => {
+        this.studentsSSOData = students;
+        this.studentsSSOData[0].schacdateofbirth = Utils.reformatDateOfBirth(this.studentsSSOData[0].schacdateofbirth);
+        this.studentsSSOData[0].user_ssn = this.getSSN(this.studentsSSOData[0].user_ssn);
+        this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
+          .subscribe((period: Period) => {
+            this.period = period;
+            this.dateFrom = Utils.reformatDateToEULocaleStr(this.period.date_from);
+            this.dateTo = Utils.reformatDateToEULocaleStr(this.period.date_to);
 
-                // May need to add locale
-                //const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
-                const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day') && moment(new Date()).isSameOrAfter(period.date_from, 'day');
+            // May need to add locale
+            //const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day')
+            const isPeriodDateActive = moment(new Date()).isSameOrBefore(period.date_to, 'day') && moment(new Date()).isSameOrAfter(period.date_from, 'day');
 
-                this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
-                this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
-              });
-            this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
-              .subscribe((comment: any) => {
-                this.comment = comment;
-                const dateDif = moment(comment.comment_date, "YYYY-MM-DD HH:mm:ss").locale("el").fromNow();
-                this.comment.comment_date = dateDif;
-              });
+            this.isDeclarationEnabled = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && isPeriodDateActive;
+            this.areOptionsEnabled = period.is_active && period.phase_state > this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isPeriodDateActive;
           });
-      //});
+        this.studentsService.getCommentByStudentIdAndSubject(this.studentsSSOData[0]?.sso_uid, 'Δικαιολογητικά')
+          .subscribe((comment: any) => {
+            this.comment = comment;
+            const dateDif = moment(comment.comment_date, "YYYY-MM-DD HH:mm:ss").locale("el").fromNow();
+            this.comment.comment_date = dateDif;
+          });
+      });
   }
 
   ngOnDestroy(): void {
