@@ -1450,7 +1450,7 @@ const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
     const assignedPositions = await getAssignedPositionsPerBatch(nextBatchItemsNo);
 
     if (!assignedPositions || assignedPositions.length == 0) {
-      console.log(nextBatchItemsNo, atlasPositionId);
+      console.log(nextBatchItemsNo, atlasPositionId, position.ID);
       return {
         "status": MiscUtils.AssignedPositionStatus.NO_MORE_DATA,
         "ImplementationEndDateString": null,
