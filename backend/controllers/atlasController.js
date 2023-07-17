@@ -1450,7 +1450,7 @@ const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
     const assignedPositions = await getAssignedPositionsPerBatch(nextBatchItemsNo);
 
     if (!assignedPositions || assignedPositions.length == 0) {
-      console.log(nextBatchItemsNo, atlasPositionId, position.ID);
+      console.log(nextBatchItemsNo, atlasPositionId);
       return {
         "status": MiscUtils.AssignedPositionStatus.NO_MORE_DATA,
         "ImplementationEndDateString": null,
@@ -1459,6 +1459,7 @@ const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
     }
 
     const position = assignedPositions.find(position => position.ID == atlasPositionId);
+    console.log(nextBatchItemsNo, atlasPositionId, position?.ID);
     console.log("before not found");
     if (!position) {
       console.log("not found");
