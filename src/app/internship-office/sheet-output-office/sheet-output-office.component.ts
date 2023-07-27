@@ -68,13 +68,15 @@ export class SheetOutputOfficeComponent implements OnInit {
   }
 
   openDialog(idx: any) {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
+
     if (!this.officeUserData?.is_admin) {
       Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να δείτε το δελτίο του φοιτητή.');
       return;
     }
     console.log(idx);
     const dialogRef = this.dialog.open(SheetOutputOfficeDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '50%',
+      data: { studentsData: studentFinalData, index: idx }, width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -83,13 +85,15 @@ export class SheetOutputOfficeComponent implements OnInit {
   }
 
   openEditDialog(idx: any) {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
+
     if (!this.officeUserData?.is_admin) {
       Utils.displayErrorPrivilegesSwal('Δεν έχετε δικαίωμα διαχειριστή ώστε να επεξεργαστείτε το δελτίο του φοιτητή.');
       return;
     }
     console.log(idx);
     const dialogRef = this.dialog.open(SheetOutputOfficeEditDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '50%',
+      data: { studentsData: studentFinalData, index: idx }, width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
