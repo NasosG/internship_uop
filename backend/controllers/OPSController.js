@@ -204,7 +204,7 @@ const parseXmlResponse = async (xml) => {
 const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   const afm = studentInfo.ssn;
   const amka = studentInfo.user_ssn;
-  const adt = studentInfo.id_card;
+  const adt = studentInfo.id_card.replace(/\s/g, "");
   const gender = studentInfo.schacgender;
   const street = studentInfo.address;
   const city = studentInfo.city;
