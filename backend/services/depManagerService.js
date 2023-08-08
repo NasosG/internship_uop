@@ -946,6 +946,7 @@ const getStudentPaymentsListForPeriod = async (periodId) => {
                                     FROM final_assignments_list list
                                     INNER JOIN internship_assignment asn ON asn.period_id = list.period_id
                                     INNER JOIN sso_users usr ON usr.uuid = asn.student_id AND asn.list_id IS NOT NULL
+                                    INNER JOIN entry_form ON usr.uuid = entry_form.student_id
                                     INNER JOIN exit_form ON usr.uuid = exit_form.student_id
                                     WHERE list.period_id = $1`, [periodId]);
     return result.rows;
