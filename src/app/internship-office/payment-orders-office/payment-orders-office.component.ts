@@ -72,10 +72,9 @@ export class PaymentOrdersOfficeComponent implements OnInit {
   }
 
   openEditPaymentOrderDialog(idx: any) {
-    console.log(idx);
-    console.log(this.studentsData[idx])
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(EditPaymentOrderDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '600px',
+      data: { studentsData: studentFinalData, index: idx }, width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

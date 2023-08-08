@@ -87,7 +87,8 @@
                      </tr>
                    </thead>
                    <tbody>
-                     <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                     <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData) ; let idx=index"
+                       [attr.data-index]="idx">
                        <td>{{idx + 1}}</td>
                        <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
                            {{student.sn}}</a>
