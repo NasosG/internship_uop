@@ -219,7 +219,7 @@ const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   // 0: for exit sheets - 1: for entry sheets
   const eisodosFlag = sheetType == 'entry' ? 1 : 0;
   const kodikosMIS = 5184863;
-  const kodikosYpoergou = (studentInfo.department_id.toString().length <= 4) ? 349817 : ''; //5035;
+  const kodikosYpoergou = (studentInfo.department_id.toString().length <= 4) ? 349817 : MiscUtils.getTypeOfTEI(studentInfo.department_id); //5035;
   const idGeoDimos = 48;
   const startTime = position.pa_start_date;
   const endTime = position.pa_end_date;

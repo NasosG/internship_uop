@@ -234,6 +234,20 @@ const AssignedPositionStatus = {
   NO_MORE_DATA: -1
 };
 
+const getTypeOfTEI = (departmentCode) => {
+  const departmentCodeNum = Number(departmentCode);
+  // TODO: Find the codes
+  const codeTeiPatras = 'somecode';
+  const codeTeiKalamatas = 'somecode2';
+  const teiPatras = [152201, 152202, 152301, 152401];
+  const teiKalamatas = [151301, 151401, 151501, 151101, 151201, 151901];
+
+  if (teiPatras.includes(departmentCodeNum)) return codeTeiPatras;
+  if (teiKalamatas.includes(departmentCodeNum)) return codeTeiKalamatas;
+
+  return 'Unknown TEI';
+};
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -257,5 +271,6 @@ module.exports = {
   splitStudentsAMForAtlas,
   convertDateFromYearMonthDayToDayMonthYear,
   formatDateToISO,
-  formatDateString
+  formatDateString,
+  getTypeOfTEI
 };
