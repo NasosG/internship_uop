@@ -19,8 +19,14 @@ describe('fixIdCards', () => {
 
     for (let i = 0; i < length; i++) {
       let studentAM = utils.splitStudentsAM(rows[i].am);
-      const result = await getStudentFactorProcedure(rows[i].dep_id, studentAM);
-      console.log(rows[i].dep_id, studentAM);
+
+      let deptIdForProcedure = rows[i].dep_id;
+      if (rows[i].dep_id.toString().length == 6) {
+        deptIdForProcedure = utils.getAEICodeFromDepartmentId(rows[i].dep_id);
+      }
+
+      const result = await getStudentFactorProcedure(deptIdForProcedure, studentAM);
+      console.log(deptIdForProcedure, studentAM);
       if (result.IDtype == 'Α') {
         await updateStudentId(rows[i].student_id, result.Adt);
         updated.push(rows[i].student_id);
