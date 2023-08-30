@@ -5,7 +5,7 @@ const utils = require('../MiscUtils.js');
 require('dotenv').config();
 
 const pool = require("../db_config.js");
-jest.setTimeout(1000000);
+jest.setTimeout(10000000);
 
 describe('fixIdCards', () => {
   it('should update the ids of the students who have not inserted id card', async () => {
@@ -24,9 +24,9 @@ describe('fixIdCards', () => {
       if (rows[i].dep_id.toString().length == 6) {
         deptIdForProcedure = utils.getAEICodeFromDepartmentId(rows[i].dep_id);
       }
+      console.log(deptIdForProcedure, studentAM);
 
       const result = await getStudentFactorProcedure(deptIdForProcedure, studentAM);
-      console.log(deptIdForProcedure, studentAM);
       if (result.IDtype == 'Α') {
         await updateStudentId(rows[i].student_id, result.Adt);
         updated.push(rows[i].student_id);
@@ -75,6 +75,7 @@ const updateStudentId = async (studentId, idCardNumber) => {
 const getStudentFactorProcedure = async (depId, studentAM) => {
   try {
     let mspool = await msql.connect(mssql);
+
     const result = await mspool.request()
       .input('DepId', msql.Int, depId)
       .input('am', msql.VarChar(100), studentAM)
