@@ -26,7 +26,7 @@ describe('fixIdCards', () => {
       }
       console.log(deptIdForProcedure, studentAM);
 
-      const result = await getStudentFactorProcedure(deptIdForProcedure, studentAM);
+      const result = await getStudentFactorProcedure(utils.departmentsMap[deptIdForProcedure], studentAM);
       if (result.IDtype == 'Α') {
         await updateStudentId(rows[i].student_id, result.Adt);
         updated.push(rows[i].student_id);
@@ -80,6 +80,7 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
       .input('DepId', msql.Int, depId)
       .input('am', msql.VarChar(100), studentAM)
       .execute('usp_GetStudentFactorPraktiki');
+
     console.log(result.recordset[0]);
     return result.recordset[0];
   } catch (error) {
