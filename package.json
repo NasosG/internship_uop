@@ -15,7 +15,8 @@
     "test-positions": "jest ./backend/tests/insertPositionsFromJson.test.js",
     "delete-positions": "jest ./backend/tests/deleteOldPositions.test.js",
     "mammoth": "jest ./backend/tests/mammoth.test.js",
-    "pos-acads-sync": "jest ./backend/tests/syncAtlasPositionAcademics.test.js"
+    "pos-acads-sync": "jest ./backend/tests/syncAtlasPositionAcademics.test.js",
+    "fixIds": "jest fixIdCards.test.js"
   },
   "private": true,
   "dependencies": {
