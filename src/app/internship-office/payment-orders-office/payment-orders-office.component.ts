@@ -130,6 +130,7 @@ export class PaymentOrdersOfficeComponent implements OnInit {
         }
       });
   }
+
   downloadPaymentOrderFileForStudent(studentId: number, index: number) {
     if (this.studentsData[index].status != 1) {
       Swal.fire({ title: 'Αποτυχία', text: "Πρέπει να ολοκληρωθεί η ΠΑ (στην καρτέλα \"Συμβάσεις\") για να βγάλετε εντολή πληρωμής", icon: 'warning' });

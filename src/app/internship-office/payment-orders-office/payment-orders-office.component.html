@@ -120,18 +120,17 @@
                          <a (click)="openEditPaymentOrderDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                              class="fa fa-cog"></i> Επεξεργασία<br></a>
                        </td>
-                       <td class="action text-center"
-                         *ngIf="student.ops_number_exodou !='' &&  student.ops_number_exodou != null">
+                       <td class="action text-center" *ngIf="student?.status == 1">
+                         <!-- this case gets executed when input/output sheets have been created + internship has been completed -->
                          <a (click)="downloadPaymentOrderFileForStudent(student.uuid, idx)" class="text-secondary"
                            style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
                          <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                        </td>
-                       <td class="action text-center"
-                         *ngIf="student.ops_number_exodou == '' || student.ops_number_exodou == null">
+                       <td class="action text-center" *ngIf="student?.status != 1">
+                         <!-- this case gets executed when either input/output sheets haven't been created or internship hasn't been completed -->
                          <a> Εκκρεμούν Απ. Δελτία</a>
                          <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                        </td>
-
                        <td>{{student?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ'}}</td>
                      </tr>
                    </tbody>

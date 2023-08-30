@@ -323,9 +323,21 @@ export class StudentContractsOfficeComponent implements OnInit {
       ${student.assigned_position_id} - ${student.pa_subject}<br><br>
       στο χρονικό διάστημα ${this.turnTimestampToDatePrint(student.pa_start_date)} εώς ${this.turnTimestampToDatePrint(student.pa_end_date)}<br><br>
       στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.asgmt_company_name}.<br><br>
-      Ως επόπτης για την εκπόνηση της εν λόγω Πρακτικής Άσκησης ανέλαβε ο/η ${student.company_liaison ?? ''}.
+      Μετά από επικοινωνία με τον φορέα υποδοχής, με τον επόπτη της πρακτικής άσκησης και με τον/την φοιτητή/φοιτήτρια,
+      βεβαιώνω την πραγματοποίηση και επιτυχή ολοκλήρωση της ανωτέρω πρακτικής άσκησης.
       </div>
-      <br><br><br>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+        <div style="text-align: left;">
+            <br><br><br>
+            Τμηματικός Υπεύθυνος
+            <br><br><br><br>
+            ${student.department_manager_name}
+            <br><br><br>
+        </div>
+        <div style="text-align: right; margin-right: 60px;">
+         Ημερομηνία, ${(new Date().toLocaleDateString('el-GR'))}
+        </div>
+      </div>
       <div style="display: flex; justify-content: center;">
         <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
       </div>
