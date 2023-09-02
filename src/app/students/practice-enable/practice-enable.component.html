@@ -112,7 +112,11 @@
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>ΑΦΜ</mat-label>
         <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[0]?.ssn" id="inputName" placeholder="ΑΦΜ"
-          formControlName="ssnControl" required>
+          formControlName="ssnControl" (blur)="validateVATNumber()" required>
+        <mat-error *ngIf="secondFormGroup.controls['ssnControl'].hasError('required')">Το ΑΦΜ είναι υποχρεωτικό
+        </mat-error>
+        <mat-error *ngIf="secondFormGroup.controls['ssnControl'].hasError('customVatError')">Το ΑΦΜ δεν είναι έγκυρο
+        </mat-error>
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>ΔΟΥ</mat-label>

@@ -28,8 +28,6 @@ export class CredentialsGenericSignupComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  rememberMe() { }
-
   passwordToggle(state: string, id: string) {
     const inputPassword = document.getElementById(id);
     const togglePasswordBtn = document.getElementById(state)!;

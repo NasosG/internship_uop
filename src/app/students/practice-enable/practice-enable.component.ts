@@ -376,5 +376,18 @@ export class PracticeEnableComponent implements OnInit {
     return !(filename.split('.').pop() == filename);
   }
 
+  validateVATNumber(): void {
+    const ssnControl = this.secondFormGroup.get('ssnControl');
+    // Handle if control doesn't exist
+    if (!ssnControl) return;
+
+    const vatValue = ssnControl.value;
+    if (!vatValue) return; // No error if the field is empty
+
+    if (!Utils.TaxNumRule(vatValue)) {
+      ssnControl.setErrors({ customVatError: true }); // Set the custom error
+    }
+  }
+
 }
 
