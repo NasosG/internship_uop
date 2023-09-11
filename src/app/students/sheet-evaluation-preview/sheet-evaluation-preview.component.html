@@ -127,5 +127,5 @@
   <button class="back-btn" [routerLink]="['../sheets']" class="btn btn-secondary mr-2"> <i
       class="fas fa-angle-left"></i>
     Πίσω</button>
-  <button class="print-btn" (click)="printEvaluationSheet()" class="btn btn-primary">Εκτύπωση</button>
+  <button class="print-btn" printSectionId="evaluationSheetPreviewContent" [useExistingCss]="true" ngxPrint (click)="printEvaluationSheet()" class="btn btn-primary">Εκτύπωση</button>
 </form>
