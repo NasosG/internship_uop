@@ -236,14 +236,14 @@ const AssignedPositionStatus = {
 
 const getTypeOfTEI = (departmentCode) => {
   const departmentCodeNum = Number(departmentCode);
-  // TODO: Find the codes
-  const codeTeiPatras = 'somecode';
-  const codeTeiKalamatas = 'somecode2';
+  // Kodikoi upoergon for TEI Dutikhs Elladas and TEI Peloponnisou
+  const codeTeiPatras = '349776';
+  const codeTeiPeloponnisou = '349775';
   const teiPatras = [152201, 152202, 152301, 152401];
-  const teiKalamatas = [151301, 151401, 151501, 151101, 151201, 151901];
+  const teiPeloponnisou = [151301, 151401, 151501, 151101, 151201, 151901];
 
   if (teiPatras.includes(departmentCodeNum)) return codeTeiPatras;
-  if (teiKalamatas.includes(departmentCodeNum)) return codeTeiKalamatas;
+  if (teiPeloponnisou.includes(departmentCodeNum)) return codeTeiPeloponnisou;
 
   return 'Unknown TEI';
 };
