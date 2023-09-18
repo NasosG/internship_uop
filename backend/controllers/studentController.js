@@ -1226,7 +1226,8 @@ const producePaymentOrderFile = async (request, response) => {
       APOFASI: metadata.assignment_apofasi ?? metadata.apofasi ?? "……………………………………………...",
       ARITHMOS_SUNEDRIASHS: metadata.assignment_arithmos_sunedriashs ?? metadata.arithmos_sunedriashs ?? "……………………………………………...",
       APOFASI_ADA_NUMBER: metadata.assignment_ada_number ?? metadata.ada_number ?? "………..",
-      STUDENT_WAGES: !metadata.student_wages ? "……………… " : metadata.student_wages
+      STUDENT_WAGES: !metadata.student_wages ? "……………… " : metadata.student_wages,
+      CURR_DATE: moment().format('DD/MM/YYYY')
     });
 
     const buf = doc.getZip().generate({
