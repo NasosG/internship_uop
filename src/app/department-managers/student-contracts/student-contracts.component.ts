@@ -281,8 +281,9 @@ export class StudentContractsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === Utils.CustomDialogAction.OK) {
-        let initialPeriod = this.periods != null ? this.periods[0].id : null;
-        this.onPeriodChange(this.periodIdAfterChange || initialPeriod);
+        //let initialPeriod = this.periods != null ? this.periods[0].id : null;
+        //this.onPeriodChange(this.periodIdAfterChange || initialPeriod);
+        this.studentsData[idx].status = 1;
       }
     });
   }
