@@ -14,9 +14,15 @@
           </label>
         </div>
         <div class="col-2 text-right">
-          <p name="{{option.id}}" ngModel id="{{option.id}}">
-            {{ exitForms[0][option.id] == false ? 'OXI' : 'NAI'}}
-          </p>
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="exitForms[0][option.id]" required>
+              <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
+                [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
 
