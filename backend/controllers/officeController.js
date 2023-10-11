@@ -78,6 +78,17 @@ const getStudentsWithSheetOutput = async (request, response) => {
   }
 };
 
+const getAchievementsStats = async (request, response) => {
+  try {
+    const stats = await officeService.getAchievementsStats();
+    response.status(200).json(stats);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 const insertEspaPosition = async (request, response) => {
   try {
     const departmentId = request.params.id;
@@ -208,6 +219,7 @@ module.exports = {
   getEspaPositionsByDepartmentId,
   getStudentListForPeriodAndAcademic,
   getStudentPaymentsListForPeriodAndAcademic,
+  getAchievementsStats,
   insertEspaPosition,
   updateEntrySheetField,
   updateExitSheetField,

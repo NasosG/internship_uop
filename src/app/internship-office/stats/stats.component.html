@@ -1,1 +1,73 @@
-<p>under construction page</p>
+<div class="container-responsive row">
+  <div class="col-6 asd">
+    <h3 class="text-center font-weight-normal mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+      <i class="fa fa-chart-line"></i> ΕΠΙΤΕΥΞΗ ΔΕΙΚΤΩΝ
+    </h3>
+    <mat-divider></mat-divider>
+    <br>
+    <h4 class="label text-center">Εξαγωγή Βασικής Λίστας Ανά Τμήμα</h4>
+    <!-- <br> -->
+    <div class="container">
+      <!-- <mat-form-field>
+        <mat-label>Επιλέξτε έτος</mat-label>
+        <mat-select [(ngModel)]="selectedYear">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <button mat-raised-button color="primary" class="ml-2" (click)="exportToExcel(selectedYear)">Excel</button>
+
+    </div>
+    <br>
+
+    <!-- <br><br>
+    <h4 class="label text-center">Εξαγωγή Γενικής Λίστας</h4>
+    <div class="container">
+      <mat-form-field>
+        <mat-label>Επιλέξτε έτος</mat-label>
+        <mat-select [(ngModel)]="selectedYear2">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="ml-2"
+        (click)="exportToGenericExcel(selectedYear2, 'meals')">Excel</button>
+    </div>
+  </div>
+  <div class="col-6">
+    <h3 class="text-center font-weight-normal mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+      <i class="fa fa-home"></i> ΣΤΕΓΑΣΗ
+    </h3>
+    <mat-divider></mat-divider>
+    <br>
+    <h4 class="label text-center">Εξαγωγή Λίστας Ανά Τμήμα / Έτος</h4>
+    <br>
+    <div class="container">
+      <mat-form-field>
+
+        <mat-label>Επιλέξτε έτος</mat-label>
+        <mat-select [(ngModel)]="selectedYearAcc">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="ml-2" (click)="exportToExcelAcc(selectedYearAcc)">Excel</button>
+
+    </div>
+    <br>
+
+    <br><br>
+    <h4 class="label text-center">Εξαγωγή Γενικής Λίστας</h4>
+    <div class="container">
+      <mat-form-field>
+        <mat-label>Επιλέξτε έτος</mat-label>
+        <mat-select [(ngModel)]="selectedYearAcc2">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="ml-2"
+        (click)="exportToGenericExcel(selectedYearAcc2, 'acc')">Excel</button>
+    </div> -->
+  </div>
+</div>

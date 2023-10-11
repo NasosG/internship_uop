@@ -94,6 +94,33 @@ const getStudentsWithSheetOutput = async (periodId) => {
   }
 };
 
+const getAchievementsStats = async () => {
+  try {
+    const students = await pool.query(
+      `SELECT
+        deps.department,
+        period.pyear AS year,
+        COUNT(DISTINCT distinct_students.student_id) AS total_count,
+        SUM(CASE WHEN sso_users.schacgender = 1 THEN 1 ELSE 0 END) AS male_count,
+        SUM(CASE WHEN sso_users.schacgender = 2 THEN 1 ELSE 0 END) AS female_count,
+        SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS completed_count
+      FROM
+        (SELECT DISTINCT a1.student_id, a2.period_id, a2.status FROM internship_assignment a1 
+          INNER JOIN internship_assignment a2 ON a1.student_id = a2.student_id
+          WHERE a2.approval_state <> -1 AND a2.status <> -1) AS distinct_students
+        INNER JOIN sso_users ON sso_users.uuid = distinct_students.student_id
+        INNER JOIN atlas_academics deps ON deps.atlas_id = sso_users.department_id
+        INNER JOIN period ON period.id = distinct_students.period_id
+      WHERE distinct_students.status <> -1
+      GROUP BY
+        deps.department,
+        period.pyear`);
+    return students.rows;
+  } catch (error) {
+    throw Error('Error while fetching students with output sheet' + error.message);
+  }
+};
+
 const getAcademicsByOfficeUserId = async (userId) => {
   try {
     const academics = await pool.query("SELECT academic_id, department FROM sso_users \
@@ -214,6 +241,7 @@ module.exports = {
   getAcademicsByOfficeUserId,
   getStudentListForPeriodAndAcademic,
   getStudentPaymentsListForPeriodAndAcademic,
+  getAchievementsStats,
   insertOrUpdateEspaPositionsByDepId,
   updateEntrySheetField,
   updateExitSheetField,
