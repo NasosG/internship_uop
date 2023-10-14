@@ -5,8 +5,8 @@ const database = (process.env.ENV !== "PROD") ? "internship_db_test" : "internsh
 
 // connection details
 const pool = new Pool({
-  user: "postgres",
-  password: "root",
+  user: process.env.INTERN_DB_USER,
+  password: process.env.INTERN_DB_PWD,
   database: database,
   host: "localhost",
   port: 5432

@@ -206,7 +206,7 @@ const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   const amka = studentInfo.user_ssn;
   const adt = studentInfo.id_card.replace(/\s/g, "");
   const gender = studentInfo.schacgender;
-  const street = studentInfo.address;
+  const street = studentInfo.address.replace(/&/g, '&amp;');
   const city = studentInfo.city;
   const location = studentInfo.location;
   const postal = studentInfo.post_address;
