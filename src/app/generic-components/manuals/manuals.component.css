@@ -2,3 +2,9 @@
   margin-bottom: 20px;
   padding-left: 0;
 }
+
+.small-description {
+  font-size: 14px;
+  color: #777;
+  margin-top: 5px;
+}
