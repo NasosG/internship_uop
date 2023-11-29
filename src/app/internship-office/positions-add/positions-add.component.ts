@@ -84,6 +84,14 @@ export class PositionsAddComponent implements OnInit {
               // If 0 positions are fetched it is not an issue, there are simply no positions left
               if (this.fallbackPositions == 0) {
                 this.periodData.positions = 0;
+
+                if (periodData.date_from) {
+                  this.dateFrom = Utils.changeDateFormat(periodData.date_from);
+                }
+
+                if (periodData.date_to) {
+                  this.dateTo = Utils.changeDateFormat(periodData.date_to);
+                }
               }
               this.isLoading = false;
             }, error: (error: any) => {
