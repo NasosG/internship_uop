@@ -61,31 +61,69 @@ export class StatsComponent implements OnInit {
   exportStudentsStatsToExcel() {
     this.officeService.getAchievementsStatsForStudents()
       .subscribe((res: any) => {
-        const excelFileName: string = "internship_assignment_data.xlsx";
+        const excelFileName: string = "assignment_data_students.xlsx";
+        let i: number = 0;
+        let menCount: number = 0;
+        let womenCount: number = 0;
+        let publicBussinessesCount: number = 0;
+        let privateBussinessesCount: number = 0;
 
         // Map the response data to the desired format for Excel
         const dataForExcel = res.map((item: any, index: number) => {
           console.log(item);
-
+          i = index;
           const genderValue = item.student_gender === 1 ? 10 : item.student_gender === 2 ? 20 : null;
+
+          // Count men and women
+          if (genderValue === 10) {
+            menCount++;
+          } else if (genderValue === 20) {
+            womenCount++;
+          }
+
+          // Determine the value for Δ/Ι based on company_name
+          const publicCompanyKeywords = ['Γ.Ν.Ε', 'ΓΝΕ', 'Γ.Ν.Α', 'ΓΝΑ', 'ΔΗΜΟΣ', 'ΔΗΜΟΥ', 'ΠΕΡΙΦΕΡΕΙΑ', 'ΓΕΝΙΚΟ ΝΟΣΟΚΟΜΕΙΟ', 'ΠΓΝ', 'ΓΕΝΙΚΟ ΛΥΚΕΙΟ', 'ΑΝΕΞΑΡΤΗΤΗ ΑΡΧΗ', 'ΕΘΝΙΚΟ', 'ΔΙΕΥΘΥΝΣΗ', 'ΒΟΥΛΗ', 'ΔΗΜΟΤΙΚΟ', 'ΔΗΜΟΤΙΚΗ', 'ΥΠΟΥΡΓΕ', 'Υπουργείο', 'ΔΗΜ.', 'ΠΟΛΕΜΙΚΟ ΜΟΥΣΕΙΟ', 'Εφορεία Αρχαιοτήτων', 'ΕΦΟΡΕΙΑ', 'ΟΛΥΜΠΙΑΚΟ ΑΘΛΗΤΙΚΟ ΚΕΝΤΡΟ', 'ΙΝΣΤΙΤΟΥΤΟ ΠΛΗΡΟΦΟΡΙΚΗΣ', 'ΠΑΝΕΠΙΣΤΗΜΙΟ'];
+          const isPublicCompany = publicCompanyKeywords
+                                  .some(keyword => item.asgmt_company_name
+                                  .includes(keyword));
+
+          const isSpecialPublicCase = item.asgmt_company_name.includes('ΓΕΝΙΚΟ') && item.asgmt_company_name.includes('ΝΟΣΟΚΟΜΕΙΟ') ||
+            item.asgmt_company_name.includes('ΓΕΝΙΚΟ') && item.asgmt_company_name.includes('ΛΥΚΕΙΟ');
+
+          const deltaColumnValue = isPublicCompany || isSpecialPublicCase ? 0 : 1;
+          publicBussinessesCount += deltaColumnValue === 0 ? 1 : 0;
+          privateBussinessesCount += deltaColumnValue === 1 ? 1 : 0;
 
           return {
             "Α/Α": index + 1,
             "ΕΤΑΙΡΙΑ": item.asgmt_company_name,
-            "Δ/Ι": '',
+            "Δ/Ι": deltaColumnValue,
             "ΦΟΙΤΗΤΗΣ": item.student_name,
             "ΦΥΛΟ": genderValue
           };
         });
 
+        let menWomenCountRow: any = {
+          "ΑΝΔΡΕΣ": menCount,
+          "ΓΥΝΑΙΚΕΣ": womenCount
+        };
+
+        let publicPrivateRow: any = {
+          "ΔΗΜΟΣΙΕΣ": publicBussinessesCount,
+          "ΙΔΙΩΤΙΚΕΣ": privateBussinessesCount
+        };
+
         const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataForExcel);
+        XLSX.utils.sheet_add_json(ws, [menWomenCountRow],  { origin: { r: -1, c: 4 }});
+        XLSX.utils.sheet_add_json(ws, [publicPrivateRow],  { origin: { r: -1, c: 2 }});
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Internship Assignment Data');
+        XLSX.utils.book_append_sheet(wb, ws, excelFileName);
 
         // Save to file
         XLSX.writeFile(wb, excelFileName);
       });
-}
+  }
+
 
   exportToExcelAcc(selectedYearValue: number) {
     // this.studentsService.getStudentsCountByYearAndDepartment(selectedYearValue, 'accommodation')
