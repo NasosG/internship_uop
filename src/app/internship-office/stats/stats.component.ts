@@ -10,6 +10,7 @@ import {OfficeService} from '../office.service';
 })
 export class StatsComponent implements OnInit {
   years: number[] = [2021, 2022, 2023];
+  dummyYears: number[] = [2022];
   selectedYear!: number;
   selectedYear2!: number;
   selectedYearAcc!: number;
@@ -34,7 +35,7 @@ export class StatsComponent implements OnInit {
           if (itemIndex == (res.length - 1)) {
             finalRow = {"ΣΥΝΟΛΟ": cnt}
           }
-       
+
           statsDataJson.push({
             "Α/Α": itemIndex + 1,
             "ΕΤΟΣ": item.year,
@@ -56,6 +57,35 @@ export class StatsComponent implements OnInit {
         XLSX.writeFile(wb, excelFileName);
       });
   }
+
+  exportStudentsStatsToExcel() {
+    this.officeService.getAchievementsStatsForStudents()
+      .subscribe((res: any) => {
+        const excelFileName: string = "internship_assignment_data.xlsx";
+
+        // Map the response data to the desired format for Excel
+        const dataForExcel = res.map((item: any, index: number) => {
+          console.log(item);
+
+          const genderValue = item.student_gender === 1 ? 10 : item.student_gender === 2 ? 20 : null;
+
+          return {
+            "Α/Α": index + 1,
+            "ΕΤΑΙΡΙΑ": item.asgmt_company_name,
+            "Δ/Ι": '',
+            "ΦΟΙΤΗΤΗΣ": item.student_name,
+            "ΦΥΛΟ": genderValue
+          };
+        });
+
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataForExcel);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Internship Assignment Data');
+
+        // Save to file
+        XLSX.writeFile(wb, excelFileName);
+      });
+}
 
   exportToExcelAcc(selectedYearValue: number) {
     // this.studentsService.getStudentsCountByYearAndDepartment(selectedYearValue, 'accommodation')

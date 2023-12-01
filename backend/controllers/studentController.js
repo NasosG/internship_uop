@@ -15,7 +15,6 @@ const Docxtemplater = require("docxtemplater");
 const fs = require("fs");
 const path = require("path");
 
-// app.post("/api/students/login/:id", (request, response, next) => {
 const login = async (request, response, next) => {
   const uname = request.body.username;
   let userId;

@@ -146,4 +146,9 @@ export class OfficeService {
      return this.http
       .get<Array<any>>(OFFICE_URL + "/stats/achievements/");
   }
+
+  getAchievementsStatsForStudents(): Observable<Array<any>> {
+     return this.http
+      .get<Array<any>>(OFFICE_URL + "/stats/achievements/students/");
+  }
 }

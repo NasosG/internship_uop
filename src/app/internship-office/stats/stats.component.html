@@ -32,14 +32,14 @@
 
       <button mat-raised-button color="primary" class="ml-2"
         (click)="exportToGenericExcel(selectedYear2, 'meals')">Excel</button>
-    </div>
+    </div> -->
   </div>
   <div class="col-6">
     <h3 class="text-center font-weight-normal mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif;">
-      <i class="fa fa-home"></i> ΣΤΕΓΑΣΗ
+      <i class="fa fa-home"></i> ΕΠΙΤΕΥΞΗ ΔΕΙΚΤΩΝ
     </h3>
     <mat-divider></mat-divider>
-    <br>
+    <!-- <br>
     <h4 class="label text-center">Εξαγωγή Λίστας Ανά Τμήμα / Έτος</h4>
     <br>
     <div class="container">
@@ -53,10 +53,27 @@
 
       <button mat-raised-button color="primary" class="ml-2" (click)="exportToExcelAcc(selectedYearAcc)">Excel</button>
 
+    </div> -->
+
+    <br>
+    <h4 class="label text-center">Εξαγωγή Λίστας Ανά Φοιτητές / Έτος</h4>
+    <br>
+    <div class="container">
+      <mat-form-field>
+
+        <mat-label>Επιλέξτε έτος</mat-label>
+        <mat-select [(ngModel)]="selectedYearAcc">
+          <mat-option *ngFor="let year of dummyYears" [value]="year">{{ year + ' - ' + (year + 1)}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="ml-2" (click)="exportStudentsStatsToExcel()">Excel</button>
+
     </div>
+
     <br>
 
-    <br><br>
+    <!-- <br><br>
     <h4 class="label text-center">Εξαγωγή Γενικής Λίστας</h4>
     <div class="container">
       <mat-form-field>

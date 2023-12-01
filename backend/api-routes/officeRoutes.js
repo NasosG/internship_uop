@@ -16,5 +16,6 @@ router.post("/login/", officeController.login);
 router.put("/updateEntrySheetField/:id", officeController.updateEntrySheetField);
 router.put("/updateExitSheetField/:id", officeController.updateExitSheetField);
 router.get("/stats/achievements", officeController.getAchievementsStats);
+router.get("/stats/achievements/students", officeController.getAchievementsStatsForStudents);
 
 module.exports = router;

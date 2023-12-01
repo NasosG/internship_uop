@@ -121,6 +121,25 @@ const getAchievementsStats = async () => {
   }
 };
 
+const getAchievementsStatsForStudents = async () => {
+  try {
+    const students = await pool.query(
+      `SELECT
+          a.student_id,
+          a.asgmt_company_name,
+          sso_users.displayname AS student_name,
+          sso_users.schacgender AS student_gender
+      FROM
+          internship_assignment a
+          INNER JOIN sso_users ON sso_users.uuid = a.student_id
+      WHERE
+          a.status <> -1`);
+    return students.rows;
+  } catch (error) {
+    throw Error('Error while fetching students with output sheet' + error.message);
+  }
+};
+
 const getAcademicsByOfficeUserId = async (userId) => {
   try {
     const academics = await pool.query("SELECT academic_id, department FROM sso_users \
@@ -242,6 +261,7 @@ module.exports = {
   getStudentListForPeriodAndAcademic,
   getStudentPaymentsListForPeriodAndAcademic,
   getAchievementsStats,
+  getAchievementsStatsForStudents,
   insertOrUpdateEspaPositionsByDepId,
   updateEntrySheetField,
   updateExitSheetField,
