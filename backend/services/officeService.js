@@ -133,7 +133,7 @@ const getAchievementsStatsForStudents = async () => {
           internship_assignment a
           INNER JOIN sso_users ON sso_users.uuid = a.student_id
       WHERE
-          a.status <> -1`);
+          a.status = 1`);
     return students.rows;
   } catch (error) {
     throw Error('Error while fetching students with output sheet' + error.message);
