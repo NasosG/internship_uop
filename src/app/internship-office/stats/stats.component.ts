@@ -65,8 +65,16 @@ export class StatsComponent implements OnInit {
         let i: number = 0;
         let menCount: number = 0;
         let womenCount: number = 0;
+
+        let menPublicCount: number = 0;
+        let womenPublicCount: number = 0;
+        let menPrivateCount: number = 0;
+        let womenPrivateCount: number = 0;
+
         let publicBussinessesCount: number = 0;
         let privateBussinessesCount: number = 0;
+        // Flag to track the gender
+        let isGender = 0;
 
         // Map the response data to the desired format for Excel
         const dataForExcel = res.map((item: any, index: number) => {
@@ -77,8 +85,10 @@ export class StatsComponent implements OnInit {
           // Count men and women
           if (genderValue === 10) {
             menCount++;
+            isGender = 10;
           } else if (genderValue === 20) {
             womenCount++;
+            isGender = 20;
           }
 
           // Determine the value for Δ/Ι based on company_name
@@ -93,6 +103,11 @@ export class StatsComponent implements OnInit {
           const deltaColumnValue = isPublicCompany || isSpecialPublicCase ? 0 : 1;
           publicBussinessesCount += deltaColumnValue === 0 ? 1 : 0;
           privateBussinessesCount += deltaColumnValue === 1 ? 1 : 0;
+
+          menPublicCount += deltaColumnValue === 0 && isGender == 10 ? 1 : 0;
+          womenPublicCount+= deltaColumnValue === 0 && isGender == 20 ? 1 : 0;
+          menPrivateCount += deltaColumnValue === 1 && isGender == 10 ? 1 : 0;
+          womenPrivateCount += deltaColumnValue === 1 && isGender == 20 ? 1 : 0;
 
           return {
             "Α/Α": index + 1,
@@ -113,9 +128,15 @@ export class StatsComponent implements OnInit {
           "ΙΔΙΩΤΙΚΕΣ": privateBussinessesCount
         };
 
+        let menWomenInCompaniesRow: any = {
+          "ΑΝΑ ΦΥΛΟ ΔΗΜ.": `Α: ${menPublicCount}, Γ: ${womenPublicCount}`,
+          "ΑΝΑ ΦΥΛΟ ΙΔ.": `Α: ${menPrivateCount}, Γ: ${womenPrivateCount}`
+        };
+
         const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataForExcel);
         XLSX.utils.sheet_add_json(ws, [menWomenCountRow],  { origin: { r: -1, c: 4 }});
         XLSX.utils.sheet_add_json(ws, [publicPrivateRow],  { origin: { r: -1, c: 2 }});
+        XLSX.utils.sheet_add_json(ws, [menWomenInCompaniesRow],  { origin: { r: -1, c: 2 }});
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, excelFileName);
 
