@@ -100,6 +100,19 @@ const getAchievementsStatsForStudents = async (request, response) => {
   }
 };
 
+const getAchievementsYearlyStatsForStudents = async (request, response) => {
+  try {
+    const year = request.params.year;
+    const stats = await officeService.getAchievementsYearlyStatsForStudents(year);
+    response.status(200).json(stats);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
+
 const insertEspaPosition = async (request, response) => {
   try {
     const departmentId = request.params.id;
@@ -232,6 +245,7 @@ module.exports = {
   getStudentPaymentsListForPeriodAndAcademic,
   getAchievementsStats,
   getAchievementsStatsForStudents,
+  getAchievementsYearlyStatsForStudents,
   insertEspaPosition,
   updateEntrySheetField,
   updateExitSheetField,

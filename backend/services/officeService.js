@@ -140,6 +140,34 @@ const getAchievementsStatsForStudents = async () => {
   }
 };
 
+const getAchievementsYearlyStatsForStudents = async (year) => {
+  try {
+    const startDate = `${year}-01-01`;
+    const endDate = `${parseInt(year) + 1}-01-01`;
+
+    const students = await pool.query(
+      `SELECT
+          a.student_id,
+          a.asgmt_company_name,
+          sso_users.displayname AS student_name,
+          sso_users.schacgender AS student_gender,
+          prd.date_to
+      FROM
+          internship_assignment a
+          INNER JOIN sso_users ON sso_users.uuid = a.student_id
+          INNER JOIN period prd on prd.id = a.period_id
+      WHERE
+          a.status = 1
+          AND prd.date_to <= $1
+          AND prd.date_to >= $2`,
+      [startDate, endDate]);
+
+    return students.rows;
+  } catch (error) {
+    throw Error('Error while fetching students with output sheet' + error.message);
+  }
+};
+
 const getAcademicsByOfficeUserId = async (userId) => {
   try {
     const academics = await pool.query("SELECT academic_id, department FROM sso_users \
@@ -262,6 +290,7 @@ module.exports = {
   getStudentPaymentsListForPeriodAndAcademic,
   getAchievementsStats,
   getAchievementsStatsForStudents,
+  getAchievementsYearlyStatsForStudents,
   insertOrUpdateEspaPositionsByDepId,
   updateEntrySheetField,
   updateExitSheetField,
