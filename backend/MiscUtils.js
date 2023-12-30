@@ -234,6 +234,19 @@ const AssignedPositionStatus = {
   NO_MORE_DATA: -1
 };
 
+/**
+ * Gets the TEI (Technological Educational Institute) code based on the department code.
+ *
+ * @param {string | number} departmentCode - The department code to determine the TEI code for
+ * (depending on whether the department is situated in Patras or Peloponnese).
+ * @returns {string} TEI code corresponding to the given department code.
+ *                   Returns 'Unknown TEI' if the department code does not match any known TEI.
+ *
+ * @example
+ * const departmentCode = '152201';
+ * const teiCode = getTypeOfTEI(departmentCode);
+ * // teiCode will be '349776' as departmentCode is included in TEI Patras array.
+ */
 const getTypeOfTEI = (departmentCode) => {
   const departmentCodeNum = Number(departmentCode);
   // Kodikoi upoergon for TEI Dutikhs Elladas and TEI Peloponnisou
