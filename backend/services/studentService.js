@@ -253,6 +253,35 @@ const updateStudentDetails = async (student, id) => {
   }
 };
 
+const isOldContractForStudentId = async (studentId) => {
+  try {
+    const START_DATE = `2022-01-01`;
+    const END_DATE = `2024-01-01`;
+
+    const students = await pool.query(
+      `SELECT
+          a.student_id,
+          a.asgmt_company_name,
+          sso_users.displayname AS student_name,
+          sso_users.schacgender AS student_gender,
+          prd.date_to
+      FROM
+          internship_assignment a
+          INNER JOIN sso_users ON sso_users.uuid = a.student_id
+          INNER JOIN period prd on prd.id = a.period_id
+      WHERE
+          a.status = 1
+          AND a.student_id = $1
+          AND prd.date_to >= $2
+          AND prd.date_to <= $3`,
+      [studentId, START_DATE, END_DATE]);
+
+    return students.rows.length > 0;
+  } catch (error) {
+    throw Error('Error while fetching students with output sheet' + error.message);
+  }
+};
+
 const updateStudentContractDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -1195,6 +1224,7 @@ module.exports = {
   getSemesterProtocolNumberIfExistsOrNull,
   getStudentFilesForAppPrint,
   isStudentInAssignmentList,
+  isOldContractForStudentId,
   semesterInterestAppFound,
   findMaxPositions,
   mergedDepartmentResultFound,

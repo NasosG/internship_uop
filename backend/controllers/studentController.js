@@ -1102,8 +1102,13 @@ const produceContractFile = async (request, response) => {
     let metadata = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
     console.log(metadata);
 
-    const fileDirAEI = process.env.CONTRACT_FILE_PATH_AEI;
-    const fileDirTEI = process.env.CONTRACT_FILE_PATH_TEI;
+    // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
+    // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
+    const isOldContract = await studentService.isOldContractForStudentId(studentId);
+    console.log(isOldContract);
+    // Define paths for AEI and TEI contracts based on old or new contracts status
+    const fileDirAEI = !isOldContract ? process.env.CONTRACT_FILE_PATH_AEI : process.env.CONTRACT_FILE_PATH_AEI_old;
+    const fileDirTEI = !isOldContract ? process.env.CONTRACT_FILE_PATH_TEI : process.env.CONTRACT_FILE_PATH_TEI_old;
 
     let content;
 
@@ -1195,7 +1200,12 @@ const producePaymentOrderFile = async (request, response) => {
     let metadata = await studentService.getPaymentOrderMetadataByStudentId(studentId, periodId);
     console.log(metadata);
 
-    const fileDir = process.env.PAYMENT_ORDER_FILE_PATH;
+    // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
+    // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
+    const isOldPaymentOrder = await studentService.isOldContractForStudentId(studentId);
+
+    // Define path for payment order based on old or new contracts status
+    const fileDir = !isOldPaymentOrder ? process.env.PAYMENT_ORDER_FILE_PATH : process.env.PAYMENT_ORDER_FILE_PATH_old;
 
     // Load the docx file as binary content
     let content = fs.readFileSync(
