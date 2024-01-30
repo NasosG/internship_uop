@@ -3,6 +3,7 @@ jest.setTimeout(100000000);
 const pool = require("../db_config.js");
 const axios = require("axios");
 require('dotenv').config();
+const MiscUtils = require("../MiscUtils.js");
 
 describe('syncAtlasPositionAcademics function', () => {
   it('should return a value', async () => {
@@ -33,9 +34,19 @@ describe('syncAtlasPositionAcademics function', () => {
 
       for (const obj of result.rows) {
         let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
-        console.log(positionGroupResults);
-        if (!positionGroupResults?.message?.Academics) console.log('no academics');
-        let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
+
+        let academics;
+
+        if (positionGroupResults?.message?.IsAvailableToAllAcademics) {
+          const allDepartments = getAllDepartmentCodes(); // Replace with your logic to get department codes
+          academics = allDepartments.map(departmentCode => ({
+            'department': null,
+            'academicsId': departmentCode // Set to appropriate value or leave null if not applicable
+          }));
+        }
+
+        else if (!positionGroupResults?.message?.Academics) continue;
+        else academics = getAcademicsByPosition(positionGroupResults.message.Academics);
         try {
           let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
           console.log(1);
@@ -90,6 +101,10 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
       status: "400 bad request"
     };
   }
+};
+
+const getAllDepartmentCodes = () => {
+  return Object.values(MiscUtils.departmentsMap);
 };
 
 const getAcademicsByPosition = (atlasAcademics) => {
