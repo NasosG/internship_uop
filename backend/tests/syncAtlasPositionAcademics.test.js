@@ -49,23 +49,17 @@ describe('syncAtlasPositionAcademics function', () => {
         else academics = getAcademicsByPosition(positionGroupResults.message.Academics);
         try {
           let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
-          console.log(1);
-          // if (obj.atlas_position_id == '231358') {
-          for (let academic of academics) {
-            // await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
-            //   " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
-            console.log(academic.academicsId);
-            console.log(positionGroupResults.message.Academics);
-          };
-          // }
 
-          if (res.rows.length === 0) {
-            console.log(academics.length);
-            for (let academic of academics) {
+          for (let academic of academics) {
+            const checkExistingQuery = 'SELECT 1 FROM position_has_academics WHERE position_id = $1 AND academic_id = $2';
+            const checkResult = await pool.query(checkExistingQuery, [obj.atlas_position_id, academic.academicsId]);
+
+            if (checkResult.rows.length === 0) {
               await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
                 " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
             }
           }
+
         } catch (error) {
           console.log('Error while updating position_has_academics for position ' + obj.atlas_position_id + ' error: ' + error.message);
         }
