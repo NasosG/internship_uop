@@ -28,7 +28,7 @@ describe('syncAtlasPositionAcademics function', () => {
         return;
       }
 
-      const result = await pool.query(`SELECT * FROM atlas_position_group`);
+      const result = await pool.query(`SELECT * FROM atlas_position_group where atlas_position_id='231358'`);
       console.log("Query executed successfully");
 
       for (const obj of result.rows) {
@@ -37,6 +37,15 @@ describe('syncAtlasPositionAcademics function', () => {
         let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
         try {
           let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
+
+          if (obj.atlas_position_id == '231358') {
+            for (let academic of academics) {
+              // await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
+              //   " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
+              console.log(academic.academicsId);
+              console.log(positionGroupResults.message.Academics);
+            };
+          }
 
           if (res.rows.length === 0) {
             console.log(academics.length);
