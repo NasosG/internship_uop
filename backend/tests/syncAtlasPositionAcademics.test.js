@@ -33,6 +33,7 @@ describe('syncAtlasPositionAcademics function', () => {
 
       for (const obj of result.rows) {
         let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
+        console.log(positionGroupResults);
         if (!positionGroupResults?.message?.Academics) console.log('no academics');
         let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
         try {
