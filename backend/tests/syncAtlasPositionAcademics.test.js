@@ -98,7 +98,7 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
 };
 
 const getAllDepartmentCodes = () => {
-  return Object.values(MiscUtils.departmentsMap);
+  return Object.keys(MiscUtils.departmentsMap);
 };
 
 const getAcademicsByPosition = (atlasAcademics) => {
