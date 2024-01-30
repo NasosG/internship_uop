@@ -29,7 +29,7 @@ describe('syncAtlasPositionAcademics function', () => {
         return;
       }
 
-      const result = await pool.query(`SELECT * FROM atlas_position_group where atlas_position_id='231358'`);
+      const result = await pool.query(`SELECT * FROM atlas_position_group`);
       console.log("Query executed successfully");
 
       for (const obj of result.rows) {
