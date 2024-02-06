@@ -38,7 +38,7 @@ describe('syncAtlasPositionAcademics function', () => {
         let academics;
 
         if (positionGroupResults?.message?.IsAvailableToAllAcademics) {
-          const allDepartments = getAllDepartmentCodes(); // Replace with your logic to get department codes
+          const allDepartments = getAllDepartmentCodes(); // Logic to get standard department codes
           academics = allDepartments.map(departmentCode => ({
             'department': null,
             'academicsId': departmentCode // Set to appropriate value or leave null if not applicable

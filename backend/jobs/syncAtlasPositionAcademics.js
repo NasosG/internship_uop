@@ -1,6 +1,7 @@
 // database connection configuration
 const pool = require("../db_config.js");
 const axios = require("axios");
+const MiscUtils = require("../MiscUtils.js");
 require('dotenv').config();
 
 // Global variables
@@ -29,32 +30,37 @@ const executeSync = async () => {
       return;
     }
 
-    const result = await pool.query(`SELECT * FROM atlas_position_group where atlas_position_id='231358'`);
+    const result = await pool.query(`SELECT * FROM atlas_position_group`);
     console.log("syncAtlasPositionAcademics.executeSync() - Query executed successfully");
 
     for (const obj of result.rows) {
       let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
-      if (!positionGroupResults?.message?.Academics) continue;
-      let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
+
+      let academics;
+
+      if (positionGroupResults?.message?.IsAvailableToAllAcademics) {
+        const allDepartments = getAllDepartmentCodes(); // Logic to get standard department codes
+        academics = allDepartments.map(departmentCode => ({
+          'department': null,
+          'academicsId': departmentCode // Set to appropriate value or leave null if not applicable
+        }));
+      }
+
+      else if (!positionGroupResults?.message?.Academics) continue;
+      else academics = getAcademicsByPosition(positionGroupResults.message.Academics);
       try {
-        let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
+        //let res = await pool.query("SELECT * FROM position_has_academics WHERE position_id = $1", [obj.atlas_position_id]);
 
-        if (obj.atlas_position_id == '231358') {
-          for (let academic of academics) {
-            // await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
-            //   " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
-            console.log(academic.academicsId);
-            console.log(positionGroupResults.message.Academics);
-          };
-        }
+        for (let academic of academics) {
+          const checkExistingQuery = 'SELECT 1 FROM position_has_academics WHERE position_id = $1 AND academic_id = $2';
+          const checkResult = await pool.query(checkExistingQuery, [obj.atlas_position_id, academic.academicsId]);
 
-        if (res.rows.length === 0) {
-          // console.log(academics.length);
-          for (let academic of academics) {
+          if (checkResult.rows.length === 0) {
             await pool.query("INSERT INTO position_has_academics(position_id, academic_id)" +
               " VALUES ($1, $2)", [obj.atlas_position_id, academic.academicsId]);
           }
         }
+
       } catch (error) {
         console.log('Error while updating position_has_academics for position ' + obj.atlas_position_id + ' error: ' + error.message);
       }
@@ -90,6 +96,10 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
       status: "400 bad request"
     };
   }
+};
+
+const getAllDepartmentCodes = () => {
+  return Object.keys(MiscUtils.departmentsMap);
 };
 
 const getAcademicsByPosition = (atlasAcademics) => {
