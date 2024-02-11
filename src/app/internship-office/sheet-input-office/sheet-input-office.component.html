@@ -43,7 +43,7 @@
                       <mat-option *ngFor="let period of this.periods" [value]="period"
                         (click)="onPeriodChange(period?.id||null)">
                         {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}
-                        {{'- Λήξη: '}} {{period?.date_to | date:'dd/MM/yyyy'}}
+                        {{period?.date_from | date:'dd/MM/yyyy'}} - {{period?.date_to | date:'dd/MM/yyyy'}}
                       </mat-option>
                     </div>
                   </mat-select>
