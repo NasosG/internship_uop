@@ -56,6 +56,7 @@ router.get("/getProtocolNumberIfInterestAppExists/", studentController.getProtoc
 router.get("/getStudentRankedApprovalStatusForPeriod/", studentController.getStudentRankedApprovalStatusForPeriod);
 router.get("/getStudentFilesForAppPrint/:id", studentController.getStudentFilesForAppPrint);
 router.post("/checkPositionOfAtlasExists/:id", studentController.checkPositionOfAtlasExists);
+router.get("/students/:id/contract-status", studentController.getStudentContractStatus);
 router.post("/produceContractFile/:id", studentController.produceContractFile);
 router.post("/producePaymentOrderFile/:id", studentController.producePaymentOrderFile);
 router.post("/isStudentInAssignmentList/:id", studentController.isStudentInAssignmentList);

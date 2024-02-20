@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Utils } from 'src/app/MiscUtils';
 import { ExitForm } from 'src/app/students/exit-form.model';
@@ -29,6 +29,7 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
   public studentEmail!: string;
   public studentPhone!: string;
   public studentName!: string;
+  public isContractOld: boolean = false;
 
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
@@ -51,6 +52,19 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
         this.studentEmail = this.data.studentsData[this.data.index].mail;
         this.studentPhone = this.data.studentsData[this.data.index].phone;
         this.studentName = this.data.studentsData[this.data.index].givenname + " " + this.data.studentsData[this.data.index].sn;
+
+        // To distinguish between the old and new MIS logos, based on student id
+        this.departmentManagerService.getStudentContractStatus(this.data.studentsData[this.data.index].uuid).subscribe({
+            next: result => {
+              console.log('Contract Status:', result);
+              this.isContractOld = result;
+            },
+            error: error => {
+              console.error('Error:', error);
+              // Handle errors
+            }
+          });
+
       });
   }
 

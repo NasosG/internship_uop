@@ -404,4 +404,9 @@ export class DepManagerService {
     return this.http
       .put<{ message: string }>(STUDENTS_URL + "updateAssignmentStateByStudentAndPosition/" + studentId, { positionId, periodId });
   }
+
+  getStudentContractStatus(studentId: string): Observable<any> {
+    const url = STUDENTS_URL + "/students/" + studentId + "/contract-status";
+    return this.http.get<any>(url);
+  }
 }

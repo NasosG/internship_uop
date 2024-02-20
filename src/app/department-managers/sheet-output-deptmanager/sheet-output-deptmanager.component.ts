@@ -6,7 +6,7 @@ import { Student } from 'src/app/students/student.model';
 import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
-import {Period} from '../period.model';
+import { Period } from '../period.model';
 import { SheetOutputPreviewDialogComponent } from '../sheet-output-preview-dialog/sheet-output-preview-dialog.component';
 
 @Component({

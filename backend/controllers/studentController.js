@@ -217,6 +217,20 @@ const getAssignmentsByStudentId = async (request, response) => {
   }
 };
 
+const getStudentContractStatus = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    const isOldContract = await studentService.isOldContractForStudentId(studentId);
+    response.status(200).json(isOldContract);
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).json({
+      error: 'An error occurred while trying to get the contract status',
+      message: error.message
+    });
+  }
+};
+
 const updateStudentDetails = async (request, response, next) => {
   try {
     const id = request.params.id;
@@ -1441,6 +1455,7 @@ module.exports = {
   getContractDetailsByStudentIdAndPeriod,
   getContractDetailsByDepartmentAndPeriod,
   getLatestPeriodOfStudent,
+  getStudentContractStatus,
   isStudentInAssignmentList,
   checkPositionOfAtlasExists,
   insertStudentEntrySheet,
