@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {AuthService} from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { StudentsService } from '../student.service';
 import { Utils } from 'src/app/MiscUtils';

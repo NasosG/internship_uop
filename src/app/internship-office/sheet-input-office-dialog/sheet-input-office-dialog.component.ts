@@ -32,8 +32,12 @@ export class SheetInputOfficeDialogComponent implements OnInit {
   public studentName!: string;
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
+  // Flag to indicate whether the student's contract is in the old MIS (before 2023) or not
+  public isContractOld: boolean = false;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
     public officeService: OfficeService,
     public dialogRef: MatDialogRef<SheetInputOfficeDialogComponent>
   ) { }
@@ -51,6 +55,19 @@ export class SheetInputOfficeDialogComponent implements OnInit {
         this.studentEmail = this.data.studentsData[this.data.index].mail;
         this.studentPhone = this.data.studentsData[this.data.index].phone;
         this.studentName = this.data.studentsData[this.data.index].givenname + " " + this.data.studentsData[this.data.index].sn;
+
+        // To distinguish between the old and new MIS logos, based on student id
+        this.officeService.getStudentContractStatus(this.data.studentsData[this.data.index].uuid).subscribe({
+            next: result => {
+              console.log('Contract Status:', result);
+              this.isContractOld = result;
+            },
+            error: error => {
+              console.error('Error:', error);
+              // Handle errors
+            }
+          });
+
       });
   }
 

@@ -30,12 +30,16 @@ export class SheetInputPreviewDialogComponent implements OnInit {
   public studentPhone!: string;
   public studentName!: string;
 
+  // Flag to indicate whether the student's contract is in the old MIS (before 2023) or not
+  public isContractOld: boolean = false;
+
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
+    public dialogRef: MatDialogRef<SheetInputPreviewDialogComponent>,
+    public dialog: MatDialog,
     public departmentManagerService: DepManagerService,
-    public dialogRef: MatDialogRef<SheetInputPreviewDialogComponent>
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +55,19 @@ export class SheetInputPreviewDialogComponent implements OnInit {
         this.studentEmail = this.data.studentsData[this.data.index].mail;
         this.studentPhone = this.data.studentsData[this.data.index].phone;
         this.studentName = this.data.studentsData[this.data.index].givenname + " " + this.data.studentsData[this.data.index].sn;
+
+        // To distinguish between the old and new MIS logos, based on student id
+        this.departmentManagerService.getStudentContractStatus(this.data.studentsData[this.data.index].uuid).subscribe({
+            next: result => {
+              console.log('Contract Status:', result);
+              this.isContractOld = result;
+            },
+            error: error => {
+              console.error('Error:', error);
+              // Handle errors
+            }
+          });
+
       });
   }
 

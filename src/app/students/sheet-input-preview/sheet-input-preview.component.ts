@@ -1,12 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Utils } from 'src/app/MiscUtils';
-import { StudentsService } from '../student.service';
-import Swal from 'sweetalert2';
 import { SheetInputComponent } from '../sheet-input/sheet-input.component';
 import { EntryForm } from '../entry-form.model';
-import {Student} from '../student.model';
-import * as moment from 'moment';
-
+import { Student } from '../student.model';
 
 @Component({
   selector: 'app-sheet-input-preview',
@@ -14,7 +10,11 @@ import * as moment from 'moment';
   styleUrls: ['./sheet-input-preview.component.css']
 })
 export class SheetInputPreviewComponent extends SheetInputComponent implements OnInit {
+  // Details of the student used in printing the input sheet
+  @Input() studentData!: Student[];
+
   public entryForms: EntryForm[] = [];
+
   // Global variables
   public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
@@ -26,11 +26,11 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
   public educationOptions = Utils.educationOptions;
   public educationalStandardOptions = Utils.educationalStandardOptions;
   public demographicsOptions = Utils.demographicsOptions;
-  // Details of the student used in printing the input sheet
-  @Input() studentData!: Student[];
 
-  // public studentName = this.studentsData[0].givenname + " " + this.data.studentsData[0].sn;
+  // Other component properties
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+  // Flag to indicate whether the student's contract is in the old MIS (before 2023) or not
+  public isContractOld: boolean = false;
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()
@@ -39,6 +39,18 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
         console.log(this.entryForms);
         const creationDate = this.entryForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.entryForms[0].creation_date) : this.currentDate;
         this.currentDate = creationDate;
+
+        // Service call to check contract status
+        this.studentsService.getStudentContractStatus().subscribe({
+            next: result => {
+              console.log('Contract Status:', result);
+              this.isContractOld = result;
+            },
+            error: error => {
+              console.error('Error:', error);
+            }
+          });
+
       });
   }
 

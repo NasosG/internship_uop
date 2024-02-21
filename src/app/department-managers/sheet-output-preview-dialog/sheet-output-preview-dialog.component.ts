@@ -29,14 +29,17 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
   public studentEmail!: string;
   public studentPhone!: string;
   public studentName!: string;
+
+  // Flag to indicate whether the student's contract is in the old MIS (before 2023) or not
   public isContractOld: boolean = false;
 
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
+    public dialogRef: MatDialogRef<SheetOutputPreviewDialogComponent>,
+    public dialog: MatDialog,
     public departmentManagerService: DepManagerService,
-    public dialogRef: MatDialogRef<SheetOutputPreviewDialogComponent>
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {

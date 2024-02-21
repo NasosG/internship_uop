@@ -549,4 +549,10 @@ export class StudentsService {
       .set('studentId', studentId);
     return this.http.get<boolean>(STUDENTS_URL + "isExitSheetEnabledForStudent/", { params });
   }
+
+  getStudentContractStatus(): Observable<any> {
+    const studentId = this.authService.getSessionId();
+    const url = STUDENTS_URL + "/students/" + studentId + "/contract-status";
+    return this.http.get<any>(url);
+  }
 }

@@ -156,4 +156,9 @@ export class OfficeService {
      return this.http
       .get<Array<any>>(OFFICE_URL + "/stats/achievements/students/" + year);
   }
+
+  getStudentContractStatus(studentId: string): Observable<any> {
+    const url = STUDENTS_URL + "/students/" + studentId + "/contract-status";
+    return this.http.get<any>(url);
+  }
 }
