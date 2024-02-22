@@ -274,19 +274,17 @@
       </mat-form-field><br>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
-        <button mat-button matStepperNext [disabled]="!contactFormGroup.valid"
-          (click)="updateStudentsAllDetails()">Επόμενο</button>
+        <button mat-button matStepperNext style="font-weight: bold; background-color: #224956; color:white;"
+          [disabled]="!contactFormGroup.valid" (click)="updateStudentsAllDetails()">Ολοκλήρωση</button>
         <!-- <button mat-button matStepperNext>Επόμενο</button> -->
       </div>
     </form>
   </mat-step>
-  <mat-step>
+  <!-- <mat-step>
     <ng-template matStepLabel>Ολοκλήρωση αίτησης</ng-template>
     <p><i class="fas fa-2x fa-check text-success"></i> Καταχωρήθηκε η αίτησή σας, θα γίνει ο έλεγχος και αν πληρείτε τις
       προϋποθέσεις για πραγματοποίηση πρακτικής άσκησης, θα ενεργοποιήθει η πρόσβαση σας στο σύστημα.</p>
     <div>
-      <!-- <button mat-button matStepperPrevious>Πίσω</button> -->
-      <!-- <button mat-button (click)="stepper.reset()">Καθαρισμός Φόρμας</button> -->
     </div>
-  </mat-step>
+  </mat-step> -->
 </mat-stepper>
