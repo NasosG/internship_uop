@@ -58,7 +58,7 @@ export class StudentContractsComponent implements OnInit {
 
   sortData(): void {
     // sort studentsData array based on the 'givenname' property
-    this.filteredData = this.studentsData.slice(); // Make a copy of the original data
+    this.filteredData = (this.filteredData.length ? this.filteredData : this.studentsData).slice(); // Make a copy of the original data
 
     this.filteredData.sort((a: any, b: any) => {
       const nameA = `${a.givenname} ${a.sn}`.toUpperCase(); // Concatenate givenname and sn for sorting
