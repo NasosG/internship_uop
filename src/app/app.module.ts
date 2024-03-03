@@ -36,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { CompanyLoginTermsComponent } from './home-screen/company-login-terms/company-login-terms.component';
 import { CredentialsGenericLoginComponent } from './home-screen/credentials-generic-login/credentials-generic-login.component';
 import { DepartmentManagerComponent } from './department-managers/department-manager/department-manager.component';
@@ -256,6 +257,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatPaginatorModule,
     NgxPrintModule,
     TranslateModule.forRoot({
       loader: {

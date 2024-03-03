@@ -24,8 +24,9 @@ import { BankUtils } from 'src/app/BankUtils';
   styleUrls: ['./student-contracts.component.css']
 })
 export class StudentContractsComponent implements OnInit {
-  @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
+  @ViewChild('contractsTable') public contractsTable?: ElementRef;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+  public filteredData: any = [];
   studentsData: any[] = [];
   private studentContracts!: Contract[];
   selected = '';
@@ -36,6 +37,29 @@ export class StudentContractsComponent implements OnInit {
   isLoading: boolean = false;
   studentContract: any;
   private periodIdAfterChange: number | null = null;
+
+  public isSortDirectionUp: boolean = true;
+  public activeBtns: boolean[] = [false, false];
+
+  // Method to toggle the sort direction
+  toggleSortDirection(sortIconIndex: number): void {
+    this.isSortDirectionUp = !this.isSortDirectionUp;
+
+    // Set the clicked button to active
+    this.activeBtns[sortIconIndex] = true;
+
+    // Deactivate all other buttons
+    for (let i = 0; i < this.activeBtns.length; i++) {
+      if (i !== sortIconIndex) {
+        this.activeBtns[i] = false;
+      }
+    }
+  }
+
+  sortData(): void {
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
+  }
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private elRef: ElementRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -62,27 +86,37 @@ export class StudentContractsComponent implements OnInit {
                 this.chRef.detectChanges();
 
                 // Use of jQuery DataTables
-                const table: any = $('#contractsTable');
-                this.contractsTable = table.DataTable({
-                  lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, 'All']
-                  ],
-                  lengthChange: true,
-                  paging: true,
-                  searching: true,
-                  ordering: false,
-                  info: true,
-                  autoWidth: false,
-                  responsive: true,
-                  select: true,
-                  pagingType: 'full_numbers',
-                  processing: true,
-                  columnDefs: [{ orderable: false, targets: [3] }]
-                });
+                // const table: any = $('#contractsTable');
+                // this.contractsTable = table.DataTable({
+                //   lengthMenu: [
+                //     [10, 25, 50, -1],
+                //     [10, 25, 50, 'All']
+                //   ],
+                //   pageLength: -1,  /* Set default to 'All' */
+                //   lengthChange: false,
+                //   paging: true,
+                //   searching: false,
+                //   ordering: false,
+                //   info: true,
+                //   autoWidth: false,
+                //   responsive: true,
+                //   select: true,
+                //   pagingType: 'full_numbers',
+                //   processing: true,
+                //   columnDefs: [{ orderable: false, targets: [3] }]
+                // });
               });
         });
     });
+  }
+
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
   }
 
   // This function is used to get the AM of the student
@@ -98,10 +132,9 @@ export class StudentContractsComponent implements OnInit {
   }
 
   openEditContractDialog(idx: any) {
-    console.log(idx);
-    console.log(this.studentsData[idx])
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(EditContractDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '600px',
+      data: { studentsData: studentFinalData, index: idx }, width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -113,6 +146,7 @@ export class StudentContractsComponent implements OnInit {
     this.isLoading = true;
     this.selected = value;
     this.periodIdAfterChange = value;
+    this.filteredData = [];
 
     this.depManagerService.getStudentListForPeriod(value)
     .subscribe({
@@ -126,21 +160,13 @@ export class StudentContractsComponent implements OnInit {
 
         this.isLoading = false;
 
-        // Trigger change detection to update the template with new data
-        //this.chRef.detectChanges();
+        // this.chRef.detectChanges();
 
         // Show all results by changing the page length to -1
-        const table = $(this.elRef.nativeElement).find('#contractsTable');
+        // const table = $(this.elRef.nativeElement).find('#contractsTable');
 
-        table.DataTable().clear();
-
-        setTimeout(() => {
-          const dataTableWrapper = $(this.elRef.nativeElement).find('.dataTables_wrapper');
-          dataTableWrapper.find('.dataTables_length select').prop('disabled', true);
-        }, 0);
-
-        table.DataTable().page.len(-1).draw();
-        // table.DataTable().draw();
+        // table.DataTable().clear();
+        //σtable.DataTable().destroy();
       }, error: (error: any) => {
           console.log(error);
           this.isLoading = false;
@@ -246,10 +272,13 @@ export class StudentContractsComponent implements OnInit {
   }
 
   openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
+      implementation_start_date: studentFinalData[idx].pa_start_date,
+      implementation_end_date: studentFinalData[idx].pa_end_date
     };
+
+    console.log(implementationDatesArr.implementation_start_date);
 
     const dialogRef = this.dialog.open(ImplementationDatesChangeDialogComponent, {
       width: '600px',
@@ -272,9 +301,10 @@ export class StudentContractsComponent implements OnInit {
     //   confirmButtonText: 'Εντάξει'
     // });
     // if (disabled) return;
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
+      implementation_start_date: studentFinalData[idx].pa_start_date,
+      implementation_end_date: studentFinalData[idx].pa_end_date
     };
     // console.log(assigned_position_id);
     console.log(implementationDatesArr.implementation_start_date);
@@ -282,8 +312,8 @@ export class StudentContractsComponent implements OnInit {
       width: '600px',
       data: {
         assigned_position_id: assigned_position_id,
-        studentId: this.studentsData[idx].student_id,
-        periodId: this.studentsData[idx].period_id,
+        studentId: studentFinalData[idx].student_id,
+        periodId: studentFinalData[idx].period_id,
         implementationDates: implementationDatesArr
       }
     });
@@ -291,9 +321,7 @@ export class StudentContractsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       if (result === Utils.CustomDialogAction.OK) {
-        //let initialPeriod = this.periods != null ? this.periods[0].id : null;
-        //this.onPeriodChange(this.periodIdAfterChange || initialPeriod);
-        this.studentsData[idx].status = 1;
+        studentFinalData[idx].status = 1;
       }
     });
   }

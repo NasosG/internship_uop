@@ -32,14 +32,39 @@
             <div class="tab-content">
               <div class="tab-pane active" id="sheet-input-tab">
                 <button class="btn btn-primary mt-0" (click)="exportToExcel()"><i class='fas fa-file-export'
-                    style='font-size:24px'></i> Excel</button>
-                &nbsp;<br><br>
+                    style='font-size: 24px'></i> Excel</button>
+                &nbsp;<br>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="pl-2 pb-0">
+                    <i class="fa fa-hashtag"></i><strong>&nbsp;Πλήθος Εντολών Πληρωμών:</strong>
+                    {{studentsData.length}}
+                  </div>
+                  <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
+                    <mat-label>Αναζήτηση</mat-label>
+                    <input matInput #inputSearch (keyup)="searchStudents()">
+                  </mat-form-field>
+                </div>
+
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table id="contractsTable" #contractsTable class="table table-bordered table-striped">
+                <table id="paymentsTable" #paymentsTable class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>A/A</th>
-                      <th>Ονοματεπώνυμο</th>
+                      <th>
+                        <div class="sort-header">
+                          Ονοματεπώνυμο
+                          <div class="sort-icons">
+                            <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData();"></i>
+                            <i class="fa fa-lg fa-sort-down custom-sort-icon"
+                              [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && !isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData();"></i>
+                          </div>
+                        </div>
+                      </th>
                       <th>ΑΜ</th>
                       <th>Φορέας</th>
                       <th>Υπογραφή Σύμβασης</th>
@@ -50,7 +75,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                    <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData) ; let idx=index"
+                      [attr.data-index]="idx">
                       <td>{{idx + 1}}</td>
                       <td><a class="custom-info-btn" (click)="openDialog(student.student_id)">{{student.givenname}}
                           {{student.sn}}</a>

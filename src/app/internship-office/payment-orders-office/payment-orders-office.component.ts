@@ -9,15 +9,13 @@ import { Contract } from 'src/app/students/contract.model';
 import { Utils } from 'src/app/MiscUtils';
 
 import Swal from 'sweetalert2';
-import {OfficeUser} from '../office-user.model';
-import {OfficeService} from '../office.service';
-import {DepManagerService} from 'src/app/department-managers/dep-manager.service';
-import {Period} from 'src/app/department-managers/period.model';
-import {EditPaymentOrderDialogComponent} from 'src/app/department-managers/edit-payment-order-dialog/edit-payment-order-dialog.component';
-import {StudentsMatchedInfoDialogComponent} from 'src/app/department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
-import {CompanyAndPositionInfoDialogComponent} from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
-import {ImplementationDatesChangeDialogComponent} from 'src/app/department-managers/implementation-dates-change-dialog/implementation-dates-change-dialog.component';
-import {InternshipCompletionDialogComponent} from 'src/app/department-managers/internship-completion-dialog/internship-completion-dialog.component';
+import { OfficeUser } from '../office-user.model';
+import { OfficeService } from '../office.service';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
+import { Period } from 'src/app/department-managers/period.model';
+import { EditPaymentOrderDialogComponent } from 'src/app/department-managers/edit-payment-order-dialog/edit-payment-order-dialog.component';
+import { StudentsMatchedInfoDialogComponent } from 'src/app/department-managers/students-matched-info-dialog/students-matched-info-dialog.component';
+import { CompanyAndPositionInfoDialogComponent } from 'src/app/department-managers/company-and-position-info-dialog/company-and-position-info-dialog.component';
 
 @Component({
   selector: 'app-payment-orders-office',
@@ -214,44 +212,6 @@ export class PaymentOrdersOfficeComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CompanyAndPositionInfoDialogComponent, {
       data: { positionId: positionId }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
-    const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
-    };
-
-    const dialogRef = this.dialog.open(ImplementationDatesChangeDialogComponent, {
-      width: '600px',
-      data: { assigned_position_id: assigned_position_id, implementationDates: implementationDatesArr }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
-    };
-    // console.log(assigned_position_id);
-    console.log(implementationDatesArr.implementation_start_date);
-    const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
-      width: '600px',
-      data: {
-        assigned_position_id: assigned_position_id,
-        studentId: this.studentsData[idx].student_id,
-        periodId: this.studentsData[idx].period_id,
-        implementationDates: implementationDatesArr
-      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

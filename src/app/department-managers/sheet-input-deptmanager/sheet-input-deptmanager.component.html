@@ -31,22 +31,63 @@
           <!-- /.card-header -->
           <div class="card-body">
             <div class="tab-content">
+
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="pl-2 pb-0">
+                  <strong># Πλήθος Δελτίων:</strong> {{studentsData.length}}
+                </div>
+                <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
+                  <mat-label>Αναζήτηση</mat-label>
+                  <input matInput #inputSearch (keyup)="searchStudents()">
+                  <!-- <button *ngIf="inputSearch.value" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="inputSearch.value=''">
+                      <i>close</i>
+                    </button> -->
+                </mat-form-field>
+              </div>
               <div class="tab-pane active" id="sheet-input-tab">
                 <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
                 <table id="sheetInputTable" #sheetInputTable class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <!-- <th>Επιλογή</th> -->
-                      <th>Ονοματεπώνυμο</th>
+                      <th>
+                        <div class="sort-header">
+                          Ονοματεπώνυμο
+                          <div class="sort-icons">
+                            <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData('string');"></i>
+                            <i class="fa fa-lg fa-sort-down custom-sort-icon"
+                              [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && !isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData('string');"></i>
+                          </div>
+                        </div>
+                      </th>
                       <!-- <th>Πατρώνυμο</th> -->
-                      <th>ΑΜ</th>
+                      <th>
+                        <div class="sort-header">
+                          ΑΜ
+                          <div class="sort-icons">
+                            <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[1]==true}"
+                              [class.fade-out]="activeBtns[1]==true && isSortDirectionUp"
+                              (click)="toggleSortDirection(1); sortData('number');"></i>
+                            <i class="fa fa-lg fa-sort-down custom-sort-icon"
+                              [ngClass]="{'active': activeBtns[1]==true}"
+                              [class.fade-out]="activeBtns[1]==true && !isSortDirectionUp"
+                              (click)="toggleSortDirection(1); sortData('number');"></i>
+                          </div>
+                        </div>
+                      </th>
                       <th>email</th>
                       <!-- <th>Έγγραφα</th> -->
                       <th class="text-center">Ενέργειες</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                    <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData); let idx=index"
+                      [attr.data-index]="idx">
                       <td>{{student.givenname}} {{student.sn}}</td>
                       <!-- <td>{{student.father_name}}</td> -->
                       <td>{{student.schacpersonaluniquecode}}</td>

@@ -11,8 +11,6 @@ import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
-import { ImplementationDatesChangeDialogComponent } from '../implementation-dates-change-dialog/implementation-dates-change-dialog.component';
-import { InternshipCompletionDialogComponent } from '../internship-completion-dialog/internship-completion-dialog.component';
 import { Utils } from 'src/app/MiscUtils';
 import { EditPaymentOrderDialogComponent } from '../edit-payment-order-dialog/edit-payment-order-dialog.component';
 import Swal from 'sweetalert2';
@@ -23,19 +21,43 @@ import Swal from 'sweetalert2';
   styleUrls: ['./payment-orders.component.css']
 })
 export class PaymentOrdersComponent implements OnInit {
-  @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  studentsData: any[] = [];
+  @ViewChild('paymentsTable') public paymentsTable?: ElementRef;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+
+  public studentsData: any[] = [];
   private studentContracts!: Contract[];
-  selected = '';
+  private selected = '';
   ngSelect = '';
-  depManagerData: DepManager | undefined;
+  depManagerData?: DepManager;
   studentName!: string;
-  periods: Period[] | undefined;
-  isLoading: boolean = false;
+  public periods?: Period[];
+  public isLoading: boolean = false;
   studentContract: any;
+  public filteredData: any = [];
+  public isSortDirectionUp: boolean = true;
+  public activeBtns: boolean[] = [false, false];
+
+  toggleSortDirection(sortIconIndex: number): void {
+    this.isSortDirectionUp = !this.isSortDirectionUp;
+
+    // Set the clicked button to active
+    this.activeBtns[sortIconIndex] = true;
+
+    // Deactivate all other buttons
+    for (let i = 0; i < this.activeBtns.length; i++) {
+      if (i !== sortIconIndex) {
+        this.activeBtns[i] = false;
+      }
+    }
+  }
+
+  sortData(): void {
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
+  }
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+
   ngOnInit() {
     this.depManagerService.getDepManager()
     .subscribe((depManager: DepManager) => {
@@ -54,27 +76,27 @@ export class PaymentOrdersComponent implements OnInit {
             this.studentsData[i].user_ssn = students[i].user_ssn;
           }
           // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-          this.chRef.detectChanges();
+          //this.chRef.detectChanges();
 
           // Use of jQuery DataTables
-          const table: any = $('#contractsTable');
-          this.contractsTable = table.DataTable({
-            lengthMenu: [
-              [10, 25, 50, -1],
-              [10, 25, 50, 'All']
-            ],
-            lengthChange: true,
-            paging: true,
-            searching: true,
-            ordering: false,
-            info: true,
-            autoWidth: false,
-            responsive: true,
-            select: true,
-            pagingType: 'full_numbers',
-            processing: true,
-            columnDefs: [{ orderable: false, targets: [3] }]
-          });
+          // const table: any = $('#paymentsTable');
+          // this.paymentsTable = table.DataTable({
+          //   lengthMenu: [
+          //     [10, 25, 50, -1],
+          //     [10, 25, 50, 'All']
+          //   ],
+          //   lengthChange: true,
+          //   paging: true,
+          //   searching: true,
+          //   ordering: false,
+          //   info: true,
+          //   autoWidth: false,
+          //   responsive: true,
+          //   select: true,
+          //   pagingType: 'full_numbers',
+          //   processing: true,
+          //   columnDefs: [{ orderable: false, targets: [3] }]
+          // });
         });
       });
     });
@@ -89,10 +111,9 @@ export class PaymentOrdersComponent implements OnInit {
   }
 
   openEditPaymentOrderDialog(idx: any) {
-    console.log(idx);
-    console.log(this.studentsData[idx])
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(EditPaymentOrderDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '600px',
+      data: { studentsData: studentFinalData, index: idx }, width: '600px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -100,28 +121,37 @@ export class PaymentOrdersComponent implements OnInit {
     });
   }
 
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
+  }
+
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
+    this.filteredData = [];
+
     this.depManagerService.getStudentPaymentsListForPeriod(value)
-    .subscribe({
-      next: (students: any[]) => {
-        this.studentsData = students;
-          for (let i = 0; i < students.length; i++) {
-            this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
-            this.studentsData[i].user_ssn = students[i].user_ssn;
-          }
-        this.isLoading = false;
-      }, error: (error: any) => {
-          console.log(error);
+      .subscribe({
+        next: (students: any[]) => {
+          this.studentsData = students;
+            for (let i = 0; i < students.length; i++) {
+              this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
+              this.studentsData[i].user_ssn = students[i].user_ssn;
+            }
           this.isLoading = false;
-      }
-    });
+        }, error: (error: any) => {
+            console.log(error);
+            this.isLoading = false;
+        }
+      });
   }
 
   downloadPaymentOrderFileForStudent(studentId: number, index: number) {
-    // console.log(this.studentsData[0]);
-
     if (this.studentsData[index].status != 1) {
       Swal.fire({ title: 'Αποτυχία', text: "Πρέπει να ολοκληρωθεί η ΠΑ (στην καρτέλα \"Συμβάσεις\") για να βγάλετε εντολή πληρωμής", icon: 'warning' });
       return;
@@ -211,53 +241,4 @@ export class PaymentOrdersComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-
-  openImplementationDatesChangeDialog(idx: number, assigned_position_id: number) {
-    const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
-    };
-
-    const dialogRef = this.dialog.open(ImplementationDatesChangeDialogComponent, {
-      width: '600px',
-      data: { assigned_position_id: assigned_position_id, implementationDates: implementationDatesArr }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    // const disabled = true;
-    // Swal.fire({
-    //   title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
-    //   text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
-    //   icon: 'warning',
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Εντάξει'
-    // });
-    // if (disabled) return;
-    const implementationDatesArr = {
-      implementation_start_date: this.studentsData[idx].pa_start_date,
-      implementation_end_date: this.studentsData[idx].pa_end_date
-    };
-    // console.log(assigned_position_id);
-    console.log(implementationDatesArr.implementation_start_date);
-    const dialogRef = this.dialog.open(InternshipCompletionDialogComponent, {
-      width: '600px',
-      data: {
-        assigned_position_id: assigned_position_id,
-        studentId: this.studentsData[idx].student_id,
-        periodId: this.studentsData[idx].period_id,
-        implementationDates: implementationDatesArr
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
 }

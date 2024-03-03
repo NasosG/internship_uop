@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import { StudentsService } from 'src/app/students/student.service';
-import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 import { DepManager } from '../dep-manager.model';
 import { DepManagerService } from '../dep-manager.service';
 import { Period } from '../period.model';
@@ -17,15 +16,19 @@ import { SheetInputPreviewDialogComponent } from '../sheet-input-preview-dialog/
   styleUrls: ['./sheet-input-deptmanager.component.css']
 })
 export class SheetInputDeptmanagerComponent implements OnInit {
-  @ViewChild('sheetInputTable') sheetInputTable: ElementRef | undefined;
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
+  @ViewChild('sheetInputTable') public sheetInputTable: ElementRef | undefined;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+
   studentsData: Student[] = [];
   selected = '';
   ngSelect = '';
   depManagerData: DepManager | undefined;
   studentName!: string;
-  periods: Period[] | undefined;
-  isLoading: boolean = false;
+  public periods?: Period[];
+  public isLoading: boolean = false;
+  public filteredData: any = [];
+  public isSortDirectionUp: boolean = true;
+  public activeBtns: boolean[] = [false, false];
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -52,24 +55,24 @@ export class SheetInputDeptmanagerComponent implements OnInit {
               this.chRef.detectChanges();
 
               // Use of jQuery DataTables
-              const table: any = $('#sheetInputTable');
-              this.sheetInputTable = table.DataTable({
-                lengthMenu: [
-                  [10, 25, 50, -1],
-                  [10, 25, 50, 'All']
-                ],
-                lengthChange: true,
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                autoWidth: false,
-                responsive: true,
-                select: true,
-                pagingType: 'full_numbers',
-                processing: true,
-                columnDefs: [{ orderable: false, targets: [3] }]
-              });
+              // const table: any = $('#sheetInputTable');
+              // this.sheetInputTable = table.DataTable({
+              //   lengthMenu: [
+              //     [10, 25, 50, -1],
+              //     [10, 25, 50, 'All']
+              //   ],
+              //   lengthChange: true,
+              //   paging: true,
+              //   searching: true,
+              //   ordering: true,
+              //   info: true,
+              //   autoWidth: false,
+              //   responsive: true,
+              //   select: true,
+              //   pagingType: 'full_numbers',
+              //   processing: true,
+              //   columnDefs: [{ orderable: false, targets: [3] }]
+              // });
             });
         });
      });
@@ -89,19 +92,9 @@ export class SheetInputDeptmanagerComponent implements OnInit {
 
   openDialog(idx: any) {
     console.log(idx);
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(SheetInputPreviewDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '50%',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-
-  openCommentsDialog(idx: any) {
-    console.log(idx);
-    const dialogRef = this.dialog.open(CommentsDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }
+      data: { studentsData: studentFinalData, index: idx }, width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -112,6 +105,7 @@ export class SheetInputDeptmanagerComponent implements OnInit {
   onPeriodChange(value: any) {
     this.isLoading = true;
     this.selected = value;
+    this.filteredData = [];
 
     this.depManagerService.getStudentsWithSheetInput(value)
       .subscribe({
@@ -129,4 +123,36 @@ export class SheetInputDeptmanagerComponent implements OnInit {
       });
   }
 
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
+  }
+
+  // Method to toggle the sort direction
+  toggleSortDirection(sortIconIndex: number): void {
+    this.isSortDirectionUp = !this.isSortDirectionUp;
+
+    // Set the clicked button to active
+    this.activeBtns[sortIconIndex] = true;
+
+    // Deactivate all other buttons
+    for (let i = 0; i < this.activeBtns.length; i++) {
+      if (i !== sortIconIndex) {
+        this.activeBtns[i] = false;
+      }
+    }
+  }
+
+  sortData(type: string): void {
+    this.filteredData = [];
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    if (type == 'number')
+      this.filteredData = Utils.sortStudentsNumericData(studentFinalData, this.isSortDirectionUp);
+    else
+      this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
+  }
 }
