@@ -529,12 +529,20 @@ const updatePhaseByStudentId = async (phase, studentId, periodId) => {
       APP_ACTIVE: true
     };
 
+    const studentPhase = {
+      REJECTED: -1,
+      UNHANDLED: 0,
+      PENDING: 1,
+      ACCEPTED: 2,
+      RESIGNED: 3,
+    };
+
     const insertResults = await pool.query("UPDATE student_users \
                                             SET phase = $1 WHERE sso_uid = $2 ", [phase, studentId]);
 
-    if (phase && Number(phase) == -1) {
+    if (phase && (Number(phase) == studentPhase.REJECTED || Number(phase) == studentPhase.RESIGNED)) {
       await deactivateApplicationIfExists(status.APP_INACTIVE, studentId, periodId);
-    } else if (phase && Number(phase) == 2) {
+    } else if (phase && Number(phase) == studentPhase.ACCEPTED) {
       await deactivateApplicationIfExists(status.APP_ACTIVE, studentId, periodId);
     }
 

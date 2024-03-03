@@ -33,6 +33,13 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   screenWidth: number = 1800;
   isActive = false;
 
+  public studentStatusesLookup: { [key: string]: number }  = {
+    'option1': 2,  // Αποδοχή - Acceptance
+    'option2': -1, // Απόρριψη - Rejection
+    'option4': 3,  // Παραίτηση - Resignation
+    'option3': 1,  // Προς επιλογή - Pending/selection
+  };
+
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
@@ -178,13 +185,16 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   }
 
   onSubmitSelect(option: string, studentId: number) {
-    // this.validateFormData(formData);
-    let phase;
-    phase = (option == "option1") ? 2 : (option == "option2") ? -1: 1;
+    // Determine the phase based on the selected option or default to 1
+    let phase = this.studentStatusesLookup[option] || 1;
     console.log("phase: " + phase + " stId: " + (studentId));
-    const periodId = this.period?.id ? this.period.id : null;
+    // Get the current period ID (if available)
+    const periodId = this.period?.id ?? null;
+
+    // Update the phase for the student
     this.depManagerService.updatePhaseByStudentId(phase, studentId, periodId);
 
+    // Disable algorithm run button if not all students have been handled yet
     this.depManagerService.getStudentsApplyPhase().subscribe((students: Student[]) => {
       const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
       this.btnDisabled = studentWithPhaseZero !== undefined;
