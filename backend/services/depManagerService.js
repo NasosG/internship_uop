@@ -562,7 +562,9 @@ const deactivateApplicationIfExists = async (updateStatus, studentId, periodId) 
     const studentHasAppQuery = await pool.query(`SELECT id FROM student_applications
                                                 WHERE student_id = $1 AND period_id = $2
                                                 ORDER BY id DESC LIMIT 1`, [studentId, periodId]);
+
     const latestAppId = studentHasAppQuery?.rows[0]?.id;
+
     if (studentHasAppQuery.rows.length > 0) {
       await pool.query(`UPDATE student_applications
                         SET application_status = $1
