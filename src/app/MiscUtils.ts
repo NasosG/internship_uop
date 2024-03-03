@@ -141,6 +141,32 @@ export abstract class Utils {
     return inputText;
   }
 
+  public static sortStudentsData(data: any[], isSortDirectionUp: boolean): any[] {
+    return data.slice().sort((a: any, b: any) => {
+      const nameA = `${a.givenname} ${a.sn}`.toUpperCase();
+      const nameB = `${b.givenname} ${b.sn}`.toUpperCase();
+
+      if (isSortDirectionUp) {
+        return nameA.localeCompare(nameB); // Ascending order
+      } else {
+        return nameB.localeCompare(nameA); // Descending order
+      }
+    });
+  }
+
+  public static sortStudentsNumericData(data: any[], isSortDirectionUp: boolean): any[] {
+    return data.slice().sort((a: any, b: any) => {
+      const nameA = `${a.schacpersonaluniquecode}`;
+      const nameB = `${b.schacpersonaluniquecode}`;
+
+      if (isSortDirectionUp) {
+        return nameA.localeCompare(nameB); // Ascending order
+      } else {
+        return nameB.localeCompare(nameA); // Descending order
+      }
+    });
+  }
+
   public static getAEICodeFromDepartmentId(departmentId: number): number {
     return parseInt(departmentId.toString().substring(0, 4));
   }

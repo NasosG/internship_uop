@@ -20,7 +20,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./sheet-input-office.component.css']
 })
 export class SheetInputOfficeComponent implements OnInit {
-
   @ViewChild('sheetInputTable') public sheetInputTable: ElementRef | undefined;
   @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
   @ViewChild('periodFormSelect') public periodFormSelect!: ElementRef;
@@ -224,7 +223,7 @@ export class SheetInputOfficeComponent implements OnInit {
 
     this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
       .subscribe({
-        next:(periods: any[]) => {
+        next: (periods: any[]) => {
           this.periods = periods;
           this.isLoading = false;
         }, error: (error: any) => {

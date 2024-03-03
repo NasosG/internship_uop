@@ -24,7 +24,7 @@ import { BankUtils } from 'src/app/BankUtils';
   styleUrls: ['./student-contracts.component.css']
 })
 export class StudentContractsComponent implements OnInit {
-  @ViewChild('contractsTable') contractsTable: ElementRef | undefined;
+  @ViewChild('contractsTable') public contractsTable?: ElementRef;
   @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
   public filteredData: any = [];
   studentsData: any[] = [];
@@ -39,7 +39,7 @@ export class StudentContractsComponent implements OnInit {
   private periodIdAfterChange: number | null = null;
 
   public isSortDirectionUp: boolean = true;
-  public activeBtns: boolean[] = [false,false];
+  public activeBtns: boolean[] = [false, false];
 
   // Method to toggle the sort direction
   toggleSortDirection(sortIconIndex: number): void {
@@ -57,19 +57,8 @@ export class StudentContractsComponent implements OnInit {
   }
 
   sortData(): void {
-    // sort studentsData array based on the 'givenname' property
-    this.filteredData = (this.filteredData.length ? this.filteredData : this.studentsData).slice(); // Make a copy of the original data
-
-    this.filteredData.sort((a: any, b: any) => {
-      const nameA = `${a.givenname} ${a.sn}`.toUpperCase(); // Concatenate givenname and sn for sorting
-      const nameB = `${b.givenname} ${b.sn}`.toUpperCase();
-
-      if (this.isSortDirectionUp) {
-        return nameA.localeCompare(nameB); // Ascending order
-      } else {
-        return nameB.localeCompare(nameA); // Descending order
-      }
-    });
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
   }
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private elRef: ElementRef, private translate: TranslateService, public dialog: MatDialog) { }
@@ -97,25 +86,25 @@ export class StudentContractsComponent implements OnInit {
                 this.chRef.detectChanges();
 
                 // Use of jQuery DataTables
-                const table: any = $('#contractsTable');
-                this.contractsTable = table.DataTable({
-                  lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, 'All']
-                  ],
-                  pageLength: -1,  /* Set default to 'All' */
-                  lengthChange: false,
-                  paging: true,
-                  searching: false,
-                  ordering: false,
-                  info: true,
-                  autoWidth: false,
-                  responsive: true,
-                  select: true,
-                  pagingType: 'full_numbers',
-                  processing: true,
-                  columnDefs: [{ orderable: false, targets: [3] }]
-                });
+                // const table: any = $('#contractsTable');
+                // this.contractsTable = table.DataTable({
+                //   lengthMenu: [
+                //     [10, 25, 50, -1],
+                //     [10, 25, 50, 'All']
+                //   ],
+                //   pageLength: -1,  /* Set default to 'All' */
+                //   lengthChange: false,
+                //   paging: true,
+                //   searching: false,
+                //   ordering: false,
+                //   info: true,
+                //   autoWidth: false,
+                //   responsive: true,
+                //   select: true,
+                //   pagingType: 'full_numbers',
+                //   processing: true,
+                //   columnDefs: [{ orderable: false, targets: [3] }]
+                // });
               });
         });
     });
@@ -171,8 +160,7 @@ export class StudentContractsComponent implements OnInit {
 
         this.isLoading = false;
 
-        // Trigger change detection to update the template with new data
-        this.chRef.detectChanges();
+        // this.chRef.detectChanges();
 
         // Show all results by changing the page length to -1
         // const table = $(this.elRef.nativeElement).find('#contractsTable');
@@ -184,10 +172,6 @@ export class StudentContractsComponent implements OnInit {
           this.isLoading = false;
       }
     });
-  }
-
-  onSortData(event:any){
-
   }
 
   downloadContractFileForStudent(studentId: number) {
