@@ -55,7 +55,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     this.depManagerService.getStudentsApplyPhase()
       .subscribe((students: Student[]) => {
 
-        const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
+        const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2 && student.phase !== 3);
         this.btnDisabled = studentWithPhaseZero !== undefined;
 
         this.studentsData = students;
@@ -196,7 +196,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
 
     // Disable algorithm run button if not all students have been handled yet
     this.depManagerService.getStudentsApplyPhase().subscribe((students: Student[]) => {
-      const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
+      const studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2 && student.phase !== 3);
       this.btnDisabled = studentWithPhaseZero !== undefined;
     });
 
