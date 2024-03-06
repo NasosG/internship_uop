@@ -77,6 +77,7 @@ export class PeriodEditComponent implements OnInit {
   initialPeriodData!: Period;
   @ViewChild('datepicker4') selectDateTo!: any;
   studentWithPhaseZero: Student|undefined;
+  public adminUser = 'a.user';
 
   constructor(public depManagerService: DepManagerService, private location: Location, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
@@ -95,7 +96,7 @@ export class PeriodEditComponent implements OnInit {
 
              this.depManagerService.getStudentsApplyPhase()
               .subscribe((students: Student[]) => {
-                this.studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2);
+                this.studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2 && student.phase !== 3);
               });
             });
       });

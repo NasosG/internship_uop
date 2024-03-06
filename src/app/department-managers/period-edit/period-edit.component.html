@@ -34,10 +34,14 @@
               <div class="btn-group dropup col-sm-10">
                 <select class="custom-select" #selectPhase name="phase_state" [(ngModel)]="periodData.phase_state"
                   id="phase_state" required>
-                  <option value="1">1. Αιτήσεις ενδιαφέροντος φοιτητών</option>
+                  <option value="1" [disabled]="this.phaseBe4Update > 1 && this.depManagerData.id != adminUser">1.
+                    Αιτήσεις
+                    ενδιαφέροντος φοιτητών</option>
                   <option value="2">2. Επιλογή θέσεων από φοιτητές</option>
                 </select>
               </div>
+              <div *ngIf="phaseBe4Update > 1" class="text-danger"><br>Δεν μπορείτε να επιστρέψετε στη Φάση 1
+                αφότου η Φάση 2 έχει οριστικοποιηθεί</div>
             </div>
             <div class="form-group row">
               <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
