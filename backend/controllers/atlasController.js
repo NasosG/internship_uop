@@ -588,7 +588,7 @@ const insertOrUpdateWholeAtlasTables = async () => {
       message: 'done'
     };
   } catch (error) {
-    console.log("ERROR -> " + error.message);
+    console.log("insertOrUpdateWholeAtlasTables - ERROR -> " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
@@ -728,7 +728,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       message: 'done'
     };
   } catch (error) {
-    console.log("ERROR -> " + error.message);
+    console.log("insertOrUpdateAtlasTables - ERROR -> " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
@@ -937,7 +937,7 @@ const insertPositionGroup = async (accessToken) => {
       message: 'done'
     };
   } catch (error) {
-    console.log("ERROR -> " + error.message);
+    console.log("insertPositionGroup - ERROR -> " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while inserting position groups"
