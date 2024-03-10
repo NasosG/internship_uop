@@ -685,7 +685,6 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       // Update the position if positionUpdateList is not empty
       for (const itemId of positionUpdateList) {
         // Find the details of the positions which are to be updated and update them locally
-        if (!itemId) { console.error( ' item id is null'); }
         let positionGroupResults = await getPositionGroupDetails(itemId, accessToken);
         let academics = [];
 
@@ -693,7 +692,10 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
         try {
           let positionPushed = false;
-          if (!positionGroupResults.message.ID) { console.error( ' insert message id is null'); }
+          if (!positionGroupResults.message.ID) { 
+            console.error('Insert - Invalid position group message. Skipping...');
+            continue;
+          }
           //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
           positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
           // console.log(positionGroupResults.message);
