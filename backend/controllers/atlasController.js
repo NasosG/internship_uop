@@ -658,8 +658,12 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             let positionGroupResults = await getPositionGroupDetails(atlasItem.PositionGroupID, accessToken);
             let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
             let positionsInsertArray = [];
-            positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
-            await atlasService.insertPositionGroup(positionsInsertArray);
+            if (!positionGroupResults.message.ID) {
+              console.error('ID IS NULL ');
+            } else {
+              positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
+              await atlasService.insertPositionGroup(positionsInsertArray);
+            }
           } catch (ex) {
             // console.log("Failed to fetch position group: " + ex.message);
           }
@@ -786,7 +790,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
 
 const getPosition = (pair, atlasItem, academics) => {
   try {
-    if (!atlasItem.ID) console.error("getPosition ID IS NULL START " + atlas.item + " END ");
+    if (!atlasItem.ID) console.error("getPosition ID IS NULL START END ");
     let positionGroupLastUpdate = new Date(parseInt(pair.PositionGroupLastUpdate.substr(6)));
 
     return ({
