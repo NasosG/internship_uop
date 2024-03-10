@@ -714,6 +714,10 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       // Update the position if providerUpdateList is not empty
       for (const providerId of providerUpdateList) {
+        if (!positionGroupResults.message?.ID) {
+          console.error(`Insert - Missing ID for provider. Skipping position ${providerId ?? -1} ...`);
+          continue;
+        }
         let providerResults = await getProviderDetails(providerId, accessToken);
         providersArray.push(getProviderJson(providerResults.message));
         // console.log(providersArray);
@@ -821,7 +825,7 @@ const getPosition = (pair, atlasItem, academics) => {
 };
 
 const getProviderJson = (item) => {
-  if (!item.ID) console.error("getProviderJson ID IS NULL ");
+  if (!item?.ID) console.error("atlasProvider ID IS NULL ");
   return ({
     'atlasProviderId': item.ID,
     'afm': item.AFM,
