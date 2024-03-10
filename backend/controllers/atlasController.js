@@ -714,7 +714,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       // Update the position if providerUpdateList is not empty
       for (const providerId of providerUpdateList) {
-        if (!positionGroupResults.message?.ID) {
+        if (!providerResults.message?.ID) {
           console.error(`Insert - Missing ID for provider. Skipping position ${providerId ?? -1} ...`);
           continue;
         }
