@@ -658,10 +658,10 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             let positionGroupResults = await getPositionGroupDetails(atlasItem.PositionGroupID, accessToken);
             let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
             let positionsInsertArray = [];
-            if (!atlasItem.PositionGroupID) {
+            if (!atlasItem?.PositionGroupID) {
               console.error("1st of null (reading 'ID')");
             }
-            else if (!positionGroupResults.message.ID) {
+            else if (!positionGroupResults?.message.ID) {
               console.error("2nd Cannot read properties of null (reading 'ID')");
             } else {
               positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
@@ -696,10 +696,10 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
         let academics = [];
 
         academics.push(getAcademicsByPosition(positionGroupResults.message.Academics));
-
+let positionPushed;
         try {
-          let positionPushed = false;
-          if (!atlasItem.PositionGroupID) {
+           positionPushed = false;
+          if (!positionPairUpdates[count]?.PositionGroupID) {
             console.error("3rd of null (reading 'ID')");
           }
           else if (!positionGroupResults.message.ID) {
