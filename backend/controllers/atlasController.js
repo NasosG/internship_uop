@@ -610,7 +610,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     let availablePositionGroups;
 
     // Get the count of position group pairs of the previous job run (the previous hour)
-    let skip = 0;//await atlasService.getCountOfPositionPairs();
+    let skip = 2000;//await atlasService.getCountOfPositionPairs();
     // skip = Number.parseInt(skip);
     const batchSize = 200;
 
@@ -692,8 +692,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
         try {
           let positionPushed = false;
-          if (!positionGroupResults.message.ID) { 
-            console.error('Insert - Invalid position group message. Skipping...');
+          if (!positionGroupResults.message?.ID) {
+            console.error(`Insert - Missing ID in position group message. Skipping position ${itemId} ...`);
             continue;
           }
           //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
@@ -735,6 +735,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     };
   } catch (error) {
     console.log("insertOrUpdateAtlasTables - ERROR -> " + error.message);
+    console.log("Stack Trace" + error.stack);
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
