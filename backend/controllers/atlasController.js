@@ -650,7 +650,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             providersInsertArray.push(getProviderJson(providerResults.message));
             await atlasService.insertProvider(providersInsertArray);
           } catch (ex) {
-            console.log("Failed to fetch provider: " + ex.message);
+            // console.log("Failed to fetch provider: " + ex.message);
           }
 
           // Insert position group to the local db
@@ -661,7 +661,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
             await atlasService.insertPositionGroup(positionsInsertArray);
           } catch (ex) {
-            console.log("Failed to fetch position group: " + ex.message);
+            // console.log("Failed to fetch position group: " + ex.message);
           }
 
           positionInsertList.push(atlasItem.PositionGroupID);
@@ -687,7 +687,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
         // Find the details of the positions which are to be updated and update them locally
         let positionGroupResults = await getPositionGroupDetails(itemId, accessToken);
         let academics = [];
-        if (!itemId) console.error("null  -> " + count);
+
         academics.push(getAcademicsByPosition(positionGroupResults.message.Academics));
 
         try {
@@ -723,12 +723,13 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       await atlasService.updatePositionGroupRelationsList(providerPairUpdates);
 
       skip += batchSize;
+      // TODO remove it after 10/3/24
+      if (skip == 2000) skip += 200;
     } while (skip < numberOfItems);
     return {
       message: 'done'
     };
   } catch (error) {
-    console.log("insertOrUpdateAtlasTables - ERROR -> " + error.message);
     console.log("insertOrUpdateAtlasTables - ERROR -> " + error.message);
     return {
       status: "400 bad request",
