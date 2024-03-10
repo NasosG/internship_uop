@@ -159,7 +159,7 @@ const updateAtlasTables = async () => {
   await atlasController.insertOrUpdateAtlasTables();
 };
 
-setInterval(updateAtlasTables, MiscUtils.ONE_HOUR);
+setInterval(updateAtlasTables, 200000);
 
 // Update all Atlas positions / providers, every 30 hours
 //setInterval(async () => await atlasController.insertOrUpdateWholeAtlasTables(), MiscUtils.THIRTY_HOURS);
@@ -172,6 +172,6 @@ setInterval(updateAtlasTables, MiscUtils.ONE_HOUR);
  * - ATLAS Physical objects (list of positions' subject: "Ανθρώπινο Δυναμικό", "Βοηθητικό προσωπικό", "Δημόσιες σχέσεις" etc.)
  * - ATLAS Prefecture
 */
-setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), 200000);
+setInterval(async () => await atlasController.insertOrUpdateImmutableAtlasTables(), MiscUtils.THREE_HOURS);
 
 module.exports = app;
