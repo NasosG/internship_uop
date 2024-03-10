@@ -786,6 +786,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
 
 const getPosition = (pair, atlasItem, academics) => {
   try {
+    if (!atlasItem.ID) console.error("getPosition ID IS NULL ");
     let positionGroupLastUpdate = new Date(parseInt(pair.PositionGroupLastUpdate.substr(6)));
 
     return ({
@@ -809,11 +810,13 @@ const getPosition = (pair, atlasItem, academics) => {
       'academics': academics
     });
   } catch (error) {
+    console.error("getPosition " + error.message);
     throw Error(error.message);
   }
 };
 
 const getProviderJson = (item) => {
+  if (!item.ID) console.error("getProviderJson ID IS NULL ");
   return ({
     'atlasProviderId': item.ID,
     'afm': item.AFM,
