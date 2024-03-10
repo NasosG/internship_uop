@@ -610,7 +610,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     let availablePositionGroups;
 
     // Get the count of position group pairs of the previous job run (the previous hour)
-    let skip = 2000;//await atlasService.getCountOfPositionPairs();
+    let skip = 0;//await atlasService.getCountOfPositionPairs();
     // skip = Number.parseInt(skip);
     const batchSize = 200;
 
@@ -786,10 +786,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
 
 const getPosition = (pair, atlasItem, academics) => {
   try {
-    if (!atlasItem.ID) {
-      console.error("getPosition ID IS NULL START "); 
-      console.error(atlas.item + " END ");
-    }
+    if (!atlasItem.ID) console.error("getPosition ID IS NULL START " + atlas.item + " END ");
     let positionGroupLastUpdate = new Date(parseInt(pair.PositionGroupLastUpdate.substr(6)));
 
     return ({
