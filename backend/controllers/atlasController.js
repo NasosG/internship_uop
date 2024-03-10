@@ -724,7 +724,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       skip += batchSize;
       // TODO remove it after 10/3/24
-      if (skip == 2000) skip += 200;
+      // if (skip == 2000) skip += 200;
     } while (skip < numberOfItems);
     return {
       message: 'done'
