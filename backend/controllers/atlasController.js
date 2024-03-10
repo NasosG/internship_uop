@@ -610,7 +610,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     let availablePositionGroups;
 
     // Get the count of position group pairs of the previous job run (the previous hour)
-    let skip = 2000;//await atlasService.getCountOfPositionPairs();
+    let skip = 0;//await atlasService.getCountOfPositionPairs();
     // skip = Number.parseInt(skip);
     const batchSize = 200;
 
@@ -716,7 +716,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       for (const providerId of providerUpdateList) {
         let providerResults = await getProviderDetails(providerId, accessToken);
         if (!providerResults.message?.ID) {
-          console.error(`Insert - Missing ID for provider. Skipping position ${providerId ?? -1} ...`);
+          console.error(`Insert - Missing ID for provider. Skipping provider ${providerId ?? -1} ...`);
           continue;
         }
         providersArray.push(getProviderJson(providerResults.message));
