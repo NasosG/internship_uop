@@ -658,8 +658,11 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             let positionGroupResults = await getPositionGroupDetails(atlasItem.PositionGroupID, accessToken);
             let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
             let positionsInsertArray = [];
-            if (!positionGroupResults.message.ID) {
-              console.error('ID IS NULL ');
+            if (!atlasItem.PositionGroupID) {
+              console.error("1st of null (reading 'ID')");
+            }
+            else if (!positionGroupResults.message.ID) {
+              console.error("2nd Cannot read properties of null (reading 'ID')");
             } else {
               positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
               await atlasService.insertPositionGroup(positionsInsertArray);
@@ -696,9 +699,16 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
         try {
           let positionPushed = false;
-          //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
-          positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
-          // console.log(positionGroupResults.message);
+          if (!atlasItem.PositionGroupID) {
+            console.error("3rd of null (reading 'ID')");
+          }
+          else if (!positionGroupResults.message.ID) {
+            console.error("4th Cannot read properties of null (reading 'ID')");
+          } else {
+            //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
+            positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
+            // console.log(positionGroupResults.message);
+          }
           positionPushed = true;
           // reset the academics array
           academics = [];
@@ -790,7 +800,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
 
 const getPosition = (pair, atlasItem, academics) => {
   try {
-    if (!atlasItem.ID) console.error("getPosition ID IS NULL START END ");
+    if (!atlasItem.ID) console.log("getPosition ID IS NULL");
     let positionGroupLastUpdate = new Date(parseInt(pair.PositionGroupLastUpdate.substr(6)));
 
     return ({
