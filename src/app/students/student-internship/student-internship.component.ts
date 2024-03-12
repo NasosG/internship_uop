@@ -55,6 +55,7 @@ export class StudentInternshipComponent implements OnInit {
   studentsSSOData!: Student[];
   // shorten companies name to fit in the table
   shortCompanyName: string[] = [];
+  private isStudentAccepted?: boolean;
 
   constructor(public studentsService: StudentsService) { }
 
@@ -112,10 +113,11 @@ export class StudentInternshipComponent implements OnInit {
   }
 
   setStudentCanSubmit(period: Period, isApproved: boolean) {
-    console.log(period.is_active);
-    console.log(period.phase_state == this.PREFERENCE_DECLARATION_PHASE);
-    console.log(this.studentsSSOData[0].phase > 1);
-    this.canStudentSubmitApp = period.is_active && period.phase_state >= this.PREFERENCE_DECLARATION_PHASE && this.studentsSSOData[0].phase > 1 && isApproved;
+    this.isStudentAccepted = this.studentsSSOData[0].phase == 2;
+    this.canStudentSubmitApp = period.is_active &&
+                               period.phase_state >= this.PREFERENCE_DECLARATION_PHASE &&
+                               this.isStudentAccepted &&
+                               isApproved
   }
 
   fetchMorePositions(beginParam: number) {

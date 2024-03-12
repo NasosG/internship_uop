@@ -215,6 +215,34 @@
       </div>
       <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
     </div>
+    <div *ngIf="this.studentsSSOData[0]?.phase == 3" class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fas fa-folder-open mr-1"></i>
+          {{'STUDENT.INTERNSHIP-APP-RESULT-INTRO'| translate}}
+        </h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-sm btn-collapse-min" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tab-content p-0">
+          <div class="chart tab-pane active" id="revenue-chart">
+            {{'STUDENT.INTERNSHIP-APP-RESIGN-PHASE-1-PAR'| translate}} Α.Π.:
+            {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class="text-danger fas fa-medium fa-times"></i>
+            <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
+              Εκτύπωση</button>
+            <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
+                class="fa fa-upload"></i>
+              Έγγραφα</button>
+            <br>
+          </div>
+        </div>
+      </div>
+      <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
+    </div>
     <!-- Custom tabs (Charts with tabs)-->
     <div class="card">
       <div class="card-header">
