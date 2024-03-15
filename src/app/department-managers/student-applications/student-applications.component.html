@@ -120,6 +120,10 @@
                           class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
                           <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
                         </button>
+                        <button *ngIf="this.resignAppFiles[idx]" (click)="receiveFile(student.sso_uid, 'RESIGN')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> Παραίτηση
+                        </button>
                       </td>
                       <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td class="action text-center">

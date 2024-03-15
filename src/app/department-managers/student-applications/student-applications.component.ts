@@ -32,6 +32,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   btnDisabled: boolean = false;
   screenWidth: number = 1800;
   isActive = false;
+  public resignAppFiles: boolean[] = [];
 
   public studentStatusesLookup: { [key: string]: number }  = {
     'option1': 2,  // Αποδοχή - Acceptance
@@ -62,6 +63,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < students.length; i++) {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
           this.studentsData[i].user_ssn = students[i].user_ssn;
+          this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'RESIGN');
 
           // fetch comments of each student
           this.depManagerService.getCommentByStudentIdAndSubject(this.studentsData[i].sso_uid, 'Δικαιολογητικά')
@@ -179,6 +181,14 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   //       alert('Please disable your Pop-up blocker and try again.');
   //   }
   // }
+
+  checkIfFileExistsFor(i: number, studentId: number, docType: string): any {
+    if (docType == 'RESIGN') {
+      this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
+        this.resignAppFiles[i] = (res.type != 'application/json');
+      });
+    }
+  }
 
   ngAfterViewInit(): void {
     // $('#example').DataTable();
