@@ -39,6 +39,7 @@ router.post("/updateStudentSSNFile/:id", studentController.insertSSNFile);
 router.post("/updateStudentIbanFile/:id", studentController.insertIbanFile);
 router.post("/updateStudentAMEAFile/:id", studentController.insertAMEAFile);
 router.post("/updateStudentAffidavitFile/:id", studentController.insertAffidavitFile);
+router.post("/updateStudentResignAppFile/:id", studentController.insertStudentResignAppFile);
 router.post("/sendFile/:id", studentController.sendFile);
 // extra contract files
 router.post("/updateStudentAMAFile/:id", studentController.insertAMAFile);

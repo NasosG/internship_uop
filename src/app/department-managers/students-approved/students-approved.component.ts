@@ -11,7 +11,7 @@ import { mergeMap } from 'rxjs';
 import { StudentsAppsPreviewDialogComponent } from '../students-apps-preview-dialog/students-apps-preview-dialog.component';
 import { Period } from '../period.model';
 import Swal from 'sweetalert2';
-import {BankUtils} from 'src/app/BankUtils';
+import { BankUtils } from 'src/app/BankUtils';
 
 @Component({
   selector: 'app-students-approved',

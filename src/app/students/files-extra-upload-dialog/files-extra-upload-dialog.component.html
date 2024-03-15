@@ -1,5 +1,5 @@
  <mat-dialog-content class="mat-typography">
-   <h1>Επανυποβολή Δικαιολογητικών</h1>
+   <h1>Υποβολή Δικαιολογητικών</h1>
    <div class="alert alert-secondary pb-0" role="alert">
      <p>Αν κάποιο δικαιολογητικό που έχετε ανεβάσει χρειάζεται τροποποίηση, μπορείτε να το ανεβάσετε ξανά
        χρησιμοποιώντας τα παρακάτω πεδία.</p>
@@ -97,6 +97,38 @@
        <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
      <i *ngIf="filesSubmitted.affidavitFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
        </i> </i><br><br>
+
+     <mat-divider></mat-divider>
+     <h2 class="mt-2 pb-0 mb-0 text-danger"> <i class="fa fa-exclamation"></i> Σε περίπτωση
+       παραίτησης
+       <!-- <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top" title="">
+       </i> -->
+     </h2>
+     <h2 class="pb-0 mb-0"> Ανεβάστε την παρακάτω αίτηση παραίτησης υπογεγραμμένη.
+       <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
+         title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+       </i>
+     </h2>
+     <h3>Η διαδικασία πρέπει να γίνει μέσω του <strong>gov.gr</strong> ή με <strong>γνήσιο υπογραφής</strong></h3>
+     <a href="src=../../../assets/documents/2023.ΥΠΕΥΘΥΝΗ-ΔΗΛΩΣΗ-ΠΑΡΑΙΤΗΣΗΣ-ΦΟΙΤΗΤΗ.doc" target="_blank">Δείτε το
+       υπόδειγμα
+       Υπεύθυνης δήλωσης</a>
+     <br>
+
+     <mat-form-field class="mt-0 pt-0 mb-3">
+       <ngx-mat-file-input #resignAppFileInput id="resignAppFileInput" (change)="validateFiles('resignAppFile')"
+         formControlName="resignAppFile" placeholder="Ανεβάστε αρχείο Υπεύθυνης δήλωσης">
+       </ngx-mat-file-input>
+     </mat-form-field>
+     <br>
+     <button class="btn btn-secondary btn-margin-bottom mr-3" style="width: 185px;"><a class="view-link"
+         (click)="receiveFile('resignAppFile')" target="_blank">
+         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+     <button class="btn btn-secondary view-btn" (click)="onSubmitFile('resignAppFile', 'RESIGN')" style="width: 185px">
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+     <i *ngIf="filesSubmitted.resignAppFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
+       </i> </i><br><br>
+
    </form>
  </mat-dialog-content>
  <mat-dialog-actions style='text-align: right'>

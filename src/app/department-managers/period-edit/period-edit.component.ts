@@ -110,8 +110,6 @@ export class PeriodEditComponent implements OnInit {
   }
 
   onSubmitPeriodEditForm(formData: FormData) {
-    console.log(this.phaseBe4Update);
-    console.log(this.periodHasNotEnded());
     if (this.phaseBe4Update < parseInt(this.selectPhase.nativeElement.value)) {
       if (this.phaseBe4Update == 1 && this.periodHasNotEnded()) {
         Swal.fire({

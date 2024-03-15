@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require('fs');
 // Importing Utilities module
 const util = require('util');
-const fsExtra = require('fs-extra');
 const MiscUtils = require("../MiscUtils.js");
 require('dotenv').config();
 
@@ -185,11 +184,14 @@ let ssn = util.promisify(uploadSsn.single("file"));
 let amea = util.promisify(uploadAmea.single("file"));
 let affidavit = util.promisify(uploadAffidavit.single("file"));
 
-// new types to be tested
+// New types - AMA and ID files
 const amaNumberStorage = createStorage(process.env.UPLOAD_FILE_PATH + "ama/", 'AMA');
 const policeIdStorage = createStorage(process.env.UPLOAD_FILE_PATH + "identity/", 'IDENTITY');
 const ama = util.promisify(createUpload(amaNumberStorage).single("file"));
 const policeId = util.promisify(createUpload(policeIdStorage).single("file"));
+
+// Resignation app for students' interest app submissions
+const resignApp = util.promisify(createUpload(createStorage(process.env.UPLOAD_FILE_PATH + "resign/", 'RESIGN')).single("file"));
 
 module.exports = {
   iban,
@@ -197,5 +199,6 @@ module.exports = {
   amea,
   affidavit,
   ama,
-  policeId
+  policeId,
+  resignApp
 };

@@ -275,6 +275,9 @@ export class StudentsService {
     else if (type == 'AFFIDAVIT')
       return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentAffidavitFile/" + id, file);
+    else if (type == 'RESIGN')
+      return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentResignAppFile/" + id, file);
   }
 
   updateStudentContractIbanFile(file: any): any {

@@ -756,6 +756,30 @@ const insertAffidavitFile = async (request, response, next) => {
   }
 };
 
+const insertStudentResignAppFile = async (request, response, next) => {
+  try {
+    const ssoUserId = request.params.id;
+    const docType = "RESIGN";
+    const userType = "student";
+    const fileName = userType + ssoUserId + "_" + docType;
+    const filePath = `./uploads/resign/${ssoUserId}`;
+
+    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
+    await upload.resignApp(request, response, (err) => validateFile(request, response, err, docType));
+
+    response
+      .status(201)
+      .json({
+        message: "FILE ADDED RESIGN APP"
+      });
+  } catch (error) {
+    console.error(error.message);
+    response.status(201).json({
+      message: "ERROR"
+    });
+  }
+};
+
 const insertAMAFile = async (request, response, next) => {
   try {
     const ssoUserId = request.params.id;
@@ -1485,6 +1509,7 @@ module.exports = {
   insertIbanFile,
   insertAMEAFile,
   insertAffidavitFile,
+  insertStudentResignAppFile,
   sendFile,
   insertAssignment,
   insertOrUpdateDepartmentDetails,

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { StudentsService } from '../student.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,16 +10,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./files-extra-upload-dialog.component.css']
 })
 export class FilesExtraUploadDialogComponent implements OnInit {
-  filesSubmitted: any = {
+  public filesSubmitted: any = {
     "ameaFile": false,
     "affidavitFile": false,
-    "ssnFile":false,
-    "ibanFile":false
+    "ssnFile": false,
+    "ibanFile": false,
+    "resignAppFile": false
   };
-  filesUploadFormGroup!: FormGroup;
-  fileSubmitted: boolean = false;
-  @ViewChild('commentsArea') commentsArea!: ElementRef;
-  comment!: any;
+  public filesUploadFormGroup!: FormGroup;
+  public fileSubmitted: boolean = false;
   public isStudentAMEA5!: boolean;
 
   constructor(
@@ -44,7 +43,8 @@ export class FilesExtraUploadDialogComponent implements OnInit {
       ameaFile: [''],
       affidavitFile: ['', Validators.required],
       ssnFile: ['', Validators.required],
-      ibanFile: ['', Validators.required]
+      ibanFile: ['', Validators.required],
+      resignAppFile: ['', Validators.required]
     });
   }
 

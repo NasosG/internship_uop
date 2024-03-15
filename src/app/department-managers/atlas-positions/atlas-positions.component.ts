@@ -96,6 +96,9 @@ export class AtlasPositionsComponent implements OnInit {
       .subscribe((positions: AtlasPosition[]) => {
         this.entries.push(...positions);
         this.shortCompanyName = this.entries.map(entry => Utils.add3Dots(entry.name, 31));
+
+        // Update job details automatically on search
+        this.displayDescription(0);
       });
   }
 
@@ -125,6 +128,9 @@ export class AtlasPositionsComponent implements OnInit {
               this.setJobsDetails(0);
           });
         }
+
+        // Update job details automatically on search
+        this.displayDescription(0);
       });
   }
 
