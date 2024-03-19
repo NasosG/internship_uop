@@ -126,6 +126,7 @@ import { SheetsContractsNavMenuOfficeComponent } from './internship-office/sheet
 import { CompanyEvaluationDialogComponent } from './companies/company-evaluation-dialog/company-evaluation-dialog.component';
 import { FilesExtraUploadDialogComponent } from './students/files-extra-upload-dialog/files-extra-upload-dialog.component';
 import { ExtraFieldsUpdateDialogComponent } from './students/extra-fields-update-dialog/extra-fields-update-dialog.component';
+import { StudentFilesViewDialogComponent } from './department-managers/student-files-view-dialog/student-files-view-dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -230,6 +231,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CompanyEvaluationDialogComponent,
     FilesExtraUploadDialogComponent,
     ExtraFieldsUpdateDialogComponent,
+    StudentFilesViewDialogComponent,
   ],
   imports: [
     BrowserModule,

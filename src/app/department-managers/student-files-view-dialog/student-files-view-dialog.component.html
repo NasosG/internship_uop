@@ -1,0 +1,41 @@
+ <h3>Έγγραφα φοιτητή</h3>
+ <mat-dialog-content class="mat-typography text-center">
+   <br>
+   <button (click)="receiveFile(data.student.sso_uid, 'IBAN')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> IBAN
+   </button>
+   <br>
+   <button (click)="receiveFile(data.student.sso_uid, 'SSN')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
+   </button>
+   <br>
+   <button *ngIf="data.student.amea_cat == true" (click)="receiveFile(data.student.sso_uid, 'AMEA')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> AMEA
+     <br>
+   </button>
+   <button (click)="receiveFile(data.student.sso_uid, 'AFFIDAVIT')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
+   </button>
+   <button *ngIf="this.data.resignAppFiles[data.index]" (click)="receiveFile(data.student.sso_uid, 'RESIGN')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> Παραίτηση
+     <br>
+   </button>
+   <button *ngIf="this.data.amaFiles[data.index]" (click)="receiveFile(data.student.sso_uid, 'AMA')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> ΑΜΑ
+     <br>
+   </button>
+   <button *ngIf="this.data.idFiles[data.index]" (click)="receiveFile(data.student.sso_uid, 'IDENTITY')"
+     class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
+     <i class="fa fa-download" aria-hidden="true"></i> ΑΔΤ
+     <br>
+   </button>
+ </mat-dialog-content>
+ <mat-dialog-actions style='text-align: right'>
+   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+ </mat-dialog-actions>

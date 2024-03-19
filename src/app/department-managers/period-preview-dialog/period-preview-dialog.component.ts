@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
-import {DepManagerService} from '../dep-manager.service';
-import {Phase} from '../phase.model';
+import { DepManagerService } from '../dep-manager.service';
+import { Phase } from '../phase.model';
 
 @Component({
   selector: 'app-period-preview-dialog',
@@ -28,6 +28,7 @@ export class PeriodPreviewDialogComponent implements OnInit {
       }
     });
   }
+
   onCancel(): void {
     this.dialogRef.close();
   }

@@ -104,7 +104,14 @@
                         {{ !student.is_study_program_upgraded ? 'ΟΧΙ' : 'ΝΑΙ' }}
                       </td> -->
                       <td class="reponsive-text-center-td">
-                        <button (click)="receiveFile(student.sso_uid, 'IBAN')"
+                        <!-- <button class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"
+                        (click)="openStudentFilesViewDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-eye"></i> Έγγραφα<br></button> -->
+                        <button style="min-width:120px;" (click)="openStudentFilesViewDialog(idx)"
+                          class="mb-0 pt-0 pb-0 btn btn-primary td-button-responsive"> <i class="fa fa-eye"
+                            aria-hidden="true"></i> Έγγραφα
+                        </button>
+                        <!-- <button (click)="receiveFile(student.sso_uid, 'IBAN')"
                           class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
                             class="fa fa-download" aria-hidden="true"></i> IBAN
                         </button>
@@ -123,7 +130,7 @@
                         <button *ngIf="this.resignAppFiles[idx]" (click)="receiveFile(student.sso_uid, 'RESIGN')"
                           class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
                           <i class="fa fa-download" aria-hidden="true"></i> Παραίτηση
-                        </button>
+                        </button> -->
                       </td>
                       <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td class="action text-center">

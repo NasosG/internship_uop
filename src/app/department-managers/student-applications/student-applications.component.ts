@@ -13,6 +13,7 @@ import { Period } from '../period.model';
 import Swal from 'sweetalert2';
 import { fromEvent } from 'rxjs';
 import * as moment from 'moment';
+import {StudentFilesViewDialogComponent} from '../student-files-view-dialog/student-files-view-dialog.component';
 
 @Component({
   selector: 'app-student-applications',
@@ -33,6 +34,8 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   screenWidth: number = 1800;
   isActive = false;
   public resignAppFiles: boolean[] = [];
+  public idFiles: boolean[] = [];
+  public amaFiles: boolean[] = [];
 
   public studentStatusesLookup: { [key: string]: number }  = {
     'option1': 2,  // Αποδοχή - Acceptance
@@ -64,6 +67,8 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
           this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
           this.studentsData[i].user_ssn = students[i].user_ssn;
           this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'RESIGN');
+          this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'IDENTITY');
+          this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'AMA');
 
           // fetch comments of each student
           this.depManagerService.getCommentByStudentIdAndSubject(this.studentsData[i].sso_uid, 'Δικαιολογητικά')
@@ -187,6 +192,14 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
       this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
         this.resignAppFiles[i] = (res.type != 'application/json');
       });
+    } else if (docType == 'IDENTITY') {
+      this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
+        this.idFiles[i] = (res.type != 'application/json');
+      });
+    } else if (docType == 'AMA') {
+      this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
+        this.amaFiles[i] = (res.type != 'application/json');
+      });
     }
   }
 
@@ -229,6 +242,24 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     console.log(idx);
     const dialogRef = this.dialog.open(CommentsDialogComponent, {
       data: { studentsData: this.studentsData, index: idx }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openStudentFilesViewDialog(idx: any) {
+    console.log(idx);
+    const dialogRef = this.dialog.open(StudentFilesViewDialogComponent, {
+      // width: '350px',
+      data: {
+        student: this.studentsData[idx],
+        resignAppFiles: this.resignAppFiles,
+        index: idx,
+        idFiles: this.idFiles,
+        amaFiles: this.amaFiles
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
