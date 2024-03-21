@@ -1193,6 +1193,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     };
   } catch (error) {
     console.log("error while fetching preassigned positions: " + error.message);
+    console.log(error.stack);
     return {
       status: "Error occurred",
       message: error.message
