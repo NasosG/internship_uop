@@ -76,6 +76,7 @@
                     <tr>
                       <th>Επιλογή</th>
                       <th>Ονοματεπώνυμο</th>
+                      <th>Α.Π.</th>
                       <th>ΑΜ</th>
                       <th>Βαθμολογία (στα 100)</th>
                       <th>Υπηρετώ στο στρατό</th>
@@ -95,6 +96,7 @@
                         </p>
                       </td>
                       <td>{{student.givenname}} {{student.sn}}</td>
+                      <td>{{student.latest_app_protocol_number}}</td>
                       <td>{{student.schacpersonaluniquecode}}</td>
                       <td>{{student.score}}</td>
                       <td [ngClass]="student.military_training == true ? 'text-danger' : 'text-dark'">
@@ -104,21 +106,9 @@
                       <td [ngClass]="student.working_state == true ? 'text-danger' : 'text-dark'">
                         {{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td class="reponsive-text-center-td">
-                        <button (click)="receiveFile(student.sso_uid, 'IBAN')"
-                          class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
-                            class="fa fa-download" aria-hidden="true"></i> IBAN
-                        </button>
-                        <button (click)="receiveFile(student.sso_uid, 'SSN')"
-                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive">
-                          <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
-                        </button>
-                        <button *ngIf="student.amea_cat == true" (click)="receiveFile(student.sso_uid, 'AMEA')"
-                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
-                          <i class="fa fa-download" aria-hidden="true"></i> AMEA
-                        </button>
-                        <button (click)="receiveFile(student.sso_uid, 'AFFIDAVIT')"
-                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
-                          <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
+                        <button style="min-width: 120px;" (click)="openStudentFilesViewDialog(idx)"
+                          class="mb-0 pt-0 pb-0 btn btn-primary td-button-responsive"> <i class="fa fa-eye"
+                            aria-hidden="true"></i> Έγγραφα
                         </button>
                       </td>
                       <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
@@ -133,6 +123,7 @@
                     <tr>
                       <th>Επιλογή</th>
                       <th>Ονοματεπώνυμο</th>
+                      <th>Α.Π.</th>
                       <th>ΑΜ</th>
                       <th>Βαθμολογία (στα 100)</th>
                       <th>Υπηρετώ στο στρατό</th>

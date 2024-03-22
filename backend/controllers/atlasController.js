@@ -619,7 +619,12 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     console.log(numberOfItems);
     do {
       availablePositionGroups = [];
-      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+
+      try {
+        availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+      } catch (ex) {
+        console.error(`Fetching position groups error: ${ex.message}`);
+      }
 
       console.log('Processing batch ' + skip + ' to ' + (skip + batchSize) + ' of ' + numberOfItems + ' items');
 
@@ -1008,7 +1013,7 @@ const getStudentAcademicId = async (request, response) => {
     });
     // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while fetching student academic ID: " + error.message);
     return response.status(400).json({
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message
@@ -1071,7 +1076,7 @@ const registerNewStudent = async (AcademicIDNumber) => {
     };
     // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while registering new student: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message
@@ -1327,7 +1332,7 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log("error while fetching available positions: " + error.message);
+    console.log("error while fetching available position groups: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message

@@ -11,9 +11,8 @@ import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.comp
 import { AuthService } from 'src/app/auth/auth.service';
 import { Period } from '../period.model';
 import { DepManager } from '../dep-manager.model';
-import { catchError, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { BankUtils } from 'src/app/BankUtils';
+import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/student-files-view-dialog.component';
 
 @Component({
   selector: 'app-student-applications-results',
@@ -21,7 +20,6 @@ import { BankUtils } from 'src/app/BankUtils';
   styleUrls: ['./student-applications-results.component.css']
 })
 export class StudentApplicationsResultsComponent implements OnInit {
-
   @ViewChild('example2') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
@@ -35,6 +33,9 @@ export class StudentApplicationsResultsComponent implements OnInit {
   depts5yearsStudyPrograms = [1511, 1512, 1522, 1523, 1524];
   yearsOfStudy!: number;
   isActive = false;
+  public resignAppFiles: boolean[] = [];
+  public idFiles: boolean[] = [];
+  public amaFiles: boolean[] = [];
 
   constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
 
@@ -63,6 +64,9 @@ export class StudentApplicationsResultsComponent implements OnInit {
                     for (let i = 0; i < students.length; i++) {
                       this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
                       this.studentsData[i].user_ssn = students[i].user_ssn;
+                                        this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'RESIGN');
+                  this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'IDENTITY');
+                  this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'AMA');
                     }
                     // Have to wait till the changeDetection occurs. Then, project data into the HTML template
                     this.chRef.detectChanges();
@@ -111,6 +115,22 @@ export class StudentApplicationsResultsComponent implements OnInit {
     this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
+  }
+
+  checkIfFileExistsFor(i: number, studentId: number, docType: string): any {
+    if (docType == 'RESIGN') {
+      this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
+        this.resignAppFiles[i] = (res.type != 'application/json');
+      });
+    } else if (docType == 'IDENTITY') {
+      this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
+        this.idFiles[i] = (res.type != 'application/json');
+      });
+    } else if (docType == 'AMA') {
+      this.depManagerService.receiveFile(studentId, docType).subscribe(res => {
+        this.amaFiles[i] = (res.type != 'application/json');
+      });
+    }
   }
   // downloadFile(data: any) {
   //   let blob = new Blob([data]);
@@ -277,6 +297,23 @@ export class StudentApplicationsResultsComponent implements OnInit {
     return [grade * 10,
       (studentsECTS / maxECTS) * 100,
       yearTotal];
+  }
+
+  openStudentFilesViewDialog(idx: any) {
+    const dialogRef = this.dialog.open(StudentFilesViewDialogComponent, {
+      // width: '350px',
+      data: {
+        student: this.studentsData[idx],
+        resignAppFiles: this.resignAppFiles,
+        index: idx,
+        idFiles: this.idFiles,
+        amaFiles: this.amaFiles
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }
