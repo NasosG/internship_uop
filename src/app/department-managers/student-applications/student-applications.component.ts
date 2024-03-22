@@ -13,7 +13,7 @@ import { Period } from '../period.model';
 import Swal from 'sweetalert2';
 import { fromEvent } from 'rxjs';
 import * as moment from 'moment';
-import {StudentFilesViewDialogComponent} from '../student-files-view-dialog/student-files-view-dialog.component';
+import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/student-files-view-dialog.component';
 
 @Component({
   selector: 'app-student-applications',
