@@ -620,10 +620,14 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     do {
       availablePositionGroups = [];
 
-      try {
-        availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      } catch (ex) {
+      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+      if (availablePositionGroups?.status == "400 bad request") {
         console.error(`Fetching position groups error: ${ex.message}`);
+
+        // Change 23/03/24 just skip the batch - it's not correct
+        // TODO change it 25/03 - 30/03
+        skip += batchSize;
+        continue;
       }
 
       console.log('Processing batch ' + skip + ' to ' + (skip + batchSize) + ' of ' + numberOfItems + ' items');
