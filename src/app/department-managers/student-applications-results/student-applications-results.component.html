@@ -47,8 +47,9 @@
                     <mat-spinner></mat-spinner>
                   </div>
                 </ng-container>
-                <!-- <table id="example2" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
-                <table *ngIf="!isLoading" id="example2" #example2 class="table-responsive table-bordered table-striped">
+                <!-- <table id="resultsTable" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+                <table *ngIf="!isLoading" id="resultsTable" #resultsTable
+                  class="table-responsive table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Επιλογή</th>

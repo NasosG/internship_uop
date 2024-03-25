@@ -406,10 +406,12 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
       } else {
         calculatedScore = await calculateScore(procedureResults, students.department_id);
       }
-      await pool.query("INSERT INTO students_approved_rank " +
-        "(sso_uid, department_id, score, ranking, period_id)" +
-        " VALUES " + "($1, $2, $3, $4, $5)",
-        [students.sso_uid, departmentId, calculatedScore, i++, periodId]);
+
+      await pool.query(`
+        INSERT INTO students_approved_rank
+        (sso_uid, department_id, score, grade, ects, semester, ranking, period_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [students.sso_uid, departmentId, calculatedScore, procedureResults.Grade, procedureResults.Ects, procedureResults.Semester, i++, periodId]);
     }
 
     await pool.query(`UPDATE students_approved_rank

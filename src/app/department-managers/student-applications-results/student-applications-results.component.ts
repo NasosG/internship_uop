@@ -20,7 +20,7 @@ import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/st
   styleUrls: ['./student-applications-results.component.css']
 })
 export class StudentApplicationsResultsComponent implements OnInit {
-  @ViewChild('example2') table: ElementRef | undefined;
+  @ViewChild('resultsTable') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
@@ -72,7 +72,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
                     this.chRef.detectChanges();
 
                     // Use of jQuery DataTables
-                    const table: any = $('#example2');
+                    const table: any = $('#resultsTable');
                     this.table = table.DataTable({
                       lengthMenu: [
                         [10, 25, 50, -1],
@@ -188,7 +188,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
 
     const excelFileName: string = "StudentsPhase1.xlsx";
     // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table?.nativeElement);
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("example2") as HTMLElement));
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("resultsTable") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -197,7 +197,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    // $('#example2').DataTable();
+    // $('#resultsTable').DataTable();
   }
 
   printDataTable() {

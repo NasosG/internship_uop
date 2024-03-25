@@ -27,19 +27,26 @@ export class StudentContractsComponent implements OnInit {
   @ViewChild('contractsTable') public contractsTable?: ElementRef;
   @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
   public filteredData: any = [];
-  studentsData: any[] = [];
+  public studentsData: any[] = [];
   private studentContracts!: Contract[];
-  selected = '';
-  ngSelect = '';
-  depManagerData: DepManager | undefined;
-  studentName!: string;
-  periods: Period[] | undefined;
-  isLoading: boolean = false;
-  studentContract: any;
+  public selected = '';
+  public depManagerData: DepManager | undefined;
+  public studentName!: string;
+  public periods: Period[] | undefined;
+  public isLoading: boolean = false;
   private periodIdAfterChange: number | null = null;
 
   public isSortDirectionUp: boolean = true;
   public activeBtns: boolean[] = [false, false];
+
+  constructor(
+    public depManagerService: DepManagerService,
+    public studentsService: StudentsService,
+    public authService: AuthService,
+    private chRef: ChangeDetectorRef,
+    private translate: TranslateService,
+    public dialog: MatDialog
+  ) { }
 
   // Method to toggle the sort direction
   toggleSortDirection(sortIconIndex: number): void {
@@ -60,8 +67,6 @@ export class StudentContractsComponent implements OnInit {
     const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
     this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
   }
-
-  constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService, private chRef: ChangeDetectorRef, private elRef: ElementRef, private translate: TranslateService, public dialog: MatDialog) { }
 
   dtOptions: any = {};
 
@@ -160,13 +165,6 @@ export class StudentContractsComponent implements OnInit {
 
         this.isLoading = false;
 
-        // this.chRef.detectChanges();
-
-        // Show all results by changing the page length to -1
-        // const table = $(this.elRef.nativeElement).find('#contractsTable');
-
-        // table.DataTable().clear();
-        //σtable.DataTable().destroy();
       }, error: (error: any) => {
           console.log(error);
           this.isLoading = false;

@@ -1,3 +1,51 @@
 .old-link:hover {
   color: grey !important;
 }
+
+.sort-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 10px;
+  margin-bottom: 0px !important;
+  margin-top: 0px !important;
+  color: #7a80dd;
+  cursor: pointer;
+}
+
+.sort-icons .fa-sort-down {
+  margin-top: -7px;
+}
+
+.sort-icons .fa-sort-down.active {
+  margin-top: -7px;
+}
+
+.sort-icons .fa-sort-up {
+  margin-bottom: -7px !important;
+}
+
+.sort-header {
+  display: flex;
+  align-items: center;
+}
+
+.sort-icons .custom-sort-icon {
+  color: #dcdcdc;
+  /* color: lightgrey; */
+}
+
+.sort-icons .custom-sort-icon.active {
+  color: #7a80dd !important;
+}
+
+/* Assuming you have a class for your table, like .my-table */
+.oldAppsTable td {
+  min-width: 400px !important;
+  /* Adjust the value as per your requirement */
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}

@@ -19,8 +19,10 @@ import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/st
   styleUrls: ['./student-apps-results-old-periods.component.css']
 })
 export class StudentAppsResultsOldPeriodsComponent implements OnInit {
-  @ViewChild('example2') table: ElementRef | undefined;
+  @ViewChild('oldAppsTable') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
+  @ViewChild('inputSearch') public inputElement!: ElementRef<HTMLInputElement>;
+  periodLabel: string|null = null; // Default label text
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   studentsData: Student[] = [];
   selected = '';
@@ -37,7 +39,17 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   public idFiles: boolean[] = [];
   public amaFiles: boolean[] = [];
 
-  constructor(public depManagerService: DepManagerService, public authService: AuthService, private chRef: ChangeDetectorRef, private translate: TranslateService, public dialog: MatDialog) { }
+  public filteredData: any = [];
+  public isSortDirectionUp: boolean = true;
+  public activeBtns: boolean[] = [false, false];
+
+  constructor(
+    public depManagerService: DepManagerService,
+    public authService: AuthService,
+    private chRef: ChangeDetectorRef,
+    private translate: TranslateService,
+    public dialog: MatDialog
+  ) { }
 
   dtOptions: any = {};
 
@@ -63,30 +75,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
                   this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'IDENTITY');
                   this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'AMA');
                 }
-                // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-                this.chRef.detectChanges();
 
-                // Use of jQuery DataTables
-                const table: any = $('#example2');
-                this.table = table.DataTable({
-                  lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, 'All']
-                  ],
-                  lengthChange: true,
-                  paging: true,
-                  searching: true,
-                  ordering: false,
-                  info: true,
-                  autoWidth: false,
-                  responsive: true,
-                  select: true,
-                  pagingType: 'full_numbers',
-                  processing: true,
-                  columnDefs: [{ orderable: false, targets: [0, 6, 8] }],
-                  language: {
-                  },
-                });
               });
               this.isLoading = false;
             },
@@ -97,6 +86,34 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
             }
           );
       });
+  }
+
+  toggleSortDirection(sortIconIndex: number): void {
+    this.isSortDirectionUp = !this.isSortDirectionUp;
+
+    // Set the clicked button to active
+    this.activeBtns[sortIconIndex] = true;
+
+    // Deactivate all other buttons
+    for (let i = 0; i < this.activeBtns.length; i++) {
+      if (i !== sortIconIndex) {
+        this.activeBtns[i] = false;
+      }
+    }
+  }
+
+  sortData(): void {
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
+  }
+
+  searchStudents() {
+    const inputText = this.inputElement.nativeElement.value;
+    this.filteredData = this.studentsData.filter(
+      student => student.givenname.includes(inputText.toUpperCase())
+      || student.schacpersonaluniquecode.includes(inputText)
+      || student.sn.includes(inputText.toUpperCase())
+    );
   }
 
   checkIfFileExistsFor(i: number, studentId: number, docType: string): any {
@@ -119,7 +136,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerDataDepartment = depManager.department_id;
-          this.depManagerService.getStudentsRankingListFromAPI( this.depManagerDataDepartment, valuePeriodId)
+          this.depManagerService.getStudentsRankingListFromAPI(this.depManagerDataDepartment, valuePeriodId)
             .subscribe((students: Student[]) => {
               this.studentsData = students;
               for (let i = 0; i < students.length; i++) {
@@ -194,7 +211,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
     }
 
     const excelFileName: string = "StudentsPhase1.xlsx";
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("example2") as HTMLElement));
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("oldAppsTable") as HTMLElement));
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -203,7 +220,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    // $('#example2').DataTable();
+    // $('#oldAppsTable').DataTable();
   }
 
   printDataTable() {
@@ -247,10 +264,10 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   }
 
   openDialog(idx: any) {
-    console.log(idx);
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(StudentAppsPreviewDialogComponent, {
       // width: '350px',
-      data: { studentsData: this.studentsData, index: idx }
+      data: { studentsData: studentFinalData, index: idx }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -259,9 +276,9 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   }
 
   openCommentsDialog(idx: any) {
-    console.log(idx);
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(CommentsDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }
+      data: { studentsData: studentFinalData, index: idx }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -306,10 +323,10 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   }
 
   openStudentFilesViewDialog(idx: any) {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(StudentFilesViewDialogComponent, {
-      // width: '350px',
       data: {
-        student: this.studentsData[idx],
+        student: studentFinalData[idx],
         resignAppFiles: this.resignAppFiles,
         index: idx,
         idFiles: this.idFiles,

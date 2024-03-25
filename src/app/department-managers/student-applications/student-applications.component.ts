@@ -21,7 +21,7 @@ import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/st
   styleUrls: ['./student-applications.component.css']
 })
 export class StudentApplicationsComponent implements OnInit, AfterViewInit {
-  @ViewChild('example') table: ElementRef | undefined;
+  @ViewChild('appsTable') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   @ViewChild('btnRunAlgorithm') btnRunAlgorithm!: ElementRef;
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
@@ -84,7 +84,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         this.chRef.detectChanges();
 
         // Use of jQuery DataTables
-        const table: any = $('#example');
+        const table: any = $('#appsTable');
         this.table = table.DataTable({
           lengthMenu: [
             [10, 25, 50, -1],
@@ -204,7 +204,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // $('#example').DataTable();
+    // $('#appsTable').DataTable();
   }
 
   onSubmitSelect(option: string, studentId: number) {
