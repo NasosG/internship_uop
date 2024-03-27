@@ -72,7 +72,6 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
   } catch (error) {
     // error checks
     throw Error('error' + error);
-    //console.log("error: " + error);
   }
 };
 
@@ -855,29 +854,26 @@ const insertUserAcceptance = async (userId, areTermsAccepted) => {
 const insertOrUpdateStudentInterestApp = async (studentId, body, oldAppId = "", mode) => {
   try {
     const APP_INITIAL_STATUS = 1;
-    // get the current date in the format of DDMMYYYY
+    // Get the current date in the format of DDMMYYYY
     const applicationDate = new Date();
     const date = moment().format('DD-MM-YYYY');
 
     if (mode == "update") {
-      // concatenate the date and id
-      const protocolNumber = oldAppId + '/' + date;
-
-      // update the data into the table
-      await pool.query("UPDATE semester_interest_apps SET interest_app_date = $1, protocol_number = $2 WHERE interest_app_id = $3",
-        [applicationDate, protocolNumber, oldAppId]);
+      // Update last_update_date column to keep the date of last update
+      await pool.query("UPDATE semester_interest_apps SET last_update_date = $1 WHERE interest_app_id = $2",
+        [applicationDate, oldAppId]);
 
       console.log('Data updated successfully');
       return;
     }
 
-    // insert the data into the table
+    // Insert the data into the table
     const result = await pool.query("INSERT INTO semester_interest_apps(student_id, interest_app_date, interest_app_status, period_id) \
     VALUES($1, $2, $3, $4) RETURNING interest_app_id ",
       [studentId, applicationDate, APP_INITIAL_STATUS, body.periodId]);
 
     const newAppId = result.rows[0].interest_app_id;
-    // concatenate the date and id
+    // Concatenate the date and id
     const protocolNumber = newAppId + '/' + date;
 
     await pool.query("UPDATE semester_interest_apps SET protocol_number = $1 WHERE interest_app_id = $2", [protocolNumber, newAppId]);
