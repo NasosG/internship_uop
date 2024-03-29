@@ -83,6 +83,13 @@
               <p>Ρόλοι Χρηστών</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a [routerLink]="['/admin/position/sync/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>Προσθήκη Θέσης</p>
+            </a>
+          </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
             <a class="nav-link cursor-pointer">
@@ -256,6 +263,11 @@
           </div>
         </div>
       </div>
+      <form (ngSubmit)="syncPosition()">
+        <label for="positionId">Enter Position ID:</label><br>
+        <input type="text" id="positionId" name="positionId" [(ngModel)]="positionId"><br>
+        <button type="submit">Sync Position</button>
+      </form>
       <section class="content">
         <div class="row">
 

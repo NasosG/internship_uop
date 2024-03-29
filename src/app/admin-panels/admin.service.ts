@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { RoleModel } from './role.model';
+import {catchError, throwError} from 'rxjs';
 
 const API_URL = environment.apiUrl + "/admin/";
+const ATLAS_URL = environment.apiUrl + "/atlas/"
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +43,14 @@ export class AdminService {
         console.log(responseData.message);
         location.reload();
       });
+  }
+
+  syncPosition(positionId: string) {
+    return this.http.post<{ message: string }>(ATLAS_URL + `sync/position/${positionId}`, {}).pipe(
+      catchError(error => {
+        console.error('Error syncing position:', error.message);
+        return throwError('An error occurred while syncing the position. Please try again.');
+      })
+    );
   }
 }

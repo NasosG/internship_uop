@@ -732,7 +732,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             continue;
           }
 
-          providersArray.push(getProviderJson(providerResults.message));
+          providersArray.push(getProviderJson(providerResults?.message));
           providerPushed = true;
         } catch (ex) {
           console.log(`Exception in provider fetching - providerId: ${providerId}. Error: ${ex.message}`);
@@ -759,6 +759,68 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
+    };
+  }
+};
+
+const insertAtlasPositionGroup = async (req, res) => {
+  try {
+    const positionGroupID = parseInt(req.params.id);
+    const accessToken = await atlasLogin();
+    // Lists to keep elements for update or insert and Sync local DB with Atlas
+    // let positionInsertList = [];
+    // let providerInsertList = [];
+
+    console.log('insertAtlasPositionGroup for position ' + positionGroupID);
+
+    // Insert position group to the local DB
+    let positionGroupResults = await getPositionGroupDetails(positionGroupID, accessToken);
+    let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
+    // let positionsInsertArray = [];
+
+    const dateString = "2010-01-01T00:00:00.000Z";
+    const pair = {
+      PositionGroupLastUpdate: dateString
+    };
+
+    // positionsInsertArray.push(getPosition(pair, positionGroupResults.message, academics));
+    // await atlasService.insertPositionGroup(positionsInsertArray);
+
+    // let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
+    // let providersInsertArray = [];
+    // providersInsertArray.push(getProviderJson(providerResults.message));
+    // await atlasService.insertProvider(providersInsertArray);
+
+    // positionInsertList.push(positionGroupResults.message.ID);
+    // providerInsertList.push(atlasItem.ProviderID);
+
+    const defaultUpdateDate = '01/01/2010 23:51:53';
+
+    const positionData = [
+      {
+        PositionGroupID: positionGroupResults.message.ID,
+        PositionGroupLastUpdateString: defaultUpdateDate,
+        ProviderID: positionGroupResults.message.ProviderID,
+        ProviderLastUpdateString: defaultUpdateDate
+      }
+    ];
+
+    //await atlasService.insertPositionGroupRelation(positionData);
+
+    // Insert position group and provider details
+    await Promise.all([
+      atlasService.insertPositionGroup([getPosition(pair, positionGroupResults.message, academics)]),
+      atlasService.insertProvider([getProviderJson(await getProviderDetails(positionGroupResults.message.ProviderID, accessToken))]),
+      atlasService.insertPositionGroupRelation([positionData])
+    ]);
+
+    return { message: 'done' };
+  } catch (error) {
+    console.log("insertAtlasPositionGroup - ERROR -> " + error.message);
+    console.log("Stack Trace: " + error.stack);
+    return {
+      status: "400 bad request",
+      message: "something went wrong insertAtlasPositionGroup failed"
     };
   }
 };
@@ -1689,6 +1751,7 @@ module.exports = {
   insertOrUpdateAtlasTables,
   insertOrUpdateWholeAtlasTables,
   insertOrUpdateImmutableAtlasTables,
+  insertAtlasPositionGroup,
   findAcademicIdNumber,
   testDeletePosition,
   getStudentPositionMatchesAcademic,

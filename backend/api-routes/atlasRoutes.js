@@ -26,5 +26,6 @@ router.get('/getStudentPositionMatchesAcademic', atlasController.getStudentPosit
 router.get('/getAssignedPositionById/:id', atlasController.getAssignedPositionByIdHandler);
 router.post('/changeImplementationDatesAtlas/:id', atlasController.changeImplementationDatesAtlas);
 router.post('/completeAtlasPosition/:id', atlasController.completeAtlasPosition);
+router.post('/sync/position/:id', atlasController.insertAtlasPositionGroup);
 
 module.exports = router;

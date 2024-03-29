@@ -303,6 +303,10 @@ const routes: Routes = [{
   {
     path: 'login/:token/:uuid',
     component: AdminPanelComponent
+  },
+  {
+    path: 'position/sync/:uuid',
+    component: AdminPanelComponent
   }]
 }
 ];
