@@ -795,7 +795,8 @@ const insertAtlasPositionGroup = async (req, res) => {
     // providerInsertList.push(atlasItem.ProviderID);
 
     const defaultUpdateDate = '01/01/2010 23:51:53';
-
+    console.log(positionGroupResults.message.ProviderID);
+    console.log(positionGroupResults.message);
     const positionData = [
       {
         PositionGroupID: positionGroupResults.message.ID,
