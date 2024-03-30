@@ -5,7 +5,7 @@ import { RoleModel } from './role.model';
 import { catchError, throwError } from 'rxjs';
 
 const API_URL = environment.apiUrl + "/admin/";
-const ATLAS_URL = environment.apiUrl + "/atlas/"
+const ATLAS_URL = environment.apiUrl + "/atlas/";
 
 @Injectable({
   providedIn: 'root'
