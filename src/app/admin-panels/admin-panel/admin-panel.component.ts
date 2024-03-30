@@ -224,6 +224,9 @@ export class AdminPanelComponent implements OnInit {
     this.adminService.syncPosition(this.positionId).subscribe({
       next: (response: { message: string }) => {
         this.message = response.message;
+        if (this.message == 'done') {
+          alert("Η θέση προστέθηκε");
+        }
       },
       error: (error: any) => {
         console.error('Error syncing position:', error.message);

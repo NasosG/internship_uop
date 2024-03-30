@@ -763,40 +763,25 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
   }
 };
 
-const insertAtlasPositionGroup = async (req, res) => {
+const syncAtlasPositionGroup = async (request, response) => {
   try {
-    const positionGroupID = parseInt(req.params.id);
+    const positionGroupID = Number(request.params.id);
     const accessToken = await atlasLogin();
-    // Lists to keep elements for update or insert and Sync local DB with Atlas
-    // let positionInsertList = [];
-    // let providerInsertList = [];
 
     console.log('insertAtlasPositionGroup for position ' + positionGroupID);
 
     // Insert position group to the local DB
     let positionGroupResults = await getPositionGroupDetails(positionGroupID, accessToken);
     let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
-    // let positionsInsertArray = [];
+    let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
 
     const dateString = "2010-01-01T00:00:00.000Z";
-    const pair = {
-      PositionGroupLastUpdate: dateString
-    };
-
-    // positionsInsertArray.push(getPosition(pair, positionGroupResults.message, academics));
-    // await atlasService.insertPositionGroup(positionsInsertArray);
-
-    // let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
-    // let providersInsertArray = [];
-    // providersInsertArray.push(getProviderJson(providerResults.message));
-    // await atlasService.insertProvider(providersInsertArray);
-
-    // positionInsertList.push(positionGroupResults.message.ID);
-    // providerInsertList.push(atlasItem.ProviderID);
+    const pair = { PositionGroupLastUpdate: dateString };
+    const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
+    const providersInsertArray = [getProviderJson(providerResults.message)];
 
     const defaultUpdateDate = '01/01/2010 23:51:53';
-    console.log(positionGroupResults.message.ProviderID);
-    console.log(positionGroupResults.message);
+
     const positionData = [
       {
         PositionGroupID: positionGroupResults.message.ID,
@@ -806,23 +791,21 @@ const insertAtlasPositionGroup = async (req, res) => {
       }
     ];
 
-    //await atlasService.insertPositionGroupRelation(positionData);
-
     // Insert position group and provider details
     await Promise.all([
-      atlasService.insertPositionGroup([getPosition(pair, positionGroupResults.message, academics)]),
-      atlasService.insertProvider([getProviderJson(await getProviderDetails(positionGroupResults.message.ProviderID, accessToken))]),
+      atlasService.insertPositionGroup(positionsInsertArray),
+      atlasService.insertProvider(providersInsertArray),
       atlasService.insertPositionGroupRelation([positionData])
     ]);
 
-    return { message: 'done' };
+    response.status(201).json({ message: 'done', status: 'success' });
   } catch (error) {
     console.log("insertAtlasPositionGroup - ERROR -> " + error.message);
     console.log("Stack Trace: " + error.stack);
-    return {
+    response.status(400).json({
       status: "400 bad request",
-      message: "something went wrong insertAtlasPositionGroup failed"
-    };
+      message: "An error occurred while synchronizing positions - insertAtlasPositionGroup failed"
+    });
   }
 };
 
@@ -1752,7 +1735,7 @@ module.exports = {
   insertOrUpdateAtlasTables,
   insertOrUpdateWholeAtlasTables,
   insertOrUpdateImmutableAtlasTables,
-  insertAtlasPositionGroup,
+  syncAtlasPositionGroup,
   findAcademicIdNumber,
   testDeletePosition,
   getStudentPositionMatchesAcademic,
