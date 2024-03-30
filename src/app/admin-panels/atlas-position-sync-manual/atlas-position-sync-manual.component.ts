@@ -1,6 +1,5 @@
-import {HttpClient} from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {AdminService} from '../admin.service';
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-atlas-position-sync-manual',
@@ -24,6 +23,9 @@ export class AtlasPositionSyncManualComponent implements OnInit {
     this.adminService.syncPosition(this.positionId).subscribe({
       next: (response: { message: string }) => {
         this.message = response.message;
+        if (this.message == 'done') {
+          alert("Η θέση προστέθηκε");
+        }
       },
       error: (error: any) => {
         console.error('Error syncing position:', error.message);

@@ -793,8 +793,8 @@ const syncAtlasPositionGroup = async (request, response) => {
 
     // Insert position group and provider details
     await Promise.all([
-      atlasService.insertPositionGroup(positionsInsertArray),
       atlasService.insertProvider(providersInsertArray),
+      atlasService.insertPositionGroup(positionsInsertArray),
       atlasService.insertPositionGroupRelation([positionData])
     ]);
 

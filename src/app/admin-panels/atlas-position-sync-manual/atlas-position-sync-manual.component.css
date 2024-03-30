@@ -1,0 +1,39 @@
+.position-sync-form {
+  margin-top: 20px;
+  max-width: 300px;
+  /* margin: 0 auto; */
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* background-color: lightgrey; */
+}
+
+.position-sync-form label {
+  font-weight: bold;
+}
+
+.position-sync-form input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.position-sync-form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(34, 73, 87, 1);
+  color: #fff;
+  cursor: pointer;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}

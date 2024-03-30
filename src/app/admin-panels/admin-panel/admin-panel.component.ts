@@ -213,26 +213,13 @@ export class AdminPanelComponent implements OnInit {
         }
     });
   }
-  positionId: string = '';
-  message: string = '';
-  syncPosition() {
-    if (!this.positionId) {
-      alert('Please enter a position ID.');
-      return;
-    }
 
-    this.adminService.syncPosition(this.positionId).subscribe({
-      next: (response: { message: string }) => {
-        this.message = response.message;
-        if (this.message == 'done') {
-          alert("Η θέση προστέθηκε");
-        }
-      },
-      error: (error: any) => {
-        console.error('Error syncing position:', error.message);
-        alert('An error occurred while syncing the position. Please try again.');
-      }
-    });
+
+  isAdminRoute() {
+    return this.router.url === '/admin/' + this.authService.getSessionId();
   }
 
+  isSyncPositionRoute() {
+    return this.router.url === '/admin/position/sync/' + this.authService.getSessionId();
+  }
 }

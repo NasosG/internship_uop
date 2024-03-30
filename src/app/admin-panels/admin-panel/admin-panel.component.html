@@ -155,7 +155,7 @@
   </aside>
   <div id="content-wrapper" class="content-wrapper">
     <div class="content-header">
-      <div class="container-fluid">
+      <div *ngIf="isAdminRoute()" class="container-fluid">
         <div class="row mb-2">
           <div class="col-6 ml-5 mt-2"
             style="border:1px solid #dee2e6; background-color:white; border-radius: 6px; min-height:550px; max-height: 570px;">
@@ -263,11 +263,8 @@
           </div>
         </div>
       </div>
-      <form (ngSubmit)="syncPosition()">
-        <label for="positionId">Enter Position ID:</label><br>
-        <input type="text" id="positionId" name="positionId" [(ngModel)]="positionId"><br>
-        <button type="submit">Sync Position</button>
-      </form>
+      <app-atlas-position-sync-manual *ngIf="isSyncPositionRoute()"></app-atlas-position-sync-manual>
+
       <section class="content">
         <div class="row">
 

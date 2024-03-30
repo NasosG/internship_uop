@@ -1,5 +1,5 @@
-<h1>Manual Position Sync</h1>
-<form (ngSubmit)="syncPosition()">
+<h3>Manual Position Sync</h3>
+<form class="position-sync-form" (ngSubmit)="syncPosition()">
   <label for="positionId">Enter Position ID:</label><br>
   <input type="text" id="positionId" name="positionId" [(ngModel)]="positionId"><br>
   <button type="submit">Sync Position</button>
