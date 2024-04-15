@@ -140,7 +140,8 @@
     <br>
     <mat-form-field class="mt-2 w-40 mat-full-width" appearance="fill">
       <mat-label for="student_wages">(Μόνο ΑΕΙ) Συνολ. Αμοιβή φοιτητή/ριας</mat-label>
-      <input id="student_wages" matInput [(ngModel)]="studentContract.student_wages" formControlName="student_wages">
+      <input id="student_wages" matInput type="number" [(ngModel)]="studentContract.student_wages"
+        formControlName="student_wages">
     </mat-form-field>
   </form>
   <br>
