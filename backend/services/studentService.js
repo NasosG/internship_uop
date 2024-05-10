@@ -255,7 +255,7 @@ const updateStudentDetails = async (student, id) => {
 const isOldContractForStudentId = async (studentId) => {
   try {
     const START_DATE = `2022-01-01`;
-    const END_DATE = `2024-01-01`;
+    const END_DATE = `2023-12-01`;
 
     const students = await pool.query(
       `SELECT
