@@ -14,9 +14,9 @@
    <p><span>Επώνυμο μητέρας</span>: {{ this.data.studentsData[this.data.index].mother_last_name}}</p>
    <p><span>Ημ/νια Γέννησης</span>: {{this.dateOfBirth}}</p>
    <p><span>ΑΜ</span>: {{ this.data.studentsData[this.data.index].schacpersonaluniquecode}}</p>
-   <!--we dont check if the value is empty-->
+   <!-- we don't check if the value is empty -->
    <p><span>Φύλο</span>: {{ this.data.studentsData[this.data.index].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα'}}</p>
-   <p><span>email</span>: {{ this.data.studentsData[this.data.index].id}}.uop.gr</p>
+   <p><span>email</span>: {{ this.data.studentsData[this.data.index]?.mail}}</p>
    <p><span>Τηλέφωνο</span>: {{ this.data.studentsData[this.data.index].phone}}</p>
    <p><span>Πόλη</span>: {{ this.data.studentsData[this.data.index].city}}</p>
    <p><span>ΤΚ</span>: {{ this.data.studentsData[this.data.index].post_address}}</p>
