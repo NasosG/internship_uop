@@ -251,8 +251,10 @@ const AssignedPositionStatus = {
 const getTypeOfTEI = (departmentCode) => {
   const departmentCodeNum = Number(departmentCode);
   // Kodikoi upoergon for TEI Dutikhs Elladas and TEI Peloponnisou
-  const codeTeiPatras = '349776';
-  const codeTeiPeloponnisou = '349775';
+  // const codeTeiPatras = '349776';
+  // const codeTeiPeloponnisou = '349775';
+  const codeTeiPatras = '6016548';
+  const codeTeiPeloponnisou = '6016547';
   const teiPatras = [152201, 152202, 152301, 152401];
   const teiPeloponnisou = [151301, 151401, 151501, 151101, 151201, 151901];
 
@@ -260,6 +262,11 @@ const getTypeOfTEI = (departmentCode) => {
   if (teiPeloponnisou.includes(departmentCodeNum)) return codeTeiPeloponnisou;
 
   return 'Unknown TEI';
+};
+
+const getTypeOfDepartmentOPS = (departmentCode) => {
+  const codeAEI = '6016549';
+  return (departmentCode.length <= 4) ? codeAEI : getTypeOfTEI(departmentCode);
 };
 
 // Export list
@@ -287,5 +294,6 @@ module.exports = {
   convertDateFromYearMonthDayToDayMonthYear,
   formatDateToISO,
   formatDateString,
-  getTypeOfTEI
+  getTypeOfTEI,
+  getTypeOfDepartmentOPS
 };

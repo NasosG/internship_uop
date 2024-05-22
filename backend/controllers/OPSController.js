@@ -218,8 +218,9 @@ const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   const stFlag = 1;
   // 0: for exit sheets - 1: for entry sheets
   const eisodosFlag = sheetType == 'entry' ? 1 : 0;
-  const kodikosMIS = 5184863;
-  const kodikosYpoergou = (studentInfo.department_id.toString().length <= 4) ? 349817 : MiscUtils.getTypeOfTEI(studentInfo.department_id);
+  // const kodikosMIS = 5184863; // Old MIS till 2021 ESPA
+  const kodikosMIS = 6004529;
+  const kodikosYpoergou = MiscUtils.getTypeOfDepartmentOPS(studentInfo.department_id.toString());
   const idGeoDimos = 48;
   const startTime = position.pa_start_date;
   const endTime = position.pa_end_date;
