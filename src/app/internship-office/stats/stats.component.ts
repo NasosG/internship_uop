@@ -70,8 +70,8 @@ export class StatsComponent implements OnInit {
       });
   }
 
-  exportStudentsStatsToExcel() {
-    this.officeService.getAchievementsYearlyStatsForStudents(2023)
+  exportStudentsStatsToExcel(selectedYear: number) {
+    this.officeService.getAchievementsYearlyStatsForStudents(selectedYear)
       .subscribe((res: any) => {
         const excelFileName: string = "assignment_data_students.xlsx";
         let i: number = 0;
@@ -126,7 +126,9 @@ export class StatsComponent implements OnInit {
             "ΕΤΑΙΡΙΑ": item.asgmt_company_name,
             "Δ/Ι": deltaColumnValue,
             "ΦΟΙΤΗΤΗΣ": item.student_name,
-            "ΦΥΛΟ": genderValue
+            "ΦΥΛΟ": genderValue,
+            "MAIL ΕΤΑΙΡΙΑΣ": item.contact_email,
+            "ΤΗΛ ΕΤΑΙΡΙΑΣ": item.contact_phone
           };
         });
 
