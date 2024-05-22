@@ -105,7 +105,7 @@ const getAchievementsStats = async () => {
         SUM(CASE WHEN sso_users.schacgender = 2 THEN 1 ELSE 0 END) AS female_count,
         SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS completed_count
       FROM
-        (SELECT DISTINCT a1.student_id, a2.period_id, a2.status FROM internship_assignment a1 
+        (SELECT DISTINCT a1.student_id, a2.period_id, a2.status FROM internship_assignment a1
           INNER JOIN internship_assignment a2 ON a1.student_id = a2.student_id
           WHERE a2.approval_state <> -1 AND a2.status <> -1) AS distinct_students
         INNER JOIN sso_users ON sso_users.uuid = distinct_students.student_id
@@ -149,6 +149,8 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
       `SELECT
           a.student_id,
           a.asgmt_company_name,
+          ap.contact_email,
+          ap.contact_phone,
           sso_users.displayname AS student_name,
           sso_users.schacgender AS student_gender,
           prd.date_to
@@ -156,11 +158,12 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
           internship_assignment a
           INNER JOIN sso_users ON sso_users.uuid = a.student_id
           INNER JOIN period prd on prd.id = a.period_id
+          INNER JOIN atlas_provider ap on ap.name = a.asgmt_company_name
       WHERE
           a.status = 1
           AND prd.date_to <= $1
           AND prd.date_to >= $2`,
-      [startDate, endDate]);
+      [endDate, startDate]);
 
     return students.rows;
   } catch (error) {

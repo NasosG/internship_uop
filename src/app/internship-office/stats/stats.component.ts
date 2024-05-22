@@ -71,7 +71,7 @@ export class StatsComponent implements OnInit {
   }
 
   exportStudentsStatsToExcel() {
-    this.officeService.getAchievementsStatsForStudents()
+    this.officeService.getAchievementsYearlyStatsForStudents(2023)
       .subscribe((res: any) => {
         const excelFileName: string = "assignment_data_students.xlsx";
         let i: number = 0;
