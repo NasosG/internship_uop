@@ -7,20 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactComponent implements OnInit {
 
-  constructor() {}
+  constructor() { }
 
   public EconomicsTechnology = [
-    { serialNumber: '1', id: 'collapseOne', name: 'Τμήμα Οικονομικών Επιστημών', address: 'Θέση Σέχι – Πρώην 4ο Πεδίο Βολής 22100 Τρίπολη', phone: '2710230128, 2710230123', email: 'econ@uop.gr', site: 'http://es.uop.gr/el/', cardColor: 'card-primary'},
+    { serialNumber: '1', id: 'collapseOne', name: 'Τμήμα Οικονομικών Επιστημών', address: 'Θέση Σέχι – Πρώην 4ο Πεδίο Βολής 22100 Τρίπολη', phone: '2710230128, 2710230123', email: 'econ@uop.gr', site: 'http://es.uop.gr/el/', cardColor: 'card-primary' },
     { serialNumber: '2', id: 'collapseTwo', name: 'Τμήμα Πληροφορικής και Τηλεπικοινωνιών', address: 'Ακαδημαϊκού Γ. Κ. Βλάχου, 22131, Τρίπολη', phone: '2710372293, 2710372297', email: 'dit-secr@uop.gr', site: 'http://dit.uop.gr/', cardColor: 'card-primary' },
     { serialNumber: '3', id: 'collapseThree', name: 'Τμήμα Διοικητικής Επιστήμης και Τεχνολογίας', address: 'Θέση Σέχι – Πρώην 4ο Πεδίο Βολής 22100 Τρίπολη', phone: '2710230128', email: 'det@uop.gr', site: 'https://det.uop.gr', cardColor: 'card-primary' },
     { serialNumber: '4', id: 'collapseFour', name: 'Τμήμα Ψηφιακών Συστημάτων', address: 'Κτήριο Βαλιώτη,  Περιοχή Κλαδά,.23100, Σπάρτη', phone: '2731082240, 2731082227', email: 'ds-secr@uop.gr', site: 'http://ds.uop.gr', cardColor: 'card-primary mb-5' },
   ]
 
   public HealthSciences = [
-    { serialNumber: '5', id: 'collapseFive', name: 'Τμήμα Λογοθεραπείας', address: 'Αντικάλαμος 24100 Καλαμάτα', phone: '2721045320', email: 'gramlogo@uop.gr', site: 'http://slt.uop.gr/', cardColor: 'card-success'},
+    { serialNumber: '5', id: 'collapseFive', name: 'Τμήμα Λογοθεραπείας', address: 'Αντικάλαμος 24100 Καλαμάτα', phone: '2721045320', email: 'gramlogo@uop.gr', site: 'http://slt.uop.gr/', cardColor: 'card-success' },
     { serialNumber: '6', id: 'collapseSix', name: 'Τμήμα Επιστήμης Διατροφής και Διαιτολογίας', address: 'Αντικάλαμος 24100 Καλαμάτα', phone: '2721045126, 2721045268', email: 'nds-secr@uop.gr', site: 'http://nds.uop.gr/', cardColor: 'card-success' },
     { serialNumber: '7', id: 'collapseSeven', name: 'Τμήμα Φυσικοθεραπείας', address: 'Λεωφόρος Ευσταθίου και Σταματικής Βαλιώτη και Πλαταιών, Σπάρτη,23100', phone: '2731089689, 2731089684', email: 'pthgram@uop.gr', site: 'http://physiotherapy.uop.gr/', cardColor: 'card-success' },
-    { serialNumber: '8', id: 'collapseEight', name: 'Τμήμα Νοσηλευτικής', address: 'Θέση Σέχι – Πρώην 4ο Πεδίο Βολής 22100 Τρίπολη', phone: '2710230125', email: 'nrsgram@uop.gr', site: 'http://nosileftiki.uop.gr/', cardColor: 'card-success mb-5'},
+    { serialNumber: '8', id: 'collapseEight', name: 'Τμήμα Νοσηλευτικής', address: 'Θέση Σέχι – Πρώην 4ο Πεδίο Βολής 22100 Τρίπολη', phone: '2710230125', email: 'nrsgram@uop.gr', site: 'http://nosileftiki.uop.gr/', cardColor: 'card-success mb-5' },
   ]
 
   public HumanitiesCulturalStudies = [
@@ -54,10 +54,23 @@ export class ContactComponent implements OnInit {
 
   public Engineering = [
     { serialNumber: '20', id: 'collapseTwenty', name: 'Τμήμα Ηλεκτρολόγων Μηχανικών και Μηχανικών Υπολογιστών', address: 'Μεγάλου Αλεξάνδρου 1, 26334,Κουκούλι, Πάτρα', phone: '2610369236, 2610369237, 2610369193, 2610369263', email: 'secretary.ece@uop.gr', site: 'http://ece.uop.gr', cardColor: 'card-warning' },
-    { serialNumber: '21', id: 'collapseTwentyOne', name: 'Τμήμα Μηχανολόγων Μηχανικών', address: 'Μεγάλου Αλεξάνδρου 1, 26334,Κουκούλι, Πάτρα', phone: '2610369277, 2610369278, 2610369198', email: 'mech-secr@uop.gr', site: 'http://mech.uop.gr/', cardColor: 'card-warning'},
+    { serialNumber: '21', id: 'collapseTwentyOne', name: 'Τμήμα Μηχανολόγων Μηχανικών', address: 'Μεγάλου Αλεξάνδρου 1, 26334,Κουκούλι, Πάτρα', phone: '2610369277, 2610369278, 2610369198', email: 'mech-secr@uop.gr', site: 'http://mech.uop.gr/', cardColor: 'card-warning' },
     { serialNumber: '22', id: 'collapseTwentyTwo', name: 'Τμήμα Πολιτικών Μηχανικών', address: 'Μεγάλου Αλεξάνδρου 1, 26334,Κουκούλι, Πάτρα', phone: '2610369279, 2610369280, 2610369199', email: 'civil-secr@uop.gr', site: 'http://civil.uop.gr', cardColor: 'card-warning' },
   ]
 
+  public InternshipOffice = [
+    { serialNumber: '23', id: 'collapseTwentyThree', name: 'Κεντρικό Γραφείο Πρακτικής Άσκησης - Τρίπολη', address: 'Πανεπιστήμιο Πελοποννήσου – Ακαδημαϊκού Γ.Κ. Βλάχου, 2ο κτίριο Ο.Α.Ε.Δ Τρίπολη Τ.Κ. 22131', email: 'aaggelop@go.uop.gr', cardColor: 'card-primary' },
+    { serialNumber: '24', id: 'collapseTwentyFour', name: 'Γραφείο Πρακτικής Άσκησης - Καλαμάτα', address: 'Καλαμάτα - Αντικάλαμος Μεσσηνίας, 24100', email: 'a.chounti@go.uop.gr - v.apostolopoulou@go.uop.gr', cardColor: 'card-primary' },
+    { serialNumber: '25', id: 'collapseTwentyFive', name: 'Γραφείο Πρακτικής Άσκησης - Πάτρα', address: ' Μεγάλου Αλεξάνδρου 1, Κουκούλι, Τ.Κ. 26334, Πάτρα', email: 'p.papageorgiou@go.uop.gr', cardColor: 'card-primary' },
+  ]
+
+  public ItSupport = [
+    { serialNumber: '26', id: 'collapseTwentySix', name: 'Κωνσταντόπουλος Αθανάσιος', address: 'Πανεπιστήμιο Πελοποννήσου – Ακαδημαϊκού Γ.Κ. Βλάχου, 2ο κτίριο Ο.Α.Ε.Δ Τρίπολη Τ.Κ. 22131', email: 'a.konstantopoulos@go.uop.gr', cardColor: 'card-primary' },
+  ]
+
+  public Atlas = [
+    { serialNumber: '27', id: 'collapseTwentySeven', name: 'Άτλας', site: 'https://atlas.grnet.gr/contact', cardColor: 'card-primary' },
+  ]
 
   ngOnInit(): void {
 
