@@ -69,6 +69,7 @@ export interface EntryForm {
   A2P2: string;
   A2P3: string;
   D1: string;
+  D1P: string;
   D2: string;
   D2A: string;
   D2B: string;

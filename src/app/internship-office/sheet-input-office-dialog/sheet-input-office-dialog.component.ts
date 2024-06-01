@@ -13,6 +13,13 @@ import { OfficeService } from '../office.service';
 export class SheetInputOfficeDialogComponent implements OnInit {
   public entryForms: EntryForm[] = [];
   // Global variables
+
+  // MIS 2021-2027
+  public WorkOptionsMIS2127 = Utils.WorkOptionsMIS2127;
+  public educationOptionsMIS2127 = Utils.educationOptionsMIS2127;
+  public demographicsOptionsMIS2127 = Utils.demographicsOptionsMIS2127;
+
+  // MIS 2014-2020
   public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;

@@ -296,7 +296,8 @@ export abstract class Utils {
   ];
 
   public static demographicsOptionsMIS2127 = [
-    { subCategory: 'D1', id: 'D1', name: 'D1', text: 'Άτομα με Αναπηρία με πιστοποίηση από το Κέντρο Πιστοποίησης Αναπηρίας (ΚΕ.Π.Α.)' },
+    { subCategory: 'D1', id: 'D1', name: 'D1', text: 'Άτομα με Αναπηρία' },
+    { subCategory: 'D1P', id: 'D1P', name: 'D1P', text: 'Άτομα με Αναπηρία με πιστοποίηση από το Κέντρο Πιστοποίησης Αναπηρίας (ΚΕ.Π.Α.)' },
     { subCategory: 'D2', id: 'D2', name: 'D2', text: 'Υπήκοοι τρίτης χώρας' },
     { subCategory: 'D2A', id: 'D2A', name: 'D2A', text: 'Μετανάστες' },
     { subCategory: 'D2B', id: 'D2B', name: 'D2B', text: 'Δικαιούχοι Διεθνούς Προστασίας, Αιτούντες άσυλο ή αιτούντες διεθνή προστασία και Ασυνόδευτοι ανήλικοι' },
