@@ -16,6 +16,13 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
   public entryForms: EntryForm[] = [];
 
   // Global variables
+
+  // MIS 2021-2027
+  public WorkOptionsMIS2127 = Utils.WorkOptionsMIS2127;
+  public educationOptionsMIS2127 = Utils.educationOptionsMIS2127;
+  public demographicsOptionsMIS2127 = Utils.demographicsOptionsMIS2127;
+
+  // MIS 2014-2020
   public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;
@@ -31,6 +38,18 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
   // Flag to indicate whether the student's contract is in the old MIS (before 2023) or not
   public isContractOld: boolean = false;
+
+  public isMisNew(): boolean {
+    const q = new Date();
+    const m = q.getMonth() + 1;
+    const d = q.getDay();
+    const y = q.getFullYear();
+
+    const currentDate = new Date(y, m, d);
+
+    const comparisonDate = new Date('2024-01-01');
+    return currentDate >= comparisonDate;
+  }
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()

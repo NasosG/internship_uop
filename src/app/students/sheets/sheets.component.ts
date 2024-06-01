@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import {StudentsService} from '../student.service';
+import { StudentsService } from '../student.service';
 
 @Component({
   selector: 'app-sheets',

@@ -63,4 +63,16 @@ export interface EntryForm {
   D12: string;
   D13: string;
   D14: string;
+
+  // New fields for MIS 21-27
+  A2P1: string;
+  A2P2: string;
+  A2P3: string;
+  D1: string;
+  D2: string;
+  D2A: string;
+  D2B: string;
+  D2C: string;
+  D3: string;
+  espa_mis: number;
 }

@@ -6,6 +6,7 @@
       (click)="tabGroup.selectedIndex = 1">'Προβολή'</span> για να το αποθηκεύσετε και να το εκτυπώσετε.
   </div>
 </div>
+
 <form *ngIf="this.entries[0]==null" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal"
   (ngSubmit)="onSubmitStudentEntrySheet(studentEntryForm.value)">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
@@ -15,7 +16,7 @@
   </div>
 
   <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
-  <h4 class="text-dark"> Α0) Αναζήτηση Εργασίας </h4>
+  <h4 class="text-dark"> Αναζήτηση Εργασίας </h4>
   <div *ngFor="let option of workBeforeInternship" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
@@ -32,110 +33,17 @@
   <p class="text-danger pt-4 mt-2">
     Προσοχή! <strong>Μία</strong> απο τις ερωτήσεις Α1, Α2, A3 θα πρέπει να είναι ΝΑΙ
   </p>
-  <h4 class="text-dark"> Α1) Ανεργία </h4>
-  <div *ngFor="let option of unemployedOption" class="container-fluid row">
+  <h4 class="text-dark"> Καθεστώς Εργασίας κατά την Είσοδο </h4>
+  <div *ngFor="let option of WorkOptionsMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" id="{{option.id}}" [disabled]="true" aria-label="Select an option">
+      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-  <mat-divider class="mt-2 mb-2"></mat-divider>
-  <h4 class="text-dark">Α2) Εργαζόμενοι/ες</h4>
-  <div *ngFor="let option of privateSecOptions" class="container-fluid row">
-    <!-- <mat-divider *ngIf="option.id=='A2_1'" class="mt-2 mb-2"></mat-divider> -->
-    <h4 *ngIf="option.id=='A2_1'" class="ml-0 pl-0 text-dark">Α2.1) Ιδιωτικός Τομέας</h4>
-    <div class="col-10">
-      <label for="{{option.id}}">
-        <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
-      </label>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-
-  <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
-
-  <h4 class="text-dark">Α2.2) Απασχολούμενος στο Δημόσιο Τομέα</h4>
-  <div *ngFor="let option of publicSecOptions" class="container-fluid row">
-    <div class="col-10 ">
-      <label for="{{option.id}}">
-        <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
-      </label>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-
-  <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
-
-  <h4 class="text-dark">Α2.3) Αυτοαπασχολούμενος</h4>
-  <div class="container-fluid row">
-    <div class="col-10 ">
-      <label for="A2_3">
-        <span style="font-weight: 500;">A2.3)</span> Είμαι αυτοαπασχολούμενος
-      </label><br>
-      <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν έχουν
-        πωλήσεις, παρεχόμενες υπηρεσίες ή κέρδη(περιλαμβάνονται και οι ελεύθεροι επαγγελματίες που δεν ασκούν
-        δραστηριότητα
-        <br>β) άτομα που βρίσκονται σε φάση έναρξης επαγγέλματος (π.χ έχουν παραγγείλει ή αγοράσει εξοπλισμό) και
-        <br>γ) όσοι εργάζονται σε οικογενειακή επιχείρηση και αμείβονται ή όσοι εργάζονται σε οικογενειακή επιχείρηση
-        και δεν αμείβονται αλλά ζουν μαζί στο ίδιο νοικοκυριό, δηλ συμβοηθούντα μέλη οικογενειακών επιχειρήσεων)<br>
-      </p>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group name="A2_3" ngModel id="A2_3" aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-
-  <!-- <mat-divider class="mt-2 mb-2"></mat-divider> -->
-
-  <h4 class="text-dark">Α2.4) Άλλη σχέση εργασίας</h4>
-  <div class="container-fluid row">
-    <div class="col-10">
-      <label for="A5_1"><span style="font-weight: 500;">A2.4)&nbsp;</span>Σχέση εργασίας (άλλη) που δεν
-        εμπίπτει σε καμία απο τις παραπάνω
-        κατηγορίες</label><br>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group id="A2_4" name="A2_4" ngModel aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-
-
-  <mat-divider class="mt-2 mb-2"></mat-divider>
-
-  <h4 class="text-dark">Α3) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
-  <div *ngFor="let option of specialJobOptions" class="container-fluid row">
-    <div class="col-10 ">
-      <label for="{{option.id}}">
-        <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
-      </label>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
@@ -143,15 +51,14 @@
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
   <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
-  <div *ngFor="let option of educationOptions" class="container-fluid row">
+  <div *ngFor="let option of educationOptionsMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group
-        *ngIf="option.id == 'B1' || option.id == 'B2' || option.id == 'B3' || option.id == 'B5' || option.id == 'B6'"
+      <mat-radio-group *ngIf="option.id == 'B1' || option.id == 'B2' || option.id == 'B4' || option.id == 'B5'"
         name="{{option.id}}" [(ngModel)]="selectedNOOption" id="{{option.id}}" [disabled]="true" required
         aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
@@ -164,19 +71,19 @@
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
 
-      <mat-radio-group *ngIf="option.id == 'B4' && optionValue == 1" name="{{option.id}}"
+      <mat-radio-group *ngIf="option.id == 'B3' && optionValue == 1" name="{{option.id}}"
         [(ngModel)]="selectedYESOption" id="{{option.id}}" required aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0" [disabled]="true">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
 
-      <mat-radio-group *ngIf="option.id == 'B4' && optionValue == 0" name="{{option.id}}" [(ngModel)]="selectedNOOption"
+      <mat-radio-group *ngIf="option.id == 'B3' && optionValue == 0" name="{{option.id}}" [(ngModel)]="selectedNOOption"
         id="{{option.id}}" required aria-label="Select an option">
         <mat-radio-button [value]="1" [disabled]="true">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
 
-      <mat-radio-group *ngIf="option.id == 'B4' && optionValue == null" name="{{option.id}}" id="{{option.id}}" required
+      <mat-radio-group *ngIf="option.id == 'B3' && optionValue == null" name="{{option.id}}" id="{{option.id}}" required
         aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
@@ -229,7 +136,7 @@
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
   <h3 class="text-danger pt-3">D) ΔΗΜΟΓΡΑΦΙΚΑ ΣΤΟΙΧΕΙΑ</h3>
-  <div *ngFor="let option of demographicsOptions" class="container-fluid row">
+  <div *ngFor="let option of demographicsOptionsMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
         <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
@@ -243,38 +150,6 @@
     </div>
   </div>
 
-  <!-- <div class="container-fluid row">
-    <div class="col-10 ">
-      <label for="B1_1"><span style="font-weight: 500;">B1.1)&nbsp;</span>Συμμετέχω σε κάποιο άλλο πρόγραμμα
-        κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης,
-        επιδοτούμενο
-        ή μη</label><br>
-      <p style=" padding:0px 0px 0px 40px;">Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε κάποιο άλλο πρόγραμμα
-        εκπαίδευσης
-        ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).
-        <br>Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές όλων των
-        εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά και
-        Επαγγελματικά
-        Λύκεια,
-        σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε αποφοίτους της
-        υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής κατάρτισης,
-        συμμετέχοντες σε
-        προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική εκπαίδευση
-        ενηλίκων,
-        επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά
-        ασκούμενους
-        Σχολών
-        που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας εκπαίδευσης
-        πλήρους
-        φοίτησης<br></p>
-    </div>
-    <div class="col-2 text-right">
-      <mat-radio-group id="B1_1" name="B1_1" ngModel required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div> -->
   <button [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2"> <i
       class="fas fa-angle-left"></i> Πίσω</button>
   <button class="btn btn-primary">Αποθήκευση</button>

@@ -11,6 +11,13 @@ import { DepManagerService } from '../dep-manager.service';
   styleUrls: ['./sheet-input-preview-dialog.component.css']
 })
 export class SheetInputPreviewDialogComponent implements OnInit {
+
+  // MIS 2021-2027
+  public WorkOptionsMIS2127 = Utils.WorkOptionsMIS2127;
+  public educationOptionsMIS2127 = Utils.educationOptionsMIS2127;
+  public demographicsOptionsMIS2127 = Utils.demographicsOptionsMIS2127;
+
+  // MIS 2014-2020
   public entryForms: EntryForm[] = [];
   public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;

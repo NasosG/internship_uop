@@ -11,6 +11,9 @@ import { SheetInputComponent } from '../sheet-input/sheet-input.component';
 export class SheetInputEditComponent extends SheetInputComponent implements OnInit {
   entries!: EntryForm[];
   // Global variables
+  public WorkOptionsMIS2127 = Utils.WorkOptionsMIS2127;
+  public educationOptionsMIS2127 = Utils.educationOptionsMIS2127;
+  public demographicsOptionsMIS2127 = Utils.demographicsOptionsMIS2127;
   public workBeforeInternship = Utils.workBeforeInternship;
   public unemployedOption = Utils.unemployedOption;
   public privateSecOptions = Utils.privateSecOptions;
@@ -25,6 +28,7 @@ export class SheetInputEditComponent extends SheetInputComponent implements OnIn
   public selectedYESOption: number = 1;
   public selectedNOOption: number = 0;
   public optionValue: number | null = null;
+
 
   override ngOnInit(): void {
     this.studentsService.getStudentEntrySheets()

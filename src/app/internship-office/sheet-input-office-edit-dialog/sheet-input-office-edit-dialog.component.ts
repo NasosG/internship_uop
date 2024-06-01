@@ -11,6 +11,11 @@ import { OfficeService } from '../office.service';
   styleUrls: ['./sheet-input-office-edit-dialog.component.css']
 })
 export class SheetInputOfficeEditDialogComponent implements OnInit {
+
+  public WorkOptionsMIS2127 = Utils.WorkOptionsMIS2127;
+  public educationOptionsMIS2127 = Utils.educationOptionsMIS2127;
+  public demographicsOptionsMIS2127 = Utils.demographicsOptionsMIS2127;
+
   public yesNoOptions = [true, false];
   public entryForms: EntryForm[] = [];
   public workBeforeInternship = Utils.workBeforeInternship;
@@ -32,6 +37,18 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
 
   turnBooleanToYesNo(value: boolean): string {
     return value ? 'ΝΑΙ' : 'ΟΧΙ';
+  }
+
+  public isMisNew(): boolean {
+    const q = new Date();
+    const m = q.getMonth() + 1;
+    const d = q.getDay();
+    const y = q.getFullYear();
+
+    const currentDate = new Date(y, m, d);
+
+    const comparisonDate = new Date('2024-01-01');
+    return currentDate >= comparisonDate;
   }
 
   ngOnInit(): void {
