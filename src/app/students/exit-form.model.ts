@@ -34,6 +34,15 @@ export interface ExitForm {
   A5_7: string;
   A5_8: string;
   B1_1: string;
+
+  // New fields for MIS 21-27
+  A2P1: string;
+  A2P2: string;
+  A2P3: string;
+  Α16M: string;
+  A2P16M: string;
+  A2P26M: string;
+  A2P36M: string;
 }
 
 

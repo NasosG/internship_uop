@@ -514,46 +514,54 @@ const deletePositionsbyStudentId = async (studentId) => {
   }
 };
 
-// untested and not used
 const updateStudentExitSheet = async (form, studentId) => {
   try {
-    const updateResults = await pool.query('UPDATE student_users ' +
-      'SET ' +
-      '"A1" = $2, "A2" = $3, "A2_0" = $4, "A2_1" = $5, "A2_1_1" = $6, "A2_1_2" = $7, "A2_1_3" = $8, "A2_1_4" = $9, "A2_1_5" = $10, ' +
-      '"A2_1_6" = $11, "A2_2" = $12, "A2_2_1" = $13, "A2_2_2" = $14, "A2_2_3" = $15, "A2_3" = $16, "A2_4" = $17, "A3" = $18, ' +
-      '"A3_1" = $19, "A3_2" = $20, "B" = $21, "B0" = $22, "B1" = $23, "B2" = $24, "B3" = $25, "B4" = $26, "B5" = $27, "B6" = $28, ' +
-      '"E1" = $29, "E2" = $30, "E2_1" = $31, "E2_2" = $32, "E2_3" = $33, "E3" = $34, "E3_1" = $35, "E3_2" = $36, "E3_3" = $37, ' +
-      '"E4" = $38, "E4_1" = $39, "E4_2" = $40, "E4_3" = $41, "E5" = $42, "E5_1" = $43, "E5_2" = $44, "E5_3" = $45, creation_date=NOW() ' +
-      'WHERE student_id = $1 ',
+    const updateResults = await pool.query(`UPDATE student_users SET
+        "A1" = $2, "A2" = $3, "A2_0" = $4, "A2_1" = $5, "A2_1_1" = $6, "A2_1_2" = $7, "A2_1_3" = $8, "A2_1_4" = $9, "A2_1_5" = $10,
+        "A2_1_6" = $11, "A2_2" = $12, "A2_2_1" = $13, "A2_2_2" = $14, "A2_2_3" = $15, "A2_3" = $16, "A2_4" = $17, "A3" = $18,
+        "A3_1" = $19, "A3_2" = $20, "B" = $21, "B0" = $22, "B1" = $23, "B2" = $24, "B3" = $25, "B4" = $26, "B5" = $27, "B6" = $28,
+        "E1" = $29, "E2" = $30, "E2_1" = $31, "E2_2" = $32, "E2_3" = $33, "E3" = $34, "E3_1" = $35, "E3_2" = $36, "E3_3" = $37,
+        "E4" = $38, "E4_1" = $39, "E4_2" = $40, "E4_3" = $41, "E5" = $42, "E5_1" = $43, "E5_2" = $44, "E5_3" = $45,
+        "A2P1" = $46, "A2P2" = $47, "A2P3" = $48, "Α16M" = $49, "A2P16M" = $50, "A2P26M" = $51, "A2P36M" = $52,
+        creation_date = NOW()
+      WHERE student_id = $1`,
       [studentId,
         form.A1, form.A2, form.A2_0, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3, form.A2_1_4, form.A2_1_5,
         form.A2_1_6, form.A2_2, form.A2_2_1, form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3, form.A3_1, form.A3_2,
         form.B, form.B0, form.B1, form.B2, form.B3, form.B4, form.B5, form.B6, form.E1, form.E2, form.E2_1, form.E2_2, form.E2_3, form.E3,
-        form.E3_1, form.E3_2, form.E3_3, form.E4, form.E4_1, form.E4_2, form.E4_3, form.E5, form.E5_1, form.E5_2, form.E5_3
+        form.E3_1, form.E3_2, form.E3_3, form.E4, form.E4_1, form.E4_2, form.E4_3, form.E5, form.E5_1, form.E5_2, form.E5_3,
+        form.A2P1, form.A2P2, form.A2P3, form.Α16M, form.A2P16M, form.A2P26M, form.A2P36M
       ]);
     return updateResults;
   } catch (error) {
-    console.log(error.message);
+    console.error('Error while updating student exit form: ' + error.message);
     throw Error('Error while updating students exit form');
   }
 };
 
 const insertStudentExitSheet = async (form, studentId) => {
-  // console.log(form);
   try {
-    form.B0 = form.B1 = form.B2 = form.B3 = form.B5 = form.B6 = false;
-    const insertResults = await pool.query('INSERT INTO exit_form' +
-      '(student_id, "A1", "A2", "A2_0", "A2_1", "A2_1_1", "A2_1_2", "A2_1_3", "A2_1_4", "A2_1_5",' +
-      '"A2_1_6", "A2_2", "A2_2_1", "A2_2_2", "A2_2_3", "A2_3", "A2_4", "A3", "A3_1", "A3_2", ' +
-      '"B", "B0", "B1", "B2", "B3", "B4", "B5", "B6", "E1", "E2", "E2_1", "E2_2", "E2_3", "E3", ' +
-      '"E3_1", "E3_2", "E3_3", "E4", "E4_1", "E4_2", "E4_3", "E5", "E5_1", "E5_2", "E5_3", creation_date)' +
-      ' VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, \
-        $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, NOW())',
-      [studentId,
+    const ESPA_MIS = '6004529';
+
+    // Ensure B0, B1, B2, B4, and B5 are always false (B can only be NO or YES along with B4)
+    form.B0 = form.B1 = form.B2 = form.B4 = form.B5 = false;
+
+    const insertResults = await pool.query(`INSERT INTO exit_form(
+        student_id, espa_mis, "A1", "A2", "A2_0", "A2_1", "A2_1_1", "A2_1_2", "A2_1_3", "A2_1_4", "A2_1_5",
+        "A2_1_6", "A2_2", "A2_2_1", "A2_2_2", "A2_2_3", "A2_3", "A2_4", "A3", "A3_1", "A3_2",
+        "B", "B0", "B1", "B2", "B3", "B4", "B5", "B6", "E1", "E2", "E2_1", "E2_2", "E2_3", "E3",
+        "E3_1", "E3_2", "E3_3", "E4", "E4_1", "E4_2", "E4_3", "E5", "E5_1", "E5_2", "E5_3",
+        "A2P1", "A2P2", "A2P3", "Α16M", "A2P16M", "A2P26M", "A2P36M", creation_date
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23,
+        $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44,
+        $45, $46, $47, $48, $49, $50, $51, $52, $53, NOW())`,
+      [studentId, ESPA_MIS,
         form.A1, form.A2, form.A2_0, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3, form.A2_1_4, form.A2_1_5,
         form.A2_1_6, form.A2_2, form.A2_2_1, form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3, form.A3_1, form.A3_2,
         form.B, form.B0, form.B1, form.B2, form.B3, form.B4 ?? "true", form.B5, form.B6, form.E1, form.E2, form.E2_1, form.E2_2, form.E2_3, form.E3,
-        form.E3_1, form.E3_2, form.E3_3, form.E4, form.E4_1, form.E4_2, form.E4_3, form.E5, form.E5_1, form.E5_2, form.E5_3
+        form.E3_1, form.E3_2, form.E3_3, form.E4, form.E4_1, form.E4_2, form.E4_3, form.E5, form.E5_1, form.E5_2, form.E5_3,
+        form.A2P1, form.A2P2, form.A2P3, form.Α16M, form.A2P16M, form.A2P26M, form.A2P36M
       ]);
     return insertResults;
   } catch (error) {

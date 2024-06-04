@@ -13,6 +13,12 @@ export class SheetOutputEditComponent extends SheetOutputComponent implements On
   // Global variables
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
   public workingOptionsOutputSheet = Utils.workingOptionsOutputSheet;
+
+  // MIS 2021-2027
+  public workOptionsOutputSheetMIS2127 = Utils.workOptionsOutputSheetMIS2127;
+  public educationOptionsOutputSheetMIS2127 = Utils.educationOptionsOutputSheetMIS2127;
+  public internshipExperienceOutputSheetMIS2127 = Utils.internshipExperienceOutputSheetMIS2127;
+  // Old MIS
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
   public publicSecOptionsOutputSheet = Utils.publicSecOptionsOutputSheet;
   public selfEmployedOutputSheet = Utils.selfEmployedOutputSheet;

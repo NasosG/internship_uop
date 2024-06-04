@@ -17,6 +17,12 @@ export class SheetOutputPreviewComponent extends SheetOutputComponent implements
   public exitForms: ExitForm[] = [];
 
   // Global variables
+
+  // MIS 2021-2027
+  public workOptionsOutputSheetMIS2127 = Utils.workOptionsOutputSheetMIS2127;
+  public educationOptionsOutputSheetMIS2127 = Utils.educationOptionsOutputSheetMIS2127;
+  public internshipExperienceOutputSheetMIS2127 = Utils.internshipExperienceOutputSheetMIS2127;
+  // Old MIS
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
   public workingOptionsOutputSheet = Utils.workingOptionsOutputSheet;
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
@@ -51,6 +57,18 @@ export class SheetOutputPreviewComponent extends SheetOutputComponent implements
           });
 
       });
+  }
+
+  public isMisNew(): boolean {
+    const q = new Date();
+    const m = q.getMonth() + 1;
+    const d = q.getDay();
+    const y = q.getFullYear();
+
+    const currentDate = new Date(y, m, d);
+
+    const comparisonDate = new Date('2024-01-01');
+    return currentDate >= comparisonDate;
   }
 
 }

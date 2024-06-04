@@ -1,4 +1,128 @@
-<form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+<form *ngIf="isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+  <div class="alert alert-danger mt-3 mb-2" role="alert">
+    Εκτυπώστε και αποθηκεύστε το δελτίο σας.
+  </div>
+  <div id="exitSheetPreviewContent">
+    <!-- <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας Κατά την Έξοδο</h3> -->
+    <!-- <p class="text-danger pt-4 mt-2">
+      Προσοχή! Μία απο τις ερωτήσεις Α1, Α2, Α3, Α4, Α5, A6 θα πρέπει να είναι ΝΑΙ
+    </p> -->
+    <div id="headerShownInPrintOnly">
+      <img id="pelopasLogo" class="mr-4" src="/assets/images/v110_3.png">
+      <img *ngIf="!isContractOld" id="espaSheetLogo" class="w-75 mb-3" src="/assets/images/sheet_espa_logo.jpg">
+      <img *ngIf="isContractOld" id="espaSheetLogo" class="w-75 mb-3" src="/assets/images/sheet_espa_logo old.jpg">
+      <h3 style='text-align: center;'><br>ΔΕΛΤΙΟ ΕΞΟΔΟΥ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ<br></h3>
+      <h3 style='text-align: center;'>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ</h3>
+      <table class="mt-4 mb-3" id="headerPrintTable">
+        <tr>
+          <td><strong>Όνομα:</strong> {{studentData[0].givenname}} </td>
+        </tr>
+        <tr>
+          <td><strong>Επώνυμο:</strong> {{studentData[0].sn}} </td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong> {{studentData[0].mail}} </td>
+        </tr>
+        <tr>
+          <td><strong>Τηλέφωνο:</strong> {{studentData[0].phone}} </td>
+        </tr>
+        <tr>
+          <td><strong>Ημερομηνία συμπλήρωσης:</strong> {{currentDate}}</td>
+        </tr>
+      </table>
+    </div>
+    <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας 4 εβδομάδες μετά την Έξοδο από την πράξη και 6 μήνες μετά την
+      Έξοδο από την πράξη</h3>
+
+    <mat-divider class="mt-2 mb-2"></mat-divider>
+    <h4 class="text-dark"> Εργασιακή κατάσταση - Ενεργή Εργασία </h4>
+    <div *ngFor="let option of workOptionsOutputSheetMIS2127" class="container-fluid row">
+      <div class="col-10">
+        <label for="pr-sec-option1">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{option.id}}" ngModel id="{{option.id}}">
+          {{ exitForms[0][option.id] == false ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+
+    <mat-divider class="mt-2 mb-2"></mat-divider>
+    <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+    <div class="container-fluid row" *ngFor="let option of educationOptionsOutputSheetMIS2127; let i = index">
+      <div class="col-10">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+        <p *ngIf="option.id=='B'" style=" padding:0px 0px 0px 40px;">Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε
+          κάποιο άλλο
+          πρόγραμμα
+          εκπαίδευσης
+          ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).
+          <br>Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές
+          όλων
+          των
+          εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά
+          και
+          Επαγγελματικά
+          Λύκεια,
+          σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε
+          αποφοίτους της
+          υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής
+          κατάρτισης,
+          συμμετέχοντες σε
+          προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική
+          εκπαίδευση
+          ενηλίκων,
+          επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά
+          ασκούμενους
+          Σχολών
+          που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας
+          εκπαίδευσης
+          πλήρους
+          φοίτησης<br>
+        </p>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{option.id}}" ngModel id="{{option.id}}">
+          {{ exitForms[0][option.id] == false ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+
+    <mat-divider class="mt-2 mb-2"></mat-divider>
+
+    <h3 class="text-danger">Ε) ΣΤΟΙΧΕΙΑ ΠΡΑΚΤΙΚΗΣ</h3>
+    <div *ngFor="let option of internshipExperienceOutputSheetMIS2127" class="container-fluid row">
+      <div class="col-10 ">
+        <label for="{{option.id}}">
+          <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+        </label>
+      </div>
+      <div class="col-2 text-right">
+        <p name="{{option.id}}" ngModel id="{{option.id}}">
+          {{ exitForms[0][option.id] == false ? 'OXI' : 'NAI'}}
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <br>
+  <button class="back-btn" [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2">
+    <i class="fas fa-angle-left"></i>
+    Πίσω</button>
+  <button class="print-btn" printSectionId="exitSheetPreviewContent" [useExistingCss]="true" ngxPrint
+    class="btn btn-primary">Εκτύπωση</button>
+  <!-- <button class="print-btn" (click)="printOutputSheet()" class="btn btn-primary">Εκτύπωση</button> -->
+</form>
+
+<!-- NEW MIS ABOVE -->
+<!--   ||  -->
+<!-- OLD MIS BELOW -->
+
+<form *ngIf="!isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
     Εκτυπώστε και αποθηκεύστε το δελτίο σας.
   </div>
