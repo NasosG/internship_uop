@@ -13,6 +13,12 @@ import { OfficeService } from '../office.service';
 export class SheetOutputOfficeDialogComponent implements OnInit {
   public exitForms: ExitForm[] = [];
   // Global variables
+
+  // MIS 2021-2027
+  public workOptionsOutputSheetMIS2127 = Utils.workOptionsOutputSheetMIS2127;
+  public educationOptionsOutputSheetMIS2127 = Utils.educationOptionsOutputSheetMIS2127;
+  public internshipExperienceOutputSheetMIS2127 = Utils.internshipExperienceOutputSheetMIS2127;
+  // Old MIS
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
   public workingOptionsOutputSheet = Utils.workingOptionsOutputSheet;
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
@@ -68,6 +74,10 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
           });
 
       });
+  }
+
+  public isMisNew(): boolean {
+    return this.currentDate >= '2024-01-01';
   }
 
   onSubmitStudentEntrySheet(formData: FormData) {

@@ -29,6 +29,8 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
   public educationalStandardOptions = Utils.educationalStandardOptions;
   public demographicsOptions = Utils.demographicsOptions;
 
+  public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
     public officeService: OfficeService,
@@ -40,15 +42,8 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
   }
 
   public isMisNew(): boolean {
-    const q = new Date();
-    const m = q.getMonth() + 1;
-    const d = q.getDay();
-    const y = q.getFullYear();
-
-    const currentDate = new Date(y, m, d);
-
-    const comparisonDate = new Date('2024-01-01');
-    return currentDate >= comparisonDate;
+    const creationDate = this.entryForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.entryForms[0].creation_date) : this.currentDate;
+    return creationDate >= '2024-01-01';
   }
 
   ngOnInit(): void {

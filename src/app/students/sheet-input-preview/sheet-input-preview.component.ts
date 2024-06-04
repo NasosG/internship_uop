@@ -40,15 +40,7 @@ export class SheetInputPreviewComponent extends SheetInputComponent implements O
   public isContractOld: boolean = false;
 
   public isMisNew(): boolean {
-    const q = new Date();
-    const m = q.getMonth() + 1;
-    const d = q.getDay();
-    const y = q.getFullYear();
-
-    const currentDate = new Date(y, m, d);
-
-    const comparisonDate = new Date('2024-01-01');
-    return currentDate >= comparisonDate;
+    return this.currentDate >= '2024-01-01';
   }
 
   override ngOnInit(): void {
