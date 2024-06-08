@@ -143,7 +143,7 @@ const getAchievementsStatsForStudents = async () => {
 const getAchievementsYearlyStatsForStudents = async (year) => {
   try {
     const startDate = `${year}-01-01`;
-    const endDate = `${parseInt(year) + 1}-01-01`;
+    const endDate = `${year}-12-01`;
 
     const students = await pool.query(
       `SELECT
