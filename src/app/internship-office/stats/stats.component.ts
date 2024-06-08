@@ -88,50 +88,76 @@ export class StatsComponent implements OnInit {
         // Flag to track the gender
         let isGender = 0;
 
+        // Set to track unique company names
+        const uniqueStudents = new Set();
+
         // Map the response data to the desired format for Excel
         const dataForExcel = res.map((item: any, index: number) => {
           console.log(item);
           i = index;
-          const genderValue = item.student_gender === 1 ? 10 : item.student_gender === 2 ? 20 : null;
 
-          // Count men and women
-          if (genderValue === 10) {
-            menCount++;
-            isGender = 10;
-          } else if (genderValue === 20) {
-            womenCount++;
-            isGender = 20;
+          // Check if student's name already exists, if not, add it to the set and return the data
+          if (!uniqueStudents.has(item.student_name)) {
+            uniqueStudents.add(item.student_name);
+            
+            const genderValue = item.student_gender === 1 ? 10 : item.student_gender === 2 ? 20 : null;
+
+            // Count men and women
+            if (genderValue === 10) {
+              menCount++;
+              isGender = 10;
+            } else if (genderValue === 20) {
+              womenCount++;
+              isGender = 20;
+            }
+
+            // Determine the value for Δ/Ι based on company_name
+            const publicCompanyKeywords = ['Γ.Ν', 'Γ.Ν.Ε', 'ΓΝΕ', 'Γ.Ν.Α', 'ΓΝΑ', 'ΔΗΜΟΣ', 'ΔΗΜΟΥ', 'ΠΕΡΙΦΕΡΕΙΑ', 'ΓΕΝΙΚΟ ΝΟΣΟΚΟΜΕΙΟ', 'ΠΓΝ', 'ΓΕΝΙΚΟ ΛΥΚΕΙΟ', 'ΑΝΕΞΑΡΤΗΤΗ ΑΡΧΗ', 'ΕΘΝΙΚΟ', 'ΔΙΕΥΘΥΝΣΗ', 'ΒΟΥΛΗ ', 'ΒΟΥΛΗΣ ', 'ΔΗΜΟΤΙΚΟ', 'ΔΗΜΟΤΙΚΗ', 'ΥΠΟΥΡΓΕ', 'Υπουργείο', 'ΔΗΜ.', 'ΠΟΛΕΜΙΚΟ ΜΟΥΣΕΙΟ', 'Εφορεία Αρχαιοτήτων', 'ΕΦΟΡΕΙΑ', 'ΟΛΥΜΠΙΑΚΟ ΑΘΛΗΤΙΚΟ ΚΕΝΤΡΟ', 'ΙΝΣΤΙΤΟΥΤΟ ΠΛΗΡΟΦΟΡΙΚΗΣ', 'ΠΑΝΕΠΙΣΤΗΜΙΟ', 'ΠΑΝΕΠΙΣΤΗΜΙΑΚΟ ΝΟΣΟΚΟΜΕΙΟ', 'ΘΕΑΓΕΝΕΙΟ', 'ΒΕΝΙΖΕΛΕΙΟ', 'ΤΖΑΝΕΙΟ', 'ΚΟΡΓΙΑΛΕΝΕΙΟ', 'ΜΠΕΝΑΚΕΙΟ', 'Ε.Ε.Σ', 'Ν.Π.Δ.Δ.', 'ΕΠΙΜΕΛΗΤΗΡΙΟ', 'Επιμελητήριο', 'ΠΡΑΣΙΝΟ ΤΑΜΕΙΟ', 'ΚΡΑΤΙΚΟ ΘΕΑΤΡΟ', 'ΚΚΠΠΑ-ΠΠΠΑ ', 'ΕΘΝΙΚΗ ΛΥΡΙΚΗ ΣΚΗΝΗ'];
+            const isPublicCompany = publicCompanyKeywords
+                                    .some(keyword => item.asgmt_company_name
+                                    .includes(keyword));
+
+            const isSpecialPublicCase = item.asgmt_company_name.includes('ΓΕΝΙΚΟ') && item.asgmt_company_name.includes('ΝΟΣΟΚΟΜΕΙΟ') ||
+              item.asgmt_company_name.includes('ΓΕΝΙΚΟ') && item.asgmt_company_name.includes('ΛΥΚΕΙΟ');
+
+            const deltaColumnValue = isPublicCompany || isSpecialPublicCase ? 0 : 1;
+            publicBussinessesCount += deltaColumnValue === 0 ? 1 : 0;
+            privateBussinessesCount += deltaColumnValue === 1 ? 1 : 0;
+
+            menPublicCount += deltaColumnValue === 0 && isGender == 10 ? 1 : 0;
+            womenPublicCount+= deltaColumnValue === 0 && isGender == 20 ? 1 : 0;
+            menPrivateCount += deltaColumnValue === 1 && isGender == 10 ? 1 : 0;
+            womenPrivateCount += deltaColumnValue === 1 && isGender == 20 ? 1 : 0;
+
+            return {
+              "Α/Α": uniqueStudents.size,
+              "ΕΤΑΙΡΙΑ": item.asgmt_company_name,
+              "Δ/Ι": deltaColumnValue,
+              "ΦΟΙΤΗΤΗΣ": item.student_name,
+              "ΦΥΛΟ": genderValue,
+              "MAIL ΕΤΑΙΡΙΑΣ": item.contact_email,
+              "ΤΗΛ ΕΤΑΙΡΙΑΣ": item.contact_phone
+            };
+          } else {
+            // If student's name already exists, return null to filter out duplicates
+            return null;
           }
-
-          // Determine the value for Δ/Ι based on company_name
-          const publicCompanyKeywords = ['Γ.Ν', 'Γ.Ν.Ε', 'ΓΝΕ', 'Γ.Ν.Α', 'ΓΝΑ', 'ΔΗΜΟΣ', 'ΔΗΜΟΥ', 'ΠΕΡΙΦΕΡΕΙΑ', 'ΓΕΝΙΚΟ ΝΟΣΟΚΟΜΕΙΟ', 'ΠΓΝ', 'ΓΕΝΙΚΟ ΛΥΚΕΙΟ', 'ΑΝΕΞΑΡΤΗΤΗ ΑΡΧΗ', 'ΕΘΝΙΚΟ', 'ΔΙΕΥΘΥΝΣΗ', 'ΒΟΥΛΗ ', 'ΒΟΥΛΗΣ ', 'ΔΗΜΟΤΙΚΟ', 'ΔΗΜΟΤΙΚΗ', 'ΥΠΟΥΡΓΕ', 'Υπουργείο', 'ΔΗΜ.', 'ΠΟΛΕΜΙΚΟ ΜΟΥΣΕΙΟ', 'Εφορεία Αρχαιοτήτων', 'ΕΦΟΡΕΙΑ', 'ΟΛΥΜΠΙΑΚΟ ΑΘΛΗΤΙΚΟ ΚΕΝΤΡΟ', 'ΙΝΣΤΙΤΟΥΤΟ ΠΛΗΡΟΦΟΡΙΚΗΣ', 'ΠΑΝΕΠΙΣΤΗΜΙΟ', 'ΠΑΝΕΠΙΣΤΗΜΙΑΚΟ ΝΟΣΟΚΟΜΕΙΟ', 'ΘΕΑΓΕΝΕΙΟ', 'ΒΕΝΙΖΕΛΕΙΟ', 'ΤΖΑΝΕΙΟ', 'ΚΟΡΓΙΑΛΕΝΕΙΟ', 'ΜΠΕΝΑΚΕΙΟ', 'Ε.Ε.Σ', 'Ν.Π.Δ.Δ.', 'ΕΠΙΜΕΛΗΤΗΡΙΟ', 'Επιμελητήριο', 'ΠΡΑΣΙΝΟ ΤΑΜΕΙΟ', 'ΚΡΑΤΙΚΟ ΘΕΑΤΡΟ', 'ΚΚΠΠΑ-ΠΠΠΑ ', 'ΕΘΝΙΚΗ ΛΥΡΙΚΗ ΣΚΗΝΗ'];
-          const isPublicCompany = publicCompanyKeywords
-                                  .some(keyword => item.asgmt_company_name
-                                  .includes(keyword));
-
-          const isSpecialPublicCase = item.asgmt_company_name.includes('ΓΕΝΙΚΟ') && item.asgmt_company_name.includes('ΝΟΣΟΚΟΜΕΙΟ') ||
-            item.asgmt_company_name.includes('ΓΕΝΙΚΟ') && item.asgmt_company_name.includes('ΛΥΚΕΙΟ');
-
-          const deltaColumnValue = isPublicCompany || isSpecialPublicCase ? 0 : 1;
-          publicBussinessesCount += deltaColumnValue === 0 ? 1 : 0;
-          privateBussinessesCount += deltaColumnValue === 1 ? 1 : 0;
-
-          menPublicCount += deltaColumnValue === 0 && isGender == 10 ? 1 : 0;
-          womenPublicCount+= deltaColumnValue === 0 && isGender == 20 ? 1 : 0;
-          menPrivateCount += deltaColumnValue === 1 && isGender == 10 ? 1 : 0;
-          womenPrivateCount += deltaColumnValue === 1 && isGender == 20 ? 1 : 0;
-
-          return {
-            "Α/Α": index + 1,
-            "ΕΤΑΙΡΙΑ": item.asgmt_company_name,
-            "Δ/Ι": deltaColumnValue,
-            "ΦΟΙΤΗΤΗΣ": item.student_name,
-            "ΦΥΛΟ": genderValue,
-            "MAIL ΕΤΑΙΡΙΑΣ": item.contact_email,
-            "ΤΗΛ ΕΤΑΙΡΙΑΣ": item.contact_phone
-          };
         });
 
+        //   return {
+        //     "Α/Α": index + 1,
+        //     "ΕΤΑΙΡΙΑ": item.asgmt_company_name,
+        //     "Δ/Ι": deltaColumnValue,
+        //     "ΦΟΙΤΗΤΗΣ": item.student_name,
+        //     "ΦΥΛΟ": genderValue,
+        //     "MAIL ΕΤΑΙΡΙΑΣ": item.contact_email,
+        //     "ΤΗΛ ΕΤΑΙΡΙΑΣ": item.contact_phone
+        //   };
+        // });
+
+        // Remove null entries (duplicates) from dataForExcel array
+        const filteredDataForExcel = dataForExcel.filter((item: any) => item !== null);
+  
         let menWomenCountRow: any = {
           "ΑΝΔΡΕΣ": menCount,
           "ΓΥΝΑΙΚΕΣ": womenCount
@@ -147,7 +173,7 @@ export class StatsComponent implements OnInit {
           "ΑΝΑ ΦΥΛΟ ΙΔ.": `Α: ${menPrivateCount}, Γ: ${womenPrivateCount}`
         };
 
-        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataForExcel);
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(filteredDataForExcel);
         XLSX.utils.sheet_add_json(ws, [menWomenCountRow],  { origin: { r: -1, c: 4 }});
         XLSX.utils.sheet_add_json(ws, [publicPrivateRow],  { origin: { r: -1, c: 2 }});
         XLSX.utils.sheet_add_json(ws, [menWomenInCompaniesRow],  { origin: { r: -1, c: 2 }});

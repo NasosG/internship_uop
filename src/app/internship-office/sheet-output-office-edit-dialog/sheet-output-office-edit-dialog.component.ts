@@ -49,7 +49,7 @@ export class SheetOutputOfficeEditDialogComponent implements OnInit {
 
   public isMisNew(): boolean {
     const creationDate = this.exitForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.exitForms[0].creation_date) : this.currentDate;
-    return creationDate >= '01/01/2024' || creationDate  >= '2024-01-01' ;
+    return (creationDate >= '01/01/2024' || creationDate  >= '2024-01-01');
   }
 
   onSubmitStudentEntrySheet(formData: FormData) {
