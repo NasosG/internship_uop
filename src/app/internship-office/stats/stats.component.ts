@@ -125,7 +125,7 @@ export class StatsComponent implements OnInit {
             privateBussinessesCount += deltaColumnValue === 1 ? 1 : 0;
 
             menPublicCount += deltaColumnValue === 0 && isGender == 10 ? 1 : 0;
-            womenPublicCount+= deltaColumnValue === 0 && isGender == 20 ? 1 : 0;
+            womenPublicCount += deltaColumnValue === 0 && isGender == 20 ? 1 : 0;
             menPrivateCount += deltaColumnValue === 1 && isGender == 10 ? 1 : 0;
             womenPrivateCount += deltaColumnValue === 1 && isGender == 20 ? 1 : 0;
 
