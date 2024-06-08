@@ -13,7 +13,14 @@ import { OfficeService } from '../office.service';
 export class SheetOutputOfficeEditDialogComponent implements OnInit {
   public yesNoOptions = [true, false];
   public exitForms: ExitForm[] = [];
+  
   // Global variables
+  
+  // MIS 2021-2027
+  public workOptionsOutputSheetMIS2127 = Utils.workOptionsOutputSheetMIS2127;
+  public educationOptionsOutputSheetMIS2127 = Utils.educationOptionsOutputSheetMIS2127;
+  public internshipExperienceOutputSheetMIS2127 = Utils.internshipExperienceOutputSheetMIS2127;
+  // Old MISS
   public unemployedOptionOutputSheet = Utils.unemployedOptionOutputSheet;
   public workingOptionsOutputSheet = Utils.workingOptionsOutputSheet;
   public privateSecOptionsOutputSheet = Utils.privateSecOptionsOutputSheet;
@@ -23,6 +30,8 @@ export class SheetOutputOfficeEditDialogComponent implements OnInit {
   public specialJobOptionsOutputSheet = Utils.specialJobOptionsOutputSheet;
   public internshipExperienceOutputSheet = Utils.internshipExperienceOutputSheet;
   public educationOptionsOutputSheet = Utils.educationOptionsOutputSheet;
+
+  public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,
@@ -36,6 +45,11 @@ export class SheetOutputOfficeEditDialogComponent implements OnInit {
         this.exitForms = forms;
         console.log(this.exitForms);
       });
+  }
+
+  public isMisNew(): boolean {
+    const creationDate = this.exitForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.exitForms[0].creation_date) : this.currentDate;
+    return creationDate >= '01/01/2024' || creationDate  >= '2024-01-01' ;
   }
 
   onSubmitStudentEntrySheet(formData: FormData) {

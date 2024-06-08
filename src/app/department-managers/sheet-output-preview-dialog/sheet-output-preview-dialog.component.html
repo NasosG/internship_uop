@@ -1,5 +1,5 @@
 <mat-dialog-content class="mat-typography">
-  <form *ngIf="isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+  <form *ngIf="isMisNew" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
       Εκτυπώστε και αποθηκεύστε το δελτίο σας.
     </div>
@@ -117,7 +117,7 @@
   <!--   ||  -->
   <!-- OLD MIS BELOW -->
 
-  <form *ngIf="!isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+  <form *ngIf="!isMisNew" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
       Το δελτίο δεν μπορεί να τροποποιηθεί.
     </div>

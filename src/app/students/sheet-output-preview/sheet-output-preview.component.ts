@@ -60,7 +60,7 @@ export class SheetOutputPreviewComponent extends SheetOutputComponent implements
   }
 
   public isMisNew(): boolean {
-    return this.currentDate >= '2024-01-01';
+    return (this.currentDate >= '01/01/2024' || this.currentDate  >= '2024-01-01');
   }
 
 }

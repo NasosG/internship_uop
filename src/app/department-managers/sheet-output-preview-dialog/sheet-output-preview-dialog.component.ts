@@ -39,6 +39,7 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
 
   // Flag to indicate whether the student's contract is in the old MIS (before 2023) or not
   public isContractOld: boolean = false;
+  public isMisNew: boolean = false;
 
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
 
@@ -56,6 +57,7 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
         console.log(this.exitForms);
         const creationDate = this.exitForms[0].creation_date ? Utils.getAtlasPreferredTimestamp(this.exitForms[0].creation_date) : this.currentDate;
         this.currentDate = creationDate;
+        this.isMisNew = this.currentDate  >= '01/01/2024' ||  this.currentDate  >= '2024-01-01' ;
 
         this.studentFirstName = this.data.studentsData[this.data.index].givenname;
         this.studentLastName = this.data.studentsData[this.data.index].sn;
@@ -76,10 +78,6 @@ export class SheetOutputPreviewDialogComponent implements OnInit {
           });
 
       });
-  }
-
-  public isMisNew(): boolean {
-    return this.currentDate  >= '2024-01-01';
   }
 
   onSubmitStudentEntrySheet(formData: FormData) {

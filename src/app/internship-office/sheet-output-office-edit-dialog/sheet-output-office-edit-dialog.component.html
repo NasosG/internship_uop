@@ -1,5 +1,111 @@
 <mat-dialog-content class="mat-typography">
-  <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+  <form *ngIf="isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
+    <div class="alert alert-danger mt-3 mb-2" role="alert">
+      Το δελτίο μπορεί να τροποποιηθεί.
+    </div>
+    <div id="exitSheetPreviewContent">
+      <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας 4 εβδομάδες μετά την Έξοδο από την πράξη και 6 μήνες μετά την
+        Έξοδο από την πράξη</h3>
+
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <h4 class="text-dark"> Εργασιακή κατάσταση - Ενεργή Εργασία </h4>
+      <div *ngFor="let option of workOptionsOutputSheetMIS2127; let i = index" class="container-fluid row">
+        <div class="col-10">
+          <label for="{{option.id}}">
+            <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="exitForms[0][option.id]" required>
+              <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
+                [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+      <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+      <div class="container-fluid row" *ngFor="let option of educationOptionsOutputSheetMIS2127; let i = index">
+        <div class="col-10">
+          <label for="{{option.id}}">
+            <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+          </label>
+          <p *ngIf="option.id=='B'" style=" padding:0px 0px 0px 40px;">Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε
+            κάποιο άλλο
+            πρόγραμμα
+            εκπαίδευσης
+            ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).
+            <br>Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές
+            όλων
+            των
+            εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά
+            και
+            Επαγγελματικά
+            Λύκεια,
+            σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε
+            αποφοίτους της
+            υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής
+            κατάρτισης,
+            συμμετέχοντες σε
+            προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική
+            εκπαίδευση
+            ενηλίκων,
+            επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά
+            ασκούμενους
+            Σχολών
+            που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας
+            εκπαίδευσης
+            πλήρους
+            φοίτησης<br>
+          </p>
+        </div>
+        <div class="col-2 text-right">
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="exitForms[0][option.id]" required>
+              <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
+                [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-divider class="mt-2 mb-2"></mat-divider>
+
+      <h3 class="text-danger">Ε) ΣΤΟΙΧΕΙΑ ΠΡΑΚΤΙΚΗΣ</h3>
+      <div class="container-fluid row" *ngFor="let option of internshipExperienceOutputSheetMIS2127; let i = index">
+        <div class="col-10">
+          <label for="{{option.id}}">
+            <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
+          </label>
+        </div>
+        <div class="col-2 text-right">
+          <mat-form-field appearance="fill">
+            <mat-label>Επιλέξτε</mat-label>
+            <mat-select [(value)]="exitForms[0][option.id]" required>
+              <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
+                [value]="element">
+                {{element == true ? 'ΝΑΙ' : 'ΟΧΙ'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+    <br>
+  </form>
+
+  <!-- OLD MIS FORM BELOW -->
+
+  <form *ngIf="!isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
       Το δελτίο μπορεί να τροποποιηθεί.
     </div>
