@@ -25,7 +25,11 @@ const sendDeltioEisodouWS = async (req, res) => {
     }
     const sheetResults = await studentService.getStudentEntrySheets(studentId);
 
-    const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
+    // Old MIS
+    // const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
+
+    // New MIS XML string - New fields
+    const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
     console.log(xmlPostString);
 
     // asmx URL of WSDL
@@ -89,7 +93,11 @@ const sendDeltioExodouWS = async (req, res) => {
     }
     const sheetResults = await studentService.getStudentExitSheets(studentId);
 
-    const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
+    // Old MIS
+    // const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
+
+    // New MIS 2021 2027 - New Fields
+    const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
 
     console.log(xmlPostString);
 
@@ -149,7 +157,11 @@ const sendDeltioEisodouXML = async (req, res) => {
     const studentId = req.params.id;
     const MODE = 'XML';
     const sheetResults = await studentService.getStudentEntrySheets(studentId);
-    const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
+    // Old MIS
+    // const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
+
+    // New MIS XML string - New fields
+    const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
     console.log(xmlPostString);
 
     const filename = `deltioEisodou${studentId}.xml`;
@@ -170,7 +182,11 @@ const sendDeltioExodouXML = async (req, res) => {
     const studentId = req.params.id;
     const MODE = 'XML';
     const sheetResults = await studentService.getStudentExitSheets(studentId);
-    const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
+    // Old MIS
+    // const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
+
+    // New MIS 2021 2027 - New Fields
+    const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
     console.log(xmlPostString);
 
     const filename = `deltioExodou${studentId}.xml`;
@@ -394,7 +410,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
   }
 };
 
-const getXmlPostStringEisodou2027 = async (studentId, mode, sheets) => {
+const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
   let finalCode;
   try {
     const studentInfo = await studentService.getStudentById(studentId);
@@ -403,30 +419,15 @@ const getXmlPostStringEisodou2027 = async (studentId, mode, sheets) => {
     let microdata = '';
 
     const answers = [
+      // New fields for 2021-2027 ESPA
+      // A Answers
       { id: 3, value: sheets.rows[0]?.A1 ?? null },
-      // { id: 4, value: sheets.rows[0]?.A1_1 ?? null },
-      { id: 5, value: sheets.rows[0]?.A1_2 ?? null },
-      // { id: 99, value: field_oaed_karta ?? null },
-      { id: 6, value: sheets.rows[0]?.A2 ?? null },
-      { id: 7, value: sheets.rows[0]?.A2_1 ?? null },
-      { id: 8, value: sheets.rows[0]?.A2_1_1 ?? null },
-      { id: 9, value: sheets.rows[0]?.A2_1_2 ?? null },
-      { id: 10, value: sheets.rows[0]?.A2_1_3 ?? null },
-      { id: 11, value: sheets.rows[0]?.A2_1_4 ?? null },
-      { id: 12, value: sheets.rows[0]?.A2_1_5 ?? null },
-      { id: 13, value: sheets.rows[0]?.A2_1_6 ?? null },
-      { id: 14, value: sheets.rows[0]?.A2_2 ?? null },
-      { id: 15, value: sheets.rows[0]?.A2_2_1 ?? null },
-      { id: 16, value: sheets.rows[0]?.A2_2_2 ?? null },
-      { id: 17, value: sheets.rows[0]?.A2_2_3 ?? null },
-      { id: 18, value: sheets.rows[0]?.A2_3 ?? null },
-      { id: 63, value: false },
+      { id: 96, value: sheets.rows[0]?.A1_1 ?? null },
+      { id: 104, value: sheets.rows[0]?.A2P1 ?? null },
+      { id: 105, value: sheets.rows[0]?.A2P2 ?? null },
+      { id: 106, value: sheets.rows[0]?.A2P3 ?? null },
       { id: 20, value: sheets.rows[0]?.A3 ?? null },
-      { id: 21, value: sheets.rows[0]?.A3_1 ?? null },
-      // { id: 81, value: sheets.rows[0]?.A3_1_1 ?? null },
-      { id: 82, value: sheets.rows[0]?.A3_1_2 ?? null },
-      { id: 65, value: sheets.rows[0]?.A3_2 ?? null },
-      // { id: 57, value: false }, // set to OXI!
+      // C Answers
       { id: 27, value: sheets.rows[0]?.C1 ?? null },
       { id: 28, value: sheets.rows[0]?.C2 ?? null },
       { id: 29, value: sheets.rows[0]?.C3 ?? null },
@@ -436,26 +437,17 @@ const getXmlPostStringEisodou2027 = async (studentId, mode, sheets) => {
       { id: 32, value: sheets.rows[0]?.C7 ?? null },
       { id: 33, value: sheets.rows[0]?.C8 ?? null },
       { id: 34, value: sheets.rows[0]?.C9 ?? null },
-
-      // New fields for 2021-2027 ESPA
+      // D Answers
+      { id: 102, value: sheets.rows[0]?.D1P ?? null },
       { id: 117, value: sheets.rows[0]?.D1 ?? null },
       { id: 112, value: sheets.rows[0]?.D2 ?? null },
       { id: 113, value: sheets.rows[0]?.D2A ?? null },
       { id: 114, value: sheets.rows[0]?.D2B ?? null },
       { id: 115, value: sheets.rows[0]?.D2C ?? null },
-
-      { id: 38, value: sheets.rows[0]?.D4 ?? null },
-      { id: 39, value: sheets.rows[0]?.D5 ?? null },
-      { id: 40, value: sheets.rows[0]?.D6 ?? null },
-      { id: 41, value: sheets.rows[0]?.D7 ?? null },
-      { id: 62, value: sheets.rows[0]?.D8 ?? null },
-      { id: 45, value: sheets.rows[0]?.D9 ?? null },
-      { id: 46, value: sheets.rows[0]?.D10 ?? null },
-      { id: 47, value: sheets.rows[0]?.D11 ?? null },
-      { id: 48, value: sheets.rows[0]?.D12 ?? null },
-      { id: 49, value: sheets.rows[0]?.D13 ?? null },
-      { id: 50, value: sheets.rows[0]?.D14 ?? null }
-      // { id: 64, value: node.D12 }
+      { id: 38, value: sheets.rows[0]?.D3 ?? null },
+      { id: 39, value: sheets.rows[0]?.D4 ?? null },
+      { id: 40, value: sheets.rows[0]?.D5 ?? null },
+      { id: 49, value: sheets.rows[0]?.D6 ?? null }
     ];
 
     if (sheets.rows[0]) {
@@ -477,13 +469,14 @@ const getXmlPostStringEisodou2027 = async (studentId, mode, sheets) => {
         sheets.rows[0].C5 = true;
       }
 
-      if (sheets.rows[0]?.A2_1 === true ||
-        sheets.rows[0].A2_2 === true ||
-        sheets.rows[0].A2_3 === true) {
-        answers.find(answer => answer.id === 6).value = true;
-      }
+      // if (sheets.rows[0]?.A2_1 === true ||
+      //   sheets.rows[0].A2_2 === true ||
+      //   sheets.rows[0].A2_3 === true) {
+      //   answers.find(answer => answer.id === 6).value = true;
+      // }
 
-      if (sheets.rows[0]?.B4 === true) {
+      // Manually set B, depending on B and B3 values
+      if (sheets.rows[0]?.B3 === true) {
         answers.push({ id: 25, value: true });
         answers.push({ id: 57, value: true });
       } else {
@@ -491,7 +484,7 @@ const getXmlPostStringEisodou2027 = async (studentId, mode, sheets) => {
       }
     }
 
-    answers.find(answer => answer.id == 63).value = false;
+    // answers.find(answer => answer.id == 63).value = false;
 
     answers.forEach(answer => {
       microdata += createMicrodata(answer.id, answer.value);
@@ -606,6 +599,88 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     }
 
     // answers.find(answer => answer.id == 63).value = false;
+
+    answers.forEach(answer => {
+      microdata += createMicrodata(answer.id, answer.value);
+    });
+
+    let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'exit');
+    console.log(deltioCandidateInfo);
+
+    if (mode == 'XML') {
+      finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
+      return finalCode + returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 0, 'exit');
+    }
+
+    finalCode = returnSYMValuesForDeltio(deltioCandidateInfo, microdata, 0, 'exit');
+
+    // Whole XML string used for post
+    const xmlPostString = `
+   <soapenv:Envelope xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+         <soapenv:Header>
+            <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+               <wsse:UsernameToken wsu:Id="UsernameToken-1">
+                     <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
+                     <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
+               </wsse:UsernameToken>
+            </wsse:Security>
+         </soapenv:Header>
+         <soapenv:Body>
+            <det:eisagwghOfelWithDeltiaOfel>
+               <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
+                     <![CDATA[
+                        ${finalCode}
+                     ]]>
+               </det:XmlRequest>
+            </det:eisagwghOfelWithDeltiaOfel>
+         </soapenv:Body>
+   </soapenv:Envelope>`;
+
+    return xmlPostString;
+  } catch (error) {
+    console.error(error.message);
+    throw Error('Error producing xml post string');
+  }
+};
+
+/**
+ * Get Post string to be used for XML download or API call for exit sheets
+*/
+const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
+  let finalCode;
+
+  try {
+    const studentInfo = await studentService.getStudentById(studentId);
+    const assignmenInfo = await studentService.getApprovedAssignmentInfoByStudentId(studentId);
+
+    let microdata = '';
+
+    const answers = [
+      // A Answers
+      { id: 3, value: sheets[0]?.A1 ?? null },
+      { id: 110, value: sheets[0]?.A16M ?? null },
+      { id: 104, value: sheets[0]?.A2P1 ?? null },
+      { id: 105, value: sheets[0]?.A2P2 ?? null },
+      { id: 106, value: sheets[0]?.A2P3 ?? null },
+      { id: 107, value: sheets[0]?.A2P16M ?? null },
+      { id: 108, value: sheets[0]?.A2P26M ?? null },
+      { id: 109, value: sheets[0]?.A2P36M ?? null },
+      { id: 20, value: sheets[0]?.A3 ?? null },
+      { id: 21, value: sheets[0]?.A3_1 ?? null },
+      { id: 65, value: sheets[0]?.A3_2 ?? null },
+      // E Answers
+      { id: 51, value: sheets[0]?.E1 ?? null }
+    ];
+
+    if (sheets[0]) {
+      if (sheets[0]?.B3 === true) {
+        answers.push({ id: 25, value: true });
+        answers.push({ id: 111, value: true });
+      } else {
+        // Set to OXI
+        answers.push({ id: 111, value: false });
+      }
+    }
 
     answers.forEach(answer => {
       microdata += createMicrodata(answer.id, answer.value);
