@@ -8,11 +8,15 @@ const xml2js = require('xml2js');
 const createMicrodata = (id, answer) => {
   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
 
-  return `<KPS5_DELTIO_MICRODATA>
-               <ID_MICRODATA>${id}</ID_MICRODATA>
-               <APANTHSH_VALUE>${answerValue}</APANTHSH_VALUE>
-               <ST_FLAG>1</ST_FLAG>
-            </KPS5_DELTIO_MICRODATA>\n\t  `;
+  // return `<KPS5_DELTIO_MICRODATA>
+  //              <ID_MICRODATA>${id}</ID_MICRODATA>
+  //              <APANTHSH_VALUE>${answerValue}</APANTHSH_VALUE>
+  //              <ST_FLAG>1</ST_FLAG>
+  //           </KPS5_DELTIO_MICRODATA>\n\t  `;
+  return `<urn:DeltioMicrodata>
+                <urn:IDMicrodata>${id}</urn:IDMicrodata>
+                <urn:Apantisi>${answerValue}</urn:Apantisi>
+            </urn:DeltioMicrodata>\n\t `;
 };
 
 const sendDeltioEisodouWS = async (req, res) => {
@@ -34,7 +38,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     // asmx URL of WSDL
     //const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
-    const soapUrl = "https://logon.ops.gr/services/v6/default/SymWs/symwsbpel_client_ep?WSDL";
+    const soapUrl = "https://logon.ops.gr:443/services/v6/participants?WSDL";
 
     // SOAP Request
     const response = await axios.post(soapUrl, xmlPostString, {
@@ -505,24 +509,21 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
 
     // Whole XML string used for post
     const xmlPostString = `
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                      xmlns:WL5G3N1="urn:espa:v6:ergorama"
-                      xmlns:WL5G3N2="http://gsis.ggps.interoperability/RegistryInterface">
-        <soapenv:Header>
-            <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-                <wsse:UsernameToken>
-                    <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
-                    <wsse:Password>${process.env.OPS_PASSWORD}</wsse:Password>
-                </wsse:UsernameToken>
-            </wsse:Security>
-        </soapenv:Header>
-        <soapenv:Body>
-            <WL5G3N1:getInfoByAFM>
-                <WL5G3N1:getInfoByAFMParameters>
-                    <WL5G3N1:AFM>YourAFMValueHere</WL5G3N1:AFM>
-                </WL5G3N1:getInfoByAFMParameters>
-            </WL5G3N1:getInfoByAFM>
-        </soapenv:Body>
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:espa:v6:services:participants">
+      <soapenv:Header>
+        <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+            <wsse:UsernameToken wsu:Id="UsernameToken-1">
+                  <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
+                  <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+      </soapenv:Header>
+      <soapenv:Body>
+
+
+                    ${finalCode}
+
+      </soapenv:Body>
     </soapenv:Envelope>`;
 
     return xmlPostString;
@@ -736,32 +737,64 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
   }
 
   // Prepare XML
-  return `
-      <SYM xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
-        <KPS5_OFELOYMENOI>
-            <AFM>${deltioCandidateInfo.afm}</AFM>
-            <AMKA>${deltioCandidateInfo.amka}</AMKA>
-            <DATE_GENNHSHS>${deltioCandidateInfo.dobFormatted}</DATE_GENNHSHS>
-            <FYLLO_VALUE>${deltioCandidateInfo.genderProcessed}</FYLLO_VALUE>
-            <ID_ALLO>${deltioCandidateInfo.adt}</ID_ALLO>
-            <OFEL_DIEYTHYNSH>${deltioCandidateInfo.street + ' ' + deltioCandidateInfo.location + ' ' + deltioCandidateInfo.city}</OFEL_DIEYTHYNSH>
-            <OFEL_TK>${deltioCandidateInfo.postal}</OFEL_TK>
-            <OFEL_ONOMATEPONYMO>${deltioCandidateInfo.studentName}</OFEL_ONOMATEPONYMO>
-            <OFEL_TEL>${deltioCandidateInfo.phone}</OFEL_TEL>
-            <ST_FLAG>1</ST_FLAG>
-            <KPS5_DELTIO_OFELOYMENOI>
-                <EISODOS_FLAG>${deltioType}</EISODOS_FLAG>
-                <KODIKOS_MIS>${deltioCandidateInfo.kodikosMIS}</KODIKOS_MIS>
-                <KODIKOS_YPOERGOY>${deltioCandidateInfo.kodikosYpoergou}</KODIKOS_YPOERGOY>
-                <ID_GEO_DHMOS>48</ID_GEO_DHMOS>
-                <DATE_DELTIOY>${sheetDate}</DATE_DELTIOY>
-                <OLOKLHROSH_FLAG>1</OLOKLHROSH_FLAG>
-                <OFEL_TK>${deltioCandidateInfo.postal}</OFEL_TK>
-                <ST_FLAG>1</ST_FLAG>
-            </KPS5_DELTIO_OFELOYMENOI>
-            ${microdata}
-        </KPS5_OFELOYMENOI>
-    </SYM>`;
+  return `<urn:SymmetexontesRequest>
+
+    <urn:RequestProgressID>1</urn:RequestProgressID>
+
+    <urn:OfeloumenosInput>
+      <urn:KatigTaytopoihsis>3</urn:KatigTaytopoihsis>
+      <urn:IDTaytopoihsis>${deltioCandidateInfo.adt}</urn:IDTaytopoihsis>
+      <!--Optional:-->
+      <urn:Onomateponimo>${deltioCandidateInfo.studentName}</urn:Onomateponimo>
+      <!--Optional:-->
+      <urn:HmniaGenesis>${deltioCandidateInfo.dobFormatted}</urn:HmniaGenesis>
+      <!--Optional:-->
+      <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender>
+
+      <urn:DeltioOfeloumenou>
+        <urn:EidosDeltiou>${deltioType}</urn:EidosDeltiou>
+        <urn:HmniaDeltiou>${sheetDate}</urn:HmniaDeltiou>
+        <urn:KodikosMis>${deltioCandidateInfo.kodikosMIS}</urn:KodikosMis>
+        <!--Optional:-->
+        <urn:IDOfelDikaiouxou>${deltioCandidateInfo.adt}</urn:IDOfelDikaiouxou>
+        <urn:IDPeriferias>48</urn:IDPeriferias>
+
+        <urn:PliresFlag>1</urn:PliresFlag>
+        <urn:DioikitikesPigesFlag>0</urn:DioikitikesPigesFlag>
+        <urn:FlagOloklirosis>1</urn:FlagOloklirosis>
+
+
+        ${microdata}
+      </urn:DeltioOfeloumenou>
+    </urn:OfeloumenosInput>
+  </urn:SymmetexontesRequest>`
+
+    ;
+  //   <SYM xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
+  //     <KPS5_OFELOYMENOI>
+  //         <AFM>${deltioCandidateInfo.afm}</AFM>
+  //         <AMKA>${deltioCandidateInfo.amka}</AMKA>
+  //         <DATE_GENNHSHS>${deltioCandidateInfo.dobFormatted}</DATE_GENNHSHS>
+  //         <FYLLO_VALUE>${deltioCandidateInfo.genderProcessed}</FYLLO_VALUE>
+  //         <ID_ALLO>${deltioCandidateInfo.adt}</ID_ALLO>
+  //         <OFEL_DIEYTHYNSH>${deltioCandidateInfo.street + ' ' + deltioCandidateInfo.location + ' ' + deltioCandidateInfo.city}</OFEL_DIEYTHYNSH>
+  //         <OFEL_TK>${deltioCandidateInfo.postal}</OFEL_TK>
+  //         <OFEL_ONOMATEPONYMO>${deltioCandidateInfo.studentName}</OFEL_ONOMATEPONYMO>
+  //         <OFEL_TEL>${deltioCandidateInfo.phone}</OFEL_TEL>
+  //         <ST_FLAG>1</ST_FLAG>
+  //         <KPS5_DELTIO_OFELOYMENOI>
+  //             <EISODOS_FLAG>${deltioType}</EISODOS_FLAG>
+  //             <KODIKOS_MIS>${deltioCandidateInfo.kodikosMIS}</KODIKOS_MIS>
+  //             <KODIKOS_YPOERGOY>${deltioCandidateInfo.kodikosYpoergou}</KODIKOS_YPOERGOY>
+  //             <ID_GEO_DHMOS>48</ID_GEO_DHMOS>
+  //             <DATE_DELTIOY>${sheetDate}</DATE_DELTIOY>
+  //             <OLOKLHROSH_FLAG>1</OLOKLHROSH_FLAG>
+  //             <OFEL_TK>${deltioCandidateInfo.postal}</OFEL_TK>
+  //             <ST_FLAG>1</ST_FLAG>
+  //         </KPS5_DELTIO_OFELOYMENOI>
+  //         ${microdata}
+  //     </KPS5_OFELOYMENOI>
+  // </SYM>`;
 };
 
 module.exports = {
