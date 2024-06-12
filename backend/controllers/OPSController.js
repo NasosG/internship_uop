@@ -33,7 +33,8 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log(xmlPostString);
 
     // asmx URL of WSDL
-    const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
+    //const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
+    const soapUrl = "https://logon.ops.gr/services/v6/default/SymWs/symwsbpel_client_ep?WSDL";
 
     // SOAP Request
     const response = await axios.post(soapUrl, xmlPostString, {
@@ -504,32 +505,25 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
 
     // Whole XML string used for post
     const xmlPostString = `
-   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/"
-                  xmlns:WL5G3N3="urn:espa:v6:services:participants"
-                  xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details"
-                  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
-                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-    <soapenv:Header>
-        <wsse:Security>
-            <wsse:UsernameToken wsu:Id="UsernameToken-1">
-                <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
-                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
-            </wsse:UsernameToken>
-        </wsse:Security>
-    </soapenv:Header>
-    <soapenv:Body>
-        <WL5G3N3:sentParticipants>
-            <WL5G3N3:ParticipantsInputMessage>
-                <det:XmlRequest>
-                    <![CDATA[
-                        ${finalCode}
-                    ]]>
-                </det:XmlRequest>
-            </WL5G3N3:ParticipantsInputMessage>
-        </WL5G3N3:sentParticipants>
-    </soapenv:Body>
-</soapenv:Envelope>`;
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                      xmlns:WL5G3N1="urn:espa:v6:ergorama"
+                      xmlns:WL5G3N2="http://gsis.ggps.interoperability/RegistryInterface">
+        <soapenv:Header>
+            <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                <wsse:UsernameToken>
+                    <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
+                    <wsse:Password>${process.env.OPS_PASSWORD}</wsse:Password>
+                </wsse:UsernameToken>
+            </wsse:Security>
+        </soapenv:Header>
+        <soapenv:Body>
+            <WL5G3N1:getInfoByAFM>
+                <WL5G3N1:getInfoByAFMParameters>
+                    <WL5G3N1:AFM>YourAFMValueHere</WL5G3N1:AFM>
+                </WL5G3N1:getInfoByAFMParameters>
+            </WL5G3N1:getInfoByAFM>
+        </soapenv:Body>
+    </soapenv:Envelope>`;
 
     return xmlPostString;
   } catch (error) {
