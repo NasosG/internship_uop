@@ -38,7 +38,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     // asmx URL of WSDL
     //const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
-    const soapUrl = "https://logon.ops.gr:443/services/v6/participants?WSDL";
+    const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
 
     // SOAP Request
     const response = await axios.post(soapUrl, xmlPostString, {
@@ -519,10 +519,7 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
         </wsse:Security>
       </soapenv:Header>
       <soapenv:Body>
-
-
-                    ${finalCode}
-
+          ${finalCode}
       </soapenv:Body>
     </soapenv:Envelope>`;
 
@@ -737,25 +734,26 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
   }
 
   // Prepare XML
-  return `<urn:SymmetexontesRequest>
+  return `
+  <urn:SymmetexontesRequest>
 
     <urn:RequestProgressID>1</urn:RequestProgressID>
 
     <urn:OfeloumenosInput>
       <urn:KatigTaytopoihsis>3</urn:KatigTaytopoihsis>
       <urn:IDTaytopoihsis>${deltioCandidateInfo.adt}</urn:IDTaytopoihsis>
-      <!--Optional:-->
+
       <urn:Onomateponimo>${deltioCandidateInfo.studentName}</urn:Onomateponimo>
-      <!--Optional:-->
+
       <urn:HmniaGenesis>${deltioCandidateInfo.dobFormatted}</urn:HmniaGenesis>
-      <!--Optional:-->
+
       <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender>
 
       <urn:DeltioOfeloumenou>
         <urn:EidosDeltiou>${deltioType}</urn:EidosDeltiou>
         <urn:HmniaDeltiou>${sheetDate}</urn:HmniaDeltiou>
         <urn:KodikosMis>${deltioCandidateInfo.kodikosMIS}</urn:KodikosMis>
-        <!--Optional:-->
+
         <urn:IDOfelDikaiouxou>${deltioCandidateInfo.adt}</urn:IDOfelDikaiouxou>
         <urn:IDPeriferias>48</urn:IDPeriferias>
 
@@ -767,9 +765,7 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
         ${microdata}
       </urn:DeltioOfeloumenou>
     </urn:OfeloumenosInput>
-  </urn:SymmetexontesRequest>`
-
-    ;
+  </urn:SymmetexontesRequest>`;
   //   <SYM xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
   //     <KPS5_OFELOYMENOI>
   //         <AFM>${deltioCandidateInfo.afm}</AFM>
