@@ -504,25 +504,32 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
 
     // Whole XML string used for post
     const xmlPostString = `
-   <soapenv:Envelope xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-         <soapenv:Header>
-            <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-               <wsse:UsernameToken wsu:Id="UsernameToken-1">
-                     <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
-                     <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
-               </wsse:UsernameToken>
-            </wsse:Security>
-         </soapenv:Header>
-         <soapenv:Body>
-            <det:eisagwghOfelWithDeltiaOfel>
-               <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
-                     <![CDATA[
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:WL5G3N3="urn:espa:v6:services:participants"
+                  xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details"
+                  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <soapenv:Header>
+        <wsse:Security>
+            <wsse:UsernameToken wsu:Id="UsernameToken-1">
+                <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soapenv:Header>
+    <soapenv:Body>
+        <WL5G3N3:sentParticipants>
+            <WL5G3N3:ParticipantsInputMessage>
+                <det:XmlRequest>
+                    <![CDATA[
                         ${finalCode}
-                     ]]>
-               </det:XmlRequest>
-            </det:eisagwghOfelWithDeltiaOfel>
-         </soapenv:Body>
-   </soapenv:Envelope>`;
+                    ]]>
+                </det:XmlRequest>
+            </WL5G3N3:ParticipantsInputMessage>
+        </WL5G3N3:sentParticipants>
+    </soapenv:Body>
+</soapenv:Envelope>`;
 
     return xmlPostString;
   } catch (error) {
