@@ -16,7 +16,7 @@ const createMicrodata = (id, answer) => {
   return `<urn:DeltioMicrodata>
                 <urn:IDMicrodata>${id}</urn:IDMicrodata>
                 <urn:Apantisi>${answerValue}</urn:Apantisi>
-            </urn:DeltioMicrodata>\n\t `;
+              </urn:DeltioMicrodata>\n\t `;
 };
 
 const sendDeltioEisodouWS = async (req, res) => {

@@ -275,8 +275,8 @@ export class StudentContractsOfficeComponent implements OnInit {
       width: '600px',
       data: {
         assigned_position_id: assigned_position_id,
-        studentId: this.studentsData[idx].student_id,
-        periodId: this.studentsData[idx].period_id,
+        studentId: studentFinalData[idx].student_id,
+        periodId: studentFinalData[idx].period_id,
         implementationDates: implementationDatesArr
       }
     });
