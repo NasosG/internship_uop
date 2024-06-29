@@ -26,14 +26,14 @@ const sendDeltioEisodouWS = async (req, res) => {
     const studentId = req.params.id;
     const MODE = 'WS';
     const activeStatus = true;
+
     if (!activeStatus || process.env.ENV == 'DEV') {
       return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
     }
+
     const sheetResults = await studentService.getStudentEntrySheets(studentId);
 
-    // Old MIS
-    // const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
-
+    // Old MIS - used getXmlPostStringEisodou(studentId, MODE, sheetResults);
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
     console.log(xmlPostString);
@@ -51,23 +51,16 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log(responseCall1.data);
 
     const parsedResponseCall1 = await parseXmlResponseCall1(responseCall1.data);
-    let codeOfReq1;
-
-    console.log('parsedResponseCall1: ', parsedResponseCall1);
 
     if (parsedResponseCall1.status === 'failure' || !parsedResponseCall1?.RequestProgressMessage) {
       return res.status(400).json({ message: 'Something went wrong - Call 1 - Sheet was not added' });
     }
 
-    console.log('ReqsProgressMessage: ', parsedResponseCall1.RequestProgressMessage);
+    const { RequestProgressMessage, RequestProgressMessageCode } = parsedResponseCall1;
+    console.log('RequestProgressMessage: ', RequestProgressMessage);
+    console.log('Extracted Code: ', RequestProgressMessageCode);
 
-    const message = parsedResponseCall1.RequestProgressMessage;
-    const parts = message.split(" ");
-    codeOfReq1 = parts[parts.length - 1];
-
-    console.log('Extracted Code: ', codeOfReq1);
-
-    const xmlPostStringCall2 = await getXmlPostStringEisodouMIS21_27_Call2Res(codeOfReq1);
+    const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
 
     // const responseCall2 = await axios.post(soapUrl, xmlPostStringCall2, {
     //   headers: {
@@ -126,16 +119,6 @@ const sendDeltioEisodouWS = async (req, res) => {
   }
 };
 
-// const sendSoapRequest = async (soapUrl, studentId, mode, sheetResults, isSecondCall = false) => {
-//   const xmlPostString = isSecondCall
-//     ? await getXmlPostStringEisodouMIS21_27_Call2(studentId, mode, sheetResults)
-//     : await getXmlPostStringEisodouMIS21_27(studentId, mode, sheetResults);
-
-//   return axios.post(soapUrl, xmlPostString, {
-//     headers: { 'Content-Type': 'text/xml;charset=UTF-8' },
-//   });
-// };
-
 const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDelay) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -169,27 +152,48 @@ const sendDeltioExodouWS = async (req, res) => {
     }
     const sheetResults = await studentService.getStudentExitSheets(studentId);
 
-    // Old MIS
-    // const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
-
+    // Old MIS - used getXmlPostStringExodou(studentId, MODE, sheetResults);
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
 
     console.log(xmlPostString);
 
     // asmx URL of WSDL
-    const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
+    //const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
+    const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
 
-    // SOAP Request
-    const response = await axios.post(soapUrl, xmlPostString, {
+    const responseCall1 = await axios.post(soapUrl, xmlPostString, {
       headers: {
-        'Content-Type': 'text/xml;charset=UTF-8',
-        // 'SOAPAction': 'http://your-web-service-namespace/eisagwghOfelWithDeltiaOfel',
+        'Content-Type': 'text/xml;charset=UTF-8'
       },
     });
-    console.log(response.data);
+    console.log(responseCall1.data);
 
-    const parsedResponse = await parseXmlResponse(response.data);
+    const parsedResponseCall1 = await parseXmlResponseCall1(responseCall1.data);
+
+    if (parsedResponseCall1.status === 'failure' || !parsedResponseCall1?.RequestProgressMessage) {
+      return res.status(400).json({ message: 'Something went wrong - Call 1 - Sheet was not added' });
+    }
+
+    const { RequestProgressMessage, RequestProgressMessageCode } = parsedResponseCall1;
+    console.log('RequestProgressMessage: ', RequestProgressMessage);
+    console.log('Extracted Code: ', RequestProgressMessageCode);
+
+    const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
+
+    let responseCall2;
+    try {
+      const MAX_RETRIES = 3;
+      const RETRY_DELAY = 4000; // 4 seconds
+
+      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY);
+      console.log('Response from Call 2:', responseCall2);
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
+    }
+
+    const parsedResponse = await parseXmlResponseCall2(responseCall2.data);
     const errorCode = parsedResponse.errorCode;
     let idDeltiou;
 
@@ -302,9 +306,20 @@ const parseXmlResponseCall1 = async (xml) => {
     // Access the RequestProgressMessage element in the XML structure
     const response = parsedXml['soapenv:Envelope']['env:Body']['urn:SymetexontesResponse']['urn:RequestProgressMessage'];
 
+    if (!response?.RequestProgressMessage) {
+      return {
+        status: 'failure',
+        errorMessage: 'RequestProgressMessage not found in the response.',
+      };
+    }
+
+    const messageParts = response.RequestProgressMessage.split(" ");
+    const RequestProgressMessageCode = messageParts[messageParts.length - 1];
+
     return {
       status: 'success',
       RequestProgressMessage: response,
+      RequestProgressMessageCode: RequestProgressMessageCode
     };
   } catch (error) {
     console.error('Error parsing XML Call 1: ', error);
@@ -662,7 +677,7 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
   }
 };
 
-const getXmlPostStringEisodouMIS21_27_Call2Res = async (codeOfReq1) => {
+const getXmlPostStringMIS21_27_Call2Res = async (codeOfReq1) => {
   try {
     // Whole XML string used for post
     const xmlPostString = `
@@ -858,25 +873,21 @@ const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
 
     // Whole XML string used for post
     const xmlPostString = `
-   <soapenv:Envelope xmlns:det="http://www.ops.gr/docs/ws/ret_ops/symmetex/details" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-         <soapenv:Header>
-            <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-               <wsse:UsernameToken wsu:Id="UsernameToken-1">
-                     <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
-                     <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
-               </wsse:UsernameToken>
-            </wsse:Security>
-         </soapenv:Header>
-         <soapenv:Body>
-            <det:eisagwghOfelWithDeltiaOfel>
-               <det:XmlRequest xmlns="http://www.ops.gr/docs/ws/ret_ops/symmetex/details">
-                     <![CDATA[
-                        ${finalCode}
-                     ]]>
-               </det:XmlRequest>
-            </det:eisagwghOfelWithDeltiaOfel>
-         </soapenv:Body>
-   </soapenv:Envelope>`;
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:espa:v6:services:participants">
+      <soapenv:Header>
+        <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+          <wsse:UsernameToken wsu:Id="UsernameToken-21A5D01AD68A43292616831141895866">
+            <wsse:Username>${process.env.OPS_USERNAME}</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">${process.env.OPS_PASSWORD}</wsse:Password>
+            <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">wZzUvqTKk2M8LzR8LzatmA==</wsse:Nonce>
+            <wsu:Created>2023-05-03T11:43:09.586Z</wsu:Created>
+          </wsse:UsernameToken>
+        </wsse:Security>
+      </soapenv:Header>
+      <soapenv:Body>
+          ${finalCode}
+      </soapenv:Body>
+    </soapenv:Envelope>`;
 
     return xmlPostString;
   } catch (error) {
