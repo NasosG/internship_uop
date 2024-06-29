@@ -17,9 +17,9 @@ const createMicrodata = (id, answer) => {
 
   return `
             <urn:DeltioMicrodata>
-                <urn:IDMicrodata>${id}</urn:IDMicrodata>
-                <urn:Apantisi>${answerValue}</urn:Apantisi>
-              </urn:DeltioMicrodata>\n\t `;
+              <urn:IDMicrodata>${id}</urn:IDMicrodata>
+              <urn:Apantisi>${answerValue}</urn:Apantisi>
+            </urn:DeltioMicrodata>\n\t `;
 };
 
 const sendDeltioEisodouWS = async (req, res) => {
@@ -202,7 +202,7 @@ const sendDeltioExodouWS = async (req, res) => {
       const RETRY_DELAY = 4000; // 4 seconds
 
       parsedResponse = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
-      if (parsedResponse.message == 'Already processed') {
+      if (parsedResponse?.message == 'Already processed') {
         return res.status(400).json({ message: 'Sheet already exists' });
       }
       console.log('Response from Call 2:', parsedResponse);
@@ -351,6 +351,10 @@ const parseXmlResponseCall1 = async (xml) => {
 const parseXmlResponseCall2 = async (xml) => {
   const parser = new xml2js.Parser({ explicitArray: false, ignoreAttrs: true });
   try {
+    if (!xml) {
+      throw error('Invalid XML: XML is undefined or empty');
+    }
+
     const parsedXml = await parser.parseStringPromise(xml);
 
     const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:RequestProgressMessage'];
