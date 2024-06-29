@@ -15,7 +15,7 @@ const xml2js = require('xml2js');
 const createMicrodata = (id, answer) => {
   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
 
-  return `<urn:DeltioMicrodata>
+  return `    <urn:DeltioMicrodata>
                 <urn:IDMicrodata>${id}</urn:IDMicrodata>
                 <urn:Apantisi>${answerValue}</urn:Apantisi>
               </urn:DeltioMicrodata>\n\t `;
@@ -911,6 +911,9 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
   }
 
   // Prepare XML
+  // <!-- <urn:Onomateponimo>${deltioCandidateInfo.studentName}</urn:Onomateponimo> -->
+  // <!-- <urn:HmniaGenesis>${deltioCandidateInfo.dobFormatted}</urn:HmniaGenesis> -->
+  // <!-- <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender> -->
   return `
   <urn:SymmetexontesRequest>
     <urn:OfeloumenosInput>
@@ -924,11 +927,7 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
           <urn:IDPeriferias>48</urn:IDPeriferias>
           <urn:PliresFlag>1</urn:PliresFlag>
           <urn:DioikitikesPigesFlag>1</urn:DioikitikesPigesFlag>
-          <!-- <urn:Onomateponimo>${deltioCandidateInfo.studentName}</urn:Onomateponimo> -->
-          <!-- <urn:HmniaGenesis>${deltioCandidateInfo.dobFormatted}</urn:HmniaGenesis> -->
-          <!-- <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender> -->
-
-        ${microdata}
+          ${microdata}
       </urn:DeltioOfeloumenou>
     </urn:OfeloumenosInput>
   </urn:SymmetexontesRequest>`;
