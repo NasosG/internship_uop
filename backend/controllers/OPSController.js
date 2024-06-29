@@ -132,14 +132,16 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       console.log(`Call attempt ${attempt}:`, response.data);
 
       const parsedResponse = await parseXmlResponseCall2(response.data);
+
       if (parsedResponse?.status == 'failure') {
         throw error('Data processing has not been fully completed yet.');
       }
+
       if (Number(parsedResponse?.errorCode) == -11) {
         return { message: 'Already processed' };
       }
 
-      return response.data;
+      return parsedResponse;
     } catch (error) {
       console.error(`Attempt ${attempt} failed:`, error);
 
@@ -194,22 +196,21 @@ const sendDeltioExodouWS = async (req, res) => {
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
 
-    let responseCall2;
+    let parsedResponse;
     try {
       const MAX_RETRIES = 3;
       const RETRY_DELAY = 4000; // 4 seconds
 
-      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
-      if (responseCall2.message == 'Already processed') {
+      parsedResponse = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
+      if (parsedResponse.message == 'Already processed') {
         return res.status(400).json({ message: 'Sheet already exists' });
       }
-      console.log('Response from Call 2:', responseCall2);
+      console.log('Response from Call 2:', parsedResponse);
     } catch (error) {
       console.error(error.message);
       return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
     }
 
-    const parsedResponse = await parseXmlResponseCall2(responseCall2.data);
     const errorCode = parsedResponse.errorCode;
     let idDeltiou;
 
