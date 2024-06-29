@@ -63,11 +63,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
-    // const responseCall2 = await axios.post(soapUrl, xmlPostStringCall2, {
-    //   headers: {
-    //     'Content-Type': 'text/xml;charset=UTF-8'
-    //   },
-    // });
+
     let responseCall2;
     try {
       const MAX_RETRIES = 3;
@@ -167,15 +163,17 @@ const sendDeltioExodouWS = async (req, res) => {
 
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
-
+    const soapActionCall1 = 'sentParticipants';
     console.log(xmlPostString);
 
     // asmx URL of WSDL
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
 
+    // SOAP Request
     const responseCall1 = await axios.post(soapUrl, xmlPostString, {
       headers: {
-        'Content-Type': 'text/xml;charset=UTF-8'
+        'Content-Type': 'text/xml;charset=UTF-8',
+        'SOAPAction': soapActionCall1
       },
     });
     console.log(responseCall1.data);
@@ -191,13 +189,14 @@ const sendDeltioExodouWS = async (req, res) => {
     console.log('Extracted Code: ', RequestProgressMessageCode);
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
+    const soapActionCall2 = 'getResponse';
 
     let responseCall2;
     try {
       const MAX_RETRIES = 3;
       const RETRY_DELAY = 4000; // 4 seconds
 
-      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY);
+      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       console.log('Response from Call 2:', responseCall2);
     } catch (error) {
       console.error(error.message);
