@@ -17,7 +17,8 @@
     "mammoth": "jest ./backend/tests/mammoth.test.js",
     "pos-acads-sync": "jest ./backend/tests/syncAtlasPositionAcademics.test.js",
     "fixIds": "jest fixIdCards.test.js",
-    "pos-search": "jest positionAtlasSearch.test.js"
+    "pos-search": "jest positionAtlasSearch.test.js",
+    "test-ws": "jest testOPSWS.test.js"
   },
   "private": true,
   "dependencies": {
