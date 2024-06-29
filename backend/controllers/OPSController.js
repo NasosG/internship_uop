@@ -355,7 +355,7 @@ const parseXmlResponseCall2 = async (xml) => {
   const parser = new xml2js.Parser({ explicitArray: false, ignoreAttrs: true });
   try {
     if (!xml) {
-      throw Error('Invalid XML: XML is undefined or empty');
+      throw new Error('Invalid XML: XML is undefined or empty');
     }
 
     const parsedXml = await parser.parseStringPromise(xml);
@@ -385,10 +385,10 @@ const parseXmlResponseCall2 = async (xml) => {
       idDeltiou: getIdDeltiouFromErrorMessage(errorMessage)
     };
   } catch (error) {
-    console.error('Error parsing XML Call 2: ', error);
+    console.error('Error parsing XML Call 2: ', error?.message);
     return {
       status: 'failure',
-      errorMessage: error.message,
+      errorMessage: error?.message,
     };
   }
 };
@@ -591,7 +591,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
     return xmlPostString;
   } catch (error) {
     console.error(error.message);
-    throw Error('Error producing xml post string');
+    throw new Error('Error producing xml post string');
   }
 };
 
@@ -714,7 +714,7 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
     return xmlPostString;
   } catch (error) {
     console.error(error.message);
-    throw Error('Error producing xml post string');
+    throw new Error('Error producing xml post string');
   }
 };
 
