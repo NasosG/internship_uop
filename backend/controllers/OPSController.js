@@ -121,6 +121,9 @@ const sendDeltioEisodouWS = async (req, res) => {
 };
 
 const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDelay, soapAction) => {
+  // Initial delay before the first attempt
+  await new Promise(resolve => setTimeout(resolve, retryDelay));
+
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const response = await axios.post(soapUrl, xmlPostString, {
@@ -162,14 +165,12 @@ const sendDeltioExodouWS = async (req, res) => {
 
     const sheetResults = await studentService.getStudentExitSheets(studentId);
 
-    // Old MIS - used getXmlPostStringExodou(studentId, MODE, sheetResults);
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
 
     console.log(xmlPostString);
 
     // asmx URL of WSDL
-    //const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
 
     const responseCall1 = await axios.post(soapUrl, xmlPostString, {
