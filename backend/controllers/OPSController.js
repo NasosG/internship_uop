@@ -36,6 +36,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     // Old MIS - used getXmlPostStringEisodou(studentId, MODE, sheetResults);
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
+    const soapActionCall1 = 'sentParticipants';
     console.log(xmlPostString);
 
     // asmx URL of WSDL
@@ -45,7 +46,8 @@ const sendDeltioEisodouWS = async (req, res) => {
     // SOAP Request
     const responseCall1 = await axios.post(soapUrl, xmlPostString, {
       headers: {
-        'Content-Type': 'text/xml;charset=UTF-8'
+        'Content-Type': 'text/xml;charset=UTF-8',
+        'SOAPAction': soapActionCall1
       },
     });
     console.log(responseCall1.data);
@@ -61,7 +63,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log('Extracted Code: ', RequestProgressMessageCode);
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
-
+    const soapActionCall2 = 'getResponse';
     // const responseCall2 = await axios.post(soapUrl, xmlPostStringCall2, {
     //   headers: {
     //     'Content-Type': 'text/xml;charset=UTF-8'
@@ -72,7 +74,7 @@ const sendDeltioEisodouWS = async (req, res) => {
       const MAX_RETRIES = 3;
       const RETRY_DELAY = 4000; // 4 seconds
 
-      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY);
+      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       console.log('Response from Call 2:', responseCall2);
     } catch (error) {
       console.error(error.message);
@@ -119,12 +121,13 @@ const sendDeltioEisodouWS = async (req, res) => {
   }
 };
 
-const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDelay) => {
+const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDelay, soapAction) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const response = await axios.post(soapUrl, xmlPostString, {
         headers: {
           'Content-Type': 'text/xml;charset=UTF-8',
+          'SOAPAction': soapAction
         },
       });
 
@@ -147,9 +150,11 @@ const sendDeltioExodouWS = async (req, res) => {
     const studentId = req.params.id;
     const MODE = 'WS';
     const activeStatus = true;
+
     if (!activeStatus || process.env.ENV == 'DEV') {
       return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
     }
+
     const sheetResults = await studentService.getStudentExitSheets(studentId);
 
     // Old MIS - used getXmlPostStringExodou(studentId, MODE, sheetResults);
