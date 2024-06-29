@@ -76,7 +76,10 @@ const sendDeltioEisodouWS = async (req, res) => {
       return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
     }
 
-    const parsedResponse = await parseXmlResponseCall2(responseCall2.data);
+    console.log('|');
+    console.log(responseCall2?.data);
+    console.log('|');
+    const parsedResponse = await parseXmlResponseCall2(responseCall2?.data);
     console.log(parsedResponse);
     const errorCode = parsedResponse?.errorCode;
     let idDeltiou;
