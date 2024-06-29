@@ -16,7 +16,7 @@ const createMicrodata = (id, answer) => {
   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
 
   return `
-        <urn:DeltioMicrodata>
+            <urn:DeltioMicrodata>
                 <urn:IDMicrodata>${id}</urn:IDMicrodata>
                 <urn:Apantisi>${answerValue}</urn:Apantisi>
               </urn:DeltioMicrodata>\n\t `;
@@ -34,14 +34,12 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     const sheetResults = await studentService.getStudentEntrySheets(studentId);
 
-    // Old MIS - used getXmlPostStringEisodou(studentId, MODE, sheetResults);
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
     const soapActionCall1 = 'sentParticipants';
     console.log(xmlPostString);
 
     // asmx URL of WSDL
-    //const soapUrl = "https://logon.ops.gr/soa-infra/services/default/SymWs/symwsbpel_client_ep?WSDL";
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
 
     // SOAP Request
@@ -54,7 +52,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log(responseCall1.data);
 
     const parsedResponseCall1 = await parseXmlResponseCall1(responseCall1.data);
-
+    console.log(" req progress message:   " + parsedResponseCall1?.RequestProgressMessage);
     if (parsedResponseCall1.status === 'failure' || !parsedResponseCall1?.RequestProgressMessage) {
       return res.status(400).json({ message: 'Something went wrong - Call 1 - Sheet was not added' });
     }
@@ -313,6 +311,7 @@ const parseXmlResponseCall1 = async (xml) => {
     const response = parsedXml['soapenv:Envelope']['env:Body']['urn:SymetexontesResponse']['urn:RequestProgressMessage'];
 
     if (!response?.RequestProgressMessage) {
+      console.error('RequestProgressMessage not found in the response. ', error);
       return {
         status: 'failure',
         errorMessage: 'RequestProgressMessage not found in the response.',
