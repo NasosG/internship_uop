@@ -78,7 +78,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     const parsedResponse = await parseXmlResponseCall2(responseCall2.data);
     console.log(parsedResponse);
-    const errorCode = parsedResponse.errorCode;
+    const errorCode = parsedResponse?.errorCode;
     let idDeltiou;
 
     if (Number(errorCode) == 0) {
@@ -118,7 +118,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
 const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDelay, soapAction) => {
   // Initial delay before the first attempt
-  await new Promise(resolve => setTimeout(resolve, retryDelay));
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -135,13 +135,16 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       if (parsedResponse?.status == 'failure') {
         throw error('Data processing has not been fully completed yet.');
       }
+      if (Number(parsedResponse?.errorCode) == -11) {
+        return { message: 'Already processed' };
+      }
 
       return response.data;
     } catch (error) {
       console.error(`Attempt ${attempt} failed:`, error);
 
       if (attempt === maxRetries) {
-        throw error;
+        throw error('Maximum retry attempts reached. Data processing is not completed.');
       }
 
       await new Promise(resolve => setTimeout(resolve, retryDelay));
@@ -197,6 +200,9 @@ const sendDeltioExodouWS = async (req, res) => {
       const RETRY_DELAY = 4000; // 4 seconds
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
+      if (responseCall2.message == 'Already processed') {
+        return res.status(400).json({ message: 'Sheet already exists' });
+      }
       console.log('Response from Call 2:', responseCall2);
     } catch (error) {
       console.error(error.message);
@@ -343,31 +349,40 @@ const parseXmlResponseCall1 = async (xml) => {
 
 const parseXmlResponseCall2 = async (xml) => {
   const parser = new xml2js.Parser({ explicitArray: false, ignoreAttrs: true });
-  const parsedXml = await parser.parseStringPromise(xml);
+  try {
+    const parsedXml = await parser.parseStringPromise(xml);
 
-  const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:RequestProgressMessage'];
-  if (requestProgressMessage && requestProgressMessage.includes('Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη')) {
+    const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:RequestProgressMessage'];
+    if (requestProgressMessage && requestProgressMessage.includes('Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη')) {
+      return {
+        status: 'failure',
+        errorMessage: 'Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη',
+      };
+    }
+    const response = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['ofel:DeltioOfeloumenou'];
+    const idOfel = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['urn:IDTaytopoihsis'];
+
+    console.log(response);
+
+    // Extract the error message
+    const errorMessage = response['ofel:ErrorMessage'];
+
+    return {
+      status: 'success',
+      idOfel: idOfel,
+      kodikosMis: response['ofel:KodikosMis'],
+      eidosDeltiou: response['ofel:EidosDeltiou'],
+      errorCode: response['ofel:ErrorCode'],
+      errorDescr: errorMessage,
+      idDeltiou: getIdDeltiouFromErrorMessage(errorMessage)
+    };
+  } catch (error) {
+    console.error('Error parsing XML Call 2: ', error);
     return {
       status: 'failure',
-      errorMessage: 'Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη',
+      errorMessage: error.message,
     };
   }
-  const response = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['ofel:DeltioOfeloumenou'];
-  const idOfel = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['urn:IDTaytopoihsis'];
-
-  console.log(response);
-
-  // Extract the error message
-  const errorMessage = response['ofel:ErrorMessage'];
-
-  return {
-    idOfel: idOfel,
-    kodikosMis: response['ofel:KodikosMis'],
-    eidosDeltiou: response['ofel:EidosDeltiou'],
-    errorCode: response['ofel:ErrorCode'],
-    errorDescr: errorMessage,
-    idDeltiou: getIdDeltiouFromErrorMessage(errorMessage)
-  };
 };
 
 // Function to extract ID from error message
