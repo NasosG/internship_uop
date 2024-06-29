@@ -308,23 +308,23 @@ const parseXmlResponseCall1 = async (xml) => {
     const parsedXml = await parser.parseStringPromise(xml);
 
     // Access the RequestProgressMessage element in the XML structure
-    const response = parsedXml['soapenv:Envelope']['env:Body']['urn:SymetexontesResponse']['urn:RequestProgressMessage'];
+    const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['urn:SymetexontesResponse']['urn:RequestProgressMessage'];
 
-    if (!response?.RequestProgressMessage) {
-      console.error('RequestProgressMessage not found in the response. ');
+    if (!requestProgressMessage) {
+      console.error('RequestProgressMessage not found in the response.');
       return {
         status: 'failure',
         errorMessage: 'RequestProgressMessage not found in the response.',
       };
     }
 
-    const messageParts = response.RequestProgressMessage.split(" ");
-    const RequestProgressMessageCode = messageParts[messageParts.length - 1];
+    const messageParts = requestProgressMessage.split(" ");
+    const requestProgressMessageCode = messageParts[messageParts.length - 1];
 
     return {
       status: 'success',
-      RequestProgressMessage: response,
-      RequestProgressMessageCode: RequestProgressMessageCode
+      RequestProgressMessage: requestProgressMessage,
+      RequestProgressMessageCode: requestProgressMessageCode
     };
   } catch (error) {
     console.error('Error parsing XML Call 1: ', error);
