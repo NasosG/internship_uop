@@ -137,7 +137,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       const parsedResponse = await parseXmlResponseCall2(response.data);
 
       if (parsedResponse?.status == 'failure') {
-        throw error('Data processing has not been fully completed yet.');
+        throw Error('Data processing has not been fully completed yet.');
       }
 
       if (Number(parsedResponse?.errorCode) == -11) {
@@ -149,7 +149,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       console.error(`Attempt ${attempt} failed:`, error);
 
       if (attempt === maxRetries) {
-        throw error('Maximum retry attempts reached. Data processing is not completed.');
+        throw Error('Maximum retry attempts reached. Data processing is not completed.');
       }
 
       await new Promise(resolve => setTimeout(resolve, retryDelay));
@@ -355,7 +355,7 @@ const parseXmlResponseCall2 = async (xml) => {
   const parser = new xml2js.Parser({ explicitArray: false, ignoreAttrs: true });
   try {
     if (!xml) {
-      throw error('Invalid XML: XML is undefined or empty');
+      throw Error('Invalid XML: XML is undefined or empty');
     }
 
     const parsedXml = await parser.parseStringPromise(xml);
