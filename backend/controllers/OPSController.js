@@ -52,7 +52,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log(responseCall1.data);
 
     const parsedResponseCall1 = await parseXmlResponseCall1(responseCall1.data);
-    console.log(" req progress message:   " + parsedResponseCall1?.RequestProgressMessage);
+
     if (parsedResponseCall1.status === 'failure' || !parsedResponseCall1?.RequestProgressMessage) {
       return res.status(400).json({ message: 'Something went wrong - Call 1 - Sheet was not added' });
     }
@@ -131,6 +131,12 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       });
 
       console.log(`Call attempt ${attempt}:`, response.data);
+
+      const parsedResponse = await parseXmlResponseCall2(response.data);
+      if (parsedResponse?.status == 'failure') {
+        throw error('Data processing has not been fully completed yet.');
+      }
+
       return response.data;
     } catch (error) {
       console.error(`Attempt ${attempt} failed:`, error);
@@ -339,6 +345,13 @@ const parseXmlResponseCall2 = async (xml) => {
   const parser = new xml2js.Parser({ explicitArray: false, ignoreAttrs: true });
   const parsedXml = await parser.parseStringPromise(xml);
 
+  const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:RequestProgressMessage'];
+  if (requestProgressMessage && requestProgressMessage.includes('Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη')) {
+    return {
+      status: 'failure',
+      errorMessage: 'Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη',
+    };
+  }
   const response = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['ofel:DeltioOfeloumenou'];
   const idOfel = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['urn:IDTaytopoihsis'];
 
