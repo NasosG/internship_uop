@@ -311,7 +311,7 @@ const parseXmlResponseCall1 = async (xml) => {
     const response = parsedXml['soapenv:Envelope']['env:Body']['urn:SymetexontesResponse']['urn:RequestProgressMessage'];
 
     if (!response?.RequestProgressMessage) {
-      console.error('RequestProgressMessage not found in the response. ', error);
+      console.error('RequestProgressMessage not found in the response. ');
       return {
         status: 'failure',
         errorMessage: 'RequestProgressMessage not found in the response.',
