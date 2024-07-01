@@ -70,6 +70,12 @@ const sendDeltioEisodouWS = async (req, res) => {
       const RETRY_DELAY = 4000; // 4 seconds
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
+      // if (responseCall2?.message == 'XMLErrors found') {
+      //   return res.status(500).send({ message: 'XMLErrors found' });
+      // }
+      console.log('|');
+      console.log(responseCall2?.data);
+      console.log('|');
       console.log('Response from Call 2:', responseCall2);
     } catch (error) {
       console.error(error.message);
@@ -142,6 +148,11 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       const parsedResponse = await parseXmlResponseCall2(response.data);
 
       if (parsedResponse?.status == 'failure') {
+
+        if (parsedResponse?.errorDescr == 'XMLError') {
+          return { message: 'XMLErrors found' };
+        }
+
         throw Error('Data processing has not been fully completed yet.');
       }
 
@@ -382,7 +393,8 @@ const parseXmlResponseCall2 = async (xml) => {
 
     if (Number(response['ofel:ErrorCode']) != -11 && Number(response['ofel:ErrorMessage']) != 0) {
       return {
-        status: 'failure'
+        status: 'failure',
+        errorDescr: 'XMLError'
       };
     }
     return {
