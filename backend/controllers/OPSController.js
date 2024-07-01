@@ -134,6 +134,11 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
 
       console.log(`Call attempt ${attempt}:`, response.data);
 
+      if (!response?.data) {
+        console.warn('No response data received');
+        throw Error('No response data');
+      }
+
       const parsedResponse = await parseXmlResponseCall2(response.data);
 
       if (parsedResponse?.status == 'failure') {
@@ -375,6 +380,11 @@ const parseXmlResponseCall2 = async (xml) => {
     // Extract the error message
     const errorMessage = response['ofel:ErrorMessage'];
 
+    if (Number(response['ofel:ErrorCode']) != -11 && Number(response['ofel:ErrorMessage']) != 0) {
+      return {
+        status: 'failure'
+      };
+    }
     return {
       status: 'success',
       idOfel: idOfel,
@@ -395,6 +405,9 @@ const parseXmlResponseCall2 = async (xml) => {
 
 // Function to extract ID from error message
 const getIdDeltiouFromErrorMessage = (errorMessage) => {
+  if (!errorMessage || !errorMessage.includes('Α/Α')) {
+    return null;
+  }
   const startIndex = errorMessage.indexOf('Α/Α: ') + 4; // Start after 'Α/Α: '
   const endIndex = errorMessage.indexOf(' ('); // End before ' ('
   // Get the ID from the error message, removing the spaces
