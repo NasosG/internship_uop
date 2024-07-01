@@ -82,7 +82,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     console.log('| Response Call 2 Data Start |');
     console.log(responseCall2?.data);
     console.log('|  Response Call 2 Data End  |');
-    const parsedResponse = await parseXmlResponseCall2(responseCall2?.data);
+    const parsedResponse = responseCall2?.data;//await parseXmlResponseCall2(responseCall2?.data);
     console.log(parsedResponse);
     const errorCode = parsedResponse?.errorCode;
     let idDeltiou;
