@@ -160,7 +160,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
         return { message: 'Already processed' };
       }
 
-      return parsedResponse;
+      return { data: parsedResponse };
     } catch (error) {
       console.error(`Attempt ${attempt} failed:`, error);
 
