@@ -70,21 +70,18 @@ const sendDeltioEisodouWS = async (req, res) => {
       const RETRY_DELAY = 4000; // 4 seconds
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
-      // if (responseCall2?.message == 'XMLErrors found') {
-      //   return res.status(500).send({ message: 'XMLErrors found' });
-      // }
-      console.log('|');
-      console.log(responseCall2?.data);
-      console.log('|');
+      if (responseCall2?.message == 'XMLErrors found') {
+        return res.status(500).send({ message: 'XMLErrors found' });
+      }
       console.log('Response from Call 2:', responseCall2);
     } catch (error) {
       console.error(error.message);
       return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
     }
 
-    console.log('|');
+    console.log('| Response Call 2 Data Start |');
     console.log(responseCall2?.data);
-    console.log('|');
+    console.log('|  Response Call 2 Data End  |');
     const parsedResponse = await parseXmlResponseCall2(responseCall2?.data);
     console.log(parsedResponse);
     const errorCode = parsedResponse?.errorCode;
