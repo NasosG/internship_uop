@@ -71,6 +71,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       if (responseCall2?.message == 'XMLErrors found') {
+        console.error('Error XMLErrors found');
         return res.status(500).send({ message: 'XMLErrors found' });
       }
       console.log('Response from Call 2:', responseCall2);
@@ -374,32 +375,33 @@ const parseXmlResponseCall2 = async (xml) => {
     const parsedXml = await parser.parseStringPromise(xml);
 
     const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:RequestProgressMessage'];
-    if (requestProgressMessage && requestProgressMessage.includes('Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη')) {
+
+    if (requestProgressMessage?.includes('Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη')) {
       return {
         status: 'failure',
         errorMessage: 'Η επεξεργασία δεν έχει ολοκληρωθεί ακόμη',
       };
     }
+
     const response = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['ofel:DeltioOfeloumenou'];
     const idOfel = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['urn:IDTaytopoihsis'];
 
     console.log(response);
 
     // Extract the error message
-    const errorMessage = response['ofel:ErrorMessage'];
+    const errorMessage = response?.['ofel:ErrorMessage'];
+    const errorCodeNum = Number(response?.['ofel:ErrorCode']);
 
-    if (Number(response['ofel:ErrorCode']) != -11 && Number(response['ofel:ErrorMessage']) != 0) {
-      return {
-        status: 'failure',
-        errorDescr: 'XMLError'
-      };
+    if (errorCodeNum !== -11 && errorCodeNum !== 0) {
+      return { status: 'failure', errorDescr: 'XMLError' };
     }
+
     return {
       status: 'success',
       idOfel: idOfel,
       kodikosMis: response['ofel:KodikosMis'],
       eidosDeltiou: response['ofel:EidosDeltiou'],
-      errorCode: response['ofel:ErrorCode'],
+      errorCode: errorCodeNum,
       errorDescr: errorMessage,
       idDeltiou: getIdDeltiouFromErrorMessage(errorMessage)
     };
@@ -414,7 +416,7 @@ const parseXmlResponseCall2 = async (xml) => {
 
 // Function to extract ID from error message
 const getIdDeltiouFromErrorMessage = (errorMessage) => {
-  if (!errorMessage || !errorMessage.includes('Α/Α')) {
+  if (!errorMessage?.includes('Α/Α')) {
     return null;
   }
   const startIndex = errorMessage.indexOf('Α/Α: ') + 4; // Start after 'Α/Α: '
