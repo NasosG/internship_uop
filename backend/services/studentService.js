@@ -411,7 +411,7 @@ const insertStudentEntrySheet = async (form, studentId) => {
       [
         form.A0_1, form.A0_2, 'false', 'false', 'false', form.A2, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3,
         form.A2_1_4, form.A2_1_5, form.A2_1_6, form.A2_2, form.A2_2_1, form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3,
-        form.A3_1, form.A3_1_1, form.A3_1_2, form.A3_2, form.B, 'false', 'false', 'false', form.B4, 'false',
+        form.A3_1, form.A3_1_1, form.A3_1_2, form.A3_2, form.B, 'false', 'false', form.B3, 'false', 'false',
         'false', 'false', 'false', 'false', form.C4, form.C5, form.C6, form.C7, form.C8, form.C9, form.D4, form.D5,
         form.D6, form.D7, form.D8, form.D9, form.D10, form.D11, form.D12, form.D13, form.D14, form.A2P1,
         form.A2P2, form.A2P3, form.D1, form.D1P, form.D2, form.D2A, form.D2B, form.D2C, form.D3, ESPA_MIS, studentId
