@@ -41,15 +41,13 @@ export class SheetInputOfficeEditDialogComponent implements OnInit {
     return value ? 'ΝΑΙ' : 'ΟΧΙ';
   }
 
-public isMisNew(): boolean {
+  public isMisNew(): boolean {
     const creationDate = this.entryForms[0].creation_date
         ? Utils.getAtlasPreferredTimestamp(this.entryForms[0].creation_date)
         : this.currentDate;
 
-    const comparisonDate = new Date('2024-01-01');
-
-    return new Date(creationDate) >= comparisonDate;
-}
+    return (creationDate >= '01/01/2024' || creationDate  >= '2024-01-01');
+  }
 
   ngOnInit(): void {
     this.officeService.getStudentEntrySheetsByStudentId(this.data.studentsData[this.data.index].uuid)
