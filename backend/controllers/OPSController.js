@@ -896,16 +896,21 @@ const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
     let microdata = '';
 
     const answers = [
+      // MICRO_1_19 Εφόσον  ο  υπολογισμός της εργασιακής κατάστασης γίνεται από τις διοικητικές Πηγές
+      // ΔΙΠΑ, ΕΡΓΑΝΗ, ΓΓΠΣ, Μητρώο Δημοσίων υπαλλήλων τα ερωτήματα
+      // Α1, Α3, Α1.1, Α2.Π1, Α2.Π2, Α2.Π3, Α2.Π1.6Μ, Α2.Π2.6Μ, Α2.Π3.6Μ, Α1.6M δεν απαντώνται από τον συμμετέχοντα\n'
+
       // A Answers
-      { id: 3, value: sheets[0]?.A1 ?? null },
-      { id: 110, value: sheets[0]?.A16M ?? null },
-      { id: 104, value: sheets[0]?.A2P1 ?? null },
-      { id: 105, value: sheets[0]?.A2P2 ?? null },
-      { id: 106, value: sheets[0]?.A2P3 ?? null },
-      { id: 107, value: sheets[0]?.A2P16M ?? null },
-      { id: 108, value: sheets[0]?.A2P26M ?? null },
-      { id: 109, value: sheets[0]?.A2P36M ?? null },
-      { id: 20, value: sheets[0]?.A3 ?? null },
+      // { id: 3, value: sheets[0]?.A1 ?? null },
+      // { id: 110, value: sheets[0]?.A16M ?? null },
+      // { id: 104, value: sheets[0]?.A2P1 ?? null },
+      // { id: 105, value: sheets[0]?.A2P2 ?? null },
+      // { id: 106, value: sheets[0]?.A2P3 ?? null },
+      // { id: 107, value: sheets[0]?.A2P16M ?? null },
+      // { id: 108, value: sheets[0]?.A2P26M ?? null },
+      // { id: 109, value: sheets[0]?.A2P36M ?? null },
+      // { id: 20, value: sheets[0]?.A3 ?? null },
+
       // E Answers
       { id: 51, value: sheets[0]?.E1 ?? null }
     ];
