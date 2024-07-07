@@ -112,12 +112,11 @@ const getAchievementsYearlyStatsForStudents = async (request, response) => {
   }
 };
 
-
 const insertEspaPosition = async (request, response) => {
   try {
     const departmentId = request.params.id;
     const data = request.body;
-    // await officeService.insertEspaPosition(data, departmentId);
+
     await officeService.insertOrUpdateEspaPositionsByDepId(data, departmentId);
     response
       .status(201)

@@ -270,9 +270,9 @@ const sendDeltioEisodouXML = async (req, res) => {
   try {
     const studentId = req.params.id;
     const MODE = 'XML';
+
+    // Fetch student entry sheets
     const sheetResults = await studentService.getStudentEntrySheets(studentId);
-    // Old MIS
-    // const xmlPostString = await getXmlPostStringEisodou(studentId, MODE, sheetResults);
 
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
@@ -281,8 +281,7 @@ const sendDeltioEisodouXML = async (req, res) => {
     const filename = `deltioEisodou${studentId}.xml`;
     res.set('Content-Type', 'text/xml; charset=utf-8');
     res.set('Content-Disposition', `attachment; filename="${filename}"`);
-    // res.write("\xEF\xBB\xBF"); // UTF-8 BOM
-    // return res.end(xmlPostString);
+
     return res.send(xmlPostString);
 
   } catch (exc) {
@@ -295,9 +294,9 @@ const sendDeltioExodouXML = async (req, res) => {
   try {
     const studentId = req.params.id;
     const MODE = 'XML';
+
+    // Fetch student exit sheets
     const sheetResults = await studentService.getStudentExitSheets(studentId);
-    // Old MIS
-    // const xmlPostString = await getXmlPostStringExodou(studentId, MODE, sheetResults);
 
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
@@ -306,6 +305,7 @@ const sendDeltioExodouXML = async (req, res) => {
     const filename = `deltioExodou${studentId}.xml`;
     res.set('Content-Type', 'text/xml; charset=utf-8');
     res.set('Content-Disposition', `attachment; filename="${filename}"`);
+
     return res.send(xmlPostString);
 
   } catch (exc) {
@@ -906,8 +906,6 @@ const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
       { id: 108, value: sheets[0]?.A2P26M ?? null },
       { id: 109, value: sheets[0]?.A2P36M ?? null },
       { id: 20, value: sheets[0]?.A3 ?? null },
-      { id: 21, value: sheets[0]?.A3_1 ?? null },
-      { id: 65, value: sheets[0]?.A3_2 ?? null },
       // E Answers
       { id: 51, value: sheets[0]?.E1 ?? null }
     ];

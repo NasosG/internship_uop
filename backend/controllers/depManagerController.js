@@ -161,7 +161,6 @@ const getManagedAcademicsByUserId = async (request, response) => {
 
 const insertPeriod = async (request, response, next) => {
   try {
-    // const id = request.params.id;
     const id = request.query.depManagerId;
     const departmentId = request.query.departmentId;
     const period = request.body;
@@ -281,11 +280,14 @@ const completePeriodById = async (request, response) => {
   try {
     const periodId = request.params.id;
     const departmentId = request.body.departmentId;
-    data = {
+
+    const data = {
       period_id: periodId,
       department_id: departmentId
     };
+
     console.log(data);
+
     await depManagerService.setPeriodCompleted(data);
     await depManagerService.updateEspaPositionsOnPeriodCompleted(data);
 

@@ -1020,7 +1020,6 @@ const getContractDetailsByDepartmentAndPeriod = async (departmentId, periodId) =
   }
 };
 
-
 const isStudentInAssignmentList = async (student_id) => {
   try {
     const result = await pool.query(`SELECT * FROM final_assignments_list list

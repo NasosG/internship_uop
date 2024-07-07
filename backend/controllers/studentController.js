@@ -1,5 +1,4 @@
 const studentService = require("../services/studentService.js");
-// const companyService = require("../services/companyService.js");
 const depManagerService = require("../services/depManagerService.js");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
@@ -138,7 +137,6 @@ const getStudentApplications = async (request, response) => {
 
 const getStudentActiveApplication = async (request, response) => {
   try {
-    // console.log("student active app");
     const id = request.params.id;
     const applications = await studentService.getStudentActiveApplication(id);
     response.status(200).json(applications.rows[0].count);
@@ -237,7 +235,7 @@ const updateStudentDetails = async (request, response, next) => {
     const student = request.body;
 
     const updateResults = await studentService.updateStudentDetails(student, id);
-    // console.log(inserts.rowCount);
+
     response
       .status(200)
       .json({
@@ -396,7 +394,7 @@ const updatePhase = async (request, response, next) => {
   try {
     const id = request.params.id;
     const phaseNumber = request.body.phase;
-    console.log("phase number" + phaseNumber + "-ID" + id);
+    console.log("phase number " + phaseNumber + "-ID" + id);
 
     await studentService.updatePhase(phaseNumber, id);
 
@@ -605,7 +603,7 @@ const validateFile = async (request, response, err, fileType) => {
 
       // File type not valid
       if (err.message.includes("This file type is not valid")) {
-        throw new Error("Multer error: The file type was not valid for" + fileType + "upload");
+        throw new Error("Multer error: The file type was not valid for " + fileType + "upload");
       }
 
       throw new Error("A generic Multer error occurred");
@@ -614,7 +612,7 @@ const validateFile = async (request, response, err, fileType) => {
 
       // File type not valid
       if (err.message.includes("This file type is not valid")) {
-        throw new Error("Unkown Error: The file type was not valid for" + fileType + " upload");
+        throw new Error("Unkown Error: The file type was not valid for " + fileType + " upload");
       }
 
       throw new Error("An unknown error occurred");
