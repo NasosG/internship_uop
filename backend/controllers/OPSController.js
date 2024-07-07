@@ -80,11 +80,7 @@ const sendDeltioEisodouWS = async (req, res) => {
       return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
     }
 
-    console.log('| Response Call 2 Data Start |');
-    console.log(responseCall2?.data);
-    console.log('|  Response Call 2 Data End  |');
     const parsedResponse = responseCall2?.data;//await parseXmlResponseCall2(responseCall2?.data);
-    console.log(parsedResponse);
     const errorCode = parsedResponse?.errorCode;
     let idDeltiou;
 
@@ -213,22 +209,24 @@ const sendDeltioExodouWS = async (req, res) => {
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
 
-    let parsedResponse;
+    let responseCall2;
     try {
       const MAX_RETRIES = 3;
       const RETRY_DELAY = 4000; // 4 seconds
 
-      parsedResponse = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
-      if (parsedResponse?.message == 'Already processed') {
-        return res.status(400).json({ message: 'Sheet already exists' });
+      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
+      if (responseCall2?.message == 'XMLErrors found') {
+        console.error('Error XMLErrors found');
+        return res.status(500).send({ message: 'XMLErrors found' });
       }
-      console.log('Response from Call 2:', parsedResponse);
+      console.log('Response from Call 2:', responseCall2);
     } catch (error) {
       console.error(error.message);
-      return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
+      return res.status(500).send({ message: 'Exit sheet - SOAP request Call 2 failed after retries' });
     }
 
-    const errorCode = parsedResponse.errorCode;
+    const parsedResponse = responseCall2?.data;
+    const errorCode = responseCall2?.errorCode;
     let idDeltiou;
 
     if (Number(errorCode) == 0) {
