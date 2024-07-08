@@ -12,7 +12,7 @@ import { OfficeService } from '../office.service';
 })
 export class SheetOutputOfficeDialogComponent implements OnInit {
   public exitForms: ExitForm[] = [];
-  
+
   // Global variables
 
   // MIS 2021-2027
@@ -78,7 +78,7 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
   }
 
   public isMisNew(): boolean {
-    return this.currentDate >= '2024-01-01';
+    return (this.currentDate >= '01/01/2024' || this.currentDate  >= '2024-01-01');
   }
 
   onSubmitStudentEntrySheet(formData: FormData) {
