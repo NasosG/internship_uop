@@ -226,7 +226,7 @@ const sendDeltioExodouWS = async (req, res) => {
     }
 
     const parsedResponse = responseCall2?.data;
-    const errorCode = responseCall2?.errorCode;
+    const errorCode = parsedResponse?.errorCode;
     let idDeltiou;
 
     if (Number(errorCode) == 0) {
