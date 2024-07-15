@@ -49,7 +49,7 @@ export class ContactComponent implements OnInit {
   ]
 
   public HumanMovementQualityLife = [
-    { serialNumber: '19', id: 'collapseNineteen', name: 'Τμήμα Οργάνωσης και Διαχείρισης Αθλητισμού', address: 'Λεωφόρος Ευσταθίου και Σταματικής Βαλιώτη και Πλαταιών, 23100 Σπάρτη', phone: '2731089658, 2731089661, 2731089662', email: 'toda@go.uop.gr', site: 'http://sportmanagement.uop.gr/', departmentManager: 'Γδοντέλη Κρινάνθη', email2: 'ggeo@go.uop.gr', cardColor: 'card-success mb-5' },
+    { serialNumber: '19', id: 'collapseNineteen', name: 'Τμήμα Οργάνωσης και Διαχείρισης Αθλητισμού', address: 'Λεωφόρος Ευσταθίου και Σταματικής Βαλιώτη και Πλαταιών, 23100 Σπάρτη', phone: '2731089658, 2731089661, 2731089662', email: 'toda@go.uop.gr', site: 'http://sportmanagement.uop.gr/', departmentManager: 'Γδοντέλη Κρινάνθη', email2: 'kgdonteli@uop.gr', cardColor: 'card-success mb-5' },
   ]
 
   public Engineering = [
