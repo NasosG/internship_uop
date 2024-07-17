@@ -412,16 +412,20 @@ const parseXmlResponseCall2 = async (xml) => {
   }
 };
 
-// Function to extract ID from error message
+/**
+ * Function to extract ID from error message
+ *
+ * Searches for a specific pattern and extracts the ID number between "Α/Α:" and the parentheses.
+ * Example message: Δημιουργήθηκε νέο Δελτίο με Α/Α: 12345 (6001234).
+ *
+ * @param {string} errorMessage - The text to search.
+ * @returns {string|null} The extracted ID, or null if not found.
+ */
 const getIdDeltiouFromErrorMessage = (errorMessage) => {
-  if (!errorMessage?.includes('Α/Α')) {
-    return null;
-  }
-  const startIndex = errorMessage.indexOf('Α/Α: ') + 4; // Start after 'Α/Α: '
-  const endIndex = errorMessage.indexOf(' ('); // End before ' ('
-  // Get the ID from the error message, removing the spaces
-  const extractedNumber = errorMessage.substring(startIndex, endIndex).replace(/\s/g, '');
-  return extractedNumber;
+  const idPattern = /Α\/Α:\s*([^\s(]+)/;
+
+  const matchResult = errorMessage?.match(idPattern);
+  return matchResult ? matchResult[1] : null;
 };
 
 const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
@@ -441,7 +445,7 @@ const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   const stFlag = 1;
   // 0: for exit sheets - 1: for entry sheets
   const eisodosFlag = sheetType == 'entry' ? 1 : 0;
-  // const kodikosMIS = 5184863; // Old MIS till 2021 ESPA
+  // Old MIS till 2021 ESPA -> 5184863
   const kodikosMIS = 6004529;
   const kodikosYpoergou = MiscUtils.getTypeOfDepartmentOPS(studentInfo.department_id.toString());
   const idGeoDimos = 48;

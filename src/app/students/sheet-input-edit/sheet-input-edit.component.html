@@ -24,7 +24,8 @@
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" id="{{option.id}}" aria-label="Select an option">
+      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" id="{{option.id}}" required
+        aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>
@@ -41,7 +42,7 @@
       </label>
     </div>
     <div class="col-2 text-right">
-      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" aria-label="Select an option">
+      <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
         <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
         <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
       </mat-radio-group>

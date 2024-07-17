@@ -409,7 +409,7 @@ const insertStudentEntrySheet = async (form, studentId) => {
         $51, $52, $53, $54, $55, $56, $57, $58, $59, $60, $61, NOW(), $62, $63, null
       )`,
       [
-        form.A0_1, form.A0_2, 'false', 'false', 'false', form.A2, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3,
+        form.A0_1, form.A0_2, form.A1, form.A1_1, 'false', form.A2, form.A2_1, form.A2_1_1, form.A2_1_2, form.A2_1_3,
         form.A2_1_4, form.A2_1_5, form.A2_1_6, form.A2_2, form.A2_2_1, form.A2_2_2, form.A2_2_3, form.A2_3, form.A2_4, form.A3,
         form.A3_1, form.A3_1_1, form.A3_1_2, form.A3_2, form.B, 'false', 'false', form.B3, 'false', 'false',
         'false', 'false', 'false', 'false', form.C4, form.C5, form.C6, form.C7, form.C8, form.C9, form.D4, form.D5,
