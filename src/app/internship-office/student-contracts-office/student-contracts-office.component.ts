@@ -34,6 +34,7 @@ export class StudentContractsOfficeComponent implements OnInit {
   public isLoading: boolean = false;
   private studentContracts!: Contract[];
   public periodData!: Period;
+  public filteredStudentsCount: number = 0;
   private officeUserData!: OfficeUser;
   public officeUserAcademics!: any[];
   public filteredData: any = [];
@@ -43,6 +44,11 @@ export class StudentContractsOfficeComponent implements OnInit {
     academic_id: 0,
     department: ''
   };
+
+  updateFilteredStudentsCount() {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
+    this.filteredStudentsCount = studentFinalData.filter((student: {status: number;}) => student.status != -1).length;
+  }
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService,
     public dialog: MatDialog, private officeService: OfficeService) { }
@@ -116,6 +122,7 @@ export class StudentContractsOfficeComponent implements OnInit {
           }
 
           this.isLoading = false;
+          this.updateFilteredStudentsCount();
     });
   }
 

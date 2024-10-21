@@ -34,8 +34,8 @@ export class StudentContractsComponent implements OnInit {
   public studentName!: string;
   public periods: Period[] | undefined;
   public isLoading: boolean = false;
+  public filteredStudentsCount: number = 0;
   private periodIdAfterChange: number | null = null;
-
   public isSortDirectionUp: boolean = true;
   public activeBtns: boolean[] = [false, false];
 
@@ -47,6 +47,11 @@ export class StudentContractsComponent implements OnInit {
     private translate: TranslateService,
     public dialog: MatDialog
   ) { }
+
+  updateFilteredStudentsCount() {
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
+    this.filteredStudentsCount = studentFinalData.filter((student: {status: number;}) => student.status != -1).length;
+  }
 
   // Method to toggle the sort direction
   toggleSortDirection(sortIconIndex: number): void {
@@ -87,6 +92,7 @@ export class StudentContractsComponent implements OnInit {
                   this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
                   this.studentsData[i].user_ssn = students[i].user_ssn;
                 }
+
                 // Have to wait till the changeDetection occurs. Then, project data into the HTML template
                 this.chRef.detectChanges();
 
@@ -164,7 +170,7 @@ export class StudentContractsComponent implements OnInit {
         }));
 
         this.isLoading = false;
-
+        this.updateFilteredStudentsCount();
       }, error: (error: any) => {
           console.log(error);
           this.isLoading = false;
