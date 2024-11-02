@@ -72,31 +72,13 @@ export class PaymentOrdersComponent implements OnInit {
 
           this.studentsData = students;
           for (let i = 0; i < students.length; i++) {
+            if (this.studentsData[i].status == -1) {
+              this.studentsData.splice(i, 1);
+            }
             this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
             this.studentsData[i].user_ssn = students[i].user_ssn;
           }
-          // Have to wait till the changeDetection occurs. Then, project data into the HTML template
-          //this.chRef.detectChanges();
 
-          // Use of jQuery DataTables
-          // const table: any = $('#paymentsTable');
-          // this.paymentsTable = table.DataTable({
-          //   lengthMenu: [
-          //     [10, 25, 50, -1],
-          //     [10, 25, 50, 'All']
-          //   ],
-          //   lengthChange: true,
-          //   paging: true,
-          //   searching: true,
-          //   ordering: false,
-          //   info: true,
-          //   autoWidth: false,
-          //   responsive: true,
-          //   select: true,
-          //   pagingType: 'full_numbers',
-          //   processing: true,
-          //   columnDefs: [{ orderable: false, targets: [3] }]
-          // });
         });
       });
     });
@@ -140,6 +122,9 @@ export class PaymentOrdersComponent implements OnInit {
         next: (students: any[]) => {
           this.studentsData = students;
             for (let i = 0; i < students.length; i++) {
+              if (this.studentsData[i].status == -1) {
+                this.studentsData.splice(i, 1);
+              }
               this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
               this.studentsData[i].user_ssn = students[i].user_ssn;
             }
@@ -186,15 +171,18 @@ export class PaymentOrdersComponent implements OnInit {
       }
 
       this.studentContracts = contracts;
-      for (let i = 0; i < this.studentContracts.length; i++) {
+      for (let i = 0, j = 0; i < this.studentContracts.length; i++) {
         this.studentContracts[i].contract_date = moment(this.studentContracts[i].contract_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_start_date = moment(this.studentContracts[i].pa_start_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
 
         let studentIndex = this.studentsData.findIndex(student => student.uuid == this.studentContracts[i].student_id);
+        if (this.studentsData[studentIndex]?.status == -1 || !this.studentsData[studentIndex]?.status) {
+          continue;
+        }
 
         studentsDataJson.push({
-          "A/A": i + 1,
+          "A/A": ++j,
           "ΑΜ": studentIndex !== -1 ? this.studentsData[studentIndex].schacpersonaluniquecode : null,
           "Ημερομηνία Υπογραφής": this.studentContracts[i].contract_date,
           "Επωνυμία Εταιρείας": this.studentContracts[i].company_name,

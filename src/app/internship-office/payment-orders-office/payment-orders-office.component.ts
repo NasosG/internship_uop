@@ -102,6 +102,9 @@ export class PaymentOrdersOfficeComponent implements OnInit {
           // this.studentsData.splice(0, this.studentsData.length);
           this.studentsData = students;
           for (let i = 0; i < students.length; i++) {
+            if (this.studentsData[i].status == -1) {
+              this.studentsData.splice(i, 1);
+            }
             this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
             this.studentsData[i].user_ssn = students[i].user_ssn;
           }
@@ -164,15 +167,17 @@ export class PaymentOrdersOfficeComponent implements OnInit {
       }
 
       this.studentContracts = contracts;
-      for (let i = 0; i < this.studentContracts.length; i++) {
+      for (let i = 0, j = 0; i < this.studentContracts.length; i++) {
         this.studentContracts[i].contract_date = moment(this.studentContracts[i].contract_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_start_date = moment(this.studentContracts[i].pa_start_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
 
         let studentIndex = this.studentsData.findIndex(student => student.uuid == this.studentContracts[i].student_id);
-
+        if (this.studentsData[studentIndex]?.status == -1 || !this.studentsData[studentIndex]?.status) {
+          continue;
+        }
         studentsDataJson.push({
-          "A/A": i + 1,
+          "A/A": ++j,
           "ΑΜ": studentIndex !== -1 ? this.studentsData[studentIndex].schacpersonaluniquecode : null,
           "Ημερομηνία Υπογραφής": this.studentContracts[i].contract_date,
           "Επωνυμία Εταιρείας": this.studentContracts[i].company_name,
