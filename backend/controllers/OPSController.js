@@ -992,8 +992,6 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
           <urn:DioikitikesPigesFlag>1</urn:DioikitikesPigesFlag>
           <urn:FlagOloklirosis>1</urn:FlagOloklirosis>
           <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender>
-          <!-- <urn:Onomateponimo>${deltioCandidateInfo.studentName}</urn:Onomateponimo> -->
-          <!-- <urn:HmniaGenesis>${deltioCandidateInfo.dobFormatted}</urn:HmniaGenesis> -->
       ${microdata}
       </urn:DeltioOfeloumenou>
     </urn:OfeloumenosInput>
