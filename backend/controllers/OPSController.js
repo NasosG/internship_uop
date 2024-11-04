@@ -982,6 +982,7 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
     <urn:OfeloumenosInput>
       <urn:KatigTaytopoihsis>1</urn:KatigTaytopoihsis>
       <urn:IDTaytopoihsis>${deltioCandidateInfo.afm}</urn:IDTaytopoihsis>
+      <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender>
       <urn:DeltioOfeloumenou>
           <urn:EidosDeltiou>${deltioType}</urn:EidosDeltiou>
           <urn:HmniaDeltiou>${sheetDate}</urn:HmniaDeltiou>
@@ -991,7 +992,8 @@ const returnSYMValuesForDeltio = (deltioCandidateInfo, microdata, deltioType, sh
           <urn:PliresFlag>1</urn:PliresFlag>
           <urn:DioikitikesPigesFlag>1</urn:DioikitikesPigesFlag>
           <urn:FlagOloklirosis>1</urn:FlagOloklirosis>
-          <urn:Gender>${deltioCandidateInfo.genderProcessed}</urn:Gender>
+          <!-- <urn:Onomateponimo>${deltioCandidateInfo.studentName}</urn:Onomateponimo> -->
+          <!-- <urn:HmniaGenesis>${deltioCandidateInfo.dobFormatted}</urn:HmniaGenesis> -->
       ${microdata}
       </urn:DeltioOfeloumenou>
     </urn:OfeloumenosInput>
