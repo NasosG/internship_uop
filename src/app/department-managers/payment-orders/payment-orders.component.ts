@@ -177,7 +177,8 @@ export class PaymentOrdersComponent implements OnInit {
         this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
 
         let studentIndex = this.studentsData.findIndex(student => student.uuid == this.studentContracts[i].student_id);
-        if (this.studentsData[studentIndex]?.status == -1 || !this.studentsData[studentIndex]?.status) {
+        
+        if (this.studentsData[studentIndex]?.status != 1) {
           continue;
         }
 

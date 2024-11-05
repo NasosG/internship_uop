@@ -208,15 +208,19 @@ export class StudentContractsComponent implements OnInit {
       }
 
       this.studentContracts = contracts;
-      for (let i = 0; i < this.studentContracts.length; i++) {
+      for (let i = 0, j = 0; i < this.studentContracts.length; i++) {
         this.studentContracts[i].contract_date = moment(this.studentContracts[i].contract_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_start_date = moment(this.studentContracts[i].pa_start_date).format('YYYY-MM-DD');
         this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
 
         let studentIndex = this.studentsData.findIndex(student => student.uuid == this.studentContracts[i].student_id);
 
+        if (this.studentsData[studentIndex]?.status == -1) {
+          continue;
+        }
+
         studentsDataJson.push({
-          "A/A": i + 1,
+          "A/A": ++j,
           "ΑΜ": studentIndex !== -1 ? this.studentsData[studentIndex].schacpersonaluniquecode : null,
           "Ημερομηνία Υπογραφής": this.studentContracts[i].contract_date,
           "Επωνυμία Εταιρείας": this.studentContracts[i].company_name,
@@ -224,6 +228,7 @@ export class StudentContractsComponent implements OnInit {
           "Διεύθυνση Εταιρείας": this.studentContracts[i].company_address,
           "Εκπρόσωπος Εταιρείας": this.studentContracts[i].company_liaison,
           "Θέση Εκπροσώπου Εταιρείας": this.studentContracts[i].company_liaison_position,
+          "Email Φορέα": this.studentContracts[i].contact_email,
           "Ονοματεπώνυμο": this.studentContracts[i].displayname,
           "Πατρώνυμο": this.studentContracts[i].father_name,
           "Επώνυμο πατέρα": studentIndex !== -1 ? this.studentsData[studentIndex].father_last_name: null,
