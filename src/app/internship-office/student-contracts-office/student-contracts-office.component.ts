@@ -191,6 +191,7 @@ export class StudentContractsOfficeComponent implements OnInit {
           "ΑΦΜ Εταιρείας": this.studentContracts[i].company_afm,
           "Διεύθυνση Εταιρείας": this.studentContracts[i].company_address,
           "Εκπρόσωπος Εταιρείας": this.studentContracts[i].company_liaison,
+          "email Φορέα": this.studentContracts[i].contact_email,
           "Θέση Εκπροσώπου Εταιρείας": this.studentContracts[i].company_liaison_position,
           "Ονοματεπώνυμο Φοιτητή": this.studentContracts[i].displayname,
           "Πατρώνυμο": this.studentContracts[i].father_name,

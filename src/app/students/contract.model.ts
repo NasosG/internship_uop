@@ -6,6 +6,7 @@ export interface Contract {
   company_address: string;
   company_liaison: string;
   company_liaison_position: string;
+  contact_email?: string;
   displayname: string;
   father_name: string;
   dept_name: string;
