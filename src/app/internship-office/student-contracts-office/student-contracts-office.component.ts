@@ -39,6 +39,8 @@ export class StudentContractsOfficeComponent implements OnInit {
   public officeUserAcademics!: any[];
   public filteredData: any = [];
   private periodIdAfterChange!: number;
+  public isSortDirectionUp: boolean = true;
+  public activeBtns: boolean[] = [false, false];
 
   selectedDepartment: any = {
     academic_id: 0,
@@ -48,6 +50,32 @@ export class StudentContractsOfficeComponent implements OnInit {
   updateFilteredStudentsCount() {
     let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     this.filteredStudentsCount = studentFinalData.filter((student: {status: number;}) => student.status != -1).length;
+  }
+
+  // Method to toggle the sort direction
+  toggleSortDirection(sortIconIndex: number): void {
+    this.isSortDirectionUp = !this.isSortDirectionUp;
+
+    // Set the clicked button to active
+    this.activeBtns[sortIconIndex] = true;
+
+    // Deactivate all other buttons
+    for (let i = 0; i < this.activeBtns.length; i++) {
+      if (i !== sortIconIndex) {
+        this.activeBtns[i] = false;
+      }
+    }
+  }
+
+
+  sortData(): void {
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
+  }
+
+  sortDataByField(fieldName: string): void {
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsDataGeneric(studentFinalData, this.isSortDirectionUp, fieldName);
   }
 
   constructor(public depManagerService: DepManagerService, public studentsService: StudentsService, public authService: AuthService,
@@ -182,7 +210,7 @@ export class StudentContractsOfficeComponent implements OnInit {
         this.studentContracts[i].pa_end_date = moment(this.studentContracts[i].pa_end_date).format('YYYY-MM-DD');
 
         let studentIndex = this.studentsData.findIndex(student => student.uuid == this.studentContracts[i].student_id);
-        
+
         if (this.studentsData[studentIndex]?.status == -1) {
           continue;
         }

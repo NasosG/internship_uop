@@ -73,6 +73,11 @@ export class StudentContractsComponent implements OnInit {
     this.filteredData = Utils.sortStudentsData(studentFinalData, this.isSortDirectionUp);
   }
 
+  sortDataByField(fieldName: string): void {
+    const studentFinalData = this.filteredData.length ? this.filteredData : this.studentsData;
+    this.filteredData = Utils.sortStudentsDataGeneric(studentFinalData, this.isSortDirectionUp, fieldName);
+  }
+
   dtOptions: any = {};
 
   ngOnInit() {

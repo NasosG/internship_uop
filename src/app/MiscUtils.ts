@@ -154,6 +154,15 @@ export abstract class Utils {
     });
   }
 
+  public static sortStudentsDataGeneric<T>(data: T[], isAscending: boolean, property: keyof T): T[] {
+    return data.slice().sort((a: T, b: T) => {
+      const valueA = `${a[property]}`.toUpperCase();
+      const valueB = `${b[property]}`.toUpperCase();
+
+      return isAscending ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+    });
+  }
+
   public static sortStudentsNumericData(data: any[], isSortDirectionUp: boolean): any[] {
     return data.slice().sort((a: any, b: any) => {
       const nameA = `${a.schacpersonaluniquecode}`;

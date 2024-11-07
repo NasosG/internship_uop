@@ -79,14 +79,40 @@
                   <thead>
                     <tr ngbTableRow>
                       <th>A/A</th>
-                      <th>Ονοματεπώνυμο</th>
+                      <th>
+                        <div class="sort-header">
+                          Ονοματεπώνυμο
+                          <div class="sort-icons">
+                            <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData();"></i>
+                            <i class="fa fa-lg fa-sort-down custom-sort-icon"
+                              [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && !isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData();"></i>
+                          </div>
+                        </div>
+                      </th>
                       <th>ΑΜ</th>
                       <th>email</th>
                       <th>Φορέας</th>
                       <th>Ενέργειες Άτλα</th>
                       <th class="text-center">Επεξεργασία Σύμβασης</th>
                       <th class="text-center">Κατέβασμα Σύμβασης</th>
-                      <th>Ολοκληρωμένη ΠΑ</th>
+                      <th>
+                        <div class="sort-header">
+                          Ολοκληρωμένη ΠΑ
+                          <div class="sort-icons">
+                            <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[1]==true}"
+                              [class.fade-out]="activeBtns[1]==true && isSortDirectionUp"
+                              (click)="toggleSortDirection(1); sortDataByField('status');"></i>
+                            <i class="fa fa-lg fa-sort-down custom-sort-icon"
+                              [ngClass]="{'active': activeBtns[1]==true}"
+                              [class.fade-out]="activeBtns[1]==true && !isSortDirectionUp"
+                              (click)="toggleSortDirection(1); sortDataByField('status');"></i>
+                          </div>
+                        </div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody ngbTableBody>
