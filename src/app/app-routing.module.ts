@@ -10,10 +10,20 @@ import { AdminPanelLoginComponent } from './admin-panels/admin-panel-login/admin
 import { StudentLoginTermsComponent } from './home-screen/student-login-terms/student-login-terms.component';
 import { DepartmentManagerLoginComponent } from './department-managers/department-manager-login/department-manager-login.component';
 import { StudentChooseDepartmentComponent } from './students/student-choose-department/student-choose-department.component';
+import { ContactComponent } from './generic-components/contact/contact.component';
+import { ManualsComponent } from './generic-components/manuals/manuals.component';
 
 const routes: Routes = [{
   path: '',
   component: HomeComponent
+},
+{
+  path: 'contact',
+  component: ContactComponent
+},
+{
+  path: 'manuals',
+  component: ManualsComponent
 },
 {
   path: 'company-terms',

@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ContactComponent } from 'src/app/generic-components/contact/contact.component';
+import {ManualsComponent} from 'src/app/generic-components/manuals/manuals.component';
+
+const routes: Routes = [
+  { path: 'contact', component: ContactComponent },
+  { path: 'manuals', component: ManualsComponent },
+  { path: '', redirectTo: '/', pathMatch: 'full' }, // default route
+];
 
 @Component({
   selector: 'app-home',
@@ -43,10 +51,6 @@ export class HomeComponent implements OnInit {
     // window.location.reload();
     this.translate.use(language);
   }
-
-  // isTermsRoute() {
-  //   return this.router.url === '/terms';
-  // }
 
   isCompanyTermsRoute() {
     return this.router.url === '/company-terms';
