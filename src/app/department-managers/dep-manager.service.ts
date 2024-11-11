@@ -207,6 +207,11 @@ export class DepManagerService {
     //   filter ( image => !!image));
   }
 
+  receiveCompletionCertificateFile(data: any[], docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "produceCompletionCertificateFile/";
+    return this.http.post(url, { 'doctype': docType, 'data': data }, { responseType: 'blob' });
+  }
+
   receivePaymentOrderFile (studentId: number, periodId: any, departmentId: any, docType: string): Observable<Blob> {
     const url = STUDENTS_URL + "producePaymentOrderFile/" + studentId;
     return this.http.post(url, { 'doctype': docType, 'periodId': periodId, 'departmentId': departmentId }, { responseType: 'blob' });
