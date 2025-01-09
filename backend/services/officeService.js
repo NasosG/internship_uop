@@ -149,8 +149,8 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
       `SELECT
           a.student_id,
           a.asgmt_company_name,
-          CASE WHEN ap.contact_email IS NOT NULL THEN ap.contact_email ELSE NULL END AS contact_email,
-          CASE WHEN ap.contact_phone IS NOT NULL THEN ap.contact_phone ELSE NULL END AS contact_phone,
+          ap.contact_email,
+          ap.contact_phone,
           sso_users.displayname AS student_name,
           sso_users.schacgender AS student_gender,
           prd.date_to
@@ -159,7 +159,7 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
           INNER JOIN sso_users ON sso_users.uuid = a.student_id
           INNER JOIN period prd on prd.id = a.period_id
           LEFT JOIN (
-            SELECT DISTINCT name         
+            SELECT DISTINCT name, contact_email, contact_phone
             FROM atlas_provider
           ) ap ON ap.name = a.asgmt_company_name
       WHERE
@@ -170,7 +170,7 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
 
     return students.rows;
   } catch (error) {
-    throw Error('Error while fetching students with output sheet' + error.message);
+    throw Error('Error while fetching students with get Achievements yearly stats: ' + error.message);
   }
 };
 
