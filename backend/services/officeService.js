@@ -165,7 +165,7 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
       WHERE
           a.status = 1
           AND prd.date_to <= $1
-          AND prd.date_to >= $2`,
+          AND prd.date_to >= '2023-12-01'`,
       [endDate, startDate]);
 
     return students.rows;
