@@ -158,7 +158,10 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
           internship_assignment a
           INNER JOIN sso_users ON sso_users.uuid = a.student_id
           INNER JOIN period prd on prd.id = a.period_id
-          INNER JOIN atlas_provider ap on ap.name = a.asgmt_company_name
+          LEFT JOIN (
+            SELECT DISTINCT name         
+            FROM atlas_provider
+          ) ap ON ap.name = a.asgmt_company_name
       WHERE
           a.status = 1
           AND prd.date_to <= $1
