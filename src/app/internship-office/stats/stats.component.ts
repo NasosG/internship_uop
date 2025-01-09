@@ -135,8 +135,8 @@ export class StatsComponent implements OnInit {
               "Δ/Ι": deltaColumnValue,
               "ΦΟΙΤΗΤΗΣ": item.student_name,
               "ΦΥΛΟ": genderValue,
-              "MAIL ΕΤΑΙΡΙΑΣ": item.contact_email,
-              "ΤΗΛ ΕΤΑΙΡΙΑΣ": item.contact_phone
+              "MAIL ΕΤΑΙΡΙΑΣ": item.contact_email ?? null,
+              "ΤΗΛ ΕΤΑΙΡΙΑΣ": item.contact_phone ?? null
             };
           } else {
             // If student's name already exists, return null to filter out duplicates

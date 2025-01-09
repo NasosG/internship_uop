@@ -149,8 +149,8 @@ const getAchievementsYearlyStatsForStudents = async (year) => {
       `SELECT
           a.student_id,
           a.asgmt_company_name,
-          ap.contact_email,
-          ap.contact_phone,
+          CASE WHEN ap.contact_email IS NOT NULL THEN ap.contact_email ELSE NULL END AS contact_email,
+          CASE WHEN ap.contact_phone IS NOT NULL THEN ap.contact_phone ELSE NULL END AS contact_phone,
           sso_users.displayname AS student_name,
           sso_users.schacgender AS student_gender,
           prd.date_to
