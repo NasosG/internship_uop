@@ -1225,6 +1225,66 @@ const produceContractFile = async (request, response) => {
   }
 };
 
+const produceCompletionCertificateFile = async (req, res) => {
+  try {
+    console.log("produceCompletionCertificateFile endpoint called");
+
+    const { doctype, data: metadata } = req.body;
+
+    // Define the path to the .docx template file
+    const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.doc";
+
+    // Load the .docx file as binary content
+    const content = fs.readFileSync(path.resolve(fileDir), "binary");
+    const zip = new PizZip(content);
+
+    const doc = new Docxtemplater(zip, {
+      paragraphLoop: true,
+      linebreaks: true,
+    });
+
+    // Define the replacements for placeholders
+    doc.render({
+      STUDENT_NAME: metadata.studentName || "………………",
+      DEPARTMENT: metadata.department || "………………",
+      UNIVERSITY: metadata.university || "………………",
+      STUDENT_ID: metadata.studentId || "………………",
+      POSITION_ID: metadata.positionId || "………………",
+      INTERNSHIP_SUBJECT: metadata.internshipSubject || "………………",
+      START_DATE: metadata.startDate ? moment(metadata.startDate).format("DD/MM/YYYY") : "………………",
+      END_DATE: metadata.endDate ? moment(metadata.endDate).format("DD/MM/YYYY") : "………………",
+      COMPANY: metadata.company || "………………",
+      DEPARTMENT_MANAGER: metadata.departmentManager || "………………",
+      DATE_NOW: moment().format("DD/MM/YYYY"),
+    });
+
+    // Generate the output document as a buffer
+    const buf = doc.getZip().generate({
+      type: "nodebuffer",
+      compression: "DEFLATE",
+    });
+
+    // Define a file name for the output document
+    const fileName = `student_${metadata.studentName || "unknown"}_COMPLETION.doc`;
+
+    // Set headers to prompt the client to download the file
+    res.set({
+      "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "Content-Disposition": `attachment; filename=${fileName}`,
+    });
+
+    // Send the document buffer as a response
+    res.send(buf);
+
+  } catch (error) {
+    console.error("Error generating completion certificate:", error.message);
+    res.status(500).json({
+      message: "An error occurred while generating the certificate.",
+      error: error.message,
+    });
+  }
+};
+
 const producePaymentOrderFile = async (request, response) => {
   try {
     console.log("producePaymentOrderFile");
@@ -1522,6 +1582,7 @@ module.exports = {
   getStudentFilesForAppPrint,
   produceContractFile,
   producePaymentOrderFile,
+  produceCompletionCertificateFile,
   isEntrySheetEnabledForStudent,
   isExitSheetEnabledForStudent
 };
