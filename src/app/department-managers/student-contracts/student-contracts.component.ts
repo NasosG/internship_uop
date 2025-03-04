@@ -363,23 +363,23 @@ export class StudentContractsComponent implements OnInit {
       date_now: new Date().toLocaleDateString('el-GR')
     };
 
-    // Array representation of pdfData, to be sent to backend
-    const pdfDataArray = [
-      pdfData.student_name,
-      pdfData.father_name,
-      pdfData.department,
-      pdfData.university,
-      pdfData.AM,
-      pdfData.position_id,
-      pdfData.internshipSubject,
-      pdfData.start_date,
-      pdfData.end_date,
-      pdfData.company,
-      pdfData.department_manager,
-      pdfData.date_now
-    ];
+    // // Array representation of pdfData, to be sent to backend
+    // const pdfDataArray = [
+    //   pdfData.student_name,
+    //   pdfData.father_name,
+    //   pdfData.department,
+    //   pdfData.university,
+    //   pdfData.AM,
+    //   pdfData.position_id,
+    //   pdfData.internshipSubject,
+    //   pdfData.start_date,
+    //   pdfData.end_date,
+    //   pdfData.company,
+    //   pdfData.department_manager,
+    //   pdfData.date_now
+    // ];
 
-    this.depManagerService.receiveCompletionCertificateFile(pdfDataArray , "doc")
+    this.depManagerService.receiveCompletionCertificateFile(pdfData , "doc")
     .subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
