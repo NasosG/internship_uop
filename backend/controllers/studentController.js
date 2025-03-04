@@ -1256,7 +1256,7 @@ const produceCompletionCertificateFile = async (req, res) => {
       COMPANY: metadata.company || "………………",
       DEPARTMENT_MANAGER: metadata.department_manager || "………………",
       DATE_NOW: moment().format("DD/MM/YYYY"),
-      FATHERNAME: FATHER_NAME || 'ΔΗΜΗΤΡΙΟΣ'
+      FATHER_NAME: metadata.father_name || "………………"
     });
 
     // Generate the output document as a buffer
