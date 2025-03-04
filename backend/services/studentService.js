@@ -393,7 +393,7 @@ const updatePhase = async (phase, studentId) => {
 
 const insertStudentEntrySheet = async (form, studentId) => {
   try {
-    const ESPA_MIS = '6004529';
+    const ESPA_MIS = '6022357';
     const insertResults = await pool.query(`INSERT INTO entry_form (
         "A0_1", "A0_2", "A1", "A1_1", "A1_2", "A2", "A2_1", "A2_1_1", "A2_1_2", "A2_1_3",
         "A2_1_4", "A2_1_5", "A2_1_6", "A2_2", "A2_2_1", "A2_2_2", "A2_2_3", "A2_3", "A2_4", "A3",
@@ -541,7 +541,7 @@ const updateStudentExitSheet = async (form, studentId) => {
 
 const insertStudentExitSheet = async (form, studentId) => {
   try {
-    const ESPA_MIS = '6004529';
+    const ESPA_MIS = '6022357';
 
     // Ensure B0, B1, B2, B4, and B5 are always false (B can only be NO or YES along with B4)
     form.B0 = form.B1 = form.B2 = form.B4 = form.B5 = false;

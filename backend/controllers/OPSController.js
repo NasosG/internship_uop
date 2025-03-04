@@ -446,7 +446,8 @@ const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   // 0: for exit sheets - 1: for entry sheets
   const eisodosFlag = sheetType == 'entry' ? 1 : 0;
   // Old MIS till 2021 ESPA -> 5184863
-  const kodikosMIS = 6004529;
+  // MIS 21-23 -> 6004529;
+  const kodikosMIS = 6022357;
   const kodikosYpoergou = MiscUtils.getTypeOfDepartmentOPS(studentInfo.department_id.toString());
   const idGeoDimos = 48;
   const startTime = position.pa_start_date;

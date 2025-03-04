@@ -60,7 +60,7 @@ router.post("/checkPositionOfAtlasExists/:id", studentController.checkPositionOf
 router.get("/students/:id/contract-status", studentController.getStudentContractStatus);
 router.post("/produceContractFile/:id", studentController.produceContractFile);
 router.post("/producePaymentOrderFile/:id", studentController.producePaymentOrderFile);
-router.post("/produceCompletionCertificateFile/", student.produceCompletionCertificateFile);
+router.post("/produceCompletionCertificateFile/", studentController.produceCompletionCertificateFile);
 router.post("/isStudentInAssignmentList/:id", studentController.isStudentInAssignmentList);
 router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getContractDetailsByStudentIdAndPeriod);
 router.get("/getContractDetailsByDepartmentAndPeriod/", studentController.getContractDetailsByDepartmentAndPeriod);
