@@ -1230,7 +1230,7 @@ const produceCompletionCertificateFile = async (req, res) => {
     console.log("produceCompletionCertificateFile endpoint called");
 
     const { doctype, data: metadata } = req.body;
-    console.log(body);
+    console.log(req.body);
     // Define the path to the .docx template file
     const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.docx";
 
