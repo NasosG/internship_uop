@@ -1233,7 +1233,7 @@ const produceCompletionCertificateFile = async (req, res) => {
     console.log(req.body);
     // Define the path to the .docx template file
     const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.docx";
-
+    console.log(fileDir);
     // Load the .docx file as binary content
     const content = fs.readFileSync(path.resolve(fileDir), "binary");
     const zip = new PizZip(content);
@@ -1242,7 +1242,7 @@ const produceCompletionCertificateFile = async (req, res) => {
       paragraphLoop: true,
       linebreaks: true,
     });
-
+    console.log(metadata);
     // Define the replacements for placeholders
     doc.render({
       STUDENT_NAME: metadata.studentName || "………………",
