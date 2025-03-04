@@ -1245,17 +1245,18 @@ const produceCompletionCertificateFile = async (req, res) => {
     console.log(metadata);
     // Define the replacements for placeholders
     doc.render({
-      STUDENT_NAME: metadata.studentName || "………………",
+      STUDENT_NAME: metadata.student_name || "………………",
       DEPARTMENT: metadata.department || "………………",
       UNIVERSITY: metadata.university || "………………",
-      STUDENT_ID: metadata.studentId || "………………",
-      POSITION_ID: metadata.positionId || "………………",
+      STUDENT_ID: metadata.AM || "………………",
+      POSITION_ID: metadata.position_id || "………………",
       INTERNSHIP_SUBJECT: metadata.internshipSubject || "………………",
-      START_DATE: metadata.startDate ? moment(metadata.startDate).format("DD/MM/YYYY") : "………………",
-      END_DATE: metadata.endDate ? moment(metadata.endDate).format("DD/MM/YYYY") : "………………",
+      START_DATE: metadata.start_date ? moment(metadata.start_date).format("DD/MM/YYYY") : "………………",
+      END_DATE: metadata.end_date ? moment(metadata.end_date).format("DD/MM/YYYY") : "………………",
       COMPANY: metadata.company || "………………",
-      DEPARTMENT_MANAGER: metadata.departmentManager || "………………",
+      DEPARTMENT_MANAGER: metadata.department_manager || "………………",
       DATE_NOW: moment().format("DD/MM/YYYY"),
+      FATHERNAME: FATHER_NAME || 'ΔΗΜΗΤΡΙΟΣ'
     });
 
     // Generate the output document as a buffer
