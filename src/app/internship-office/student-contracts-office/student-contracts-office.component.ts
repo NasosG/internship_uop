@@ -344,58 +344,71 @@ export class StudentContractsOfficeComponent implements OnInit {
 
     const imagePromises = imageUrls.map(url => Utils.getBase64Image(url));
 
-    Promise.all(imagePromises).then(base64Images => {
-      const [image1, image2] = base64Images;
+    this.depManagerService.getContractDetailsByDepartmentAndPeriod(this.studentsData[0].department_id, this.studentsData[0].period_id)
+      .subscribe((contracts: Contract[]) => {
+        const matchingContract = contracts?.find(contract => contract?.student_id == student.uuid);
+        
+        const subject = student.pa_subject || matchingContract?.pa_subject || matchingContract?.pa_subject_atlas || ".........";
+        const companyName = student.asgmt_company_name || matchingContract?.company_name || ".........";
+        const startDate = this.turnTimestampToDatePrint(student.pa_start_date);
+        const endDate = this.turnTimestampToDatePrint(student.pa_end_date);
+        const departmentManager = student.department_manager_name;
+        const currentDate = new Date().toLocaleDateString('el-GR');
 
-      const pdfContent = `
-      <html>
-      <div style="display: flex; justify-content: center;">
-        <img style="width:400px;" src="${image1}" alt="UOP Logo" >
-      </div>
-      <div style="text-align: center">
-        <p style="color:#2d05ce">Σύστημα Κεντρικής Υποστήριξης της Πρακτικής Άσκησης Φοιτητών</p><br>
-        <strong>Βεβαίωση Ολοκλήρωσης Πρακτικής Άσκησης</strong><br><br>
-      </div>
-      <div>
-      Βεβαιώνεται ότι ο/η ${studentName} φοιτητής/τρια στο τμήμα ${student.dept_name} του Ιδρύματος ΠΑΝΕΠΙΣΤΗΜΙΟ
-      ΠΕΛΟΠΟΝΝΗΣΟΥ με Αριθμό Μητρώου ${student.schacpersonaluniquecode} <br><br>
-      ολοκλήρωσε την Πρακτική Άσκηση:<br>
-      ${student.assigned_position_id} - ${student.pa_subject}<br><br>
-      στο χρονικό διάστημα ${this.turnTimestampToDatePrint(student.pa_start_date)} εώς ${this.turnTimestampToDatePrint(student.pa_end_date)}<br><br>
-      στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.asgmt_company_name}.<br><br>
-      Μετά από επικοινωνία με τον φορέα υποδοχής, με τον επόπτη της πρακτικής άσκησης και με τον/την φοιτητή/φοιτήτρια,
-      βεβαιώνω την πραγματοποίηση και επιτυχή ολοκλήρωση της ανωτέρω πρακτικής άσκησης.
-      </div>
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
-        <div style="text-align: left;">
-            <br><br><br>
-            Τμηματικός Υπεύθυνος
-            <br><br><br><br>
-            ${student.department_manager_name}
-            <br><br><br>
+        Promise.all(imagePromises).then(base64Images => {
+          const [image1, image2] = base64Images;
+
+          const pdfContent = `
+        <html>
+        <div style="display: flex; justify-content: center;">
+          <img style="width:400px;" src="${image1}" alt="UOP Logo" >
         </div>
-        <div style="text-align: right; margin-right: 60px;">
-         Ημερομηνία, ${(new Date().toLocaleDateString('el-GR'))}
+        <div style="text-align: center">
+          <p style="color:#2d05ce">Σύστημα Κεντρικής Υποστήριξης της Πρακτικής Άσκησης Φοιτητών</p><br>
+          <strong>Βεβαίωση Ολοκλήρωσης Πρακτικής Άσκησης</strong><br><br>
         </div>
-      </div>
-      <div style="display: flex; justify-content: center;">
-        <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
-      </div>
-      </html>`;
+        <div>
+        Βεβαιώνεται ότι ο/η ${studentName} φοιτητής/τρια στο τμήμα ${student.dept_name} του Ιδρύματος ΠΑΝΕΠΙΣΤΗΜΙΟ
+        ΠΕΛΟΠΟΝΝΗΣΟΥ με Αριθμό Μητρώου ${student.schacpersonaluniquecode} <br><br>
+        ολοκλήρωσε την Πρακτική Άσκηση:<br>
+        ${student.assigned_position_id} - ${subject}<br><br>
+        στο χρονικό διάστημα ${startDate} εώς ${endDate}<br><br>
+        στον Φορέα Υποδοχής Πρακτικής Άσκησης ${companyName}.<br><br>
+        Μετά από επικοινωνία με τον φορέα υποδοχής, με τον επόπτη της πρακτικής άσκησης και με τον/την φοιτητή/φοιτήτρια,
+        βεβαιώνω την πραγματοποίηση και επιτυχή ολοκλήρωση της ανωτέρω πρακτικής άσκησης.
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+          <div style="text-align: left;">
+              <br><br><br>
+              Τμηματικός Υπεύθυνος
+              <br><br><br><br>
+              ${departmentManager}
+              <br><br><br>
+          </div>
+          <div style="text-align: right; margin-right: 60px;">
+          Ημερομηνία, ${currentDate}
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center;">
+          <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
+        </div>
+        </html>`;
 
-      const filename = `completion_certificate_${studentName}.html`;
-      const pdfBlob = new Blob([pdfContent]);
-      const xmlURL = URL.createObjectURL(pdfBlob);
+          const filename = `completion_certificate_${studentName}.html`;
+          const pdfBlob = new Blob([pdfContent]);
+          const xmlURL = URL.createObjectURL(pdfBlob);
 
-      const downloadLink = document.createElement('a');
-      downloadLink.href = xmlURL;
-      downloadLink.download = filename;
-      downloadLink.click();
+          const downloadLink = document.createElement('a');
+          downloadLink.href = xmlURL;
+          downloadLink.download = filename;
+          downloadLink.click();
 
-      // Clean up
-      URL.revokeObjectURL(xmlURL);
-      downloadLink.remove();
-    });
+          // Clean up
+          URL.revokeObjectURL(xmlURL);
+          downloadLink.remove();
+        });
+
+      });
   }
 
 }
