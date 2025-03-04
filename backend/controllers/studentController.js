@@ -1230,9 +1230,9 @@ const produceCompletionCertificateFile = async (req, res) => {
     console.log("produceCompletionCertificateFile endpoint called");
 
     const { doctype, data: metadata } = req.body;
-
+    console.log(body);
     // Define the path to the .docx template file
-    const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.doc";
+    const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.docx";
 
     // Load the .docx file as binary content
     const content = fs.readFileSync(path.resolve(fileDir), "binary");
@@ -1265,7 +1265,7 @@ const produceCompletionCertificateFile = async (req, res) => {
     });
 
     // Define a file name for the output document
-    const fileName = `student_${metadata.studentName || "unknown"}_COMPLETION.doc`;
+    const fileName = `student_${metadata.studentName || "unknown"}_COMPLETION.docx`;
 
     // Set headers to prompt the client to download the file
     res.set({
