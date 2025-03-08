@@ -775,42 +775,42 @@ const syncAtlasPositionGroup = async (request, response) => {
     let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
     let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
 
-    console.log(positionGroupResults);
-    // '2025-01-01 18:03:40.713'
-    let availablePositionGroups;
+    let dateString = '2025-01-01 18:03:40.713';
+    // let availablePositionGroups;
 
-    let skip = 0;
-    const batchSize = 1000;
-    let dateString;
-    let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
-    let numberOfItems = itemsAtlas.message.NumberOfItems;
-    console.log(numberOfItems);
+    // let skip = 0;
+    // const batchSize = 200;
+    
+    // let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
+    // let numberOfItems = itemsAtlas.message.NumberOfItems;
+    // console.log(numberOfItems);
 
-    let lastElement = await atlasService.getCountOfPositionPairs();
-    lastElement = Number.parseInt(lastElement);
-    do {
-      availablePositionGroups = [];
-      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      if (availablePositionGroups?.status == "400 bad request") {
-        console.error(`Fetching position groups error: ${availablePositionGroups.message}`);
-        skip++;
-        continue;
-      }
+    // let lastElement = await atlasService.getCountOfPositionPairs();
+    // lastElement = Number.parseInt(lastElement);
+    // do {
+    //   availablePositionGroups = [];
+    //   availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+    //   if (availablePositionGroups?.status == "400 bad request") {
+    //     console.error(`Fetching position groups error: ${availablePositionGroups.message}`);
+    //     skip++;
+    //     continue;
+    //   }
 
-      for (const atlasItem of availablePositionGroups.message.Pairs) {
-        if (positionGroupID == atlasItem.PositionGroupID)
-          dateString = atlasItem.PositionGroupLastUpdateString;
-      }
+    //   for (const atlasItem of availablePositionGroups.message.Pairs) {
+    //     if (positionGroupID == atlasItem.PositionGroupID)
+    //       dateString = atlasItem.PositionGroupLastUpdateString;
+    //   }
 
-      skip += batchSize;
-    } while (skip < lastElement);
+    //   skip += batchSize;
+    // } while (skip < lastElement);
 
     // const dateString = "2010-01-01T00:00:00.000Z";
     const pair = { PositionGroupLastUpdate: dateString };
     const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
     const providersInsertArray = [getProviderJson(providerResults.message)];
 
-    const defaultUpdateDate = '01/01/2010 23:51:53';
+    positionsInsertArray.lastUpdateString = dateString;
+    const defaultUpdateDate = '01/01/2025 18:03:40';
 
     const positionData = [
       {
