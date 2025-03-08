@@ -776,28 +776,57 @@ const syncAtlasPositionGroup = async (request, response) => {
     let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
 
     console.log(positionGroupResults);
+    // '2025-01-01 18:03:40.713'
+    let availablePositionGroups;
+
+    let skip = 0;
+    const batchSize = 1000;
+    let dateString;
+    let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
+    let numberOfItems = itemsAtlas.message.NumberOfItems;
+    console.log(numberOfItems);
+
+    let lastElement = await atlasService.getCountOfPositionPairs();
+    lastElement = Number.parseInt(lastElement);
+    do {
+      availablePositionGroups = [];
+      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
+      if (availablePositionGroups?.status == "400 bad request") {
+        console.error(`Fetching position groups error: ${availablePositionGroups.message}`);
+        skip++;
+        continue;
+      }
+
+      for (const atlasItem of availablePositionGroups.message.Pairs) {
+        if (positionGroupID == atlasItem.PositionGroupID)
+          dateString = atlasItem.PositionGroupLastUpdateString;
+      }
+
+      skip += batchSize;
+    } while (skip < lastElement);
+
     // const dateString = "2010-01-01T00:00:00.000Z";
-    // const pair = { PositionGroupLastUpdate: dateString };
-    // const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
-    // const providersInsertArray = [getProviderJson(providerResults.message)];
+    const pair = { PositionGroupLastUpdate: dateString };
+    const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
+    const providersInsertArray = [getProviderJson(providerResults.message)];
 
-    // const defaultUpdateDate = '01/01/2010 23:51:53';
+    const defaultUpdateDate = '01/01/2010 23:51:53';
 
-    // const positionData = [
-    //   {
-    //     PositionGroupID: positionGroupResults.message.ID,
-    //     PositionGroupLastUpdateString: defaultUpdateDate,
-    //     ProviderID: positionGroupResults.message.ProviderID,
-    //     ProviderLastUpdateString: defaultUpdateDate
-    //   }
-    // ];
+    const positionData = [
+      {
+        PositionGroupID: positionGroupResults.message.ID,
+        PositionGroupLastUpdateString: defaultUpdateDate,
+        ProviderID: positionGroupResults.message.ProviderID,
+        ProviderLastUpdateString: defaultUpdateDate
+      }
+    ];
 
-    // // Insert position group and provider details
-    // await Promise.all([
-    //   atlasService.insertProvider(providersInsertArray),
-    //   atlasService.insertPositionGroup(positionsInsertArray),
-    //   atlasService.insertPositionGroupRelation([positionData])
-    // ]);
+    // Insert position group and provider details
+    await Promise.all([
+      atlasService.insertProvider(providersInsertArray),
+      atlasService.insertPositionGroup(positionsInsertArray),
+      atlasService.insertPositionGroupRelation([positionData])
+    ]);
 
     response.status(201).json({ message: 'done', status: 'success' });
   } catch (error) {
