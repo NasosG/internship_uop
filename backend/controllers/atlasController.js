@@ -775,28 +775,29 @@ const syncAtlasPositionGroup = async (request, response) => {
     let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
     let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
 
-    const dateString = "2010-01-01T00:00:00.000Z";
-    const pair = { PositionGroupLastUpdate: dateString };
-    const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
-    const providersInsertArray = [getProviderJson(providerResults.message)];
+    console.log(positionGroupResults);
+    // const dateString = "2010-01-01T00:00:00.000Z";
+    // const pair = { PositionGroupLastUpdate: dateString };
+    // const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
+    // const providersInsertArray = [getProviderJson(providerResults.message)];
 
-    const defaultUpdateDate = '01/01/2010 23:51:53';
+    // const defaultUpdateDate = '01/01/2010 23:51:53';
 
-    const positionData = [
-      {
-        PositionGroupID: positionGroupResults.message.ID,
-        PositionGroupLastUpdateString: defaultUpdateDate,
-        ProviderID: positionGroupResults.message.ProviderID,
-        ProviderLastUpdateString: defaultUpdateDate
-      }
-    ];
+    // const positionData = [
+    //   {
+    //     PositionGroupID: positionGroupResults.message.ID,
+    //     PositionGroupLastUpdateString: defaultUpdateDate,
+    //     ProviderID: positionGroupResults.message.ProviderID,
+    //     ProviderLastUpdateString: defaultUpdateDate
+    //   }
+    // ];
 
-    // Insert position group and provider details
-    await Promise.all([
-      atlasService.insertProvider(providersInsertArray),
-      atlasService.insertPositionGroup(positionsInsertArray),
-      atlasService.insertPositionGroupRelation([positionData])
-    ]);
+    // // Insert position group and provider details
+    // await Promise.all([
+    //   atlasService.insertProvider(providersInsertArray),
+    //   atlasService.insertPositionGroup(positionsInsertArray),
+    //   atlasService.insertPositionGroupRelation([positionData])
+    // ]);
 
     response.status(201).json({ message: 'done', status: 'success' });
   } catch (error) {

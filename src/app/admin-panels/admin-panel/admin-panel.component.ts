@@ -214,7 +214,6 @@ export class AdminPanelComponent implements OnInit {
     });
   }
 
-
   isAdminRoute() {
     return this.router.url === '/admin/' + this.authService.getSessionId();
   }
