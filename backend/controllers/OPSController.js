@@ -448,7 +448,11 @@ const getDataOfeloumenou = async (studentInfo, position, sheetType) => {
   // Old MIS till 2021 ESPA -> 5184863
   // MIS 21-23 -> 6004529;
   const kodikosMIS = 6022357;
-  const kodikosYpoergou = MiscUtils.getTypeOfDepartmentOPS(studentInfo.department_id.toString());
+
+  // when technological departments still existed and they had different subproject code
+  // const kodikosYpoergou = MiscUtils.getTypeOfDepartmentOPS(studentInfo.department_id.toString());
+
+  const kodikosYpoergou = 6057827;
   const idGeoDimos = 48;
   const startTime = position.pa_start_date;
   const endTime = position.pa_end_date;
