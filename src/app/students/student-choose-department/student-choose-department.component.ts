@@ -24,6 +24,7 @@ export class StudentChooseDepartmentComponent implements OnInit {
     this.studentsService.getMergedDepartmentInfoByStudentId()
       .subscribe((departments: any) => {
         this.managedAcademics = departments;
+        // this.managedAcademics = departments.filter((department: any) => department.number < 100000);
     });
   }
 
