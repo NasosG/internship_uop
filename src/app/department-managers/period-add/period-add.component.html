@@ -4,11 +4,12 @@
       Η περίοδος δήλωσης πρακτικής άσκησης είναι από 01/03/2021 έως 20/05/2021.
     </div> -->
 
-    <!-- THIS IS THE RIGHT CODE BELOW -->
-     <!-- <button id="toggleVisibilityAddPeriod" *ngIf="(periodSet==false)" (click)="toggleShow()" -->
-  
+      
      <!-- add period - THE LINE BELOW IS WRONG - TODO CHANGE IT WHEN INTERNSHIPS START -->
-  <button id="toggleVisibilityAddPeriod" *ngIf="(false)" (click)="toggleShow()"
+  <!-- <button id="toggleVisibilityAddPeriod" *ngIf="(false)" (click)="toggleShow()" -->
+
+    <!-- THIS IS THE RIGHT CODE BELOW -->
+  <button id="toggleVisibilityAddPeriod" *ngIf="(periodSet==false)" (click)="toggleShow()"
     class="btn btn-secondary mb-3" type="button"> <i class="fas fa-plus mr-1"></i>Δημιουργία νέας περιόδου</button>
   <div *ngIf="isShown" class="card">
     <div class="card-header">
