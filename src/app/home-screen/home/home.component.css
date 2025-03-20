@@ -163,7 +163,7 @@ body {
   text-align: center;
 }
 
-.col-content h2 {
+.col-content h3 {
   text-align: center;
 }
 
@@ -439,3 +439,13 @@ footer {
 .extra-btns-color {
   color: rgba(34, 73, 87, 1);
 }
+
+:host ::ng-deep .custom-link {
+  color: #FFD700 !important;  /* Χρυσό */
+  text-decoration: underline;
+}
+
+:host ::ng-deep .custom-link:hover {
+  color: #E1AD21 !important;  /* Πιο σκούρο χρυσό */
+}
+
