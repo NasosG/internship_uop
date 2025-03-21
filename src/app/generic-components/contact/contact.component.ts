@@ -25,7 +25,7 @@ export class ContactComponent implements OnInit {
 
   public HumanitiesCulturalStudies = [
     { serialNumber: '9', id: 'collapseNine', name: 'Τμήμα Ιστορίας, Αρχαιολογίας και Διαχείρισης Πολιτισμικών Αγαθών', address: 'Παλαιό Στρατόπεδο, Ανατολικό κέντρο, 24100 Καλαμάτα', phone: '2721065101, 2721065103, 2721065117', email: 'hamcc-secr@uop.gr', site: 'http://ham.uop.gr/el/', departmentManager: 'Χρήστου Αθανάσιος', email2: 'christou@go.uop.gr', cardColor: 'card-danger' },
-    { serialNumber: '10', id: 'collapseTen', name: 'Τμήμα Φιλολογίας', address: 'Παλαιό Στρατόπεδο, Ανατολικό κέντρο, 24100 Καλαμάτα', phone: '2721065115, 2721065106', email: 'phil-secr@uop.gr', site: 'http://phil.uop.gr/', departmentManager: 'Καπετανάκη Σοφία', email2: 'kapetan@go.uop.gr', cardColor: 'card-danger mb-5' },
+    { serialNumber: '10', id: 'collapseTen', name: 'Τμήμα Φιλολογίας', address: 'Παλαιό Στρατόπεδο, Ανατολικό κέντρο, 24100 Καλαμάτα', phone: '2721065115, 2721065106', email: 'phil-secr@uop.gr', site: 'http://phil.uop.gr/', departmentManager: 'Αθανασόπουλος Μάριος', email2: 'mathanas@go.uop.gr', cardColor: 'card-danger mb-5' },
   ]
 
   public AgricultureFood = [
@@ -34,7 +34,7 @@ export class ContactComponent implements OnInit {
   ]
 
   public Management = [
-    { serialNumber: '13', id: 'collapseThirteen', name: 'Τμήμα Λογιστικής και Χρηματοοικονομικής', address: 'Αντικάλαμος Μεσσηνίας 24100 Καλαμάτα', phone: '2721045151', email: 'chrime@us.uop.gr', site: 'http://accfin.uop.gr', departmentManager: 'Γιαννόπουλος Βασίλειος', email2: 'v.giannopoulos@go.uop.gr', cardColor: 'card-warning' },
+    { serialNumber: '13', id: 'collapseThirteen', name: 'Τμήμα Λογιστικής και Χρηματοοικονομικής', address: 'Αντικάλαμος Μεσσηνίας 24100 Καλαμάτα', phone: '2721045151', email: 'chrime@us.uop.gr', site: 'http://accfin.uop.gr', departmentManager: 'Μπακετέα Σταυρούλα', email2: 's.mpaketea@go.uop.gr', cardColor: 'card-warning' },
     { serialNumber: '14', id: 'collapseFourteen', name: 'Τμήμα Διοίκησης Επιχειρήσεων και Οργανισμών', address: 'Αντικάλαμος Μεσσηνίας 24100 Καλαμάτα', phone: '2721045123', email: 'boa-secr@uop.gr', site: 'http://boa.uop.gr/', departmentManager: 'Νόκας Γεώργιος', email2: 'g.nokas@go.uop.gr', cardColor: 'card-warning mb-5' },
   ]
 
@@ -59,10 +59,9 @@ export class ContactComponent implements OnInit {
   ]
 
   public InternshipOffice = [
-    { serialNumber: '23', id: 'collapseTwentyThree', name: 'Κεντρικό Γραφείο Πρακτικής Άσκησης - Τρίπολη (Αγγελοπούλου Αγγελική)', address: 'Πανεπιστήμιο Πελοποννήσου – Ακαδημαϊκού Γ.Κ. Βλάχου, 2ο κτίριο Ο.Α.Ε.Δ Τρίπολη Τ.Κ. 22131', email: 'aaggelop@go.uop.gr', departments: 'Πληροφορικής και Τηλεπικοινωνιών - Κοινωνικής και Εκπαιδευτικής Πολιτικής - Πολιτικής Επιστήμης και Διεθνών Σχέσεων - Οικονομικών Επιστημών - Διοικητικής Επιστήμης και Τεχνολογίας - Νοσηλευτική', cardColor: 'card-primary' },
-    { serialNumber: '24', id: 'collapseTwentyFour', name: 'Γραφείο Πρακτικής Άσκησης - Καλαμάτα (Αποστολοπούλου Βασιλική)', address: 'Καλαμάτα - Αντικάλαμος Μεσσηνίας, 24100', email: 'v.apostolopoulou@go.uop.gr', departments: 'Ιστορίας Αρχαιολογίας και Διαχείρισης Πολιτισμικών Αγαθών - Γεωπονίας - Επιστήμης και Τεχνολογίας Τροφίμων - Διοίκησης Επιχειρήσεων και Οργανισμών - Επιστήμης Διατροφής και Διαιτολογίας - ΤΕΙ Διοίκησης Επιχειρήσεων και Οργανισμών -  ΤΕΙ Τεχνολόγων Γεωπόνων - ΤΕΙ Τεχνολογίας Τροφίμων', cardColor: 'card-primary' },
-    { serialNumber: '25', id: 'collapseTwentyFive', name: 'Γραφείο Πρακτικής Άσκησης - Καλαμάτα (Χουντή Αρετή)', address: 'Καλαμάτα - Αντικάλαμος Μεσσηνίας, 24100', email: 'a.chounti@go.uop.gr', departments: 'Φιλολογίας - Λογιστικής και Χρηματοοικονομικής - Λογοθεραπείας - Ψηφιακών Συστημάτων - Φυσικοθεραπείας - ΤΕΙ Λογιστικής και Χρηματοοικονομικής - ΤΕΙ Λογοθεραπείας  - ΤΕΙ Μηχανικών Πληροφορικής', cardColor: 'card-primary' },
-    { serialNumber: '26', id: 'collapseTwentySix', name: 'Γραφείο Πρακτικής Άσκησης - Πάτρα (Παπαγεωργίου Παναγιώτα)', address: ' Μεγάλου Αλεξάνδρου 1, Κουκούλι, Τ.Κ. 26334, Πάτρα', email: 'p.papageorgiou@uop.gr', departments: 'Θεατρικών Σπουδών - Οργάνωσης και Διαχείρισης Αθλητισμού - Παραστατικών και Ψηφιακών Τεχνών - Ηλεκτρολόγων Μηχανικών και Μηχανικών Υπολογιστών - Μηχανολόγων Μηχανικών - Πολιτικών Μηχανικών - ΤΕΙ Ηλεκτρολόγων Μηχανικών ΤΕ - ΤΕΙ Μηχανικών Πληροφορικής ΤΕ - ΤΕΙ Μηχανολόγων Μηχανικών ΤΕ - ΤΕΙ Πολιτικών Μηχανικών ΤΕ', cardColor: 'card-primary' },
+    { serialNumber: '23', id: 'collapseTwentyThree', name: 'Κεντρικό Γραφείο Πρακτικής Άσκησης - Τρίπολη (Αγγελοπούλου Αγγελική)', address: 'Πανεπιστήμιο Πελοποννήσου – Ακαδημαϊκού Γ.Κ. Βλάχου, 2ο κτίριο Ο.Α.Ε.Δ Τρίπολη Τ.Κ. 22131', email: 'aaggelop@go.uop.gr', departments: 'Πληροφορικής και Τηλεπικοινωνιών - Οικονομικών Επιστημών - Κοινωνικής Εκπαιδευτικής Πολιτικής -  Πολιτικής Επιστήμης και Διεθνών Σχέσεων - Νοσηλευτικής - Διοικητικής Επιστήμης και Τεχνολογίας - Φυσικοθεραπείας - Ψηφιακών Συστημάτων', cardColor: 'card-primary' },
+    { serialNumber: '25', id: 'collapseTwentyFive', name: 'Γραφείο Πρακτικής Άσκησης - Καλαμάτα (Χουντή Αρετή)', address: 'Καλαμάτα - Αντικάλαμος Μεσσηνίας, 24100', email: 'a.chounti@go.uop.gr', departments: ' Ιστορίας Αρχαιολογίας και Διαχείρισης Πολιτισμικών Αγαθών - Επιστήμης Διατροφής και Διαιτολογίας - Γεωπονίας - Επιστήμης και Τεχνολογίας Τροφίμων - Λογοθεραπείας', cardColor: 'card-primary' },
+    { serialNumber: '26', id: 'collapseTwentySix', name: 'Γραφείο Πρακτικής Άσκησης - Πάτρα (Παπαγεωργίου Παναγιώτα)', address: ' Μεγάλου Αλεξάνδρου 1, Κουκούλι, Τ.Κ. 26334, Πάτρα', email: 'p.papageorgiou@uop.gr', departments: 'Θεατρικών Σπουδών - Οργάνωσης και Διαχείρισης Αθλητισμού - Φιλολογίας - Παραστατικών και Ψηφιακών Τεχνών - Μηχανολόγων Μηχανικών - Ηλεκτρολόγων Μηχανικών και Μηχανικών Υπολογιστών - Πολιτικών Μηχανικών - Διοίκησης Επιχειρήσεων και Οργανισμών - Λογιστικής και Χρηματοοικονομικής', cardColor: 'card-primary' },
   ]
 
   public ItSupport = [
