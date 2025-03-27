@@ -252,6 +252,44 @@ const updateStudentDetails = async (student, id) => {
   }
 };
 
+const isOldContractForStudentAndPeriod = async (studentId, periodId) => {
+  try {
+    let contractYear = null;
+    const START_DATE = `2022-01-01`;
+    const END_DATE = `2023-12-01`;
+
+    const students = await pool.query(
+      `SELECT
+          a.student_id,
+          a.asgmt_company_name,
+          sso_users.displayname AS student_name,
+          sso_users.schacgender AS student_gender,
+          prd.date_to as period_end_date
+      FROM
+          internship_assignment a
+          INNER JOIN sso_users ON sso_users.uuid = a.student_id
+          INNER JOIN period prd ON prd.id = a.period_id
+      WHERE
+          a.status = 1
+          AND a.student_id = $1
+          AND prd.id = $2`,
+      [studentId, periodId]);
+
+    const periodEndDate = students.rows[0].period_end_date;
+
+    // Determine the contract year based on the period end date
+    if (periodEndDate >= START_DATE && periodEndDate <= END_DATE) {
+      contractYear = '2023';
+    } else {
+      contractYear = moment(periodEndDate).format('YYYY');
+    }
+
+    return contractYear;
+  } catch (error) {
+    throw Error('Error while fetching contract year for student and period. Error: ' + error.message);
+  }
+};
+
 const isOldContractForStudentId = async (studentId) => {
   try {
     const START_DATE = `2022-01-01`;
@@ -277,9 +315,24 @@ const isOldContractForStudentId = async (studentId) => {
 
     return students.rows.length > 0;
   } catch (error) {
-    throw Error('Error while fetching students with output sheet' + error.message);
+    throw Error('Error checking if contract is old for student. Error: ' + error.message);
   }
 };
+
+const getAllContractsFromEnv = (yearFound) => {
+  const startYear = 2023;
+  const currentYear = moment().year();
+
+  const contracts = [];
+
+  for (let year = startYear; year <= currentYear; year++) {
+    const contractFilePath = process.env[`CONTRACT_FILE_PATH_AEI${year}`];
+    if (contractFilePath) contracts.push({ year, path: contractFilePath });
+  }
+
+  // Find the contract that matches yearFound
+  return contracts.find(contract => contract.year == yearFound) || null;
+}
 
 const updateStudentContractDetails = async (student, id) => {
   try {
@@ -1244,8 +1297,10 @@ module.exports = {
   getMergedDepartmentInfoByStudentId,
   getSemesterProtocolNumberIfExistsOrNull,
   getStudentFilesForAppPrint,
+  getAllContractsFromEnv,
   isStudentInAssignmentList,
   isOldContractForStudentId,
+  isOldContractForStudentAndPeriod,
   semesterInterestAppFound,
   findMaxPositions,
   mergedDepartmentResultFound,

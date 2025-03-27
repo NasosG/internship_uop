@@ -1140,11 +1140,15 @@ const produceContractFile = async (request, response) => {
 
     // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
     // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
-    const isOldContract = await studentService.isOldContractForStudentId(studentId);
-    console.log(isOldContract);
+    const yearFound = await studentService.isOldContractForStudentAndPeriod(studentId, periodId);
+    console.log(yearFound);
+
+    // Find the contract that matches yearFound
+    const contractFound = studentService.getAllContractsFromEnv(yearFound);
+
     // Define paths for AEI and TEI contracts based on old or new contracts status
-    const fileDirAEI = !isOldContract ? process.env.CONTRACT_FILE_PATH_AEI : process.env.CONTRACT_FILE_PATH_AEI_old;
-    const fileDirTEI = !isOldContract ? process.env.CONTRACT_FILE_PATH_TEI : process.env.CONTRACT_FILE_PATH_TEI_old;
+    const fileDirAEI = contractFound ? contractFound.path : process.env.CONTRACT_FILE_PATH_AEI_old;
+    const fileDirTEI = contractFound ? process.env.CONTRACT_FILE_PATH_TEI : process.env.CONTRACT_FILE_PATH_TEI_old;
 
     let content;
 
