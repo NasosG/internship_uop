@@ -140,8 +140,11 @@
                 </a>
                 <span style="word-break: break-all;"><strong>Αντικείμενο Θέσης:
                   </strong>{{this.jobPhysicalObjects}}</span>
-                <br>
-                <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
+                
+                <br *ngIf="this.jobLastUpdateString != null && this.jobLastUpdateString?.substring(0, 10) != '01/01/1970'">
+                <span *ngIf="this.jobLastUpdateString != null && this.jobLastUpdateString?.substring(0, 10) != '01/01/1970'" class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
+                <!-- <br> -->
+                <!-- <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span> -->
                 <br>
                 <span><i class="fa fa-briefcase"></i>
                   {{this.positionType == null ? 'Πλήρες Ωράριο' : this.positionType}}</span>
