@@ -1,5 +1,5 @@
 // database connection configuration
-const mssql = require("../secretariat_db_config.js");
+const mssql = require("../config/secretariat_db_config.js");
 const msql = require('mssql');
 require('dotenv').config();
 

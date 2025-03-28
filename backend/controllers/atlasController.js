@@ -1,8 +1,10 @@
 const axios = require("axios");
 const atlasService = require("../services/atlasService");
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 require('dotenv').config();
 const moment = require('moment');
+// Logging
+const logger = require('../config/logger');
 
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
@@ -17,11 +19,11 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
     const tokenIsValid = await testIfTokenIsValid(accessToken);
 
     if (/*accessToken != null &&*/ tokenIsValid) {
-      console.log("access token is valid");
+      logger.info("access token is valid");
       return accessToken;
     }
   } catch (error) {
-    console.log("Error while fetching credentials:", error.message);
+    logger.info("Error while fetching credentials:", error.message);
     return null;
   }
   try {
@@ -49,7 +51,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
 
     return newToken;
   } catch (error) {
-    console.log('Error', error.message);
+    logger.info('Error', error.message);
     return null;
   }
 };
@@ -59,7 +61,7 @@ const getInstitutions = async (request, response) => {
     const institutions = await atlasService.getInstitutions();
     response.status(200).json(institutions);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -71,7 +73,7 @@ const getAEIInstitutions = async (request, response) => {
     const institutions = await atlasService.getAEIInstitutions();
     response.status(200).json(institutions);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -83,7 +85,7 @@ const getCities = async (request, response) => {
     const cities = await atlasService.getCities();
     response.status(200).json(cities);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -95,7 +97,7 @@ const getPrefectures = async (request, response) => {
     const cities = await atlasService.getPrefectures();
     response.status(200).json(cities);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -107,7 +109,7 @@ const getCountries = async (request, response) => {
     const cities = await atlasService.getCountries();
     response.status(200).json(cities);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -119,7 +121,7 @@ const getPhysicalObjects = async (request, response) => {
     const physicalObjects = await atlasService.getPhysicalObjects();
     response.status(200).json(physicalObjects);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -150,7 +152,7 @@ const insertDepartmentIds = async (accessToken) => {
         // departments[item.ID] = item.Department;
       });
     } catch (error) {
-      console.log("error in populating department array: " + error.message);
+      logger.info("error in populating department array: " + error.message);
     }
 
     await atlasService.insertDepartmentIds(departments, UOP_INSITUTION_ID);
@@ -160,7 +162,7 @@ const insertDepartmentIds = async (accessToken) => {
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log("An error occured while fetching academics");
+    logger.info("An error occured while fetching academics");
     return {
       status: "400 bad request",
       message: "something went wrong while fetching academics"
@@ -207,7 +209,7 @@ const getProviderDetails = async (providerId, accessToken) => {
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log("something went wrong while fetching provider's details" + error.message);
+    logger.info("something went wrong while fetching provider's details" + error.message);
     // return { message: "something went wrong while fetching provider's details" };
   }
 };
@@ -260,7 +262,7 @@ const insertCitiesFromAtlas = async (accessToken) => {
 
 
 const insertPrefecturesFromAtlas = async (accessToken) => {
-  console.log("prefectures");
+  logger.info("prefectures");
   try {
     const atlasResponse = await axios({
       url: ATLAS_URL + '/GetPrefectures',
@@ -284,7 +286,7 @@ const insertPrefecturesFromAtlas = async (accessToken) => {
 
 
 const insertCountriesFromAtlas = async (accessToken) => {
-  console.log("countries");
+  logger.info("countries");
   try {
     const atlasResponse = await axios({
       url: ATLAS_URL + '/GetCountries',
@@ -358,7 +360,7 @@ const getAvailablePositionGroupsUI = async (request, response) => {
 
     return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions from db: " + error.message);
+    logger.info("error while fetching available positions from db: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions from db: " + error.message
@@ -395,7 +397,7 @@ const getAtlasFilteredPositions = async (request, response) => {
 
     return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions from db: " + error.message);
+    logger.info("error while fetching available positions from db: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions from db: " + error.message
@@ -436,7 +438,7 @@ const getGenericPositionSearch = async (request, response) => {
 
     return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching available positions from db: " + error.message);
+    logger.info("error while fetching available positions from db: " + error.message);
     response.status(400).json({
       message: "something went wrong while fetching available positions from db: " + error.message
     });
@@ -455,7 +457,7 @@ const insertTablesFromAtlas = async (request, response) => {
     const message = await insertPositionGroup(accessToken);
     response.status(200).json(message);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -483,15 +485,15 @@ const insertOrUpdateWholeAtlasTables = async () => {
 
     do {
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      // console.log("\nGetting skip/res->NumberOfItems");
-      // console.log(availablePositionGroups.message.NumberOfItems);
-      // console.log("Scanning for updated items...\n");
+      // logger.info("\nGetting skip/res->NumberOfItems");
+      // logger.info(availablePositionGroups.message.NumberOfItems);
+      // logger.info("Scanning for updated items...\n");
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
 
         if (localPositionGroups) {
           if (localPositionGroups.position_group_id == atlasItem.PositionGroupID) {
-            // console.log("position found in local position groups\n");
+            // logger.info("position found in local position groups\n");
           }
           if (localPositionGroups.position_group_last_update != atlasItem.PositionGroupLastUpdateString) {
             positionUpdateList.push(atlasItem.PositionGroupID);
@@ -510,7 +512,7 @@ const insertOrUpdateWholeAtlasTables = async () => {
             providersInsertArray.push(getProviderJson(providerResults.message));
             await atlasService.insertProvider(providersInsertArray);
           } catch (ex) {
-            // console.log("Failed to fetch provider: " + ex.message);
+            // logger.info("Failed to fetch provider: " + ex.message);
           }
 
           // Insert position group to the local db
@@ -521,16 +523,16 @@ const insertOrUpdateWholeAtlasTables = async () => {
             positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
             await atlasService.insertPositionGroup(positionsInsertArray);
           } catch (ex) {
-            // console.log("Failed to fetch position group: " + ex.message);
+            // logger.info("Failed to fetch position group: " + ex.message);
           }
 
           positionInsertList.push(atlasItem.PositionGroupID);
           providerInsertList.push(atlasItem.ProviderID);
-          // console.log("finished the inserts they are");
+          // logger.info("finished the inserts they are");
         }
       }
 
-      // console.log("positionInsertList: " + positionInsertList + " | " +
+      // logger.info("positionInsertList: " + positionInsertList + " | " +
       //   "\n\npositionUpdateList: " + positionUpdateList + " | " +
       //   "\n\npositionPairUpdates: " + positionPairUpdates + " | " +
       //   "\n\nproviderInsertList: " + providerInsertList + " | " +
@@ -552,14 +554,14 @@ const insertOrUpdateWholeAtlasTables = async () => {
 
         try {
           let positionPushed = false;
-          //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
+          //logger.info(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
           positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, [...academics]));
-          console.log(positionGroupResults.message);
+          logger.info(positionGroupResults.message);
           positionPushed = true;
           // reset the academics array
           academics = [];
         } catch (ex) {
-          console.log("Failed to fetch position group: " + ex.message);
+          logger.info("Failed to fetch position group: " + ex.message);
           if (positionPushed) positionsArray.pop();
           continue;
         }
@@ -572,7 +574,7 @@ const insertOrUpdateWholeAtlasTables = async () => {
       for (const providerId of providerUpdateList) {
         let providerResults = await getProviderDetails(providerId, accessToken);
         providersArray.push(getProviderJson(providerResults.message));
-        console.log(providersArray);
+        logger.info(providersArray);
       }
 
       // Update the positions list in the local db
@@ -588,7 +590,7 @@ const insertOrUpdateWholeAtlasTables = async () => {
       message: 'done'
     };
   } catch (error) {
-    console.log("insertOrUpdateWholeAtlasTables - ERROR -> " + error.message);
+    logger.info("insertOrUpdateWholeAtlasTables - ERROR -> " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
@@ -616,15 +618,15 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
     let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
     let numberOfItems = itemsAtlas.message.NumberOfItems;
-    console.log(numberOfItems);
+    logger.info(numberOfItems);
     do {
       availablePositionGroups = [];
 
-      console.log('Processing batch ' + skip + ' to ' + (skip + batchSize) + ' of ' + numberOfItems + ' items');
+      logger.info('Processing batch ' + skip + ' to ' + (skip + batchSize) + ' of ' + numberOfItems + ' items');
 
       availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
       if (availablePositionGroups?.status == "400 bad request") {
-        console.error(`Fetching position groups error: ${availablePositionGroups.message}`);
+        logger.error(`Fetching position groups error: ${availablePositionGroups.message}`);
 
         // Change 23/03/24 just skip the batch - it's not correct
         // TODO change it 25/03 - 30/03
@@ -637,7 +639,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
         if (localPositionGroups) {
           if (localPositionGroups.position_group_id == atlasItem.PositionGroupID) {
-            // console.log("position found in local position groups\n");
+            // logger.info("position found in local position groups\n");
           }
           if (localPositionGroups.position_group_last_update != atlasItem.PositionGroupLastUpdateString) {
             positionUpdateList.push(atlasItem.PositionGroupID);
@@ -648,7 +650,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             providerPairUpdates.push(atlasItem);
           }
         } else {
-          // console.log("position not found in local position groups\n");
+          // logger.info("position not found in local position groups\n");
           // Insert atlasItem into atlas_position_group in local db
           await atlasService.insertPositionGroupRelation([atlasItem]);
 
@@ -659,7 +661,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             providersInsertArray.push(getProviderJson(providerResults.message));
             await atlasService.insertProvider(providersInsertArray);
           } catch (ex) {
-            // console.log("Failed to fetch provider: " + ex.message);
+            // logger.info("Failed to fetch provider: " + ex.message);
           }
 
           // Insert position group to the local db
@@ -670,16 +672,16 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
             positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
             await atlasService.insertPositionGroup(positionsInsertArray);
           } catch (ex) {
-            // console.log("Failed to fetch position group: " + ex.message);
+            // logger.info("Failed to fetch position group: " + ex.message);
           }
 
           positionInsertList.push(atlasItem.PositionGroupID);
           providerInsertList.push(atlasItem.ProviderID);
-          // console.log("finished the inserts they are");
+          // logger.info("finished the inserts they are");
         }
       }
 
-      // console.log("positionInsertList: " + positionInsertList + " | " +
+      // logger.info("positionInsertList: " + positionInsertList + " | " +
       //   "\n\npositionUpdateList: " + positionUpdateList + " | " +
       //   "\n\npositionPairUpdates: " + positionPairUpdates + " | " +
       //   "\n\nproviderInsertList: " + providerInsertList + " | " +
@@ -702,17 +704,17 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
         try {
           let positionPushed = false;
           if (!positionGroupResults.message?.ID) {
-            console.error(`Insert - Missing ID in position group message. Skipping position ${itemId} ...`);
+            logger.error(`Insert - Missing ID in position group message. Skipping position ${itemId} ...`);
             continue;
           }
-          //console.log(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
+          //logger.info(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
           positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
-          // console.log(positionGroupResults.message);
+          // logger.info(positionGroupResults.message);
           positionPushed = true;
           // reset the academics array
           academics = [];
         } catch (ex) {
-          console.log("Failed to fetch position group: " + ex.message);
+          logger.info("Failed to fetch position group: " + ex.message);
           if (positionPushed) positionsArray.pop();
           continue;
         }
@@ -728,14 +730,14 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
           let providerResults = await getProviderDetails(providerId, accessToken);
 
           if (!providerResults.message?.ID) {
-            console.error(`Insert - Missing ID for provider. Skipping provider ${providerId ?? -1} ...`);
+            logger.error(`Insert - Missing ID for provider. Skipping provider ${providerId ?? -1} ...`);
             continue;
           }
 
           providersArray.push(getProviderJson(providerResults?.message));
           providerPushed = true;
         } catch (ex) {
-          console.log(`Exception in provider fetching - providerId: ${providerId}. Error: ${ex.message}`);
+          logger.info(`Exception in provider fetching - providerId: ${providerId}. Error: ${ex.message}`);
           if (providerPushed) providersArray.pop();
           continue;
         }
@@ -752,8 +754,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       // Sleep to prevent API rate limit issues - added 28/03/2025
       if (skip % 1000 == 0) {
-        console.log("Sleeping for 2 minutes to avoid rate limiting...");
-        await sleep(120000);  // 2 minutes (120,000 ms)
+        logger.info("Sleeping for 2 minutes to avoid rate limiting...");
+        await MiscUtils.sleep(120000);  // 2 minutes (120,000 ms)
       }
 
     } while (skip < numberOfItems);
@@ -761,8 +763,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       message: 'done'
     };
   } catch (error) {
-    console.log("insertOrUpdateAtlasTables - ERROR -> " + error.message);
-    console.log("Stack Trace: " + error.stack);
+    logger.info("insertOrUpdateAtlasTables - ERROR -> " + error.message);
+    logger.info("Stack Trace: " + error.stack);
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
@@ -775,7 +777,7 @@ const syncAtlasPositionGroup = async (request, response) => {
     const positionGroupID = Number(request.params.id);
     const accessToken = await atlasLogin();
 
-    console.log('insertAtlasPositionGroup for position ' + positionGroupID);
+    logger.info('insertAtlasPositionGroup for position ' + positionGroupID);
 
     // Insert position group to the local DB
     let positionGroupResults = await getPositionGroupDetails(positionGroupID, accessToken);
@@ -790,7 +792,7 @@ const syncAtlasPositionGroup = async (request, response) => {
     
     // let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
     // let numberOfItems = itemsAtlas.message.NumberOfItems;
-    // console.log(numberOfItems);
+    // logger.info(numberOfItems);
 
     // let lastElement = await atlasService.getCountOfPositionPairs();
     // lastElement = Number.parseInt(lastElement);
@@ -798,7 +800,7 @@ const syncAtlasPositionGroup = async (request, response) => {
     //   availablePositionGroups = [];
     //   availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
     //   if (availablePositionGroups?.status == "400 bad request") {
-    //     console.error(`Fetching position groups error: ${availablePositionGroups.message}`);
+    //     logger.error(`Fetching position groups error: ${availablePositionGroups.message}`);
     //     skip++;
     //     continue;
     //   }
@@ -837,8 +839,8 @@ const syncAtlasPositionGroup = async (request, response) => {
 
     response.status(201).json({ message: 'done', status: 'success' });
   } catch (error) {
-    console.log("insertAtlasPositionGroup - ERROR -> " + error.message);
-    console.log("Stack Trace: " + error.stack);
+    logger.info("insertAtlasPositionGroup - ERROR -> " + error.message);
+    logger.info("Stack Trace: " + error.stack);
     response.status(400).json({
       status: "400 bad request",
       message: "An error occurred while synchronizing positions - insertAtlasPositionGroup failed"
@@ -871,7 +873,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
     let atlasPhysicalObjects = (await getFromAtlas(accessToken, "PhysicalObjects")).result;
     let atlasPrefectures = (await getFromAtlas(accessToken, "Prefectures")).result;
 
-    // console.log(atlasCities);
+    // logger.info(atlasCities);
 
     // Insert or Update local DB
     if (Array.isArray(atlasCities) && atlasCities.length > 0)
@@ -884,7 +886,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
       await atlasService.insertOrUpdateAtlasTable('prefectures', atlasPrefectures);
 
   } catch (error) {
-    console.log("Error: " + error.message);
+    logger.info("Error: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while inserting or updating immutable Atlas tables"
@@ -894,7 +896,7 @@ const insertOrUpdateImmutableAtlasTables = async () => {
 
 const getPosition = (pair, atlasItem, academics) => {
   try {
-    if (!atlasItem.ID) console.error("getPosition ID IS NULL ");
+    if (!atlasItem.ID) logger.error("getPosition ID IS NULL ");
     let positionGroupLastUpdate = new Date(parseInt(pair.PositionGroupLastUpdate.substr(6)));
 
     return ({
@@ -918,13 +920,13 @@ const getPosition = (pair, atlasItem, academics) => {
       'academics': academics
     });
   } catch (error) {
-    console.error("getPosition " + error.message);
+    logger.error("getPosition " + error.message);
     throw Error(error.message);
   }
 };
 
 const getProviderJson = (item) => {
-  if (!item?.ID) console.error("atlasProvider ID IS NULL ");
+  if (!item?.ID) logger.error("atlasProvider ID IS NULL ");
   return ({
     'atlasProviderId': item.ID,
     'afm': item.AFM,
@@ -972,7 +974,7 @@ const insertPositionGroup = async (accessToken) => {
         let atlasAcademics = positionGroupResults.message.Academics;
         let academics = [];
         for (const key in atlasAcademics) {
-          // console.log(atlasAcademics[key]);
+          // logger.info(atlasAcademics[key]);
           academics.push({
             'department': atlasAcademics[key].Department,
             'academicsId': atlasAcademics[key].ID
@@ -1005,7 +1007,7 @@ const insertPositionGroup = async (accessToken) => {
             'StartDateString': positionGroupResults.message.StartDateString,
             'academics': academics
           });
-          //console.log(positionGroupResults.message);
+          //logger.info(positionGroupResults.message);
           positionPushed = true;
           academics = []; // reset the array just to be sure
 
@@ -1018,14 +1020,14 @@ const insertPositionGroup = async (accessToken) => {
             'providerContactPhone': providerResults.message.ContactPhone
           });
         } catch (ex) {
-          console.log(`Failed to fetch provider or position group for posId: ${positionsArray[positionsArray.length - 1].atlasPositionId} exc: ${ex.message}`);
+          logger.info(`Failed to fetch provider or position group for posId: ${positionsArray[positionsArray.length - 1].atlasPositionId} exc: ${ex.message}`);
           if (positionPushed) positionsArray.pop();
           continue;
         }
       }
 
       endTime = startStopTimer();
-      console.log("Time to fetch all position groups: " + calculateDurationInMinutes(startTime, endTime) + " mins");
+      logger.info("Time to fetch all position groups: " + calculateDurationInMinutes(startTime, endTime) + " mins");
 
       startTime = startStopTimer();
 
@@ -1033,15 +1035,15 @@ const insertPositionGroup = async (accessToken) => {
       let cleanedProviderArray = providersArray.filter((providersArray, index, self) =>
         index === self.findIndex((t) => t.atlasProviderId === providersArray.atlasProviderId));
 
-      // console.log(cleanedProviderArray);
+      // logger.info(cleanedProviderArray);
       await atlasService.insertProvider(cleanedProviderArray);
       await atlasService.insertPositionGroup(positionsArray);
       await atlasService.insertPositionGroupRelations(relationsArray);
 
       endTime = startStopTimer();
-      console.log("Time to insert all position groups: " + calculateDurationInMinutes(startTime, endTime) + " mins");
+      logger.info("Time to insert all position groups: " + calculateDurationInMinutes(startTime, endTime) + " mins");
 
-      //console.log(atlasResponse.data.Result);
+      //logger.info(atlasResponse.data.Result);
 
       begin += batchSize;
     } while (begin < availablePositionGroups.message.NumberOfItems);
@@ -1050,7 +1052,7 @@ const insertPositionGroup = async (accessToken) => {
       message: 'done'
     };
   } catch (error) {
-    console.log("insertPositionGroup - ERROR -> " + error.message);
+    logger.info("insertPositionGroup - ERROR -> " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while inserting position groups"
@@ -1073,14 +1075,14 @@ const getRegisteredStudent = async (academicIDNumber) => {
       }
     });
 
-    // console.log(atlasResponse.data.Result);
+    // logger.info(atlasResponse.data.Result);
     let positionsArray = atlasResponse.data.Result;
     return {
       message: positionsArray,
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log("error while fetching registered student: " + error.message);
+    logger.info("error while fetching registered student: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching registered student: " + error.message
@@ -1093,14 +1095,14 @@ const getStudentAcademicId = async (request, response) => {
   try {
     let studentTestAcIdNumber = await findAcademicIdNumber(98, '2022201400155');
 
-    // console.log(atlasResponse.data.Result);
+    // logger.info(atlasResponse.data.Result);
     let mes = studentTestAcIdNumber.message.AcademicIDNumber;
     return response.status(200).json({
       message: mes
     });
     // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while fetching student academic ID: " + error.message);
+    logger.info("error while fetching student academic ID: " + error.message);
     return response.status(400).json({
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message
@@ -1122,13 +1124,13 @@ const findAcademicIdNumber = async (academicId, studentNumber) => {
     });
 
     let positionsArray = atlasResponse.data.Result;
-    console.log(atlasResponse.data.Message);
+    logger.info(atlasResponse.data.Message);
     return {
       message: positionsArray,
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log("error while finding academic id number: " + error.message);
+    logger.info("error while finding academic id number: " + error.message);
     return {
       status: "400 bad request",
       message: "error while finding academic id number: " + error.message
@@ -1156,14 +1158,14 @@ const registerNewStudent = async (AcademicIDNumber) => {
     });
 
     let positionsArray = atlasResponse.data.Result;
-    console.log(atlasResponse.data.Message);
+    logger.info(atlasResponse.data.Message);
     return {
       message: positionsArray,
       status: atlasResponse.status
     };
     // return response.status(200).json(positionsArray);
   } catch (error) {
-    console.log("error while registering new student: " + error.message);
+    logger.info("error while registering new student: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message
@@ -1212,8 +1214,8 @@ const deletePosition = async (type, positionId) => {
       'access_token': accessToken
     }
   });
-  console.log(atlasResponse.data.Message);
-  console.log(atlasResponse.data.Result);
+  logger.info(atlasResponse.data.Message);
+  logger.info(atlasResponse.data.Result);
   let requestResult = atlasResponse.data.Success;
 
   return requestResult;
@@ -1241,7 +1243,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
     const preassigned = atlasResponse.data.Result;
 
     if (preassigned && preassigned.length > 0) {
-      console.log("preassigned positions exist");
+      logger.info("preassigned positions exist");
       preassigned.forEach((position) => {
         if (parseInt(position.GroupID) === parseInt(groupId) && position.PreAssignedForAcademic.ID == academicId) {
           positionIds.push(position.ID);
@@ -1273,7 +1275,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
 
       positionIds = atlasResponse.data.Result;
       if (atlasResponse.data.Success == true) {
-        console.log('Προδέσμευση θέσης από φοιτητή GroupID: ' + groupId + ' AcademiID: ' + academicId + ' PositionID: ' + positionIds[0]);
+        logger.info('Προδέσμευση θέσης από φοιτητή GroupID: ' + groupId + ' AcademiID: ' + academicId + ' PositionID: ' + positionIds[0]);
         // TODO: change this to get implementation dates correctly from atlas
         positionData.push({
           "ImplementationEndDate": null,
@@ -1282,8 +1284,8 @@ const getPositionPreassignment = async (groupId, academicId) => {
           "ImplementationStartDateString": '',
         });
       } else {
-        console.log('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
-        console.log('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademicID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
+        logger.info('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
+        logger.info('Aποτυχία προδέσμευσης θέσης από φορέα GroupID: ' + groupId + '  AcademicID: ' + academicId /*+ ' PositionID: ' + positionIds[0]*/);
         throw new Error('Παρουσιάστηκε σφάλμα κατά την προδέσμευση θέσης στο ΑΤΛΑΣ ' + atlasResponse.data.Message);
       }
     }
@@ -1293,8 +1295,8 @@ const getPositionPreassignment = async (groupId, academicId) => {
       positionData
     };
   } catch (error) {
-    console.log("error while fetching preassigned positions: " + error.message);
-    console.log(error.stack);
+    logger.info("error while fetching preassigned positions: " + error.message);
+    logger.info(error.stack);
     return {
       status: "Error occurred",
       message: error.message
@@ -1310,11 +1312,11 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
     let accessToken = await atlasLogin();
 
     let assignmentData;
-    console.log('atlas_before_dates');
+    logger.info('atlas_before_dates');
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
-    console.log(implementation_start_date);
-    console.log(implementation_end_date);
+    logger.info(implementation_start_date);
+    logger.info(implementation_end_date);
     // TODO: refactor it / extract to functions
     let implementationStartDate = positionsPreassignedData.positionData[0].ImplementationStartDateString || implementation_start_date;
     let implementationEndDate = positionsPreassignedData.positionData[0].ImplementationEndDateString || implementation_end_date;
@@ -1340,7 +1342,7 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
       "StudentID": studentId
     };
 
-    console.log(assignmentData);
+    logger.info(assignmentData);
 
     const atlasResponse = await axios({
       url: ATLAS_URL + '/AssignStudent',
@@ -1352,14 +1354,14 @@ const assignStudent = async (positionsPreassignedData, studentId, isTei = false,
       }
     });
 
-    console.log('atlas reponse ');
-    console.log(atlasResponse.data);
+    logger.info('atlas reponse ');
+    logger.info(atlasResponse.data);
 
     return {
       message: atlasResponse.data
     };
   } catch (error) {
-    console.error("error while assigning student to Atlas: " + error.message);
+    logger.error("error while assigning student to Atlas: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while assigning student to Atlas: " + error.message
@@ -1419,7 +1421,7 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log("error while fetching available position groups: " + error.message);
+    logger.info("error while fetching available position groups: " + error.message);
     return {
       status: "400 bad request",
       message: "something went wrong while fetching available positions: " + error.message
@@ -1554,7 +1556,7 @@ const getAssignedPositionByIdHandler = async (request, response) => {
       "ImplementationStartDateString": positionFound.ImplementationStartDateString,
     });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return response.status(400).json({ "message": "error retrieving assigned positions" });
   }
 };
@@ -1588,7 +1590,7 @@ const getAssignedPositionById = async (atlasPositionId, nextBatchItemsNo) => {
     };
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw error("getAssignedPositionById: error retrieving assigned positions");
   }
 };
@@ -1609,7 +1611,7 @@ const getStudentPositionMatchesAcademic = async (request, response) => {
     const positionId = request.query.positionId;
     const academicId = request.query.academicId;
 
-    // console.log(companyName + " " + companyAFM);
+    // logger.info(companyName + " " + companyAFM);
     const doesStudentPositionMatchDepartment = await atlasService.checkAtlasPositionAcademicsMatchStudents(positionId, academicId);
 
     response.status(200).json(doesStudentPositionMatchDepartment);
@@ -1656,7 +1658,7 @@ const changeImplementationData = async (positionData) => {
 
     return { result: changeImplementationDataResponse.data, "status": "success" };
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return { "message": "error changing implementation data" };
   }
 };
@@ -1676,7 +1678,7 @@ const completePositionRequest = async (positionData) => {
 
     return { result: completePositionResponse.data, "status": "success" };
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return { "message": "error changing implementation data" };
   }
 };
@@ -1687,13 +1689,13 @@ const changeImplementationDatesAtlas = async (request, response) => {
     const { implementationDates } = request.body;
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
-    console.log("changeImplementationDatesAtlas assigned_position: " + assignedPositionId);
+    logger.info("changeImplementationDatesAtlas assigned_position: " + assignedPositionId);
 
     const implementationStartDate = MiscUtils.convertDateFromYearMonthDayToDayMonthYear(implementation_start_date);
     const implementationEndDate = MiscUtils.convertDateFromYearMonthDayToDayMonthYear(implementation_end_date);
 
-    console.log("changeImplementationDatesAtlas start_date: " + implementationStartDate);
-    console.log("changeImplementationDatesAtlas end_date: " + implementationEndDate);
+    logger.info("changeImplementationDatesAtlas start_date: " + implementationStartDate);
+    logger.info("changeImplementationDatesAtlas end_date: " + implementationEndDate);
 
     const assignmentData = {
       "PositionID": assignedPositionId,
@@ -1707,7 +1709,7 @@ const changeImplementationDatesAtlas = async (request, response) => {
     return response.status(200).json({ "message": "success changing implementation data" });
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     return response.status(400).json({ "message": "error changing implementation data" });
   }
 };
@@ -1718,14 +1720,14 @@ const completeAtlasPosition = async (request, response) => {
     const { implementationDates, completionComments } = request.body;
     const { implementation_start_date, implementation_end_date } = implementationDates;
 
-    console.log("completeAtlasPosition assigned_position: " + assignedPositionId);
+    logger.info("completeAtlasPosition assigned_position: " + assignedPositionId);
 
     const implementationStartDate = MiscUtils.convertDateFromYearMonthDayToDayMonthYear(implementation_start_date);
     const implementationEndDate = MiscUtils.convertDateFromYearMonthDayToDayMonthYear(implementation_end_date);
 
-    console.log("completeAtlasPosition start_date: " + implementationStartDate);
-    console.log("completeAtlasPosition end_date: " + implementationEndDate);
-    console.log("completeAtlasPosition completionComments: " + completionComments);
+    logger.info("completeAtlasPosition start_date: " + implementationStartDate);
+    logger.info("completeAtlasPosition end_date: " + implementationEndDate);
+    logger.info("completeAtlasPosition completionComments: " + completionComments);
 
     const positionData = {
       "PositionID": assignedPositionId,

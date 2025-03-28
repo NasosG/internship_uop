@@ -4,7 +4,9 @@ const atlasController = require("./atlasController");
 const companyService = require("../services/companyService.js");
 const studentService = require("../services/studentService.js");
 const mainMailer = require('../mailers/mainMailers.js');
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
+// Logging
+const logger = require('../config/logger');
 
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -13,7 +15,7 @@ const login = async (request, response, next) => {
   if (uname)
     userId = await depManagerService.login(uname);
 
-  console.log("uid " + userId);
+  logger.info("uid " + userId);
 
   if (userId == null)
     response.status(401).json({
@@ -175,7 +177,7 @@ const insertPeriod = async (request, response, next) => {
         message: 'Period inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).send({
       message: error.message
     });
@@ -195,7 +197,7 @@ const insertApprovedStudentsRank = async (request, response, next) => {
         message: 'Approved students rank inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -232,7 +234,7 @@ const updatePeriodById = async (request, response, next) => {
         message: 'Period updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -251,7 +253,7 @@ const updateStudentRanking = async (request, response) => {
         message: 'Student rankings were updated successfully'
       });
   } catch (error) {
-    console.log(error.message);
+    logger.info(error.message);
     response.send({
       message: error.message
     });
@@ -269,7 +271,7 @@ const deletePeriodById = async (request, response, next) => {
         message: 'Period deleted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -286,7 +288,7 @@ const completePeriodById = async (request, response) => {
       department_id: departmentId
     };
 
-    console.log(data);
+    logger.info(data);
 
     await depManagerService.setPeriodCompleted(data);
     await depManagerService.updateEspaPositionsOnPeriodCompleted(data);
@@ -297,7 +299,7 @@ const completePeriodById = async (request, response) => {
         message: 'Period completed successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -318,7 +320,7 @@ const updatePhaseByStudentId = async (request, response, next) => {
         message: 'Student phase updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -333,7 +335,7 @@ const insertCommentsByStudentId = async (request, response) => {
     const subject = "Δικαιολογητικά";
 
     await depManagerService.insertCommentsByStudentId(id, comments, subject);
-    mainMailer.sendCommentEmail(comments, studentMail).catch(console.error);
+    mainMailer.sendCommentEmail(comments, studentMail).catch(logger.error);
 
     response
       .status(200)
@@ -341,7 +343,7 @@ const insertCommentsByStudentId = async (request, response) => {
         message: 'Student comments inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).send({
       message: error.message
     });
@@ -356,7 +358,7 @@ const updateCommentsByStudentId = async (request, response) => {
     const subject = "Δικαιολογητικά";
 
     await depManagerService.updateCommentsByStudentId(id, comments, subject);
-    mainMailer.sendCommentEmail(comments, studentMail).catch(console.error);
+    mainMailer.sendCommentEmail(comments, studentMail).catch(logger.error);
 
     response
       .status(200)
@@ -364,7 +366,7 @@ const updateCommentsByStudentId = async (request, response) => {
         message: 'Student comments updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).send({
       message: error.message
     });
@@ -455,17 +457,17 @@ const getPositionsByApplicationId = async (request, response) => {
 const insertAssignment = async (request, response, next) => {
   try {
     const companyData = request.body[0];
-    console.log(companyData);
+    logger.info(companyData);
 
     let academicId = companyData.department_id;
     // If length equals 6 then it is a merged TEI department and should keep only 4 digits for the procedure
     if (academicId.toString().length == 6) {
       academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
     }
-    console.log(academicId);
+    logger.info(academicId);
     // TO BE TESTED
     const preassignResult = await depManagerService.getPreassignModeByDepartmentId(academicId);
-    console.log(preassignResult.preassign);
+    logger.info(preassignResult.preassign);
 
     // Get preassigned position or make a new preassignment
     let positionPreassignment;
@@ -477,9 +479,9 @@ const insertAssignment = async (request, response, next) => {
         throw new Error(positionPreassignment.message);
       }
 
-      console.log(positionPreassignment);
+      logger.info(positionPreassignment);
     } catch (error) {
-      console.log(error);
+      logger.info(error);
       response.status(500)
         .json({
           message: error.message
@@ -495,8 +497,8 @@ const insertAssignment = async (request, response, next) => {
         message: "company pre-assignment was inserted successfully"
       });
   } catch (error) {
-    console.log("some error");
-    console.error(error.message);
+    logger.info("some error");
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -512,8 +514,8 @@ const insertFinalAssignment = async (request, response) => {
     let isTEIProgramOfStudy = false;
 
     const assignmentData = await depManagerService.getAssignmentsByStudentAndPositionId(studentId, positionId);
-    console.log(assignmentData);
-    console.log("in final assign - studentId: " + studentId + " - positionId: " + positionId);
+    logger.info(assignmentData);
+    logger.info("in final assign - studentId: " + studentId + " - positionId: " + positionId);
 
     // Get student's AM and department id by student id
     //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
@@ -529,38 +531,38 @@ const insertFinalAssignment = async (request, response) => {
       academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
     }
 
-    console.log(studentAMNumber);
-    console.log(academicId);
+    logger.info(studentAMNumber);
+    logger.info(academicId);
 
     let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
-    console.log(academicIDNumber);
+    logger.info(academicIDNumber);
 
     let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
-    console.log(registeredStudent);
+    logger.info(registeredStudent);
 
     let registerResult;
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     if (registeredStudent.message != null) {
-      console.log('user is registered');
-      // console.log(registeredStudent.message.AcademicIDNumber);
+      logger.info('user is registered');
+      // logger.info(registeredStudent.message.AcademicIDNumber);
     } else {
-      console.log('not a registered user');
+      logger.info('not a registered user');
       // Student SHOULD sign up on this occassion
       registerResult = await atlasController.registerNewStudent(academicIDNumber);
-      console.log(registerResult);
+      logger.info(registerResult);
     }
-    // console.log(registeredStudent);
+    // logger.info(registeredStudent);
 
     // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
-    // console.log(preassignResult.preassign);
-    console.log(assignmentData.position_id);
+    // logger.info(preassignResult.preassign);
+    logger.info(assignmentData.position_id);
     let positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
-    console.log(positionPreassignment);
+    logger.info(positionPreassignment);
 
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
-    // console.log(fundingType);
+    // logger.info(fundingType);
 
     const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
 
@@ -574,11 +576,11 @@ const insertFinalAssignment = async (request, response) => {
       }
       // If assignment fails for business reason, throw an error displaying the message
       if (!assignResults.message.Success) {
-        console.error("atlas assign failed: " + assignResults.message.Message);
+        logger.error("atlas assign failed: " + assignResults.message.Message);
         throw new Error(assignResults.message.Message);
       }
 
-      console.log(assignResults);
+      logger.info(assignResults);
     } catch (error) {
       response.status(500)
         .json({
@@ -603,7 +605,7 @@ const insertFinalAssignment = async (request, response) => {
         message: "assignment was inserted successfully"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -615,7 +617,7 @@ const insertAssignImplementationDates = async (request, response) => {
   try {
     const body = request.body;
 
-    console.log("in assignment implementation dates");
+    logger.info("in assignment implementation dates");
     await depManagerService.insertAssignImplementationDates(body);
 
     response.status(201)
@@ -623,7 +625,7 @@ const insertAssignImplementationDates = async (request, response) => {
         message: "assignment implementation dates were inserted successfully"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -640,7 +642,7 @@ const getAssignImplementationDates = async (request, response) => {
 
     response.status(200).json(assignImplementationDates);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -654,7 +656,7 @@ const getPeriodAndDepartmentIdByUserId = async (request, response) => {
     const period = await depManagerService.getPeriodAndDepartmentIdByUserId(id);
     response.status(200).json(period);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -664,12 +666,12 @@ const getPeriodAndDepartmentIdByUserId = async (request, response) => {
 
 const getAllPeriodsByDepartmentId = async (request, response) => {
   try {
-    console.log(request.params.id);
+    logger.info(request.params.id);
     const departmentId = request.params.id;
     const periods = await depManagerService.getAllPeriodsByDepartmentId(departmentId);
     response.status(200).json(periods);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -683,11 +685,11 @@ const submitFinalResultsToOffice = async (request, response) => {
   let listId = null;
 
   try {
-    console.log(data);
+    logger.info(data);
     const depManagerDetails = await depManagerService.getDepManagerDetails(data.period_id, deptManagerId);
     let result = await depManagerService.doesListExistForDepartmentAndPeriod(data);
     let listExists = result.listExists;
-    console.log(listExists);
+    logger.info(listExists);
 
     if (!listExists) {
       listId = await depManagerService.insertToFinalAssignmentsList(data, depManagerDetails);
@@ -695,7 +697,7 @@ const submitFinalResultsToOffice = async (request, response) => {
       listId = result.listId;
     }
 
-    console.log(listId);
+    logger.info(listId);
 
     if (!listId) {
       response.status(400).json({
@@ -705,14 +707,14 @@ const submitFinalResultsToOffice = async (request, response) => {
     }
 
     const updateAssignments = await depManagerService.updateStudentFinalAssignments(depManagerDetails, listId, data);
-    console.log(updateAssignments);
+    logger.info(updateAssignments);
 
     // const updateResults = await depManagerService.updateEspaPositionsOnPeriodCompleted(data, listId);
 
     // const deactivatePeriod = await depManagerService.setPeriodCompleted(data);
 
-    // console.log(deactivatePeriod);
-    console.log("List insert action completed");
+    // logger.info(deactivatePeriod);
+    logger.info("List insert action completed");
 
     response.status(200).json({
       message: 'OK'
@@ -732,7 +734,7 @@ const getStudentListForPeriod = async (request, response) => {
     const studentList = await depManagerService.getStudentListForPeriod(periodId);
     response.status(200).json(studentList);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -746,7 +748,7 @@ const getStudentPaymentsListForPeriod = async (request, response) => {
     const studentList = await depManagerService.getStudentPaymentsListForPeriod(periodId);
     response.status(200).json(studentList);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -763,7 +765,7 @@ const getImplementationDatesByStudentAndPeriod = async (request, response) => {
     const implementationDates = await depManagerService.getImplementationDatesByStudentAndPeriod(studentId, periodId, positionId);
     response.status(200).json(implementationDates);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).json({
       message: error.message
     });
@@ -782,7 +784,7 @@ const updateImplementationDatesByStudentAndPeriod = async (request, response) =>
       message: 'implementation dates were updated successfully'
     });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).json({
       message: error.message
     });

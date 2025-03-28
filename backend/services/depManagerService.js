@@ -1,10 +1,12 @@
 // database connection configuration
-const pool = require("../db_config.js");
-const mssql = require("../secretariat_db_config.js");
+const pool = require("../config/db_config.js");
+const mssql = require("../config/secretariat_db_config.js");
 const msql = require('mssql');
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 const atlasService = require("./atlasService.js");
 const moment = require('moment');
+// Logging
+const logger = require('../config/logger');
 
 const login = async (username) => {
   try {
@@ -211,7 +213,7 @@ const getPeriodByDepartmentId = async (id) => {
       LIMIT 1", [id]);
 
     // if (!period.rows[0]) {
-    //   console.log("No period found with the given department id.");
+    //   logger.info("No period found with the given department id.");
     //   return null;
     // }
 
@@ -232,7 +234,7 @@ const getAllPeriodsByDepartmentId = async (departmentId) => {
 
     return period.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching period by department id' + error.message);
   }
 };
@@ -247,7 +249,7 @@ const getPeriodAndDepartmentIdByUserId = async (id) => {
                                     LIMIT 1`, [id]);
     return period.rows[0];
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching period');
   }
 };
@@ -269,7 +271,7 @@ const getEspaPositionsByDepartmentId = async (id) => {
       WHERE espa_positions.department_id = $1 \
       LIMIT 1", [id]);
     // if (!period.rows[0]) {
-    //   console.log("No period found with the given department id.");
+    //   logger.info("No period found with the given department id.");
     //   return null;
     // }
     const periodResults = period.rows[0];
@@ -345,7 +347,7 @@ const getImplementationDatesByStudentAndPeriod = async (studentId, periodId, pos
                                         WHERE student_id = $1 AND period_id = $2 AND position_id = $3`, [studentId, periodId, positionId]);
     return positions.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching implementation dates by student and period ids' + error.message);
   }
 };
@@ -358,7 +360,7 @@ const updateImplementationDatesByStudentAndPeriod = async (studentId, periodId, 
       [implementationDates.implementation_start_date, implementationDates.implementation_end_date, studentId, periodId, positionId]);
     return positions.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while updating implementation dates by student and period ids' + error.message);
   }
 };
@@ -374,7 +376,7 @@ const insertPeriod = async (body, id, departmentId) => {
 
     return insertResults.rows[0].id;
   } catch (error) {
-    console.log('Error while inserting period time ' + error.message);
+    logger.info('Error while inserting period time ' + error.message);
     throw Error('Error while inserting period time');
   }
 };
@@ -397,11 +399,11 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
       }
 
       const procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentFieldForProcedure], MiscUtils.splitStudentsAM(students.schacpersonaluniquecode));
-      // console.log(procedureResults.Grade + " | " + MiscUtils.departmentsMap[departmentId] + " | " + MiscUtils.splitStudentsAM(students.schacpersonaluniquecode) + " | " + students.department_id);
+      // logger.info(procedureResults.Grade + " | " + MiscUtils.departmentsMap[departmentId] + " | " + MiscUtils.splitStudentsAM(students.schacpersonaluniquecode) + " | " + students.department_id);
 
       let calculatedScore = 0;
       if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
-        console.error("some student details fetched from procedure were null");
+        logger.error("some student details fetched from procedure were null");
         //continue;
       } else {
         calculatedScore = await calculateScore(procedureResults, students.department_id);
@@ -435,7 +437,7 @@ const insertApprovedStudentsRank = async (departmentId, genericPhase, periodId) 
                       AND students_approved_rank.department_id = s.department_id
                       AND students_approved_rank.period_id = $1`, [periodId, departmentId]);
   } catch (error) {
-    console.log('Error while inserting Approved students rank ' + error.message);
+    logger.info('Error while inserting Approved students rank ' + error.message);
     throw Error('Error while inserting Approved students rank');
   }
 };
@@ -466,7 +468,7 @@ const calculateScore = async (procedureResults, departmentId) => {
 
 const getStudentFactorProcedure = async (depId, studentAM) => {
   try {
-    //console.log(mssql);
+    //logger.info(mssql);
     // make sure that any items are correctly URL encoded in the connection string
     if (process.env.ENV == 'DEV') {
       return {
@@ -483,10 +485,10 @@ const getStudentFactorProcedure = async (depId, studentAM) => {
       .input('DepId', msql.Int, depId)
       .input('am', msql.VarChar(100), studentAM)
       .execute('usp_GetStudentFactorPraktiki');
-    //console.log(result.recordset[0]);
+    //logger.info(result.recordset[0]);
     return result.recordset[0];
   } catch (error) {
-    console.log("error: " + error);
+    logger.info("error: " + error);
   }
 };
 
@@ -519,7 +521,7 @@ const updatePeriodById = async (body, id) => {
       [body.available_positions, pyear, body.semester, body.phase_state, body.date_from, body.date_to, id]);
     return updateResults;
   } catch (error) {
-    console.log('Error while updating period time ' + error.message);
+    logger.info('Error while updating period time ' + error.message);
     throw Error('Error while updating period time');
   }
 };
@@ -550,7 +552,7 @@ const updatePhaseByStudentId = async (phase, studentId, periodId) => {
 
     return insertResults;
   } catch (error) {
-    console.log('Error while updating students phase' + error.message);
+    logger.info('Error while updating students phase' + error.message);
     throw Error('Error while updating students phase');
   }
 };
@@ -573,7 +575,7 @@ const deactivateApplicationIfExists = async (updateStatus, studentId, periodId) 
                         WHERE student_id = $2 AND period_id = $3 AND id = $4`, [updateStatus, studentId, periodId, latestAppId]);
     }
   } catch (error) {
-    console.log('Error while updating students phase' + error.message);
+    logger.info('Error while updating students phase' + error.message);
     throw Error('Error while updating students phase');
   }
 };
@@ -585,7 +587,7 @@ const deletePeriodById = async (id) => {
                       WHERE id = $1", [id]);
     await updateStudentPhaseByPeriod(id);
   } catch (error) {
-    console.log('Error while deleting period ' + error.message);
+    logger.info('Error while deleting period ' + error.message);
     throw Error('Error while deleting period');
   }
 };
@@ -598,7 +600,7 @@ const updateStudentPhaseByPeriod = async (periodId) => {
                                        (SELECT student_id FROM semester_interest_apps WHERE period_id = $1 AND phase != 0)", [periodId]);
     return students.rows;
   } catch (error) {
-    console.error('Error updating phase of students:' + error.message);
+    logger.error('Error updating phase of students:' + error.message);
     throw Error('Error updating phase of students:' + error.message);
   }
 };
@@ -607,7 +609,7 @@ const deleteApprovedStudentsRank = async (departmentId, periodId) => {
   try {
     await pool.query("DELETE FROM students_approved_rank WHERE department_id = $1 AND period_id = $2", [departmentId, periodId]);
   } catch (error) {
-    console.log('Error while deleting approved students ' + error.message);
+    logger.info('Error while deleting approved students ' + error.message);
     throw Error(`Error while deleting approved student ( for department_id: ${departmentId} )`);
   }
 };
@@ -629,7 +631,7 @@ const insertCommentsByStudentId = async (studentId, comments, subject) => {
     await pool.query("INSERT INTO comments(comment_text, comment_date, student_id, comment_subject) \
                       VALUES ($1, NOW(), $2, $3)", [comments, studentId, subject]);
   } catch (error) {
-    console.log('Error while inserting comments ' + error.message);
+    logger.info('Error while inserting comments ' + error.message);
     throw Error('Error while inserting comments');
   }
 };
@@ -641,7 +643,7 @@ const updateCommentsByStudentId = async (studentId, comments) => {
                       SET comment_text = $1, comment_date = NOW() \
                       WHERE student_id = $2", [comments, studentId]);
   } catch (error) {
-    console.log('Error while updating comments ' + error.message);
+    logger.info('Error while updating comments ' + error.message);
     throw Error('Error while updating comments');
   }
 };
@@ -651,7 +653,7 @@ const getCommentByStudentIdAndSubject = async (studentId, subject) => {
     const comment = await pool.query("SELECT * FROM comments WHERE student_id = $1 AND comment_subject = $2", [studentId, subject]);
     return comment.rows[0];
   } catch (error) {
-    console.log('Error while getting comments ' + error.message);
+    logger.info('Error while getting comments ' + error.message);
     throw Error('Error while getting comments');
   }
 };
@@ -661,7 +663,7 @@ const getCompletedPeriods = async (departmentId) => {
     const periods = await pool.query("SELECT * FROM period WHERE department_id = $1 AND is_completed = true AND is_active = false", [departmentId]);
     return periods.rows;
   } catch (error) {
-    console.log('Error while getting periods ' + error.message);
+    logger.info('Error while getting periods ' + error.message);
     throw Error('Error while getting periods ' + error.message);
   }
 };
@@ -676,7 +678,7 @@ const getManagedAcademicsByUserId = async (userId) => {
                                         WHERE sso_users.uuid = $1`, [userId]);
     return academics.rows;
   } catch (error) {
-    console.log('Error while getting managed academics: ' + error.message);
+    logger.info('Error while getting managed academics: ' + error.message);
     throw Error('Error while getting managed academics: ' + error.message);
   }
 };
@@ -684,9 +686,9 @@ const getManagedAcademicsByUserId = async (userId) => {
 const updateDepartmentIdByUserId = async (userId, departmentId) => {
   try {
     await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, userId]);
-    console.log(`Record with userId ${userId} updated successfully`);
+    logger.info(`Record with userId ${userId} updated successfully`);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while updating department id: ${error}`);
   }
 };
@@ -696,7 +698,7 @@ const getPhasesByPeriodId = async (periodId) => {
     const phases = await pool.query("SELECT phase_number, date_from, date_to FROM phase WHERE period_id = $1 ORDER BY phase_number", [periodId]);
     return phases.rows;
   } catch (error) {
-    console.log('Error while getting phases ' + error.message);
+    logger.info('Error while getting phases ' + error.message);
     throw Error('Error while getting phases ' + error.message);
   }
 };
@@ -706,7 +708,7 @@ const insertPhaseOfPeriod = async (periodId, phaseNumber, phase) => {
     const result = await pool.query("INSERT INTO phase (phase_number, period_id, date_from, date_to) VALUES ($1, $2, $3, $4)", [phaseNumber, periodId, phase.date_from, phase.date_to]);
     return result;
   } catch (error) {
-    console.log('Error while inserting phase ' + error.message);
+    logger.info('Error while inserting phase ' + error.message);
     throw Error('Error while inserting phase ' + error.message);
   }
 };
@@ -716,7 +718,7 @@ const updatePhaseOfPeriod = async (periodId, phaseNumber, phase) => {
     const result = await pool.query("UPDATE phase SET date_from = $1, date_to = $2 WHERE period_id = $3 and phase_number = $4", [phase.date_from, phase.date_to, periodId, phaseNumber]);
     return result;
   } catch (error) {
-    console.log('Error while updating phase ' + error.message);
+    logger.info('Error while updating phase ' + error.message);
     throw Error('Error while updating phase ' + error.message);
   }
 };
@@ -726,7 +728,7 @@ const getPhaseOfPeriod = async (periodId, phase_state) => {
     const phase = await pool.query("SELECT * FROM phase WHERE period_id = $1 AND phase_number = $2", [periodId, phase_state]);
     return phase.rows[0];
   } catch (error) {
-    console.log('Error while getting phase ' + error.message);
+    logger.info('Error while getting phase ' + error.message);
     throw Error('Error while getting phase ' + error.message);
   }
 };
@@ -738,7 +740,7 @@ const doesAssignmentExist = async (body) => {
 
     return result.rows.length > 0;
   } catch (error) {
-    console.log('Error while checking if assignment exists ' + error.message);
+    logger.info('Error while checking if assignment exists ' + error.message);
     throw Error('Error while checking if assignment exists ' + error.message);
   }
 };
@@ -764,7 +766,7 @@ const insertAssignment = async (body, stateOptionalParam = 0) => {
       [body.position_id, body.internal_position_id, body.student_id, positionData.duration, positionData.physical_objects, body.city, STATE, positionData.title, body.period_id]);
 
   } catch (error) {
-    console.error("insertAssignment error: " + error.message);
+    logger.error("insertAssignment error: " + error.message);
     throw Error('Error while inserting assignment' + error.message);
   }
 };
@@ -799,7 +801,7 @@ const getAssignmentsByStudentAndPositionId = async (studentId, positionId) => {
 
     return assignments.rows[0];
   } catch (error) {
-    console.log('Error while getting assignments ' + error.message);
+    logger.info('Error while getting assignments ' + error.message);
     throw Error('Error while getting assignments');
   }
 };
@@ -821,7 +823,7 @@ const getAssignmentsByStudentId = async (studentId) => {
 
     return assignments.rows;
   } catch (error) {
-    console.log('Error while getting assignments ' + error.message);
+    logger.info('Error while getting assignments ' + error.message);
     throw Error('Error while getting assignments');
   }
 };
@@ -876,7 +878,7 @@ const getDepManagerDetails = async (period_id, uuid) => {
                             WHERE uuid = $2`, [period_id, uuid]);
     return result.rows[0];
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching dep manager details ' + error.message);
   }
 };
@@ -892,7 +894,7 @@ const insertToFinalAssignmentsList = async (body, managerInfo) => {
 
     return insertResult.rows[0].list_id;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw new Error('Error while inserting to final assignments list ' + error.message);
   }
 };
@@ -906,7 +908,7 @@ const doesListExistForDepartmentAndPeriod = async (body) => {
     const listId = listExists ? insertResult.rows[0].list_id : null;
     return { listExists, listId };
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw new Error('Error while checking if list exists ' + error.message);
   }
 };
@@ -918,22 +920,22 @@ const updateStudentFinalAssignments = async (depManagerDetails, listId, body) =>
 
     return updateResult.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw new Error('Error while updating internship assignments ' + error.message);
   }
 };
 
 const setPeriodCompleted = async (body) => {
-  console.log("setPeriodCompleted started for department " + body.department_id + " at: " + new Date().toLocaleString());
+  logger.info("setPeriodCompleted started for department " + body.department_id + " at: " + new Date().toLocaleString());
   try {
     await pool.query("UPDATE period  \
                       SET is_active = 'false', \
                           is_completed = 'true' \
                       WHERE department_id = $1 AND id = $2 AND phase_state >= 2",
       [body.department_id, body.period_id]);
-    console.log("period completed for department" + body.department_id + " at: " + new Date().toLocaleString());
+    logger.info("period completed for department" + body.department_id + " at: " + new Date().toLocaleString());
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error("Error while updating period in job: " + error.message);
   }
 };
@@ -947,7 +949,7 @@ const getStudentListForPeriod = async (periodId) => {
                                     WHERE list.period_id = $1`, [periodId]);
     return result.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching student list for period ' + error.message);
   }
 };
@@ -963,7 +965,7 @@ const getStudentPaymentsListForPeriod = async (periodId) => {
                                     WHERE list.period_id = $1`, [periodId]);
     return result.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching student list (payment-orders) for period ' + error.message);
   }
 };
@@ -982,7 +984,7 @@ const updateEspaPositionsOnPeriodCompleted = async (data) => {
 
     return finalResult;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching student list for period ' + error.message);
   }
 };
@@ -991,7 +993,7 @@ const deleteCreatedList = async (listId, periodId) => {
   try {
     await pool.query(`DELETE FROM final_assignments_list WHERE list_id = $1 AND period_id = $2`, [listId, periodId]);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching student list for period ' + error.message);
   }
 };
@@ -1007,7 +1009,7 @@ const updateAssignmentImplementationDates = async (implementationDates, assignme
                       AND student_id = $4
                       AND period_id = $5`, [startDateFormatted, endDateFormatted, assignment.position_id, assignment.student_id, assignment.period_id]);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while updating assignment implementation dates for position: ' + assignment.position_id +
       ' student: ' + assignment.student_id +
       ' error: ' + error.message);

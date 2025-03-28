@@ -1,4 +1,4 @@
-const gmailTransporter = require('../mailer_config.js');
+const gmailTransporter = require('../config/mailer_config.js');
 const commentsTemplate = require('../mail-templates/commentsTemplate.js');
 const pswResetTemplate = require('../mail-templates/passwordResetTemplate.js');
 

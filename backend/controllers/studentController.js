@@ -1,18 +1,25 @@
-const studentService = require("../services/studentService.js");
-const depManagerService = require("../services/depManagerService.js");
-const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const upload = require("../middleware/file.js");
-const formidable = require('formidable');
-const MiscUtils = require("../MiscUtils.js");
-const atlasController = require("./atlasController");
-const moment = require('moment');
-require('dotenv').config();
-
-const PizZip = require("pizzip");
-const Docxtemplater = require("docxtemplater");
+// Core Node.js modules
 const fs = require("fs");
 const path = require("path");
+const moment = require('moment');
+// Third-party libraries
+const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const formidable = require('formidable');
+const PizZip = require("pizzip");
+const Docxtemplater = require("docxtemplater");
+// Custom services
+const studentService = require("../services/studentService.js");
+const depManagerService = require("../services/depManagerService.js");
+const atlasController = require("./atlasController");
+// Middleware
+const upload = require("../middleware/file.js");
+// Utilities
+const MiscUtils = require("../utils/MiscUtils.js");
+// Logging
+const logger = require('../config/logger');
+// Environment variables
+require('dotenv').config();
 
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -21,7 +28,7 @@ const login = async (request, response, next) => {
   if (uname)
     userId = await studentService.loginStudent(uname);
 
-  console.log("uid " + userId);
+  logger.info("uid " + userId);
 
   if (userId == null)
     response.status(401).json({
@@ -50,7 +57,7 @@ const getAllStudents = async (request, response) => {
     const students = await studentService.getAllStudents();
     response.status(200).json(students);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -63,7 +70,7 @@ const getStudentById = async (request, response) => {
     const student = await studentService.getStudentById(studentId);
     response.status(200).json(student);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -76,7 +83,7 @@ const getStudentFilesForAppPrint = async (request, response) => {
     const doctypes = await studentService.getStudentFilesForAppPrint(studentId);
     response.status(200).json(doctypes);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -89,7 +96,7 @@ const getPhase = async (request, response) => {
     const period = await studentService.getPhase(departmentId);
     response.status(200).json(period);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404).send({
       message: error.message
     });
@@ -102,7 +109,7 @@ const getMergedDepartmentInfoByStudentId = async (request, response) => {
     const departments = await studentService.getMergedDepartmentInfoByStudentId(studentId);
     response.status(200).json(departments);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404).send({
       message: error.message
     });
@@ -115,7 +122,7 @@ const getStudentEntrySheets = async (request, response) => {
     const entrySheets = await studentService.getStudentEntrySheets(id);
     response.status(200).json(entrySheets.rows);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -128,7 +135,7 @@ const getStudentApplications = async (request, response) => {
     const applications = await studentService.getStudentApplications(id);
     response.status(200).json(applications.rows);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -141,7 +148,7 @@ const getStudentActiveApplication = async (request, response) => {
     const applications = await studentService.getStudentActiveApplication(id);
     response.status(200).json(applications.rows[0].count);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -154,7 +161,7 @@ const getStudentExitSheets = async (request, response) => {
     const exitSheets = await studentService.getStudentExitSheets(id);
     response.status(200).json(exitSheets);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -167,7 +174,7 @@ const getStudentEvaluationSheets = async (request, response) => {
     const exitSheets = await studentService.getStudentEvaluationSheets(id);
     response.status(200).json(exitSheets);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -180,7 +187,7 @@ const getStudentPositions = async (request, response) => {
     const studentPositions = await studentService.getStudentPositions(id);
     response.status(200).json(studentPositions);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -208,7 +215,7 @@ const getAssignmentsByStudentId = async (request, response) => {
     const assignments = await studentService.getAssignmentsByStudentId(id);
     response.status(200).json(assignments);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -221,7 +228,7 @@ const getStudentContractStatus = async (request, response) => {
     const isOldContract = await studentService.isOldContractForStudentId(studentId);
     response.status(200).json(isOldContract);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(500).json({
       error: 'An error occurred while trying to get the contract status',
       message: error.message
@@ -242,7 +249,7 @@ const updateStudentDetails = async (request, response, next) => {
         message: 'Student details updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -262,7 +269,7 @@ const updateStudentContractDetails = async (request, response, next) => {
         message: 'Student contract details updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -282,7 +289,7 @@ const updateStudentExtraContractDetails = async (request, response, next) => {
         message: 'Student contract details updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -302,7 +309,7 @@ const updateStudentBio = async (request, response, next) => {
         message: 'Student bio updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -322,7 +329,7 @@ const updateStudentContact = async (request, response, next) => {
         message: 'Student contact updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -342,7 +349,7 @@ const updateStudentSpecialDetails = async (request, response, next) => {
         message: 'Student contact updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -362,7 +369,7 @@ const updateStudentPositionPriorities = async (request, response, next) => {
         message: 'Student position priorities updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -382,7 +389,7 @@ const updateStudentEntrySheet = async (request, response, next) => {
         message: 'Student entry sheet was updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -394,7 +401,7 @@ const updatePhase = async (request, response, next) => {
   try {
     const id = request.params.id;
     const phaseNumber = request.body.phase;
-    console.log("phase number " + phaseNumber + "-ID" + id);
+    logger.info("phase number " + phaseNumber + "-ID" + id);
 
     await studentService.updatePhase(phaseNumber, id);
 
@@ -404,7 +411,7 @@ const updatePhase = async (request, response, next) => {
         message: 'Student phase updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -424,7 +431,7 @@ const insertStudentEntrySheet = async (request, response, next) => {
         message: 'Student entry sheet was inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).send({
       message: error.message
     });
@@ -444,7 +451,7 @@ const insertStudentExitSheet = async (request, response, next) => {
         message: 'Student exit sheet was inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).send({
       message: error.message
     });
@@ -464,7 +471,7 @@ const insertStudentEvaluationSheet = async (request, response, next) => {
         message: 'Student evaluation sheet was inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -484,7 +491,7 @@ const insertStudentApplication = async (request, response, next) => {
         message: 'Student application was inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -505,17 +512,17 @@ const insertStudentPosition = async (request, response, next) => {
     let positionId = body.positionId;
     let atlas = true;
 
-    // console.log(body.internal_position_id + "|" + atlas);
+    // logger.info(body.internal_position_id + "|" + atlas);
     const maxPriority = await studentService.findMaxPositions(studentId, positionId);
 
     if (maxPriority < NUMBER_OF_POSITIONS) {
       // priority is +1 from the previous position (which we know by max priority)
       priority = maxPriority + 1;
-      //console.log(priority, maxPriority, body.positionId, studentId);
+      //logger.info(priority, maxPriority, body.positionId, studentId);
       await studentService.insertStudentPositionsFromUser(studentId, positionId, priority, atlas);
       message = "Student position was inserted successfully";
     } else {
-      console.log("insertStudentPosition(), Student can't choose more than 5 positions");
+      logger.info("insertStudentPosition(), Student can't choose more than 5 positions");
       message = "Student can't choose more than 5 positions";
     }
 
@@ -525,7 +532,7 @@ const insertStudentPosition = async (request, response, next) => {
         message: message
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -540,7 +547,7 @@ const deleteEntryFormByStudentId = async (request, response) => {
       .status(200)
       .send(`entry form of student with ID: ${id} was deleted`);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -555,7 +562,7 @@ const deletePositionsByStudentId = async (request, response) => {
       .status(200)
       .send(`student position with priority ${studentId} was deleted`);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -570,7 +577,7 @@ const deleteApplicationById = async (request, response) => {
       .status(200)
       .send(`student application ${applicationId} was deleted`);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -589,7 +596,7 @@ const updateStudentPositions = async (request, response) => {
         message: 'Student positions were updated successfully'
       });
   } catch (error) {
-    console.log(error.message);
+    logger.info(error.message);
     response.send({
       message: error.message
     });
@@ -624,7 +631,7 @@ const validateFile = async (request, response, err, fileType) => {
       });
   } catch (error) {
     // return (err.message);
-    console.log(err.message);
+    logger.info(err.message);
     response.status(201).json({
       message: 'ERROR'
     });
@@ -638,13 +645,13 @@ const insertToDB = async (request, response, ssoUserId, fileType, filePath, file
   await new Promise(function (resolve, reject) {
     form.parse(request, (err, fields, files) => {
       if (err) {
-        console.log("An error on form parsing occurred");
+        logger.info("An error on form parsing occurred");
         reject(err);
         return;
       }
       let mimetype = files.file.mimetype;
       fileExtension = mimetype.split("/")[1];
-      console.log("In form.parse method, file extension is: " + fileExtension);
+      logger.info("In form.parse method, file extension is: " + fileExtension);
       resolve(fileExtension);
     });
   });
@@ -673,7 +680,7 @@ const insertSSNFile = async (request, response, next) => {
       });
 
   } catch (err) {
-    console.log(err);
+    logger.info(err);
     response
       .status(201)
       .json({
@@ -699,7 +706,7 @@ const insertIbanFile = async (request, response, next) => {
         message: "FILE ADDED IBAN"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(201).json({
       message: "ERROR"
     });
@@ -723,7 +730,7 @@ const insertAMEAFile = async (request, response, next) => {
         message: "FILE ADDED IBAN"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(201).json({
       message: "ERROR"
     });
@@ -747,7 +754,7 @@ const insertAffidavitFile = async (request, response, next) => {
         message: "FILE ADDED AFFIDAVIT"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(201).json({
       message: "ERROR"
     });
@@ -771,7 +778,7 @@ const insertStudentResignAppFile = async (request, response, next) => {
         message: "FILE ADDED RESIGN APP"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(201).json({
       message: "ERROR"
     });
@@ -795,7 +802,7 @@ const insertAMAFile = async (request, response, next) => {
         message: "FILE ADDED AMA"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(201).json({
       message: "ERROR"
     });
@@ -819,7 +826,7 @@ const insertIdentityCardFile = async (request, response, next) => {
         message: "FILE ADDED IDENTITY CARD"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(201).json({
       message: "ERROR"
     });
@@ -840,7 +847,7 @@ const sendFile = async (request, response) => {
       .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -854,9 +861,9 @@ const insertAssignment = async (request, response, next) => {
     const implementationDates = request.body.implementationDates;
     let isTEIProgramOfStudy = false;
 
-    console.log("in final assign of student");
-    console.log(assignmentData);
-    console.log("studentId " + studentId);
+    logger.info("in final assign of student");
+    logger.info(assignmentData);
+    logger.info("studentId " + studentId);
 
     // Get student's AM and department id by student id
     //let studentAMNumber = '2022201400155'; // for atlas pilotiko testing
@@ -872,61 +879,61 @@ const insertAssignment = async (request, response, next) => {
       academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
     }
 
-    console.log(studentAMNumber);
-    console.log(academicId);
+    logger.info(studentAMNumber);
+    logger.info(academicId);
 
     let studentAcademicIdNumber = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     let academicIDNumber = studentAcademicIdNumber.message.AcademicIDNumber; //243761386827
-    console.log(academicIDNumber);
+    logger.info(academicIDNumber);
 
     let registeredStudent = await atlasController.getRegisteredStudent(academicIDNumber);
-    console.log(registeredStudent);
+    logger.info(registeredStudent);
 
     let registerResult;
     // the below line is possibly the right one; gets academicId from AM and department id
     // let registeredStudent = await atlasController.findAcademicIdNumber(academicId, studentAMNumber);
     if (registeredStudent.message != null) {
-      console.log('user is registered');
-      // console.log(registeredStudent.message.AcademicIDNumber);
+      logger.info('user is registered');
+      // logger.info(registeredStudent.message.AcademicIDNumber);
     } else {
-      console.log('not a registered user');
+      logger.info('not a registered user');
       // Student SHOULD sign up on this occassion
       registerResult = await atlasController.registerNewStudent(academicIDNumber);
-      console.log(registerResult);
+      logger.info(registerResult);
     }
-    // console.log(registeredStudent);
+    // logger.info(registeredStudent);
 
     // TO BE TESTED
     // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
-    // console.log(preassignResult.preassign);
-    console.log(assignmentData.position_id);
+    // logger.info(preassignResult.preassign);
+    logger.info(assignmentData.position_id);
     let positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
-    console.log(positionPreassignment);
+    logger.info(positionPreassignment);
 
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
-    // console.log(fundingType);
+    // logger.info(fundingType);
 
     const studentToAssignID = registeredStudent?.message?.ID || registerResult?.message?.ID;
 
     try {
-      console.log("be4 final assign of student");
+      logger.info("be4 final assign of student");
       // assign student to Atlas position
       let assignResults = await atlasController.assignStudent(positionPreassignment, studentToAssignID, isTEIProgramOfStudy, implementationDates);
-      console.log("after final assign of student");
+      logger.info("after final assign of student");
       // If assignment fails, throw an error displaying the message
       if (assignResults.status == "400 bad request") {
-        console.error(assignResults.message);
+        logger.error(assignResults.message);
         throw new Error(assignResults.message);
       }
       // If assignment fails for business reason, throw an error displaying the message
       if (!assignResults.message.Success) {
-        console.error("atlas assign failed: " + assignResults.message.Message);
+        logger.error("atlas assign failed: " + assignResults.message.Message);
         throw new Error(assignResults.message.Message);
       }
 
-      console.log(assignResults);
+      logger.info(assignResults);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       response.status(500)
         .json({
           message: error.message
@@ -937,13 +944,13 @@ const insertAssignment = async (request, response, next) => {
     // update assignment details - local db
     await studentService.acceptAssignment(assignmentData, positionPreassignment?.positionIds[0]);
 
-    console.log('successful final assignment for student ' + studentId);
+    logger.info('successful final assignment for student ' + studentId);
     response.status(201)
       .json({
         message: "assignment was inserted successfully"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -954,7 +961,7 @@ const insertAssignment = async (request, response, next) => {
 const insertOrUpdateDepartmentDetails = async (request, response) => {
   const studentId = request.params.id;
   const studentData = request.body.data;
-  console.log(request.body);
+  logger.info(request.body);
   try {
     const resultsFound = await studentService.mergedDepartmentResultFound(studentId, studentData);
     if (resultsFound) {
@@ -1015,7 +1022,7 @@ const insertStudentInterestApp = async (request, response) => {
     const studentId = request.params.id;
     const body = request.body;
 
-    console.log(body);
+    logger.info(body);
     const results = await studentService.semesterInterestAppFound(studentId, body.periodId);
     if (results.found) {
       await studentService.insertOrUpdateStudentInterestApp(studentId, body, results.appId, "update");
@@ -1027,7 +1034,7 @@ const insertStudentInterestApp = async (request, response) => {
       message: 'Student interest app inserted successfully',
     });
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     response.status(401).json({
       message: error.message
     });
@@ -1081,10 +1088,10 @@ const getStudentRankedApprovalStatusForPeriod = async (request, response) => {
 
   try {
     const approvalState = await studentService.getStudentRankedApprovalStatusForPeriod(studentId, periodId);
-    //console.log(`Student's ranked approval status for period ${periodId} has been successfully retrieved.`);
+    //logger.info(`Student's ranked approval status for period ${periodId} has been successfully retrieved.`);
     response.status(200).json(approvalState);
   } catch (error) {
-    console.log(`Student's ranked approval status for period ${periodId} has NOT been retrieved.`);
+    logger.info(`Student's ranked approval status for period ${periodId} has NOT been retrieved.`);
     response.status(401).json({
       message: error.message
     });
@@ -1129,19 +1136,19 @@ const checkPositionOfAtlasExists = async (request, response) => {
 
 const produceContractFile = async (request, response) => {
   try {
-    console.log("produceContractFile");
+    logger.info("produceContractFile");
     const studentId = request.params.id;
     const docType = request.body.doctype;
     const periodId = request.body.periodId;
     const departmentId = request.body.departmentId;
 
     let metadata = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
-    console.log(metadata);
+    logger.info(metadata);
 
     // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
     // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
     const yearFound = await studentService.isOldContractForStudentAndPeriod(studentId, periodId);
-    console.log(yearFound);
+    logger.info(yearFound);
 
     // Find the contract that matches yearFound
     const contractFound = studentService.getAllContractsFromEnv(yearFound);
@@ -1222,7 +1229,7 @@ const produceContractFile = async (request, response) => {
       .sendFile(path.resolve(filePath, fileName), buf);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401).json({
       message: error.message
     });
@@ -1231,13 +1238,13 @@ const produceContractFile = async (request, response) => {
 
 const produceCompletionCertificateFile = async (req, res) => {
   try {
-    console.log("produceCompletionCertificateFile endpoint called");
+    logger.info("produceCompletionCertificateFile endpoint called");
 
     const { doctype, data: metadata } = req.body;
-    console.log(req.body);
+    logger.info(req.body);
     // Define the path to the .docx template file
     const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.docx";
-    console.log(fileDir);
+    logger.info(fileDir);
     // Load the .docx file as binary content
     const content = fs.readFileSync(path.resolve(fileDir), "binary");
     const zip = new PizZip(content);
@@ -1246,7 +1253,7 @@ const produceCompletionCertificateFile = async (req, res) => {
       paragraphLoop: true,
       linebreaks: true,
     });
-    console.log(metadata);
+    logger.info(metadata);
     // Define the replacements for placeholders
     doc.render({
       STUDENT_NAME: metadata.student_name || "………………",
@@ -1282,7 +1289,7 @@ const produceCompletionCertificateFile = async (req, res) => {
     res.send(buf);
 
   } catch (error) {
-    console.error("Error generating completion certificate:", error.message);
+    logger.error("Error generating completion certificate:", error.message);
     res.status(500).json({
       message: "An error occurred while generating the certificate.",
       error: error.message,
@@ -1292,14 +1299,14 @@ const produceCompletionCertificateFile = async (req, res) => {
 
 const producePaymentOrderFile = async (request, response) => {
   try {
-    console.log("producePaymentOrderFile");
+    logger.info("producePaymentOrderFile");
     const studentId = request.params.id;
     const docType = request.body.doctype;
     const periodId = request.body.periodId;
     const departmentId = request.body.departmentId;
 
     let metadata = await studentService.getPaymentOrderMetadataByStudentId(studentId, periodId);
-    console.log(metadata);
+    logger.info(metadata);
 
     // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
     // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
@@ -1362,7 +1369,7 @@ const producePaymentOrderFile = async (request, response) => {
       .sendFile(path.resolve(filePath, fileName), buf);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401).json({
       message: error.message
     });
@@ -1375,7 +1382,7 @@ const isStudentInAssignmentList = async (request, response) => {
     const isStudentInAssignmentList = await studentService.isStudentInAssignmentList(studentId);
     response.status(200).json(isStudentInAssignmentList);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400).json({
       message: error.message
     });
@@ -1391,7 +1398,7 @@ const getContractDetailsByStudentIdAndPeriod = async (request, response) => {
 
     response.status(200).json(contractDetails);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -1408,7 +1415,7 @@ const getContractDetailsByDepartmentAndPeriod = async (request, response) => {
 
     response.status(200).json(contractDetails);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -1428,7 +1435,7 @@ const updateContractDetails = async (request, response) => {
       message: "contract Details were updated successfully"
     });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -1448,7 +1455,7 @@ const updatePaymentOrderDetails = async (request, response) => {
       message: "Payment Order Details were updated successfully"
     });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -1471,7 +1478,7 @@ const getLatestPeriodOfStudent = async (request, response) => {
       response.status(200).json(periodMaxId);
     }
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404).send({
       message: error.message
     });
@@ -1486,7 +1493,7 @@ const isEntrySheetEnabledForStudent = async (request, response) => {
 
     response.status(200).json(areSheetsEnabledForStudent);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404).send({
       message: error.message
     });
@@ -1501,7 +1508,7 @@ const isExitSheetEnabledForStudent = async (request, response) => {
 
     response.status(200).json(areSheetsEnabledForStudent);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404).send({
       message: error.message
     });
@@ -1512,14 +1519,14 @@ const updateAssignmentStateByStudentAndPosition = async (request, response) => {
   try {
     const studentId = request.params.id;
     const { positionId, periodId } = request.body;
-    console.log(request.body);
+    logger.info(request.body);
 
     await studentService.updateAssignmentStateByStudentAndPosition(studentId, periodId, positionId);
     response.status(200).send({
       message: "Student assignment status updated successfully"
     });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404).send({
       message: error.message
     });

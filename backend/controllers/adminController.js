@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const adminService = require("../services/adminService.js");
+// Logging
+const logger = require('../config/logger');
 
 const login = async (request, response) => {
   const uname = request.body.username;
@@ -8,7 +10,7 @@ const login = async (request, response) => {
   if (uname)
     userId = await adminService.loginAdmin(uname);
 
-  console.log("uid " + userId);
+  logger.info("uid " + userId);
 
   if (userId == null)
     response.status(401).json({
@@ -40,7 +42,7 @@ const insertRoles = async (request, response) => {
 
     response.status(201).json({ message: 'Successfully inserted user role' });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -53,7 +55,7 @@ const getUsers = async (request, response) => {
     const users = await adminService.getUsersWithRoles();
     response.status(200).json(users);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -64,11 +66,11 @@ const getUsers = async (request, response) => {
 const getDepartmentsOfUserByUserID = async (request, response) => {
   try {
     const userRoleId = request.params.id;
-    console.log(userRoleId);
+    logger.info(userRoleId);
     const departments = await adminService.getDepartmentsOfUserByUserID(userRoleId);
     response.status(200).json(departments);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -85,7 +87,7 @@ const deleteUserRoleByUserId = async (request, response) => {
         message: "User role was successfully deleted"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message

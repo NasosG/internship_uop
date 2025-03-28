@@ -2,7 +2,7 @@ const axios = require("axios");
 const atlasService = require("../services/atlasService");
 require('dotenv').config();
 jest.setTimeout(100000000);
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 
 var FOUND_IN_ATLAS = 0;
 var TO_BE_DELETED = 0;

@@ -1,4 +1,4 @@
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 const moment = require('moment');
 require('dotenv').config();
 jest.setTimeout(1000000);

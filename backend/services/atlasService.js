@@ -1,6 +1,8 @@
 // database connection configuration
-const pool = require("../db_config.js");
-const MiscUtils = require("../MiscUtils.js");
+const pool = require("../config/db_config.js");
+const MiscUtils = require("../utils/MiscUtils.js");
+// Logging
+const logger = require('../config/logger');
 
 const getCredentials = async () => {
   try {
@@ -127,12 +129,12 @@ const checkAtlasPositionAcademicsMatchStudents = async (positionId, academicId) 
     }
     const isPosition4StudentAcademic = await checkAcademicPosition(positionId, academicId);
     if (isPosition4StudentAcademic) {
-      console.log(true);
+      logger.info(true);
       return true;
     }
     return false;
   } catch (error) {
-    console.log(error.message);
+    logger.info(error.message);
   }
 };
 
@@ -154,7 +156,7 @@ const checkAcademicPosition = async (positionId, academicId) => {
 };
 
 const getAtlasFilteredPositions = async (offset, limit, filters) => {
-  console.log("array is : " + JSON.stringify(filters));
+  logger.info("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
   try {
     let queryStr = "SELECT *, g.id as g_position_id FROM"
@@ -213,7 +215,7 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     //queryStr += (!filters.publicationDate) ? " ORDER BY last_update_string DESC" : " ";
     queryStr += " OFFSET " + offset + " LIMIT " + limit;
 
-    // console.log("\n" + queryStr + "  " + "\n");
+    // logger.info("\n" + queryStr + "  " + "\n");
 
     const results = await pool.query(queryStr);
     return results.rows;
@@ -271,7 +273,7 @@ const getAtlasOldestPositionGroups = async (offset, limit) => {
 };
 
 const getPositionGroupRelations = async (relationsArray) => {
-  // console.log(relationsArray.PositionGroupID);
+  // logger.info(relationsArray.PositionGroupID);
   try {
     sql = await pool.query("SELECT * FROM atlas_position_group_relations WHERE position_group_id=$1 AND provider_id=$2",
       [relationsArray.PositionGroupID,
@@ -302,7 +304,7 @@ const insertPositionGroupRelations = async (relationsArray) => {
 const insertPositionGroup = async (data) => {
   try {
     for (const item of data) {
-      //console.log(item);
+      //logger.info(item);
       await pool.query("INSERT INTO atlas_position_group" +
         '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id, start_date, start_date_string, end_date, end_date_string)' +
         " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)",
@@ -334,7 +336,7 @@ const insertPositionGroup = async (data) => {
     }
     // return insertResults;
   } catch (error) {
-    console.log('Error while inserting position group[s] ' + error.message);
+    logger.info('Error while inserting position group[s] ' + error.message);
     throw Error('Error while inserting position group[s]');
   }
 };
@@ -375,13 +377,13 @@ const updatePositionsList = async (data) => {
       //       " VALUES ($1, $2)", [item.atlasPositionId, academic.academicsId]);
       //   }
       // } catch (error) {
-      //   console.log('Error while updating position_has_academics for position ' + item.atlasPositionId + ' error: ' + error.message);
+      //   logger.info('Error while updating position_has_academics for position ' + item.atlasPositionId + ' error: ' + error.message);
       // }
 
     }
     // return updateResults;
   } catch (error) {
-    console.log('Error while updating group[s] ' + error.message);
+    logger.info('Error while updating group[s] ' + error.message);
     throw Error('Error while updating group[s]');
   }
 };
@@ -401,7 +403,7 @@ const updateProvidersList = async (data) => {
         ]);
     }
   } catch (error) {
-    console.log('Error while updating provider[s] ' + error.message);
+    logger.info('Error while updating provider[s] ' + error.message);
     throw Error('Error while updating provider[s]');
   }
 };
@@ -417,7 +419,7 @@ const updatePositionGroupRelationsList = async (data) => {
         item.PositionGroupID]);
     }
   } catch (error) {
-    console.log('Error while updating position group relation[s] ' + error.message);
+    logger.info('Error while updating position group relation[s] ' + error.message);
     throw Error('Error while updating position group relation[s]');
   }
 };
@@ -434,7 +436,7 @@ const insertPositionGroupRelation = async (data) => {
         item.ProviderLastUpdateString]);
     }
   } catch (error) {
-    console.log('Error while inserting position group relation[s] ' + error.message);
+    logger.info('Error while inserting position group relation[s] ' + error.message);
     throw Error('Error while inserting position group relation[s]');
   }
 };
@@ -464,7 +466,7 @@ const insertProvider = async (data) => {
         ]);
     }
   } catch (error) {
-    // console.log('Error while inserting provider group[s] ' + error.message);
+    // logger.info('Error while inserting provider group[s] ' + error.message);
     throw Error('Error while inserting provider[s] ' + error.message);
   }
 };
@@ -580,7 +582,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasCitiesLocalDB = await getCities();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasCitiesLocalDB.find(element => element.atlas_id == item.ID);
-        // console.log(itemFoundDetails);
+        // logger.info(itemFoundDetails);
         if (!itemFoundDetails)
           await insertCities([item]);
         else
@@ -592,7 +594,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasCountriesLocalDB = await getCountries();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasCountriesLocalDB.find(element => element.atlas_id == item.ID);
-        // console.log(itemFoundDetails);
+        // logger.info(itemFoundDetails);
         if (!itemFoundDetails)
           await insertCountries([item]);
         else
@@ -604,7 +606,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasPhysicalObjectsLocalDB = await getPhysicalObjects();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasPhysicalObjectsLocalDB.find(element => element.atlas_id == item.ID);
-        // console.log(itemFoundDetails);
+        // logger.info(itemFoundDetails);
         if (!itemFoundDetails)
           await insertPhysicalObjects([item]);
         else
@@ -616,7 +618,7 @@ const insertOrUpdateAtlasTable = async (tableToUpdate, atlasArray) => {
       const atlasPrefecturesLocalDB = await getPrefectures();
       for (const item of atlasArray) {
         let itemFoundDetails = atlasPrefecturesLocalDB.find(element => element.atlas_id == item.ID);
-        // console.log(itemFoundDetails);
+        // logger.info(itemFoundDetails);
         if (!itemFoundDetails)
           await insertPrefectures([item]);
         else

@@ -1,10 +1,12 @@
 // database connection configuration
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 const atlasService = require("../services/atlasService");
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 const nodemailer = require('nodemailer');
-const gmailTransporter = require('../mailer_config.js');
+const gmailTransporter = require('../config/mailer_config.js');
 const bcrypt = require('bcrypt');
+// Logging
+const logger = require('../config/logger');
 
 const getProviderById = async (id) => {
   try {
@@ -99,7 +101,7 @@ const getStudentAMandDepartmentById = async (id) => {
     const resultsSSOUsers = await pool.query("SELECT schacpersonaluniquecode as student_registry, department_id FROM sso_users \
                                               WHERE sso_users.uuid = $1", [id]);
     // const student = MiscUtils.splitStudentsAM(resultsSSOUsers.rows[0].student_registry);
-    console.log(id);
+    logger.info(id);
     const firstRow = resultsSSOUsers.rows[0];
     const student = {
       registry_number: MiscUtils.splitStudentsAM(firstRow.student_registry),
@@ -161,7 +163,7 @@ const insertAssignment = async (item) => {
     const checkIfExists = await pool.query(`SELECT * FROM internship_assignment WHERE position_id = $1 AND student_id = $2`, [item.position_id, item.student_id]);
 
     if (checkIfExists.rowCount > 0) {
-      console.log(`Record with position_id ${item.position_id} and student_id ${item.student_id} already exists.`);
+      logger.info(`Record with position_id ${item.position_id} and student_id ${item.student_id} already exists.`);
       return;
     }
 
@@ -170,7 +172,7 @@ const insertAssignment = async (item) => {
       " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)",
       [item.position_id, item.internal_position_id, item.student_id, positionData.duration, positionData.physical_objects, item.city, STATE, positionData.title, item.period_id]);
   } catch (error) {
-    console.error("insertAssignment error: " + error.message);
+    logger.error("insertAssignment error: " + error.message);
     throw Error('Error while inserting assignment');
   }
 };
@@ -181,12 +183,12 @@ const insertCompanyUsers = async (body, newlyCreatedProviderId) => {
     const users = await checkIfUsernameAlreadyExists(body.username);
 
     if (users.rowCount > 0) {
-      console.log("Username already exists");
+      logger.info("Username already exists");
       return false;
     }
 
     let hashPassword = await bcrypt.hash(body.password, MiscUtils.SALT_ROUNDS);
-    // console.log(hashPassword);
+    // logger.info(hashPassword);
     await pool.query("INSERT INTO generic_users (username, password, atlas_account, user_type, company_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5)",
@@ -232,7 +234,7 @@ const getProviderByAfmAndName = async (afm, companyName) => {
     const providerByAfm = await pool.query("SELECT * FROM atlas_provider WHERE afm = $1 and name = $2", [afm, companyName]);
     return providerByAfm.rows;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error('Error while fetching providers by afm and name');
   }
 };
@@ -250,7 +252,7 @@ const loginCompany = async (username, password) => {
   try {
     const userAlreadyExist = await userAlreadyExists(username, password);
     if (userAlreadyExist.rowCount == 0) {
-      console.log('invalid credentials');
+      logger.info('invalid credentials');
       return;
     }
 
@@ -269,7 +271,7 @@ const loginCompany = async (username, password) => {
 
 const insertInternalPositionGroup = async (data, providerId) => {
   try {
-    // console.log(data);
+    // logger.info(data);
     await pool.query("INSERT INTO internal_position_group" +
       '(description, city, title, position_type, available_positions, duration, physical_objects, provider_id, last_update_string, atlas_position_id, city_id, country_id, prefecture_id, start_date, start_date_string, end_date, end_date_string)' +
       " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, current_timestamp, $9, $10, $11, $12, $13, $14, $15, $16)",
@@ -300,7 +302,7 @@ const insertInternalPositionGroup = async (data, providerId) => {
     // }
     // return insertResults;
   } catch (error) {
-    console.log('Error while inserting position group[s]' + error.message);
+    logger.info('Error while inserting position group[s]' + error.message);
     throw Error('Error while inserting position group[s]');
   }
 };
@@ -338,7 +340,7 @@ const getCompanysEvaluationForm = async (studentId, positionId) => {
 
     return rows[0];
   } catch (error) {
-    console.error('Error checking if evaluation exists:', error.message);
+    logger.error('Error checking if evaluation exists:', error.message);
     throw Error('Error checking if evaluation exists');
   }
 };
@@ -355,7 +357,7 @@ const checkIfEvaluationExists = async (studentId, positionId) => {
 
     return rows.length > 0;
   } catch (error) {
-    console.error('Error checking if evaluation exists:', error.message);
+    logger.error('Error checking if evaluation exists:', error.message);
     throw Error('Error checking if evaluation exists');
   }
 };
@@ -370,14 +372,14 @@ const updateStudentEvaluationSheet = async (studentId, positionId, evaluationDat
 
     await pool.query(query, [studentId, positionId, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments]);
   } catch (error) {
-    console.error('Error updating student evaluation sheet:', error.message);
+    logger.error('Error updating student evaluation sheet:', error.message);
     throw Error('Error updating student evaluation sheet');
   }
 };
 
 const insertStudentEvaluationSheet = async (studentId, positionId, evaluationData) => {
   try {
-    console.log(evaluationData);
+    logger.info(evaluationData);
     const { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments } = evaluationData;
     const query = `
       INSERT INTO evaluation_form_company (student_id, position_id, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments)
@@ -386,7 +388,7 @@ const insertStudentEvaluationSheet = async (studentId, positionId, evaluationDat
 
     await pool.query(query, [studentId, positionId, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments]);
   } catch (error) {
-    console.error('Error inserting student evaluation sheet:', error.message);
+    logger.error('Error inserting student evaluation sheet:', error.message);
     throw Error('Error inserting student evaluation sheet');
   }
 };

@@ -1,6 +1,6 @@
 jest.setTimeout(1000000);
 const moment = require('moment');
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 
 const skipTest = false; // Change this to true if you want to skip the test
 

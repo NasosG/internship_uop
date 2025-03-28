@@ -1,10 +1,10 @@
 // database connection configuration
-const mssql = require("../secretariat_db_config.js");
+const mssql = require("../config/secretariat_db_config.js");
 const msql = require('mssql');
-const utils = require('../MiscUtils.js');
+const utils = require("../utils/MiscUtils.js");
 require('dotenv').config();
 
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 jest.setTimeout(10000000);
 
 describe('fixIdCards', () => {

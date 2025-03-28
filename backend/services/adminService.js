@@ -1,5 +1,7 @@
 // database connection configuration
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
+// Logging
+const logger = require('../config/logger');
 
 const loginAdmin = async (username) => {
   try {

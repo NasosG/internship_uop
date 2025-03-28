@@ -1,5 +1,7 @@
 const officeService = require("../services/officeService.js");
 const jwt = require("jsonwebtoken");
+// Logging
+const logger = require('../config/logger');
 
 const login = async (request, response, next) => {
   const uname = request.body.username;
@@ -8,7 +10,7 @@ const login = async (request, response, next) => {
   if (uname)
     userId = await officeService.login(uname);
 
-  console.log("uid " + userId);
+  logger.info("uid " + userId);
 
   if (userId == null)
     response.status(401).json({
@@ -124,7 +126,7 @@ const insertEspaPosition = async (request, response) => {
         message: 'espa positions inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.send({
       message: error.message
     });
@@ -155,7 +157,7 @@ const updateEntrySheetField = async (request, response) => {
         message: 'entry sheet field updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response
       .status(400)
       .send({
@@ -176,7 +178,7 @@ const updateExitSheetField = async (request, response) => {
         message: 'entry sheet field updated successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response
       .status(400)
       .send({
@@ -192,7 +194,7 @@ const getEspaPositionsByDepartmentId = async (request, response) => {
     const positions = positionsArray.rows[0].positions;
     response.status(200).json(positions);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response
       .status(400)
       .send({
@@ -209,7 +211,7 @@ const getStudentListForPeriodAndAcademic = async (request, response) => {
     const studentList = await officeService.getStudentListForPeriodAndAcademic(periodId, departmentId);
     response.status(200).json(studentList);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message
@@ -225,7 +227,7 @@ const getStudentPaymentsListForPeriodAndAcademic = async (request, response) => 
     const studentList = await officeService.getStudentPaymentsListForPeriodAndAcademic(periodId, departmentId);
     response.status(200).json(studentList);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(400)
       .json({
         message: error.message

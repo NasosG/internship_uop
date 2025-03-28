@@ -1,11 +1,13 @@
 // database connection configuration
-const pool = require("../db_config.js");
-const MiscUtils = require("../MiscUtils.js");
-const mssql = require("../secretariat_db_config.js");
+const pool = require("../config/db_config.js");
+const MiscUtils = require("../utils/MiscUtils.js");
+const mssql = require("../config/secretariat_db_config.js");
 const msql = require('mssql');
 const moment = require('moment');
 const atlasController = require("../controllers/atlasController.js");
 require('dotenv').config();
+// Logging
+const logger = require('../config/logger');
 
 const getAllStudents = async () => {
   try {
@@ -32,7 +34,7 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
     try {
       procedureResults = await getStudentFactorProcedure(MiscUtils.departmentsMap[departmentId], MiscUtils.splitStudentsAM(AM));
     } catch (exc) {
-      console.log("SQLException or timeout occurred: " + exc.message);
+      logger.info("SQLException or timeout occurred: " + exc.message);
       return {
         'Grade': 0,
         'Ects': 0,
@@ -42,7 +44,7 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
     }
 
     if (procedureResults.Grade == null || procedureResults.Ects == null || procedureResults.Semester == null || procedureResults.Praktiki == null) {
-      console.error("some student details fetched from procedure were null");
+      logger.error("some student details fetched from procedure were null");
       return {
         'Grade': 0,
         'Ects': 0,
@@ -53,7 +55,7 @@ const getStudentsSecretaryDetails = async (departmentId, AM) => {
 
     return procedureResults;
   } catch (error) {
-    console.log('Error while inserting Approved students rank ' + error.message);
+    logger.info('Error while inserting Approved students rank ' + error.message);
     throw Error('Error while inserting Approved students rank');
   }
 };
@@ -105,7 +107,7 @@ const getStudentFilesForAppPrint = async (studentId) => {
     const result = await pool.query('SELECT doc_type FROM sso_user_files WHERE sso_uid = $1', [studentId]);
     return result.rows;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error('Error while fetching students' + error.message);
   }
 };
@@ -212,7 +214,7 @@ const getCommentByStudentIdAndSubject = async (studentId, subject) => {
 
     return comment.rows[0];
   } catch (error) {
-    console.log('Error while getting comments ' + error.message);
+    logger.info('Error while getting comments ' + error.message);
     throw Error('Error while getting comments');
   }
 };
@@ -234,7 +236,7 @@ const getAssignmentsByStudentId = async (studentId) => {
 
     return assignments.rows;
   } catch (error) {
-    console.log('Error while getting assignments ' + error.message);
+    logger.info('Error while getting assignments ' + error.message);
     throw Error('Error while getting assignments');
   }
 };
@@ -349,8 +351,8 @@ const updateStudentContractDetails = async (student, id) => {
 
 const updateStudentExtraContractDetails = async (student, id) => {
   try {
-    console.log(student);
-    console.log(id);
+    logger.info(student);
+    logger.info(id);
     const updateResults = await pool.query("UPDATE student_users \
      SET ama_number = $1, id_card = $2 WHERE sso_uid = $3",
       [student.ama_number, student.id_card, id]
@@ -358,7 +360,7 @@ const updateStudentExtraContractDetails = async (student, id) => {
 
     return updateResults;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while updating students contract details');
   }
 };
@@ -428,7 +430,7 @@ const updateStudentEntrySheet = async (form, studentId) => {
     );
     return updateResults;
   } catch (error) {
-    console.error('Error while updating student entry form ' + error.message + ' - studentId:' + studentId);
+    logger.error('Error while updating student entry form ' + error.message + ' - studentId:' + studentId);
     throw Error('Error while updating students entry form');
   }
 };
@@ -439,7 +441,7 @@ const updatePhase = async (phase, studentId) => {
                                             SET phase = $1 WHERE sso_uid = $2 ", [phase, studentId]);
     return insertResults;
   } catch (error) {
-    console.log('Error while updating students phase' + error.message);
+    logger.info('Error while updating students phase' + error.message);
     throw Error('Error while updating students phase');
   }
 };
@@ -472,7 +474,7 @@ const insertStudentEntrySheet = async (form, studentId) => {
     );
     return insertResults;
   } catch (error) {
-    console.error('Error while inserting students entry form ' + error.message + " - studentId:" + studentId);
+    logger.error('Error while inserting students entry form ' + error.message + " - studentId:" + studentId);
     throw Error('Error while inserting students entry form');
   }
 };
@@ -487,7 +489,7 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
       ]);
     return insertResults;
   } catch (error) {
-    console.error('Error while inserting students evaluation form' + error.message);
+    logger.error('Error while inserting students evaluation form' + error.message);
     throw Error('Error while inserting students evaluation form');
   }
 };
@@ -507,7 +509,7 @@ const insertStudentApplication = async (body, studentId) => {
     const applicationId = result.rows[0].id;
 
     for (const obj of body) {
-      console.log(obj.upload_date);
+      logger.info(obj.upload_date);
       obj.upload_date = moment(obj.upload_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
       await pool.query("INSERT INTO final_app_positions" +
         "(student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id, application_id)" +
@@ -516,7 +518,7 @@ const insertStudentApplication = async (body, studentId) => {
     }
 
   } catch (error) {
-    console.error('Error while inserting application to student_applications ' + error.message + ' for student ' + studentId);
+    logger.error('Error while inserting application to student_applications ' + error.message + ' for student ' + studentId);
     throw Error('Error while inserting application to student_applications' + error.message);
   }
 };
@@ -549,7 +551,7 @@ const deleteEntryFormByStudentId = async (studentId) => {
 const deleteApplicationById = async (applicationId) => {
   try {
     const studentId = (await pool.query("SELECT student_id as stid FROM student_applications WHERE id = $1", [applicationId])).rows[0].stid;
-    console.log("stid " + studentId);
+    logger.info("stid " + studentId);
     await deletePositionsbyStudentId(studentId);
     const updateResults = await pool.query("UPDATE student_applications SET application_status='false' WHERE id = $1", [applicationId]);
 
@@ -587,7 +589,7 @@ const updateStudentExitSheet = async (form, studentId) => {
       ]);
     return updateResults;
   } catch (error) {
-    console.error('Error while updating student exit form: ' + error.message);
+    logger.error('Error while updating student exit form: ' + error.message);
     throw Error('Error while updating students exit form');
   }
 };
@@ -618,7 +620,7 @@ const insertStudentExitSheet = async (form, studentId) => {
       ]);
     return insertResults;
   } catch (error) {
-    console.error('Error while inserting students exit form' + error.message);
+    logger.error('Error while inserting students exit form' + error.message);
     throw Error('Error while inserting students exit form');
   }
 };
@@ -631,7 +633,7 @@ const updateStudentPositionPriorities = async (positionPriority, body) => {
       [positionPriority, body.student_id]);
     return updateResults;
   } catch (error) {
-    console.log(error.message);
+    logger.info(error.message);
     throw Error('Error while updating students positions priorities');
   }
 };
@@ -669,7 +671,7 @@ const updateStudentPositions = async (studentId, body) => {
 
 const insertStudentPositions = async (studentId, body) => {
   try {
-    // console.log(body);
+    // logger.info(body);
     const formattedUploadDate = moment(body.upload_date, "DD/MM/YYYY").format("YYYY-MM-DD");
 
     await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id) " +
@@ -713,18 +715,18 @@ const insertStudentPositionsFromUser = async (studentId, positionId, priority, a
       " ON pos.provider_id = prov.atlas_provider_id" +
       " WHERE pos.atlas_position_id = $1", [positionId]);
 
-    console.log(positionId);
+    logger.info(positionId);
 
     const res = await findIfPositionExists(studentId, positionId, atlas);
 
     if (parseInt(res.poscount) > 0) {
-      console.log("Already exists");
+      logger.info("Already exists");
       throw Error('User has already chosen this position');
     }
 
     let posId = atlas ? positionId : null;
     let internalPosId = !atlas ? positionId : null;
-    // console.log(studentId + "|" + priority + " | " + positionInfo.rows[0].company + " | " + positionInfo.rows[0].title + " | " + positionInfo.rows[0].city + " | " + positionInfo.rows[0].last_update_string + "|" + posId + " | " + positionInfo.rows[0].afm + " | " + internalPosId);
+    // logger.info(studentId + "|" + priority + " | " + positionInfo.rows[0].company + " | " + positionInfo.rows[0].title + " | " + positionInfo.rows[0].city + " | " + positionInfo.rows[0].last_update_string + "|" + posId + " | " + positionInfo.rows[0].afm + " | " + internalPosId);
     await pool.query("INSERT INTO student_positions (student_id, priority, company, title, place, upload_date, position_id, afm, internal_position_id) " +
       " VALUES" +
       " ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
@@ -830,7 +832,7 @@ const insertOrUpdateMetadataBySSOUid = async (studentId, docType, filePath, file
 };
 
 const insertFileMetadataBySSOUid = async (studentId, docType, filePath, fileName) => {
-  console.log("to be inserted " + docType);
+  logger.info("to be inserted " + docType);
   try {
     await pool.query("INSERT INTO sso_user_files(sso_uid, file_name, file_path, doc_type, date_uploaded) \
                       VALUES ($1, $2, $3, $4, now())", [studentId, fileName, filePath, docType]);
@@ -840,7 +842,7 @@ const insertFileMetadataBySSOUid = async (studentId, docType, filePath, fileName
 };
 
 const updateFileDataBySSOUid = async (studentId, docType, filePath, fileName) => {
-  console.log("to be updated " + docType);
+  logger.info("to be updated " + docType);
   try {
     await pool.query("UPDATE sso_user_files SET file_name = $1, file_path = $2, date_uploaded = now() \
     WHERE sso_uid = $3 AND doc_type = $4", [fileName, filePath, studentId, docType]);
@@ -859,7 +861,7 @@ const acceptAssignment = async (assignmentData, assignedPositionId = 0) => {
     await pool.query("UPDATE internship_assignment SET approval_state = $1 WHERE student_id = $2 AND position_id <> $3",
       [REJECTION_STATE, assignmentData.student_id, assignmentData.position_id]);
   } catch (error) {
-    console.error('Error while updating student assignments' + error.message);
+    logger.error('Error while updating student assignments' + error.message);
     throw Error('Error while updating student assignments' + error.message);
   }
 };
@@ -869,7 +871,7 @@ const mergedDepartmentResultFound = async (student_id) => {
     const result = await pool.query("SELECT * FROM merged_departments_rel WHERE student_id = $1", [student_id]);
     return result.rowCount > 0;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while fetching merged departments: ${error}`);
   }
 };
@@ -882,9 +884,9 @@ const updateMergedDepartmentDetails = async (studentId, studentData) => {
   const values = [departmentId, isStudyProgramUpgraded, currentStudyProgram, studyProgramId, studentId];
   try {
     await pool.query(queryText, values);
-    console.log(`Record with studentId ${studentId} updated successfully`);
+    logger.info(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while updating merged departments record: ${error}`);
   }
 };
@@ -896,9 +898,9 @@ const insertMergedDepartmentDetails = async (studentId, studentData) => {
   const values = [studentId, departmentId, isStudyProgramUpgraded, currentStudyProgram, studyProgramId];
   try {
     await pool.query(queryText, values);
-    console.log("Record added successfully");
+    logger.info("Record added successfully");
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while adding merged departments record: ${error}`);
   }
 };
@@ -915,7 +917,7 @@ const checkUserAcceptance = async (userId) => {
 
     return true;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while checking user acceptance: ${error}`);
   }
 };
@@ -925,7 +927,7 @@ const insertUserAcceptance = async (userId, areTermsAccepted) => {
     await pool.query("INSERT INTO terms_accepted (sso_user_id, accepted, acceptance_datetime) \
       VALUES($1, $2, NOW())", [userId, areTermsAccepted]);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while inserting user acceptance: ${error}`);
   }
 };
@@ -942,7 +944,7 @@ const insertOrUpdateStudentInterestApp = async (studentId, body, oldAppId = "", 
       await pool.query("UPDATE semester_interest_apps SET last_update_date = $1 WHERE interest_app_id = $2",
         [applicationDate, oldAppId]);
 
-      console.log('Data updated successfully');
+      logger.info('Data updated successfully');
       return;
     }
 
@@ -957,9 +959,9 @@ const insertOrUpdateStudentInterestApp = async (studentId, body, oldAppId = "", 
 
     await pool.query("UPDATE semester_interest_apps SET protocol_number = $1 WHERE interest_app_id = $2", [protocolNumber, newAppId]);
 
-    console.log('Data inserted successfully');
+    logger.info('Data inserted successfully');
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     throw Error('Error while inserting or updating data into semester_interest_apps' + error.message);
   }
 };
@@ -970,7 +972,7 @@ const semesterInterestAppFound = async (studentId, periodId) => {
     const appId = !result.rows[0]?.interest_app_id ? "" : result.rows[0].interest_app_id;
     return { found: result.rowCount > 0, appId: appId };
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while fetching semester interest app: ${error}`);
   }
 };
@@ -981,7 +983,7 @@ const getSemesterProtocolNumberIfExistsOrNull = async (studentId, periodId) => {
     const protocolNumber = !result.rows[0]?.protocol_number ? "" : result.rows[0].protocol_number;
     return { found: result.rowCount > 0, protocolNumber: protocolNumber };
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while fetching semester interest app protocol number: ${error}`);
   }
 };
@@ -989,9 +991,9 @@ const getSemesterProtocolNumberIfExistsOrNull = async (studentId, periodId) => {
 const updateDepartmentIdByStudentId = async (studentId, departmentId) => {
   try {
     await pool.query("UPDATE sso_users SET department_id = $1 WHERE uuid = $2", [departmentId, studentId]);
-    console.log(`Record with studentId ${studentId} updated successfully`);
+    logger.info(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error(`An error occured while updating department id: ${error}`);
   }
 };
@@ -1026,7 +1028,7 @@ const getContractFileMetadataByStudentId = async (studentId, periodId) => {
 
     return result.rows[0];
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while fetching contract file metadata: ${error}`);
   }
 };
@@ -1047,7 +1049,7 @@ const getPaymentOrderMetadataByStudentId = async (studentId, periodId) => {
     const result = await pool.query(query, [periodId, studentId]);
     return result.rows[0];
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while fetching contract file metadata: ${error}`);
   }
 };
@@ -1068,7 +1070,7 @@ const getContractDetailsByDepartmentAndPeriod = async (departmentId, periodId) =
     const result = await pool.query(query, [periodId, departmentId]);
     return result.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while fetching contract file metadata (by department/period): ${error}`);
   }
 };
@@ -1081,14 +1083,14 @@ const isStudentInAssignmentList = async (student_id) => {
 
     return result.rows.length > 0;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while getting student assignment list: ${error.message}`);
   }
 };
 
 const updateContractDetails = async (studentId, periodId, contractDetails) => {
   try {
-    // console.log(contractDetails);
+    // logger.info(contractDetails);
     const updateStudentUserResult = await pool.query(`UPDATE student_users SET
                                     id_card = $1, ama_number = $2, ssn = $3, father_name = $4, doy = $5
                                     WHERE sso_uid = $6`, [contractDetails.id_number,
@@ -1132,16 +1134,16 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
                                     WHERE period_id = $5`,
       [contractDetails.department_manager_name, contractDetails.ada_number, contractDetails.apofasi, contractDetails.arithmos_sunedriashs, periodId]);
 
-    console.log(`Record with studentId ${studentId} updated successfully`);
+    logger.info(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while updating contract details: ${error.message}`);
   }
 };
 
 const updatePaymentOrderDetails = async (studentId, periodId, contractDetails) => {
   try {
-    console.log(contractDetails);
+    logger.info(contractDetails);
     // await pool.query(`UPDATE student_users SET father_name = $1
     //                                 WHERE sso_uid = $2`, [contractDetails.father_name, studentId]);
 
@@ -1164,9 +1166,9 @@ const updatePaymentOrderDetails = async (studentId, periodId, contractDetails) =
                                     WHERE period_id = $2`,
       [contractDetails.department_manager_name, periodId]);
 
-    console.log(`Record with studentId ${studentId} updated successfully`);
+    logger.info(`Record with studentId ${studentId} updated successfully`);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while updating contract details: ${error.message}`);
   }
 };
@@ -1179,7 +1181,7 @@ const updateAssignmentStateByStudentAndPosition = async (studentId, periodId, po
                                         WHERE student_id = $2 AND period_id = $3 AND assigned_position_id = $4`,
       [COMPLETED_IN_ATLAS, studentId, periodId, positionId]);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while updating assignment state by student and period ids' + error.message);
   }
 };
@@ -1213,7 +1215,7 @@ const isEntrySheetEnabledForStudent = async (studentId) => {
 
     return result.rows.length > 0;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while getting student assignment list: ${error.message}`);
   }
 };
@@ -1230,7 +1232,7 @@ const isExitSheetEnabledForStudent = async (studentId) => {
 
     return result.rows.length > 0;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error(`An error occured while getting student assignment list: ${error.message}`);
   }
 };
@@ -1247,14 +1249,14 @@ const getApprovedAssignmentInfoByStudentId = async (studentId) => {
 
     return result.rows[0];
   } catch (error) {
-    console.error(`Error fetching assignment details for student ID ${studentId}: `, error);
+    logger.error(`Error fetching assignment details for student ID ${studentId}: `, error);
     throw Error('Error fetching assignment details.');
   }
 };
 
 const updateSheetOpsNumberById = async (opsNumber, id, sheetType) => {
   try {
-    console.log("updateSheetOpsNumberById: sheetType " + sheetType + " opsNumber " + opsNumber + " id " + id);
+    logger.info("updateSheetOpsNumberById: sheetType " + sheetType + " opsNumber " + opsNumber + " id " + id);
 
     let updateResults;
     if (sheetType == 'entry') {
@@ -1264,13 +1266,13 @@ const updateSheetOpsNumberById = async (opsNumber, id, sheetType) => {
       updateResults = await pool.query(`UPDATE exit_form
                             SET ops_number_exodou = $1 WHERE exit_id = $2`, [opsNumber, id]);
     } else {
-      console.error('Invalid sheet type given');
+      logger.error('Invalid sheet type given');
       throw Error('Invalid sheet type given');
     }
 
     return updateResults;
   } catch (error) {
-    console.error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType + " error: " + error.message);
+    logger.error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType + " error: " + error.message);
     throw Error('Error while updating sheet number: id ' + id + ' and sheet type ' + sheetType);
   }
 };

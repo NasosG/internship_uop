@@ -1,5 +1,8 @@
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 const deactivateJob = true;
+// Logging
+const logger = require('../config/logger');
+
 /**
  * setPeriodCompleted
  *
@@ -12,18 +15,18 @@ const deactivateJob = true;
  */
 const setPeriodCompleted = async () => {
   if (deactivateJob) {
-    console.log("Period finish job deactivated");
+    logger.info("Period finish job deactivated");
     return;
   }
-  console.log("Job started at: " + new Date().toLocaleString());
+  logger.info("Job started at: " + new Date().toLocaleString());
   try {
     await pool.query("UPDATE period  \
                       SET is_active = 'false', \
                           is_completed = 'true' \
                       WHERE DATE(NOW()) = DATE(date_to) AND phase_state >= 2");
-    console.log("Job finished at: " + new Date().toLocaleString());
+    logger.info("Job finished at: " + new Date().toLocaleString());
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw Error("Error while updating period in job: " + error.message);
   }
 };

@@ -1,9 +1,9 @@
 jest.setTimeout(100000000);
 // database connection configuration
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 const axios = require("axios");
 require('dotenv').config();
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 
 describe('syncAtlasPositionAcademics function', () => {
   it('should return a value', async () => {

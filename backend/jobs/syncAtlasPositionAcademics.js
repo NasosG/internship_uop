@@ -1,14 +1,16 @@
 // database connection configuration
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
 const axios = require("axios");
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 require('dotenv').config();
+// Logging
+const logger = require('../config/logger');
 
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
 
 const executeSync = async () => {
-  console.log("syncAtlasPositionAcademics.executeSync() started at: " + new Date().toLocaleString());
+  logger.info("syncAtlasPositionAcademics.executeSync() started at: " + new Date().toLocaleString());
   try {
     const loginData = {
       'Username': process.env.usernameTestProd,
@@ -31,7 +33,7 @@ const executeSync = async () => {
     }
 
     const result = await pool.query(`SELECT * FROM atlas_position_group`);
-    console.log("syncAtlasPositionAcademics.executeSync() - Query executed successfully");
+    logger.info("syncAtlasPositionAcademics.executeSync() - Query executed successfully");
 
     for (const obj of result.rows) {
       let positionGroupResults = await getPositionGroupDetails(obj.atlas_position_id, accessToken);
@@ -62,15 +64,15 @@ const executeSync = async () => {
         }
 
       } catch (error) {
-        console.log('Error while updating position_has_academics for position ' + obj.atlas_position_id + ' error: ' + error.message);
+        logger.info('Error while updating position_has_academics for position ' + obj.atlas_position_id + ' error: ' + error.message);
       }
     }
 
-    console.log("syncAtlasPositionAcademics.executeSync() ended at: " + new Date().toLocaleString());
+    logger.info("syncAtlasPositionAcademics.executeSync() ended at: " + new Date().toLocaleString());
 
     return true;
   } catch (error) {
-    console.error("syncAtlasPositionAcademics.executeSync() error: " + error);
+    logger.error("syncAtlasPositionAcademics.executeSync() error: " + error);
     return false;
   }
 };

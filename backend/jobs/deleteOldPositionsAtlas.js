@@ -1,6 +1,8 @@
 require('dotenv').config();
 const axios = require("axios");
-const pool = require("../db_config.js");
+const pool = require("../config/db_config.js");
+// Logging
+const logger = require('../config/logger');
 
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
@@ -9,7 +11,7 @@ let FOUND_IN_ATLAS = 0;
 let TO_BE_DELETED = 0;
 
 const doDelete = async () => {
-  console.log("deleteOldPositionsAtlas.doDelete() started at: " + new Date().toLocaleString());
+  logger.info("deleteOldPositionsAtlas.doDelete() started at: " + new Date().toLocaleString());
 
   const loginData = {
     'Username': process.env.usernameTestProd,
@@ -36,7 +38,7 @@ const doDelete = async () => {
     let positionGroupResults = await getPositionGroupDetails(pos.atlas_position_id, accessToken);
 
     if (positionGroupResults?.message && positionGroupResults?.message?.Success == false) {
-      // console.log("position not found in atlas");
+      // logger.info("position not found in atlas");
 
       // Update availability status to false
       await pool.query("UPDATE atlas_position_group SET is_available = false WHERE atlas_position_id = $1", [pos.atlas_position_id]);
@@ -50,23 +52,23 @@ const doDelete = async () => {
           await pool.query("DELETE FROM atlas_position_group_relations WHERE position_group_id=$1", [pos.atlas_position_id]);
         }
       } catch (error) {
-        console.error(`Error in try 2. Error: ${error.message}`);
+        logger.error(`Error in try 2. Error: ${error.message}`);
       }
 
     } else {
-      // console.log("position found in atlas");
+      // logger.info("position found in atlas");
       FOUND_IN_ATLAS++;
     }
 
     if (FOUND_IN_ATLAS > 0 && FOUND_IN_ATLAS % 300 == 0) {
-      console.log("FOUND_IN_ATLAS: " + FOUND_IN_ATLAS);
-      console.log("TO_BE_DELETED: " + TO_BE_DELETED);
+      logger.info("FOUND_IN_ATLAS: " + FOUND_IN_ATLAS);
+      logger.info("TO_BE_DELETED: " + TO_BE_DELETED);
     }
   }
 
-  console.log("FOUND_IN_ATLAS: " + FOUND_IN_ATLAS);
-  console.log("TO_BE_DELETED: " + TO_BE_DELETED);
-  console.log("deleteOldPositionsAtlas.doDelete() completed at: " + new Date().toLocaleString());
+  logger.info("FOUND_IN_ATLAS: " + FOUND_IN_ATLAS);
+  logger.info("TO_BE_DELETED: " + TO_BE_DELETED);
+  logger.info("deleteOldPositionsAtlas.doDelete() completed at: " + new Date().toLocaleString());
 };
 
 const getPositionIdsfromDB = async () => {
@@ -74,7 +76,7 @@ const getPositionIdsfromDB = async () => {
     const results = await pool.query("SELECT atlas_position_id FROM atlas_position_group");
     return results.rows;
   } catch (error) {
-    console.log("POSITIONS IN LOCAL DB AND ATLAS TOO: " + error.message);
+    logger.info("POSITIONS IN LOCAL DB AND ATLAS TOO: " + error.message);
     throw error;
   }
 };
@@ -84,7 +86,7 @@ const checkIfPositionHasBeenChosenByStudent = async (position) => {
     let rows = await pool.query("SELECT * FROM final_app_positions WHERE position_id=$1", [position]);
     return rows.rowCount > 0;
   } catch (error) {
-    console.log("POSITIONS IN LOCAL DB AND ATLAS TOO: " + error.message);
+    logger.info("POSITIONS IN LOCAL DB AND ATLAS TOO: " + error.message);
     throw error;
   }
 };
@@ -104,7 +106,7 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
       status: atlasResponse.status
     };
   } catch (error) {
-    console.log(error.message);
+    logger.info(error.message);
     return {
       message: "something went wrong while fetching position group details",
       status: "400 bad request"

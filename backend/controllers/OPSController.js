@@ -7,10 +7,12 @@
  */
 const jwt = require("jsonwebtoken");
 const studentService = require("../services/studentService.js");
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 const axios = require("axios");
 require('dotenv').config();
 const xml2js = require('xml2js');
+// Logging
+const logger = require('../config/logger');
 
 const createMicrodata = (id, answer) => {
   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
@@ -37,7 +39,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
     const soapActionCall1 = 'sentParticipants';
-    console.log(xmlPostString);
+    logger.info(xmlPostString);
 
     // asmx URL of WSDL
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
@@ -49,7 +51,7 @@ const sendDeltioEisodouWS = async (req, res) => {
         'SOAPAction': soapActionCall1
       },
     });
-    console.log(responseCall1.data);
+    logger.info(responseCall1.data);
 
     const parsedResponseCall1 = await parseXmlResponseCall1(responseCall1.data);
 
@@ -58,8 +60,8 @@ const sendDeltioEisodouWS = async (req, res) => {
     }
 
     const { RequestProgressMessage, RequestProgressMessageCode } = parsedResponseCall1;
-    console.log('RequestProgressMessage: ', RequestProgressMessage);
-    console.log('Extracted Code: ', RequestProgressMessageCode);
+    logger.info('RequestProgressMessage: ', RequestProgressMessage);
+    logger.info('Extracted Code: ', RequestProgressMessageCode);
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
@@ -71,12 +73,12 @@ const sendDeltioEisodouWS = async (req, res) => {
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       if (responseCall2?.message == 'XMLErrors found') {
-        console.error('Error XMLErrors found');
+        logger.error('Error XMLErrors found');
         return res.status(500).send({ message: 'XMLErrors found' });
       }
-      console.log('Response from Call 2:', responseCall2);
+      logger.info('Response from Call 2:', responseCall2);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
     }
 
@@ -85,11 +87,11 @@ const sendDeltioEisodouWS = async (req, res) => {
     let idDeltiou;
 
     if (Number(errorCode) == 0) {
-      console.log('idOfel:', parsedResponse.idOfel);
-      console.log('kodikosMis:', parsedResponse.kodikosMis);
-      console.log('idDeltiou:', parsedResponse.idDeltiou);
-      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
-      console.log('errorDescr:', parsedResponse.errorDescr);
+      logger.info('idOfel:', parsedResponse.idOfel);
+      logger.info('kodikosMis:', parsedResponse.kodikosMis);
+      logger.info('idDeltiou:', parsedResponse.idDeltiou);
+      logger.info('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      logger.info('errorDescr:', parsedResponse.errorDescr);
 
       idDeltiou = parsedResponse.idDeltiou;
 
@@ -97,13 +99,13 @@ const sendDeltioEisodouWS = async (req, res) => {
       if (parsedResponse.idOfel && !sheetResults.rows[0].ops_number_eisodou) {
         await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults.rows[0].id, 'entry');
       }
-      console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
+      logger.info(`all OK for sheet with OPS number: ${idDeltiou}`);
     } else if (Number(errorCode) == -11) {
-      console.log('idOfel:', parsedResponse.idOfel);
-      console.log('kodikosMis:', parsedResponse.kodikosMis);
-      console.log('idDeltiou:', parsedResponse.idDeltiou);
-      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
-      console.log('errorDescr:', parsedResponse.errorDescr);
+      logger.info('idOfel:', parsedResponse.idOfel);
+      logger.info('kodikosMis:', parsedResponse.kodikosMis);
+      logger.info('idDeltiou:', parsedResponse.idDeltiou);
+      logger.info('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      logger.info('errorDescr:', parsedResponse.errorDescr);
 
       console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
       return res.status(400).json({ message: 'Sheet already exists' });
@@ -114,7 +116,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (exc) {
-    console.error(exc);
+    logger.error(exc);
     return res.status(500).send({ message: 'Entry sheet - SOAP request failed' });
   }
 };
@@ -132,7 +134,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
         },
       });
 
-      console.log(`Call attempt ${attempt}:`, response.data);
+      logger.info(`Call attempt ${attempt}:`, response.data);
 
       if (!response?.data) {
         console.warn('No response data received');
@@ -156,7 +158,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
 
       return { data: parsedResponse };
     } catch (error) {
-      console.error(`Attempt ${attempt} failed:`, error);
+      logger.error(`Attempt ${attempt} failed:`, error);
 
       if (attempt === maxRetries) {
         throw Error('Maximum retry attempts reached. Data processing is not completed.');
@@ -182,7 +184,7 @@ const sendDeltioExodouWS = async (req, res) => {
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
     const soapActionCall1 = 'sentParticipants';
-    console.log(xmlPostString);
+    logger.info(xmlPostString);
 
     // asmx URL of WSDL
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
@@ -194,7 +196,7 @@ const sendDeltioExodouWS = async (req, res) => {
         'SOAPAction': soapActionCall1
       },
     });
-    console.log(responseCall1.data);
+    logger.info(responseCall1.data);
 
     const parsedResponseCall1 = await parseXmlResponseCall1(responseCall1.data);
 
@@ -203,8 +205,8 @@ const sendDeltioExodouWS = async (req, res) => {
     }
 
     const { RequestProgressMessage, RequestProgressMessageCode } = parsedResponseCall1;
-    console.log('RequestProgressMessage: ', RequestProgressMessage);
-    console.log('Extracted Code: ', RequestProgressMessageCode);
+    logger.info('RequestProgressMessage: ', RequestProgressMessage);
+    logger.info('Extracted Code: ', RequestProgressMessageCode);
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
@@ -216,12 +218,12 @@ const sendDeltioExodouWS = async (req, res) => {
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       if (responseCall2?.message == 'XMLErrors found') {
-        console.error('Error XMLErrors found');
+        logger.error('Error XMLErrors found');
         return res.status(500).send({ message: 'XMLErrors found' });
       }
-      console.log('Response from Call 2:', responseCall2);
+      logger.info('Response from Call 2:', responseCall2);
     } catch (error) {
-      console.error(error.message);
+      logger.error(error.message);
       return res.status(500).send({ message: 'Exit sheet - SOAP request Call 2 failed after retries' });
     }
 
@@ -230,11 +232,11 @@ const sendDeltioExodouWS = async (req, res) => {
     let idDeltiou;
 
     if (Number(errorCode) == 0) {
-      console.log('idOfel:', parsedResponse.idOfel);
-      console.log('kodikosMis:', parsedResponse.kodikosMis);
-      console.log('idDeltiou:', parsedResponse.idDeltiou);
-      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
-      console.log('errorDescr:', parsedResponse.errorDescr);
+      logger.info('idOfel:', parsedResponse.idOfel);
+      logger.info('kodikosMis:', parsedResponse.kodikosMis);
+      logger.info('idDeltiou:', parsedResponse.idDeltiou);
+      logger.info('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      logger.info('errorDescr:', parsedResponse.errorDescr);
 
       idDeltiou = parsedResponse.idDeltiou;
 
@@ -242,13 +244,13 @@ const sendDeltioExodouWS = async (req, res) => {
       if (parsedResponse.idOfel && !sheetResults[0].ops_number_exodou) {
         await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults[0].exit_id, 'exit');
       }
-      console.log(`all OK for sheet with OPS number: ${idDeltiou}`);
+      logger.info(`all OK for sheet with OPS number: ${idDeltiou}`);
     } else if (Number(errorCode) == -11) {
-      console.log('idOfel:', parsedResponse.idOfel);
-      console.log('kodikosMis:', parsedResponse.kodikosMis);
-      console.log('idDeltiou:', parsedResponse.idDeltiou);
-      console.log('eidosDeltiou:', parsedResponse.eidosDeltiou);
-      console.log('errorDescr:', parsedResponse.errorDescr);
+      logger.info('idOfel:', parsedResponse.idOfel);
+      logger.info('kodikosMis:', parsedResponse.kodikosMis);
+      logger.info('idDeltiou:', parsedResponse.idDeltiou);
+      logger.info('eidosDeltiou:', parsedResponse.eidosDeltiou);
+      logger.info('errorDescr:', parsedResponse.errorDescr);
 
       console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
       return res.status(400).json({ message: 'Sheet already exists' });
@@ -259,7 +261,7 @@ const sendDeltioExodouWS = async (req, res) => {
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.status(500).send('SOAP request failed');
   }
 };
@@ -274,7 +276,7 @@ const sendDeltioEisodouXML = async (req, res) => {
 
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
-    console.log(xmlPostString);
+    logger.info(xmlPostString);
 
     const filename = `deltioEisodou${studentId}.xml`;
     res.set('Content-Type', 'text/xml; charset=utf-8');
@@ -283,7 +285,7 @@ const sendDeltioEisodouXML = async (req, res) => {
     return res.send(xmlPostString);
 
   } catch (exc) {
-    console.error(exc);
+    logger.error(exc);
     return res.status(500).send({ message: 'Entry sheet - XML generation failed' });
   }
 };
@@ -298,7 +300,7 @@ const sendDeltioExodouXML = async (req, res) => {
 
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
-    console.log(xmlPostString);
+    logger.info(xmlPostString);
 
     const filename = `deltioExodou${studentId}.xml`;
     res.set('Content-Type', 'text/xml; charset=utf-8');
@@ -307,7 +309,7 @@ const sendDeltioExodouXML = async (req, res) => {
     return res.send(xmlPostString);
 
   } catch (exc) {
-    console.error(exc);
+    logger.error(exc);
     return res.status(500).send({ message: 'Exit sheet - XML generation failed' });
   }
 };
@@ -339,7 +341,7 @@ const parseXmlResponseCall1 = async (xml) => {
     const requestProgressMessage = parsedXml['soapenv:Envelope']['env:Body']['urn:SymetexontesResponse']['urn:RequestProgressMessage'];
 
     if (!requestProgressMessage) {
-      console.error('RequestProgressMessage not found in the response.');
+      logger.error('RequestProgressMessage not found in the response.');
       return {
         status: 'failure',
         errorMessage: 'RequestProgressMessage not found in the response.',
@@ -355,7 +357,7 @@ const parseXmlResponseCall1 = async (xml) => {
       RequestProgressMessageCode: requestProgressMessageCode
     };
   } catch (error) {
-    console.error('Error parsing XML Call 1: ', error);
+    logger.error('Error parsing XML Call 1: ', error);
     return {
       status: 'failure',
       errorMessage: error.message,
@@ -384,7 +386,7 @@ const parseXmlResponseCall2 = async (xml) => {
     const response = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['ofel:DeltioOfeloumenou'];
     const idOfel = parsedXml['soapenv:Envelope']['env:Body']['ofel:SymetexontesResponse']['ofel:OfeloumenosOutput']['urn:IDTaytopoihsis'];
 
-    console.log(response);
+    logger.info(response);
 
     // Extract the error message
     const errorMessage = response?.['ofel:ErrorMessage'];
@@ -404,7 +406,7 @@ const parseXmlResponseCall2 = async (xml) => {
       idDeltiou: getIdDeltiouFromErrorMessage(errorMessage)
     };
   } catch (error) {
-    console.error('Error parsing XML Call 2: ', error?.message);
+    logger.error('Error parsing XML Call 2: ', error?.message);
     return {
       status: 'failure',
       errorMessage: error?.message,
@@ -585,9 +587,9 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
       microdata += createMicrodata(answer.id, answer.value);
     });
 
-    // console.log(microdata);
+    // logger.info(microdata);
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'entry');
-    console.log(deltioCandidateInfo);
+    logger.info(deltioCandidateInfo);
 
     // Prepare XML string
     if (mode == 'XML') {
@@ -621,7 +623,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
 
     return xmlPostString;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw new Error('Error producing xml post string');
   }
 };
@@ -712,9 +714,9 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
       microdata += createMicrodata(answer.id, answer.value);
     });
 
-    // console.log(microdata);
+    // logger.info(microdata);
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'entry');
-    console.log(deltioCandidateInfo);
+    logger.info(deltioCandidateInfo);
 
     // Prepare XML string
     if (mode == 'XML') {
@@ -744,7 +746,7 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
 
     return xmlPostString;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw new Error('Error producing xml post string');
   }
 };
@@ -773,7 +775,7 @@ const getXmlPostStringMIS21_27_Call2Res = async (codeOfReq1) => {
 
     return xmlPostString;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error producing xml post string - Req2 result: ' + error.message);
   }
 };
@@ -852,7 +854,7 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     });
 
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'exit');
-    console.log(deltioCandidateInfo);
+    logger.info(deltioCandidateInfo);
 
     if (mode == 'XML') {
       finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
@@ -885,7 +887,7 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
 
     return xmlPostString;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error producing xml post string');
   }
 };
@@ -937,7 +939,7 @@ const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
     });
 
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'exit');
-    console.log(deltioCandidateInfo);
+    logger.info(deltioCandidateInfo);
 
     if (mode == 'XML') {
       finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
@@ -966,7 +968,7 @@ const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
 
     return xmlPostString;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error producing xml post string');
   }
 };
@@ -1052,23 +1054,23 @@ const testParsersWS = async () => {
 
     let codeOfReq1;
 
-    console.log('parsedResponseCall1: ', parsedResponseCall1.status);
+    logger.info('parsedResponseCall1: ', parsedResponseCall1.status);
     if (parsedResponseCall1.status === 'failure' || !parsedResponseCall1?.RequestProgressMessage) {
       return 0;
     }
-    console.log('ReqsProgressMessage: ', parsedResponseCall1.RequestProgressMessage);
+    logger.info('ReqsProgressMessage: ', parsedResponseCall1.RequestProgressMessage);
 
     const message = parsedResponseCall1.RequestProgressMessage;
     const parts = message.split(" ");
     codeOfReq1 = parts[parts.length - 1];
 
-    console.log('Extracted Code: ', codeOfReq1);
+    logger.info('Extracted Code: ', codeOfReq1);
 
     const parsedResponseCall2 = await parseXmlResponseCall2(simulatedResponseData2);
-    console.log(parsedResponseCall2);
+    logger.info(parsedResponseCall2);
     return;
   } catch (error) {
-    console.error('Error: ', error);
+    logger.error('Error: ', error);
   }
 };
 

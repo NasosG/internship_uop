@@ -6,20 +6,12 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cron = require('node-cron');
 const atlasController = require('./controllers/atlasController.js');
-const MiscUtils = require("./MiscUtils.js");
+const MiscUtils = require("./utils/MiscUtils.js");
 // Jobs
 const setPeriodCompletedJob = require('./jobs/setPeriodCompleted.js');
 const deleteOldPositionsAtlasJob = require('./jobs/deleteOldPositionsAtlas.js');
 const syncAtlasPositionAcademics = require('./jobs/syncAtlasPositionAcademics.js');
-
-// const log4js = require("log4js");
-// log4js.configure({
-//   appenders: { logfile: { type: "file", filename: "logfile.log" } },
-//   categories: { default: { appenders: ["logfile"], level: "error" } },
-// });
-// let logger = log4js.getLogger();
-// logger.level = "debug";
-// logger.info("Some debug messages");
+const logger = require('./config/logger');
 
 // Route imports
 const studentRoutes = require("./api-routes/studentRoutes.js");
@@ -103,6 +95,7 @@ app.get('/authSSO', cas.bounce, function (req, res) {
 // Unauthenticated clients will receive a 401 Unauthorized response instead of
 // the JSON data.
 app.get('/api', cas.block, function (req, res) {
+  logger.info("Some debug messages");
   res.json({ success: true });
 });
 
@@ -122,7 +115,7 @@ cron.schedule("58 23 * * *", async () => {
   try {
     await setPeriodCompletedJob.setPeriodCompleted();
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }, {
   scheduled: true,
@@ -133,7 +126,7 @@ cron.schedule("30 21 * * *", async () => {
   try {
     await deleteOldPositionsAtlasJob.doDelete();
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }, {
   scheduled: true,
@@ -144,7 +137,7 @@ cron.schedule("37 01 * * *", async () => {
   try {
     await syncAtlasPositionAcademics.executeSync();
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 }, {
   scheduled: true,
@@ -155,7 +148,7 @@ cron.schedule("37 01 * * *", async () => {
 //setInterval(async () => await atlasController.insertOrUpdateAtlasTables(), MiscUtils.ONE_HOUR);
 
 const updateAtlasTables = async () => {
-  console.log("Update started at: " + new Date().toLocaleString());
+  logger.info("Update started at: " + new Date().toLocaleString());
   await atlasController.insertOrUpdateAtlasTables();
 };
 

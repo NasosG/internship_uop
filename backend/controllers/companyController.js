@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken");
 const companyService = require("../services/companyService");
 const atlasController = require("./atlasController");
 const mainMailer = require('../mailers/mainMailers.js');
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
+// Logging
+const logger = require('../config/logger');
 
 const insertCompanyUsers = async (request, response, next) => {
   try {
@@ -10,7 +12,7 @@ const insertCompanyUsers = async (request, response, next) => {
     let newlyCreatedProviderId = null;
     // If id doesn't exist first make a new provider and then make an account
     if (company.id == null || company.id == "") {
-      console.error('not created');
+      logger.error('not created');
       response.status(409)
         .json({
           message: 'not created. Company does not exist in Atlas.'
@@ -22,10 +24,10 @@ const insertCompanyUsers = async (request, response, next) => {
 
     if (accountCreated) {
       if (company.id == null || company.id == "") {
-        console.log('company id is still null ERROR');
+        logger.info('company id is still null ERROR');
       }
     } else {
-      console.error('not created');
+      logger.error('not created');
       response.status(409)
         .json({
           message: 'not created'
@@ -39,7 +41,7 @@ const insertCompanyUsers = async (request, response, next) => {
         message: 'Company details inserted successfully'
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -57,7 +59,7 @@ const insertInternalPositionGroup = async (request, response, next) => {
 
     response.status(201).json(internalPosition);
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -77,11 +79,11 @@ const insertAssignment = async (request, response, next) => {
       if (academicId.toString().length == 6) {
         academicId = MiscUtils.getAEICodeFromDepartmentId(academicId);
       }
-      console.log(academicId);
+      logger.info(academicId);
 
       const preassignResult = await companyService.getPreassignModeByDepartmentId(academicId);
-      console.log(preassignResult.preassign);
-      console.log(item.position_id);
+      logger.info(preassignResult.preassign);
+      logger.info(item.position_id);
 
       // Get preassigned position or make a new preassignment
       let positionPreassignment;
@@ -93,9 +95,9 @@ const insertAssignment = async (request, response, next) => {
           throw new Error(positionPreassignment.message);
         }
 
-        console.log(positionPreassignment);
+        logger.info(positionPreassignment);
       } catch (error) {
-        console.log(error);
+        logger.info(error);
         response.status(500)
           .json({
             message: error.message
@@ -112,7 +114,7 @@ const insertAssignment = async (request, response, next) => {
         message: "company pre-assignment was inserted successfully"
       });
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(401)
       .json({
         message: error.message
@@ -127,7 +129,7 @@ const getProviderByAfm = async (request, response) => {
     response.status(200).json(providers);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404)
       .json({
         message: error.message
@@ -142,7 +144,7 @@ const getProviderById = async (request, response) => {
     response.status(200).json(providers);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404)
       .json({
         message: error.message
@@ -158,7 +160,7 @@ const getInternalPositionsByProviderId = async (request, response) => {
     response.status(200).json(providers);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404)
       .json({
         message: error.message
@@ -186,7 +188,7 @@ const getStudentActiveApplications = async (request, response) => {
     const companyName = request.query.companyName;
     const companyAFM = request.query.companyAFM;
 
-    // console.log(companyName + " " + companyAFM);
+    // logger.info(companyName + " " + companyAFM);
     const activeApps = await companyService.getStudentActiveApplications(companyName, companyAFM);
 
     response.status(200).json(activeApps);
@@ -259,7 +261,7 @@ const resetPassword = async (request, response) => {
     let newPassword = companyService.generatePassword(passwordLength);
     await companyService.updateUserPassword(newPassword, userMail);
 
-    mainMailer.sendPasswordResetEmail(newPassword, userMail).catch(console.error);
+    mainMailer.sendPasswordResetEmail(newPassword, userMail).catch(logger.error);
 
     response.status(200).json({
       message: "Your password has been reset successfully"
@@ -279,7 +281,7 @@ const getProviderByPositionId = async (request, response) => {
     response.status(200).json(providers);
 
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     response.status(404)
       .json({
         message: error.message
@@ -291,7 +293,7 @@ const insertOrUpdateEvaluationSheet = async (request, response) => {
   try {
     const { providerId, studentId, positionId } = request.query;
     const { evaluationFormData } = request.body;
-    console.log(request.body);
+    logger.info(request.body);
 
     const evaluationExists = await companyService.checkIfEvaluationExists(studentId, positionId);
 
@@ -320,7 +322,7 @@ const getCompanysEvaluationForm = async (request, response) => {
     const evaluationFormRow = await companyService.getCompanysEvaluationForm(studentId, positionId);
 
     if (evaluationFormRow) {
-      console.log(evaluationFormRow);
+      logger.info(evaluationFormRow);
       return response.status(200).json(evaluationFormRow);
     }
 

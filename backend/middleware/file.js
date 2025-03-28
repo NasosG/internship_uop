@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require('fs');
 // Importing Utilities module
 const util = require('util');
-const MiscUtils = require("../MiscUtils.js");
+const MiscUtils = require("../utils/MiscUtils.js");
 require('dotenv').config();
 
 getCurrentDate = () => {

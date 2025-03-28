@@ -1,6 +1,8 @@
 // database connection configuration
-const pool = require("../db_config.js");
-const MiscUtils = require("../MiscUtils.js");
+const pool = require("../config/db_config.js");
+const MiscUtils = require("../utils/MiscUtils.js");
+// Logging
+const logger = require('../config/logger');
 
 const login = async (username) => {
   try {
@@ -29,7 +31,7 @@ const getOfficeUserById = async (id) => {
     let departmentManagerDetails = Object.assign(finalDepManagerResults, department);
     return departmentManagerDetails;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching Office User');
   }
 };
@@ -196,7 +198,7 @@ const getStudentListForPeriodAndAcademic = async (periodId, departmentId) => {
                                     WHERE list.period_id = $1 AND list.department_id = $2`, [periodId, departmentId]);
     return result.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching student list for period ' + error.message);
   }
 };
@@ -212,7 +214,7 @@ const getStudentPaymentsListForPeriodAndAcademic = async (periodId, departmentId
                                     WHERE list.period_id = $1 AND list.department_id = $2`, [periodId, departmentId]);
     return result.rows;
   } catch (error) {
-    console.error(error.message);
+    logger.error(error.message);
     throw Error('Error while fetching student list (payment orders) for period ' + error.message);
   }
 };
@@ -224,7 +226,7 @@ const insertEspaPosition = async (body, departmentId) => {
       " VALUES ($1, $2)",
       [departmentId, body.positions]);
   } catch (error) {
-    console.log('Error while inserting espa positions ' + error.message + "|" + departmentId);
+    logger.info('Error while inserting espa positions ' + error.message + "|" + departmentId);
     throw Error('Error while inserting espa positions');
   }
 };
@@ -234,7 +236,7 @@ const upateEspaPosition = async (body, departmentId) => {
     const positions = await pool.query("UPDATE espa_positions SET positions = $1 WHERE department_id = $2",
       [body.positions, departmentId]);
   } catch (error) {
-    console.log('Error while updating espa positions ' + error.message);
+    logger.info('Error while updating espa positions ' + error.message);
     throw Error('Error while updating espa positions');
   }
 };
@@ -245,7 +247,7 @@ const getEspaPositionByDepId = async (departmentId) => {
       [departmentId]);
     return positions;
   } catch (error) {
-    console.log('Error while getting espa positions by id ' + error.message);
+    logger.info('Error while getting espa positions by id ' + error.message);
     throw Error('Error while getting espa positions by id');
   }
 };
@@ -269,7 +271,7 @@ const updateEntrySheetField = async (id, body) => {
       [body.elementValue, id]);
 
   } catch (error) {
-    console.log('Error while updating entry sheet field ' + error.message);
+    logger.info('Error while updating entry sheet field ' + error.message);
     throw Error('Error while updating entry sheet field');
   }
 };
@@ -279,7 +281,7 @@ const updateExitSheetField = async (id, body) => {
     await pool.query('UPDATE exit_form SET "' + body.fieldId + '" = $1 WHERE exit_id = $2',
       [body.elementValue, id]);
   } catch (error) {
-    console.log('Error while updating entry sheet field ' + error.message);
+    logger.info('Error while updating entry sheet field ' + error.message);
     throw Error('Error while updating entry sheet field');
   }
 };
