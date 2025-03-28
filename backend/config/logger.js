@@ -6,7 +6,7 @@ log4js.configure({
       type: 'console',
       layout: {
         type: 'pattern',
-        pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] [%f] - %m',  // Timestamp and log pattern
+        pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] [%M] - %m',  // Timestamp and log pattern
       },
     },
     logfile: {
@@ -14,7 +14,7 @@ log4js.configure({
       filename: 'logs/logfile.log', // Log file location
       layout: {
         type: 'pattern',
-        pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] [%f] - %m',  // Timestamp and log pattern
+        pattern: '%d{yyyy-MM-dd hh:mm:ss} [%p] [%M] - %m',  // Timestamp and log pattern
       },
     },
   },
