@@ -269,6 +269,14 @@ const getTypeOfDepartmentOPS = (departmentCode) => {
   return (departmentCode.length <= 4) ? codeAEI : getTypeOfTEI(departmentCode);
 };
 
+/**
+ * Pauses execution for a specified amount of time.
+ *
+ * @param {number} ms - The number of milliseconds to sleep.
+ * @returns {Promise<void>} A promise that resolves after the given duration.
+ */
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 // Export list
 module.exports = {
   FILE_TYPES,
@@ -295,5 +303,6 @@ module.exports = {
   formatDateToISO,
   formatDateString,
   getTypeOfTEI,
-  getTypeOfDepartmentOPS
+  getTypeOfDepartmentOPS,
+  sleep
 };

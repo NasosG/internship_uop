@@ -50,7 +50,7 @@ const doDelete = async () => {
           await pool.query("DELETE FROM atlas_position_group_relations WHERE position_group_id=$1", [pos.atlas_position_id]);
         }
       } catch (error) {
-        console.error(error.message);
+        console.error(`Error in try 2. Error: ${error.message}`);
       }
 
     } else {

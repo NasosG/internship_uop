@@ -749,6 +749,13 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       await atlasService.updatePositionGroupRelationsList(providerPairUpdates);
 
       skip += batchSize;
+
+      // Sleep to prevent API rate limit issues - added 28/03/2025
+      if (skip % 1000 == 0) {
+        console.log("Sleeping for 2 minutes to avoid rate limiting...");
+        await sleep(120000);  // 2 minutes (120,000 ms)
+      }
+
     } while (skip < numberOfItems);
     return {
       message: 'done'
