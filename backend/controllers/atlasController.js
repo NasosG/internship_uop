@@ -755,7 +755,9 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       // Sleep to prevent API rate limit issues - added 28/03/2025
       if (skip % 1000 == 0) {
         logger.info("Sleeping for 2 minutes to avoid rate limiting...");
-        await MiscUtils.sleep(120000);  // 2 minutes (120,000 ms)
+        //await MiscUtils.sleep(120000);  // 2 minutes (120,000 ms)
+        let randomNum = Math.floor(Math.random() * (240000 - 180000 + 1)) + 180000;
+        await MiscUtils.sleep(randomNum);
       }
 
     } while (skip < numberOfItems);
