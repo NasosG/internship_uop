@@ -615,6 +615,13 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     let skip = 0;//await atlasService.getCountOfPositionPairs();
     // skip = Number.parseInt(skip);
     const batchSize = 200;
+    
+    // After how many skips to sleep
+    let MIN_SKIPS = 800;
+    let MAX_SKIPS = 800;
+
+    const SKIP_VALUES = [400, 600, 800];
+    let selectedSkipValue = 800;
 
     let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
     let numberOfItems = itemsAtlas.message.NumberOfItems;
@@ -753,10 +760,13 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       skip += batchSize;
 
       // Sleep to prevent API rate limit issues - added 28/03/2025
-      const MIN_SKIPS = parseInt(process.env.MIN_SKIPS, 10) || 400;
-      const MAX_SKIPS = parseInt(process.env.MAX_SKIPS, 10) || 1000;
+      if (skip % selectedSkipValue == 0) {
+        MIN_SKIPS = parseInt(process.env.MIN_SKIPS, 10) || 400;
+        MAX_SKIPS = parseInt(process.env.MAX_SKIPS, 10) || 800;
 
-      if (skip % (Math.floor(Math.random() * MIN_SKIPS) + MAX_SKIPS) == 0) {
+        SKIP_VALUES = [skip + 400, skip + 600, skip + 800];
+        selectedSkipValue = SKIP_VALUES[Math.floor(Math.random() * SKIP_VALUES.length)];
+
         const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 480_000; // Default: 8 minutes
         const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 600_000; // Default: 10 minutes
 
