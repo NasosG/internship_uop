@@ -753,11 +753,20 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       skip += batchSize;
 
       // Sleep to prevent API rate limit issues - added 28/03/2025
-      if (skip % 1000 == 0) {
-        logger.info("Sleeping for 2 minutes to avoid rate limiting...");
-        //await MiscUtils.sleep(120000);  // 2 minutes (120,000 ms)
-        let randomNum = Math.floor(Math.random() * (480000 - 580000 + 1)) + 480000;
-        await MiscUtils.sleep(randomNum);
+      const MIN_SKIPS = parseInt(process.env.MIN_SKIPS, 10) || 400;
+      const MAX_SKIPS = parseInt(process.env.MAX_SKIPS, 10) || 1000;
+
+      if (skip % (Math.floor(Math.random() * MIN_SKIPS) + MAX_SKIPS) == 0) {
+        const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 480_000; // Default: 8 minutes
+        const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 600_000; // Default: 10 minutes
+
+        // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
+        let randomMilliseconds = Math.floor(Math.random() * (MIN_SLEEP_MS - MAX_SLEEP_MS + 1)) + MIN_SLEEP_MS;
+        let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
+        
+        logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
+        
+        await MiscUtils.sleep(randomMilliseconds);
       }
 
     } while (skip < numberOfItems);
