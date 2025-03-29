@@ -631,6 +631,9 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       if (availablePositionGroups?.status == "400 bad request") {
         logger.error(`Fetching position groups error: ${availablePositionGroups.message}`);
 
+        if (availablePositionGroups?.message.includes('Request failed with status code 403')) {
+          await MiscUtils.sleep(1200000); // Sleep for 20 minutes
+        }
         // Change 23/03/24 just skip the batch - it's not correct
         // TODO change it 25/03 - 30/03
         skip += (batchSize / 2);
