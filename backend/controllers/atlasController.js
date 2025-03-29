@@ -756,7 +756,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       if (skip % 1000 == 0) {
         logger.info("Sleeping for 2 minutes to avoid rate limiting...");
         //await MiscUtils.sleep(120000);  // 2 minutes (120,000 ms)
-        let randomNum = Math.floor(Math.random() * (240000 - 180000 + 1)) + 180000;
+        let randomNum = Math.floor(Math.random() * (480000 - 580000 + 1)) + 480000;
         await MiscUtils.sleep(randomNum);
       }
 
