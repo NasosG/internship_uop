@@ -757,9 +757,6 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       // Sleep to prevent API rate limit issues - added 28/03/2025
       if (skip % selectedSkipValue == 0) {
-        MIN_SKIPS = parseInt(process.env.MIN_SKIPS, 10) || 400;
-        MAX_SKIPS = parseInt(process.env.MAX_SKIPS, 10) || 800;
-
         SKIP_VALUES = [skip + 400, skip + 600, skip + 800];
         selectedSkipValue = SKIP_VALUES[Math.floor(Math.random() * SKIP_VALUES.length)];
 
