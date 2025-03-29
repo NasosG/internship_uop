@@ -19,7 +19,7 @@ log4js.configure({
     },
   },
   categories: {
-    default: { appenders: ['out', 'logfile'], level: 'info' }, // Default logger settings
+    default: { appenders: ['out', 'logfile'], level: 'info', enableCallStack: true }, // Default logger settings
   }
   // categories: { default: { appenders: ["out", "logfile"], level: "error" } },
 });
