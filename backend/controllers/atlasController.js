@@ -615,12 +615,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     let skip = 0;//await atlasService.getCountOfPositionPairs();
     // skip = Number.parseInt(skip);
     const batchSize = 200;
-    
-    // After how many skips to sleep
-    let MIN_SKIPS = 800;
-    let MAX_SKIPS = 800;
 
-    const SKIP_VALUES = [400, 600, 800];
+    let SKIP_VALUES = [400, 600, 800];
     let selectedSkipValue = 800;
 
     let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
