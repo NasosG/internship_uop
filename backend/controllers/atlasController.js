@@ -187,7 +187,7 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
     };
   } catch (error) {
     return {
-      message: "something went wrong while fetching position group details",
+      message: "something went wrong while fetching position group details" + error.message,
       status: "400 bad request"
     };
   }
