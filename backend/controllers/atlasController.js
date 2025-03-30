@@ -777,8 +777,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       logger.info(`Checking skip=${skip}, condition: ${skip % 1000 == 0}`);
       if (skip % 1000 == 0) {
-        const MIN_SLEEP_MS = 2600000; 
-        const MAX_SLEEP_MS = 3000000;
+        const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
+        const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
 
         // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
         let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MIN_SLEEP_MS;
