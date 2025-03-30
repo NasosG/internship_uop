@@ -287,6 +287,7 @@ module.exports = {
   ONE_N_HALF_HOUR,
   THREE_HOURS,
   THIRTY_HOURS,
+  SIX_HOURS,
   SALT_ROUNDS,
   departmentsMap,
   AssignedPositionStatus,
