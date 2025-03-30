@@ -352,6 +352,18 @@ const getImplementationDatesByStudentAndPeriod = async (studentId, periodId, pos
   }
 };
 
+const getFileMetadataByStudentId = async (userId, docType) => {
+  try {
+    const fileMetadata = await pool.query("SELECT * FROM sso_user_files \
+                                          WHERE sso_uid = $1 \
+                                          AND doc_type = $2 \
+                                          ORDER BY file_id DESC", [userId, docType]);
+    return fileMetadata;
+  } catch (error) {
+    throw Error('Error while fetching students');
+  }
+};
+
 const updateImplementationDatesByStudentAndPeriod = async (studentId, periodId, implementationDates, positionId) => {
   try {
     const positions = await pool.query(`UPDATE internship_assignment

@@ -40,5 +40,6 @@ router.get("/getStudentPaymentsListForPeriod/:id", depManagerController.getStude
 router.put("/completePeriodById/:id", depManagerController.completePeriodById);
 router.get("/getImplementationDatesByStudentAndPeriod/", depManagerController.getImplementationDatesByStudentAndPeriod);
 router.put("/updateImplementationDatesByStudentAndPeriod/:id", depManagerController.updateImplementationDatesByStudentAndPeriod);
+router.post("/receiveFile/:id", depManagerController.receiveFile);
 
 module.exports = router;

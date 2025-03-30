@@ -192,7 +192,7 @@ export class DepManagerService {
   }
 
   receiveFile(studentId: number, docType: string): Observable<Blob> {
-    const url = STUDENTS_URL + "sendFile/" + studentId;
+    const url = DEPARTMENT_MANAGER_URL + "receiveFile/" + studentId;
     return this.http.post(url, { 'doctype': docType }, { responseType: 'blob' });
     // .pipe(
     //   takeWhile( () => this.alive),

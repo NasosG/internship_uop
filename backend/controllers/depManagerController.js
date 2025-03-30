@@ -454,6 +454,28 @@ const getPositionsByApplicationId = async (request, response) => {
   }
 };
 
+const receiveFile = async (request, response) => {
+  try {
+    const id = request.params.id;
+    const docType = request.body.doctype;
+    let initialPath = process.env.DEPT_MANAGER_PREVIEW_FILE_PATH;
+
+    let metadata = (await studentService.getFileMetadataByStudentId(id, docType)).rows[0];
+    const path = require('path');
+
+    logger.info(metadata);
+    response
+      .status(200)
+      .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);
+
+  } catch (error) {
+    logger.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
 const insertAssignment = async (request, response, next) => {
   try {
     const companyData = request.body[0];
@@ -828,5 +850,6 @@ module.exports = {
   insertFinalAssignment,
   insertAssignImplementationDates,
   getAssignImplementationDates,
-  submitFinalResultsToOffice
+  submitFinalResultsToOffice,
+  receiveFile
 };

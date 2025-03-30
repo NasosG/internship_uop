@@ -842,6 +842,8 @@ const sendFile = async (request, response) => {
     let metadata = (await studentService.getFileMetadataByStudentId(id, docType)).rows[0];
     const path = require('path');
 
+    logger.info(metadata);
+    
     response
       .status(200)
       .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);
