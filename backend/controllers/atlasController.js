@@ -636,7 +636,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
         }
         // Change 23/03/24 just skip the batch - it's not correct
         // TODO change it 25/03 - 30/03
-        skip += (batchSize / 2);
+        // skip += (batchSize / 2);
         continue;
       }
 
@@ -777,8 +777,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
 
       logger.info(`Checking skip=${skip}, condition: ${skip % 1000 == 0}`);
       if (skip % 1000 == 0) {
-        const MIN_SLEEP_MS = 2400000; 
-        const MAX_SLEEP_MS = 2600000;
+        const MIN_SLEEP_MS = 2600000; 
+        const MAX_SLEEP_MS = 3000000;
 
         // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
         let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MIN_SLEEP_MS;
