@@ -759,19 +759,31 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       skip += batchSize;
 
       // Sleep to prevent API rate limit issues - added 28/03/2025
-      if (skip % selectedSkipValue == 0) {
-        SKIP_VALUES = [skip + 400, skip + 600, skip + 800];
-        selectedSkipValue = SKIP_VALUES[Math.floor(Math.random() * SKIP_VALUES.length)];
+      // if (skip % selectedSkipValue == 0) {
+      //   SKIP_VALUES = [skip + 400, skip + 600, skip + 800];
+      //   selectedSkipValue = SKIP_VALUES[Math.floor(Math.random() * SKIP_VALUES.length)];
 
-        const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 480_000; // Default: 8 minutes
-        const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 600_000; // Default: 10 minutes
+      //   const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 480_000; // Default: 8 minutes
+      //   const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 600_000; // Default: 10 minutes
+
+      //   // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
+      //   let randomMilliseconds = Math.floor(Math.random() * (MIN_SLEEP_MS - MAX_SLEEP_MS + 1)) + MIN_SLEEP_MS;
+      //   let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
+        
+      //   logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
+        
+      //   await MiscUtils.sleep(randomMilliseconds);
+      // }
+      if (skip % 1000 == 0) {
+        const MIN_SLEEP_MS = 2400000; 
+        const MAX_SLEEP_MS = 2600000;
 
         // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
         let randomMilliseconds = Math.floor(Math.random() * (MIN_SLEEP_MS - MAX_SLEEP_MS + 1)) + MIN_SLEEP_MS;
         let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
-        
+
         logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
-        
+
         await MiscUtils.sleep(randomMilliseconds);
       }
 

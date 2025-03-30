@@ -13,6 +13,7 @@ const TEN_MINUTES = 600000;
 const ONE_HOUR = 3600000;
 const ONE_N_HALF_HOUR = 5400000;
 const THREE_HOURS = 10800000;
+const SIX_HOURS = 21600000;
 const THIRTY_HOURS = 108000000;
 
 // salt rounds for bcrypt algorithm
