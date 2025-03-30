@@ -710,6 +710,8 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
         try {
           let positionPushed = false;
           if (!positionGroupResults.message?.ID) {
+            logger.info(`MISSING...`);
+            logger.info(positionGroupResults.message);
             logger.error(`Insert - Missing ID in position group message. Skipping position ${itemId} ...`);
             continue;
           }
