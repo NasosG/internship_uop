@@ -769,7 +769,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       //   const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 600_000; // Default: 10 minutes
 
       //   // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
-      //   let randomMilliseconds = Math.floor(Math.random() * (MIN_SLEEP_MS - MAX_SLEEP_MS + 1)) + MIN_SLEEP_MS;
+      //   let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MAX_SLEEP_MS;
       //   let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
         
       //   logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
@@ -777,10 +777,24 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       //   await MiscUtils.sleep(randomMilliseconds);
       // }
 
-      logger.info(`Checking skip=${skip}, condition: ${skip % 1000 == 0}`);
+      logger.info(`Checking 200ri skip=${skip}, condition: ${skip % 200 == 0}`);
+      if (skip % 200 == 0) {
+        const MIN_SLEEP_MS = 600000//parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
+        const MAX_SLEEP_MS = 700000//parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
+
+        // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
+        let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MIN_SLEEP_MS;
+        let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
+
+        logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
+
+        await MiscUtils.sleep(randomMilliseconds);
+      }
+
+      logger.info(`Checking 1000ri skip=${skip}, condition: ${skip % 200 == 0}`);
       if (skip % 1000 == 0) {
-        const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
-        const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
+        const MIN_SLEEP_MS = 1250000;//parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
+        const MAX_SLEEP_MS = 1300000;//parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
 
         // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
         let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MIN_SLEEP_MS;
