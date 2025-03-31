@@ -122,6 +122,7 @@ cron.schedule("58 23 * * *", async () => {
   timezone: "Europe/Athens"
 });
 
+//30 21 * * 0 // To run only on Sundays at 21:30
 cron.schedule("30 21 * * *", async () => {
   try {
     await deleteOldPositionsAtlasJob.doDelete();
@@ -152,9 +153,9 @@ const updateAtlasTables = async () => {
   await atlasController.insertOrUpdateAtlasTables();
 };
 
-(async () => {
-  await updateAtlasTables();
-})();
+// (async () => {
+//   await updateAtlasTables();
+// })();
 
 // setInterval(updateAtlasTables, MiscUtils.ONE_N_HALF_HOUR);
 setInterval(updateAtlasTables, MiscUtils.EIGHT_HOURS);

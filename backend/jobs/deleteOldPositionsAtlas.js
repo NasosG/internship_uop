@@ -3,6 +3,7 @@ const axios = require("axios");
 const pool = require("../config/db_config.js");
 // Logging
 const logger = require('../config/logger');
+const MiscUtils = require('../utils/MiscUtils.js')
 
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
@@ -63,6 +64,7 @@ const doDelete = async () => {
     if (FOUND_IN_ATLAS > 0 && FOUND_IN_ATLAS % 300 == 0) {
       logger.info("FOUND_IN_ATLAS: " + FOUND_IN_ATLAS);
       logger.info("TO_BE_DELETED: " + TO_BE_DELETED);
+      await MiscUtils.sleep(MiscUtils.TEN_MINUTES);
     }
   }
 
