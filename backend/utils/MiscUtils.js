@@ -15,6 +15,7 @@ const ONE_N_HALF_HOUR = 5400000;
 const THREE_HOURS = 10800000;
 const SIX_HOURS = 21600000;
 const SEVEN_HOURS = 25200000;
+const EIGHT_HOURS = 28800000;
 const THIRTY_HOURS = 108000000;
 
 // salt rounds for bcrypt algorithm
@@ -290,6 +291,7 @@ module.exports = {
   THIRTY_HOURS,
   SIX_HOURS,
   SEVEN_HOURS,
+  EIGHT_HOURS,
   SALT_ROUNDS,
   departmentsMap,
   AssignedPositionStatus,
