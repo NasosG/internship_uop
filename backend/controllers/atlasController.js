@@ -777,7 +777,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
       //   await MiscUtils.sleep(randomMilliseconds);
       // }
 
-      logger.info(`Checking 200ri skip=${skip}, condition: ${skip % 200 == 0}`);
+      logger.info(`Checking 200 positions skip=${skip}, condition: ${skip % 200 == 0}`);
       if (skip % 200 == 0) {
         const MIN_SLEEP_MS = 600000//parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
         const MAX_SLEEP_MS = 700000//parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
@@ -791,7 +791,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
         await MiscUtils.sleep(randomMilliseconds);
       }
 
-      logger.info(`Checking 1000ri skip=${skip}, condition: ${skip % 200 == 0}`);
+      logger.info(`Checking 1000 positions skip=${skip}, condition: ${skip % 1000 == 0}`);
       if (skip % 1000 == 0) {
         const MIN_SLEEP_MS = 1250000;//parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
         const MAX_SLEEP_MS = 1300000;//parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
