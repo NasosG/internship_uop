@@ -463,7 +463,14 @@ const receiveFile = async (request, response) => {
     let metadata = (await studentService.getFileMetadataByStudentId(id, docType)).rows[0];
     const path = require('path');
 
-    logger.info(metadata);
+    if (!metadata) {
+      const restrictedDocs = ['RESIGN', 'IDENTITY', 'AMA'];
+      if (restrictedDocs.includes(docType)) {
+        return response.send({ message: `${docType} FILE NOT given in this phase.` });
+      }
+      return response.send({ message: "Metadata is missing." });
+    }
+    
     response
       .status(200)
       .sendFile(initialPath + metadata.file_path + '/' + metadata.file_name);

@@ -12,6 +12,9 @@ import { Period } from '../period.model';
 import { DepManager } from '../dep-manager.model';
 import { BankUtils } from 'src/app/BankUtils';
 import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/student-files-view-dialog.component';
+import {map, switchMap} from 'rxjs';
+import {Phase} from '../phase.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-apps-results-old-periods',
@@ -133,6 +136,7 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
   }
 
   onPeriodChange(valuePeriodId: any) {
+    this.period.id = valuePeriodId;
     this.depManagerService.getDepManager()
       .subscribe((depManager: DepManager) => {
         this.depManagerDataDepartment = depManager.department_id;
@@ -165,58 +169,92 @@ export class StudentAppsResultsOldPeriodsComponent implements OnInit {
     });
   }
 
-  exportToExcel() {
-    let studentsDataJson: any = [];
-    for (const item of this.studentsData) {
-      let criteriaGrades = this.getCriteriaGrades(item.Semester, item.Ects, item.Grade);
-      // let gradeFromSemesterΙn100 = this.getSemesterPercent(item.Semester);
-      studentsDataJson.push({
-        "Κατάταξη": item.ranking,
-        "Αποτελέσματα": (item.phase == 2 ? item.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'),
-        "Βαθμολογία (στα 100)": item.score,
-        "Σταθμισμένος Μ.Ο.": item.Grade,
-        "Σταθμισμένος Μ.Ο. (στα 100)": criteriaGrades[0],
-        "Σύνολο ECTS": item.Ects,
-        "Βαθμός από ECTS (στα 100)": criteriaGrades[1].toFixed(2),
-        "Εξάμηνο Φοίτησης": item.Semester,
-        "Βαθμός από Εξάμηνο Φοίτησης (στα 100)": criteriaGrades[2],
-        "Α.Π.": item.latest_app_protocol_number,
-        "ΑΜ": item.schacpersonaluniquecode,
-        "Επώνυμο": item.sn,
-        "Όνομα": item.givenname,
-        "Πατρώνυμο": item.father_name,
-        "Μητρώνυμο": item.mother_name,
-        "Επώνυμο πατέρα": item.father_last_name,
-        "Επώνυμο μητέρας": item.mother_last_name,
-        "email": item.mail,
-        "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
-        "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.schacdateofbirth),
-        "Φύλο": item.schacgender == 1 ? 'Άνδρας' : 'Γυναίκα',
-        "Τηλέφωνο": item.phone,
-        "Πόλη": item.city,
-        "ΤΚ": item.post_address,
-        "Διεύθυνση": item.address,
-        "Τοποθεσία": item.location,
-        "Χώρα": item.country == "gr" ? 'Ελλάδα' : item.country,
-        "ΑΦΜ": item.ssn,
-        "AMKA": item.user_ssn,
-        "ΔΟΥ": item.doy,
-        "Τράπεζα": BankUtils.getBankNameByIBAN(item.iban),
-        "IBAN": item.iban,
-        "AMA": item.ama_number,
-        "ΑΔΤ": item.id_card
-      });
-    }
+// this.depManagerService.getPhasesByPeriodId(this.data.periodId).subscribe((phases: Phase[]) => {
+//       this.phases = phases;
+//       for (let phase of this.phases) {
+//         phase.date_from = moment(phase.date_from).format('DD/MM/YYYY');
+//         phase.date_to = moment(phase.date_to).format('DD/MM/YYYY');
+//       }
+//     });
+  /**
+   * Fetches phases by period ID and formats the dates.
+   */
+  fetchAndFormatPhases(periodId: number) {
+    return this.depManagerService.getPhasesByPeriodId(periodId).pipe(
+      map((phases: Phase[]) => {
+        if (!phases || phases.length === 0) {
+          throw new Error("No phases found"); // Handle empty response
+        }
+        
+        // Extract and format dates from the first phase
+        const date_from = moment(phases[0].date_from).format('DD/MM/YYYY');
+        const date_to = moment(phases[0].date_to).format('DD/MM/YYYY');
 
-    const excelFileName: string = "StudentsPhase1.xlsx";
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("oldAppsTable") as HTMLElement));
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        return { date_from, date_to }; // Return as an object
+      })
+    );
+  }
 
-    /* Save to file */
-    XLSX.writeFile(wb, excelFileName);
+  /**
+   * Exports student data to an Excel file after fetching phases.
+   */
+  exportToExcel(): void {
+    let periodId = this.period.id;
+    this.fetchAndFormatPhases(periodId).subscribe(({ date_from, date_to }) => {
+      let studentsDataJson: any = [];
+      for (const item of this.studentsData) {
+        let criteriaGrades = this.getCriteriaGrades(item.Semester, item.Ects, item.Grade);
+        // let gradeFromSemesterΙn100 = this.getSemesterPercent(item.Semester);
+        studentsDataJson.push({
+          "Κατάταξη": item.ranking,
+          "Αποτελέσματα": (item.phase == 2 ? item.is_approved ? 'Έγκριση - Επιτυχών' : 'Έγκριση - Επιλαχών' : 'Απόρριψη'),
+          "Βαθμολογία (στα 100)": item.score,
+          "Σταθμισμένος Μ.Ο.": item.Grade,
+          "Σταθμισμένος Μ.Ο. (στα 100)": criteriaGrades[0],
+          "Σύνολο ECTS": item.Ects,
+          "Βαθμός από ECTS (στα 100)": criteriaGrades[1].toFixed(2),
+          "Εξάμηνο Φοίτησης": item.Semester,
+          "Βαθμός από Εξάμηνο Φοίτησης (στα 100)": criteriaGrades[2],
+          "Έναρξη Αιτήσεων": date_from,
+          "Λήξη Αιτήσεων": date_to,
+          "Α.Π.": item.latest_app_protocol_number,
+          "ΑΜ": item.schacpersonaluniquecode,
+          "Επώνυμο": item.sn,
+          "Όνομα": item.givenname,
+          "Πατρώνυμο": item.father_name,
+          "Μητρώνυμο": item.mother_name,
+          "Επώνυμο πατέρα": item.father_last_name,
+          "Επώνυμο μητέρας": item.mother_last_name,
+          "email": item.mail,
+          "Υπηρετώ στο στρατό ": item.military_training == true ? 'ΝΑΙ' : 'ΟΧΙ',
+          "AMEA κατηγορίας 5 ": item.amea_cat == true ? 'ΝΑΙ' : 'ΟΧΙ',
+          "Σύμβαση εργασίας ": item.working_state == true ? 'ΝΑΙ' : 'ΟΧΙ',
+          "Ημ/νια Γέννησης": Utils.reformatDateOfBirth(item.schacdateofbirth),
+          "Φύλο": item.schacgender == 1 ? 'Άνδρας' : 'Γυναίκα',
+          "Τηλέφωνο": item.phone,
+          "Πόλη": item.city,
+          "ΤΚ": item.post_address,
+          "Διεύθυνση": item.address,
+          "Τοποθεσία": item.location,
+          "Χώρα": item.country == "gr" ? 'Ελλάδα' : item.country,
+          "ΑΦΜ": item.ssn,
+          "AMKA": item.user_ssn,
+          "ΔΟΥ": item.doy,
+          "Τράπεζα": BankUtils.getBankNameByIBAN(item.iban),
+          "IBAN": item.iban,
+          "AMA": item.ama_number,
+          "ΑΔΤ": item.id_card
+        });
+      }
+
+      const excelFileName: string = "StudentsPhase1.xlsx";
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentsDataJson) //table_to_sheet((document.getElementById("oldAppsTable") as HTMLElement));
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      /* Save to file */
+      XLSX.writeFile(wb, excelFileName);
+    });
   }
 
   ngAfterViewInit(): void {
