@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Location } from '@angular/common'
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ import { Period } from '../period.model';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { Student } from 'src/app/students/student.model';
+import {Form} from '@angular/forms';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -68,6 +69,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 })
 export class PeriodEditComponent implements OnInit {
   public depManagerData!: DepManager;
+  @Input()
   public periodData!: Period;
   public ngSelect: String = "";
   public ngSelectPhase: String = "";
@@ -78,7 +80,9 @@ export class PeriodEditComponent implements OnInit {
   @ViewChild('datepicker4') selectDateTo!: any;
   studentWithPhaseZero: Student|undefined;
   public adminUser = 'a.user';
-
+  
+  originalDates: any;
+  periodEditForm!: any;
   constructor(public depManagerService: DepManagerService, private location: Location, private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) { }
 
   ngOnInit() {
@@ -94,12 +98,29 @@ export class PeriodEditComponent implements OnInit {
              this.dateToBe4Update = this.periodData?.date_to;
              this.initialPeriodData = this.periodData;
 
+              this.originalDates = {
+                date_from: this.periodData?.date_from,
+                date_to: this.periodData?.date_to,
+              };
+
              this.depManagerService.getStudentsApplyPhase()
               .subscribe((students: Student[]) => {
                 this.studentWithPhaseZero = students.find(student => student.phase !== -1 && student.phase !== 2 && student.phase !== 3);
               });
             });
       });
+  }
+
+  onPhaseChange(newPhase: any) {
+    if (newPhase == 1) {
+      // location.reload();
+      this.resetDatesToOriginal();
+    }
+  }
+
+  resetDatesToOriginal() {
+    this.periodData.date_from = this.originalDates.date_from;
+    this.periodData.date_to = this.originalDates.date_to;
   }
 
   validateInputNumber(field: any) {
