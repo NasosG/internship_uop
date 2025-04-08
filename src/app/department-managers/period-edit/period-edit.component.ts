@@ -8,7 +8,7 @@ import { Period } from '../period.model';
 import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { Student } from 'src/app/students/student.model';
-import {Form} from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -79,7 +79,7 @@ export class PeriodEditComponent implements OnInit {
   initialPeriodData!: Period;
   @ViewChild('datepicker4') selectDateTo!: any;
   studentWithPhaseZero: Student|undefined;
-  public adminUser = 'a.user';
+  public adminUser = environment?.adminUserDept;
   
   originalDates: any;
   periodEditForm!: any;

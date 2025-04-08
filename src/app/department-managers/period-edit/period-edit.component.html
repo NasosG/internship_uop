@@ -49,7 +49,7 @@
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c3="ngModel"
                     ngModel [(ngModel)]="periodData.date_from" ngbDatepicker #datepicker3="ngbDatepicker"
-                    [placement]="'left'" [positionTarget]="buttonDateFrom"  [disabled]="periodData.phase_state == 1" required />
+                    [placement]="'left'" [positionTarget]="buttonDateFrom"  [disabled]="periodData.phase_state == 1 && this.depManagerData.id != adminUser" required />
                   <button class="btn btn-outline-secondary" #buttonDateFrom (click)="datepicker3.toggle()"
                     type="button">
                     <i class="fas fa-calendar-alt"></i>
@@ -63,7 +63,7 @@
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c4="ngModel" ngModel
                     [(ngModel)]="periodData.date_to" ngbDatepicker #datepicker4="ngbDatepicker" [placement]="'left'"
-                    [positionTarget]="buttonDateTo" [disabled]="periodData.phase_state == 1" required />
+                    [positionTarget]="buttonDateTo" [disabled]="periodData.phase_state == 1 && this.depManagerData.id != adminUser" required />
                   <button class="btn btn-outline-secondary" #buttonDateTo (click)="datepicker4.toggle()" type="button">
                     <i class="fas fa-calendar-alt"></i>
                   </button>
