@@ -13,8 +13,8 @@ import { Period } from '../period.model';
 import { DepManager } from '../dep-manager.model';
 import { BankUtils } from 'src/app/BankUtils';
 import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/student-files-view-dialog.component';
-import {map} from 'rxjs';
-import {Phase} from '../phase.model';
+import { map } from 'rxjs';
+import { Phase } from '../phase.model';
 import * as moment from 'moment';
 
 @Component({
@@ -67,9 +67,9 @@ export class StudentApplicationsResultsComponent implements OnInit {
                     for (let i = 0; i < students.length; i++) {
                       this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
                       this.studentsData[i].user_ssn = students[i].user_ssn;
-                                        this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'RESIGN');
-                  this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'IDENTITY');
-                  this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'AMA');
+                      this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'RESIGN');
+                      this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'IDENTITY');
+                      this.checkIfFileExistsFor(i, this.studentsData[i].sso_uid, 'AMA');
                     }
                     // Have to wait till the changeDetection occurs. Then, project data into the HTML template
                     this.chRef.detectChanges();
