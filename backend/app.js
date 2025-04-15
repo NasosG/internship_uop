@@ -122,8 +122,9 @@ cron.schedule("58 23 * * *", async () => {
   timezone: "Europe/Athens"
 });
 
-//30 21 * * 0 // To run only on Sundays at 21:30
-cron.schedule("30 21 * * *", async () => {
+//30 21 * * * to run every day
+// To run only on Sundays at 21:30
+cron.schedule("30 21 * * 0", async () => {
   try {
     await deleteOldPositionsAtlasJob.doDelete();
   } catch (error) {
