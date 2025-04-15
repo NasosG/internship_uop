@@ -612,7 +612,7 @@ const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
     let availablePositionGroups;
 
     // Get the count of position group pairs of the previous job run (the previous hour)
-    let skip = 0;//await atlasService.getCountOfPositionPairs();
+    let skip = 4000;//await atlasService.getCountOfPositionPairs();
     // skip = Number.parseInt(skip);
     const batchSize = 200;
 
@@ -986,7 +986,7 @@ const getProviderJson = (item) => {
 
 const insertPositionGroup = async (accessToken) => {
   try {
-    let begin = 4000;
+    let begin = 0;
     let availablePositionGroups;
 
     do {
