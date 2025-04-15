@@ -271,9 +271,8 @@ const isOldContractForStudentAndPeriod = async (studentId, periodId) => {
           internship_assignment a
           INNER JOIN sso_users ON sso_users.uuid = a.student_id
           INNER JOIN period prd ON prd.id = a.period_id
-      WHERE
-          a.status = 1
-          AND a.student_id = $1
+      WHERE 
+          a.student_id = $1
           AND prd.id = $2`,
       [studentId, periodId]);
     logger.info(students.rows);
