@@ -154,9 +154,9 @@ const updateAtlasTables = async () => {
   await atlasController.insertOrUpdateAtlasTables();
 };
 
-(async () => {
-  await updateAtlasTables();
-})();
+// (async () => {
+//   await updateAtlasTables();
+// })();
 
 // setInterval(updateAtlasTables, MiscUtils.ONE_N_HALF_HOUR);
 setInterval(updateAtlasTables, MiscUtils.EIGHT_HOURS);
