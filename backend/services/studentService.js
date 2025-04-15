@@ -259,7 +259,7 @@ const isOldContractForStudentAndPeriod = async (studentId, periodId) => {
     let contractYear = null;
     const START_DATE = `2022-01-01`;
     const END_DATE = `2023-12-01`;
-
+    logger.info(studentId, periodId);
     const students = await pool.query(
       `SELECT
           a.student_id,
