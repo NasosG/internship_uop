@@ -276,7 +276,7 @@ const isOldContractForStudentAndPeriod = async (studentId, periodId) => {
           AND a.student_id = $1
           AND prd.id = $2`,
       [studentId, periodId]);
-
+    logger.info(students.rows);
     const periodEndDate = students.rows[0].period_end_date;
 
     // Determine the contract year based on the period end date
