@@ -986,7 +986,7 @@ const getProviderJson = (item) => {
 
 const insertPositionGroup = async (accessToken) => {
   try {
-    let begin = 0;
+    let begin = 4000;
     let availablePositionGroups;
 
     do {
