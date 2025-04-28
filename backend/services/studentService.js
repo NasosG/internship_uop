@@ -335,6 +335,21 @@ const getAllContractsFromEnv = (yearFound) => {
   return contracts.find(contract => contract.year == yearFound) || null;
 }
 
+const getAllPaymentOrdersFromEnv = (yearFound) => {
+  const startYear = 2023;
+  const currentYear = moment().year();
+
+  const paymentOrders = [];
+
+  for (let year = startYear; year <= currentYear; year++) {
+    const paymentOrderFilePath = process.env[`PAYMENT_ORDER_FILE_PATH${year}`];
+    if (paymentOrderFilePath) paymentOrders.push({ year, path: paymentOrderFilePath });
+  }
+
+  // Find the contract that matches yearFound
+  return paymentOrders.find(order => order.year == yearFound) || null;
+}
+
 const updateStudentContractDetails = async (student, id) => {
   try {
     const updateResults = await pool.query("UPDATE student_users \
@@ -1299,6 +1314,7 @@ module.exports = {
   getSemesterProtocolNumberIfExistsOrNull,
   getStudentFilesForAppPrint,
   getAllContractsFromEnv,
+  getAllPaymentOrdersFromEnv,
   isStudentInAssignmentList,
   isOldContractForStudentId,
   isOldContractForStudentAndPeriod,

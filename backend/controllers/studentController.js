@@ -1318,10 +1318,13 @@ const producePaymentOrderFile = async (request, response) => {
 
     // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
     // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
-    const isOldPaymentOrder = await studentService.isOldContractForStudentId(studentId);
+    const yearFound = await studentService.isOldContractForStudentAndPeriod(studentId, periodId);
+
+    // Find the contract that matches yearFound
+    const paymentOrderFound = studentService.getAllPaymentOrdersFromEnv(yearFound);
 
     // Define path for payment order based on old or new contracts status
-    const fileDir = !isOldPaymentOrder ? process.env.PAYMENT_ORDER_FILE_PATH : process.env.PAYMENT_ORDER_FILE_PATH_old;
+    const fileDir = paymentOrderFound ? paymentOrderFound.path : process.env.PAYMENT_ORDER_FILE_PATH_old;
 
     // Load the docx file as binary content
     let content = fs.readFileSync(
