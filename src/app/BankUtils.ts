@@ -53,4 +53,35 @@ export abstract class BankUtils {
     return bankName ? bankName[0] : "Bank not found";
   }
 
+  public static validateIban(ibanGR: string): boolean {
+    let iban = ibanGR.replace(/\s+/g, '').toUpperCase(); // Remove spaces and make uppercase
+
+    // Special case: Trust Revolut IBANs
+    if (iban.startsWith('LT') || iban.startsWith('GB')) {
+        return true;
+    }
+
+    const rearranged = iban.slice(4) + iban.slice(0, 4);
+    
+    let numericIban = '';
+    for (const char of rearranged) {
+        if (char >= '0' && char <= '9') {
+            numericIban += char;
+        } else if (char >= 'A' && char <= 'Z') {
+            numericIban += (char.charCodeAt(0) - 55).toString();
+        } else {
+            return false; // Invalid character found
+        }
+    }
+
+    // Now check if the numeric value modulo 97 equals 1
+    let remainder = numericIban;
+    while (remainder.length > 9) {
+        const part = remainder.slice(0, 9);
+        remainder = (parseInt(part, 10) % 97).toString() + remainder.slice(9);
+    }
+    
+    return parseInt(remainder, 10) % 97 === 1;
+  }
+
 }
