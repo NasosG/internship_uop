@@ -39,6 +39,13 @@ export abstract class BankUtils {
     'ΣΥΝΕΤΑΙΡΙΣΤΙΚΗ ΤΡΑΠΕΖΑ ΟΛΥΜΠΟΣ Συν. Π.Ε': '95'
   }
 
+  // Allowed EU IBAN prefixes excluding GR and CY
+  public static allowedEuPrefixes = new Set([
+      'AT', 'BE', 'BG', 'HR', 'CZ', 'DK', 'EE', 'FI', 'FR',
+      'DE', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+      'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'
+  ]);
+
   public static getBankNameByIBAN(iban: string): string {
     if (!iban) return '';
 
@@ -55,10 +62,17 @@ export abstract class BankUtils {
 
   public static validateIban(ibanGR: string): boolean {
     let iban = ibanGR.replace(/\s+/g, '').toUpperCase(); // Remove spaces and make uppercase
+    
+    // Check if it starts with two letters
+    if (!/^[A-Z]{2}/.test(iban)) {
+      return false;
+    }
 
-    // Special case: Trust Revolut IBANs
-    if (iban.startsWith('LT') || iban.startsWith('GB')) {
-        return true;
+    const countryPrefix = iban.slice(0, 2);
+
+    // Special case: Trust Revolut and EU IBANs
+    if (!iban.startsWith('GR') && !iban.startsWith('CY')) {
+      return BankUtils.allowedEuPrefixes.has(countryPrefix);
     }
 
     const rearranged = iban.slice(4) + iban.slice(0, 4);

@@ -6,6 +6,7 @@ import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
+import { ibanAsyncValidator } from 'src/app/shared/validators/iban-validator';
 
 @Component({
   selector: 'app-practice-enable',
@@ -119,7 +120,7 @@ export class PracticeEnableComponent implements OnInit {
       ssnControl: ['', Validators.required],
       doyControl: ['', Validators.required],
       amkaControl: ['', Validators.required],
-      ibanControl: ['', Validators.required],
+      ibanControl: ['', Validators.required, ibanAsyncValidator()],
       ssnFile: ['', Validators.required],
       ibanFile: ['', Validators.required]
     });

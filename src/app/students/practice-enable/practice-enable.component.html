@@ -127,6 +127,13 @@
         <mat-label>IBAN</mat-label>
         <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[0]?.iban" ngModel placeholder="IBAN*"
           formControlName="ibanControl" required>
+         
+        <mat-error *ngIf="secondFormGroup.controls['ibanControl']?.hasError('invalidIban') && secondFormGroup.controls['ibanControl']?.value !== null">
+          Το IBAN δεν είναι έγκυρο.
+        </mat-error>
+        <mat-error *ngIf="secondFormGroup.controls['ibanControl']?.hasError('required') && secondFormGroup.controls['ibanControl']?.touched">
+          Το IBAN είναι υποχρεωτικό.
+        </mat-error>
       </mat-form-field><br>
       <mat-form-field appearance="fill">
         <mat-label>ΑΜΚΑ</mat-label>
