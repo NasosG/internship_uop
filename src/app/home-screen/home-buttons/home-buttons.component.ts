@@ -12,5 +12,9 @@ export class HomeButtonsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
+  redirectToCAS() {
+    window.location.replace('http://praktiki-new.uop.gr:3000/CAS/CASapi.php/');
+  }
 
 }

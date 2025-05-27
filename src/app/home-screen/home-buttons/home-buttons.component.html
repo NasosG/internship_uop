@@ -4,11 +4,19 @@
             <div class="div-student col-12 mt-3">
               <!-- <button style="font-size:30px;" [routerLink]="['/terms']"
                 class="btn-student">{{ 'HOME.ENTER' | translate }}</button> -->
-              <a style="color: white;" href="CAS/CASapi.php/">
+              <!-- <a style="color: white;" href="CAS/CASapi.php/">
                 <button style="font-size:30px;" class="btn-student">
                   {{ 'HOME.ENTER' | translate }}
                 </button>
-              </a>
+              </a> -->
+
+              <button
+                style="font-size: 30px; color: white;"
+                class="btn-student"
+                (click)="redirectToCAS()">
+                {{ 'HOME.ENTER' | translate }}
+              </button>
+
             </div>
             <div class="pt-3 pb-0" style="max-width:300px; margin:auto; color:rgba(0,0,0,0.9)">
               <div class="or-separator"><label>{{ 'HOME.OR' | translate }}</label></div>
