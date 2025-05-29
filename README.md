@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+# Copyright and License
+
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+- This project is licensed under the [GNU General Public License v3.0 (GPLv3)](LICENSE).
+
+**Note**: This repository includes third-party dependencies which may be governed by different licenses. We are currently reviewing and listing these in the [LICENSE](LICENSE) file. 
+If you identify any issues with licensing or compatibility, please open an issue.
+
