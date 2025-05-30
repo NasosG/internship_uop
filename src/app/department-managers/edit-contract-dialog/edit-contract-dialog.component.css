@@ -29,3 +29,16 @@
   line-height: 1.2rem;
   font-size: 14px;
 }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0px;
+  flex-wrap: wrap;
+  margin-bottom: 0px;
+}
+
+mat-form-field {
+  flex: 1 1 48%;
+  min-width: 200px;
+}

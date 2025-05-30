@@ -129,6 +129,27 @@ import { ExtraFieldsUpdateDialogComponent } from './students/extra-fields-update
 import { StudentFilesViewDialogComponent } from './department-managers/student-files-view-dialog/student-files-view-dialog.component';
 import { AtlasPositionSyncManualComponent } from './admin-panels/atlas-position-sync-manual/atlas-position-sync-manual.component';
 
+import { LOCALE_ID } from '@angular/core';
+import { MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+// Import Greek or other locale if you want (optional)
+import { registerLocaleData } from '@angular/common';
+import localeEl from '@angular/common/locales/el';
+registerLocaleData(localeEl);
+
+// Define custom formats
+export const MY_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -271,7 +292,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       }
     })
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'el-GR' }, // or 'en-GB' to default to dd/MM/yyyy
+    { provide: MAT_DATE_LOCALE, useValue: 'el-GR' }, // important!
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

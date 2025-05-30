@@ -89,6 +89,9 @@ export class EditContractDialogComponent implements OnInit {
         if (this.studentContract.assignment_arithmos_sunedriashs) {
           this.studentContract.arithmos_sunedriashs = this.studentContract.assignment_arithmos_sunedriashs
         }
+        this.profileForm.patchValue({
+          company_name: this.studentContract.asgmt_company_name || this.studentContract.company_name
+        });
       });
   }
 

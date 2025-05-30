@@ -12,7 +12,6 @@ import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import { Contract } from 'src/app/students/contract.model';
 import { CompanyAndPositionInfoDialogComponent } from '../company-and-position-info-dialog/company-and-position-info-dialog.component';
-import Swal from 'sweetalert2';
 import { ImplementationDatesChangeDialogComponent } from '../implementation-dates-change-dialog/implementation-dates-change-dialog.component';
 import { InternshipCompletionDialogComponent } from '../internship-completion-dialog/internship-completion-dialog.component';
 import { Utils } from 'src/app/MiscUtils';
@@ -305,16 +304,6 @@ export class StudentContractsComponent implements OnInit {
   }
 
   openInternshipCompletionDialog(idx: number, assigned_position_id: number) {
-    // const disabled = true;
-    // Swal.fire({
-    //   title: 'Αποτυχημένη ολοκλήρωση πρακτικής άσκησης',
-    //   text: "Δεν μπορείτε να κάνετε ακόμη ολοκλήρωση πρακτικής άσκησης για τον συγκεκριμένο φοιτητή",
-    //   icon: 'warning',
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Εντάξει'
-    // });
-    // if (disabled) return;
     let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const implementationDatesArr = {
       implementation_start_date: studentFinalData[idx].pa_start_date,
@@ -363,91 +352,10 @@ export class StudentContractsComponent implements OnInit {
       date_now: new Date().toLocaleDateString('el-GR')
     };
 
-    // // Array representation of pdfData, to be sent to backend
-    // const pdfDataArray = [
-    //   pdfData.student_name,
-    //   pdfData.father_name,
-    //   pdfData.department,
-    //   pdfData.university,
-    //   pdfData.AM,
-    //   pdfData.position_id,
-    //   pdfData.internshipSubject,
-    //   pdfData.start_date,
-    //   pdfData.end_date,
-    //   pdfData.company,
-    //   pdfData.department_manager,
-    //   pdfData.date_now
-    // ];
-
     this.depManagerService.receiveCompletionCertificateFile(pdfData , "doc")
     .subscribe(res => {
       window.open(window.URL.createObjectURL(res));
     });
   }
-
-  // printCompletionCertificate(idx: number, student: any) {
-  //   if (!student) return;
-  //   let studentName = student.givenname + " " + student.sn;
-
-  //   const imageUrls = [
-  //     'assets/images/logoPaymentOrder.jpg',
-  //     'assets/images/espaImage2a.jpg'
-  //   ];
-
-  //   const imagePromises = imageUrls.map(url => Utils.getBase64Image(url));
-
-  //   Promise.all(imagePromises).then(base64Images => {
-  //     const [image1, image2] = base64Images;
-
-  //     const pdfContent = `
-  //     <html>
-  //     <div style="display: flex; justify-content: center;">
-  //       <img style="width:400px;" src="${image1}" alt="UOP Logo" >
-  //     </div>
-  //     <div style="text-align: center">
-  //       <p style="color:#2d05ce">Σύστημα Κεντρικής Υποστήριξης της Πρακτικής Άσκησης Φοιτητών</p><br>
-  //       <strong>Βεβαίωση Ολοκλήρωσης Πρακτικής Άσκησης</strong><br><br>
-  //     </div>
-  //     <div>
-  //     Βεβαιώνεται ότι ο/η ${studentName} φοιτητής/τρια στο τμήμα ${student.dept_name} του Ιδρύματος ΠΑΝΕΠΙΣΤΗΜΙΟ
-  //     ΠΕΛΟΠΟΝΝΗΣΟΥ με Αριθμό Μητρώου ${student.schacpersonaluniquecode} <br><br>
-  //     ολοκλήρωσε την Πρακτική Άσκηση:<br>
-  //     ${student.assigned_position_id} - ${student.pa_subject}<br><br>
-  //     στο χρονικό διάστημα ${this.turnTimestampToDatePrint(student.pa_start_date)} εώς ${this.turnTimestampToDatePrint(student.pa_end_date)}<br><br>
-  //     στον Φορέα Υποδοχής Πρακτικής Άσκησης ${student.asgmt_company_name}.<br><br>
-  //     Μετά από επικοινωνία με τον φορέα υποδοχής, με τον επόπτη της πρακτικής άσκησης και με τον/την φοιτητή/φοιτήτρια,
-  //     βεβαιώνω την πραγματοποίηση και επιτυχή ολοκλήρωση της ανωτέρω πρακτικής άσκησης.
-  //     </div>
-  //     <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
-  //       <div style="text-align: left;">
-  //           <br><br><br>
-  //           Τμηματικός Υπεύθυνος
-  //           <br><br><br><br>
-  //           ${student.department_manager_name}
-  //           <br><br><br>
-  //       </div>
-  //       <div style="text-align: right; margin-right: 60px;">
-  //        Ημερομηνία, ${(new Date().toLocaleDateString('el-GR'))}
-  //       </div>
-  //     </div>
-  //     <div style="display: flex; justify-content: center;">
-  //       <img style="width: 320px;" src="${image2}" alt="UOP Logo" >
-  //     </div>
-  //     </html>`;
-
-  //     const filename = `completion_certificate_${studentName}.html`;
-  //     const pdfBlob = new Blob([pdfContent]);
-  //     const xmlURL = URL.createObjectURL(pdfBlob);
-
-  //     const downloadLink = document.createElement('a');
-  //     downloadLink.href = xmlURL;
-  //     downloadLink.download = filename;
-  //     downloadLink.click();
-
-  //     // Clean up
-  //     URL.revokeObjectURL(xmlURL);
-  //     downloadLink.remove();
-  //   });
-  // }
 
 }
