@@ -100,7 +100,7 @@ export class EditContractDialogComponent implements OnInit {
   
   /**
    * Formats a date into 'YYYY-MM-DD' string format.
-   * This is useful for sending dates to the backend in the expected format.
+   * This is useful for sending dates from datepickers to the backend in the expected format.
    *
    * @param date The date object or string to format.
    * @returns A formatted date string in 'YYYY-MM-DD' format or null if input is invalid.
