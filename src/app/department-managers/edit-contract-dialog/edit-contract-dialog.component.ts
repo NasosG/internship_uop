@@ -7,11 +7,13 @@ import * as moment from 'moment';
 import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-contract-dialog',
   templateUrl: './edit-contract-dialog.component.html',
-  styleUrls: ['./edit-contract-dialog.component.css']
+  styleUrls: ['./edit-contract-dialog.component.css'],  
+  providers: [DatePipe]
 })
 export class EditContractDialogComponent implements OnInit {
   studentContract!: Contract;
@@ -48,7 +50,8 @@ export class EditContractDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, public depManagerService: DepManagerService,
-    public dialogRef: MatDialogRef<EditContractDialogComponent>, private _formBuilder: FormBuilder
+    public dialogRef: MatDialogRef<EditContractDialogComponent>, private _formBuilder: FormBuilder,
+    private datePipe: DatePipe
   ) { }
 
   onCancel(): void {
@@ -94,6 +97,17 @@ export class EditContractDialogComponent implements OnInit {
         });
       });
   }
+  
+  /**
+   * Formats a date into 'YYYY-MM-DD' string format.
+   * This is useful for sending dates to the backend in the expected format.
+   *
+   * @param date The date object or string to format.
+   * @returns A formatted date string in 'YYYY-MM-DD' format or null if input is invalid.
+   */
+  private formatDateForBackend(date: any): string | null {
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
+  }
 
   /**
    * Used to update student general, contract and contact details,
@@ -101,7 +115,7 @@ export class EditContractDialogComponent implements OnInit {
    */
   updateStudentsAllDetails() {
     const generalDetailsData: any = {
-      contract_date: this.profileForm.get('contract_date')?.value,
+      contract_date: this.formatDateForBackend(this.profileForm.get('contract_date')?.value),
       company_name: this.profileForm.get('company_name')?.value,
       company_afm: this.profileForm.get('company_afm')?.value,
       company_address: this.profileForm.get('company_address')?.value,
@@ -117,8 +131,8 @@ export class EditContractDialogComponent implements OnInit {
       doy_name: this.profileForm.get('doy_name')?.value,
       pa_subject: this.profileForm.get('pa_subject')?.value,
       pa_subject_atlas: this.profileForm.get('pa_subject_atlas')?.value,
-      pa_start_date: this.profileForm.get('pa_start_date')?.value,
-      pa_end_date: this.profileForm.get('pa_end_date')?.value,
+      pa_start_date: this.formatDateForBackend(this.profileForm.get('pa_start_date')?.value),
+      pa_end_date: this.formatDateForBackend(this.profileForm.get('pa_end_date')?.value),
       department_manager_name: this.profileForm.get('department_manager_name')?.value,
       ada_number: this.profileForm.get('ada_number')?.value,
       student_wages: this.profileForm.get('student_wages')?.value,
