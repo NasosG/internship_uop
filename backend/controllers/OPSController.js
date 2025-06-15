@@ -68,7 +68,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     let responseCall2;
     try {
-      const MAX_RETRIES = 3;
+      const MAX_RETRIES = 4;
       const RETRY_DELAY = 5000; // 5 seconds
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
