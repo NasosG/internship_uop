@@ -317,6 +317,10 @@ const routes: Routes = [{
   {
     path: 'position/sync/:uuid',
     component: AdminPanelComponent
+  },  
+  {
+    path: 'sheets/remind/:uuid',
+    component: AdminPanelComponent
   }]
 }
 ];

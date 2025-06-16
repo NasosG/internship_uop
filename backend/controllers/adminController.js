@@ -95,10 +95,31 @@ const deleteUserRoleByUserId = async (request, response) => {
   }
 };
 
+const getstudentsWithNoEntrySheet = async (request, response) => {
+  const departmentId = Number(request.params.departmentId);
+  const { type } = req.query;
+
+  if (isNaN(departmentId)) {
+    return response.status(400).json({ error: "Invalid department ID" });
+  }
+
+  try {
+    const students = await adminService.fetchStudentsWithoutSheets(departmentId, type);
+    response.json(students);
+  } catch (error) {
+    console.error("Error fetching students without sheets:", error);
+    response.status(500)
+      .json({ 
+        error: "Internal server error" 
+      });
+  }
+};
+
 module.exports = {
   login,
   getUsers,
   getDepartmentsOfUserByUserID,
+  getstudentsWithNoEntrySheet,
   deleteUserRoleByUserId,
   insertRoles
 };

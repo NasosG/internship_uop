@@ -135,6 +135,7 @@ import { MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/mate
 // Import Greek or other locale if you want (optional)
 import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
+import { StudentsSheetReminderComponent } from './admin-panels/students-sheet-reminder/students-sheet-reminder.component';
 registerLocaleData(localeEl);
 
 // Define custom formats
@@ -255,6 +256,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ExtraFieldsUpdateDialogComponent,
     StudentFilesViewDialogComponent,
     AtlasPositionSyncManualComponent,
+    StudentsSheetReminderComponent,
   ],
   imports: [
     BrowserModule,

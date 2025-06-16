@@ -1,6 +1,7 @@
 const gmailTransporter = require('../config/mailer_config.js');
 const commentsTemplate = require('../mail-templates/commentsTemplate.js');
 const pswResetTemplate = require('../mail-templates/passwordResetTemplate.js');
+const sheetsReminderTemplate = require('../mail-templates/sheetsReminderTemplate.js');
 
 /**
  * Send the email to the user to let him know that password has been changed
@@ -44,9 +45,30 @@ const sendCommentEmail = async (comment, mailToSendList) => {
   }
 };
 
+/**
+ * Send an email reminder to students about entrance/exit sheets
+ *
+ * @param {string|string[]} mailToSendList The email address(es) to send the reminder to
+ */
+const sendSheetsReminderEmail = async (mailToSendList) => {
+  try {
+    const info = await gmailTransporter.sendMail({
+      from: 'pa@go.uop.gr',
+      to: mailToSendList,
+      subject: 'Υπενθύμιση για Δελτία Εισόδου-Εξόδου Πρακτικής Άσκησης',
+      html: sheetsReminderTemplate.generateEmailBody()
+    });
+
+    console.log('Sheets reminder sent: %s', info.messageId);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 module.exports = {
   sendPasswordResetEmail,
-  sendCommentEmail
+  sendCommentEmail,
+  sendSheetsReminderEmail
 };
 
 

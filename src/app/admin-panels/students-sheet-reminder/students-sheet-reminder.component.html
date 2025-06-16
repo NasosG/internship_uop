@@ -1,0 +1,41 @@
+<div class="p-4 rounded shadow bg-white max-w-3xl mx-auto">
+  <h2 class="text-xl font-semibold mb-4">Υπενθύμιση Δελτίου Εισόδου / Εξόδου</h2>
+
+  <!-- Select Entry or Exit -->
+  <div class="mb-4">
+    <label class="font-medium">Τύπος Δελτίου:</label>
+    <select [(ngModel)]="sheetType" class="ml-2 p-2 border rounded">
+      <option value="entry">Δελτίο Εισόδου</option>
+      <option value="exit">Δελτίο Εξόδου</option>
+    </select>
+  </div>
+
+  <!-- Optional Department Select -->
+  <div class="mb-4">
+    <label class="font-medium">Τμήμα:</label>
+    <input [(ngModel)]="departmentId" type="number" class="ml-2 p-2 border rounded w-32" placeholder="π.χ. 1520" />
+  </div>
+
+  <!-- Action Button -->
+  <button (click)="fetchStudents()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+    Αναζήτηση Φοιτητών
+  </button>
+
+  <!-- Student List -->
+  <div *ngIf="students.length > 0" class="mt-6">
+    <h3 class="font-medium mb-2">Φοιτητές χωρίς δελτίο {{ sheetType === 'entry' ? 'εισόδου' : 'εξόδου' }}:</h3>
+    <ul class="list-disc pl-6">
+      <li *ngFor="let student of students">
+        {{ student.displayname }}
+      </li>
+    </ul>
+
+    <button (click)="sendReminderEmails()" class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+      Αποστολή Υπενθύμισης
+    </button>
+  </div>
+
+  <div *ngIf="students.length === 0 && searched" class="mt-4 text-gray-600">
+    Δεν βρέθηκαν φοιτητές χωρίς δελτίο {{ sheetType === 'entry' ? 'εισόδου' : 'εξόδου' }}.
+  </div>
+</div>

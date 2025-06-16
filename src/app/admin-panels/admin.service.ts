@@ -53,4 +53,13 @@ export class AdminService {
       })
     );
   }
+
+  getStudentsWithoutSheets(departmentId: number, type: 'entry' | 'exit') {
+  return this.http.get<any[]>(`${API_URL}studentsWithoutSheets/${departmentId}?type=${type}`).toPromise();
+}
+
+sendSheetReminderEmails(departmentId: number, type: 'entry' | 'exit') {
+    return this.http.post(`${API_URL}sendSheetReminders`, { departmentId, type }).toPromise();
+  }
+
 }

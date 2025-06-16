@@ -221,4 +221,8 @@ export class AdminPanelComponent implements OnInit {
   isSyncPositionRoute() {
     return this.router.url === '/admin/position/sync/' + this.authService.getSessionId();
   }
+  
+  isSheetsRemindRoute() {
+    return this.router.url === '/admin/sheets/remind/' + this.authService.getSessionId();
+  }
 }

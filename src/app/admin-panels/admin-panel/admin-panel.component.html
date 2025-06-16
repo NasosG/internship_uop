@@ -90,6 +90,12 @@
               <p>Προσθήκη Θέσης</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a [routerLink]="['/admin/sheets/remind/' + this.authService.getSessionId()]" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-check"></i>
+              <p>Δελτία Υπενθυμίσεις</p>
+            </a>
+          </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
             <a class="nav-link cursor-pointer">
@@ -264,7 +270,7 @@
         </div>
       </div>
       <app-atlas-position-sync-manual *ngIf="isSyncPositionRoute()"></app-atlas-position-sync-manual>
-
+      <app-students-sheet-reminder *ngIf="isSheetsRemindRoute()"></app-students-sheet-reminder>
       <section class="content">
         <div class="row">
 

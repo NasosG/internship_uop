@@ -70,10 +70,31 @@ const deleteUserRoleByUserId = async (userRoleId) => {
   }
 };
 
+const getStudentsWithoutSheets = async (departmentId, type) => {
+  try {
+    let query;
+
+    if (type === 'entry') {
+      query = `SELECT * FROM get_approved_students_with_no_entry_sheet($1)`;
+    } else if (type === 'exit') {
+      query = `SELECT * FROM get_approved_students_with_no_exit_sheet($1)`;
+    } else {
+      throw new Error('Invalid type');
+    }
+
+    const { rows } = await pool.query(query, [departmentId]);
+    return rows;
+  } catch (error) {
+    console.error('fetchStudentsWithoutSheets error:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   loginAdmin,
   getUsersWithRoles,
   getDepartmentsOfUserByUserID,
+  getStudentsWithoutSheets,
   deleteUserRoleByUserId,
   insertRoles
 };
