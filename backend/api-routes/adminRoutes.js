@@ -7,6 +7,6 @@ router.get("/getDepartmentsOfUserByUserID/:id", adminController.getDepartmentsOf
 router.post("/insertRoles", adminController.insertRoles);
 router.delete("/deleteRolesByUserId/:id", adminController.deleteUserRoleByUserId);
 router.post("/login", adminController.login);
-router.get("/studentsWithoutSheet/:departmentId", adminController.getstudentsWithNoEntrySheet);
+router.get("/studentsWithoutSheets/:departmentId", adminController.getStudentsWithoutSheets);
 
 module.exports = router;
