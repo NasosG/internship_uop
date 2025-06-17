@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
+import { StudentsService } from 'src/app/students/student.service';
+import { Department } from 'src/app/students/department.model';
 
 @Component({
   selector: 'app-students-sheet-reminder',
@@ -7,15 +9,20 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./students-sheet-reminder.component.css']
 })
 export class StudentsSheetReminderComponent implements OnInit {
-
+  departments!: Department[];
   sheetType: 'entry' | 'exit' = 'entry';
   departmentId: number = 0;
   students: any = [];
   searched = false;
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, public studentsService: StudentsService) {}
   
-  ngOnInit() { }
+  ngOnInit() {
+    this.studentsService.getAtlasInstitutions()
+      .subscribe((fetchedDepartments: Department[]) => {
+        this.departments = fetchedDepartments;
+      });
+   }
 
   async fetchStudents() {
     this.searched = false;
