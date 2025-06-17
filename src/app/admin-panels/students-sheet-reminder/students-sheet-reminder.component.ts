@@ -8,14 +8,14 @@ import { AdminService } from '../admin.service';
 })
 export class StudentsSheetReminderComponent implements OnInit {
 
- sheetType: 'entry' | 'exit' = 'entry';
+  sheetType: 'entry' | 'exit' = 'entry';
   departmentId: number = 0;
   students: any = [];
   searched = false;
 
   constructor(private adminService: AdminService) {}
   
-  ngOnInit() {}
+  ngOnInit() { }
 
   async fetchStudents() {
     this.searched = false;
@@ -28,14 +28,24 @@ export class StudentsSheetReminderComponent implements OnInit {
     }
   }
 
-  async sendReminderEmails() {
-    try {
-      await this.adminService.sendSheetReminderEmails(this.departmentId, this.sheetType);
-      alert('Εστάλησαν οι υπενθυμίσεις.');
-    } catch (error) {
-      console.error('Error sending reminders:', error);
-      alert('Πρόβλημα κατά την αποστολή των email.');
-    }
+  onInputChange() {
+    this.students = [];
+    this.searched = false;
+  }
+
+  sendReminderEmails() {
+    const studentMails = this.students.map((s: any) => s.email);
+
+    this.adminService.sendSheetReminderEmails(this.departmentId, this.sheetType, studentMails)
+      .subscribe({
+        next: () => {
+          alert('Εστάλησαν οι υπενθυμίσεις.');
+        },
+        error: (err) => {
+          console.error('Error sending reminders:', err);
+          alert('Πρόβλημα κατά την αποστολή των email.');
+        }
+      });
   }
 
 }

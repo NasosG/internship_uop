@@ -4,7 +4,7 @@
   <!-- Select Entry or Exit -->
   <div class="mb-4">
     <label class="font-medium">Τύπος Δελτίου:</label>
-    <select [(ngModel)]="sheetType" class="ml-2 p-2 border rounded">
+    <select [(ngModel)]="sheetType" (ngModelChange)="onInputChange()" class="ml-2 p-2 border rounded">
       <option value="entry">Δελτίο Εισόδου</option>
       <option value="exit">Δελτίο Εξόδου</option>
     </select>
@@ -13,7 +13,7 @@
   <!-- Optional Department Select -->
   <div class="mb-4">
     <label class="font-medium">Τμήμα:</label>
-    <input [(ngModel)]="departmentId" type="number" class="ml-2 p-2 border rounded w-32" placeholder="π.χ. 1520" />
+    <input [(ngModel)]="departmentId" (ngModelChange)="onInputChange()" type="number" class="ml-2 p-2 border rounded w-32" placeholder="π.χ. 1520" />
   </div>
 
   <!-- Action Button -->
@@ -22,7 +22,7 @@
   </button>
 
   <!-- Student List -->
-  <div *ngIf="students.length > 0" class="mt-6">
+  <div *ngIf="students.length > 0" class="mt-6 pt-2">
     <h3 class="font-medium mb-2">Φοιτητές χωρίς δελτίο {{ sheetType === 'entry' ? 'εισόδου' : 'εξόδου' }}:</h3>
     <ul class="list-disc pl-6">
       <li *ngFor="let student of students">

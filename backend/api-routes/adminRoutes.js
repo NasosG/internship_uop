@@ -8,5 +8,6 @@ router.post("/insertRoles", adminController.insertRoles);
 router.delete("/deleteRolesByUserId/:id", adminController.deleteUserRoleByUserId);
 router.post("/login", adminController.login);
 router.get("/studentsWithoutSheets/:departmentId", adminController.getStudentsWithoutSheets);
+router.post("/sendSheetReminders/:departmentId", adminController.sendSheetReminders);
 
 module.exports = router;

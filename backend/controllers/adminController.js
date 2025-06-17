@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const adminService = require("../services/adminService.js");
 // Logging
 const logger = require('../config/logger');
+// Mailer
+const mainMailer = require('../mailers/mainMailers.js');
 
 const login = async (request, response) => {
   const uname = request.body.username;
@@ -115,11 +117,38 @@ const getStudentsWithoutSheets = async (request, response) => {
   }
 };
 
+const sendSheetReminders = async (request, response) => {
+  try {
+    const departmentId = req.params.departmentId;
+    const { type, studentMails: studentsMailList } = req.body;
+
+    // Validation
+    if (!type || !Array.isArray(studentsMailList) || studentsMailList.length === 0) {
+      return res.status(400).json({ message: "Missing type or studentMails in request body." });
+    }
+
+    await mainMailer.sendSheetsReminderEmail(studentMailsList);
+
+    response.status(200)
+      .json({ 
+        message: "Reminders sent successfully." 
+      });
+  } catch (error) {
+    logger.error("Error sending reminders:", error);
+    response.status(500)
+      .json({ 
+        message: "Error sending reminders: " + error.message 
+      });
+  }
+};
+
+
 module.exports = {
   login,
   getUsers,
   getDepartmentsOfUserByUserID,
   getStudentsWithoutSheets,
+  sendSheetReminders,
   deleteUserRoleByUserId,
   insertRoles
 };
