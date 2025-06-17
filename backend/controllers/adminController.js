@@ -119,8 +119,8 @@ const getStudentsWithoutSheets = async (request, response) => {
 
 const sendSheetReminders = async (request, response) => {
   try {
-    const departmentId = req.params.departmentId;
-    const { type, studentMails: studentsMailList } = req.body;
+    const departmentId = request.params.departmentId;
+    const { type, studentMails: studentsMailList } = request.body;
 
     // Validation
     if (!type || !Array.isArray(studentsMailList) || studentsMailList.length === 0) {
