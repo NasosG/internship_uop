@@ -120,14 +120,14 @@ const getStudentsWithoutSheets = async (request, response) => {
 const sendSheetReminders = async (request, response) => {
   try {
     const departmentId = request.params.departmentId;
-    const { type, studentMails: studentsMailList } = request.body;
+    const { type, studentMails } = request.body;
 
     // Validation
-    if (!type || !Array.isArray(studentsMailList) || studentsMailList.length === 0) {
+    if (!type || !Array.isArray(studentMails) || studentMails.length === 0) {
       return res.status(400).json({ message: "Missing type or studentMails in request body." });
     }
 
-    await mainMailer.sendSheetsReminderEmail(studentMailsList);
+    await mainMailer.sendSheetsReminderEmail(studentMails);
 
     response.status(200)
       .json({ 
