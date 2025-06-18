@@ -54,7 +54,8 @@ const sendSheetsReminderEmail = async (mailToSendList) => {
   try {
     const info = await gmailTransporter.sendMail({
       from: 'pa@go.uop.gr',
-      to: mailToSendList,
+      to: 'pa@go.uop.gr',   // required, use own address here
+      bcc: mailToSendList,
       subject: 'Υπενθύμιση για Δελτία Εισόδου-Εξόδου Πρακτικής Άσκησης',
       html: sheetsReminderTemplate.generateEmailBody()
     });
