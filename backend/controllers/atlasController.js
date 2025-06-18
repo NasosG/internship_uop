@@ -1292,6 +1292,13 @@ const getPositionPreassignment = async (groupId, academicId) => {
     if (preassigned && preassigned.length > 0) {
       logger.info("preassigned positions exist");
       preassigned.forEach((position) => {
+      
+        console.log('position:', position);
+        console.log('position.PreAssignedForAcademic:', position.PreAssignedForAcademic);
+        console.log('groupId:', groupId);
+        console.log('academicId:', academicId);
+        console.log('PreAssignedForAcademic.ID:', position?.PreAssignedForAcademic?.ID || null);
+
         if (parseInt(position.GroupID) === parseInt(groupId) && position.PreAssignedForAcademic.ID == academicId) {
           positionIds.push(position.ID);
           positionData.push({
