@@ -41,7 +41,7 @@ export class StudentsSheetReminderComponent implements OnInit {
   }
 
   sendReminderEmails() {
-    const studentMails = this.students.map((s: any) => s.email);
+    const studentMails = this.students.map((s: any) => s.mail);
 
     this.adminService.sendSheetReminderEmails(this.departmentId, this.sheetType, studentMails)
       .subscribe({

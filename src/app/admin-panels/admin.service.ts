@@ -58,15 +58,14 @@ export class AdminService {
     return this.http.get<any[]>(`${API_URL}studentsWithoutSheets/${departmentId}?type=${type}`).toPromise();
   }
 
-sendSheetReminderEmails(departmentId: number, type: 'entry' | 'exit', studentMails: string[]) {
-  return this.http.post<{ message: string }>(`${API_URL}sendSheetReminders/${departmentId}`, { type, studentMails }
-  ).pipe(
-    catchError(error => {
-      console.error('HTTP error sending reminders:', error);
-      return throwError(() => error);
-    })
-  );
-}
-
+  sendSheetReminderEmails(departmentId: number, type: 'entry' | 'exit', studentMails: string[]) {
+    return this.http.post<{ message: string }>(`${API_URL}sendSheetReminders/${departmentId}`, { type, studentMails }
+    ).pipe(
+      catchError(error => {
+        console.error('HTTP error sending reminders:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 
 }
