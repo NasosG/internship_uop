@@ -1292,7 +1292,8 @@ const getPositionPreassignment = async (groupId, academicId) => {
     if (preassigned && preassigned.length > 0) {
       logger.info("preassigned positions exist");
       preassigned.forEach((position) => {
-        if (parseInt(position.GroupID) === parseInt(groupId) && position.PreAssignedForAcademic?.ID == academicId) {
+        if (parseInt(position.GroupID) === parseInt(groupId) && 
+            (!position.PreAssignedForAcademic || position.PreAssignedForAcademic?.ID == academicId)) {
           positionIds.push(position.ID);
           positionData.push({
             "ImplementationEndDate": position.ImplementationEndDate,
