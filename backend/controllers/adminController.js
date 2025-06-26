@@ -105,8 +105,10 @@ const getStudentsWithoutSheets = async (request, response) => {
     return response.status(400).json({ error: "Invalid department ID" });
   }
 
+  const useDateBoolean = useDate === 'true';
+
   try {
-    const students = await adminService.getStudentsWithoutSheets(departmentId, type, useDate, selectedDate);
+    const students = await adminService.getStudentsWithoutSheets(departmentId, type, useDateBoolean, selectedDate);
     response.json(students);
   } catch (error) {
     console.error("Error fetching students without sheets:", error);
