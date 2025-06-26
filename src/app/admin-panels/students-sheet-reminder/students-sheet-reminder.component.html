@@ -3,7 +3,7 @@
 
   <!-- Select Entry or Exit -->
   <div class="mb-4">
-    <label class="font-medium">Τύπος Δελτίου:</label>
+    <label class="font-medium">Τύπος Δελτίου *</label>
     <select [(ngModel)]="sheetType" (ngModelChange)="onInputChange()" class="ml-2 p-2 border rounded">
       <option value="entry">Δελτίο Εισόδου</option>
       <option value="exit">Δελτίο Εξόδου</option>
@@ -12,13 +12,27 @@
 
   <!-- Optional Department Select -->
   <div class="mb-4">
-  <label class="font-medium">Τμήμα:</label>
+  <label class="font-medium">Τμήμα *</label>
     <select [(ngModel)]="departmentId" (ngModelChange)="onInputChange()" class="ml-2 p-2 border rounded w-64">
       <option [ngValue]="null" disabled selected>Επιλέξτε τμήμα</option>
       <option *ngFor="let dept of departments" [ngValue]="dept.atlas_id">
         {{ dept.atlas_id }} - {{ dept.department }}
       </option>
     </select>
+  </div>
+
+  <div class="mb-4">
+    <label class="font-medium">Επιλογή ημερομηνίας έναρξης ΠΑ; (προαιρετικό)</label>
+    <select [(ngModel)]="useDate" class="ml-2 p-2 border rounded">
+      <option [ngValue]="true">Ναι</option>
+      <option [ngValue]="false">Όχι</option>
+    </select>
+  </div>
+
+  <!-- Date Picker Input -->
+  <div class="mb-4" *ngIf="useDate">
+    <label class="font-medium">Ημερομηνία:</label>
+    <input type="date" [(ngModel)]="selectedDate" (ngModelChange)="onInputChange()" class="ml-2 p-2 border rounded" />
   </div>
 
   <!-- Action Button -->

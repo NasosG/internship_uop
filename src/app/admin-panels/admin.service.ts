@@ -54,8 +54,8 @@ export class AdminService {
     );
   }
 
-  getStudentsWithoutSheets(departmentId: number, type: 'entry' | 'exit') {
-    return this.http.get<any[]>(`${API_URL}studentsWithoutSheets/${departmentId}?type=${type}`).toPromise();
+  getStudentsWithoutSheets(departmentId: number, type: 'entry' | 'exit', useDate: boolean, selectedDate: any) {
+    return this.http.get<any[]>(`${API_URL}studentsWithoutSheets/${departmentId}?type=${type}&useDate=${useDate}&selectedDate=${selectedDate}`).toPromise();
   }
 
   sendSheetReminderEmails(departmentId: number, type: 'entry' | 'exit', studentMails: string[]) {

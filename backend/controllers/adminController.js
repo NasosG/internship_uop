@@ -99,14 +99,14 @@ const deleteUserRoleByUserId = async (request, response) => {
 
 const getStudentsWithoutSheets = async (request, response) => {
   const departmentId = Number(request.params.departmentId);
-  const { type } = request.query;
+  const { type, useDate, selectedDate } = request.query;
 
   if (isNaN(departmentId)) {
     return response.status(400).json({ error: "Invalid department ID" });
   }
 
   try {
-    const students = await adminService.getStudentsWithoutSheets(departmentId, type);
+    const students = await adminService.getStudentsWithoutSheets(departmentId, type, useDate, selectedDate);
     response.json(students);
   } catch (error) {
     console.error("Error fetching students without sheets:", error);

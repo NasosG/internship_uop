@@ -70,19 +70,32 @@ const deleteUserRoleByUserId = async (userRoleId) => {
   }
 };
 
-const getStudentsWithoutSheets = async (departmentId, type) => {
+const getStudentsWithoutSheets = async (departmentId, type, useDate = false, selectedDate = null) => {
   try {
     let query;
+    let params;
 
-    if (type === 'entry') {
-      query = `SELECT * FROM get_approved_students_with_no_entry_sheet($1)`;
-    } else if (type === 'exit') {
-      query = `SELECT * FROM get_approved_students_with_no_exit_sheet($1)`;
-    } else {
+    if (type !== 'entry' && type !== 'exit') {
       throw new Error('Invalid type');
     }
 
-    const { rows } = await pool.query(query, [departmentId]);
+    if (useDate && selectedDate) {
+      if (type === 'entry') {
+        query = `SELECT * FROM get_approved_students_with_no_entry_sheet_for_date($1, $2)`;
+      } else {
+        query = `SELECT * FROM get_approved_students_with_no_exit_sheet_for_date($1, $2)`;
+      }
+      params = [departmentId, selectedDate];
+    } else {
+      if (type === 'entry') {
+        query = `SELECT * FROM get_approved_students_with_no_entry_sheet($1)`;
+      } else {
+        query = `SELECT * FROM get_approved_students_with_no_exit_sheet($1)`;
+      }
+      params = [departmentId];
+    }
+
+    const { rows } = await pool.query(query, params);
     return rows;
   } catch (error) {
     console.error('fetchStudentsWithoutSheets error:', error);

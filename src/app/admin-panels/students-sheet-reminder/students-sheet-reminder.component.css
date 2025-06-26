@@ -25,6 +25,7 @@ label {
   color: #224957;
 }
 
+input[type="date"],
 select,
 button {
   width: 100%;
@@ -36,7 +37,8 @@ button {
 }
 
 select:focus,
-button:focus {
+button:focus,
+input[type="date"]:focus {
   border-color: #224957;
   outline: none;
 }

@@ -14,6 +14,8 @@ export class StudentsSheetReminderComponent implements OnInit {
   departmentId: number = 0;
   students: any = [];
   searched = false;
+  selectedDate: string | null = null;
+  useDate: boolean = false;
 
   constructor(private adminService: AdminService, public studentsService: StudentsService) {}
   
@@ -27,7 +29,7 @@ export class StudentsSheetReminderComponent implements OnInit {
   async fetchStudents() {
     this.searched = false;
     try {
-      this.students = await this.adminService.getStudentsWithoutSheets(this.departmentId, this.sheetType);
+      this.students = await this.adminService.getStudentsWithoutSheets(this.departmentId, this.sheetType, this.useDate, this.selectedDate);
     } catch (error) {
       console.error('Error fetching students:', error);
     } finally {
