@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { catchError, of } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -16,9 +16,9 @@ import { StudentsService } from '../student.service';
   styleUrls: ['./student-company-accept.component.css']
 })
 export class StudentCompanyAcceptComponent implements OnInit {
+  @Input() studentsData!: Student[];
   studentPositions!: StudentPositions[];
   studentApplications!: Application[];
-  studentsData!: Student[];
   studentName!: string;
   period!: Period;
   dateFrom!: string;
@@ -28,39 +28,57 @@ export class StudentCompanyAcceptComponent implements OnInit {
   positionAssignedIndex: number = 0;
   modelImplementationDateFrom!: string;
   modelImplementationDateTo!: string;
-
+  isPhaseExpired: boolean = false;
+  
   constructor(public studentsService: StudentsService, public authService: AuthService) { }
 
   ngOnInit(): void {
-    // get assignment by student id
-    this.studentsService.getAssignmentsByStudentId()
-      .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
-        this.assignments = assignments;
+    this.studentsService.getPhase(this.studentsData[0]?.department_id)
+      .subscribe((period: Period) => {
+        this.period = period;
+        this.dateFrom = moment(this.period.date_from).format('YYYY-MM-DD');
+        this.dateTo = moment(this.period.date_to).format('YYYY-MM-DD');
 
-        // set appAssigned to true there is approval_state = 1 in any record of this.assignments
-        for (let assignment of this.assignments) {
-          if (assignment.approval_state == 1) {
-            this.positionAssigned = true;
-            this.positionAssignedIndex = this.assignments.indexOf(assignment);
-            break;
-          }
+        const today = moment();
+        const endDate = moment(this.dateTo, 'YYYY-MM-DD');
+
+        // if phase > 1 and end of phase has been reached
+        if (this.period.phase_state > 1 && today.isAfter(endDate)) {
+          this.isPhaseExpired = true;
+          return; // Stop and return
         }
 
-        const department_id = this.assignments[0].department_id;
-        const period_id = this.assignments[0].period_id;
-        const positionId = this.assignments[0].position_id;
-        this.studentsService.getImplementationDatesByStudentAndPeriod(period_id, positionId).subscribe((datesByStudent: any) => {
-          console.log(datesByStudent[0]);
-          if (this.areDatesValid(datesByStudent[0])) {
-            this.modelImplementationDateFrom = datesByStudent[0].pa_start_date;
-            this.modelImplementationDateTo = datesByStudent[0].pa_end_date;
-          } else {
-            this.studentsService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
-              this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
-              this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        // get assignment by student id
+        this.studentsService.getAssignmentsByStudentId()
+          .subscribe((assignments: AcceptedAssignmentsByCompany[]) => {
+            this.assignments = assignments;
+
+            // set appAssigned to true there is approval_state = 1 in any record of this.assignments
+            for (let assignment of this.assignments) {
+              if (assignment.approval_state == 1) {
+                this.positionAssigned = true;
+                this.positionAssignedIndex = this.assignments.indexOf(assignment);
+                break;
+              }
+            }
+
+            const department_id = this.assignments[0].department_id;
+            const period_id = this.assignments[0].period_id;
+            const positionId = this.assignments[0].position_id;
+            this.studentsService.getImplementationDatesByStudentAndPeriod(period_id, positionId).subscribe((datesByStudent: any) => {
+              console.log(datesByStudent[0]);
+              if (this.areDatesValid(datesByStudent[0])) {
+                this.modelImplementationDateFrom = datesByStudent[0].pa_start_date;
+                this.modelImplementationDateTo = datesByStudent[0].pa_end_date;
+              } else {
+                this.studentsService.getAssignImplementationDates(department_id, period_id).subscribe((dates: any) => {
+                  this.modelImplementationDateFrom = moment(dates.implementation_start_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                  this.modelImplementationDateTo = moment(dates.implementation_end_date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                });
+              }
             });
-          }
-        });
+          });
+
       });
   }
 
