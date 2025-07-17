@@ -12,6 +12,7 @@ router.get("/getPhase/:id", studentController.getPhase);
 router.get("/getStudentEntrySheets/:id", studentController.getStudentEntrySheets);
 router.get("/getStudentExitSheets/:id", studentController.getStudentExitSheets);
 router.get("/getStudentEvaluationSheets/:id", studentController.getStudentEvaluationSheets);
+router.get("/getStudentEvaluationSheetsQuestions/", studentController.getStudentEvaluationSheetsQuestions);
 router.get("/getStudentPositions/:id", studentController.getStudentPositions);
 router.get("/getCommentByStudentIdAndSubject/", studentController.getCommentByStudentIdAndSubject);
 router.post("/login", studentController.login);

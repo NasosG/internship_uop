@@ -156,6 +156,16 @@ const getStudentEvaluationSheets = async (id) => {
   }
 };
 
+const getStudentEvaluationSheetsQuestions = async () => {
+  try {
+    const resultsEvaluationSheet = await pool.query("SELECT * FROM student_evaluation_question");
+    return resultsEvaluationSheet.rows;
+  } catch (error) {
+    logger.error('Error while fetching student evaluation sheet' + error.message);
+    throw Error('Error while fetching student evaluation sheet');
+  }
+};
+
 const getStudentPositions = async (id) => {
   try {
     const resultsStudentPositions = await pool.query("SELECT id, student_id, priority, company, title, place, to_char(\"upload_date\", 'DD/MM/YYYY') as upload_date, position_id, afm, internal_position_id \
@@ -1315,6 +1325,7 @@ module.exports = {
   getStudentFilesForAppPrint,
   getAllContractsFromEnv,
   getAllPaymentOrdersFromEnv,
+  getStudentEvaluationSheetsQuestions,
   isStudentInAssignmentList,
   isOldContractForStudentId,
   isOldContractForStudentAndPeriod,

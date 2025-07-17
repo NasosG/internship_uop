@@ -171,8 +171,20 @@ const getStudentExitSheets = async (request, response) => {
 const getStudentEvaluationSheets = async (request, response) => {
   try {
     const id = request.params.id;
-    const exitSheets = await studentService.getStudentEvaluationSheets(id);
-    response.status(200).json(exitSheets);
+    const evaluationSheets = await studentService.getStudentEvaluationSheets(id);
+    response.status(200).json(evaluationSheets);
+  } catch (error) {
+    logger.error(error.message);
+    response.send({
+      message: error.message
+    });
+  }
+};
+
+const getStudentEvaluationSheetsQuestions = async (request, response) => {
+  try {
+    const evaluationSheetQuestions = await studentService.getStudentEvaluationSheetsQuestions();
+    response.status(200).json(evaluationSheetQuestions);
   } catch (error) {
     logger.error(error.message);
     response.send({
@@ -1550,6 +1562,7 @@ module.exports = {
   getStudentEntrySheets,
   getStudentExitSheets,
   getStudentEvaluationSheets,
+  getStudentEvaluationSheetsQuestions,
   getStudentPositions,
   getStudentApplications,
   getStudentActiveApplication,
