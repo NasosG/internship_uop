@@ -104,6 +104,11 @@ export class StudentsService {
       .get<Array<AtlasPosition>>(ATLAS_URL + 'getAvailablePositionGroups/' + begin);
   }
 
+  getEvaluationQuestions(): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(STUDENTS_URL + 'getStudentEvaluationSheetsQuestions/');
+  }
+
   getAtlasFilteredPositions(begin: number, filterArray: any): Observable<Array<AtlasPosition>> {
     let filterData = JSON.parse(JSON.stringify(filterArray));
     return this.http

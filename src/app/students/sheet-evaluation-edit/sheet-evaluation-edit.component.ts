@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { EvaluationForm } from '../evaluation-form.model';
 import { SheetEvaluationComponent } from '../sheet-evaluation/sheet-evaluation.component';
@@ -10,13 +10,27 @@ import { SheetEvaluationComponent } from '../sheet-evaluation/sheet-evaluation.c
 })
 export class SheetEvaluationEditComponent extends SheetEvaluationComponent implements OnInit {
   entries!: EvaluationForm[];
-
+  
+  @Input()
+  override evaluation: any;
+  
   override ngOnInit(): void {
     this.studentService.getStudentEvaluationSheets()
       .subscribe((forms: EvaluationForm[]) => {
         this.entries = forms;
       });
   }
+
+  showSectionTitle(index: number, prefix: string): boolean {
+    if (index === 0) {
+      // First question show title
+      return this.evaluation[index].question_name.startsWith(prefix);
+    }
+    // Display title if current question has prefix but the previous does not
+    return this.evaluation[index].question_name.startsWith(prefix) &&
+           !this.evaluation[index - 1].question_name.startsWith(prefix);
+  }
+  
 
   onSubmitStudentEvaluationSheet(formData: FormData) {
     this.onSaveEvaluationSheetSwal(formData);

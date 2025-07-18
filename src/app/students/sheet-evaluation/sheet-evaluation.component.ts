@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, Output } from '@angular/core';
+import { forkJoin, Subscription } from 'rxjs';
 import { EvaluationForm } from '../evaluation-form.model';
 import { StudentsService } from '../student.service';
 
@@ -15,28 +15,37 @@ export class SheetEvaluationComponent implements OnInit {
   studentsData: any;
   studentName!: string;
   currentDate: string = '';
-
+  @Output()
+public evaluation:any;
   constructor(public studentService: StudentsService) { }
 
-  ngOnInit(): void {
-    this.studentSubscription = this.studentService.getStudents().subscribe((students) => {
-      this.studentsData = students;
-      if (this.studentsData.length > 0) {
-        this.studentName = `${this.studentsData[0].givenname} ${this.studentsData[0].sn}`;
-      }
-      this.currentDate = new Date().toLocaleDateString();
-    });
-  }
+ngOnInit(): void {
+  this.currentDate = new Date().toLocaleDateString();
 
-  public evaluation = [
-    { subCategory: '1', id: 'q1', name: 'q1', text: 'Πώς αξιολογείτε τις γνώσεις θεωρίας που έχετε αποκτήσει συγκριτικά με τις δραστηριότητες που πραγματοποιήσατε;' },
-    { subCategory: '2', id: 'q2', name: 'q2', text: 'Πώς αξιολογείτε τις γνώσεις πρακτικής που έχετε αποκτήσει συγκριτικά με τις δραστηριότητες που πραγματοποιήσατε;' },
-    { subCategory: '3', id: 'q3', name: 'q3', text: 'Σε τι βαθμό ανταποκρίθηκε η πρακτική εργασία στις προσδοκίες που είχατε από αυτή;' },
-    { subCategory: '4', id: 'q4', name: 'q4', text: 'Πόσο πρόθυμοι ήταν οι εργαζόμενοι του φορέα να υποστηρίξουν την πρακτική σας άσκηση;' },
-    { subCategory: '5', id: 'q5', name: 'q5', text: 'Θεωρείτε ότι η διάρκεια της πρακτικής άσκησης ήταν αρκετή για να μπορέσετε να αποκτήσετε χρήσιμες εμπειρίες και γνώσεις;' },
-    { subCategory: '6', id: 'q6', name: 'q6', text: 'Θεωρείτε ότι η περίοδος που κάνατε την πρακτική άσκηση ήταν κατάλληλη για να αποκτήσετε χρήσιμες εμπειρίες και γνώσεις;' },
-    { subCategory: '7', id: 'q7', name: 'q7', text: 'Θεωρείτε ότι ο συγκεκριμένος φορέας είναι κατάλληλος ώστε να πραγματοποιούν πρακτική άσκηση συνάδελφοί σας στο μέλλον;' },
-  ];
+  this.studentSubscription = forkJoin({
+    students: this.studentService.getStudents(),
+    evaluation: this.studentService.getEvaluationQuestions()
+  }).subscribe(({ students, evaluation }) => {
+    this.studentsData = students;
+    this.evaluation = evaluation;
+
+    if (this.studentsData.length > 0) {
+      this.studentName = `${this.studentsData[0].givenname} ${this.studentsData[0].sn}`;
+    }
+
+    console.log(this.evaluation);
+  });
+}
+
+  // public evaluation = [
+  //   { subCategory: '1', id: 'q1', name: 'q1', text: 'Πώς αξιολογείτε τις γνώσεις θεωρίας που έχετε αποκτήσει συγκριτικά με τις δραστηριότητες που πραγματοποιήσατε;' },
+  //   { subCategory: '2', id: 'q2', name: 'q2', text: 'Πώς αξιολογείτε τις γνώσεις πρακτικής που έχετε αποκτήσει συγκριτικά με τις δραστηριότητες που πραγματοποιήσατε;' },
+  //   { subCategory: '3', id: 'q3', name: 'q3', text: 'Σε τι βαθμό ανταποκρίθηκε η πρακτική εργασία στις προσδοκίες που είχατε από αυτή;' },
+  //   { subCategory: '4', id: 'q4', name: 'q4', text: 'Πόσο πρόθυμοι ήταν οι εργαζόμενοι του φορέα να υποστηρίξουν την πρακτική σας άσκηση;' },
+  //   { subCategory: '5', id: 'q5', name: 'q5', text: 'Θεωρείτε ότι η διάρκεια της πρακτικής άσκησης ήταν αρκετή για να μπορέσετε να αποκτήσετε χρήσιμες εμπειρίες και γνώσεις;' },
+  //   { subCategory: '6', id: 'q6', name: 'q6', text: 'Θεωρείτε ότι η περίοδος που κάνατε την πρακτική άσκηση ήταν κατάλληλη για να αποκτήσετε χρήσιμες εμπειρίες και γνώσεις;' },
+  //   { subCategory: '7', id: 'q7', name: 'q7', text: 'Θεωρείτε ότι ο συγκεκριμένος φορέας είναι κατάλληλος ώστε να πραγματοποιούν πρακτική άσκηση συνάδελφοί σας στο μέλλον;' },
+  // ];
 
   public evaluationText = [
     { subCategory: '8', id: 'q8', name: 'q8', text: 'Σε ποιες δραστηριότητες του φορέα είχατε συμμετοχή;' },
