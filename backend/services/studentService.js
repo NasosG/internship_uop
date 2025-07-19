@@ -8,6 +8,7 @@ const atlasController = require("../controllers/atlasController.js");
 require('dotenv').config();
 // Logging
 const logger = require('../config/logger');
+const crypto = require('crypto');
 
 const getAllStudents = async () => {
   try {
@@ -149,7 +150,7 @@ const getStudentExitSheets = async (id) => {
 
 const getStudentEvaluationSheets = async (id) => {
   try {
-    const resultsEvaluationSheet = await pool.query("SELECT * FROM evaluation_form where student_id = $1", [id]);
+    const resultsEvaluationSheet = await pool.query("SELECT * FROM student_evaluation_form where student_id = $1", [id]);
     return resultsEvaluationSheet.rows;
   } catch (error) {
     throw Error('Error while fetching student evaluation sheet');
@@ -163,6 +164,18 @@ const getStudentEvaluationSheetsQuestions = async () => {
   } catch (error) {
     logger.error('Error while fetching student evaluation sheet' + error.message);
     throw Error('Error while fetching student evaluation sheet');
+  }
+};
+
+const getEvaluationFormMetadataByStudentId = async (id) => {
+  try {
+    const resultsEvaluationSheet = await pool.query(`
+      SELECT * FROM student_evaluation_form form
+      INNER JOIN student_evaluation_answer answer ON form.id = answer.response_id
+      WHERE student_id = $1`, [id]);
+    return resultsEvaluationSheet.rows;
+  } catch (error) {
+    throw Error('Error while fetching student evaluation forms');
   }
 };
 
@@ -503,18 +516,62 @@ const insertStudentEntrySheet = async (form, studentId) => {
   }
 };
 
+// Generate SHA256 digital signature
+function generateDigitalSignature(studentId, answers) {
+  const secret = process.env.DIGITAL_SIGNATURE_SALT;
+
+  if (!secret) {
+    throw new Error("Missing DIGITAL_SIGNATURE_SALT in environment");
+  }
+
+  const data = JSON.stringify({ studentId, answers });
+  return crypto.createHmac('sha256', secret).update(data).digest('hex');
+}
+
 const insertStudentEvaluationSheet = async (form, studentId) => {
+  const client = await pool.connect();
   try {
-    const insertResults = await pool.query("INSERT INTO evaluation_form" +
-      '(student_id, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, comments )' +
-      " VALUES " + "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
-      [studentId, form.q1, form.q2, form.q3, form.q4, form.q5,
-        form.q6, form.q7, form.q8, form.q9, form.q10, form.comments
-      ]);
-    return insertResults;
-  } catch (error) {
-    logger.error('Error while inserting students evaluation form' + error.message);
-    throw Error('Error while inserting students evaluation form');
+    await client.query('BEGIN');
+
+    const answers = form.answers; // Array of { question_id, answer }
+    const digitalSignature = generateDigitalSignature(studentId, answers);
+
+    // Step 1: Insert form row
+    const formResult = await client.query(
+      `INSERT INTO student_evaluation_form (student_id, digital_signature)
+       VALUES ($1, $2)
+       RETURNING id`,
+      [studentId, digitalSignature]
+    );
+
+    const formId = formResult.rows[0].id;
+
+    // Step 2: Insert each answer row
+    const insertPromises = answers.map(({ question_id, answer }) => {
+      const isNumber = typeof answer === 'number';
+      return client.query(
+        `INSERT INTO student_evaluation_answer
+         (response_id, question_id, answer_text, answer_smallint)
+         VALUES ($1, $2, $3, $4)`,
+        [
+          formId,
+          question_id,
+          isNumber ? null : answer,
+          isNumber ? answer : null,
+        ]
+      );
+    });
+
+    await Promise.all(insertPromises);
+
+    await client.query('COMMIT');
+    return { success: true, formId, digitalSignature };
+  } catch (err) {
+    await client.query('ROLLBACK');
+    logger.error('Error inserting student evaluation sheet: ' + err.message);
+    throw new Error('Database insert failed');
+  } finally {
+    client.release();
   }
 };
 
@@ -1326,6 +1383,7 @@ module.exports = {
   getAllContractsFromEnv,
   getAllPaymentOrdersFromEnv,
   getStudentEvaluationSheetsQuestions,
+  getEvaluationFormMetadataByStudentId,
   isStudentInAssignmentList,
   isOldContractForStudentId,
   isOldContractForStudentAndPeriod,

@@ -33,6 +33,7 @@ export class SheetEvaluationEditComponent extends SheetEvaluationComponent imple
   
 
   onSubmitStudentEvaluationSheet(formData: FormData) {
+    console.log(formData);
     this.onSaveEvaluationSheetSwal(formData);
   }
 

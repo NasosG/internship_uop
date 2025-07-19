@@ -21,4 +21,10 @@ export class SheetEvaluationPreviewComponent extends SheetEvaluationComponent im
       });
   }
 
+  downloadEvaluationDocx() {
+    this.studentService.receiveEvaluationFormFile(8, 'docType').subscribe(res => {
+      window.open(window.URL.createObjectURL(res));
+    });
+  }
+
 }

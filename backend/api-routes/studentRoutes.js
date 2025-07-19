@@ -62,6 +62,7 @@ router.get("/students/:id/contract-status", studentController.getStudentContract
 router.post("/produceContractFile/:id", studentController.produceContractFile);
 router.post("/producePaymentOrderFile/:id", studentController.producePaymentOrderFile);
 router.post("/produceCompletionCertificateFile/", studentController.produceCompletionCertificateFile);
+router.post("/produceEvaluationFormFile/:id", studentController.produceEvaluationFormFile);
 router.post("/isStudentInAssignmentList/:id", studentController.isStudentInAssignmentList);
 router.get("/getContractDetailsByStudentIdAndPeriod/", studentController.getContractDetailsByStudentIdAndPeriod);
 router.get("/getContractDetailsByDepartmentAndPeriod/", studentController.getContractDetailsByDepartmentAndPeriod);

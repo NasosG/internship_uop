@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Student } from "./student.model";
-import { mergeMap, Observable, Subject } from "rxjs";
+import { mergeMap, Observable } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { AuthService } from 'src/app/auth/auth.service';
 import { EntryForm } from "./entry-form.model";
@@ -10,15 +10,13 @@ import { StudentPositions } from "./student-positions.model";
 import { Application } from "./application.model";
 import { AtlasPosition } from "./atlas-position.model";
 import { Department } from "./department.model";
-import { Prefecture } from "./prefecture.model";
 import { City } from "./city.model";
 import { Period } from "../department-managers/period.model";
 import { Country } from "./country.model";
 import { PhysicalObject } from "./physical-object.model";
 import { environment } from "src/environments/environment";
-import { Assignment } from "../companies/assignment.model";
-import { ActiveApplicationsRanked } from "../companies/active-applications-ranked.model";
 import { AcceptedAssignmentsByCompany } from "./accepted-assignments-by-company";
+import {Utils} from "../MiscUtils";
 
 const STUDENTS_URL = environment.apiUrl + "/students/";
 const ATLAS_URL = environment.apiUrl + "/atlas/";
@@ -33,10 +31,6 @@ export class StudentsService {
   public fetchedPeriodObservable!: Observable<Period>;
   constructor(private http: HttpClient, public authService: AuthService) { }
 
-  // getStudentUpdateListener() {
-  //   return this.studentsUpdated.asObservable();
-  // }
-
   getStudentByIdFromDialog(id: number): Observable<Array<Student>> {
     return this.http.get<Array<Student>>(STUDENTS_URL + 'getStudentById/' + id);
   }
@@ -49,12 +43,6 @@ export class StudentsService {
       this.students = [...students];
     });
     return fetchedStudents;
-
-    // .subscribe(postData => {
-    //   this.students = postData;
-    //   console.log(postData);
-    //   this.studentsUpdated.next([...this.students]);
-    // });
   }
 
   getFetchedPeriodObservable(): Observable<Period> {
@@ -149,7 +137,6 @@ export class StudentsService {
       this.period = periods;
     });
     return fetchedPeriod;
-    // return this.http.get<Period>(STUDENTS_URL + 'getPhase/' + departmentId);
   }
 
   getLatestPeriodOfStudent(departmentId: number): Observable<any> {
@@ -174,29 +161,13 @@ export class StudentsService {
     return this.http
       .get<Array<AtlasPosition>>(ATLAS_URL + 'getGenericPositionSearch/', { params });
   }
+  
+  receiveEvaluationFormFile(id: any, docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "produceEvaluationFormFile/" + id;
+    return this.http.post(url, { 'doctype': 'docType' }, { responseType: 'blob' });
+  }
 
-  // public fetchStudentsAndPeriod() {
-  //   let studentPeriodArray: any;
-  //   let fetchedStudents: any[];
-  //   let fetchedPeriod;
-  //     this.getStudents()
-  //     .subscribe((students: Student[]) => {
-  //       fetchedStudents = students;
-  //        this.getPhase(fetchedStudents[0]?.department_id)
-  //         .subscribe((period: Period) => {
-    //           fetchedPeriod = period;
-    //           studentPeriodArray = Object.assign({"student" : fetchedStudents}, {"period": period});
-    //           console.log("asd" + studentPeriodArray["period"].date_from);
-    //           this.period =  studentPeriodArray["period"];
-    //           console.log( "asd" + this.period.date_from);
-    //           return this.period;
-    //         });
-  //     });
-  // }
   public fetchStudentsAndPeriod(): Observable<Period> {
-    let studentPeriodArray: any;
-    let fetchedStudents: any[];
-    let fetchedPeriod;
     const period = this.getStudents()
     .pipe(
       mergeMap(result => this.getPhase(result[0]?.department_id))
@@ -221,13 +192,10 @@ export class StudentsService {
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
     const id = this.authService.getSessionId();
-    // const student: string = modelStudent;
     this.http
       .put<{ message: string }>(STUDENTS_URL + "updateStudentDetails/" + id, data)
       .subscribe(responseData => {
         console.log(responseData.message);
-        // this.students.push(student);
-        // this.studentsUpdated.next([...this.students]);
       });
   }
 
@@ -350,7 +318,11 @@ export class StudentsService {
 
   insertStudentEvaluationSheet(evaluationForm: any) {
     const studentId = this.authService.getSessionId();
-    const form: EvaluationForm = evaluationForm;
+    const form: EvaluationForm = { 
+      student_id: studentId ?? null,
+      digital_signature: evaluationForm?.digital_signature ?? null,
+      answers: Utils.mapFormDataToAnswers(evaluationForm, 'question_id', 'answer')
+    };
     this.http
       .post<{ message: string }>(STUDENTS_URL + "insertStudentEvaluationSheet/" + studentId, form)
       .subscribe(responseData => {
@@ -392,15 +364,6 @@ export class StudentsService {
         console.log(responseData.message);
       });
   }
-
-  // Not currently used
-  // deleteStudentPosition(positionPriority: number) {
-  //   this.http
-  //     .delete<{ message: string }>(STUDENTS_URL + "deletePositionByStudentId/" + positionPriority)
-  //     .subscribe(responseData => {
-  //       console.log(responseData.message);
-  //     });
-  // }
 
   deleteStudentPositions(studentId: number) {
     this.http

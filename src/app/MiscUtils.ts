@@ -208,6 +208,13 @@ export abstract class Utils {
     });
   }
 
+  static mapFormDataToAnswers(formData: any, keyName: string, valueName: string): any {
+    return Object.entries(formData).map(([key, value]) => ({
+      [keyName]: key,
+      [valueName]: value,
+    }));
+  }
+
   // InputSheets
   public static workBeforeInternship = [
     { subCategory: 'A0.1', id: 'A0_1', name: 'A0_1', text: 'Πριν την αίτηση συμμετοχής σας στο πρόγραμμα αναζητούσατε εργασία;' },

@@ -33,7 +33,7 @@
 
     <!-- SMALLINT Questions - Horizontal Layout with Full Labels -->
     <div *ngIf="question.question_type === 'SMALLINT'" class="col-12">
-      <mat-radio-group [name]="question.id" ngModel [id]="question.id" required class="d-flex flex-wrap justify-content-start">
+      <mat-radio-group [name]="question.question_name" ngModel [id]="question.question_name" required class="d-flex flex-wrap justify-content-start">
 
         <div class="d-flex align-items-center mr-4 mb-2">
           <mat-radio-button [value]="1" class="mr-1"></mat-radio-button>
@@ -67,7 +67,7 @@
     <div *ngIf="question.question_type === 'TEXT'" class="col-12">
       <mat-form-field class="w-100" appearance="fill">
         <mat-label>Γράψτε εδώ</mat-label>
-        <textarea matInput [name]="question.id" [id]="question.id" ngModel required placeholder="Αποτυπώστε την απάντησή σας"></textarea>
+        <textarea matInput [name]="question.question_name" [id]="question.question_name" ngModel required placeholder="Αποτυπώστε την απάντησή σας"></textarea>
       </mat-form-field>
     </div>
 

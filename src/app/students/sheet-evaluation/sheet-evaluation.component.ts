@@ -15,27 +15,27 @@ export class SheetEvaluationComponent implements OnInit {
   studentsData: any;
   studentName!: string;
   currentDate: string = '';
-  @Output()
-public evaluation:any;
+  public evaluation:any;
+  
   constructor(public studentService: StudentsService) { }
 
-ngOnInit(): void {
-  this.currentDate = new Date().toLocaleDateString();
+  ngOnInit(): void {
+    this.currentDate = new Date().toLocaleDateString();
 
-  this.studentSubscription = forkJoin({
-    students: this.studentService.getStudents(),
-    evaluation: this.studentService.getEvaluationQuestions()
-  }).subscribe(({ students, evaluation }) => {
-    this.studentsData = students;
-    this.evaluation = evaluation;
+    this.studentSubscription = forkJoin({
+      students: this.studentService.getStudents(),
+      evaluation: this.studentService.getEvaluationQuestions()
+    }).subscribe(({ students, evaluation }) => {
+      this.studentsData = students;
+      this.evaluation = evaluation;
 
-    if (this.studentsData.length > 0) {
-      this.studentName = `${this.studentsData[0].givenname} ${this.studentsData[0].sn}`;
-    }
+      if (this.studentsData.length > 0) {
+        this.studentName = `${this.studentsData[0].givenname} ${this.studentsData[0].sn}`;
+      }
 
-    console.log(this.evaluation);
-  });
-}
+      console.log(this.evaluation);
+    });
+  }
 
   // public evaluation = [
   //   { subCategory: '1', id: 'q1', name: 'q1', text: 'Πώς αξιολογείτε τις γνώσεις θεωρίας που έχετε αποκτήσει συγκριτικά με τις δραστηριότητες που πραγματοποιήσατε;' },

@@ -474,8 +474,7 @@ const insertStudentEvaluationSheet = async (request, response, next) => {
   try {
     const id = request.params.id;
     const student = request.body;
-
-    const insertResults = await studentService.insertStudentEvaluationSheet(student, id);
+    await studentService.insertStudentEvaluationSheet(student, id);
 
     response
       .status(201)
@@ -484,8 +483,66 @@ const insertStudentEvaluationSheet = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.send({
+    response.status(400).send({
       message: error.message
+    });
+  }
+};
+
+const produceEvaluationFormFile = async (request, response) => {
+  try {
+    logger.info("produceEvaluationFormFile endpoint called");
+
+    const studentId = request.params.id;
+
+    let metadata = await studentService.getEvaluationFormMetadataByStudentId(studentId);
+    
+    // logger.info(req.body);
+    // Define the path to the .docx template file
+    const fileDir = process.env.EVALUATION_TEMPLATE_FILE_PATH || "./word-contract-templates/Φύλλο αξιολόγησης Φοιτητή ΕΣΠΑ21-27 εκδοση 2.docx";
+    logger.info(fileDir);
+    // Load the .docx file as binary content
+    const content = fs.readFileSync(path.resolve(fileDir), "binary");
+    const zip = new PizZip(content);
+
+    const doc = new Docxtemplater(zip, {
+      paragraphLoop: true,
+      linebreaks: true,
+    });
+    logger.info(metadata);
+
+    const placeholders = {};
+    // Define the replacements for placeholders
+    metadata.forEach(item => {
+        placeholders[item.question_id] = item.answer_text ?? item.answer_smallint ?? '';
+    });
+
+    doc.setData(placeholders);
+    doc.render();
+
+    // Generate the output document as a buffer
+    const buf = doc.getZip().generate({
+      type: "nodebuffer",
+      compression: "DEFLATE",
+    });
+
+    // Define a file name for the output document
+    const fileName = `student_${metadata.studentName || "unknown"}_COMPLETION.docx`;
+
+    // Set headers to prompt the client to download the file
+    response.set({
+      "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "Content-Disposition": `attachment; filename=${fileName}`,
+    });
+
+    // Send the document buffer as a response
+    response.send(buf);
+
+  } catch (error) {
+    logger.error("Error generating completion certificate:", error.message);
+    response.status(500).json({
+      message: "An error occurred while generating the certificate.",
+      error: error.message,
     });
   }
 };
@@ -1574,6 +1631,7 @@ module.exports = {
   getContractDetailsByDepartmentAndPeriod,
   getLatestPeriodOfStudent,
   getStudentContractStatus,
+  produceEvaluationFormFile,
   isStudentInAssignmentList,
   checkPositionOfAtlasExists,
   insertStudentEntrySheet,
