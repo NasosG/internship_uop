@@ -257,6 +257,13 @@ const formatDateString = (inputDate) => {
   return `${year}-${month}-${day}`;
 };
 
+const formatDatabaseDateToGreekLocaleDate = (value, fallback = '..............') => {
+  const date = new Date(value);
+  return isNaN(date)
+    ? fallback
+    : date.toLocaleDateString('el-GR');
+}
+
 const AssignedPositionStatus = {
   NOT_FOUND: 0,
   FOUND: 1,
@@ -333,6 +340,7 @@ module.exports = {
   convertDateFromYearMonthDayToDayMonthYear,
   formatDateToISO,
   formatDateString,
+  formatDatabaseDateToGreekLocaleDate,
   getTypeOfTEI,
   getTypeOfDepartmentOPS,
   sleep

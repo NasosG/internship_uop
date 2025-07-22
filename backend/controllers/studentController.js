@@ -514,8 +514,28 @@ const produceEvaluationFormFile = async (request, response) => {
     const placeholders = {};
     // Define the replacements for placeholders
     metadata.forEach(item => {
-        placeholders[item.question_id] = item.answer_text ?? item.answer_smallint ?? '';
+      placeholders[item.question_id] = item.answer_text ?? item.answer_smallint ?? '';
+      if (item.answer_smallint) {
+        const labels = {
+          1: 'Διαφωνώ απόλυτα',
+          2: 'Διαφωνώ',
+          3: 'Ούτε διαφωνώ ούτε συμφωνώ',
+          4: 'Συμφωνώ',
+          5: 'Συμφωνώ απόλυτα',
+        };
+        placeholders[item.question_id] = `${placeholders[item.question_id]} (${labels[placeholders[item.question_id]]})`
+      }
     });
+
+    placeholders['displayname'] = metadata[0].displayname ?? '..............';
+    placeholders['mail'] = metadata[0].mail ?? '..............';
+    placeholders['department'] = metadata[0].department ?? '..............';
+    placeholders['digital_signature'] = metadata[0].digital_signature ?? '..............';
+    placeholders['asgmt_company_name'] = metadata[0].asgmt_company_name ?? '..............';
+    placeholders['submitted_at'] = MiscUtils.formatDatabaseDateToGreekLocaleDate(metadata[0]?.submitted_at);
+    placeholders['pa_start_date'] = MiscUtils.formatDatabaseDateToGreekLocaleDate(metadata[0]?.pa_start_date);
+    placeholders['pa_end_date'] = MiscUtils.formatDatabaseDateToGreekLocaleDate(metadata[0]?.pa_end_date);
+    placeholders['schacpersonaluniquecode'] = MiscUtils.splitStudentsAM(metadata[0].schacpersonaluniquecode) ?? '..............';
 
     doc.setData(placeholders);
     doc.render();

@@ -170,9 +170,18 @@ const getStudentEvaluationSheetsQuestions = async () => {
 const getEvaluationFormMetadataByStudentId = async (id) => {
   try {
     const resultsEvaluationSheet = await pool.query(`
-      SELECT * FROM student_evaluation_form form
+      SELECT form.*, answer.*, su.displayname, su.schacpersonaluniquecode, su.mail, aa.department,
+          ia.asgmt_company_name, ia.pa_start_date, ia.pa_end_date, ia.company_liaison
+      FROM student_evaluation_form form
       INNER JOIN student_evaluation_answer answer ON form.id = answer.response_id
-      WHERE student_id = $1`, [id]);
+      INNER JOIN sso_users su ON su.uuid = form.student_id
+      INNER JOIN internship_assignment ia ON ia.student_id = form.student_id
+      INNER JOIN atlas_academics aa ON atlas_id  = su.department_id
+      WHERE form.student_id = $1 AND form.id = (
+      	SELECT MAX(f2.id)
+      	FROM student_evaluation_form f2
+      	WHERE f2.student_id = form.student_id
+  	  )`, [id]);
     return resultsEvaluationSheet.rows;
   } catch (error) {
     throw Error('Error while fetching student evaluation forms');
