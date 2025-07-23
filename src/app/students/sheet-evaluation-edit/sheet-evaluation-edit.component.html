@@ -73,14 +73,13 @@
 
     <div *ngIf="question.question_type === 'TEXT' && (question.question_name.startsWith('B1') || question.question_name.startsWith('C2'))" class="col-12">
       <label>{{ extractTextBeforeList(question.question_text)}}</label>
-      <div></div>
 
       <ul class="list-unstyled mt-2">
         <li *ngFor="let option  of extractListItems(question.question_text)">
           <mat-checkbox [name]="question.question_name + '_' + option"
           [value]="option"
           ngModel >
-            {{ option }}
+            <span style="font-weight: normal">{{ option }}</span>
           </mat-checkbox>
         </li>
       </ul>

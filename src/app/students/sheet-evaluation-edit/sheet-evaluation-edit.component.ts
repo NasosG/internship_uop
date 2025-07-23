@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { EvaluationForm } from '../evaluation-form.model';
 import { SheetEvaluationComponent } from '../sheet-evaluation/sheet-evaluation.component';
-import {Utils} from 'src/app/MiscUtils';
-import {startWith} from 'rxjs';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-sheet-evaluation-edit',
@@ -18,7 +17,7 @@ export class SheetEvaluationEditComponent extends SheetEvaluationComponent imple
 
   extractTextBeforeList(html: string): string {
     const match = html.match(/^[\s\S]*?(?=<ul>)/);
-    return match ? match[0].trim().replace('<br>', '')  : '';
+    return match ? match[0].trim().replace('<br>', '') : '';
   }
 
   extractListItems(html: string): string[] {
@@ -46,9 +45,7 @@ export class SheetEvaluationEditComponent extends SheetEvaluationComponent imple
            !this.evaluation[index - 1].question_name.startsWith(prefix);
   }
   
-
   onSubmitStudentEvaluationSheet(formData: FormData) {
-    console.log(formData);
     const finalAnswers: { [key: string]: string } = {};
     
     const answers = Utils.mapFormDataToAnswers(formData, 'question_id', 'answer');
