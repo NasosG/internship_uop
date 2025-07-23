@@ -159,7 +159,7 @@ const getStudentEvaluationSheets = async (id) => {
 
 const getStudentEvaluationSheetsQuestions = async () => {
   try {
-    const resultsEvaluationSheet = await pool.query("SELECT * FROM student_evaluation_question");
+    const resultsEvaluationSheet = await pool.query("SELECT * FROM student_evaluation_question ORDER BY question_order");
     return resultsEvaluationSheet.rows;
   } catch (error) {
     logger.error('Error while fetching student evaluation sheet' + error.message);
@@ -170,11 +170,17 @@ const getStudentEvaluationSheetsQuestions = async () => {
 const getEvaluationFormMetadataByStudentId = async (id) => {
   try {
     const resultsEvaluationSheet = await pool.query(`
-      SELECT form.*, answer.*, su.displayname, su.schacpersonaluniquecode, su.mail, aa.department,
-          ia.asgmt_company_name, ia.pa_start_date, ia.pa_end_date, ia.company_liaison
+      SELECT form.*, answer.*, 
+          su.displayname, su.schacpersonaluniquecode, su.mail, 
+          aa.department, 
+          stu.phone,
+          ia.asgmt_company_name, ia.pa_start_date, ia.pa_end_date, ia.company_liaison, 
+          sar.semester
       FROM student_evaluation_form form
       INNER JOIN student_evaluation_answer answer ON form.id = answer.response_id
       INNER JOIN sso_users su ON su.uuid = form.student_id
+      INNER JOIN student_users stu ON su.uuid = stu.sso_uid
+      INNER JOIN students_approved_rank sar ON sar.sso_uid = su.uuid
       INNER JOIN internship_assignment ia ON ia.student_id = form.student_id
       INNER JOIN atlas_academics aa ON atlas_id  = su.department_id
       WHERE form.student_id = $1 AND form.id = (

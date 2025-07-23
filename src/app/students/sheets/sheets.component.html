@@ -31,11 +31,10 @@
       [routerLink]="['./output-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
       Συμπληρωστε το Δελτιο Εξοδου</button>
     <!-- Option 4: Evaluation Form -->
-    <h2>ΑΞΙΟΛΟΓΗΣΗ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ</h2>
-    <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, μπορείτε να προβείτε στην αξιολόγησή της.</h5>
+    <h2>ΕΡΩΤΗΜΑΤΟΛΟΓΙΟ ΦΟΙΤΗΤΗ</h2>
+    <h5 class="mb-4">Η συμπλήρωση του παρακάτω ερωτηματολογίου μετά το πέρας της Πρακτικής Άσκησης είναι υποχρεωτική.</h5>
     <button [class.disabled]="areExitSheetsDisabled ? true : null"
       [routerLink]="['./evaluation-form/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
-      Συμπληρωστε το Δελτιο
-      Αξιολογησης</button>
+      Συμπληρωστε το Ερωτηματολογιο</button>
   </div>
 </div>

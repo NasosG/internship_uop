@@ -536,6 +536,9 @@ const produceEvaluationFormFile = async (request, response) => {
     placeholders['pa_start_date'] = MiscUtils.formatDatabaseDateToGreekLocaleDate(metadata[0]?.pa_start_date);
     placeholders['pa_end_date'] = MiscUtils.formatDatabaseDateToGreekLocaleDate(metadata[0]?.pa_end_date);
     placeholders['schacpersonaluniquecode'] = MiscUtils.splitStudentsAM(metadata[0].schacpersonaluniquecode) ?? '..............';
+    placeholders['semester'] = metadata[0].semester ?? '..............';
+    placeholders['company_liaison'] = metadata[0].company_liaison ?? '..............';
+    placeholders['phone'] = metadata[0].phone ?? '..............';
 
     doc.setData(placeholders);
     doc.render();

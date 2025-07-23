@@ -316,12 +316,12 @@ export class StudentsService {
       .post<{ message: string }>(STUDENTS_URL + "insertStudentExitSheet/" + studentId, form);
   }
 
-  insertStudentEvaluationSheet(evaluationForm: any) {
+  insertStudentEvaluationSheet(evaluationForm: any, groupedAnswers:any) {
     const studentId = this.authService.getSessionId();
     const form: EvaluationForm = { 
       student_id: studentId ?? null,
       digital_signature: evaluationForm?.digital_signature ?? null,
-      answers: Utils.mapFormDataToAnswers(evaluationForm, 'question_id', 'answer')
+      answers: Utils.mapFormDataToAnswers(groupedAnswers, 'question_id', 'answer')
     };
     this.http
       .post<{ message: string }>(STUDENTS_URL + "insertStudentEvaluationSheet/" + studentId, form)

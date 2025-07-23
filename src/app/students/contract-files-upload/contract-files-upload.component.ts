@@ -42,7 +42,7 @@ export class ContractFilesUploadComponent implements OnInit {
     });
     this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
-      phoneCtrl: [],
+      phoneCtrl: ['', Validators.required],
       addressCtrl: ['', Validators.required],
       locationCtrl: ['', Validators.required],
       cityCtrl: ['', Validators.required],
