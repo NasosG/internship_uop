@@ -17,7 +17,7 @@ export class SheetEvaluationEditComponent extends SheetEvaluationComponent imple
 
   extractTextBeforeList(html: string): string {
     const match = html.match(/^[\s\S]*?(?=<ul>)/);
-    return match ? match[0].trim().replace('<br>', '') : '';
+    return match ? match[0].trim() : '';
   }
 
   extractListItems(html: string): string[] {
@@ -90,8 +90,8 @@ export class SheetEvaluationEditComponent extends SheetEvaluationComponent imple
 
   public onSaveEvaluationSheetSwal(form: FormData, finalAnswers: any) {
     Swal.fire({
-      title: 'Αξιολόγηση πρακτικής άσκησης',
-      text: 'Είστε σίγουροι ότι θέλετε να καταχωρήσετε την αξιολόγηση; Αυτή η ενέργεια είναι μη αναστρέψιμη.',
+      title: 'Υποβολή Ερωτηματολογίου',
+      text: 'Είστε σίγουροι ότι θέλετε να καταχωρήσετε το ερωτηματολόγιο;',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -102,7 +102,7 @@ export class SheetEvaluationEditComponent extends SheetEvaluationComponent imple
         this.studentService.insertStudentEvaluationSheet(form, finalAnswers);
         Swal.fire({
           title: 'Επιτυχής καταχώρηση',
-          text: 'Πηγαίνετε στη καρτέλα "Προβολή" για να δείτε και να εκτυπώσετε την αξιολόγηση σας.',
+          text: 'Πηγαίνετε στη καρτέλα "Προβολή" για να δείτε και να εκτυπώσετε το ερωτηματολόγιό σας.',
           icon: 'success',
           showCancelButton: false,
           confirmButtonColor: '#3085d6',

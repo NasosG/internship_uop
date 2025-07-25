@@ -16,6 +16,11 @@
                   data-toggle="tab">Συμβάσεις</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': activeLink === 'sheet-questionnaires'}"
+                  [routerLink]="['/department-manager/questionnaires/' + authService.getSessionId()]"
+                  data-toggle="tab">Ερωτηματολόγια</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': activeLink === 'payment-orders'}"
                   [routerLink]="['/department-manager/payment-orders/' + this.authService.getSessionId()]"
                   data-toggle="tab">Εντολές Πληρωμών</a>

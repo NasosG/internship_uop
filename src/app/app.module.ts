@@ -121,6 +121,7 @@ import { InternshipCompletionDialogComponent } from './department-managers/inter
 import { PaymentOrdersComponent } from './department-managers/payment-orders/payment-orders.component';
 import { SheetsContractsNavMenuComponent } from './department-managers/sheets-contracts-nav-menu/sheets-contracts-nav-menu.component';
 import { EditPaymentOrderDialogComponent } from './department-managers/edit-payment-order-dialog/edit-payment-order-dialog.component';
+import { SheetQuestionnairesComponent } from './department-managers/sheet-questionnaires/sheet-questionnaires.component';
 import { PaymentOrdersOfficeComponent } from './internship-office/payment-orders-office/payment-orders-office.component';
 import { SheetsContractsNavMenuOfficeComponent } from './internship-office/sheets-contracts-nav-menu-office/sheets-contracts-nav-menu-office.component';
 import { CompanyEvaluationDialogComponent } from './companies/company-evaluation-dialog/company-evaluation-dialog.component';
@@ -136,6 +137,7 @@ import { MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/mate
 import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
 import { StudentsSheetReminderComponent } from './admin-panels/students-sheet-reminder/students-sheet-reminder.component';
+import { SheetQuestionnairesEditDialogComponent } from './department-managers/sheet-questionnaires-edit-dialog/sheet-questionnaires-edit-dialog.component';
 registerLocaleData(localeEl);
 
 // Define custom formats
@@ -229,6 +231,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetOutputOfficeDialogComponent,
     SheetInputOfficeEditDialogComponent,
     SheetOutputOfficeEditDialogComponent,
+    SheetQuestionnairesComponent,
     DepartmentManagerLoginComponent,
     StudentChooseDepartmentComponent,
     PeriodPreviewDialogComponent,
@@ -257,6 +260,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentFilesViewDialogComponent,
     AtlasPositionSyncManualComponent,
     StudentsSheetReminderComponent,
+    SheetQuestionnairesEditDialogComponent,
   ],
   imports: [
     BrowserModule,

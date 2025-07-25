@@ -197,4 +197,8 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
   isPaymentOrdersRoute() {
     return this.router.url === '/department-manager/payment-orders/' + this.authService.getSessionId();
   }
+
+  isQuestionnairesRoutes() {
+    return this.router.url === '/department-manager/questionnaires/' + this.authService.getSessionId();
+  }
 }

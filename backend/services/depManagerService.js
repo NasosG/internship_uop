@@ -296,7 +296,27 @@ const getStudentsWithSheetInput = async (periodId) => {
                                       AND approval_state = 1`, [periodId]);
     return students.rows;
   } catch (error) {
-    throw Error('Error while fetching students with input sheet' + error.message);
+    logger.error('Database error while fetching students with input sheets: ' + error.message);
+    throw Error('Error while fetching students with input sheet: ' + error.message);
+  }
+};
+
+
+const getStudentsWithQuestionnaires = async (periodId) => {
+  try {
+    const students = await pool.query(`SELECT * FROM sso_users
+                                    INNER JOIN student_users
+                                    ON sso_users.uuid = student_users.sso_uid
+                                    INNER JOIN student_evaluation_form
+                                    ON student_users.sso_uid = student_evaluation_form.student_id
+                                    INNER JOIN internship_assignment
+                                    ON internship_assignment.student_id = sso_users.uuid
+                                    WHERE internship_assignment.period_id = $1
+                                    AND approval_state = 1`, [periodId]);
+    return students.rows;
+  } catch (error) {
+    logger.error('Database error while fetching students with questionnaires: ' + error.message);
+    throw Error('Error while fetching students with questionnaires: ' + error.message);
   }
 };
 
@@ -313,7 +333,8 @@ const getStudentsWithSheetOutput = async (periodId) => {
                                     AND approval_state = 1`, [periodId]);
     return students.rows;
   } catch (error) {
-    throw Error('Error while fetching students with output sheet' + error.message);
+    logger.error('Database error while fetching students with output sheets: ' + error.message);
+    throw Error('Error while fetching students with output sheet: ' + error.message);
   }
 };
 
@@ -1047,6 +1068,7 @@ module.exports = {
   getStudentListForPeriod,
   getStudentPaymentsListForPeriod,
   getAllPeriodsByDepartmentId,
+  getStudentsWithQuestionnaires,
   doesAssignmentExist,
   doesListExistForDepartmentAndPeriod,
   insertPeriod,

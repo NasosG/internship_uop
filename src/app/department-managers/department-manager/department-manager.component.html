@@ -173,19 +173,6 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar input-search" type="search" placeholder="Search"
-            aria-label="Search" />
-          <div class="input-group-append">
-            <button class="btn btn-sidebar btn-search-switch">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -206,7 +193,6 @@
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Αιτήσεις Φοιτητών
-                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
           </li>
@@ -226,7 +212,6 @@
               <i class="nav-icon fa fa-check" aria-hidden="true"></i>
               <p>
                 Έγκυροι Φοιτητές
-                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
           </li>
@@ -237,7 +222,6 @@
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
                 Επιλογές Φοιτητών
-                <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
           </li>
@@ -279,36 +263,14 @@
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
                 Σχετικά
-                <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
-            <!-- <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inbox</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Compose</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/read-mail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Read</p>
-                </a>
-              </li>
-            </ul> -->
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/contact']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
                 Επικοινωνία
-                <!-- <i class="fas fa-angle-left right"></i> -->
               </p>
             </a>
           </li>
@@ -319,7 +281,6 @@
               <p>
                 Μέγεθος Κειμένου
                 <i class="fas fa-angle-left right"></i>
-                <!-- <span class="badge badge-info right">100%</span> -->
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -356,7 +317,6 @@
               <p>
                 &nbsp;&nbsp;&nbsp;{{'STUDENT.TEXT-CONTRAST' | translate}}
                 <i class="fas fa-angle-left right"></i>
-                <!-- <span class="badge badge-info right">100%</span> -->
               </p>
             </a>
 
@@ -409,6 +369,7 @@
         </app-student-apps-results-old-periods>
         <app-atlas-positions *ngIf="isAtlasPositionsRoute()"></app-atlas-positions>
         <app-payment-orders *ngIf="isPaymentOrdersRoute()"></app-payment-orders>
+        <app-deptmanager-questionnaires *ngIf="isQuestionnairesRoutes()"></app-deptmanager-questionnaires>
       </div>
     </section>
     <!-- /.content -->

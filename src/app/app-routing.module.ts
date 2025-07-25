@@ -186,6 +186,10 @@ const routes: Routes = [{
     component: DepartmentManagerComponent,
   },
   {
+    path: 'questionnaires/:id',
+    component: DepartmentManagerComponent
+  },
+  {
     path: 'match-students/:id',
     component: DepartmentManagerComponent
   },

@@ -1,0 +1,118 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+
+          <!-- The nav menu for all the options in that specific screen. -->
+          <app-sheets-contracts-nav-menu [activeLink]="'sheet-questionnaires'"></app-sheets-contracts-nav-menu>
+
+          <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
+            <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
+              Επιλογή Περιόδου: </h5>
+            <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
+            <div class="col-12 col-sm-10 pt-3">
+              <div class="form-group col-md-4 mb-0 pb-0">
+                <mat-form-field appearance="outline" style="min-width:310px;">
+                  <mat-label>Περίοδος</mat-label>
+                  <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let period of this.periods" [value]="period"
+                      (click)="onPeriodChange(period.id)">
+                      {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}
+                      {{period.date_from | date:'dd/MM/yyyy'}} - {{period.date_to | date:'dd/MM/yyyy'}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="pl-2 pb-0">
+                  <strong># Πλήθος Ερωτηματολογίων Φοιτητών:</strong> {{studentsData.length}}
+                </div>
+                <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
+                  <mat-label>Αναζήτηση</mat-label>
+                  <input matInput #inputSearch (keyup)="searchStudents()">
+                  <!-- <button *ngIf="inputSearch.value" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="inputSearch.value=''">
+                      <i>close</i>
+                    </button> -->
+                </mat-form-field>
+              </div>
+              <div class="tab-pane active" id="sheet-output-tab">
+                <!-- <table id="example" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+                <table id="questionnairesTable" #questionnairesTable class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <!-- <th>Επιλογή</th> -->
+                      <th>
+                        <div class="sort-header">
+                          Ονοματεπώνυμο
+                          <div class="sort-icons">
+                            <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData();"></i>
+                            <i class="fa fa-lg fa-sort-down custom-sort-icon"
+                              [ngClass]="{'active': activeBtns[0]==true}"
+                              [class.fade-out]="activeBtns[0]==true && !isSortDirectionUp"
+                              (click)="toggleSortDirection(0); sortData();"></i>
+                          </div>
+                        </div>
+                      </th>
+                      <th>ΑΜ</th>
+                      <th>email</th>
+                      <th>Έγγραφα</th>
+                      <!-- <th class="text-center">Ενέργειες</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let student of (filteredData.length ? filteredData : studentsData); let idx=index"
+                      [attr.data-index]="idx">
+                      <td>{{student.givenname}} {{student.sn}}</td>
+                      <!-- <td>{{student.father_name}}</td> -->
+                      <td>{{student.schacpersonaluniquecode}}</td>
+                      <td>{{student.mail}}</td>
+
+                      <td class="reponsive-text-center-td">
+                        <button (click)="downloadEvaluationDocx(student.sso_uid, 'student_questionnaire')"
+                          class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
+                            class="fa fa-download" aria-hidden="true"></i> Ερωτηματολόγιο
+                        </button>
+                      </td>
+                      <!-- <td class="action text-center">
+                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-pencil-alt"></i> Επεξεργασία Δελτίου<br></a>
+                      </td> -->
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <!-- <th>Επιλογή</th> -->
+                      <th>Ονοματεπώνυμο</th>
+                      <th>ΑΜ</th>
+                      <th>email</th>
+                      <th>Έγγραφα</th>
+                      <!-- <th class="text-center">Ενέργειες</th> -->
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

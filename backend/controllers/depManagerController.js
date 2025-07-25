@@ -161,6 +161,19 @@ const getManagedAcademicsByUserId = async (request, response) => {
   }
 };
 
+const getStudentsWithQuestionnaires = async (request, response) => {
+  try {
+    const periodId = request.params.period_id;
+    const users = await depManagerService.getStudentsWithQuestionnaires(periodId);
+
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(404).json({
+      message: error.message
+    });
+  }
+};
+
 const insertPeriod = async (request, response, next) => {
   try {
     const id = request.query.depManagerId;
@@ -835,6 +848,7 @@ module.exports = {
   getStudentPaymentsListForPeriod,
   getAllPeriodsByDepartmentId,
   getImplementationDatesByStudentAndPeriod,
+  getStudentsWithQuestionnaires,
   insertPeriod,
   insertApprovedStudentsRank,
   updatePeriodById,

@@ -158,6 +158,11 @@ export class DepManagerService {
       .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithSheetOutput/" + periodId);
   }
 
+  getStudentsWithQuestionnaires(periodId: number): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(DEPARTMENT_MANAGER_URL + "getStudentsWithQuestionnaires/" + periodId);
+  }
+
   getStudentEntrySheetsByStudentId(studentId: string): Observable<Array<EntryForm>> {
     return this.http
       .get<Array<EntryForm>>(STUDENTS_URL + 'getStudentEntrySheets/' + studentId);
@@ -215,6 +220,11 @@ export class DepManagerService {
   receivePaymentOrderFile (studentId: number, periodId: any, departmentId: any, docType: string): Observable<Blob> {
     const url = STUDENTS_URL + "producePaymentOrderFile/" + studentId;
     return this.http.post(url, { 'doctype': docType, 'periodId': periodId, 'departmentId': departmentId }, { responseType: 'blob' });
+  }
+
+  receiveEvaluationFormFile(id: any, docType: string): Observable<Blob> {
+    const url = STUDENTS_URL + "produceEvaluationFormFile/" + id;
+    return this.http.post(url, { 'doctype': docType }, { responseType: 'blob' });
   }
 
   updatePeriodById(inputForm: any, periodId: number) {

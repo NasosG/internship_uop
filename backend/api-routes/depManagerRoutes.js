@@ -27,6 +27,7 @@ router.get("/getStudentsWithSheetInput/:period_id", depManagerController.getStud
 router.get("/getStudentsWithSheetOutput/:period_id", depManagerController.getStudentsWithSheetOutput);
 router.get("/getCompletedPeriods/:id", depManagerController.getCompletedPeriods);
 router.get("/getManagedDepartmentsByUserId/:userId", depManagerController.getManagedAcademicsByUserId);
+router.get("/getStudentsWithQuestionnaires/:period_id", depManagerController.getStudentsWithQuestionnaires);;
 router.patch("/updateDepartmentIdByUserId/:userId", depManagerController.updateDepartmentIdByUserId);
 router.get("/getPhasesByPeriodId/:periodId", depManagerController.getPhasesByPeriodId);
 router.get("/getPositionsByApplicationId/:id", depManagerController.getPositionsByApplicationId);

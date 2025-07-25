@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { forkJoin, Subscription } from 'rxjs';
 import { EvaluationForm } from '../evaluation-form.model';
 import { StudentsService } from '../student.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-sheet-evaluation',
@@ -17,7 +18,7 @@ export class SheetEvaluationComponent implements OnInit {
   currentDate: string = '';
   public evaluation:any;
   
-  constructor(public studentService: StudentsService) { }
+  constructor(public studentService: StudentsService, public authService: AuthService) { }
 
   ngOnInit(): void {
     this.currentDate = new Date().toLocaleDateString();
