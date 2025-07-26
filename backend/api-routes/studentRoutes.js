@@ -15,6 +15,7 @@ router.get("/getStudentEvaluationSheets/:id", studentController.getStudentEvalua
 router.get("/getStudentEvaluationSheetsQuestions/", studentController.getStudentEvaluationSheetsQuestions);
 router.get("/getStudentPositions/:id", studentController.getStudentPositions);
 router.get("/getCommentByStudentIdAndSubject/", studentController.getCommentByStudentIdAndSubject);
+router.get("/getLastEvaluationFormWithAnswersByStudentId/:id", studentController.getLastEvaluationFormWithAnswersByStudentId);
 router.post("/login", studentController.login);
 router.post("/insertStudentEntrySheet/:id", /*checkAuth,*/ studentController.insertStudentEntrySheet);
 router.post("/insertStudentExitSheet/:id", /*checkAuth,*/ studentController.insertStudentExitSheet);
@@ -32,6 +33,7 @@ router.put("/updateStudentPositionPriorities/:id", /*checkAuth,*/ studentControl
 router.put("/updateStudentPositions/:id", /*checkAuth,*/ studentController.updateStudentPositions);
 router.put("/updateStudentSpecialDetails/:id", /*checkAuth,*/ studentController.updateStudentSpecialDetails);
 router.put("/updateAssignmentStateByStudentAndPosition/:id", studentController.updateAssignmentStateByStudentAndPosition);
+router.patch("/updateStudentEvaluationSheet/:id", studentController.updateStudentEvaluationSheet);
 router.delete("/deleteEntryFormByStudentId/:id", /*checkAuth,*/ studentController.deleteEntryFormByStudentId);
 router.delete("/deletePositionsByStudentId/:id", /*checkAuth,*/ studentController.deletePositionsByStudentId);
 router.delete("/deleteApplicationById/:id", /*checkAuth,*/ studentController.deleteApplicationById);

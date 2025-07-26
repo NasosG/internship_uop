@@ -182,6 +182,11 @@ const getEvaluationFormMetadataByStudentId = async (id) => {
       INNER JOIN student_users stu ON su.uuid = stu.sso_uid
       INNER JOIN students_approved_rank sar ON sar.sso_uid = su.uuid
       INNER JOIN internship_assignment ia ON ia.student_id = form.student_id
+      AND ia.pa_end_date = (
+        SELECT MAX(pa_end_date)
+        FROM internship_assignment
+        WHERE student_id = form.student_id
+      )
       INNER JOIN atlas_academics aa ON atlas_id  = su.department_id
       WHERE form.student_id = $1 AND form.id = (
       	SELECT MAX(f2.id)
@@ -190,6 +195,27 @@ const getEvaluationFormMetadataByStudentId = async (id) => {
   	  )`, [id]);
     return resultsEvaluationSheet.rows;
   } catch (error) {
+    logger.error(error.message);
+    throw Error('Error while fetching student evaluation forms');
+  }
+};
+
+const getLastEvaluationFormWithAnswersByStudentId = async (id) => {
+  try {
+    const resultsEvaluationSheet = await pool.query(`
+      SELECT form.id AS form_id, form.*, answer.*, 
+          su.displayname, su.schacpersonaluniquecode, su.mail
+      FROM student_evaluation_form form
+      INNER JOIN student_evaluation_answer answer ON form.id = answer.response_id
+      INNER JOIN sso_users su ON su.uuid = form.student_id
+      WHERE form.student_id = $1 AND form.id = (
+      	SELECT MAX(f2.id)
+      	FROM student_evaluation_form f2
+      	WHERE f2.student_id = form.student_id
+  	  )`, [id]);
+    return resultsEvaluationSheet.rows;
+  } catch (error) {
+    logger.error(error.message);
     throw Error('Error while fetching student evaluation forms');
   }
 };
@@ -589,6 +615,52 @@ const insertStudentEvaluationSheet = async (form, studentId) => {
     client.release();
   }
 };
+
+const updateStudentEvaluationSheet = async (form, formId) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    const answers = form.answers; // Array of { question_id, answer }
+    const digitalSignature = generateDigitalSignature(form.student_id, answers);
+
+    // Step 1: Update form (e.g., digital_signature)
+    await client.query(
+      `UPDATE student_evaluation_form 
+       SET digital_signature = $1 
+       WHERE id = $2`,
+      [digitalSignature, formId]
+    );
+
+    // Step 2: Update each answer row individually
+    const updatePromises = answers.map(({ question_id, answer }) => {
+      const isNumber = typeof answer === 'number';
+      return client.query(
+        `UPDATE student_evaluation_answer
+         SET answer_text = $1, answer_smallint = $2
+         WHERE response_id = $3 AND question_id = $4`,
+        [
+          isNumber ? null : answer,
+          isNumber ? answer : null,
+          formId,
+          question_id
+        ]
+      );
+    });
+
+    await Promise.all(updatePromises);
+
+    await client.query('COMMIT');
+    return { success: true, formId, digitalSignature };
+  } catch (err) {
+    await client.query('ROLLBACK');
+    logger.error('Error updating student evaluation sheet: ' + err.message);
+    throw new Error('Database update failed');
+  } finally {
+    client.release();
+  }
+};
+
 
 const insertStudentApplication = async (body, studentId) => {
   try {
@@ -1399,6 +1471,7 @@ module.exports = {
   getAllPaymentOrdersFromEnv,
   getStudentEvaluationSheetsQuestions,
   getEvaluationFormMetadataByStudentId,
+  getLastEvaluationFormWithAnswersByStudentId,
   isStudentInAssignmentList,
   isOldContractForStudentId,
   isOldContractForStudentAndPeriod,
@@ -1433,6 +1506,7 @@ module.exports = {
   updateDepartmentIdByStudentId,
   updateSheetOpsNumberById,
   updateAssignmentStateByStudentAndPosition,
+  updateStudentEvaluationSheet,
   deleteEntryFormByStudentId,
   deleteApplicationById,
   deletePositionsByStudentId,

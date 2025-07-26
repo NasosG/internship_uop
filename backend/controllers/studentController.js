@@ -221,6 +221,20 @@ const getCommentByStudentIdAndSubject = async (request, response) => {
   }
 };
 
+const getLastEvaluationFormWithAnswersByStudentId = async (request, response) => {
+  try {
+    const studentId = request.params.id;
+    console.log(studentId)
+    const student = await studentService.getLastEvaluationFormWithAnswersByStudentId(studentId);
+
+    response.status(200).json(student);
+  } catch (error) {
+    response.status(400).send({
+      message: error.message
+    });
+  }
+};
+
 const getAssignmentsByStudentId = async (request, response) => {
   try {
     const id = request.params.id;
@@ -480,6 +494,26 @@ const insertStudentEvaluationSheet = async (request, response, next) => {
       .status(201)
       .json({
         message: 'Student evaluation sheet was inserted successfully'
+      });
+  } catch (error) {
+    logger.error(error.message);
+    response.status(400).send({
+      message: error.message
+    });
+  }
+};
+
+const updateStudentEvaluationSheet = async (request, response, next) => {
+  try {
+    const id = request.params.id;
+    const student = request.body;
+    
+    await studentService.updateStudentEvaluationSheet(student, id);
+
+    response
+      .status(200)
+      .json({
+        message: 'Student evaluation sheet was updated successfully'
       });
   } catch (error) {
     logger.error(error.message);
@@ -1654,6 +1688,7 @@ module.exports = {
   getContractDetailsByDepartmentAndPeriod,
   getLatestPeriodOfStudent,
   getStudentContractStatus,
+  getLastEvaluationFormWithAnswersByStudentId,
   produceEvaluationFormFile,
   isStudentInAssignmentList,
   checkPositionOfAtlasExists,
@@ -1695,6 +1730,7 @@ module.exports = {
   insertIdentityCardFile,
   getMergedDepartmentInfoByStudentId,
   updateDepartmentIdByStudentId,
+  updateStudentEvaluationSheet,
   getProtocolNumberIfInterestAppExists,
   getStudentFilesForAppPrint,
   produceContractFile,

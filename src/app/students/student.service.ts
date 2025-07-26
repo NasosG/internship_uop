@@ -167,6 +167,11 @@ export class StudentsService {
     return this.http.post(url, { 'doctype': 'docType' }, { responseType: 'blob' });
   }
 
+  getLastEvaluationFormWithAnswersByStudentId(id: any): Observable<Array<any>> {
+    return this.http
+      .get<Array<any>>(STUDENTS_URL + 'getLastEvaluationFormWithAnswersByStudentId/'+id);
+  }
+
   public fetchStudentsAndPeriod(): Observable<Period> {
     const period = this.getStudents()
     .pipe(
@@ -325,6 +330,20 @@ export class StudentsService {
     };
     this.http
       .post<{ message: string }>(STUDENTS_URL + "insertStudentEvaluationSheet/" + studentId, form)
+      .subscribe(responseData => {
+        console.log(responseData.message);
+      });
+  }
+
+  updateStudentEvaluationSheet(evaluationForm: any, groupedAnswers:any, formId: any, studentId: any) {
+    const form: EvaluationForm = { 
+      student_id: studentId ?? null,
+      digital_signature: evaluationForm?.digital_signature ?? null,
+      answers: Utils.mapFormDataToAnswers(groupedAnswers, 'question_id', 'answer')
+    };
+
+    this.http
+      .patch<{ message: string }>(STUDENTS_URL + "updateStudentEvaluationSheet/" + formId, form)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
