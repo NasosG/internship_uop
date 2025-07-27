@@ -291,6 +291,10 @@ const routes: Routes = [{
     component: OfficeComponent,
   },
   {
+    path: 'questionnaires/:id',
+    component: OfficeComponent
+  },
+  {
     path: 'student-contracts/:id',
     component: OfficeComponent,
   },

@@ -47,8 +47,7 @@ export class SheetOutputOfficeComponent implements OnInit {
     this.officeService.getOfficeUser()
       .subscribe((officeUser: OfficeUser) => {
         this.officeUserData = officeUser;
-
-        this.officeUserData = officeUser;
+        
         this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
         this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
 

@@ -123,4 +123,8 @@ export class OfficeComponent implements OnInit {
   isPaymentOrdersRoute() {
     return this.router.url === '/office/payment-orders/' + this.authService.getSessionId();
   }
+
+  isQuestionnairesRoutes() {
+    return this.router.url === '/office/questionnaires/' + this.authService.getSessionId();
+  }
 }

@@ -138,6 +138,8 @@ import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
 import { StudentsSheetReminderComponent } from './admin-panels/students-sheet-reminder/students-sheet-reminder.component';
 import { SheetQuestionnairesEditDialogComponent } from './department-managers/sheet-questionnaires-edit-dialog/sheet-questionnaires-edit-dialog.component';
+import { SheetQuestionnairesOfficeComponent } from './internship-office/sheet-questionnaires-office/sheet-questionnaires-office.component';
+import { SheetQuestionnairesOfficeEditDialogComponent } from './internship-office/sheet-questionnaires-office-edit-dialog/sheet-questionnaires-office-edit-dialog.component';
 registerLocaleData(localeEl);
 
 // Define custom formats
@@ -261,6 +263,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AtlasPositionSyncManualComponent,
     StudentsSheetReminderComponent,
     SheetQuestionnairesEditDialogComponent,
+    SheetQuestionnairesOfficeComponent,
+    SheetQuestionnairesOfficeEditDialogComponent,
   ],
   imports: [
     BrowserModule,

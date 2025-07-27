@@ -2,16 +2,17 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
-import { DepManagerService } from '../dep-manager.service';
+import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
 import { StudentsService } from 'src/app/students/student.service';
 import { forkJoin, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-sheet-questionnaires-edit-dialog',
-  templateUrl: './sheet-questionnaires-edit-dialog.component.html',
-  styleUrls: ['./sheet-questionnaires-edit-dialog.component.css']
+  selector: 'app-sheet-questionnaires-office-edit-dialog',
+  templateUrl: './sheet-questionnaires-office-edit-dialog.component.html',
+  styleUrls: ['./sheet-questionnaires-office-edit-dialog.component.css']
 })
-export class SheetQuestionnairesEditDialogComponent implements OnInit {
+export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
+
 
   public entries!: any;
 
@@ -24,7 +25,7 @@ export class SheetQuestionnairesEditDialogComponent implements OnInit {
   public evaluation: any;
 
   constructor(
-    public dialogRef: MatDialogRef<SheetQuestionnairesEditDialogComponent>,
+    public dialogRef: MatDialogRef<SheetQuestionnairesOfficeEditDialogComponent>,
     public dialog: MatDialog,
     public departmentManagerService: DepManagerService,
     public studentService: StudentsService,
