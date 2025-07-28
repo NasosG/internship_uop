@@ -136,7 +136,7 @@ export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
   public onSaveEvaluationSheetSwal(form: FormData, finalAnswers: any) {
     Swal.fire({
       title: 'Υποβολή Ερωτηματολογίου',
-      text: 'Είστε σίγουροι ότι θέλετε να καταχωρήσετε το ερωτηματολόγιο;',
+      text: 'Είστε σίγουροι ότι θέλετε να τροποποιήσετε το ερωτηματολόγιο;',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
