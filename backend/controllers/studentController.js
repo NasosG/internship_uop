@@ -561,6 +561,11 @@ const produceEvaluationFormFile = async (request, response) => {
       }
     });
 
+    // Ensure GEN01 always exists (company_liaison was removed)
+    if (!placeholders['GEN01']) {
+      placeholders['GEN01'] = metadata[0]?.company_liaison ?? '..............';
+    }
+
     placeholders['displayname'] = metadata[0].displayname ?? '..............';
     placeholders['mail'] = metadata[0].mail ?? '..............';
     placeholders['department'] = metadata[0].department ?? '..............';
@@ -571,7 +576,7 @@ const produceEvaluationFormFile = async (request, response) => {
     placeholders['pa_end_date'] = MiscUtils.formatDatabaseDateToGreekLocaleDate(metadata[0]?.pa_end_date);
     placeholders['schacpersonaluniquecode'] = MiscUtils.splitStudentsAM(metadata[0].schacpersonaluniquecode) ?? '..............';
     placeholders['semester'] = metadata[0].semester ?? '..............';
-    placeholders['company_liaison'] = metadata[0].company_liaison ?? '..............';
+    // placeholders['company_liaison'] = metadata[0].company_liaison ?? '..............';
     placeholders['phone'] = metadata[0].phone ?? '..............';
 
     doc.setData(placeholders);
