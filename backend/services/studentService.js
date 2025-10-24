@@ -386,7 +386,7 @@ const isOldContractForStudentId = async (studentId) => {
 
 const getAllContractsFromEnv = (yearFound) => {
   const startYear = 2023;
-  const currentYear = moment().year();
+  const currentYear = moment().year() + 1;
 
   const contracts = [];
 
