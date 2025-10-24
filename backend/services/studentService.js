@@ -401,7 +401,7 @@ const getAllContractsFromEnv = (yearFound) => {
 
 const getAllPaymentOrdersFromEnv = (yearFound) => {
   const startYear = 2023;
-  const currentYear = moment().year();
+  const currentYear = moment().year() + 1;
 
   const paymentOrders = [];
 
