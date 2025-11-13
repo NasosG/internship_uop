@@ -68,8 +68,9 @@ export class SheetQuestionnairesComponent implements OnInit {
 
   openDialog(idx: any) {
     console.log(idx);
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(SheetQuestionnairesEditDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '50%',
+      data: { studentsData: studentFinalData, index: idx }, width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
