@@ -52,7 +52,7 @@ export class SheetQuestionnairesOfficeComponent implements OnInit {
 
         this.selectedDepartment.department = this.selectedDepartment.department == null ? this.officeUserData.department : this.selectedDepartment.department;
         this.selectedDepartment.academic_id = this.selectedDepartment.department == null ? this.officeUserData.department_id : this.selectedDepartment.academic_id;
-        
+
         this.officeService.getAcademicsByOfficeUserId()
         .subscribe((academics: any) => {
           this.officeUserAcademics = academics;
@@ -74,8 +74,9 @@ export class SheetQuestionnairesOfficeComponent implements OnInit {
 
   openDialog(idx: any) {
     console.log(idx);
+    let studentFinalData = (this.filteredData.length ? this.filteredData : this.studentsData);
     const dialogRef = this.dialog.open(SheetQuestionnairesOfficeEditDialogComponent, {
-      data: { studentsData: this.studentsData, index: idx }, width: '50%',
+      data: { studentsData: studentFinalData, index: idx }, width: '50%',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -117,14 +118,14 @@ export class SheetQuestionnairesOfficeComponent implements OnInit {
       this.selected = value;
       this.studentsData = [];
       this.filteredData = [];
-  
+
       console.log(this.selectedDepartment.academic_id);
       this.depManagerService.getStudentsWithQuestionnaires(value)
         .pipe(
           catchError((error: any) => {
             console.error(error);
             this.isLoading = false;
-  
+
             return of([]);
           })
         )
@@ -134,18 +135,18 @@ export class SheetQuestionnairesOfficeComponent implements OnInit {
               this.studentsData[i].schacpersonaluniquecode = this.getAM(students[i].schacpersonaluniquecode);
               this.studentsData[i].user_ssn = students[i].user_ssn;
             }
-  
+
             this.isLoading = false;
       });
     }
-  
+
     onDepartmentChange(value: any) {
       this.isLoading = true;
       this.periods = [];
       this.selectedDepartment = value;
       this.studentsData = [];
       this.filteredData = [];
-  
+
       this.depManagerService.getAllPeriodsByDepartmentId(Number(this.selectedDepartment.academic_id))
         .subscribe({
           next: (periods: any[]) => {
