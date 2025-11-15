@@ -133,14 +133,17 @@
         </div>
       </div>
 
-      <!-- <div id="footerShownInPrintOnly">
-      <br><br><br><br>
-      <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3>
-      <br>
-      <h3 style='text-align: right;'>Υπογραφή</h3>
-      <h5 style='text-align: right;'> {{currentDate}} </h5><br><br><br>
-      <h5 style='text-align: right;'> {{this.studentData[0].givenname + " " + this.studentData[0].sn}} </h5>
-    </div> -->
+      <div id="footerShownInPrintOnly">
+        <br><br><br><br>
+        <!-- <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3> -->
+        <!-- <br> -->
+        <h3 style='text-align: right;'>Ψηφιακή Υπογραφή</h3>
+        <h5 style='text-align: right;'> {{this.entryForms[0].signature_hash}} </h5><br><br><br>
+
+        <!-- <h5 style='text-align: right;'> {{currentDate}} </h5> -->
+        <!-- <br><br><br> -->
+        <!-- <h5 style='text-align: right;'> {{this.studentData[0].givenname + " " + this.studentData[0].sn}} </h5> -->
+      </div>
     </div>
   </form>
 
@@ -361,14 +364,18 @@
           </p>
         </div>
       </div>
-      <!-- <div id="footerShownInPrintOnly">
+
+      <div id="footerShownInPrintOnly">
         <br><br><br><br>
-        <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3>
-        <br>
-        <h3 style='text-align: right;'>Υπογραφή</h3>
-        <h5 style='text-align: right;'> {{currentDate}} </h5><br><br><br>
-        <h5 style='text-align: right;'> {{studentName}} </h5>
-      </div> -->
+        <!-- <h3 style='text-align: center; font-size: 22px;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3> -->
+        <!-- <br> -->
+        <h3 style='text-align: right;'>Ψηφιακή Υπογραφή</h3>
+        <h5 style='text-align: right;'> {{this.entryForms[0].signature_hash}} </h5><br><br><br>
+
+        <!-- <h5 style='text-align: right;'> {{currentDate}} </h5> -->
+        <!-- <br><br><br> -->
+        <!-- <h5 style='text-align: right;'> {{this.studentData[0].givenname + " " + this.studentData[0].sn}} </h5> -->
+      </div>
     </div>
   </form>
 
