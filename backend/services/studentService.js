@@ -170,11 +170,11 @@ const getStudentEvaluationSheetsQuestions = async () => {
 const getEvaluationFormMetadataByStudentId = async (id) => {
   try {
     const resultsEvaluationSheet = await pool.query(`
-      SELECT form.*, answer.*, 
-          su.displayname, su.schacpersonaluniquecode, su.mail, 
-          aa.department, 
+      SELECT form.*, answer.*,
+          su.displayname, su.schacpersonaluniquecode, su.mail,
+          aa.department,
           stu.phone,
-          ia.asgmt_company_name, ia.pa_start_date, ia.pa_end_date, ia.company_liaison, 
+          ia.asgmt_company_name, ia.pa_start_date, ia.pa_end_date, ia.company_liaison,
           sar.semester
       FROM student_evaluation_form form
       INNER JOIN student_evaluation_answer answer ON form.id = answer.response_id
@@ -203,7 +203,7 @@ const getEvaluationFormMetadataByStudentId = async (id) => {
 const getLastEvaluationFormWithAnswersByStudentId = async (id) => {
   try {
     const resultsEvaluationSheet = await pool.query(`
-      SELECT form.id AS form_id, form.*, answer.*, 
+      SELECT form.id AS form_id, form.*, answer.*,
           su.displayname, su.schacpersonaluniquecode, su.mail
       FROM student_evaluation_form form
       INNER JOIN student_evaluation_answer answer ON form.id = answer.response_id
@@ -335,7 +335,7 @@ const isOldContractForStudentAndPeriod = async (studentId, periodId) => {
           internship_assignment a
           INNER JOIN sso_users ON sso_users.uuid = a.student_id
           INNER JOIN period prd ON prd.id = a.period_id
-      WHERE 
+      WHERE
           a.student_id = $1
           AND prd.id = $2`,
       [studentId, periodId]);
@@ -397,7 +397,7 @@ const getAllContractsFromEnv = (yearFound) => {
 
   // Find the contract that matches yearFound
   return contracts.find(contract => contract.year == yearFound) || null;
-}
+};
 
 const getAllPaymentOrdersFromEnv = (yearFound) => {
   const startYear = 2023;
@@ -412,13 +412,23 @@ const getAllPaymentOrdersFromEnv = (yearFound) => {
 
   // Find the contract that matches yearFound
   return paymentOrders.find(order => order.year == yearFound) || null;
-}
+};
 
 const updateStudentContractDetails = async (student, id) => {
   try {
-    const updateResults = await pool.query("UPDATE student_users \
-     SET " + "ssn = $1, doy = $2, iban = $3, id_card = $4 WHERE sso_uid = $5",
-      [student.ssn, student.doy, student.iban, student.id_card, id]
+    // If no student_ama exists, pass null
+    const updateResults = await pool.query(
+      `UPDATE student_users
+      SET
+        ssn     = $1,
+        doy     = $2,
+        iban    = $3,
+        id_card = $4,
+        ama     = COALESCE($5, ama)
+      WHERE sso_uid = $6`,
+      [
+        student.ssn, student.doy, student.iban, student.id_card, student.ama ?? null, id
+      ]
     );
 
     return updateResults;
@@ -626,8 +636,8 @@ const updateStudentEvaluationSheet = async (form, formId) => {
 
     // Step 1: Update form (e.g., digital_signature)
     await client.query(
-      `UPDATE student_evaluation_form 
-       SET digital_signature = $1 
+      `UPDATE student_evaluation_form
+       SET digital_signature = $1
        WHERE id = $2`,
       [digitalSignature, formId]
     );

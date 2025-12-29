@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { ibanAsyncValidator } from 'src/app/shared/validators/iban-validator';
+import { adtAsyncValidator } from 'src/app/shared/validators/identityCard-validator';
 
 @Component({
   selector: 'app-practice-enable',
@@ -116,13 +117,16 @@ export class PracticeEnableComponent implements OnInit {
       programOfStudyMergedCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
-      policeIDControl: ['', Validators.required],
+      policeIDControl: ['', Validators.required, adtAsyncValidator()],
       ssnControl: ['', Validators.required],
       doyControl: ['', Validators.required],
       amkaControl: ['', Validators.required],
       ibanControl: ['', Validators.required, ibanAsyncValidator()],
+      amaNumberControl: ['', Validators.required],
       ssnFile: ['', Validators.required],
-      ibanFile: ['', Validators.required]
+      ibanFile: ['', Validators.required],
+      amaFile: ['', Validators.required],
+      idFile: ['', Validators.required]
     });
     this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
@@ -178,7 +182,9 @@ export class PracticeEnableComponent implements OnInit {
       ssnFile: this.secondFormGroup.get('ssnFile')?.value,
       ibanFile: this.secondFormGroup.get('ibanFile')?.value,
       ameaFile: this.specialDataFormGroup.get('ameaFile')?.value,
-      affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value
+      affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value,
+      amaFile: this.firstFormGroup.get('amaFile')?.value,
+      idFile: this.firstFormGroup.get('idFile')?.value
     };
     const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
@@ -257,25 +263,43 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any }) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any, amaFile: any, identityCardFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
     const fileAffidavit = this.uploadFile(contractFiles.affidavitFile);
+    const fileAMA = this.uploadFile(contractFiles.amaFile)
+    const fileIdentityCard = this.uploadFile(contractFiles.identityCardFile);
 
     const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
     const isAmeaCatSelected = this.specialDataFormGroup.get('ameaCatCtrl')?.value == "1"
 
-    let files;
+    // let files;
+
+    const files: Array<{ fileData: any; type: string }> = [
+      { fileData: fileSSN, type: 'SSN' },
+      { fileData: fileIban, type: 'IBAN' },
+      { fileData: fileAffidavit, type: 'AFFIDAVIT' },
+      { fileData: fileAMA, type: 'AMA' },
+      { fileData: fileIdentityCard, type: 'IDENTITY' },
+    ];
+
     if (isAmeaCatSelected && fileAmea != null) {
-      files = [{ "fileData": fileSSN, "type": 'SSN' },
-      { "fileData": fileIban, "type": 'IBAN' },
-      { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
-      { "fileData": fileAmea, "type": 'AMEA' }];
-    } else {
-      files = [{ "fileData": fileSSN, "type": 'SSN' },
-      { "fileData": fileIban, "type": 'IBAN' },
-      { "fileData": fileAffidavit, "type": 'AFFIDAVIT' }];
+      files.push({ fileData: fileAmea, type: 'AMEA' });
     }
+    // if (isAmeaCatSelected && fileAmea != null) {
+    //   files = [{ "fileData": fileSSN, "type": 'SSN' },
+    //   { "fileData": fileIban, "type": 'IBAN' },
+    //   { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
+    //   { "fileData": fileAMA, "type": 'AMA' },
+    //   { "fileData": fileIdentityCard, "type": 'IDENTITY' },
+    //   { "fileData": fileAmea, "type": 'AMEA' }];
+    // } else {
+    //   files = [{ "fileData": fileSSN, "type": 'SSN' },
+    //   { "fileData": fileIban, "type": 'IBAN' },
+    //   { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
+    //   { "fileData": fileAMA, "type": 'AMA' },
+    //   { "fileData": fileIdentityCard, "type": 'IDENTITY' }];
+    // }
 
     this.studentsService.updateStudentContractDetails(data);
 

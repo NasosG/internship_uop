@@ -161,7 +161,7 @@ export class StudentsService {
     return this.http
       .get<Array<AtlasPosition>>(ATLAS_URL + 'getGenericPositionSearch/', { params });
   }
-  
+
   receiveEvaluationFormFile(id: any, docType: string): Observable<Blob> {
     const url = STUDENTS_URL + "produceEvaluationFormFile/" + id;
     return this.http.post(url, { 'doctype': 'docType' }, { responseType: 'blob' });
@@ -253,6 +253,12 @@ export class StudentsService {
     else if (type == 'AFFIDAVIT')
       return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentAffidavitFile/" + id, file);
+    if (type == 'AMA')
+      return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentAMAFile/" + id, file);
+    else if (type == 'IDENTITY')
+     return this.http
+      .post<{ message: string }>(STUDENTS_URL + "updateStudentIdentityCardFile/" + id, file);
     else if (type == 'RESIGN')
       return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentResignAppFile/" + id, file);
@@ -323,7 +329,7 @@ export class StudentsService {
 
   insertStudentEvaluationSheet(evaluationForm: any, groupedAnswers:any) {
     const studentId = this.authService.getSessionId();
-    const form: EvaluationForm = { 
+    const form: EvaluationForm = {
       student_id: studentId ?? null,
       digital_signature: evaluationForm?.digital_signature ?? null,
       answers: Utils.mapFormDataToAnswers(groupedAnswers, 'question_id', 'answer')
@@ -336,7 +342,7 @@ export class StudentsService {
   }
 
   updateStudentEvaluationSheet(evaluationForm: any, groupedAnswers:any, formId: any, studentId: any) {
-    const form: EvaluationForm = { 
+    const form: EvaluationForm = {
       student_id: studentId ?? null,
       digital_signature: evaluationForm?.digital_signature ?? null,
       answers: Utils.mapFormDataToAnswers(groupedAnswers, 'question_id', 'answer')

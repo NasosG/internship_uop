@@ -45,3 +45,7 @@
   background-color: #3c434a !important;
   color: white;
 }
+
+.iban-info-span {
+  color: rgb(246, 180, 95);
+}
