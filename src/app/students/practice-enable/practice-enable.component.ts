@@ -176,15 +176,16 @@ export class PracticeEnableComponent implements OnInit {
       id_card: this.secondFormGroup.get('policeIDControl')?.value,
       ssn: this.secondFormGroup.get('ssnControl')?.value,
       doy: this.secondFormGroup.get('doyControl')?.value,
-      iban: this.secondFormGroup.get('ibanControl')?.value
+      iban: this.secondFormGroup.get('ibanControl')?.value,
+      ama: this.secondFormGroup.get('amaNumberControl')?.value
     };
     const contractFiles: any = {
       ssnFile: this.secondFormGroup.get('ssnFile')?.value,
       ibanFile: this.secondFormGroup.get('ibanFile')?.value,
       ameaFile: this.specialDataFormGroup.get('ameaFile')?.value,
       affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value,
-      amaFile: this.firstFormGroup.get('amaFile')?.value,
-      idFile: this.firstFormGroup.get('idFile')?.value
+      amaFile: this.secondFormGroup.get('amaFile')?.value,
+      idFile: this.secondFormGroup.get('idFile')?.value
     };
     const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
@@ -263,12 +264,12 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any, amaFile: any, identityCardFile: any }) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any, amaFile: any, idFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
     const fileAffidavit = this.uploadFile(contractFiles.affidavitFile);
     const fileAMA = this.uploadFile(contractFiles.amaFile)
-    const fileIdentityCard = this.uploadFile(contractFiles.identityCardFile);
+    const fileIdentityCard = this.uploadFile(contractFiles.idFile);
 
     const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
     const isAmeaCatSelected = this.specialDataFormGroup.get('ameaCatCtrl')?.value == "1"

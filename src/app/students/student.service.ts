@@ -253,7 +253,7 @@ export class StudentsService {
     else if (type == 'AFFIDAVIT')
       return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentAffidavitFile/" + id, file);
-    if (type == 'AMA')
+    else if (type == 'AMA')
       return this.http
       .post<{ message: string }>(STUDENTS_URL + "updateStudentAMAFile/" + id, file);
     else if (type == 'IDENTITY')

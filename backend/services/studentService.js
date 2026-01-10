@@ -424,7 +424,7 @@ const updateStudentContractDetails = async (student, id) => {
         doy     = $2,
         iban    = $3,
         id_card = $4,
-        ama     = COALESCE($5, ama)
+        ama_number = COALESCE($5, ama_number)
       WHERE sso_uid = $6`,
       [
         student.ssn, student.doy, student.iban, student.id_card, student.ama ?? null, id
@@ -433,6 +433,7 @@ const updateStudentContractDetails = async (student, id) => {
 
     return updateResults;
   } catch (error) {
+    logger.error(`Error while updating students: ${error}`);
     throw Error('Error while updating students');
   }
 };
