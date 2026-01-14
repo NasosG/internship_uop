@@ -123,15 +123,20 @@
         <input matInput name="doy" ngModel [ngModel]="studentsSSOData[0]?.doy" id="inputDOY" placeholder="ΔΟΥ*"
           formControlName="doyControl" required>
       </mat-form-field><br>
+      <span class="iban-info-span">Το IBAN πρέπει να είναι ελληνικό και ο δηλών να είναι υποχρεωτικά ο πρώτος δικαιούχος
+        του λογαριασμού.</span>
+      <br>
       <mat-form-field appearance="fill">
         <mat-label>IBAN</mat-label>
         <input matInput name="iban" id="iban" [ngModel]="studentsSSOData[0]?.iban" ngModel placeholder="IBAN*"
           formControlName="ibanControl" required>
-         
-        <mat-error *ngIf="secondFormGroup.controls['ibanControl']?.hasError('invalidIban') && secondFormGroup.controls['ibanControl']?.value !== null">
+
+        <mat-error
+          *ngIf="secondFormGroup.controls['ibanControl']?.hasError('invalidIban') && secondFormGroup.controls['ibanControl']?.value !== null">
           Το IBAN δεν είναι έγκυρο.
         </mat-error>
-        <mat-error *ngIf="secondFormGroup.controls['ibanControl']?.hasError('required') && secondFormGroup.controls['ibanControl']?.touched">
+        <mat-error
+          *ngIf="secondFormGroup.controls['ibanControl']?.hasError('required') && secondFormGroup.controls['ibanControl']?.touched">
           Το IBAN είναι υποχρεωτικό.
         </mat-error>
       </mat-form-field><br>
@@ -140,9 +145,23 @@
         <input matInput class="inactive-field" ngModel [ngModel]="studentsSSOData[0]?.user_ssn" id="amka" name="amka"
           placeholder="ΑΜΚΑ*" formControlName="amkaControl" required readonly>
       </mat-form-field>
-      <br><br>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>ΑΜΑ - ΙΚΑ</mat-label>
+        <input matInput name="ama_number" ngModel [ngModel]="studentsSSOData[0]?.ama_number" id="inputAMA"
+          placeholder="ΑΜΑ*" formControlName="amaNumberControl" inputmode="numeric" pattern="[0-9]*" required>
+      </mat-form-field>
+            <p>Για την έκδοση του ΑΜΑ, δείτε <a href="./assets/documents/ΟΔΗΓΙΕΣ ΓΙΑ ΕΚΔΟΣΗ ΑΜΑ ΙΚΑ - 2020_0.pdf"
+          target="_blank">εδώ</a>
+        για οδηγίες</p><br>
+      <div class="section-header-centered">
+        <mat-divider></mat-divider>
+        <span class="section-title">ΕΓΓΡΑΦΑ</span>
+        <mat-divider></mat-divider>
+      </div>
+        <br>
       <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΦΜ <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
-          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
         </i></h6>
       <p>Προτείνεται έγγραφο από <a href="https://www1.aade.gr/sgsisapps5/comregistry/#!/arxiki"
           target="_blank">TaxisNet</a>
@@ -154,12 +173,33 @@
       </mat-form-field>
       <br><br>
       <h6>Ανεβάστε έγγραφο που να απεικονίζεται το IBAN <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
-          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+          data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
         </i></h6>
       <mat-form-field>
         <ngx-mat-file-input (change)="validateFiles('ibanFile')" formControlName="ibanFile" placeholder="Έγγραφο ΙΒΑΝ">
         </ngx-mat-file-input>
         <!-- <mat-icon matSuffix>insert_photo</mat-icon> -->
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΜΑ ΙΚΑ <i class="fa fa-info-circle fa-lg fa-icon"
+          data-toggle="tooltip" data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+        </i></h6>
+      <p>Για την έκδοση του ΑΜΑ, δείτε <a href="./assets/documents/ΟΔΗΓΙΕΣ ΓΙΑ ΕΚΔΟΣΗ ΑΜΑ ΙΚΑ - 2020_0.pdf"
+          target="_blank">εδώ</a>
+        για οδηγίες</p>
+      <mat-form-field>
+        <ngx-mat-file-input (change)="validateFiles('amaFile')" formControlName="amaFile" placeholder="Έγγραφο ΑΜΑ">
+        </ngx-mat-file-input>
+      </mat-form-field>
+      <br><br>
+      <h6>Ανεβάστε έγγραφο που να απεικονίζεται η αστυνομική σας ταυτότητα (2 όψεις) <i
+          class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
+          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+        </i></h6>
+      <mat-form-field>
+        <ngx-mat-file-input (change)="validateFiles('idFile')" formControlName="idFile"
+          placeholder="Έγγραφο Αστυνομικής Ταυτότητας">
+        </ngx-mat-file-input>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Προηγούμενο</button>
@@ -182,7 +222,7 @@
       <br>
       <h6 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
           class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
-          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
         </i></h6>
       <mat-form-field *ngIf="fileSubmitted == true">
         <ngx-mat-file-input #ameaFileInput id="ameaFileInput" (change)="validateFiles('ameaFile')"
@@ -217,7 +257,7 @@
       <br>
       <h6 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
           class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
-          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg .gif .doc .docx">
+          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
         </i></h6>
 
       <mat-form-field>

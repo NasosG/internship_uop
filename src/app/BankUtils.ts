@@ -62,21 +62,24 @@ export abstract class BankUtils {
 
   public static validateIban(ibanGR: string): boolean {
     let iban = ibanGR.replace(/\s+/g, '').toUpperCase(); // Remove spaces and make uppercase
-    
+
     // Check if it starts with two letters
     if (!/^[A-Z]{2}/.test(iban)) {
       return false;
     }
 
-    const countryPrefix = iban.slice(0, 2);
+    // const countryPrefix = iban.slice(0, 2);
 
     // Special case: Trust Revolut and EU IBANs
-    if (!iban.startsWith('GR') && !iban.startsWith('CY')) {
-      return BankUtils.allowedEuPrefixes.has(countryPrefix);
-    }
+    // if (!iban.startsWith('GR') && !iban.startsWith('CY')) {
+    //   return BankUtils.allowedEuPrefixes.has(countryPrefix);
+    // }
+
+    // Don't accept non Greek IBANS anymore
+    if (!iban.startsWith('GR')) return false;
 
     const rearranged = iban.slice(4) + iban.slice(0, 4);
-    
+
     let numericIban = '';
     for (const char of rearranged) {
         if (char >= '0' && char <= '9') {
@@ -94,7 +97,7 @@ export abstract class BankUtils {
         const part = remainder.slice(0, 9);
         remainder = (parseInt(part, 10) % 97).toString() + remainder.slice(9);
     }
-    
+
     return parseInt(remainder, 10) % 97 === 1;
   }
 

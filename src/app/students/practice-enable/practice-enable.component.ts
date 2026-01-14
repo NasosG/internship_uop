@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { concatMap, forkJoin, from, mergeMap } from 'rxjs';
+import { concatMap, forkJoin, from, mergeMap, Observable } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
 import { StudentsService } from '../student.service';
 import { ibanAsyncValidator } from 'src/app/shared/validators/iban-validator';
+import { adtAsyncValidator } from 'src/app/shared/validators/identityCard-validator';
 
 @Component({
   selector: 'app-practice-enable',
@@ -116,13 +117,16 @@ export class PracticeEnableComponent implements OnInit {
       programOfStudyMergedCtrl: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
-      policeIDControl: ['', Validators.required],
+      policeIDControl: ['', Validators.required, adtAsyncValidator()],
       ssnControl: ['', Validators.required],
       doyControl: ['', Validators.required],
       amkaControl: ['', Validators.required],
       ibanControl: ['', Validators.required, ibanAsyncValidator()],
+      amaNumberControl: ['', Validators.required],
       ssnFile: ['', Validators.required],
-      ibanFile: ['', Validators.required]
+      ibanFile: ['', Validators.required],
+      amaFile: ['', Validators.required],
+      idFile: ['', Validators.required]
     });
     this.contactFormGroup = this._formBuilder.group({
       emailCtrl: ['', Validators.required],
@@ -172,13 +176,16 @@ export class PracticeEnableComponent implements OnInit {
       id_card: this.secondFormGroup.get('policeIDControl')?.value,
       ssn: this.secondFormGroup.get('ssnControl')?.value,
       doy: this.secondFormGroup.get('doyControl')?.value,
-      iban: this.secondFormGroup.get('ibanControl')?.value
+      iban: this.secondFormGroup.get('ibanControl')?.value,
+      ama: this.secondFormGroup.get('amaNumberControl')?.value
     };
     const contractFiles: any = {
       ssnFile: this.secondFormGroup.get('ssnFile')?.value,
       ibanFile: this.secondFormGroup.get('ibanFile')?.value,
       ameaFile: this.specialDataFormGroup.get('ameaFile')?.value,
-      affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value
+      affidavitFile: this.specialDataFormGroup.get('affidavitFile')?.value,
+      amaFile: this.secondFormGroup.get('amaFile')?.value,
+      idFile: this.secondFormGroup.get('idFile')?.value
     };
     const contactDetails: any = {
       phone: this.contactFormGroup.get('phoneCtrl')?.value,
@@ -208,9 +215,18 @@ export class PracticeEnableComponent implements OnInit {
     if (this.isProgramOfStudyMerged(departmentDetails.departmentId)) {
       this.onSubmitDepartmentDetails(departmentDetails);
     }
-    this.onSubmitStudentInterestApp(this.periodId);
-    this.setPhase(1);
-    this.onSave();
+    this.onSubmitStudentInterestApp(this.periodId).subscribe({
+      next: () => {
+        this.setPhase(1);
+        this.onSave();
+      },
+      error: () => {
+        // stop success flow
+        this.onSubmitError(); // or create a generic server error popup
+      }
+    });
+    // this.setPhase(1);
+    // this.onSave();
   }
 
 
@@ -240,9 +256,9 @@ export class PracticeEnableComponent implements OnInit {
     return file;
   }
 
-  onSubmitStudentInterestApp(periodId: number): void {
+  onSubmitStudentInterestApp(periodId: number): Observable<any> {
     console.log("periodId: " + periodId);
-    this.studentsService.createStudentInterestApp(periodId);
+    return this.studentsService.createStudentInterestApp(periodId);
   }
 
   onSubmitStudentDetails(data: any) {
@@ -257,24 +273,28 @@ export class PracticeEnableComponent implements OnInit {
     this.studentsService.updatePhase(phase);
   }
 
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any }) {
+  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any, amaFile: any, idFile: any }) {
     const fileSSN = this.uploadFile(contractFiles.ssnFile);
     const fileIban = this.uploadFile(contractFiles.ibanFile);
     const fileAffidavit = this.uploadFile(contractFiles.affidavitFile);
+    const fileAMA = this.uploadFile(contractFiles.amaFile)
+    const fileIdentityCard = this.uploadFile(contractFiles.idFile);
 
     const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
     const isAmeaCatSelected = this.specialDataFormGroup.get('ameaCatCtrl')?.value == "1"
 
-    let files;
+    // let files;
+
+    const files: Array<{ fileData: any; type: string }> = [
+      { fileData: fileSSN, type: 'SSN' },
+      { fileData: fileIban, type: 'IBAN' },
+      { fileData: fileAffidavit, type: 'AFFIDAVIT' },
+      { fileData: fileAMA, type: 'AMA' },
+      { fileData: fileIdentityCard, type: 'IDENTITY' },
+    ];
+
     if (isAmeaCatSelected && fileAmea != null) {
-      files = [{ "fileData": fileSSN, "type": 'SSN' },
-      { "fileData": fileIban, "type": 'IBAN' },
-      { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
-      { "fileData": fileAmea, "type": 'AMEA' }];
-    } else {
-      files = [{ "fileData": fileSSN, "type": 'SSN' },
-      { "fileData": fileIban, "type": 'IBAN' },
-      { "fileData": fileAffidavit, "type": 'AFFIDAVIT' }];
+      files.push({ fileData: fileAmea, type: 'AMEA' });
     }
 
     this.studentsService.updateStudentContractDetails(data);
@@ -315,6 +335,18 @@ export class PracticeEnableComponent implements OnInit {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
       text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
+  onSubmitError() {
+    Swal.fire({
+      title: 'Αποτυχία ενημέρωσης στοιχείων',
+      text: 'Παρουσιάστηκε ένα πρόβλημα κατά την υποβολή της αίτησής σου. Παρακαλούμε δοκίμασε ξανά αργότερα.',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
