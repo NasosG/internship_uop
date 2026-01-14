@@ -147,10 +147,19 @@
       </mat-form-field>
       <br>
       <mat-form-field appearance="fill">
-        <mat-label>ΑΜΑ</mat-label>
+        <mat-label>ΑΜΑ - ΙΚΑ</mat-label>
         <input matInput name="ama_number" ngModel [ngModel]="studentsSSOData[0]?.ama_number" id="inputAMA"
           placeholder="ΑΜΑ*" formControlName="amaNumberControl" inputmode="numeric" pattern="[0-9]*" required>
-      </mat-form-field><br><br>
+      </mat-form-field>
+            <p>Για την έκδοση του ΑΜΑ, δείτε <a href="./assets/documents/ΟΔΗΓΙΕΣ ΓΙΑ ΕΚΔΟΣΗ ΑΜΑ ΙΚΑ - 2020_0.pdf"
+          target="_blank">εδώ</a>
+        για οδηγίες</p><br>
+      <div class="section-header-centered">
+        <mat-divider></mat-divider>
+        <span class="section-title">ΕΓΓΡΑΦΑ</span>
+        <mat-divider></mat-divider>
+      </div>
+        <br>
       <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΦΜ <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
           data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
         </i></h6>

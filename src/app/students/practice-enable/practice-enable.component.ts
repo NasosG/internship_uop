@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { concatMap, forkJoin, from, mergeMap } from 'rxjs';
+import { concatMap, forkJoin, from, mergeMap, Observable } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
@@ -215,9 +215,18 @@ export class PracticeEnableComponent implements OnInit {
     if (this.isProgramOfStudyMerged(departmentDetails.departmentId)) {
       this.onSubmitDepartmentDetails(departmentDetails);
     }
-    this.onSubmitStudentInterestApp(this.periodId);
-    this.setPhase(1);
-    this.onSave();
+    this.onSubmitStudentInterestApp(this.periodId).subscribe({
+      next: () => {
+        this.setPhase(1);
+        this.onSave();
+      },
+      error: () => {
+        // stop success flow
+        this.onSubmitError(); // or create a generic server error popup
+      }
+    });
+    // this.setPhase(1);
+    // this.onSave();
   }
 
 
@@ -247,9 +256,9 @@ export class PracticeEnableComponent implements OnInit {
     return file;
   }
 
-  onSubmitStudentInterestApp(periodId: number): void {
+  onSubmitStudentInterestApp(periodId: number): Observable<any> {
     console.log("periodId: " + periodId);
-    this.studentsService.createStudentInterestApp(periodId);
+    return this.studentsService.createStudentInterestApp(periodId);
   }
 
   onSubmitStudentDetails(data: any) {
@@ -287,20 +296,6 @@ export class PracticeEnableComponent implements OnInit {
     if (isAmeaCatSelected && fileAmea != null) {
       files.push({ fileData: fileAmea, type: 'AMEA' });
     }
-    // if (isAmeaCatSelected && fileAmea != null) {
-    //   files = [{ "fileData": fileSSN, "type": 'SSN' },
-    //   { "fileData": fileIban, "type": 'IBAN' },
-    //   { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
-    //   { "fileData": fileAMA, "type": 'AMA' },
-    //   { "fileData": fileIdentityCard, "type": 'IDENTITY' },
-    //   { "fileData": fileAmea, "type": 'AMEA' }];
-    // } else {
-    //   files = [{ "fileData": fileSSN, "type": 'SSN' },
-    //   { "fileData": fileIban, "type": 'IBAN' },
-    //   { "fileData": fileAffidavit, "type": 'AFFIDAVIT' },
-    //   { "fileData": fileAMA, "type": 'AMA' },
-    //   { "fileData": fileIdentityCard, "type": 'IDENTITY' }];
-    // }
 
     this.studentsService.updateStudentContractDetails(data);
 
@@ -340,6 +335,18 @@ export class PracticeEnableComponent implements OnInit {
     Swal.fire({
       title: 'Ενημέρωση στοιχείων',
       text: 'Μη έγκυρος τύπος αρχείων. Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
+  onSubmitError() {
+    Swal.fire({
+      title: 'Αποτυχία ενημέρωσης στοιχείων',
+      text: 'Παρουσιάστηκε ένα πρόβλημα κατά την υποβολή της αίτησής σου. Παρακαλούμε δοκίμασε ξανά αργότερα.',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',

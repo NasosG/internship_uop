@@ -810,13 +810,11 @@ const insertSSNFile = async (request, response, next) => {
         message: "FILE ADDED SSN"
       });
 
-  } catch (err) {
-    logger.info(err);
-    response
-      .status(201)
-      .json({
-        message: "ERROR"
-      });
+  } catch (error) {
+    logger.error(error.message);
+    response.status(400).json({
+      message: "ERROR INSERTING SSN FILE"
+    });
   }
 };
 
@@ -838,8 +836,8 @@ const insertIbanFile = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.status(201).json({
-      message: "ERROR"
+    response.status(400).json({
+      message: "ERROR INSERTING IBAN FILE"
     });
   }
 };
@@ -862,8 +860,8 @@ const insertAMEAFile = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.status(201).json({
-      message: "ERROR"
+    response.status(400).json({
+      message: "ERROR INSERTING AMEA FILE"
     });
   }
 };
@@ -886,8 +884,8 @@ const insertAffidavitFile = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.status(201).json({
-      message: "ERROR"
+    response.status(400).json({
+      message: "ERROR INSERTING AFFIDAVIT FILE"
     });
   }
 };
@@ -910,8 +908,8 @@ const insertStudentResignAppFile = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.status(201).json({
-      message: "ERROR"
+    response.status(400).json({
+      message: "ERROR INSERTING RESIGN APP FILE"
     });
   }
 };
@@ -934,8 +932,8 @@ const insertAMAFile = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.status(201).json({
-      message: "ERROR"
+    response.status(400).json({
+      message: "ERROR INSERTING AMA FILE"
     });
   }
 };
@@ -958,8 +956,8 @@ const insertIdentityCardFile = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.status(201).json({
-      message: "ERROR"
+    response.status(400).json({
+      message: "ERROR INSERTING IDENTITY CARD"
     });
   }
 };

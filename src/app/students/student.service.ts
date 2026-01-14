@@ -458,10 +458,7 @@ export class StudentsService {
   createStudentInterestApp(periodId: number) {
     const studentId = this.authService.getSessionId();
     return this.http
-      .post<{ message: string }>(STUDENTS_URL + "insertStudentInterestApp/" + studentId, { periodId })
-      .subscribe(responseData => {
-        console.log(responseData.message);
-      });
+      .post<{ message: string }>(STUDENTS_URL + "insertStudentInterestApp/" + studentId, { periodId });
   }
 
   getMergedDepartmentInfoByStudentId(): Observable<Array<Department>> {
