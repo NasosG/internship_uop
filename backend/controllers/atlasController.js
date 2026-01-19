@@ -413,7 +413,7 @@ const getGenericPositionSearch = async (request, response) => {
     const offset = (begin != null) ? begin : 0;
     const limit = 6; // Number of rows to fetch from the database
 
-    const results = await atlasService.getGenericPositionSearch(userInput, offset, limit);
+    let results = await atlasService.getGenericPositionSearch(userInput, offset, limit);
 
     // Αν δεν βρέθηκε τίποτα ΚΑΙ το input είναι position id, προσπάθησε import
     const isNumericId = userInput != null && userInput !== '' && Number.isFinite(Number(userInput));
