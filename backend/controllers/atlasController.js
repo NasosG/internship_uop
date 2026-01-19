@@ -414,6 +414,23 @@ const getGenericPositionSearch = async (request, response) => {
     const limit = 6; // Number of rows to fetch from the database
 
     const results = await atlasService.getGenericPositionSearch(userInput, offset, limit);
+
+    // Αν δεν βρέθηκε τίποτα ΚΑΙ το input είναι position id, προσπάθησε import
+    const isNumericId = userInput != null && userInput !== '' && Number.isFinite(Number(userInput));
+
+    if (results.length === 0 && isNumericId) {
+      try {
+        // try to import by "another service"
+        await tryImportPositionById(userInput);
+      } catch (importErr) {
+        // DO NOT send it to FE — just log
+        logger.info(`Import failed for positionId=${userInput}: ${importErr.message}`);
+      }
+
+      // find new position details after serach
+      results = await atlasService.getGenericPositionSearch(userInput, offset, limit);
+    }
+
     let positionsArray = [];
 
     for (const item of results) {
@@ -444,6 +461,49 @@ const getGenericPositionSearch = async (request, response) => {
     });
   }
 };
+
+
+const tryImportPositionById = async (groupID) => {
+  try {
+    const positionGroupID = Number(groupID);
+    const accessToken = await atlasLogin();
+
+    logger.info('insertAtlasPositionGroup for position ' + positionGroupID);
+
+    // Insert position group to the local DB
+    let positionGroupResults = await getPositionGroupDetails(positionGroupID, accessToken);
+    let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
+    let providerResults = await getProviderDetails(positionGroupResults.message.ProviderID, accessToken);
+
+    let dateString = '2025-01-01 18:03:40.713';
+    const pair = { PositionGroupLastUpdate: dateString };
+    const positionsInsertArray = [getPosition(pair, positionGroupResults.message, academics)];
+    const providersInsertArray = [getProviderJson(providerResults.message)];
+
+    positionsInsertArray.lastUpdateString = dateString;
+    const defaultUpdateDate = '01/01/2025 18:03:40';
+
+    const positionData = [
+      {
+        PositionGroupID: positionGroupResults.message.ID,
+        PositionGroupLastUpdateString: defaultUpdateDate,
+        ProviderID: positionGroupResults.message.ProviderID,
+        ProviderLastUpdateString: defaultUpdateDate
+      }
+    ];
+
+    // Insert position group and provider details
+    await atlasService.insertProvider(providersInsertArray),
+    await atlasService.insertPositionGroup(positionsInsertArray),
+    await atlasService.insertPositionGroupRelation([positionData])
+
+    return 0;
+  } catch (error) {
+    logger.error("tryImportPositionById - ERROR -> " + error.message);
+    logger.error("Stack Trace: " + error.stack);
+    throw error;
+  };
+}
 
 const insertTablesFromAtlas = async (request, response) => {
   let accessToken = await atlasLogin();
@@ -878,11 +938,9 @@ const syncAtlasPositionGroup = async (request, response) => {
     ];
 
     // Insert position group and provider details
-    await Promise.all([
-      atlasService.insertProvider(providersInsertArray),
-      atlasService.insertPositionGroup(positionsInsertArray),
-      atlasService.insertPositionGroupRelation([positionData])
-    ]);
+    await atlasService.insertProvider(providersInsertArray),
+    await atlasService.insertPositionGroup(positionsInsertArray),
+    await atlasService.insertPositionGroupRelation([positionData])
 
     response.status(201).json({ message: 'done', status: 'success' });
   } catch (error) {

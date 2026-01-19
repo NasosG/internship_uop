@@ -449,9 +449,9 @@ const insertProvider = async (data) => {
     // Create an array of existing atlas_provider_id's
     const existingIDArray = existingIDs.rows;
     // This creates a new array "existingIds" with all the "atlas_provider_id" from the existingIDArray
-    const existingIds = existingIDArray.map(item => item.atlas_provider_id);
+    const existingIds = existingIDArray.map(item => Number(item.atlas_provider_id));
     // Filter data array to only include items with atlas_provider_id's that do not already exist in the database
-    const uniqueData = data.filter(item => !existingIds.includes(item.atlasProviderId.toString()));
+    const uniqueData = data.filter(item => !existingIds.includes(Number(item.atlasProviderId)));
 
     for (const item of uniqueData) {
       await pool.query("INSERT INTO atlas_provider" +
