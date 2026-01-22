@@ -140,6 +140,7 @@ import { StudentsSheetReminderComponent } from './admin-panels/students-sheet-re
 import { SheetQuestionnairesEditDialogComponent } from './department-managers/sheet-questionnaires-edit-dialog/sheet-questionnaires-edit-dialog.component';
 import { SheetQuestionnairesOfficeComponent } from './internship-office/sheet-questionnaires-office/sheet-questionnaires-office.component';
 import { SheetQuestionnairesOfficeEditDialogComponent } from './internship-office/sheet-questionnaires-office-edit-dialog/sheet-questionnaires-office-edit-dialog.component';
+import { OfficeStudentApplicationsComponent } from './internship-office/office-student-applications/office-student-applications.component';
 registerLocaleData(localeEl);
 
 // Define custom formats
@@ -265,6 +266,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SheetQuestionnairesEditDialogComponent,
     SheetQuestionnairesOfficeComponent,
     SheetQuestionnairesOfficeEditDialogComponent,
+    OfficeStudentApplicationsComponent,
   ],
   imports: [
     BrowserModule,

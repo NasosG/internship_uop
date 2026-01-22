@@ -84,7 +84,7 @@ export class OfficeComponent implements OnInit {
     return this.router.url === '/office/positions-add/' + this.authService.getSessionId();
   }
 
-  isOfficeHomeRoute(){
+  isOfficeHomeRoute() {
     return this.router.url === '/office/' + this.authService.getSessionId();
   }
 
@@ -126,5 +126,9 @@ export class OfficeComponent implements OnInit {
 
   isQuestionnairesRoutes() {
     return this.router.url === '/office/questionnaires/' + this.authService.getSessionId();
+  }
+
+  isStudentApplicationRoutes() {
+    return this.router.url === '/office/office-student-applications/' + this.authService.getSessionId();
   }
 }

@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DataTableDirective } from 'angular-datatables';
 import { Utils } from 'src/app/MiscUtils';
 import { Student } from 'src/app/students/student.model';
 import * as XLSX from 'xlsx';
@@ -135,15 +134,7 @@ export class StudentApplicationsResultsComponent implements OnInit {
       });
     }
   }
-  // downloadFile(data: any) {
-  //   let blob = new Blob([data]);
-  //   let url = window.URL.createObjectURL(blob);
-  //   let pwa = window.open(url);
-  //   if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-  //       alert('Please disable your Pop-up blocker and try again.');
-  //   }
-  // }
-
+  
   /**
    * Fetches phases by period ID and formats the dates.
    */

@@ -1,0 +1,175 @@
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <!-- <div class="card-header"> -->
+          <div class="card-header p-2">
+            <div class="card-tools mr-1 p-1">
+              <button type="button" style="font-size:16px;" [class.btn-secondary]="!isActive"
+                [class.btn-primary]="isActive" [class.active]="isActive" (click)="isActive = !isActive"
+                class="btn btn-sm daterange old-periods active" title="Date range">
+                <i class="far fa-envelope mr-1"></i> <a style="text-decoration:none; color:white;" [routerLink]="['/department-manager/student-applications/results-old/' +
+                authService.getSessionId()]"
+                  data-toggle="tab">{{!isActive ? 'Προβολή Παλιών Αιτήσεων':'Προβολή Νέων αιτήσεων'}}</a>
+              </button>
+            </div>
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link active" href="#applications" data-toggle="tab">Αιτήσεις φοιτητών</a>
+              </li>
+              <li class="nav-item" (click)="redirectToResults()">
+                <a class="nav-link" (click)="runAlgorithm()" [class.disabled]="this.period == null ? false : (this.period.phase_state == 1 && periodHasNotEnded())
+                  || btnDisabled == true"
+                  [routerLink]="['/department-manager/student-applications/results/' + this.authService.getSessionId()]"
+                  data-toggle="tab">Αποτελέσματα Αιτήσεων</a>
+              </li>
+            </ul>
+          </div>
+          <!-- </div> -->
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="applications">
+                <!-- <table id="appsTable" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions"> -->
+                <h4 *ngIf="period != null">Τρέχουσα Περίοδος:
+                  {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
+                <table id="appsTable" #appsTable [ngClass]="screenWidth < 1692 ? 'table-responsive table-bordered table-striped'
+                    : 'table table-bordered table-striped'">
+                  <thead>
+                    <tr>
+                      <th>Επιλογή</th>
+                      <th>Ονοματεπώνυμο</th>
+                      <th>Α.Π.</th>
+                      <th>ΑΜ</th>
+                      <!-- <th>email</th> -->
+                      <th>Υπηρετώ στο στρατό</th>
+                      <th>ΑΜΕΑ (Κατ.5)</th>
+                      <th>Σύμβαση εργασίας</th>
+                      <th>Τμήμα</th>
+                      <!-- <th>Αναβάθμιση πτυχίου</th> -->
+                      <th>Έγγραφα</th>
+                      <th>Δήλωση μαθήματος ΠΑ</th>
+                      <th class="text-center">Ενέργειες</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let student of studentsData ; let idx=index" [attr.data-index]="idx">
+                      <td>
+                        <p style="display:none">
+                          {{student.phase == 2 ? 'Ενεργός' : student.phase == 1 ? 'Προς επιλογή' : 'Απορρίφτηκε'}}</p>
+                        <mat-form-field id="{{student.sso_uid}}" name="phase" style="width:100%;" appearance="standard">
+                          <mat-label>Προς επιλογή</mat-label>
+                          <mat-select value="{{
+                              student.phase == 2 ? 'option1' :
+                              student.phase == 3 ? 'option4' :
+                              student.phase == 1 ? '' : 'option2'}}" name="phase">
+                            <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">Προς
+                              επιλογή
+                            </mat-option>
+                            <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">Αποδοχή
+                            </mat-option>
+                            <mat-option value="option2" (click)="onSubmitSelect('option2', student.sso_uid)">Απόρριψη
+                            </mat-option>
+                            <mat-option value="option4" (click)="onSubmitSelect('option4', student.sso_uid)">Παραίτηση
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <!-- Insert Comment Button -->
+                        <a *ngIf="!checkStudentHasComment(student.sso_uid) == true" class="text-secondary w-100"
+                          style="cursor: pointer; font-weight: bold;" (click)="openCommentsDialog(idx)"><i
+                            class="fas fa-plus"></i>
+                          Προσθήκη Σχολίου<br></a>
+                        <a *ngIf="checkStudentHasComment(student.sso_uid)" class=" text-secondary w-100"
+                          style="cursor: pointer; font-style: italic;" (click)="openCommentsDialog(idx)"><i
+                            class="fas fa-edit"></i>
+                          Προβολή / Επεξεργασία Σχολίου<br></a>
+                      </td>
+                      <td>{{student.givenname}} {{student.sn}}</td>
+                      <td>{{student.latest_app_protocol_number}}</td>
+                      <!-- <td>{{student.father_name}}</td> -->
+                      <td>{{student.schacpersonaluniquecode}}</td>
+                      <!-- <td>{{student.id}}.uop.gr</td> -->
+                      <td [ngClass]="student.military_training == true ? 'text-danger' : 'text-dark'">
+                        {{student.military_training == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                      <td [ngClass]="student.amea_cat == true ? 'text-danger' : 'text-dark'">
+                        {{student.amea_cat == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                      <td [ngClass]="student.working_state == true ? 'text-danger' : 'text-dark'">
+                        {{student.working_state == true ? 'ΝΑΙ' : 'OXI'}}</td>
+                      <td>
+                        {{'ΠΣ: ' + (!student.current_study_program ? student.department: student.current_study_program)}}
+                      </td>
+                      <!-- <td>
+                        {{ !student.is_study_program_upgraded ? 'ΟΧΙ' : 'ΝΑΙ' }}
+                      </td> -->
+                      <td class="reponsive-text-center-td">
+                        <!-- <button class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"
+                        (click)="openStudentFilesViewDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-eye"></i> Έγγραφα<br></button> -->
+                        <button style="min-width:120px;" (click)="openStudentFilesViewDialog(idx)"
+                          class="mb-0 pt-0 pb-0 btn btn-primary td-button-responsive"> <i class="fa fa-eye"
+                            aria-hidden="true"></i> Έγγραφα
+                        </button>
+                        <!-- <button (click)="receiveFile(student.sso_uid, 'IBAN')"
+                          class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
+                            class="fa fa-download" aria-hidden="true"></i> IBAN
+                        </button>
+                        <button (click)="receiveFile(student.sso_uid, 'SSN')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
+                        </button>
+                        <button *ngIf="student.amea_cat == true" (click)="receiveFile(student.sso_uid, 'AMEA')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> AMEA
+                        </button>
+                        <button (click)="receiveFile(student.sso_uid, 'AFFIDAVIT')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
+                        </button>
+                        <button *ngIf="this.resignAppFiles[idx]" (click)="receiveFile(student.sso_uid, 'RESIGN')"
+                          class="mt-0 mb-0 pt-0 pb-0 btn btn-primary td-button-responsive">
+                          <i class="fa fa-download" aria-hidden="true"></i> Παραίτηση
+                        </button> -->
+                      </td>
+                      <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
+                      <td class="action text-center">
+                        <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
+                            class="fa fa-eye"></i> Προβολή<br></a>
+                        <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Επιλογή</th>
+                      <th>Ονοματεπώνυμο</th>
+                      <th>Α.Π.</th>
+                      <th>ΑΜ</th>
+                      <!-- <th>email</th> -->
+                      <th>Υπηρετώ στο στρατό</th>
+                      <th>ΑΜΕΑ (Κατ.5)</th>
+                      <th>Σύμβαση εργασίας</th>
+                      <th>Τμήμα</th>
+                      <!-- <th>Αναβάθμιση πτυχίου</th> -->
+                      <th>Έγγραφα</th>
+                      <th>Δήλωση μαθήματος ΠΑ</th>
+                      <th class="text-center">Ενέργειες</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->

@@ -1,23 +1,23 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Student } from 'src/app/students/student.model';
-import { StudentAppsPreviewDialogComponent } from '../student-apps-preview-dialog/student-apps-preview-dialog.component';
-import { DepManagerService } from '../dep-manager.service';
-import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
+import { StudentAppsPreviewDialogComponent } from '../../department-managers/student-apps-preview-dialog/student-apps-preview-dialog.component';
+import { DepManagerService } from '../../department-managers/dep-manager.service'
+import { CommentsDialogComponent } from '../../department-managers/comments-dialog/comments-dialog.component';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Period } from '../period.model';
+import { Period } from '../../department-managers/period.model';
 import Swal from 'sweetalert2';
 import { fromEvent } from 'rxjs';
 import * as moment from 'moment';
-import { StudentFilesViewDialogComponent } from '../student-files-view-dialog/student-files-view-dialog.component';
+import { StudentFilesViewDialogComponent } from'../../department-managers/student-files-view-dialog/student-files-view-dialog.component';
 
 @Component({
-  selector: 'app-student-applications',
-  templateUrl: './student-applications.component.html',
-  styleUrls: ['./student-applications.component.css']
+  selector: 'app-office-student-applications',
+  templateUrl: './office-student-applications.component.html',
+  styleUrls: ['./office-student-applications.component.css']
 })
-export class StudentApplicationsComponent implements OnInit, AfterViewInit {
+export class OfficeStudentApplicationsComponent implements OnInit {
   @ViewChild('appsTable') table: ElementRef | undefined;
   @ViewChild('photo') image!: ElementRef;
   @ViewChild('btnRunAlgorithm') btnRunAlgorithm!: ElementRef;
@@ -97,18 +97,7 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
           select: true,
           pagingType: 'full_numbers',
           processing: true,
-          columnDefs: [{ orderable: false, targets: [8, 10] }],
-          language: {
-            // lengthMenu: 'Show _MENU_ entries'
-            // lengthMenu: this.translate.instant('DEPT-MANAGER.SHOW-RESULTS') + ' _MENU_ ' + this.translate.instant('DEPT-MANAGER.ENTRIES')
-            // : "Επίδειξη","ENTRIES": "εγγραφών ανά σελίδα"
-            // // lengthMenu: 'Display _MENU_ records per page',
-            // zeroRecords: 'Nothing found - sorry',
-            // info: 'Showing page _PAGE_ of _PAGES_',
-            // infoEmpty: 'No records available',
-            // infoFiltered: '(filtered from _MAX_ total records)',
-          },
-          // pageLength: 8
+          columnDefs: [{ orderable: false, targets: [8, 10] }]
         });
       });
   }
@@ -139,17 +128,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
     if (!this.period?.phase_state) return;
     if (!this.btnDisabled) {
       if (!this.period.department_id) return;
-      // this.depManagerService.insertApprovedStudentsRank(this.period.department_id, this.period.phase_state, this.period.id)
-      // .subscribe(
-      //   (response) => {
-      //     console.log('insertApprovedStudentsRank success:', response);
-      //     return response;
-      //   },
-      //   (error) => {
-      //     console.log('insertApprovedStudentsRank error:', error);
-      //     return false;
-      //   }
-      // );
     }
     return false;
   }
@@ -175,14 +153,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
       window.open(window.URL.createObjectURL(res));
     });
   }
-  // downloadFile(data: any) {
-  //   let blob = new Blob([data]);
-  //   let url = window.URL.createObjectURL(blob);
-  //   let pwa = window.open(url);
-  //   if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-  //       alert('Please disable your Pop-up blocker and try again.');
-  //   }
-  // }
 
   checkIfFileExistsFor(i: number, studentId: number, docType: string): any {
     if (docType == 'RESIGN') {
@@ -198,10 +168,6 @@ export class StudentApplicationsComponent implements OnInit, AfterViewInit {
         this.amaFiles[i] = (res.type != 'application/json');
       });
     }
-  }
-
-  ngAfterViewInit(): void {
-    // $('#appsTable').DataTable();
   }
 
   onSubmitSelect(option: string, studentId: number) {

@@ -305,6 +305,10 @@ const routes: Routes = [{
   {
     path: 'atlas-positions/:id',
     component: OfficeComponent
+  },
+  {
+    path: 'office-student-applications/:id',
+    component: OfficeComponent
   }
   ]
 },

@@ -194,6 +194,24 @@
               </p>
             </a>
           </li>
+                    <li  class="nav-item">
+            <a [routerLink]="['/office/office-student-applications/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Αιτήσεις Φοιτητών
+              </p>
+            </a>
+          </li>
+          <!-- <li *ngIf="isStudentsApplicationsResults()" class="nav-item">
+            <a [routerLink]="['/department-manager/student-applications/results/' + this.authService.getSessionId()]"
+              [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Αιτήσεις Φοιτητών
+              </p>
+            </a>
+          </li> -->
           <li class="nav-item">
             <a [routerLink]="['/office/sheet-input/' + this.authService.getSessionId()]" [routerLinkActive]="['active']"
               class="nav-link">
@@ -360,6 +378,7 @@
         <app-atlas-positions *ngIf="isAtlasPositionsRoute()"></app-atlas-positions>
         <app-payment-orders-office *ngIf="isPaymentOrdersRoute()"></app-payment-orders-office>
         <app-sheet-questionnaires-office *ngIf="isQuestionnairesRoutes()"></app-sheet-questionnaires-office>
+        <app-office-student-applications *ngIf="isStudentApplicationRoutes()"></app-office-student-applications>
       </div>
     </section>
     <!-- /.content -->
