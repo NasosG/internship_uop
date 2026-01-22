@@ -19,7 +19,7 @@ export function adtAsyncValidator(): AsyncValidatorFn {
           .replace(/[\s\-.]/g, '') // removes spaces, hyphens, dots
           .toUpperCase();
 
-        const ADT_REGEX = /^[A-ZΑ-Ω]{1,2}\d{6,7}$/;
+        const ADT_REGEX = /^[A-ZΑ-Ω]{1,2}\d{6,8}$/;
 
         return ADT_REGEX.test(normalized)
           ? null
