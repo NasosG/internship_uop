@@ -1347,11 +1347,23 @@ const getPositionPreassignment = async (groupId, academicId) => {
     let positionData = [];
     const preassigned = atlasResponse.data.Result;
 
+    logger.info(
+      'Έλεγχος προδεσμευμένων θέσεων | ' +
+      'PositionID: ' + position?.ID +
+      ' | Position.GroupID: ' + positionGroupId +
+      ' | Request.GroupID: ' + reqGroupId +
+      ' | AcademicID: ' + academicId +
+      ' | PreAssignedForAcademic.ID: ' + (position?.PreAssignedForAcademic?.ID ?? 'null')
+    );
+    
     if (preassigned && preassigned.length > 0) {
       logger.info("preassigned positions exist");
       preassigned.forEach((position) => {
-        if (parseInt(position.GroupID) === parseInt(groupId) && 
-            (!position.PreAssignedForAcademic || position.PreAssignedForAcademic?.ID == academicId)) {
+        if (parseInt(position.GroupID) === parseInt(groupId) 
+            // && 
+            // (!position.PreAssignedForAcademic || position.PreAssignedForAcademic?.ID == academicId)
+           ) {
+          
           positionIds.push(position.ID);
           positionData.push({
             "ImplementationEndDate": position.ImplementationEndDate,
