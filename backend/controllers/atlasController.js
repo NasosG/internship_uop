@@ -1346,7 +1346,16 @@ const getPositionPreassignment = async (groupId, academicId) => {
     let positionIds = [];
     let positionData = [];
     const preassigned = atlasResponse.data.Result;
-    
+
+    if (Array.isArray(preassigned)) {
+      logger.info(
+        'Preassigned positions (ALL): ' +
+        JSON.stringify(preassigned, null, 2)
+      );
+    } else {
+      logger.info('Preassigned is not array: ' + JSON.stringify(preassigned));
+    }
+
     if (preassigned && preassigned.length > 0) {
       logger.info("preassigned positions exist");
       preassigned.forEach((position) => {
