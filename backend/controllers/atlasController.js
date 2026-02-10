@@ -1359,6 +1359,17 @@ const getPositionPreassignment = async (groupId, academicId) => {
     if (preassigned && preassigned.length > 0) {
       logger.info("preassigned positions exist");
       preassigned.forEach((position) => {
+        
+        const positionGroupId = parseInt(position?.GroupID, 10);
+        const reqGroupId = parseInt(groupId, 10);
+        logger.info('Έλεγχος προδεσμευμένων θέσεων | ' +
+        'PositionID: ' + position?.ID +
+        ' | Position.GroupID: ' + positionGroupId +
+        ' | Request.GroupID: ' + reqGroupId +
+        ' | AcademicID: ' + academicId +
+        ' | PreAssignedForAcademic.ID: ' + (position?.PreAssignedForAcademic?.ID ?? 'null')
+        );
+        
         if (parseInt(position.GroupID) === parseInt(groupId) 
             // && 
             // (!position.PreAssignedForAcademic || position.PreAssignedForAcademic?.ID == academicId)
