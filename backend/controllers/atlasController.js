@@ -1346,15 +1346,6 @@ const getPositionPreassignment = async (groupId, academicId) => {
     let positionIds = [];
     let positionData = [];
     const preassigned = atlasResponse.data.Result;
-
-    logger.info(
-      'Έλεγχος προδεσμευμένων θέσεων | ' +
-      'PositionID: ' + position?.ID +
-      ' | Position.GroupID: ' + positionGroupId +
-      ' | Request.GroupID: ' + reqGroupId +
-      ' | AcademicID: ' + academicId +
-      ' | PreAssignedForAcademic.ID: ' + (position?.PreAssignedForAcademic?.ID ?? 'null')
-    );
     
     if (preassigned && preassigned.length > 0) {
       logger.info("preassigned positions exist");
