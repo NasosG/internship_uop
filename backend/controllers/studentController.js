@@ -530,8 +530,8 @@ const produceEvaluationFormFile = async (request, response) => {
     const studentId = request.params.id;
 
     let metadata = await studentService.getEvaluationFormMetadataByStudentId(studentId);
-    
-    // logger.info(req.body);
+  
+    // logger.info(request.body);
     // Define the path to the .docx template file
     const fileDir = process.env.EVALUATION_TEMPLATE_FILE_PATH || "./word-contract-templates/Φύλλο αξιολόγησης Φοιτητή ΕΣΠΑ21-27 εκδοση 2.docx";
     logger.info(fileDir);
@@ -543,13 +543,24 @@ const produceEvaluationFormFile = async (request, response) => {
       paragraphLoop: true,
       linebreaks: true,
     });
-    logger.info(metadata);
 
     const placeholders = {};
     // Define the replacements for placeholders
     metadata.forEach(item => {
       placeholders[item.question_id] = item.answer_text ?? item.answer_smallint ?? '';
-      if (item.answer_smallint) {
+
+      // Special handling for boolean-style questions B6 and B7 (values 0/1)
+      if (item.question_id == 'B6' || item.question_id == 'B7') {
+        if (item.answer_smallint !== null && item.answer_smallint !== undefined) {
+          const boolLabels = {
+            0: 'Διαφωνώ',
+            1: 'Συμφωνώ',
+          };
+          placeholders[item.question_id] = `${item.answer_smallint} (${boolLabels[item.answer_smallint] || ''})`;
+        }
+      }
+      // Standard 1–5 Likert questions
+      else if (item.answer_smallint) {
         const labels = {
           1: 'Διαφωνώ απόλυτα',
           2: 'Διαφωνώ',
@@ -557,7 +568,7 @@ const produceEvaluationFormFile = async (request, response) => {
           4: 'Συμφωνώ',
           5: 'Συμφωνώ απόλυτα',
         };
-        placeholders[item.question_id] = `${placeholders[item.question_id]} (${labels[placeholders[item.question_id]]})`
+        placeholders[item.question_id] = `${placeholders[item.question_id]} (${labels[placeholders[item.question_id]]})`;
       }
     });
 
