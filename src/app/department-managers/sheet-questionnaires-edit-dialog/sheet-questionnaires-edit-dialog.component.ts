@@ -62,6 +62,8 @@ export class SheetQuestionnairesEditDialogComponent implements OnInit {
             } else {
               this.answersMap[questionName] = matchingAnswer.answer_text;
             }
+          } else if (question.question_type === 'BOOLEAN') {
+            this.answersMap[questionName] = Number(matchingAnswer.answer_smallint);
           }
         }
       });
@@ -105,7 +107,8 @@ export class SheetQuestionnairesEditDialogComponent implements OnInit {
       const groupKey = (question_id.startsWith('B1') || question_id.startsWith('C2')) ? question_id.split('_')[0] : question_id;
       const label = question_id.substring(groupKey.length + 1);
 
-      if (!answer || answer === 'false') continue;
+      // Skip only truly empty answers; allow numeric 0 for boolean questions
+      if (answer === null || answer === undefined || answer === '' || answer === 'false') continue;
 
       if (!finalAnswers[groupKey]) {
         finalAnswers[groupKey] = '';

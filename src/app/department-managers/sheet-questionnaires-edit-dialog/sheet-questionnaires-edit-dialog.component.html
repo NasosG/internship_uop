@@ -27,7 +27,7 @@
 
           <!-- SMALLINT Questions - Horizontal Layout with Full Labels -->
           <!-- BOOLEAN‑style SMALLINT (e.g. B6, B7): only 2 options -->
-          <div *ngIf="question.question_type === 'SMALLINT' && (question.question_name === 'B6' || question.question_name === 'B7')" class="col-12">
+          <div *ngIf="question.question_type === 'BOOLEAN'" class="col-12">
             <mat-radio-group [(ngModel)]="answersMap[question.question_name]" [name]="question.question_name" [id]="question.question_name" required class="d-flex flex-wrap justify-content-start">
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="0" class="mr-1"></mat-radio-button>
@@ -42,7 +42,7 @@
 
           <!-- Standard 1–5 Likert SMALLINT -->
           <!-- Radio Buttons (SMALLINT) -->
-          <div *ngIf="question.question_type === 'SMALLINT' && question.question_name !== 'B6' && question.question_name !== 'B7'" class="col-12">
+          <div *ngIf="question.question_type === 'SMALLINT'" class="col-12">
             <mat-radio-group [(ngModel)]="answersMap[question.question_name]" [name]="question.question_name" [id]="question.question_name" required class="d-flex flex-wrap justify-content-start">
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="1" class="mr-1"></mat-radio-button>
