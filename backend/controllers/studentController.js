@@ -556,7 +556,7 @@ const produceEvaluationFormFile = async (request, response) => {
             0: 'Διαφωνώ',
             1: 'Συμφωνώ',
           };
-          placeholders[item.question_id] = `${item.answer_smallint} (${boolLabels[item.answer_smallint] || ''})`;
+          placeholders[item.question_id] = `${boolLabels[item.answer_smallint] || ''}`;
         }
       }
       // Standard 1–5 Likert questions

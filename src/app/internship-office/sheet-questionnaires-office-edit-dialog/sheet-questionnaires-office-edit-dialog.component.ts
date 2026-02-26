@@ -13,15 +13,13 @@ import { forkJoin, Subscription } from 'rxjs';
 })
 export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
 
-
   public entries!: any;
-
   public currentDate: string = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
   private studentSubscription!: Subscription;
   public answersMap: { [questionName: string]: any } = {};
   public formId?: string;
   public targetStudent?: any;
-  public isEditEnabled: boolean = true;  
+  public isEditEnabled: boolean = true;
   public evaluation: any;
 
   constructor(
@@ -35,7 +33,7 @@ export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
   ngOnInit(): void {
     const { studentsData, index } = this.data;
     this.targetStudent = studentsData[index] ?? null;
-  
+
     this.studentSubscription = forkJoin({
       evaluation: this.studentService.getEvaluationQuestions(),
       evaluationSheets: this.studentService.getLastEvaluationFormWithAnswersByStudentId(this.targetStudent?.uuid || '')
@@ -45,12 +43,11 @@ export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
 
       this.formId = this.entries[0].form_id;
       this.currentDate = new Date().toLocaleDateString();
-  
-      this.answersMap = {};
-  
-      this.evaluation.forEach((question: any) => {
 
-        const questionName = question.question_name;       
+      this.answersMap = {};
+
+      this.evaluation.forEach((question: any) => {
+        const questionName = question.question_name;
         const matchingAnswer = this.entries.find((entry: any) => entry.question_id == questionName);
 
         if (matchingAnswer) {
@@ -63,10 +60,12 @@ export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
             } else {
               this.answersMap[questionName] = matchingAnswer.answer_text;
             }
+          } else if (question.question_type === 'BOOLEAN') {
+            this.answersMap[questionName] = Number(matchingAnswer.answer_smallint);
           }
         }
       });
-  
+
       console.log('answersMap:', this.answersMap);
     });
   }
@@ -74,7 +73,7 @@ export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
   onCancel(): void {
     this.dialogRef.close();
   }
-  
+
   extractTextBeforeList(html: string): string {
     const match = html.match(/^[\s\S]*?(?=<ul>)/);
     return match ? match[0].trim() : '';
@@ -95,12 +94,12 @@ export class SheetQuestionnairesOfficeEditDialogComponent implements OnInit {
     }
     // Display title if current question has prefix but the previous does not
     return this.evaluation[index].question_name.startsWith(prefix) &&
-            !this.evaluation[index - 1].question_name.startsWith(prefix);
+           !this.evaluation[index - 1].question_name.startsWith(prefix);
   }
-  
+
   onSubmitStudentEvaluationSheet(formData: FormData) {
     const finalAnswers: { [key: string]: string } = {};
-    
+
     const answers = Utils.mapFormDataToAnswers(formData, 'question_id', 'answer');
     for (const { question_id, answer } of answers) {
       const groupKey = (question_id.startsWith('B1') || question_id.startsWith('C2')) ? question_id.split('_')[0] : question_id;
