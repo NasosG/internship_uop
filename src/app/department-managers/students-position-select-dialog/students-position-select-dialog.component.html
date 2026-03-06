@@ -4,11 +4,11 @@
   <p><span>Όνομα Εταιρείας</span>: {{this.position.company}}</p>
 
   <div class="m-auto text-center">
-    <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState!=null"
+    <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState!=null || isLoading"
       (click)="onSubmitSwal('preassign')" mat-button>Προδέσμευση
       Θέσης</button>
     <br>
-    <button *ngIf="approvalState!=0" class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0"
+    <button *ngIf="approvalState!=0" class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0 || isLoading"
       (click)="onSubmitSwal('assign')" mat-button>Τελική
       ανάθεση</button>
     <div *ngIf="approvalState==0"
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0"
+      <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0 || isLoading"
         (click)="onSubmitSwal('assign')" mat-button>Τελική
         ανάθεση</button>
     </div>
@@ -54,3 +54,10 @@
 <mat-dialog-actions>
   <button mat-button mat-dialog-close (click)="onCancel()">Κλείσιμο</button>
 </mat-dialog-actions>
+
+<!-- Full-screen overlay spinner while final assignment request is in progress -->
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

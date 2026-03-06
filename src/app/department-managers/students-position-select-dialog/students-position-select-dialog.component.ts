@@ -69,6 +69,7 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
   approvalState?: number | null;
   modelImplementationDateFrom!: string;
   modelImplementationDateTo!: string;
+  isLoading: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog, private depManagerService: DepManagerService,
@@ -176,10 +177,13 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
       implementation_end_date: moment(this.modelImplementationDateTo, 'YYYY-MM-DD').format('DD/MM/YYYY')
     };
 
+    this.isLoading = true;
+
     this.depManagerService.acceptCompanyPosition(this.position.student_id, this.position.position_id, implementationDatesArray)
     .pipe(
       catchError((error: any) => {
         console.error(error);
+        this.isLoading = false;
          Swal.fire({
           title: 'Αποτυχία',
           text: 'Ανεπιτυχής ανάθεση της θέσης με κωδικό group: ' + this.position.position_id,
@@ -232,18 +236,23 @@ export class StudentsPositionSelectDialogComponent implements OnInit {
 
       console.log(positionsDataJson);
       // alert(`Εισαγωγή θέσης ${this.selectedRow}`);
-      this.depManagerService.insertAssignment(positionsDataJson).subscribe((responseData: any) => {
-        console.log(responseData.message);
-        if (responseData) location.reload();
-        //this.ngOnInit();
-      }, (error: any) => {
-        console.log(error);
-        Swal.fire({
-          title: 'Αποτυχία',
-          text: 'Ανεπιτυχής προδέσμευση της θέσης με κωδικό group: ' + this.position.position_id,
-          icon: 'error',
-          confirmButtonText: 'ΟΚ'
-        });
+      this.isLoading = true;
+      this.depManagerService.insertAssignment(positionsDataJson).subscribe({
+        next: (responseData: any) => {
+          console.log(responseData.message);
+          if (responseData) location.reload();
+          //this.ngOnInit();
+        },
+        error: (error: any) => {
+          console.log(error);
+          this.isLoading = false;
+          Swal.fire({
+            title: 'Αποτυχία',
+            text: 'Ανεπιτυχής προδέσμευση της θέσης με κωδικό group: ' + this.position.position_id,
+            icon: 'error',
+            confirmButtonText: 'ΟΚ'
+          });
+        }
       });
     });
   }
