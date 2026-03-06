@@ -107,6 +107,15 @@ export class StudentCompanyAcceptComponent implements OnInit {
     });
   }
 
+  showDisabledFeatureAlert() {
+    Swal.fire({
+      title: 'Απενεργοποιημένη λειτουργία',
+      text: 'Έχει απενεργοποιηθεί αυτή η δυνατότητα και είναι πλέον ενεργεια του Τμηματικού Υπεύθυνου',
+      icon: 'info',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
   acceptCompanyPosition(positionIndex: number) {
     let assignment = this.assignments[positionIndex];
 

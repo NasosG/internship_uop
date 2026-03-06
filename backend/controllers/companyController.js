@@ -105,8 +105,11 @@ const insertAssignment = async (request, response, next) => {
         return;
       }
 
-      // insert assignment details to the local db
-      await companyService.insertAssignment(item);
+      // insert assignment details to the local db and update assigned_position_id if available
+      const assignedPositionId = positionPreassignment.positionIds && positionPreassignment.positionIds.length > 0
+        ? positionPreassignment.positionIds[0]
+        : null;
+      await companyService.insertAssignment(item, assignedPositionId);
     }
 
     response.status(201)

@@ -148,7 +148,7 @@ const getPreassignModeByDepartmentId = async (departmentId) => {
   }
 };
 
-const insertAssignment = async (item) => {
+const insertAssignment = async (item, assignedPositionId = null) => {
   try {
     const STATE = 0;
     let positionData;
@@ -167,10 +167,10 @@ const insertAssignment = async (item) => {
       return;
     }
 
-    await pool.query("INSERT INTO internship_assignment(assignment_id, position_id, internal_position_id, student_id, time_span, physical_objects, city, status, pa_subject_atlas, period_id) " +
+    await pool.query("INSERT INTO internship_assignment(assignment_id, position_id, internal_position_id, student_id, time_span, physical_objects, city, status, pa_subject_atlas, period_id, assigned_position_id) " +
       " VALUES" +
-      " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9)",
-      [item.position_id, item.internal_position_id, item.student_id, positionData.duration, positionData.physical_objects, item.city, STATE, positionData.title, item.period_id]);
+      " (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+      [item.position_id, item.internal_position_id, item.student_id, positionData.duration, positionData.physical_objects, item.city, STATE, positionData.title, item.period_id, assignedPositionId]);
   } catch (error) {
     logger.error("insertAssignment error: " + error.message);
     throw Error('Error while inserting assignment');

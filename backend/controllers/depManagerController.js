@@ -532,8 +532,11 @@ const insertAssignment = async (request, response, next) => {
       return;
     }
 
-    // insert assignment details to the local db
-    await depManagerService.insertAssignment(companyData);
+    // insert assignment details to the local db and update assigned_position_id if available
+    const assignedPositionId = positionPreassignment.positionIds && positionPreassignment.positionIds.length > 0
+      ? positionPreassignment.positionIds[0]
+      : null;
+    await depManagerService.insertAssignment(companyData, 0, assignedPositionId);
 
     response.status(201)
       .json({
