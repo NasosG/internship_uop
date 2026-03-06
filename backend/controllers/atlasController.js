@@ -1370,11 +1370,7 @@ const getPositionPreassignment = async (groupId, academicId) => {
         ' | PreAssignedForAcademic.ID: ' + (position?.PreAssignedForAcademic?.ID ?? 'null')
         );
         
-        if (parseInt(position.GroupID) === parseInt(groupId) 
-            // && 
-            // (!position.PreAssignedForAcademic || position.PreAssignedForAcademic?.ID == academicId)
-           ) {
-          
+        if (parseInt(position.GroupID) === parseInt(groupId) && position.PreAssignedForAcademic?.ID == academicId) {
           positionIds.push(position.ID);
           positionData.push({
             "ImplementationEndDate": position.ImplementationEndDate,

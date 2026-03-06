@@ -5,6 +5,7 @@ const companyService = require("../services/companyService.js");
 const studentService = require("../services/studentService.js");
 const mainMailer = require('../mailers/mainMailers.js');
 const MiscUtils = require("../utils/MiscUtils.js");
+const atlasService = require("../services/atlasService.js");
 // Logging
 const logger = require('../config/logger');
 
@@ -597,11 +598,26 @@ const insertFinalAssignment = async (request, response) => {
     }
     // logger.info(registeredStudent);
 
-    // const preassignResult = await companyService.getPreassignModeByDepartmentId(98);
-    // logger.info(preassignResult.preassign);
     logger.info(assignmentData.position_id);
-    let positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
-    logger.info(positionPreassignment);
+
+    // First, check if there is already an assigned position in the local DB.
+    // If yes, use it and do NOT preassign again in ATLAS.
+    // getAssignedPositionFromDb returns an object compatible with getPositionPreassignment:
+    // { positionIds: [assigned_position_id], positionData: [] }
+    let localAssignedPosition = await atlasService.getAssignedPositionFromDb(assignmentData.position_id, assignmentData.student_id);
+
+    let positionPreassignment;
+    if (localAssignedPosition) {
+      logger.info("Using local assigned position instead of fetching preassignment from ATLAS");
+      positionPreassignment = localAssignedPosition;
+    } else {
+      // No local assignment found -> fall back to ATLAS preassignment logic
+      // 03/06/2026 This logic alone was enough but it does not seem to work correctly lately -> need to debug
+      // For now, the process has 2 steps and the user can't assign student before preassigning position, so local db check always works
+      logger.info("No local assigned position found, fetching preassignment from ATLAS");
+      positionPreassignment = await atlasController.getPositionPreassignment(assignmentData.position_id, academicId);
+      logger.info(positionPreassignment);
+    }
 
     // const fundingType = await atlasController.getFundingType(assignmentData.position_id);
     // logger.info(fundingType);

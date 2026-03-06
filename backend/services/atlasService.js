@@ -284,6 +284,54 @@ const getPositionGroupRelations = async (relationsArray) => {
   }
 };
 
+/**
+ * Checks local DB first:
+ * if position_id = groupId and assigned_position_id exists -> return it
+ * otherwise return null so atlas check continues
+ */
+const getAssignedPositionFromDb = async (groupId, studentId) => {
+  try {
+    let positionIds = [];
+    let positionData = [];
+    
+    const sql = await pool.query(
+      `SELECT assigned_position_id
+       FROM internship_assignment
+       WHERE position_id = $1
+       AND student_id = $2
+       LIMIT 1`,
+      [groupId, studentId]
+    );
+
+    if (sql.rows.length > 0 && sql.rows[0].assigned_position_id) {
+      logger.info(
+        'Local DB assigned position found | groupId: ' +
+        groupId +
+        ' | assigned_position_id: ' +
+        sql.rows[0].assigned_position_id
+      );
+
+      positionIds = [sql.rows[0].assigned_position_id];
+      positionData.push({
+        "ImplementationEndDate": null,
+        "ImplementationEndDateString": '',
+        "ImplementationStartDate": null,
+        "ImplementationStartDateString": '',
+      });
+
+      return {
+        positionIds: positionIds,
+        positionData: positionData
+      };
+    }
+
+    return null;
+  } catch (error) {
+    logger.error('Error while checking assigned position in postgres: ' + error.message);
+    throw new Error('Error while fetching assigned position from postgres');
+  }
+};
+
 const insertPositionGroupRelations = async (relationsArray) => {
   try {
     for (const item of relationsArray) {
@@ -662,6 +710,7 @@ module.exports = {
   getGenericPositionSearch,
   getPositionGroupRelations,
   getCountOfPositionPairs,
+  getAssignedPositionFromDb,
   insertPositionGroupRelations,
   insertPositionGroup,
   insertCities,
