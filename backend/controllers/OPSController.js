@@ -9,10 +9,15 @@ const jwt = require("jsonwebtoken");
 const studentService = require("../services/studentService.js");
 const MiscUtils = require("../utils/MiscUtils.js");
 const axios = require("axios");
+const https = require("https");
 require('dotenv').config();
 const xml2js = require('xml2js');
 // Logging
 const logger = require('../config/logger');
+
+const opsHttpsAgent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 const createMicrodata = (id, answer) => {
   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
@@ -50,6 +55,7 @@ const sendDeltioEisodouWS = async (req, res) => {
         'Content-Type': 'text/xml;charset=UTF-8',
         'SOAPAction': soapActionCall1
       },
+      httpsAgent: opsHttpsAgent
     });
     logger.info(responseCall1.data);
 
@@ -132,6 +138,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
           'Content-Type': 'text/xml;charset=UTF-8',
           'SOAPAction': soapAction
         },
+        httpsAgent: opsHttpsAgent
       });
 
       logger.info(`Call attempt ${attempt}:`, response.data);
@@ -195,6 +202,7 @@ const sendDeltioExodouWS = async (req, res) => {
         'Content-Type': 'text/xml;charset=UTF-8',
         'SOAPAction': soapActionCall1
       },
+      httpsAgent: opsHttpsAgent
     });
     logger.info(responseCall1.data);
 
