@@ -81,74 +81,75 @@ export class StudentsApplicationsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void { }
 
   submitApplications() {
-    this.onSubmitSwal();
-  }
-
-  onSubmitSwal() {
     Swal.fire({
-      title: 'Αποδοχή Φοιτητών',
-      text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην επιλογή των φοιτητών;',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'ΟΚ'
-    }).then((result) => {
-      if (!result.isConfirmed) {
-        console.log("User pressed Cancel");
-      } else {
-        let positionsDataJson: Assignment[] = [];
-
-        for (let position of this.apps) {
-          const tupleKey = position.position_id + ',' + position.student_id;
-          if (!this.studentApprovalBtns.has(tupleKey)) {
-            continue;
-          }
-
-          // TODO: Check for duplicates
-          // Check if the position is already in the positionsDataJson array
-          // if (positionsDataJson.some(p => p.position_id === position.position_id)) {
-          //   continue;
-          // }
-
-          positionsDataJson.push({
-            position_id: position.position_id,
-            internal_position_id: position.internal_position_id,
-            title: position.title,
-            city: position.place,
-            duration: position.duration,
-            physical_object: position.physical_objects,
-            student_id: position.student_id,
-            department_id: position.department_id,
-            period_id: position.period_id,
-          });
-        }
-
-        // Inform the user and don't send the request, if positions array is empty
-        if (positionsDataJson.length === 0) {
-          Swal.fire({
-            title: 'Αποτυχία',
-            text: 'Δεν έχετε αποδεχτεί κανέναν φοιτητή',
-            icon: 'error',
-            confirmButtonText: 'ΟΚ'
-          });
-        } else {
-          this.companyService.insertAssignment(positionsDataJson).subscribe(responseData => {
-            console.log(responseData.message);
-            location.reload();
-            //this.ngOnInit();
-           }, (error: any) => {
-             console.log(error);
-             Swal.fire({
-               icon: 'error',
-               title: 'Αποτυχία',
-               text: 'Η αποδοχή των φοιτητών απέτυχε'
-             });
-           });
-        }
-      }
+      icon: 'info',
+      title: 'Μη Διαθέσιμη Ενέργεια',
+      text: 'Η δυνατότητα επιλογής φοιτητών από τον φορέα δεν είναι πλέον διαθέσιμη. Παρακαλούμε επικοινωνήστε με τον υπεύθυνο του τμήματος για περισσότερες πληροφορίες.',
+      confirmButtonText: 'Εντάξει'
     });
+    return;
+
+    // this.onSubmitSwal();
   }
+
+  // onSubmitSwal() {
+  //   Swal.fire({
+  //     title: 'Αποδοχή Φοιτητών',
+  //     text: 'Είστε σίγουροι ότι θέλετε να προχωρήσετε στην επιλογή των φοιτητών;',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'ΟΚ'
+  //   }).then((result) => {
+  //     if (!result.isConfirmed) {
+  //       console.log("User pressed Cancel");
+  //     } else {
+  //       let positionsDataJson: Assignment[] = [];
+  //
+  //       for (let position of this.apps) {
+  //         const tupleKey = position.position_id + ',' + position.student_id;
+  //         if (!this.studentApprovalBtns.has(tupleKey)) {
+  //           continue;
+  //         }
+  //
+  //         positionsDataJson.push({
+  //           position_id: position.position_id,
+  //           internal_position_id: position.internal_position_id,
+  //           title: position.title,
+  //           city: position.place,
+  //           duration: position.duration,
+  //           physical_object: position.physical_objects,
+  //           student_id: position.student_id,
+  //           department_id: position.department_id,
+  //           period_id: position.period_id,
+  //         });
+  //       }
+  //
+  //       // Inform the user and don't send the request, if positions array is empty
+  //       if (positionsDataJson.length === 0) {
+  //         Swal.fire({
+  //           title: 'Αποτυχία',
+  //           text: 'Δεν έχετε αποδεχτεί κανέναν φοιτητή',
+  //           icon: 'error',
+  //           confirmButtonText: 'ΟΚ'
+  //         });
+  //       } else {
+  //         this.companyService.insertAssignment(positionsDataJson).subscribe(responseData => {
+  //           console.log(responseData.message);
+  //           location.reload();
+  //          }, (error: any) => {
+  //            console.log(error);
+  //            Swal.fire({
+  //              icon: 'error',
+  //              title: 'Αποτυχία',
+  //              text: 'Η αποδοχή των φοιτητών απέτυχε'
+  //            });
+  //          });
+  //       }
+  //     }
+  //   });
+  // }
 
   exportToExcel() {
     let positionsDataJson: any = [];
