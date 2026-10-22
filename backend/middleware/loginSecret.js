@@ -23,7 +23,9 @@ module.exports = (request, response, next) => {
   const received = Buffer.from(receivedSecret);
 
   if (received.length !== expected.length || !crypto.timingSafeEqual(received, expected)) {
-    logger.warn("Rejected login without valid shared secret from " + request.ip);
+    // Never log the secret itself, only whether it was sent and its length
+    const reason = receivedSecret ? "wrong secret (length " + receivedSecret.length + ")" : "missing x-login-secret header";
+    logger.warn("Rejected login " + request.originalUrl + " from " + request.ip + ": " + reason);
     return response.status(401).json({
       message: 'Unauthorized'
     });
