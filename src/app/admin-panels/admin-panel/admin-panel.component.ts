@@ -44,6 +44,22 @@ export class AdminPanelComponent implements OnInit {
   }
 
   async ngOnInit() {
+    if (!environment.production) {
+      this.authService.setSessionId(1);
+    }
+
+    // Store the token from the SSO login first, the admin requests below need it
+    if (this.router.url.includes('/admin/login')) {
+      this.route.queryParams
+        .subscribe(params => {
+          this.authService.setToken(params['token']);
+          this.authService.setSessionId(params['uuid']);
+        }
+      );
+
+      this.router.navigate(['/admin/' + this.authService.getSessionId()]);
+    }
+
     this.studentsService.getAtlasInstitutions()
       .subscribe((fetchedDepartments: Department[]) => {
         this.departments = fetchedDepartments;
@@ -75,21 +91,6 @@ export class AdminPanelComponent implements OnInit {
           columnDefs: [{ orderable: false, targets: [3, 4] }]
         });
       });
-
-    if (!environment.production) {
-      this.authService.setSessionId(1);
-    }
-
-    if (this.router.url.includes('/admin/login')) {
-      this.route.queryParams
-        .subscribe(params => {
-          this.authService.setToken(params['token']);
-          this.authService.setSessionId(params['uuid']);
-        }
-      );
-
-      this.router.navigate(['/admin/' + this.authService.getSessionId()]);
-    }
   }
 
   checkIfEmpty(fieldValue: any) {
