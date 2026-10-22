@@ -1,3 +1,5 @@
+const logger = require("../config/logger");
+
 /**
  *
  * function that allows the request only for users with one of the given roles,
@@ -12,6 +14,8 @@ module.exports = (...allowedRoles) => (request, response, next) => {
   }
 
   if (!request.userData || !allowedRoles.includes(request.userData.role)) {
+    const user = request.userData || {};
+    logger.warn("Forbidden " + request.method + " " + request.originalUrl + ": role " + user.role + " (user " + user.userId + ")");
     return response.status(403).json({
       message: "Forbidden"
     });
