@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const checkLoginSecret = require("../middleware/loginSecret.js");
 const checkAuth = require("../middleware/auth.js");
 const officeController = require("../controllers/officeController.js");
 
@@ -12,7 +13,7 @@ router.get("/getEspaPositionsByDepartmentId/:id", officeController.getEspaPositi
 router.get("/getStudentListForPeriodAndAcademic/", officeController.getStudentListForPeriodAndAcademic);
 router.get("/getStudentPaymentsListForPeriodAndAcademic", officeController.getStudentPaymentsListForPeriodAndAcademic);;
 router.post("/insertEspaPosition/:id", officeController.insertEspaPosition);
-router.post("/login/", officeController.login);
+router.post("/login/", checkLoginSecret, officeController.login);
 router.put("/updateEntrySheetField/:id", officeController.updateEntrySheetField);
 router.put("/updateExitSheetField/:id", officeController.updateExitSheetField);
 router.get("/stats/achievements", officeController.getAchievementsStats);

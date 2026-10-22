@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable()
@@ -16,10 +17,25 @@ export class AuthInterceptor implements HttpInterceptor {
    * @returns
    */
   intercept ( request: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
+    const isAuthRequest = request.url.includes('/login') || request.url.includes('/auth/refresh');
+    // Every request is user activity: renew the token if it is about to expire
+    if (!isAuthRequest) {
+      this.authService.refreshTokenIfNeeded();
+    }
+
     const authToken = this.authService.getToken();
     const authRequest = request.clone({
       headers: request.headers.set('authorization', (authToken == undefined) ? 'Bearer undefined' : "Bearer " + authToken)
     });
-    return next.handle( authRequest );
+    return next.handle( authRequest ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // Token expired or invalid: drop the session.
+        // Only 401s from the auth middleware (controllers also use 401 for other errors)
+        if (error.status === 401 && error.headers?.get('X-Auth-Error') === 'true') {
+          this.authService.sessionExpired();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }

@@ -1,5 +1,5 @@
 const depManagerService = require("../services/depManagerService.js");
-const jwt = require("jsonwebtoken");
+const { signToken, JWT_EXPIRES_IN_SECONDS } = require("../config/jwt.js");
 const atlasController = require("./atlasController");
 const companyService = require("../services/companyService.js");
 const studentService = require("../services/studentService.js");
@@ -23,15 +23,10 @@ const login = async (request, response, next) => {
       message: 'Unauthorized'
     });
   else {
-    const token = jwt.sign({
-      userId: userId
-    },
-      "secret_this_should_be_longer", {
-      expiresIn: "1h"
-    });
+    const token = signToken(userId, "depmanager");
     response.status(200).json({
       token: token,
-      expiresIn: 3600,
+      expiresIn: JWT_EXPIRES_IN_SECONDS,
       userId: userId
     });
   }

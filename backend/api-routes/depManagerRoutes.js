@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const checkLoginSecret = require("../middleware/loginSecret.js");
 const checkAuth = require("../middleware/auth.js");
 const depManagerController = require("../controllers/depManagerController.js");
 
@@ -19,7 +20,7 @@ router.put("/updatePhaseByStudentId/:id", depManagerController.updatePhaseByStud
 router.put("/updatePeriodById/:id", depManagerController.updatePeriodById);
 router.put("/updateStudentRanking/:id", depManagerController.updateStudentRanking);
 router.delete("/deletePeriodById/:id", depManagerController.deletePeriodById);
-router.post("/login/", depManagerController.login);
+router.post("/login/", checkLoginSecret, depManagerController.login);
 router.post("/insertCommentsByStudentId/:id", depManagerController.insertCommentsByStudentId);
 router.put("/updateCommentsByStudentId/:id", depManagerController.updateCommentsByStudentId);
 router.get("/getCommentByStudentIdAndSubject/", depManagerController.getCommentByStudentIdAndSubject);

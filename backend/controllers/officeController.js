@@ -1,5 +1,5 @@
 const officeService = require("../services/officeService.js");
-const jwt = require("jsonwebtoken");
+const { signToken, JWT_EXPIRES_IN_SECONDS } = require("../config/jwt.js");
 // Logging
 const logger = require('../config/logger');
 
@@ -17,15 +17,10 @@ const login = async (request, response, next) => {
       message: 'Unauthorized'
     });
   else {
-    const token = jwt.sign({
-      userId: userId
-    },
-      "secret_this_should_be_longer", {
-      expiresIn: "1h"
-    });
+    const token = signToken(userId, "office");
     response.status(200).json({
       token: token,
-      expiresIn: 3600,
+      expiresIn: JWT_EXPIRES_IN_SECONDS,
       userId: userId
     });
   }

@@ -12,6 +12,7 @@ import { DepartmentManagerLoginComponent } from './department-managers/departmen
 import { StudentChooseDepartmentComponent } from './students/student-choose-department/student-choose-department.component';
 import { ContactComponent } from './generic-components/contact/contact.component';
 import { ManualsComponent } from './generic-components/manuals/manuals.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [{
   path: '',
@@ -43,6 +44,7 @@ const routes: Routes = [{
 },
 {
   path: 'student',
+  canActivateChild: [AuthGuard],
   children: [{
     path: ':id',
     component: StudentComponent
@@ -132,6 +134,7 @@ const routes: Routes = [{
 },
 {
   path: 'department-manager',
+  canActivateChild: [AuthGuard],
   children: [{
     path: ':id',
     component: DepartmentManagerComponent
@@ -217,6 +220,7 @@ const routes: Routes = [{
 },
 {
   path: 'companies',
+  canActivateChild: [AuthGuard],
   children: [{
     path: ':id',
     component: CompanyComponent
@@ -258,6 +262,7 @@ const routes: Routes = [{
 },
 {
   path: 'office',
+  canActivateChild: [AuthGuard],
   children: [{
     path: ':id',
     component: OfficeComponent
@@ -310,6 +315,7 @@ const routes: Routes = [{
 },
 {
   path: 'admin',
+  canActivateChild: [AuthGuard],
   children: [{
     path: ':id',
     component: AdminPanelComponent

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const checkLoginSecret = require("../middleware/loginSecret.js");
 const studentController = require("../controllers/studentController.js");
 const checkAuth = require("../middleware/auth.js");
 
 /* Student Routes */
-router.get("/", studentController.getAllStudents);
 router.get("/getStudentById/:id", studentController.getStudentById);
 router.get("/getStudentApplications/:id", studentController.getStudentApplications);
 router.get("/getStudentActiveApplication/:id", studentController.getStudentActiveApplication);
@@ -16,7 +16,7 @@ router.get("/getStudentEvaluationSheetsQuestions/", studentController.getStudent
 router.get("/getStudentPositions/:id", studentController.getStudentPositions);
 router.get("/getCommentByStudentIdAndSubject/", studentController.getCommentByStudentIdAndSubject);
 router.get("/getLastEvaluationFormWithAnswersByStudentId/:id", studentController.getLastEvaluationFormWithAnswersByStudentId);
-router.post("/login", studentController.login);
+router.post("/login", checkLoginSecret, studentController.login);
 router.post("/insertStudentEntrySheet/:id", /*checkAuth,*/ studentController.insertStudentEntrySheet);
 router.post("/insertStudentExitSheet/:id", /*checkAuth,*/ studentController.insertStudentExitSheet);
 router.post("/insertStudentApplication/:id", /*checkAuth,*/ studentController.insertStudentApplication);
