@@ -16,7 +16,7 @@
             </h5>
             <mat-form-field class="mt-2 mat-full-width" appearance="fill">
               <mat-label>Τμήμα</mat-label>
-              <mat-select class="mt-2" [formControl]="academics" [required]="true">
+              <mat-select class="mt-2" [formControl]="academics" [required]="true" panelClass="dept-select-panel">
                 <mat-option *ngFor="let roles of managedAcademics" [value]="roles.atlas_id">
                   <!-- <mat-option *ngFor="let roles of managedAcademics" [value]="roles.atlas_id" [disabled]="roles.atlas_id > 100000"> -->
                   {{add3Dots(roles.department, 32)}}

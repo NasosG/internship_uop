@@ -110,3 +110,66 @@ hr {
   height: 100vh;
   width: 100%;
 }
+
+/* ---------- Dark mode (the page background stays the same) ---------- */
+:host-context(.dark-mode) .content {
+  background-color: rgba(33, 37, 41, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+:host-context(.dark-mode) .terms-box {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+:host-context(.dark-mode) .modal-footer {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Department select (Angular Material, fill appearance) */
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #343a40;
+  border-radius: 8px 8px 0 0;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-select-arrow,
+:host-context(.dark-mode) ::ng-deep .mat-form-field-required-marker {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-select-value {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline::before {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-ripple {
+  background-color: rgb(14, 219, 99);
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-focused .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-focused .mat-select-arrow {
+  color: rgb(14, 219, 99) !important;
+}
+
+/* Next button: same green as the login / sign-up buttons */
+:host-context(.dark-mode) .btn-primary {
+  background-color: #19aa8d !important;
+  border-color: #19aa8d !important;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+:host-context(.dark-mode) .btn-primary:hover,
+:host-context(.dark-mode) .btn-primary:focus {
+  background-color: #179b81 !important;
+  border-color: #179b81 !important;
+  box-shadow: 0 4px 12px rgba(25, 170, 141, 0.35);
+}

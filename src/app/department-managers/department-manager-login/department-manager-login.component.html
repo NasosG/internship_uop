@@ -15,7 +15,7 @@
           <div class="tacbox tacbox-bold">
             <mat-form-field class="mt-2 mat-full-width" appearance="fill">
               <mat-label>Τμήμα...</mat-label>
-              <mat-select class="mt-2" [formControl]="academics" [required]="true">
+              <mat-select class="mt-2" [formControl]="academics" [required]="true" panelClass="dept-select-panel">
                 <mat-option *ngFor="let academic of managedAcademics" [value]="academic.atlas_id">
                   {{academic.department}}
                 </mat-option>

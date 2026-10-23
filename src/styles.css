@@ -913,3 +913,22 @@
 /* ------------------------------------------------------------------- */
 /* End of Sheets UOP-loading and bouncer style
 ---------------------------------------------------------------------- */
+
+/* Department select list (choose department pages), dark mode */
+.dark-mode .mat-select-panel.dept-select-panel {
+  background-color: #2b3035;
+}
+
+.dark-mode .dept-select-panel .mat-option {
+  color: #e9ecef;
+}
+
+.dark-mode .dept-select-panel .mat-option:hover:not(.mat-option-disabled),
+.dark-mode .dept-select-panel .mat-option.mat-active {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .dept-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: rgba(25, 170, 141, 0.22);
+  color: rgb(14, 219, 99);
+}
