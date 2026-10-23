@@ -173,3 +173,9 @@ hr {
   border-color: #179b81 !important;
   box-shadow: 0 4px 12px rgba(25, 170, 141, 0.35);
 }
+
+/* The page slides in from the right (margin-left: 100%): clip what is temporarily outside the screen,
+   so the page does not get wider during the animation (iOS Safari then zooms out the whole page) */
+.green-gradient {
+  overflow-x: clip;
+}

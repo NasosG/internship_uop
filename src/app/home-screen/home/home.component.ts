@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ContactComponent } from 'src/app/generic-components/contact/contact.component';
@@ -18,6 +18,8 @@ const routes: Routes = [
 export class HomeComponent implements OnInit {
 
   private language!: string;
+  // true when the page is scrolled, shows the semi-transparent bar behind the top icons (phones)
+  scrolled = false;
 
   constructor(private router: Router, public translate: TranslateService) {
     translate.addLangs(['en', 'gr']);
@@ -44,6 +46,11 @@ export class HomeComponent implements OnInit {
     // }
 
     this.language = localStorage.getItem('language') || 'gr';
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.scrolled = window.scrollY > 10;
   }
 
   changeLang(language: string) {

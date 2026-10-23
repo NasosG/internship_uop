@@ -449,3 +449,152 @@ footer {
   color: #E1AD21 !important;  /* Πιο σκούρο χρυσό */
 }
 
+/* The pages slide in from the right (margin-left: 100%): clip what is temporarily outside the screen,
+   so the page does not get wider during the animation (iOS Safari then zooms out the whole page) */
+#content {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Semi-transparent bar behind the fixed top icons, phones only (shown while scrolling) */
+.mobile-top-bar {
+  display: none;
+}
+
+@media only screen and (max-width: 767.9px) {
+  .mobile-top-bar {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 95px;
+    z-index: 1030;
+    background-color: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  :host-context(.dark-mode) .mobile-top-bar {
+    background-color: rgba(27, 30, 33, 0.72);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .mobile-top-bar.visible {
+    opacity: 1;
+  }
+
+  /* the top icons always stay above the page content (and above the bar) */
+  .v3_56,
+  .lang-div {
+    z-index: 1031;
+  }
+
+  /* the links box is shown on larger screens, phones get the shortcuts line below */
+  .home-links-col {
+    display: none;
+  }
+
+  /* the shortcuts line already keeps the content below the top icons */
+  .left-col {
+    margin-top: 16px;
+  }
+}
+
+/* Full-width shortcuts line, phones only: contact | news, facebook, linkedin | manuals */
+.mobile-links {
+  display: none;
+}
+
+@media only screen and (max-width: 767.9px) {
+  /* room for the fixed top icons as padding (a margin on the line would collapse out of #content
+     and show the body background above it in dark mode) */
+  #content {
+    padding-top: 95px;
+  }
+
+  .mobile-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 56px;
+    padding: 6px 14px;
+    background-color: rgba(34, 73, 87, 0.06);
+    border-top: 1px solid rgba(34, 73, 87, 0.12);
+    border-bottom: 1px solid rgba(34, 73, 87, 0.12);
+  }
+
+  :host-context(.dark-mode) .mobile-links {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-links-trio {
+    display: flex;
+    align-items: center;
+    flex: none;
+    color: rgba(34, 73, 87, 0.6);
+  }
+
+  :host-context(.dark-mode) .mobile-links-trio {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .mobile-links-trio .btn {
+    margin-top: 0;
+  }
+
+  .mobile-links-side {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 4px;
+    color: rgba(34, 73, 87, 1);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .mobile-links-side:hover,
+  .mobile-links-side:focus {
+    color: #179b81;
+    text-decoration: none;
+  }
+
+  :host-context(.dark-mode) .mobile-links-side {
+    color: #e9ecef;
+  }
+
+  :host-context(.dark-mode) .mobile-links-side:hover,
+  :host-context(.dark-mode) .mobile-links-side:focus {
+    color: rgb(14, 219, 99);
+  }
+}
+
+/* Narrow phones: news / social on the first row, contact and manuals side by side below */
+@media only screen and (max-width: 409.9px) {
+  .mobile-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 2px;
+  }
+
+  .mobile-links-trio {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mobile-links-side {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+}

@@ -91,3 +91,9 @@ hr {
   height: 100vh;
   width: 100%;
 }
+
+/* The page slides in from the right (margin-left: 100%): clip what is temporarily outside the screen,
+   so the page does not get wider during the animation (iOS Safari then zooms out the whole page) */
+.green-gradient {
+  overflow-x: clip;
+}

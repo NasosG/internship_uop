@@ -68,3 +68,12 @@ button:active {
     margin-top: 50px;
   }
 }
+
+/* Phones: the title never gets wider than the screen. The font size follows the screen width
+   (system fonts differ between phones, e.g. iOS), and it wraps to two lines instead of being cut */
+@media only screen and (max-width: 767.9px) {
+  .main-heading {
+    max-width: 100%;
+    font-size: clamp(26px, 7.2vw, 36px);
+  }
+}
