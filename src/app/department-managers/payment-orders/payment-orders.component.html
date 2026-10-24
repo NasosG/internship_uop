@@ -9,12 +9,12 @@
 
           <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
             <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
-              Επιλογή Περιόδου: </h5>
+              {{'GENERIC.SELECT-PERIOD' | translate}} </h5>
             <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
             <div class="col-12 col-sm-10 pt-3">
               <div class="form-group col-md-4 mb-0 pb-0">
                 <mat-form-field appearance="outline" style="min-width:310px;">
-                  <mat-label>Περίοδος</mat-label>
+                  <mat-label>{{'GENERIC.PERIOD' | translate}}</mat-label>
                   <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
                     <mat-option *ngFor="let period of this.periods" [value]="period"
                       (click)="onPeriodChange(period.id)">
@@ -37,11 +37,11 @@
 
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div class="pl-2 pb-0">
-                    <i class="fa fa-hashtag"></i><strong>&nbsp;Πλήθος Εντολών Πληρωμών:</strong>
+                    <i class="fa fa-hashtag"></i><strong>&nbsp;{{'GENERIC.PAYMENT-ORDERS-COUNT' | translate}}</strong>
                     {{studentsData.length}}
                   </div>
                   <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
-                    <mat-label>Αναζήτηση</mat-label>
+                    <mat-label>{{'GENERIC.SEARCH' | translate}}</mat-label>
                     <input matInput #inputSearch (keyup)="searchStudents()">
                   </mat-form-field>
                 </div>
@@ -53,7 +53,7 @@
                       <th>A/A</th>
                       <th>
                         <div class="sort-header">
-                          Ονοματεπώνυμο
+                          {{'GENERIC.FULL-NAME' | translate}}
                           <div class="sort-icons">
                             <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[0]==true}"
                               [class.fade-out]="activeBtns[0]==true && isSortDirectionUp"
@@ -65,13 +65,13 @@
                           </div>
                         </div>
                       </th>
-                      <th>ΑΜ</th>
-                      <th>Φορέας</th>
-                      <th>Υπογραφή Σύμβασης</th>
-                      <th>Χρονικό Διάστημα</th>
-                      <th class="text-center">Επεξεργασία Εντολής</th>
-                      <th class="text-center">Κατέβασμα Εντολής</th>
-                      <th>Ολοκληρωμένη ΠΑ</th>
+                      <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
+                      <th>{{'COMPANY.CARRIER' | translate}}</th>
+                      <th>{{'GENERIC.CONTRACT-SIGNING' | translate}}</th>
+                      <th>{{'GENERIC.TIME-PERIOD' | translate}}</th>
+                      <th class="text-center">{{'GENERIC.EDIT-ORDER' | translate}}</th>
+                      <th class="text-center">{{'GENERIC.DOWNLOAD-ORDER' | translate}}</th>
+                      <th>{{'GENERIC.INTERNSHIP-COMPLETED' | translate}}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -83,7 +83,7 @@
                       <td>{{student.schacpersonaluniquecode}}</td>
                       <td class="action text-center"><span (click)="openCompanyInfoDialog(student.position_id)" class="text-secondary custom-info-btn
                           text-with-dots">
-                          <i class="fa fa-eye"></i> Στοιχεία Φορέα</span></td>
+                          <i class="fa fa-eye"></i> {{'GENERIC.HOST-ORG-DETAILS' | translate}}</span></td>
                       <!-- <td class="reponsive-text-center-td">
                         <button (click)="receiveFile(student.sso_uid, 'IBAN')"
                           class=" mt-0 mb-0 pt-0 pb-0 btn btn-primary mr-3 td-button-responsive"> <i
@@ -106,16 +106,16 @@
                       </td>
                       <td class="action text-center">
                         <a (click)="openEditPaymentOrderDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-cog"></i> Επεξεργασία<br></a>
+                            class="fa fa-cog"></i> {{'GENERIC.EDIT' | translate}}<br></a>
                       </td>
                       <td class="action text-center" *ngIf="student?.status == 1">
                         <!-- this case gets executed when input/output sheets have been created + internship has been completed -->
                         <a (click)="downloadPaymentOrderFileForStudent(student.uuid, idx)" class="text-secondary"
-                          style="cursor: pointer;"><i class="fa fa-download"></i> Κατέβασμα<br></a>
+                          style="cursor: pointer;"><i class="fa fa-download"></i> {{'GENERIC.DOWNLOAD' | translate}}<br></a>
                       </td>
                       <td class="action text-center" *ngIf="student?.status != 1">
                         <!-- this case gets executed when either input/output sheets haven't been created or internship hasn't been completed -->
-                        <a> Εκκρεμούν Απ. Δελτία</a>
+                        <a> {{'GENERIC.PENDING-SHEETS' | translate}}</a>
                       </td>
                       <td>{{student?.status == 1 ? 'ΝΑΙ' : 'ΟΧΙ'}}</td>
                     </tr>
@@ -123,14 +123,14 @@
                   <tfoot>
                     <tr>
                       <th>A/A</th>
-                      <th>Ονοματεπώνυμο</th>
-                      <th>ΑΜ</th>
-                      <th>Φορέας</th>
-                      <th>Υπογραφή σύμβασης</th>
-                      <th>Χρονικό Διάστημα</th>
-                      <th class="text-center">Επεξεργασία Σύμβασης</th>
-                      <th class="text-center">Κατέβασμα Σύμβασης</th>
-                      <th>Ολοκληρωμένη ΠΑ</th>
+                      <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                      <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
+                      <th>{{'COMPANY.CARRIER' | translate}}</th>
+                      <th>{{'GENERIC.CONTRACT-SIGNATURE' | translate}}</th>
+                      <th>{{'GENERIC.TIME-PERIOD' | translate}}</th>
+                      <th class="text-center">{{'GENERIC.EDIT-CONTRACT' | translate}}</th>
+                      <th class="text-center">{{'GENERIC.DOWNLOAD-CONTRACT' | translate}}</th>
+                      <th>{{'GENERIC.INTERNSHIP-COMPLETED' | translate}}</th>
                     </tr>
                   </tfoot>
                 </table>

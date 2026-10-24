@@ -56,10 +56,10 @@
           <span *ngIf="comment != null" class="badge badge-danger navbar-badge">1</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">Ειδοποιήσεις</span>
+          <span class="dropdown-item dropdown-header">{{'STUDENT.NOTIFICATIONS' | translate}}</span>
           <div class="dropdown-divider"></div>
           <a *ngIf="comment != null" style="cursor: pointer" (click)="openCommentsDialog()" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Σχόλιο Υπεύθυνου
+            <i class="fas fa-envelope mr-2"></i> {{'STUDENT.COORDINATOR-COMMENT' | translate}}
             <span class="float-right text-muted text-sm">{{comment.comment_date}}</span>
           </a>
           <!-- <div class="dropdown-divider"></div> -->
@@ -75,7 +75,7 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
           <a *ngIf="comment == null" style="cursor: pointer" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> Δεν υπάρχουν νέες ειδοποιήσεις</a>
+            <i class="fas fa-envelope mr-2"></i> {{'STUDENT.NO-NEW-NOTIFICATIONS' | translate}}</a>
         </div>
       </li>
       <!-- <li class="nav-item">

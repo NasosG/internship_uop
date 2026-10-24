@@ -68,7 +68,7 @@
   <!-- Left col -->
   <section class="col-lg-9 connectedSortable">
     <div *ngIf="this.period?.is_active && !isResultsPhase" class="alert alert-success" role="alert">
-      {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | Εκτός ΕΣΠΑ: {{period?.available_positions}} - ΕΣΠΑ:
+      {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | {{'STUDENT.NON-ESPA' | translate}}: {{period?.available_positions}} - {{'STUDENT.ESPA' | translate}}:
       {{period?.positions}}<br>
       {{'STUDENT.INTERSNHIP-DECLARATION-PERIOD'| translate}}
       {{phaseArray[period?.phase_state!] | translate}}: {{dateFrom}}
@@ -76,8 +76,8 @@
       {{dateTo}}.
     </div>
     <div *ngIf="this.period?.is_active && isResultsPhase" class="alert alert-success" role="alert">
-      {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | Εκτός ΕΣΠΑ: {{period?.available_positions}} -
-      ΕΣΠΑ:
+      {{'STUDENT.HEADER-INFO-AVAILABLE-POSITIONS' | translate}} | {{'STUDENT.NON-ESPA' | translate}}: {{period?.available_positions}} -
+      {{'STUDENT.ESPA' | translate}}:
       {{period?.positions}}<br>
       {{'STUDENT.PHASE-RESULTS'| translate}}
     </div>
@@ -105,7 +105,7 @@
           </div>
         </div>
       </div>
-      <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
+      <p class="pl-4"> {{'STUDENT.COORDINATOR-COMMENTS' | translate}}: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
     </div>
     <div *ngIf="this.studentsSSOData[0]?.phase == -1" class="card">
       <div class="card-header">
@@ -123,17 +123,17 @@
         <div class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
             <i style="color: #dc3545;" class=" fas fa-lg fa-times"></i>&nbsp;
-            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-MINUS1-PAR'| translate}} Α.Π.:
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-MINUS1-PAR'| translate}} {{'GENERIC.PROTOCOL-NO' | translate}}:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
-              Εκτύπωση</button>
+              {{'GENERIC.PRINT' | translate}}</button>
             <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
                 class="fa fa-upload"></i>
-              Έγγραφα</button>
+              {{'GENERIC.DOCUMENTS' | translate}}</button>
           </div>
         </div>
       </div>
-      <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
+      <p class="pl-4"> {{'STUDENT.COORDINATOR-COMMENTS' | translate}}: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
     </div>
     <div *ngIf="this.studentsSSOData[0]?.phase == 1" class="card">
       <div class="card-header">
@@ -150,18 +150,18 @@
       <div class="card-body">
         <div class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
-            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-1-PAR'| translate}} Α.Π.:
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-1-PAR'| translate}} {{'GENERIC.PROTOCOL-NO' | translate}}:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
-              Εκτύπωση</button>
+              {{'GENERIC.PRINT' | translate}}</button>
             <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
                 class="fa fa-upload"></i>
-              Έγγραφα</button>
+              {{'GENERIC.DOCUMENTS' | translate}}</button>
             <br>
           </div>
         </div>
       </div>
-      <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
+      <p class="pl-4"> {{'STUDENT.COORDINATOR-COMMENTS' | translate}}: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
     </div>
     <div *ngIf="this.studentsSSOData[0]?.phase == 2" class="card">
       <div class="card-header">
@@ -178,42 +178,42 @@
       <div class="card-body">
         <div *ngIf="period.phase_state < 2" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
-            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-2-PAR'| translate}} Α.Π.:
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-2-PAR'| translate}} {{'GENERIC.PROTOCOL-NO' | translate}}:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
-              Εκτύπωση</button>
+              {{'GENERIC.PRINT' | translate}}</button>
             <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
                 class="fa fa-upload"></i>
-              Έγγραφα</button>
+              {{'GENERIC.DOCUMENTS' | translate}}</button>
             <br>
           </div>
         </div>
         <div *ngIf="period.phase_state >= 2 && isApproved" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
-            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-4-PAR'| translate}} Α.Π.:
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-4-PAR'| translate}} {{'GENERIC.PROTOCOL-NO' | translate}}:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
-              Εκτύπωση</button>
+              {{'GENERIC.PRINT' | translate}}</button>
             <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
                 class="fa fa-upload"></i>
-              Έγγραφα</button>
+              {{'GENERIC.DOCUMENTS' | translate}}</button>
             <br>
           </div>
         </div>
         <div *ngIf="period.phase_state >= 2 && !isApproved" class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
-            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-3-PAR'| translate}} Α.Π.:
+            {{'STUDENT.INTERNSHIP-APP-RESULT-PHASE-3-PAR'| translate}} {{'GENERIC.PROTOCOL-NO' | translate}}:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class=" fas fa-lg fa-check text-success"></i>
             <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
-              Εκτύπωση</button>
+              {{'GENERIC.PRINT' | translate}}</button>
             <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
                 class="fa fa-upload"></i>
-              Έγγραφα</button>
+              {{'GENERIC.DOCUMENTS' | translate}}</button>
             <br>
           </div>
         </div>
       </div>
-      <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
+      <p class="pl-4"> {{'STUDENT.COORDINATOR-COMMENTS' | translate}}: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
     </div>
     <div *ngIf="this.studentsSSOData[0]?.phase == 3" class="card">
       <div class="card-header">
@@ -230,18 +230,18 @@
       <div class="card-body">
         <div class="tab-content p-0">
           <div class="chart tab-pane active" id="revenue-chart">
-            {{'STUDENT.INTERNSHIP-APP-RESIGN-PHASE-1-PAR'| translate}} Α.Π.:
+            {{'STUDENT.INTERNSHIP-APP-RESIGN-PHASE-1-PAR'| translate}} {{'GENERIC.PROTOCOL-NO' | translate}}:
             {{ this.studentsSSOData[0].latest_app_protocol_number }} <i class="text-danger fas fa-medium fa-times"></i>
             <br><button class="mt-1 btn btn-primary" printSectionId="print-section" ngxPrint><i class="fa fa-print"></i>
-              Εκτύπωση</button>
+              {{'GENERIC.PRINT' | translate}}</button>
             <button class="mt-1 ml-2 btn btn-primary" (click)="openExtraFilesUploadDialog()"><i
                 class="fa fa-upload"></i>
-              Έγγραφα</button>
+              {{'GENERIC.DOCUMENTS' | translate}}</button>
             <br>
           </div>
         </div>
       </div>
-      <p class="pl-4"> Σχόλια Υπεύθυνου: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
+      <p class="pl-4"> {{'STUDENT.COORDINATOR-COMMENTS' | translate}}: {{comment == null ? 'Δεν υπάρχουν σχόλια' : comment?.comment_text}}</p>
     </div>
     <!-- Custom tabs (Charts with tabs)-->
     <div class="card">

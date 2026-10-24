@@ -1,11 +1,11 @@
 <mat-dialog-content>
-  <h2>Επιλογή Εταιρείας/Φορέα</h2>
+  <h2>{{'DEPT-MANAGER.SELECT-COMPANY' | translate}}</h2>
   <table id="tbl" class="table">
     <thead>
       <tr>
-        <th scope="col">Α.Α.</th>
-        <th scope="col">Θέση</th>
-        <th scope="col">Όνομα Εταιρείας</th>
+        <th scope="col">{{'DEPT-MANAGER.SERIAL-NO' | translate}}</th>
+        <th scope="col">{{'DEPT-MANAGER.POSITION' | translate}}</th>
+        <th scope="col">{{'DEPT-MANAGER.COMPANY-NAME-LABEL' | translate}}</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +20,6 @@
   </table>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button class="btn btn-secondary" mat-button (click)="onCancel()">Πίσω</button>
-  <button class="btn btn-primary" (click)="onSubmitSwal(this.data.assignMode)" mat-button>Υποβολή</button>
+  <button class="btn btn-secondary" mat-button (click)="onCancel()">{{'GENERIC.BACK' | translate}}</button>
+  <button class="btn btn-primary" (click)="onSubmitSwal(this.data.assignMode)" mat-button>{{'HOME.SUBMIT-BTN' | translate}}</button>
 </mat-dialog-actions>

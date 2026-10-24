@@ -10,12 +10,12 @@
 
           <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
             <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
-              Επιλογή Τμήματος: </h5>
+              {{'GENERIC.SELECT-DEPARTMENT' | translate}}: </h5>
             <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
             <div class="col-12 col-sm-10 pt-3">
               <div class="form-group col-md-4 mb-0 pb-0">
                 <mat-form-field appearance="outline" style="min-width:310px;">
-                  <mat-label>Τμήμα</mat-label>
+                  <mat-label>{{'GENERIC.DEPARTMENT' | translate}}</mat-label>
                   <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
                     <mat-option *ngFor="let academic of officeUserAcademics" [value]="academic"
                       (click)="onDepartmentChange(academic)">
@@ -28,12 +28,12 @@
           </div>
           <div class="pb-0 mt-0 mb-0 pl-3 container-responsive row my-container">
             <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
-              Επιλογή Περιόδου: </h5>
+              {{'GENERIC.SELECT-PERIOD' | translate}} </h5>
             <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
             <div class="col-12 col-sm-10 pt-3">
               <div class="form-group col-md-4 mb-0 pb-0">
                 <mat-form-field appearance="outline" style="min-width:310px;">
-                  <mat-label>Περίοδος</mat-label>
+                  <mat-label>{{'GENERIC.PERIOD' | translate}}</mat-label>
                   <mat-select #periodFormSelect formControlName="period_form" [disableOptionCentering]="true">
                     <mat-option *ngIf="periods && this.periods.length == 0" [value]="null"
                       (click)="onPeriodChange(null)">
@@ -59,10 +59,10 @@
 
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div class="pl-2 pb-0">
-                    <strong>Πλήθος Δελτίων:</strong> {{studentsData.length}}
+                    <strong>{{'GENERIC.SHEETS-COUNT' | translate}}</strong> {{studentsData.length}}
                   </div>
                   <mat-form-field style="float:right" class="mt-0 mb-0" appearance="outline">
-                    <mat-label>Αναζήτηση</mat-label>
+                    <mat-label>{{'GENERIC.SEARCH' | translate}}</mat-label>
                     <input matInput #inputSearch (keyup)="searchStudents()">
                     <!-- <button *ngIf="inputSearch.value" matSuffix mat-icon-button aria-label="Clear"
                       (click)="inputSearch.value=''">
@@ -73,13 +73,13 @@
                 <table id="sheetInputTable" #sheetInputTable class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Ονοματεπώνυμο</th>
-                      <th>ΑΜ</th>
+                      <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                      <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
                       <th>email</th>
-                      <th>Αριθμός Δελτίου Online</th>
+                      <th>{{'INTERNSHIP-OFFICE.ONLINE-SHEET-NUMBER' | translate}}</th>
                       <th>XML</th>
-                      <th class="text-center">Ενέργειες</th>
-                      <th class="text-center">ΟΠΣ</th>
+                      <th class="text-center">{{'GENERIC.ACTIONS' | translate}}</th>
+                      <th class="text-center">{{'INTERNSHIP-OFFICE.MIS' | translate}}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -126,7 +126,7 @@
                       <td>{{student.ops_number_eisodou ?? 'Δεν έχει ανέβει ακόμη'}}</td>
                       <td>
                         <a (click)="getXML(student.uuid, 'entry')" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-file-export"></i>&nbsp;Εξαγωγή</a>
+                            class="fa fa-file-export"></i>&nbsp;{{'INTERNSHIP-OFFICE.EXPORT' | translate}}</a>
                       </td>
                       <td class="action text-center">
                         <!-- <table>
@@ -142,28 +142,26 @@
                           </tr>
                         </table> -->
                         <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-eye"></i> Προβολή / Εκτύπωση
-                          Δελτίου<br></a>
+                            class="fa fa-eye"></i> {{'GENERIC.VIEW-PRINT-SHEET' | translate}}<br></a>
                         <a (click)="openEditDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-cog"></i> Επεξεργασία Δελτίου<br></a>
+                            class="fa fa-cog"></i> {{'INTERNSHIP-OFFICE.EDIT-SHEET' | translate}}<br></a>
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
                       <td class="action text-center">
                         <a (click)="submitOPSDialog(student.uuid, 'entry')" class="text-secondary"
-                          style="cursor: pointer;"><i class="fa fa-upload"></i> Ανέβασμα στο
-                          ΟΠΣ<br></a>
+                          style="cursor: pointer;"><i class="fa fa-upload"></i> {{'INTERNSHIP-OFFICE.UPLOAD-TO-MIS' | translate}}<br></a>
                       </td>
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>Ονοματεπώνυμο</th>
-                      <th>ΑΜ</th>
+                      <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                      <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
                       <th>email</th>
-                      <th>Αριθμός Δελτίου Online</th>
+                      <th>{{'INTERNSHIP-OFFICE.ONLINE-SHEET-NUMBER' | translate}}</th>
                       <th>XML</th>
-                      <th class="text-center">Ενέργειες</th>
-                      <th class="text-center">ΟΠΣ</th>
+                      <th class="text-center">{{'GENERIC.ACTIONS' | translate}}</th>
+                      <th class="text-center">{{'INTERNSHIP-OFFICE.MIS' | translate}}</th>
                     </tr>
                   </tfoot>
                 </table>

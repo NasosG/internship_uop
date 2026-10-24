@@ -5,7 +5,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Αιτήσεις φοιτητών</h3>
+            <h3 class="card-title">{{'GENERIC.STUDENTS-APPLICATIONS' | translate}}</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive">
@@ -19,14 +19,14 @@
               <!--datatable [dtOptions]="dtOptions">-->
               <thead>
                 <tr>
-                  <th>Θέσεις</th>
-                  <th>Όνοματεπώνυμο</th>
-                  <th>Τμήμα</th>
+                  <th>{{'COMPANY.POSITIONS-LABEL' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                  <th>{{'GENERIC.DEPARTMENT' | translate}}</th>
                   <th>email</th>
-                  <th>Σκορ</th>
-                  <th>Ημερομηνία Αίτησης</th>
-                  <th>Ενέργειες</th>
-                  <th> Επιλογή</th>
+                  <th>{{'COMPANY.SCORE' | translate}}</th>
+                  <th>{{'COMPANY.APPLICATION-DATE-TITLE' | translate}}</th>
+                  <th>{{'GENERIC.ACTIONS' | translate}}</th>
+                  <th> {{'GENERIC.SELECTION' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,7 +40,7 @@
                   <td>
                     <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(position, position.title)"><i
                         class="fa fa-eye"></i>
-                      Προβολή<br></a>
+                      {{'GENERIC.VIEW' | translate}}<br></a>
                   </td>
                   <td>
                     <select id="{{'sel' + idx2}}" class="kl form-select text-danger"
@@ -54,14 +54,14 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Θέσεις</th>
-                  <th>Όνοματεπώνυμο</th>
-                  <th>Τμήμα</th>
+                  <th>{{'COMPANY.POSITIONS-LABEL' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                  <th>{{'GENERIC.DEPARTMENT' | translate}}</th>
                   <th>email</th>
-                  <th>Σκορ</th>
-                  <th>Ημερομηνία Αίτησης</th>
-                  <th>Ενέργειες</th>
-                  <th> Επιλογή</th>
+                  <th>{{'COMPANY.SCORE' | translate}}</th>
+                  <th>{{'COMPANY.APPLICATION-DATE-TITLE' | translate}}</th>
+                  <th>{{'GENERIC.ACTIONS' | translate}}</th>
+                  <th> {{'GENERIC.SELECTION' | translate}}</th>
                 </tr>
               </tfoot>
             </table>
@@ -75,7 +75,7 @@
     <!-- /.row -->
   </div>
   <div class="m-auto pb-5" style="margin:auto; text-align:center;">
-    <button class="btn btn-primary w-25 m-auto p-2" (click)="submitApplications()"> ΟΡΙΣΤΙΚΟΠΟΙΗΣΗ ΕΠΙΛΟΓΩΝ</button>
+    <button class="btn btn-primary w-25 m-auto p-2" (click)="submitApplications()"> {{'COMPANY.FINALIZE-CHOICES' | translate}}</button>
   </div>
 
   <!-- /.container-fluid -->

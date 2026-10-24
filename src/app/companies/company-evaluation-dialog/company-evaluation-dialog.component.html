@@ -1,34 +1,30 @@
-<h3>Αξιολόγηση Φοιτητή</h3>
+<h3>{{'COMPANY.STUDENT-EVALUATION' | translate}}</h3>
 <mat-dialog-content class="mat-typography">
   <!-- <br> -->
   <div *ngIf="this.entries">
     <h4 class=" mt-3 mb-2">
-      Έχετε κάνει ήδη μία αξιολόγηση σε αυτή τη θέση Πρακτικής, για τον/την συγκεκριμένο φοιτητή/ρια.<br>
-      Πατήστε <a (click)="printEvaluationSheet()" style="cursor: pointer; color: green;">Εκτύπωση</a> για να δείτε τις
-      επιλογές σας.
+      {{'COMPANY.ALREADY-EVALUATED' | translate}}<br>
+      {{'COMPANY.CLICK' | translate}} <a (click)="printEvaluationSheet()" style="cursor: pointer; color: green;">{{'GENERIC.PRINT' | translate}}</a> {{'COMPANY.TO-SEE-CHOICES' | translate}}
     </h4>
   </div>
   <form ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal"
     (ngSubmit)="onSubmitCompanyEvaluationSheet(studentEvaluationForm.value)">
     <div class="alert alert-danger mt-3 mb-3" role="alert">
-      Τα δεδομένα των απαντήσεών σας θα τύχουν επεξεργασίας από τις αρμόδιες υπηρεσίες (Ειδική Υπηρεσία Διαχείρισης Ε.Π.
-      «Ανάπτυξη Ανθρώπινου Δυναμικού, Εκπαίδευση & Δια βίου Μάθηση», (Ίδρυμα Ανώτατης Εκπαίδευσης)., για το σκοπό της
-      παρακολούθησης του προγράμματος, προκειμένου να εξαχθούν στατιστικά στοιχεία (δείκτες) και για το σκοπό των
-      προβλεπόμενων ερευνών και αξιολογήσεων, σύμφωνα με τις ισχύουσες νομοθετικές διατάξεις του ΕΚΤ.
+      {{'SHEETS.EVALUATION-DATA-NOTICE' | translate}}
     </div>
-    <h4 class="text-danger mt-2 mb-3"> Ερωτήσεις πολλαπλής επιλογής</h4>
+    <h4 class="text-danger mt-2 mb-3"> {{'COMPANY.MULTIPLE-CHOICE' | translate}}</h4>
     <div class="container-fluid row">
       <div class="col xxl-8 col-xl-7 col-12">
       </div>
       <div class="col xxl-4 col-xl-5 col-12 text-xl-right">
-        <span class="mr-3">1. ΑΝΕΠΑΡΚΩΣ</span>
-        <span class="mr-3">2. ΜΕΤΡΙΑ</span>
-        <span class="mr-3">3. ΚΑΛΑ</span>
-        <span class="mr-xl-3">4. ΠΟΛΥ ΚΑΛΑ</span>
+        <span class="mr-3">{{'COMPANY.RATING-1' | translate}}</span>
+        <span class="mr-3">{{'COMPANY.RATING-2' | translate}}</span>
+        <span class="mr-3">{{'COMPANY.RATING-3' | translate}}</span>
+        <span class="mr-xl-3">{{'COMPANY.RATING-4' | translate}}</span>
       </div>
     </div>
     <mat-divider class="mt-2 mb-3"></mat-divider>
-    <h4>ΕΡΩΤΗΣΕΙΣ ΣΧΕΤΙΚΑ ΜΕ ΤΗΝ ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ</h4>
+    <h4>{{'COMPANY.QUESTIONS-INTERNSHIP' | translate}}</h4>
     <div *ngFor="let option of companyEvaluation" class="container-fluid row">
       <div class="col xxl-8 col-xl-7 col-12">
         <label for="{{option.id}}">
@@ -45,7 +41,7 @@
       </div>
     </div>
     <mat-divider class="mt-2 mb-3"></mat-divider>
-    <h4>ΕΡΩΤΗΣΕΙΣ ΣΧΕΤΙΚΑ ΜΕ ΤΟ ΦΟΙΤΗΤΗ</h4>
+    <h4>{{'COMPANY.QUESTIONS-STUDENT' | translate}}</h4>
     <div *ngFor="let option of questionsAboutStudent" class="container-fluid row">
       <div class="col xxl-8 col-xl-7 col-12">
         <label for="{{option.id}}">
@@ -62,7 +58,7 @@
       </div>
     </div>
     <mat-divider class="mt-2 mb-3"></mat-divider>
-    <h4>ΑΞΙΟΛΟΓΗΣΗ ΦΟΙΤΗΤΗ</h4>
+    <h4>{{'COMPANY.STUDENT-EVALUATION-CAPS' | translate}}</h4>
     <div *ngFor="let option of companyEvaluateStudent" class="container-fluid row">
       <div class="col xxl-8 col-xl-7 col-12">
         <label for="{{option.id}}">
@@ -80,7 +76,7 @@
     </div>
 
     <mat-divider class="mt-2 mb-3"></mat-divider>
-    <h4>ΠΟΥ ΣΥΝΕΒΑΛΕ Η ΠΡΑΚΤΙΚΗ ΑΣΚΗΣΗ</h4>
+    <h4>{{'COMPANY.INTERNSHIP-CONTRIBUTION' | translate}}</h4>
     <div *ngFor="let option of companyEvaluationOptions" class="container-fluid row">
       <div class="col xxl-8 col-xl-7 col-12">
         <label for="{{option.id}}">
@@ -89,16 +85,16 @@
       </div>
       <div class="col-12 text-right">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Αποτυπώστε τις παρατηρήσεις σας</mat-label>
+          <mat-label>{{'COMPANY.YOUR-REMARKS' | translate}}</mat-label>
           <textarea name="{{option.id}}" ngModel id="{{option.id}}" matInput
-            placeholder="Αποτυπώστε τις παρατηρήσεις σας"></textarea>
+            placeholder="{{'COMPANY.YOUR-REMARKS' | translate}}"></textarea>
         </mat-form-field>
       </div>
     </div>
 
     <mat-divider class="mt-2 mb-3"></mat-divider>
     <!-- text questions -->
-    <h4 class="text-danger mt-2 mb-3">Ελεύθερα Σχόλια</h4>
+    <h4 class="text-danger mt-2 mb-3">{{'COMPANY.FREE-COMMENTS' | translate}}</h4>
     <div *ngFor="let option of companyEvaluationText" class="">
       <div class="col-12">
         <label for="{{option.id}}">
@@ -107,15 +103,15 @@
       </div>
       <div class="col-12 text-right">
         <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Αφήστε σχόλιο</mat-label>
+          <mat-label>{{'COMPANY.LEAVE-COMMENT' | translate}}</mat-label>
           <textarea name="{{option.id}}" ngModel id="{{option.id}}" matInput
-            placeholder="Αποτυπώστε τις παρατηρήσεις σας"></textarea>
+            placeholder="{{'COMPANY.YOUR-REMARKS' | translate}}"></textarea>
         </mat-form-field>
       </div>
     </div>
     <br>
-    <button (click)="onCancel()" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i> Πίσω</button>
-    <button class="btn btn-primary">Αποθήκευση</button>
+    <button (click)="onCancel()" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i> {{'GENERIC.BACK' | translate}}</button>
+    <button class="btn btn-primary">{{'GENERIC.SAVE' | translate}}</button>
   </form>
 </mat-dialog-content>
 <!-- <mat-dialog-actions style='text-align: right'>

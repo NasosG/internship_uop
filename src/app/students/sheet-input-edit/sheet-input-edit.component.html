@@ -2,21 +2,21 @@
 <!-- Όλες οι ερωτήσεις διαθέτουν ως προεπιλογή το ΟΧΙ. -->
 <div *ngIf="this.entries[0]!=null">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Το δελτίο εισόδου έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα <span
-      (click)="tabGroup.selectedIndex = 1">'Προβολή'</span> για να το αποθηκεύσετε και να το εκτυπώσετε.
+    {{'SHEETS.ENTRY-SHEET-CREATED' | translate}} <span
+      (click)="tabGroup.selectedIndex = 1">{{'SHEETS.VIEW-TAB' | translate}}</span> {{'SHEETS.TAB-TO-SAVE-PRINT' | translate}}
   </div>
 </div>
 
 <form *ngIf="this.entries[0]==null" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal"
   (ngSubmit)="onSubmitStudentEntrySheet(studentEntryForm.value)">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Διαβάστε πολύ προσεκτικά τις ερωτήσεις-επεξηγήσεις και απαντήστε σε όλα τα ερωτήματα.
+    {{'SHEETS.READ-CAREFULLY' | translate}}
     <br>
-    Το καθεστώς εργασίας αφορά συμβάσεις που έχετε εκτός της σύμβασης πρακτικής άσκησης ΕΣΠΑ.
+    {{'SHEETS.EMPLOYMENT-STATUS-NOTE' | translate}}
   </div>
 
-  <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
-  <h4 class="text-dark"> Αναζήτηση Εργασίας </h4>
+  <h3 class="text-danger pt-3">{{'SHEETS.A-EMPLOYMENT-STATUS' | translate}}</h3>
+  <h4 class="text-dark"> {{'SHEETS.JOB-SEEKING' | translate}} </h4>
   <div *ngFor="let option of workBeforeInternship" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
@@ -26,15 +26,15 @@
     <div class="col-2 text-right">
       <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" id="{{option.id}}" required
         aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
   <p class="text-danger pt-4 mt-2">
-    Προσοχή! <strong>Μία</strong> απο τις ερωτήσεις Α1, Α2, A3 θα πρέπει να είναι ΝΑΙ
+    {{'SHEETS.ATTENTION' | translate}} <strong>{{'SHEETS.ONE' | translate}}</strong> {{'SHEETS.OF-QUESTIONS-A1-A3' | translate}}
   </p>
-  <h4 class="text-dark"> Καθεστώς Εργασίας κατά την Είσοδο </h4>
+  <h4 class="text-dark"> {{'SHEETS.EMPLOYMENT-STATUS-AT-ENTRY' | translate}} </h4>
   <div *ngFor="let option of WorkOptionsMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
@@ -43,15 +43,15 @@
     </div>
     <div class="col-2 text-right">
       <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+  <h3 class="text-danger pt-3">{{'SHEETS.B-EDUCATION-STATUS' | translate}}</h3>
   <div *ngFor="let option of educationOptionsMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
@@ -62,32 +62,32 @@
       <mat-radio-group *ngIf="option.id == 'B1' || option.id == 'B2' || option.id == 'B4' || option.id == 'B5'"
         name="{{option.id}}" [(ngModel)]="selectedNOOption" id="{{option.id}}" [disabled]="true" required
         aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B'" name="{{option.id}}" [(ngModel)]="optionValue" id="{{option.id}}"
         required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B3' && optionValue == 1" name="{{option.id}}"
         [(ngModel)]="selectedYESOption" id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0" [disabled]="true">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0" [disabled]="true">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B3' && optionValue == 0" name="{{option.id}}" [(ngModel)]="selectedNOOption"
         id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1" [disabled]="true">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1" [disabled]="true">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B3' && optionValue == null" name="{{option.id}}" id="{{option.id}}" required
         aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
       <!-- <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" *ngIf="option.id!='B4'" required
         aria-label="Select an option">
@@ -104,9 +104,8 @@
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <h3 class="text-danger pt-3">C) Μορφωτικό επίπεδο κατά την είσοδο</h3>
-  <p>Σημειώστε με "ΝΑΙ" σε ποιά από τις παρακάτω κατηγορίες ανήκετε:
-    (την κατηγορία που αντιστοιχεί στο <strong>ανώτερο</strong> επίπεδο εκπαίδευσης που έχετε)
+  <h3 class="text-danger pt-3">{{'SHEETS.C-EDUCATION-LEVEL' | translate}}</h3>
+  <p>{{'SHEETS.MARK-YES-CATEGORY' | translate}} <strong>{{'SHEETS.HIGHEST' | translate}}</strong> {{'SHEETS.EDUCATION-LEVEL-YOU-HAVE' | translate}}
   </p>
   <div *ngFor="let option of educationalStandardOptions" class="container-fluid row">
     <div class="col-10">
@@ -121,22 +120,22 @@
       </mat-radio-group> -->
       <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}"
         *ngIf="option.id!='C1' && option.id!='C2' && option.id!='C3' " required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group name="{{option.id}}" [(ngModel)]="selectedNOOption" id="{{option.id}}"
         *ngIf="option.id=='C1' || option.id=='C2' || option.id=='C3' " [disabled]="true" aria-label="Select an
               option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <h3 class="text-danger pt-3">D) ΔΗΜΟΓΡΑΦΙΚΑ ΣΤΟΙΧΕΙΑ</h3>
+  <h3 class="text-danger pt-3">{{'SHEETS.D-DEMOGRAPHICS' | translate}}</h3>
   <div *ngFor="let option of demographicsOptionsMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
@@ -145,13 +144,13 @@
     </div>
     <div class="col-2 text-right">
       <mat-radio-group name="{{option.id}}" ngModel id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
 
   <button [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2"> <i
-      class="fas fa-angle-left"></i> Πίσω</button>
-  <button class="btn btn-primary">Αποθήκευση</button>
+      class="fas fa-angle-left"></i> {{'GENERIC.BACK' | translate}}</button>
+  <button class="btn btn-primary">{{'GENERIC.SAVE' | translate}}</button>
 </form>

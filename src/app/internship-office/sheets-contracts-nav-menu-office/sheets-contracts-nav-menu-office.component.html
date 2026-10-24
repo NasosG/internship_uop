@@ -2,28 +2,25 @@
             <ul class="nav nav-pills">
               <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': activeLink === 'sheet-input'}"
-                  [routerLink]="['/office/sheet-input/' + authService.getSessionId()]" data-toggle="tab">Δελτία
-                  Εισόδου</a>
+                  [routerLink]="['/office/sheet-input/' + authService.getSessionId()]" data-toggle="tab">{{'GENERIC.ENTRY-SHEETS' | translate}}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': activeLink === 'sheet-output'}"
-                  [routerLink]="['/office/sheet-output/' + authService.getSessionId()]" data-toggle="tab">Δελτία
-                  εξόδου</a>
+                  [routerLink]="['/office/sheet-output/' + authService.getSessionId()]" data-toggle="tab">{{'GENERIC.EXIT-SHEETS' | translate}}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': activeLink === 'student-contracts'}"
                   [routerLink]="['/office/student-contracts/' + authService.getSessionId()]"
-                  data-toggle="tab">Συμβάσεις</a>
+                  data-toggle="tab">{{'GENERIC.CONTRACTS' | translate}}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': activeLink === 'sheet-questionnaires'}"
                   [routerLink]="['/office/questionnaires/' + authService.getSessionId()]"
-                  data-toggle="tab">Ερωτηματολόγια</a>
+                  data-toggle="tab">{{'GENERIC.QUESTIONNAIRES' | translate}}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': activeLink === 'payment-orders'}"
-                  [routerLink]="['/office/payment-orders/' + this.authService.getSessionId()]" data-toggle="tab">Εντολές
-                  Πληρωμών</a>
+                  [routerLink]="['/office/payment-orders/' + this.authService.getSessionId()]" data-toggle="tab">{{'GENERIC.PAYMENT-ORDERS' | translate}}</a>
               </li>
             </ul>
           </div>

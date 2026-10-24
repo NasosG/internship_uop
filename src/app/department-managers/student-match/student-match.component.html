@@ -5,11 +5,11 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Επιλογές φοιτητών</h3>
+            <h3 class="card-title">{{'DEPT-MANAGER.STUDENT-CHOICES-TITLE' | translate}}</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <h4 class="mb-3" *ngIf="period != null">Τρέχουσα Περίοδος:
+            <h4 class="mb-3" *ngIf="period != null">{{'GENERIC.CURRENT-PERIOD' | translate}}:
               {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
             <!-- <button (click)="exportToExcel()" class="btn btn-primary"><i class='fas fa-file-export'
                 style='font-size:24px'></i> Excel</button>
@@ -49,11 +49,11 @@
             </div> -->
 
             <div style="background-color: #f4f6f9; padding: 10px; border-radius: 4px; margin-bottom: 7px;">
-              <h5>Ημερομηνίες Διεξαγωγής Πρακτικής Άσκησης Φοιτητών</h5>
+              <h5>{{'DEPT-MANAGER.STUDENTS-INTERNSHIP-DATES' | translate}}</h5>
               <mat-divider></mat-divider>
               <div class="form-group row">
                 <div class="col-sm-6">
-                  <label for="date" class="col-form-label">Από:</label>
+                  <label for="date" class="col-form-label">{{'DEPT-MANAGER.FROM' | translate}}</label>
                   <div class="container row">
                     <div class="pl-0 ml-0 input-group col-12">
                       <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
@@ -66,7 +66,7 @@
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <label for="date" class="col-form-label">Έως:</label>
+                  <label for="date" class="col-form-label">{{'DEPT-MANAGER.TO' | translate}}</label>
                   <div class="container row">
                     <div class="pl-0 ml-0 input-group col-12">
                       <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
@@ -76,7 +76,7 @@
                         <i class="fas fa-calendar-alt"></i>
                       </button>
                     </div>
-                    <span class="mt-3 mb-0 input-message">Πιθανή Ημερομηνία Λήξης:
+                    <span class="mt-3 mb-0 input-message">{{'DEPT-MANAGER.POSSIBLE-END-DATE' | translate}}
                       {{modelImplementationDateFrom ? calculateDates(modelImplementationDateFrom).endDate.format('DD/MM/YYYY') : 'Δεν έχει επιλεχθεί ημερομηνία έναρξης ΠΑ'}}</span>
                   </div>
                 </div>
@@ -84,7 +84,7 @@
               <div class="col-sm-6 submitButton">
                 <button type="submit" (click)="insertImplementationDates()" class="btn btn-primary"
                   style="width: 120px; margin: auto">
-                  Υποβολή
+                  {{'HOME.SUBMIT-BTN' | translate}}
                 </button>
               </div>
             </div>
@@ -92,13 +92,13 @@
             <table id="studentsTable" #studentsTable class="table table-responsive table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Ημερομηνία Αίτησης Θέσεων</th>
-                  <th>Oνοματεπώνυμο</th>
-                  <th>ΑΜ</th>
-                  <th>Επιλογές Φοιτητή / Ενέργειες Ανάθεσης</th>
-                  <th>Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
-                  <th>Τελικές Αναθέσεις <br>(εκ μέρους φοιτητή)</th>
-                  <th>Ανέβηκε προς ΓΠΑ</th>
+                  <th>{{'DEPT-MANAGER.POSITIONS-APPLICATION-DATE' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                  <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.STUDENT-CHOICES-ACTIONS' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.PRE-RESERVED-POSITIONS' | translate}} <br>{{'DEPT-MANAGER.BY-ORGANIZATION' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.FINAL-ASSIGNMENTS' | translate}} <br>{{'DEPT-MANAGER.BY-STUDENT' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.SENT-TO-OFFICE' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -121,7 +121,7 @@
                         <div class="col-3 text-right" style="width:65px;">
                           <button (click)="openStudentsPositionSelectionDialog(activeApplication.app_id, idx,
                             activeApplication.student_id, activeApplication.positions[idx].position_id)"
-                            class="btn custom-btn btn-primary ml-2 mb-1 p-0 pl-2 pr-2 mr-2">Επιλέξτε <i
+                            class="btn custom-btn btn-primary ml-2 mb-1 p-0 pl-2 pr-2 mr-2">{{'GENERIC.CHOOSE' | translate}} <i
                               class="fas fa-long-arrow-alt-right"></i></button>
                         </div>
                       </div>
@@ -172,13 +172,13 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Ημερομηνία Αίτησης Θέσεων</th>
-                  <th>Oνοματεπώνυμο</th>
-                  <th>ΑΜ</th>
-                  <th>Επιλογές Φοιτητή / Ενέργειες Ανάθεσης</th>
-                  <th style="min-width:180px;">Προδεσμευμένες Θέσεις <br>(εκ μέρους φορέα)</th>
-                  <th style="min-width:180px;">Τελικές Αναθέσεις <br>(εκ μέρους φοιτητή)</th>
-                  <th>Ανέβηκε προς ΓΠΑ</th>
+                  <th>{{'DEPT-MANAGER.POSITIONS-APPLICATION-DATE' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                  <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.STUDENT-CHOICES-ACTIONS' | translate}}</th>
+                  <th style="min-width:180px;">{{'DEPT-MANAGER.PRE-RESERVED-POSITIONS' | translate}} <br>{{'DEPT-MANAGER.BY-ORGANIZATION' | translate}}</th>
+                  <th style="min-width:180px;">{{'DEPT-MANAGER.FINAL-ASSIGNMENTS' | translate}} <br>{{'DEPT-MANAGER.BY-STUDENT' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.SENT-TO-OFFICE' | translate}}</th>
                 </tr>
               </tfoot>
             </table>
@@ -191,8 +191,7 @@
         <!-- /.card -->
       </div>
       <div style="display: flex; justify-content: left;">
-        <button (click)="submitFinalResultsToOffice()" class="btn btn-primary mb-4 p-2 px-4 text-center">Υποβολή
-          Αντιστοιχισμένων φοιτητών προς ΓΠΑ</button>
+        <button (click)="submitFinalResultsToOffice()" class="btn btn-primary mb-4 p-2 px-4 text-center">{{'DEPT-MANAGER.SUBMIT-MATCHED-TO-OFFICE' | translate}}</button>
       </div>
       <br>
       <!-- /.col -->

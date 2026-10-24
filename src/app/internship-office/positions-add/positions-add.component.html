@@ -1,10 +1,10 @@
 <div class="pb-0 mb-4 pl-3 container-responsive row my-container">
   <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
-    Επιλογή Τμήματος: </h5>
+    {{'GENERIC.SELECT-DEPARTMENT' | translate}}: </h5>
   <div class="col-12 col-sm-10 pt-3">
     <div class="form-group col-md-4 mb-0 pb-0">
       <mat-form-field appearance="outline" style="min-width:310px;">
-        <mat-label>Τμήμα</mat-label>
+        <mat-label>{{'GENERIC.DEPARTMENT' | translate}}</mat-label>
         <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
           <mat-option *ngFor="let academic of officeUserAcademics" [value]="academic"
             (click)="onDepartmentChange(academic)">
@@ -16,7 +16,7 @@
   </div>
 </div>
 <hr>
-<p style="text-align:center"><strong>Επιλεγμένο τμήμα:</strong>
+<p style="text-align:center"><strong>{{'INTERNSHIP-OFFICE.SELECTED-DEPARTMENT' | translate}}</strong>
   <!-- {{selectedDepartment.department == '' ? 'Κανένα επιλεγμένο Τμήμα' : selectedDepartment.department}} -->
   {{departmentSelect.value == null ? 'Κανένα επιλεγμένο Τμήμα' : selectedDepartment.department}}
 </p>
@@ -32,20 +32,20 @@
 <div *ngIf="!isLoading">
   <div *ngIf="periodData.semester == null && departmentSelect.value != null" ngNativeValidate id="dep-manager-no-period"
     class="alert alert-danger" role="alert">
-    Δεν έχουν οριστεί περιόδοι από τον/την ΤΥ.
+    {{'INTERNSHIP-OFFICE.NO-PERIODS-SET' | translate}}
   </div>
   <h4 *ngIf="periodData.semester != null && departmentSelect.value != null">
-    Τρέχουσα Περίοδος </h4>
+    {{'GENERIC.CURRENT-PERIOD' | translate}} </h4>
   <table *ngIf="periodData.semester != null && departmentSelect.value != null" ngNativeValidate id="dep-manager-table"
     class="table table-bordered" style="background-color: white">
     <thead>
       <tr>
-        <th scope="col">Εξάμηνο</th>
-        <th scope="col">Φάση Περιόδου</th>
-        <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
-        <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
-        <th scope="col">Αριθμός θέσεων ΕΣΠΑ</th>
-        <th scope="col">Αριθμός θέσεων εκτός ΕΣΠΑ</th>
+        <th scope="col">{{'GENERIC.SEMESTER' | translate}}</th>
+        <th scope="col">{{'GENERIC.PERIOD-PHASE' | translate}}</th>
+        <th scope="col">{{'GENERIC.PHASE-START' | translate}} {{periodData?.phase_state}}</th>
+        <th scope="col">{{'GENERIC.PHASE-END' | translate}} {{periodData?.phase_state}}</th>
+        <th scope="col">{{'INTERNSHIP-OFFICE.ESPA-POSITIONS-NUMBER' | translate}}</th>
+        <th scope="col">{{'INTERNSHIP-OFFICE.NON-ESPA-POSITIONS-NUMBER' | translate}}</th>
       </tr>
     </thead>
     <tbody>
@@ -61,24 +61,20 @@
     </tbody>
   </table><br>
   <div *ngIf="departmentSelect.value != null">
-    <div class="mb-2 mt-2">Οι θέσεις οι οποίες θα ορίσετε πρέπει να είναι ανά ακαδημαικό εξάμηνο/τρέχουσα περίοδο και
-      βάσει
-      αυτών<br> θα
-      πραγματοποιηθεί η διαδικασία επιλογής των επιτυχόντων / επιλαχόντων.</div>
-    <h4>Aνάρτηση θέσεων ΕΣΠΑ <br><strong>ανά Ακαδημαϊκό
-        Εξάμηνο</strong></h4>
+    <div class="mb-2 mt-2">{{'INTERNSHIP-OFFICE.POSITIONS-INFO-1' | translate}}<br> {{'INTERNSHIP-OFFICE.POSITIONS-INFO-2' | translate}}</div>
+    <h4>{{'INTERNSHIP-OFFICE.POST-ESPA-POSITIONS' | translate}} <br><strong>{{'INTERNSHIP-OFFICE.PER-SEMESTER' | translate}}</strong></h4>
     <div class="form-group row w-25 positions-add-div">
-      <label for="positions" class="col-sm-6 col-form-label">Αριθμός θέσεων ΕΣΠΑ </label>
+      <label for="positions" class="col-sm-6 col-form-label">{{'INTERNSHIP-OFFICE.ESPA-POSITIONS-NUMBER' | translate}} </label>
       <div class="col-sm-6" *ngIf="fallbackPositions == 0">
         <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="periodData.positions" id="positions"
-          class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+          class="form-control" placeholder="{{'GENERIC.POSITIONS-NUMBER' | translate}}" (keyup.enter)="submit()" required>
       </div>
       <div class="col-sm-6" *ngIf="fallbackPositions != 0">
         <input type="number" min="0" #espaPositions name="positions" [(ngModel)]="fallbackPositions" id="positions"
-          class="form-control" placeholder="Αριθμός θέσεων" (keyup.enter)="submit()" required>
+          class="form-control" placeholder="{{'GENERIC.POSITIONS-NUMBER' | translate}}" (keyup.enter)="submit()" required>
       </div>
 
-      <button class="btn btn-primary mt-2" (click)="submit()">Υποβολή</button>
+      <button class="btn btn-primary mt-2" (click)="submit()">{{'HOME.SUBMIT-BTN' | translate}}</button>
     </div>
   </div>
 </div>

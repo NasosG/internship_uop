@@ -1,35 +1,35 @@
-<h3>Στοιχεία φοιτητή</h3>
+<h3>{{'DEPT-MANAGER.STUDENT-DETAILS' | translate}}</h3>
 <div mat-dialog-content class="mat-typography">
   <br>
-  <p><span>Αριθμός Κατάταξης</span>: {{ this.data.studentsData[this.data.index].ranking}}</p>
-  <p><span>Βαθμολογία</span>: {{ this.data.studentsData[this.data.index].score}}</p>
-  <p><span>Ονοματεπώνυμο</span>: {{ this.data.studentsData[this.data.index].givenname}}
+  <p><span>{{'DEPT-MANAGER.RANK' | translate}}</span>: {{ this.data.studentsData[this.data.index].ranking}}</p>
+  <p><span>{{'GENERIC.SCORE' | translate}}</span>: {{ this.data.studentsData[this.data.index].score}}</p>
+  <p><span>{{'GENERIC.FULL-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].givenname}}
     {{ this.data.studentsData[this.data.index].sn}}
   </p>
   <p class="title">
-    <span>ΑΜΕΑ (Κατ.5)</span>:
+    <span>{{'DEPT-MANAGER.DISABILITY-CAT5-SHORT' | translate}}</span>:
     {{this.data.studentsData[this.data.index].amea_cat == true ? 'ΝΑΙ' : 'OXI'}}
   </p>
-  <p><span>Πατρώνυμο</span>: {{ this.data.studentsData[this.data.index].father_name}}</p>
-  <p><span>Μητρώνυμο</span>: {{ this.data.studentsData[this.data.index].mother_name}}</p>
-  <p><span>Επώνυμο πατέρα</span>: {{ this.data.studentsData[this.data.index].father_last_name}}</p>
-  <p><span>Επώνυμο μητέρας</span>: {{ this.data.studentsData[this.data.index].mother_last_name}}</p>
-  <p><span>Ημ/νια Γέννησης</span>: {{this.dateOfBirth}}</p>
-  <p><span>ΑΜ</span>: {{ this.data.studentsData[this.data.index].schacpersonaluniquecode}}</p>
+  <p><span>{{'GENERIC.FATHERS-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].father_name}}</p>
+  <p><span>{{'GENERIC.MOTHERS-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].mother_name}}</p>
+  <p><span>{{'DEPT-MANAGER.FATHER-LAST-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].father_last_name}}</p>
+  <p><span>{{'DEPT-MANAGER.MOTHER-LAST-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].mother_last_name}}</p>
+  <p><span>{{'DEPT-MANAGER.BIRTH-DATE' | translate}}</span>: {{this.dateOfBirth}}</p>
+  <p><span>{{'GENERIC.REG-NUMBER' | translate}}</span>: {{ this.data.studentsData[this.data.index].schacpersonaluniquecode}}</p>
   <!--we dont check if the value is empty-->
-  <p><span>Φύλο</span>: {{ this.data.studentsData[this.data.index].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα'}}</p>
+  <p><span>{{'GENERIC.GENDER' | translate}}</span>: {{ this.data.studentsData[this.data.index].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα'}}</p>
   <p><span>email</span>: {{ this.data.studentsData[this.data.index].id}}.uop.gr</p>
-  <p><span>Τηλέφωνο</span>: {{ this.data.studentsData[this.data.index].phone}}</p>
-  <p><span>Πόλη</span>: {{ this.data.studentsData[this.data.index].city}}</p>
-  <p><span>ΤΚ</span>: {{ this.data.studentsData[this.data.index].post_address}}</p>
-  <p><span>Διεύθυνση</span>: {{ this.data.studentsData[this.data.index].address}}</p>
-  <p><span>Τοποθεσία</span>: {{ this.data.studentsData[this.data.index].location}}</p>
-  <p><span>ΑΦΜ</span>: {{ this.data.studentsData[this.data.index].ssn}}</p>
+  <p><span>{{'HOME.COMPANY-PHONE' | translate}}</span>: {{ this.data.studentsData[this.data.index].phone}}</p>
+  <p><span>{{'GENERIC.CITY' | translate}}</span>: {{ this.data.studentsData[this.data.index].city}}</p>
+  <p><span>{{'DEPT-MANAGER.POSTAL-CODE' | translate}}</span>: {{ this.data.studentsData[this.data.index].post_address}}</p>
+  <p><span>{{'DEPT-MANAGER.ADDRESS' | translate}}</span>: {{ this.data.studentsData[this.data.index].address}}</p>
+  <p><span>{{'GENERIC.LOCATION' | translate}}</span>: {{ this.data.studentsData[this.data.index].location}}</p>
+  <p><span>{{'HOME.TAX-NUMBER' | translate}}</span>: {{ this.data.studentsData[this.data.index].ssn}}</p>
   <p><span>AMKA</span>: {{ this.data.studentsData[this.data.index].user_ssn}}</p>
-  <p><span>ΔΟΥ</span>: {{ this.data.studentsData[this.data.index].doy}}</p>
+  <p><span>{{'GENERIC.DOY' | translate}}</span>: {{ this.data.studentsData[this.data.index].doy}}</p>
   <p><span>IBAN</span>: {{ this.data.studentsData[this.data.index].iban}}</p>
   <br>
 </div>
 <div mat-dialog-actions style='text-align: right'>
-  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">{{'GENERIC.CLOSE' | translate}}</button>
 </div>

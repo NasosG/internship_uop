@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Ανέβασμα δικαιολογητικών για Σύμβαση Εργασίας</h1>
+        <h1>{{'STUDENT.UPLOAD-CONTRACT-DOCS' | translate}}</h1>
       </div>
       <div class="col-sm-6">
         <!-- <ol class=" float-sm-right">
@@ -19,13 +19,13 @@
 </section>
 <div class="alert alert-danger pb-0" role="alert">
   <ul>
-    <li>Υπενθυμίζεται ότι η ηλεκτρονική αίτηση επέχει θέση υπεύθυνης δήλωσης</li>
+    <li>{{'STUDENT.APPLICATION-IS-DECLARATION' | translate}}</li>
   </ul>
 </div>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Στοιχεία Σύμβασης</ng-template>
+      <ng-template matStepLabel>{{'STUDENT.CONTRACT-DETAILS' | translate}}</ng-template>
       <!-- <mat-form-field class="mr-2" appearance="fill">
         <mat-label>ΑΦΜ</mat-label>
         <input matInput name="ssn" ngModel [ngModel]="studentsSSOData[0]?.ssn" id="inputName" placeholder="ΑΦΜ"
@@ -38,14 +38,14 @@
       </mat-form-field><br> -->
 
       <mat-form-field appearance="fill">
-        <mat-label>ΑΜΑ</mat-label>
+        <mat-label>{{'GENERIC.AMA' | translate}}</mat-label>
         <input matInput name="ama_number" ngModel [ngModel]="studentsSSOData[0]?.ama_number" id="inputAMA"
-          placeholder="ΑΜΑ*" formControlName="amaNumberControl" required>
+          placeholder="{{'STUDENT.AMA-REQUIRED' | translate}}" formControlName="amaNumberControl" required>
       </mat-form-field><br>
 
       <mat-form-field appearance="fill">
-        <mat-label>ΑΔΤ</mat-label>
-        <input matInput name="id_card" ngModel [ngModel]="studentsSSOData[0]?.id_card" id="inputID" placeholder="ΑΔΤ*"
+        <mat-label>{{'GENERIC.ID-CARD-NUMBER' | translate}}</mat-label>
+        <input matInput name="id_card" ngModel [ngModel]="studentsSSOData[0]?.id_card" id="inputID" placeholder="{{'STUDENT.ID-CARD-REQUIRED' | translate}}"
           formControlName="policeIDControl" required>
       </mat-form-field><br>
 
@@ -55,21 +55,21 @@
           formControlName="ibanControl" required>
       </mat-form-field><br> -->
       <br><br>
-      <h6>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΜΑ ΙΚΑ <i class="fa fa-info-circle fa-lg fa-icon"
-          data-toggle="tooltip" data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+      <h6>{{'STUDENT.UPLOAD-AMA-DOC' | translate}} <i class="fa fa-info-circle fa-lg fa-icon"
+          data-toggle="tooltip" data-placement="top" title="{{'STUDENT.SUPPORTED-FILES-WEBP' | translate}}">
         </i></h6>
       <mat-form-field>
-        <ngx-mat-file-input (change)="validateFiles('amaFile')" formControlName="amaFile" placeholder="Έγγραφο ΑΜΑ">
+        <ngx-mat-file-input (change)="validateFiles('amaFile')" formControlName="amaFile" placeholder="{{'STUDENT.AMA-DOC' | translate}}">
         </ngx-mat-file-input>
       </mat-form-field>
       <br><br>
-      <h6>Ανεβάστε έγγραφο που να απεικονίζεται η αστυνομική σας ταυτότητα (2 όψεις) <i
+      <h6>{{'STUDENT.UPLOAD-ID-DOC' | translate}} <i
           class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
-          title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .webp .jpeg">
+          title="{{'STUDENT.SUPPORTED-FILES-WEBP' | translate}}">
         </i></h6>
       <mat-form-field>
         <ngx-mat-file-input (change)="validateFiles('idFile')" formControlName="idFile"
-          placeholder="Έγγραφο Αστυνομικής Ταυτότητας">
+          placeholder="{{'STUDENT.ID-DOC' | translate}}">
         </ngx-mat-file-input>
       </mat-form-field>
 
@@ -103,64 +103,63 @@
         </ngx-mat-file-input>
       </mat-form-field> -->
       <div>
-        <button mat-button matStepperPrevious>Προηγούμενο</button>
-        <button mat-button matStepperNext>Επόμενο</button>
+        <button mat-button matStepperPrevious>{{'STUDENT.PREVIOUS' | translate}}</button>
+        <button mat-button matStepperNext>{{'STUDENT.NEXT' | translate}}</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="contactFormGroup">
     <form [formGroup]="contactFormGroup">
-      <ng-template matStepLabel>Στοιχεία Επικοινωνίας</ng-template>
+      <ng-template matStepLabel>{{'STUDENT.CONTACT-DETAILS' | translate}}</ng-template>
       <mat-form-field class="mr-2" appearance="fill">
         <mat-label>Email</mat-label>
         <input matInput formControlName="emailCtrl" type="email" id="inputEmail" name="mail" class="inactive-field"
           [ngModel]="this.studentsSSOData[0]?.mail" placeholder="email" readonly required>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Τηλέφωνο</mat-label>
-        <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="Τηλέφωνο"
+        <mat-label>{{'HOME.COMPANY-PHONE' | translate}}</mat-label>
+        <input matInput type="text" id="phone" name="phone" formControlName="phoneCtrl" ngModel placeholder="{{'HOME.COMPANY-PHONE' | translate}}"
           [ngModel]="studentsSSOData[0]?.phone" size="31" maxlength="31" />
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
-        <mat-label>Οδός</mat-label>
+        <mat-label>{{'STUDENT.STREET' | translate}}</mat-label>
         <input matInput formControlName="addressCtrl" id="address" name="address" ngModel
           [ngModel]="studentsSSOData[0]?.address" size="64" maxlength="255">
-        <mat-error *ngIf="contactFormGroup.controls['addressCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+        <mat-error *ngIf="contactFormGroup.controls['addressCtrl'].hasError('required')">{{'STUDENT.FIELD-REQUIRED' | translate}}
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Περιοχή</mat-label>
+        <mat-label>{{'STUDENT.AREA' | translate}}</mat-label>
         <input matInput type="text" id="location" name="location" ngModel [ngModel]="studentsSSOData[0]?.location"
-          size="64" maxlength="255" formControlName="locationCtrl" placeholder="Περιοχή" />
-        <mat-error *ngIf="contactFormGroup.controls['locationCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+          size="64" maxlength="255" formControlName="locationCtrl" placeholder="{{'STUDENT.AREA' | translate}}" />
+        <mat-error *ngIf="contactFormGroup.controls['locationCtrl'].hasError('required')">{{'STUDENT.FIELD-REQUIRED' | translate}}
         </mat-error>
       </mat-form-field><br>
       <mat-form-field class="mr-2" appearance="fill">
-        <mat-label>Πόλη</mat-label>
+        <mat-label>{{'GENERIC.CITY' | translate}}</mat-label>
         <input matInput type="text" id="city" name="city" ngModel formControlName="cityCtrl"
           [ngModel]="studentsSSOData[0]?.city" size="64" maxlength="255" />
-        <mat-error *ngIf="contactFormGroup.controls['cityCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+        <mat-error *ngIf="contactFormGroup.controls['cityCtrl'].hasError('required')">{{'STUDENT.FIELD-REQUIRED' | translate}}
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Ταχυδρομικός κώδικας</mat-label>
+        <mat-label>{{'STUDENT.POSTAL-CODE' | translate}}</mat-label>
         <input matInput type="text" id="postal-code" name="post_address" ngModel
           [ngModel]="studentsSSOData[0]?.post_address" size="16" maxlength="16" formControlName="postalCodeCtrl" />
-        <mat-error *ngIf="contactFormGroup.controls['postalCodeCtrl'].hasError('required')">Το πεδίο είναι υποχρεωτικό
+        <mat-error *ngIf="contactFormGroup.controls['postalCodeCtrl'].hasError('required')">{{'STUDENT.FIELD-REQUIRED' | translate}}
         </mat-error>
       </mat-form-field><br>
       <div>
-        <button mat-button matStepperPrevious>Προηγούμενο</button>
+        <button mat-button matStepperPrevious>{{'STUDENT.PREVIOUS' | translate}}</button>
         <button mat-button matStepperNext [disabled]="!contactFormGroup.valid" (click)="
-          updateStudentsAllDetails()">Επόμενο</button>
+          updateStudentsAllDetails()">{{'STUDENT.NEXT' | translate}}</button>
         <!-- <button mat-button matStepperNext>Επόμενο</button> -->
       </div>
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Ολοκλήρωση αίτησης</ng-template>
-    <p><i class="fas fa-2x fa-check text-success"></i> Καταχωρήθηκε η αίτησή σας, θα γίνει ο έλεγχος και αν πληρείτε τις
-      προϋποθέσεις για πραγματοποίηση πρακτικής άσκησης, θα ενεργοποιήθει η πρόσβαση σας στο σύστημα.</p>
+    <ng-template matStepLabel>{{'STUDENT.COMPLETE-APPLICATION' | translate}}</ng-template>
+    <p><i class="fas fa-2x fa-check text-success"></i> {{'STUDENT.APPLICATION-SUBMITTED' | translate}}</p>
     <div>
     </div>
   </mat-step>

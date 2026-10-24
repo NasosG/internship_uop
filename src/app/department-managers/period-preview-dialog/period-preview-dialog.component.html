@@ -1,18 +1,18 @@
- <h4>Στοιχεία τρέχουσας περιόδου</h4>
+ <h4>{{'DEPT-MANAGER.CURRENT-PERIOD-DETAILS' | translate}}</h4>
  <mat-dialog-content class="mat-typography mt-3">
    <table mat-table [dataSource]="phases">
      <ng-container matColumnDef="phase">
-       <th mat-header-cell *matHeaderCellDef>Φάση Περιόδου</th>
+       <th mat-header-cell *matHeaderCellDef>{{'GENERIC.PERIOD-PHASE' | translate}}</th>
        <td mat-cell *matCellDef="let element"> {{element.phase_number}} </td>
      </ng-container>
 
      <ng-container matColumnDef="dateFrom">
-       <th mat-header-cell *matHeaderCellDef>Έναρξη Φάσης</th>
+       <th mat-header-cell *matHeaderCellDef>{{'GENERIC.PHASE-START' | translate}}</th>
        <td mat-cell *matCellDef="let element"> {{element.date_from}} </td>
      </ng-container>
 
      <ng-container matColumnDef="dateTo">
-       <th mat-header-cell *matHeaderCellDef>Λήξη Φάσης</th>
+       <th mat-header-cell *matHeaderCellDef>{{'GENERIC.PHASE-END' | translate}}</th>
        <td mat-cell *matCellDef="let element"> {{element.date_to}} </td>
      </ng-container>
 
@@ -21,5 +21,5 @@
    </table>
  </mat-dialog-content>
  <mat-dialog-actions style='text-align: right'>
-   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">{{'GENERIC.CLOSE' | translate}}</button>
  </mat-dialog-actions>

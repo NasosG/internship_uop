@@ -1,136 +1,132 @@
  <mat-dialog-content class="mat-typography">
-   <h1>Υποβολή Δικαιολογητικών</h1>
+   <h1>{{'STUDENT.SUBMIT-DOCUMENTS' | translate}}</h1>
    <div class="alert alert-secondary pb-0" role="alert">
-     <p>Αν κάποιο δικαιολογητικό που έχετε ανεβάσει χρειάζεται τροποποίηση, μπορείτε να το ανεβάσετε ξανά
-       χρησιμοποιώντας τα παρακάτω πεδία.</p>
+     <p>{{'STUDENT.REUPLOAD-INFO' | translate}}</p>
    </div>
    <form [formGroup]="filesUploadFormGroup">
-     <h2>Ανεβάστε έγγραφο που να απεικονίζεται το ΑΦΜ <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
-         data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+     <h2>{{'STUDENT.UPLOAD-AFM-DOC' | translate}} <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+         data-placement="top" title="{{'STUDENT.SUPPORTED-FILES' | translate}}">
        </i></h2>
-     <p>Προτείνεται έγγραφο από <a href="https://www1.aade.gr/sgsisapps5/comregistry/#!/arxiki"
+     <p>{{'STUDENT.SUGGESTED-DOC-FROM' | translate}} <a href="https://www1.aade.gr/sgsisapps5/comregistry/#!/arxiki"
          target="_blank">TaxisNet</a>
-       (καρτέλα: Στοιχεία Φυσικού προσώπου) ή πρόσφατο εκκαθαριστικό σημείωμα</p>
+       {{'STUDENT.SUGGESTED-DOC-TAB' | translate}}</p>
      <mat-form-field class="mt-0 pt-0 mb-3">
-       <ngx-mat-file-input (change)="validateFiles('ssnFile')" formControlName="ssnFile" placeholder="Έγγραφο ΑΦΜ">
+       <ngx-mat-file-input (change)="validateFiles('ssnFile')" formControlName="ssnFile" placeholder="{{'STUDENT.AFM-DOC' | translate}}">
        </ngx-mat-file-input>
      </mat-form-field>
      <br>
      <button class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a class="view-link"
          (click)="receiveFile('ssnFile')" target="_blank">
-         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+         <i class="fa fa-eye mr-2"></i>{{'GENERIC.VIEW' | translate}}</a></button>
      <button class="btn btn-secondary view-btn" (click)="onSubmitFile('ssnFile', 'SSN')" style="width:185px">
-       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>{{'STUDENT.UPLOAD' | translate}}</button>
      <i *ngIf="filesSubmitted.ssnFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
        </i> </i><br><br>
-     <h2>Ανεβάστε έγγραφο που να απεικονίζεται το IBAN <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
-         data-placement="top" title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+     <h2>{{'STUDENT.UPLOAD-IBAN-DOC' | translate}} <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip"
+         data-placement="top" title="{{'STUDENT.SUPPORTED-FILES' | translate}}">
        </i></h2>
      <mat-form-field class="mt-0 pt-0 mb-3">
-       <ngx-mat-file-input (change)="validateFiles('ibanFile')" formControlName="ibanFile" placeholder="Έγγραφο ΙΒΑΝ">
+       <ngx-mat-file-input (change)="validateFiles('ibanFile')" formControlName="ibanFile" placeholder="{{'STUDENT.IBAN-DOC' | translate}}">
        </ngx-mat-file-input>
      </mat-form-field>
      <br>
      <button class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a class="view-link"
          (click)="receiveFile('ibanFile')" target="_blank">
-         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+         <i class="fa fa-eye mr-2"></i>{{'GENERIC.VIEW' | translate}}</a></button>
      <button class="btn btn-secondary view-btn" (click)="onSubmitFile('ibanFile', 'IBAN')" style="width:185px">
-       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>{{'STUDENT.UPLOAD' | translate}}</button>
      <i *ngIf="filesSubmitted.ibanFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
        </i> </i><br><br>
 
-     <ng-template matStepLabel>Υπεύθυνες Δηλώσεις</ng-template>
-     <h2 class="pb-0 mb-0 mt-2"> Ανήκω σε Άτομα με Αναπηρίες (ΑμεΑ) κατηγορίας 5</h2>
+     <ng-template matStepLabel>{{'STUDENT.SOLEMN-DECLARATIONS' | translate}}</ng-template>
+     <h2 class="pb-0 mb-0 mt-2"> {{'STUDENT.DISABILITY-CAT5' | translate}}</h2>
      <!-- <h5> Ανεβάστε έγγραφο ΜΟΝΟ αν ανήκετε σε άτομα με Αναπηρίες (ΑμεΑ) κατηγορίας 5</h5> -->
      <div *ngIf="isStudentAMEA5">
        <mat-form-field *ngIf="isStudentAMEA5" class="mr-2">
-         <mat-label>Επιλέξτε</mat-label>
+         <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
          <mat-select #ameaCatCtrl id="ameaCatCtrl" formControlName="ameaCatCtrl" required>
-           <mat-option (click)="hideFileIfNotAMEA(true)" value="1">Ανήκω</mat-option>
-           <mat-option (click)="hideFileIfNotAMEA(false)" value=" 0">Δεν ανήκω</mat-option>
+           <mat-option (click)="hideFileIfNotAMEA(true)" value="1">{{'STUDENT.I-BELONG' | translate}}</mat-option>
+           <mat-option (click)="hideFileIfNotAMEA(false)" value=" 0">{{'STUDENT.I-DO-NOT-BELONG' | translate}}</mat-option>
          </mat-select>
        </mat-form-field>
        <br>
-       <h2 *ngIf="fileSubmitted == true">Ανεβάστε το απαραίτητο έγγραφο αν ανήκετε σε ΑΜΕΑ Κατηγορίας 5 <i
+       <h2 *ngIf="fileSubmitted == true">{{'STUDENT.UPLOAD-DISABILITY-DOC' | translate}} <i
            class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
-           title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg .gif .doc .docx">
+           title="{{'STUDENT.SUPPORTED-FILES-DOC' | translate}}">
          </i></h2>
        <mat-form-field class="mt-0 pt-0 mb-3" *ngIf="fileSubmitted == true">
          <ngx-mat-file-input #ameaFileInput id="ameaFileInput" (change)="validateFiles('ameaFile')"
-           formControlName="ameaFile" placeholder="Βεβαίωση ΑΜΕΑ Κατηγορίας 5">
+           formControlName="ameaFile" placeholder="{{'STUDENT.DISABILITY-CERT' | translate}}">
          </ngx-mat-file-input>
        </mat-form-field>
        <br>
        <button *ngIf="fileSubmitted == true" class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a
            class="view-link" (click)="receiveFile('ameaFile')" target="_blank">
-           <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+           <i class="fa fa-eye mr-2"></i>{{'GENERIC.VIEW' | translate}}</a></button>
        <button *ngIf="fileSubmitted == true" class="btn btn-secondary view-btn"
          (click)="onSubmitFile('ameaFile', 'AMEA')" style="width:185px">
-         <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+         <i class="fa fa-upload mr-2" aria-hidden="true"></i>{{'STUDENT.UPLOAD' | translate}}</button>
        <i *ngIf="filesSubmitted.ameaFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
          </i> </i><br><br>
      </div>
      <div *ngIf="!isStudentAMEA5" class="mr-2 mb-4">
-       <h3>Δεν είχατε δηλώσει ότι ανήκετε σε άτομα ΑμεΑ κατηγορίας 5 κατά την εκδήλωση ενδιαφέροντος</h3>
+       <h3>{{'STUDENT.DISABILITY-NOT-DECLARED' | translate}}</h3>
      </div>
 
-     <h2 class="pb-0 mb-0"> Ανεβάστε την παρακάτω υπεύθυνη δήλωση υπογεγραμμένη.
+     <h2 class="pb-0 mb-0"> {{'STUDENT.UPLOAD-SIGNED-DECLARATION' | translate}}
        <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
-         title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+         title="{{'STUDENT.SUPPORTED-FILES' | translate}}">
        </i>
      </h2>
-     <h3>Η διαδικασία πρέπει να γίνει μέσω του <strong>gov.gr</strong> ή με <strong>γνήσιο υπογραφής</strong></h3>
-     <a href="src=../../../assets/documents/affidavit.doc" target="_blank">Δείτε το υπόδειγμα Υπεύθυνης δήλωσης</a>
+     <h3>{{'STUDENT.PROCESS-VIA' | translate}} <strong>gov.gr</strong> {{'STUDENT.OR-WITH' | translate}} <strong>{{'STUDENT.CERTIFIED-SIGNATURE' | translate}}</strong></h3>
+     <a href="src=../../../assets/documents/affidavit.doc" target="_blank">{{'STUDENT.VIEW-DECLARATION-TEMPLATE' | translate}}</a>
      <br>
 
      <mat-form-field class="mt-0 pt-0 mb-3">
        <ngx-mat-file-input #affidavitFileInput id="affidavitFileInput" (change)="validateFiles('affidavitFile')"
-         formControlName="affidavitFile" placeholder="Ανεβάστε αρχείο Υπεύθυνης δήλωσης">
+         formControlName="affidavitFile" placeholder="{{'STUDENT.UPLOAD-DECLARATION-FILE' | translate}}">
        </ngx-mat-file-input>
      </mat-form-field>
      <br>
      <button class="btn btn-secondary btn-margin-bottom mr-3" style="width:185px;"><a class="view-link"
          (click)="receiveFile('affidavitFile')" target="_blank">
-         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+         <i class="fa fa-eye mr-2"></i>{{'GENERIC.VIEW' | translate}}</a></button>
      <button class="btn btn-secondary view-btn" (click)="onSubmitFile('affidavitFile', 'AFFIDAVIT')"
        style="width:185px">
-       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>{{'STUDENT.UPLOAD' | translate}}</button>
      <i *ngIf="filesSubmitted.affidavitFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
        </i> </i><br><br>
 
      <mat-divider></mat-divider>
-     <h2 class="mt-2 pb-0 mb-0 text-danger"> <i class="fa fa-exclamation"></i> Σε περίπτωση
-       παραίτησης
+     <h2 class="mt-2 pb-0 mb-0 text-danger"> <i class="fa fa-exclamation"></i> {{'STUDENT.IN-CASE-OF-RESIGNATION' | translate}}
        <!-- <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top" title="">
        </i> -->
      </h2>
-     <h2 class="pb-0 mb-0"> Ανεβάστε την παρακάτω αίτηση παραίτησης υπογεγραμμένη.
+     <h2 class="pb-0 mb-0"> {{'STUDENT.UPLOAD-SIGNED-RESIGNATION' | translate}}
        <i class="fa fa-info-circle fa-lg fa-icon" data-toggle="tooltip" data-placement="top"
-         title="Υποστηριζόμενος τύπος αρχείων: .pdf .jpg .png .jpeg">
+         title="{{'STUDENT.SUPPORTED-FILES' | translate}}">
        </i>
      </h2>
-     <h3>Η διαδικασία πρέπει να γίνει μέσω του <strong>gov.gr</strong> ή με <strong>γνήσιο υπογραφής</strong></h3>
-     <a href="src=../../../assets/documents/2023.ΥΠΕΥΘΥΝΗ-ΔΗΛΩΣΗ-ΠΑΡΑΙΤΗΣΗΣ-ΦΟΙΤΗΤΗ.doc" target="_blank">Δείτε το
-       υπόδειγμα
-       Υπεύθυνης δήλωσης</a>
+     <h3>{{'STUDENT.PROCESS-VIA' | translate}} <strong>gov.gr</strong> {{'STUDENT.OR-WITH' | translate}} <strong>{{'STUDENT.CERTIFIED-SIGNATURE' | translate}}</strong></h3>
+     <a href="src=../../../assets/documents/2023.ΥΠΕΥΘΥΝΗ-ΔΗΛΩΣΗ-ΠΑΡΑΙΤΗΣΗΣ-ΦΟΙΤΗΤΗ.doc" target="_blank">{{'STUDENT.VIEW-DECLARATION-TEMPLATE' | translate}}</a>
      <br>
 
      <mat-form-field class="mt-0 pt-0 mb-3">
        <ngx-mat-file-input #resignAppFileInput id="resignAppFileInput" (change)="validateFiles('resignAppFile')"
-         formControlName="resignAppFile" placeholder="Ανεβάστε αρχείο Υπεύθυνης δήλωσης">
+         formControlName="resignAppFile" placeholder="{{'STUDENT.UPLOAD-DECLARATION-FILE' | translate}}">
        </ngx-mat-file-input>
      </mat-form-field>
      <br>
      <button class="btn btn-secondary btn-margin-bottom mr-3" style="width: 185px;"><a class="view-link"
          (click)="receiveFile('resignAppFile')" target="_blank">
-         <i class="fa fa-eye mr-2"></i>Προβολή</a></button>
+         <i class="fa fa-eye mr-2"></i>{{'GENERIC.VIEW' | translate}}</a></button>
      <button class="btn btn-secondary view-btn" (click)="onSubmitFile('resignAppFile', 'RESIGN')" style="width: 185px">
-       <i class="fa fa-upload mr-2" aria-hidden="true"></i>Ανέβασμα</button>
+       <i class="fa fa-upload mr-2" aria-hidden="true"></i>{{'STUDENT.UPLOAD' | translate}}</button>
      <i *ngIf="filesSubmitted.resignAppFile == true"> &nbsp; <i class="success fas fa-3x fa-check text-success">
        </i> </i><br><br>
 
    </form>
  </mat-dialog-content>
  <mat-dialog-actions style='text-align: right'>
-   <button mat-button class="btn btn-primary mat-button" (click)="onClose()">Κλείσιμο</button>
+   <button mat-button class="btn btn-primary mat-button" (click)="onClose()">{{'GENERIC.CLOSE' | translate}}</button>
  </mat-dialog-actions>

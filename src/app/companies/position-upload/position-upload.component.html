@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Θέσεις Πρακτικής</h3>
+            <h3 class="card-title">{{'STUDENT.INTERNSHIP-POSITIONS' | translate}}</h3>
           </div>
           <div class="card-body">
             <!-- ngNativeValidate #periodForm="ngForm" (ngSubmit)="onSubmitPeriodForm(periodForm.value)" -->
@@ -14,15 +14,15 @@
                 <div class="form-group col-md-4 mb-0 pb-0">
                   <label for="title"></label>
                   <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Τίτλος θέσης</mat-label>
-                    <input matInput formControlName="title" placeholder="Τίτλος θέσης" value="">
+                    <mat-label>{{'COMPANY.POSITION-TITLE' | translate}}</mat-label>
+                    <input matInput formControlName="title" placeholder="{{'COMPANY.POSITION-TITLE' | translate}}" value="">
                   </mat-form-field>
                 </div>
                 <div class="form-group col-md-8 mb-0 pb-0">
                   <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Περιγραφή Θέσης</mat-label>
+                    <mat-label>{{'GENERIC.POSITION-DESCRIPTION' | translate}}</mat-label>
                     <textarea formControlName="description" id="description" rows="4" matInput
-                      placeholder="Περιγραφή"></textarea>
+                      placeholder="{{'COMPANY.DESCRIPTION' | translate}}"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -35,7 +35,7 @@
                     <option value="1">Μερικό Ωράριο</option>
                   </select> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Ωράριο</mat-label>
+                    <mat-label>{{'COMPANY.WORKING-HOURS' | translate}}</mat-label>
                     <mat-select formControlName="position_type">
                       <mat-option *ngFor="let jobType of jobTypes" [value]="jobType">{{jobType}}
                       </mat-option>
@@ -51,18 +51,18 @@
                     <option value="1">Έως 24 μήνες</option>
                   </select> -->
                   <mat-form-field style="margin-bottom:0px; padding-bottom:0px;" class="mb-0 pb-0" appearance="outline">
-                    <mat-label>Διάρκεια (σε μήνες)</mat-label>
+                    <mat-label>{{'COMPANY.DURATION-MONTHS' | translate}}</mat-label>
                     <input formControlName="duration" #duration matInput type="number"
-                      (keyup)="onKeyUpValidateFields('duration')" placeholder="Διάρκεια" value="" />
+                      (keyup)="onKeyUpValidateFields('duration')" placeholder="{{'COMPANY.DURATION' | translate}}" value="" />
                   </mat-form-field>
                   <p style="margin-top:0px; padding-top:0px;" class="mt-0 pt-0 text-red" *ngIf="errorDuration">
-                    *Η διάρκεια θα πρέπει να βρίσκεται μεταξύ του 1 και του 12
+                    {{'COMPANY.DURATION-RANGE' | translate}}
                   </p>
                 </div>
                 <div class="form-group col-md-4 mb-0 pb-0">
                   <!-- <label for="positions">Τμήμα</label><br> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Αντικείμενο</mat-label>
+                    <mat-label>{{'COMPANY.SUBJECT' | translate}}</mat-label>
                     <mat-select formControlName="physical_objects" multiple>
                       <mat-option *ngFor="let physicalObject of physicalObjects" [value]="physicalObject.name">
                         {{physicalObject.name}}
@@ -83,7 +83,7 @@
                     <option value="1">5</option>
                   </select>-->
                   <mat-form-field appearance="outline">
-                    <mat-label>Διαθέσιμες Θέσεις</mat-label>
+                    <mat-label>{{'COMPANY.AVAILABLE-POSITIONS-TITLE' | translate}}</mat-label>
                     <mat-select formControlName="available_positions">
                       <mat-option *ngFor="let positionsNumber of listPositionsNumber" [value]="positionsNumber">
                         {{positionsNumber}}</mat-option>
@@ -99,7 +99,7 @@
                     <option value="1">ΚΟΙΝΩΝΙΚΗΣ ΚΑΙ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΠΟΛΙΤΙΚΗΣ</option>
                   </select> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Τμήμα</mat-label>
+                    <mat-label>{{'GENERIC.DEPARTMENT' | translate}}</mat-label>
                     <mat-select>
                       <mat-option *ngFor="let item of departments" [value]="item.department">{{item.department}}
                       </mat-option>
@@ -110,7 +110,7 @@
                   <!-- <label for="town">Πόλη</label>
                   <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Χώρα</mat-label>
+                    <mat-label>{{'GENERIC.COUNTRY' | translate}}</mat-label>
                     <mat-select formControlName="country">
                       <mat-option *ngFor="let country of countries" [value]="country.atlas_id">
                         {{country.name}}
@@ -122,7 +122,7 @@
                   <!-- <label for="town">Πόλη</label>
                   <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Πόλη</mat-label>
+                    <mat-label>{{'GENERIC.CITY' | translate}}</mat-label>
                     <mat-select formControlName="city">
                       <mat-option *ngFor="let item of cities" [value]="item.name">{{item.name}}
                       </mat-option>
@@ -133,7 +133,7 @@
                   <!-- <label for="town">Πόλη</label>
                   <input type="text" class="form-control" id="town" placeholder="Πόλη"> -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Δήμος</mat-label>
+                    <mat-label>{{'COMPANY.MUNICIPALITY' | translate}}</mat-label>
                     <mat-select formControlName="prefecture">
                       <mat-option *ngFor="let item of prefectures" [value]="item.atlas_id">
                         {{item.name}}
@@ -144,7 +144,7 @@
               </div>
               <!-- <button class="btn btn-primary"> Ανάρτηση θέσεων</button> -->
               <div class="m-auto" style="margin:auto; text-align:center;">
-                <button class="btn btn-primary"> Καθορισμός θέσεων ΕΣΠΑ ανά έτος</button>
+                <button class="btn btn-primary"> {{'COMPANY.SET-ESPA-POSITIONS' | translate}}</button>
               </div>
             </form>
           </div>

@@ -1,5 +1,5 @@
 <div class="dialog-header">
-  <h3>Ημερομηνίες Εκτέλεσης ΠΑ</h3>
+  <h3>{{'DEPT-MANAGER.INTERNSHIP-DATES' | translate}}</h3>
   <div mat-icon-button class="close-button" (click)="onCancel()">
     <i class="fa fa-times"></i>
   </div>
@@ -17,7 +17,7 @@
       <!-- <mat-divider></mat-divider> -->
       <div class="form-group row">
         <div class="col-sm-6">
-          <label for="date_from" class="col-form-label">Προβλεπόμενη ημ/νία έναρξης:</label>
+          <label for="date_from" class="col-form-label">{{'DEPT-MANAGER.EXPECTED-START-DATE' | translate}}</label>
           <div class="container row">
             <div class="pl-0 ml-0 input-group col-12">
               <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="col-sm-6">
-          <label for="date_to" class="col-form-label">Προβλεπόμενη ημ/νία λήξης:</label>
+          <label for="date_to" class="col-form-label">{{'DEPT-MANAGER.EXPECTED-END-DATE' | translate}}</label>
           <div class="container row">
             <div class="pl-0 ml-0 input-group col-12">
               <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
@@ -52,7 +52,7 @@
   <div class="col-sm-6 submitButton">
     <button mat-button type="submit" (click)="updateImplementationDates()" class="btn btn-primary mat-button"
       style=" margin: auto">
-      Αλλαγή Ημ/νιών στο ΑΤΛΑΣ
+      {{'DEPT-MANAGER.CHANGE-DATES-ATLAS' | translate}}
     </button>
   </div>
 </mat-dialog-actions>

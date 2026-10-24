@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
   <i class="fas fa-search mr-1"></i>
-  Φιλτρα Αναζητησης &nbsp;<i style="font-size:16px;" class="fa fa-angle-down"></i><br>
+  {{'GENERIC.SEARCH-FILTERS' | translate}} &nbsp;<i style="font-size:16px;" class="fa fa-angle-down"></i><br>
 </button>
 <div id="demo" class="card mb-3 collapse">
   <div class="pl-3 mt-3 card-body">
@@ -10,53 +10,53 @@
           <div class="container-fluid row">
             <!-- Sorting -->
             <div class="widget col-6 col-sm-2 pl-2 pr-2">
-              <h4>Ημ/νία Δημοσίευσης</h4>
+              <h4>{{'GENERIC.PUBLICATION-DATE-SHORT' | translate}}</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByDate($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Χωρίς χρονικό περιορισμό</option>
-                <option value="recent">Νεότερες</option>
-                <option value="oldest">Παλαιότερες</option>
+                <option selected="selected" value="unselected">{{'GENERIC.NO-TIME-LIMIT' | translate}}</option>
+                <option value="recent">{{'GENERIC.NEWEST' | translate}}</option>
+                <option value="oldest">{{'GENERIC.OLDEST' | translate}}</option>
               </select>
             </div>
             <div class="widget col-6 col-sm-2 pl-2 pr-2">
-              <h4>Τμήμα</h4>
+              <h4>{{'GENERIC.DEPARTMENT' | translate}}</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByDepartment($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Όλα τα τμήματα</option>
+                <option selected="selected" value="unselected">{{'GENERIC.ALL-DEPARTMENTS' | translate}}</option>
                 <option *ngFor="let option of departments" value={{option.atlas_id}}>{{option.department}}
                 </option>
               </select>
             </div>
             <!-- Location -->
             <div class="widget col-6 col-sm-2 pl-2 pr-2">
-              <h4>Τοποθεσία</h4>
+              <h4>{{'GENERIC.LOCATION' | translate}}</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByCity($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Όλοι οι Δήμοι</option>
+                <option selected="selected" value="unselected">{{'GENERIC.ALL-MUNICIPALITIES' | translate}}</option>
                 <option *ngFor="let city of cities" value={{city.name}}>{{city.name}}
                 </option>
               </select>
             </div>
             <div class="widget col-6 col-sm-2 pl-2 pr-2">
-              <h4>Φορέας</h4>
-              <input type="text" placeholder="Φορέας" [value]="" (keyup)="searchFor($event.target)" autocomplete="on" />
+              <h4>{{'COMPANY.CARRIER' | translate}}</h4>
+              <input type="text" placeholder="{{'COMPANY.CARRIER' | translate}}" [value]="" (keyup)="searchFor($event.target)" autocomplete="on" />
             </div>
             <div class="widget col-6 col-sm-2 pl-2 pr-2">
-              <h4>Μήνες Απασχόλησης</h4>
+              <h4>{{'GENERIC.EMPLOYMENT-MONTHS' | translate}}</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByMonths($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Όλες οι επιλογές</option>
-                <option value="months2">Έως 2 μήνες</option>
-                <option value="months3">Έως 3 μήνες</option>
-                <option value="months6">Έως 6 μήνες</option>
+                <option selected="selected" value="unselected">{{'GENERIC.ALL-OPTIONS' | translate}}</option>
+                <option value="months2">{{'GENERIC.UP-TO-2-MONTHS' | translate}}</option>
+                <option value="months3">{{'GENERIC.UP-TO-3-MONTHS' | translate}}</option>
+                <option value="months6">{{'GENERIC.UP-TO-6-MONTHS' | translate}}</option>
               </select>
             </div>
 
             <div class="widget col-6 col-sm-2 pl-2 pr-4">
-              <h4>Αντικείμενο Θέσης</h4>
+              <h4>{{'GENERIC.POSITION-SUBJECT' | translate}}</h4>
               <select data-placeholder="Choose Category" style="padding: 14px 18px;"
                 (change)="fetchPositionsByPhysicalObject($event.target)" class="chosen-select-no-single">
-                <option selected="selected" value="unselected">Όλες οι επιλογές</option>
+                <option selected="selected" value="unselected">{{'GENERIC.ALL-OPTIONS' | translate}}</option>
                 <option *ngFor="let physicalObject of physicalObjects" value={{physicalObject.name}}>
                   {{physicalObject.name}}
                 </option>
@@ -76,7 +76,7 @@
     <form action="">
       <div class="container-fluid row">
         <input #searchInput type="search" class="interns-positions-search col-md-11 card" style="margin-top:3px;"
-          placeholder="Aναζήτηση (βάσει κωδικού θέσης ή περιγραφής)..." name="search">
+          placeholder="{{'GENERIC.SEARCH-POSITIONS-PLACEHOLDER' | translate}}" name="search">
         <button (click)="fetchGenericSearchPositions()" class="ml-0" class="col-md-1" type="submit"
           style="margin-top: 2px;"><i class=" fa fa-search"></i></button>
       </div>
@@ -85,13 +85,13 @@
 </div>
 
 <div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
-  Προσθέστε έως 5 θέσεις για πρακτική άσκηση
+  {{'GENERIC.ADD-UP-TO-5-POSITIONS' | translate}}
 </div>
 <div class="container-fluid row">
   <!-- Internship Positions -->
   <div class="col-12 col-md-7">
     <div class="padding-right">
-      <h3 class="margin-bottom-18">Θέσεις Πρακτικής</h3>
+      <h3 class="margin-bottom-18">{{'STUDENT.INTERNSHIP-POSITIONS' | translate}}</h3>
       <ul class="job-list">
         <!-- <li *ngFor="let entry of this.entries" class="highlighted"><a href=""></a> -->
         <li class="custom-height" *ngFor="let entry of this.entries; let i = index">
@@ -106,7 +106,7 @@
                   <!-- <span><i class="fa fa-briefcase"></i> Full-time</span> -->
                   <span><i class="fa fa-map-marker"></i> {{entry.city}} </span>
                   <span><i class="far fa-building"></i>&nbsp;{{shortCompanyName[i]}}</span>
-                  <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{entry.duration}} εβδομάδες</span>
+                  <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{entry.duration}} {{'GENERIC.WEEKS' | translate}}</span>
                 </div>
               </div>
             </div>
@@ -116,15 +116,14 @@
       </ul>
       <a (click)="this.fetchMorePositions(this.begin + this.limit)" class="button centered btn-primary"><i
           class="fa fa-plus-circle"></i>
-        Περισσοτερες
-        θεσεις</a>
+        {{'GENERIC.MORE-POSITIONS' | translate}}</a>
       <div class="margin-bottom-55"></div>
     </div>
   </div>
 
   <!-- Internship Description -->
   <div id="pos" class="col-12 col-md-4">
-    <h3 class="margin-bottom-18">Περιγραφή Θέσης</h3>
+    <h3 class="margin-bottom-18">{{'GENERIC.POSITION-DESCRIPTION' | translate}}</h3>
     <div class="clearfix"></div>
     <!-- Internship Description Container -->
     <div id="job-description" class="showbiz-container">
@@ -138,11 +137,11 @@
                     <!-- <span class="part-time">Internship</span> -->
                   </h4>
                 </a>
-                <span style="word-break: break-all;"><strong>Αντικείμενο Θέσης:
+                <span style="word-break: break-all;"><strong>{{'GENERIC.POSITION-SUBJECT' | translate}}:
                   </strong>{{this.jobPhysicalObjects}}</span>
                 
                 <br *ngIf="this.jobLastUpdateString != null && this.jobLastUpdateString?.substring(0, 10) != '01/01/1970'">
-                <span *ngIf="this.jobLastUpdateString != null && this.jobLastUpdateString?.substring(0, 10) != '01/01/1970'" class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span>
+                <span *ngIf="this.jobLastUpdateString != null && this.jobLastUpdateString?.substring(0, 10) != '01/01/1970'" class="mb-2"><strong>{{'GENERIC.PUBLICATION-DATE' | translate}}: </strong>{{this.jobLastUpdateString}}</span>
                 <!-- <br> -->
                 <!-- <span class="mb-2"><strong>Ημερομηνία Δημοσίευσης: </strong>{{this.jobLastUpdateString}}</span> -->
                 <br>
@@ -150,7 +149,7 @@
                   {{this.positionType == null ? 'Πλήρες Ωράριο' : this.positionType}}</span>
                 <span><i class="fa fa-map-marker"></i> {{this.jobCity}}</span>
                 <span><i class="far fa-building"></i>&nbsp;{{this.jobCompany}}</span>
-                <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} εβδομάδες</span>
+                <span><i class="fa fa-hourglass-half" aria-hidden="true"></i>{{this.jobDuration}} {{'GENERIC.WEEKS' | translate}}</span>
                 <span><i class="fa fa-business-time" aria-hidden="true"></i>{{this.jobAvailablePositions}}
                   {{this.jobAvailablePositions == 1 ? 'διαθέσιμη θέση' : 'διαθέσιμες θέσεις'}}
                 </span>
@@ -158,10 +157,10 @@
                   {{this.jobDescription}}
                 </div>
                 <table class="mt-2">
-                  <tr><i class="fa fa-user"></i> <strong> Όνομα Υπεύθυνου:</strong>
+                  <tr><i class="fa fa-user"></i> <strong> {{'GENERIC.CONTACT-PERSON' | translate}}</strong>
                     {{this.providerContactEmail ? this.providerContactName : 'Δεν διατίθεται'}}
                   </tr>
-                  <tr><i class="fa fa-phone"></i> <strong> Τηλέφωνο:
+                  <tr><i class="fa fa-phone"></i> <strong> {{'GENERIC.PHONE' | translate}}:
                     </strong>{{this.providerContactEmail ? this.providerContactPhone : 'Δεν διατίθεται'}}
                   </tr>
                   <tr><i class="fa fa-envelope"></i> <strong> Email:</strong>

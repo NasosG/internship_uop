@@ -8,43 +8,40 @@
     <div class="card-header">
       <h3 class="card-title">
         <i class="fas fa-plus mr-1"></i>
-        Επεξεργασία περιόδου
+        {{'DEPT-MANAGER.EDIT-PERIOD' | translate}}
       </h3>
     </div>
 
     <div class="card-body">
       <div class="tab-content p-0">
         <div class="chart tab-pane active" style="min-height:430px" id="revenue-chart">
-          <h5 class="font-weight-normal pt-2 pb-2">Στοιχεία περιόδου</h5>
+          <h5 class="font-weight-normal pt-2 pb-2">{{'DEPT-MANAGER.PERIOD-DETAILS' | translate}}</h5>
           <form ngNativeValidate #periodEditForm="ngForm" (ngSubmit)="onSubmitPeriodEditForm(periodEditForm.value)">
             <div class="form-group row">
-              <label for="staticEmail" class="col-sm-2 col-form-label">Ακαδημαϊκό εξάμηνο</label>
+              <label for="staticEmail" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.ACADEMIC-SEMESTER' | translate}}</label>
               <div class="col-sm-10">
                 <select required class="custom-select" id="semester" name="semester" [(ngModel)]="periodData.semester"
                   required>
-                  <option value="">Επιλέξτε εξάμηνο</option>
-                  <option value="1">Χειμερινό</option>
-                  <option value="2">Εαρινό</option>
+                  <option value="">{{'DEPT-MANAGER.SELECT-SEMESTER' | translate}}</option>
+                  <option value="1">{{'DEPT-MANAGER.WINTER' | translate}}</option>
+                  <option value="2">{{'DEPT-MANAGER.SPRING' | translate}}</option>
                 </select>
                 <!-- <input type="text" class="form-control" id="staticEmail" placeholder="Tίτλος Περιόδου" value=""> -->
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Φάση Περιόδου</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">{{'GENERIC.PERIOD-PHASE' | translate}}</label>
               <div class="btn-group dropup col-sm-10">
                 <select class="custom-select" #selectPhase name="phase_state" [(ngModel)]="periodData.phase_state"
                   id="phase_state" (ngModelChange)="onPhaseChange($event)" required>
-                  <option value="1" [disabled]="this.phaseBe4Update > 1 && this.depManagerData.id != adminUser">1.
-                    Αιτήσεις
-                    ενδιαφέροντος φοιτητών</option>
-                  <option value="2">2. Επιλογή θέσεων από φοιτητές</option>
+                  <option value="1" [disabled]="this.phaseBe4Update > 1 && this.depManagerData.id != adminUser">{{'DEPT-MANAGER.PHASE-1-INTEREST' | translate}}</option>
+                  <option value="2">{{'DEPT-MANAGER.PHASE-2-SELECTION' | translate}}</option>
                 </select>
               </div>
-              <div *ngIf="phaseBe4Update > 1" class="text-danger"><br>Δεν μπορείτε να επιστρέψετε στη Φάση 1
-                αφότου η Φάση 2 έχει οριστικοποιηθεί</div>
+              <div *ngIf="phaseBe4Update > 1" class="text-danger"><br>{{'DEPT-MANAGER.CANNOT-RETURN-PHASE-1' | translate}}</div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.START' | translate}}</label>
               <div class="col-sm-10">
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c3="ngModel"
@@ -58,7 +55,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.END' | translate}}</label>
               <div class="col-sm-10">
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c4="ngModel" ngModel
@@ -71,23 +68,23 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="positions" class="col-sm-2 col-form-label">Θέσεις ΕΣΠΑ</label>
+              <label for="positions" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.ESPA-POSITIONS' | translate}}</label>
               <div class="col-sm-10">
                 <input type="number" name="positions" id="positions" class="form-control" ngModel
-                  [(ngModel)]="periodData.positions" placeholder="Αριθμός θέσεων" readonly required>
+                  [(ngModel)]="periodData.positions" placeholder="{{'GENERIC.POSITIONS-NUMBER' | translate}}" readonly required>
               </div>
             </div>
             <div class="form-group row">
-              <label for="available_positions" class="col-sm-2 col-form-label">Θέσεις εκτός ΕΣΠΑ</label>
+              <label for="available_positions" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.NON-ESPA-POSITIONS' | translate}}</label>
               <div class="col-sm-10">
                 <input type="number" name="available_positions" ngModel #availablePositionsItem id="available_positions"
-                  class="form-control" [(ngModel)]="periodData.available_positions" placeholder="Αριθμός θέσεων"
+                  class="form-control" [(ngModel)]="periodData.available_positions" placeholder="{{'GENERIC.POSITIONS-NUMBER' | translate}}"
                   (input)="validateInputNumber(availablePositionsItem)" maxLength="5" required>
               </div>
             </div>
             <a (click)="back()" class="btn btn-secondary mr-2"> <i class="fas fa-angle-left"></i>
-              Πίσω</a>
-            <button (click)="insertPhase2StudentsRank()" class="btn btn-primary">Αποθήκευση</button>
+              {{'GENERIC.BACK' | translate}}</a>
+            <button (click)="insertPhase2StudentsRank()" class="btn btn-primary">{{'GENERIC.SAVE' | translate}}</button>
           </form>
         </div>
       </div>

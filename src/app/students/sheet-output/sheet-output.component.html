@@ -1,9 +1,9 @@
-<h2 class="text-dark mb-2">ΔΕΛΤΙΟ ΕΞΟΔΟΥ</h2>
+<h2 class="text-dark mb-2">{{'SHEETS.EXIT-SHEET-CAPS' | translate}}</h2>
 <mat-tab-group #tabGroup>
-  <mat-tab label="Επεξεργασία">
+  <mat-tab label="{{'GENERIC.EDIT' | translate}}">
     <app-sheet-output-edit></app-sheet-output-edit>
   </mat-tab>
-  <mat-tab label="Προβολή">
+  <mat-tab label="{{'GENERIC.VIEW' | translate}}">
     <app-sheet-output-preview [studentData]="studentsData" id="outputSheetPreview"></app-sheet-output-preview>
   </mat-tab>
 </mat-tab-group>

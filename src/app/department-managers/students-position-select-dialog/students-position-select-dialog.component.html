@@ -1,23 +1,21 @@
 <mat-dialog-content>
-  <h2>Επιλογές Ανάθεσης</h2>
-  <p class="mb-0"><span>Θέση</span>: {{this.position.title}}</p>
-  <p><span>Όνομα Εταιρείας</span>: {{this.position.company}}</p>
+  <h2>{{'DEPT-MANAGER.ASSIGNMENT-OPTIONS' | translate}}</h2>
+  <p class="mb-0"><span>{{'DEPT-MANAGER.POSITION' | translate}}</span>: {{this.position.title}}</p>
+  <p><span>{{'DEPT-MANAGER.COMPANY-NAME-LABEL' | translate}}</span>: {{this.position.company}}</p>
 
   <div class="m-auto text-center">
     <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState!=null || isLoading"
-      (click)="onSubmitSwal('preassign')" mat-button>Προδέσμευση
-      Θέσης</button>
+      (click)="onSubmitSwal('preassign')" mat-button>{{'DEPT-MANAGER.PRE-RESERVE-POSITION' | translate}}</button>
     <br>
     <button *ngIf="approvalState!=0" class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0 || isLoading"
-      (click)="onSubmitSwal('assign')" mat-button>Τελική
-      ανάθεση</button>
+      (click)="onSubmitSwal('assign')" mat-button>{{'DEPT-MANAGER.FINAL-ASSIGNMENT' | translate}}</button>
     <div *ngIf="approvalState==0"
       style="background-color: #f4f6f9; padding: 10px; border-radius: 4px; margin-bottom: 7px;">
-      <h6>Αλλαγή Ημερομηνιών Διεξαγωγής ΠΑ Φοιτητή</h6>
+      <h6>{{'DEPT-MANAGER.CHANGE-STUDENT-DATES' | translate}}</h6>
       <mat-divider></mat-divider>
       <div class="form-group row">
         <div class="col-sm-6">
-          <label for="date_from" class="col-form-label">Από:</label>
+          <label for="date_from" class="col-form-label">{{'DEPT-MANAGER.FROM' | translate}}</label>
           <div class="container row">
             <div class="pl-0 ml-0 input-group col-12">
               <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
@@ -31,7 +29,7 @@
           </div>
         </div>
         <div class="col-sm-6">
-          <label for="date_to" class="col-form-label">Έως:</label>
+          <label for="date_to" class="col-form-label">{{'DEPT-MANAGER.TO' | translate}}</label>
           <div class="container row">
             <div class="pl-0 ml-0 input-group col-12">
               <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
@@ -46,13 +44,12 @@
         </div>
       </div>
       <button class="custom-btn btn btn-primary mb-2 w-100" [disabled]="approvalState != 0 || isLoading"
-        (click)="onSubmitSwal('assign')" mat-button>Τελική
-        ανάθεση</button>
+        (click)="onSubmitSwal('assign')" mat-button>{{'DEPT-MANAGER.FINAL-ASSIGNMENT' | translate}}</button>
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close (click)="onCancel()">Κλείσιμο</button>
+  <button mat-button mat-dialog-close (click)="onCancel()">{{'GENERIC.CLOSE' | translate}}</button>
 </mat-dialog-actions>
 
 <!-- Full-screen overlay spinner while final assignment request is in progress -->

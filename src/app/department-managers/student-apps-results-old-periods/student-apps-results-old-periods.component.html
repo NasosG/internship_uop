@@ -18,7 +18,7 @@
             </div>
             <ul class="nav nav-pills">
               <li class="nav-item">
-                <a class="nav-link old-link">Παλιές Αιτήσεις</a>
+                <a class="nav-link old-link">{{'DEPT-MANAGER.OLD-APPLICATIONS' | translate}}</a>
               </li>
               <!-- <li class="nav-item">
                 <a class="nav-link"
@@ -38,16 +38,16 @@
 
             <div class="tab-content">
               <div class="tab-pane active" id="applications">
-                <h4 class="mb-1" *ngIf="period != null">Περίοδος:
+                <h4 class="mb-1" *ngIf="period != null">{{'GENERIC.PERIOD' | translate}}:
                   {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
                 <div class="pb-0 mb-0 pl-3 container-responsive row my-container">
                   <h5 class="mt-0 pt-0 col-12 col-sm-2 my-auto">
-                    Επιλογή Περιόδου: </h5>
+                    {{'GENERIC.SELECT-PERIOD' | translate}} </h5>
                   <!-- <p *ngFor="let academic of officeUserAcademics">{{academic?.department}}</p> -->
                   <div class="col-12 col-sm-10 pt-3">
                     <div class="form-group col-md-4 mb-0 pb-0">
                       <mat-form-field appearance="outline" style="min-width:310px;">
-                        <mat-label>Περίοδος</mat-label>
+                        <mat-label>{{'GENERIC.PERIOD' | translate}}</mat-label>
                         <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
                           <mat-option *ngFor="let period of this.periods" [value]="period"
                             (click)="onPeriodChange(period.id)">
@@ -67,11 +67,11 @@
                 <br><br>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div class="pl-2 pb-0">
-                    <i class="fa fa-hashtag"></i><strong>&nbsp;Πλήθος Αιτήσεων:</strong>
+                    <i class="fa fa-hashtag"></i><strong>&nbsp;{{'DEPT-MANAGER.APPLICATIONS-COUNT' | translate}}</strong>
                     {{studentsData.length}}
                   </div>
                   <mat-form-field style="float: right" class="mt-0 mb-0 pt-0 pb-0" appearance="outline">
-                    <mat-label>Αναζήτηση</mat-label>
+                    <mat-label>{{'GENERIC.SEARCH' | translate}}</mat-label>
                     <input matInput #inputSearch (keyup)="searchStudents()">
                   </mat-form-field>
                 </div>
@@ -85,10 +85,10 @@
                   class="table table-responsive table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="min-width: 100px;">Επιλογή</th>
+                      <th style="min-width: 100px;">{{'GENERIC.SELECTION' | translate}}</th>
                       <th>
                         <div class="sort-header">
-                          Ονοματεπώνυμο
+                          {{'GENERIC.FULL-NAME' | translate}}
                           <div class="sort-icons">
                             <i class="fa fa-lg fa-sort-up custom-sort-icon" [ngClass]="{'active': activeBtns[0]==true}"
                               [class.fade-out]="activeBtns[0]==true && isSortDirectionUp"
@@ -100,15 +100,15 @@
                           </div>
                         </div>
                       </th>
-                      <th>Α.Π.</th>
-                      <th>ΑΜ</th>
-                      <th>Βαθμολογία (στα 100)</th>
-                      <th>Υπηρετώ στο στρατό</th>
-                      <th>AMEA κατηγορίας 5</th>
-                      <th>Σύμβαση εργασίας</th>
-                      <th>Έγγραφα</th>
-                      <th>Δήλωση μαθήματος ΠΑ</th>
-                      <th class="text-center">Ενέργειες</th>
+                      <th>{{'GENERIC.PROTOCOL-NO' | translate}}</th>
+                      <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.SCORE-OUT-OF-100' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.MILITARY-SERVICE' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.DISABILITY-CAT5' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.EMPLOYMENT-CONTRACT' | translate}}</th>
+                      <th>{{'GENERIC.DOCUMENTS' | translate}}</th>
+                      <th>{{'STUDENT.HOME-STAT-BOX2' | translate}}</th>
+                      <th class="text-center">{{'GENERIC.ACTIONS' | translate}}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -133,30 +133,30 @@
                       <td class="reponsive-text-center-td">
                         <button style="min-width: 120px;" (click)="openStudentFilesViewDialog(idx)"
                           class="mb-0 pt-0 pb-0 btn btn-primary td-button-responsive"> <i class="fa fa-eye"
-                            aria-hidden="true"></i> Έγγραφα
+                            aria-hidden="true"></i> {{'GENERIC.DOCUMENTS' | translate}}
                         </button>
                       </td>
                       <td>{{student.Praktiki == 1 ? 'ΝΑΙ' : 'OXI'}}</td>
                       <td class="action text-center">
                         <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
-                            class="fa fa-eye"></i> Προβολή<br></a>
+                            class="fa fa-eye"></i> {{'GENERIC.VIEW' | translate}}<br></a>
                         <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                       </td>
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>Επιλογή</th>
-                      <th>Ονοματεπώνυμο</th>
-                      <th>Α.Π.</th>
-                      <th>ΑΜ</th>
-                      <th>Βαθμολογία (στα 100)</th>
-                      <th>Υπηρετώ στο στρατό</th>
-                      <th>AMEA κατηγορίας 5</th>
-                      <th>Σύμβαση εργασίας</th>
-                      <th>Έγγραφα</th>
-                      <th>Δήλωση μαθήματος ΠΑ</th>
-                      <th class="text-center">Ενέργειες</th>
+                      <th>{{'GENERIC.SELECTION' | translate}}</th>
+                      <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                      <th>{{'GENERIC.PROTOCOL-NO' | translate}}</th>
+                      <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.SCORE-OUT-OF-100' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.MILITARY-SERVICE' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.DISABILITY-CAT5' | translate}}</th>
+                      <th>{{'DEPT-MANAGER.EMPLOYMENT-CONTRACT' | translate}}</th>
+                      <th>{{'GENERIC.DOCUMENTS' | translate}}</th>
+                      <th>{{'STUDENT.HOME-STAT-BOX2' | translate}}</th>
+                      <th class="text-center">{{'GENERIC.ACTIONS' | translate}}</th>
                     </tr>
                   </tfoot>
                 </table>

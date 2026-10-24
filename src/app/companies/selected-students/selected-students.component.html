@@ -5,7 +5,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Επιλεγμένοι Φοιτητές</h3>
+            <h3 class="card-title">{{'COMPANY.CHOSEN-STUDENTS' | translate}}</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body table-responsive">
@@ -16,13 +16,13 @@
               <!--datatable [dtOptions]="dtOptions">-->
               <thead>
                 <tr>
-                  <th>Θέσεις</th>
-                  <th>Όνοματεπώνυμο</th>
-                  <th>Τμήμα</th>
+                  <th>{{'COMPANY.POSITIONS-LABEL' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                  <th>{{'GENERIC.DEPARTMENT' | translate}}</th>
                   <th>email</th>
-                  <th>Σκορ</th>
-                  <th>Αποδοχή από Φοιτητή</th>
-                  <th>Ενέργειες</th>
+                  <th>{{'COMPANY.SCORE' | translate}}</th>
+                  <th>{{'COMPANY.ACCEPTANCE-BY-STUDENT' | translate}}</th>
+                  <th>{{'GENERIC.ACTIONS' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,39 +34,37 @@
                   <td>{{position.score}}</td>
                   <td>
                     <div *ngIf="position.approval_state == 0 || position.approval_state == null">
-                      <i class="fa fa-cog" aria-hidden="true"></i> <span title="Ο φοιτητής δεν σας έχει επιλέξει ακόμη">
-                        Αναμονή Αποδοχής</span>
+                      <i class="fa fa-cog" aria-hidden="true"></i> <span title="{{'COMPANY.STUDENT-NOT-CHOSEN-YET' | translate}}">
+                        {{'COMPANY.AWAITING-ACCEPTANCE' | translate}}</span>
                     </div>
                     <div *ngIf="position.approval_state == 1">
-                      <i class="fa fa-check" aria-hidden="true"></i> <span title="Ο φοιτητής σας αποδέχτηκε"> Ο
-                        φοιτητής σας αποδέχτηκε</span>
+                      <i class="fa fa-check" aria-hidden="true"></i> <span title="{{'COMPANY.STUDENT-ACCEPTED' | translate}}"> {{'COMPANY.STUDENT-ACCEPTED' | translate}}</span>
                     </div>
                     <div *ngIf="position.approval_state == -1">
-                      <i class="fa fa-times" aria-hidden="true"></i> <span title="Ο φοιτητής δεν σας αποδέχτηκε"> Ο
-                        φοιτητής δεν σας αποδέχτηκε</span>
+                      <i class="fa fa-times" aria-hidden="true"></i> <span title="{{'COMPANY.STUDENT-DID-NOT-ACCEPT' | translate}}"> {{'COMPANY.STUDENT-DID-NOT-ACCEPT' | translate}}</span>
                     </div>
                   </td>
                   <!-- <td>{{app.application_date}}</td> -->
                   <td>
                     <a class="text-secondary" style="cursor: pointer;" (click)="openDialog(position, position.title)"><i
                         class="fa fa-eye"></i>
-                      Προβολή<br></a>
+                      {{'GENERIC.VIEW' | translate}}<br></a>
                     <a class="text-secondary" style="cursor: pointer;" (click)="openEvaluationDialog(position, position.title, position.student_id,
                       position.position_id, (position.firstname + ' ' + position.lastname), idx2)"><i
                         class="fa fa-edit"></i>
-                      Αξιολόγηση Φοιτητή<br></a>
+                      {{'COMPANY.STUDENT-EVALUATION' | translate}}<br></a>
                   </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Θέσεις</th>
-                  <th>Όνοματεπώνυμο</th>
-                  <th>Τμήμα</th>
+                  <th>{{'COMPANY.POSITIONS-LABEL' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
+                  <th>{{'GENERIC.DEPARTMENT' | translate}}</th>
                   <th>email</th>
-                  <th>Σκορ</th>
-                  <th>Αποδοχή από Φοιτητή</th>
-                  <th>Ενέργειες</th>
+                  <th>{{'COMPANY.SCORE' | translate}}</th>
+                  <th>{{'COMPANY.ACCEPTANCE-BY-STUDENT' | translate}}</th>
+                  <th>{{'GENERIC.ACTIONS' | translate}}</th>
                 </tr>
               </tfoot>
             </table>

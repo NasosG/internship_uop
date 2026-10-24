@@ -1,5 +1,5 @@
 <div class="dialog-header">
-  <h3>Ημερομηνίες Εκτέλεσης ΠΑ</h3>
+  <h3>{{'DEPT-MANAGER.INTERNSHIP-DATES' | translate}}</h3>
   <div mat-icon-button class="close-button" (click)="onCancel()">
     <i class="fa fa-times"></i>
   </div>
@@ -18,7 +18,7 @@
       <!-- <mat-divider></mat-divider> -->
       <div class="form-group row">
         <div class="col-sm-6">
-          <label for="date_from" class="col-form-label">Ημ/νία Έναρξης Πρακτικής:</label>
+          <label for="date_from" class="col-form-label">{{'DEPT-MANAGER.INTERNSHIP-START-DATE' | translate}}</label>
           <div class="container row">
             <div class="pl-0 ml-0 input-group col-12">
               <input class="form-control" placeholder="dd/mm/yyyy" id="date_from" name="date_from" #c1="ngModel"
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="col-sm-6">
-          <label for="date_to" class="col-form-label">Ημ/νία Λήξης Πρακτικής:</label>
+          <label for="date_to" class="col-form-label">{{'DEPT-MANAGER.INTERNSHIP-END-DATE' | translate}}</label>
           <div class="container row">
             <div class="pl-0 ml-0 input-group col-12">
               <input class="form-control" placeholder="dd/mm/yyyy" id="date_to" name="date_to" #c2="ngModel"
@@ -47,7 +47,7 @@
       </div>
       <div class="form-group row">
         <div class="form-group">
-          <label for="commentsArea">Παρατηρήσεις (αν υπάρχουν)</label>
+          <label for="commentsArea">{{'DEPT-MANAGER.REMARKS' | translate}}</label>
           <textarea class="form-control" id="commentsArea" rows="8" [(ngModel)]="completionComments"></textarea>
         </div>
       </div>
@@ -59,7 +59,7 @@
   <div class="col-sm-6 submitButton">
     <button mat-button type="submit" (click)="submitPositionCompletion()" class="btn btn-primary mat-button"
       style=" margin: auto">
-      Ολοκλήρωση στο ΑΤΛΑΣ
+      {{'DEPT-MANAGER.COMPLETE-IN-ATLAS' | translate}}
     </button>
   </div>
 </mat-dialog-actions>

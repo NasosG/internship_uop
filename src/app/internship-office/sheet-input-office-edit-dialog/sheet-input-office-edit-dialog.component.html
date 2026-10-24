@@ -1,11 +1,11 @@
 <mat-dialog-content class="mat-typography">
   <form *ngIf="isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
-      Το δελτίο μπορεί να τροποποιηθεί.
+      {{'INTERNSHIP-OFFICE.SHEET-EDITABLE' | translate}}
     </div>
     <div id="entrySheetPreviewContent">
-      <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
-      <h4 class="text-dark"> Εργασία</h4>
+      <h3 class="text-danger pt-3">{{'SHEETS.A-EMPLOYMENT-STATUS' | translate}}</h3>
+      <h4 class="text-dark"> {{'INTERNSHIP-OFFICE.WORK' | translate}}</h4>
       <div *ngFor="let option of WorkOptionsMIS2127; let i = index" class="container-fluid row">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -14,7 +14,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -26,44 +26,19 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+      <h3 class="text-danger pt-3">{{'SHEETS.B-EDUCATION-STATUS' | translate}}</h3>
       <div class="container-fluid row" *ngFor="let option of educationOptionsMIS2127; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
             <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
           </label>
-          <p *ngIf="option.id=='B'" style=" padding:0px 0px 0px 40px;">Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε
-            κάποιο άλλο
-            πρόγραμμα
-            εκπαίδευσης
-            ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).
-            <br>Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές
-            όλων
-            των
-            εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά
-            και
-            Επαγγελματικά
-            Λύκεια,
-            σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε
-            αποφοίτους της
-            υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής
-            κατάρτισης,
-            συμμετέχοντες σε
-            προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική
-            εκπαίδευση
-            ενηλίκων,
-            επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά
-            ασκούμενους
-            Σχολών
-            που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας
-            εκπαίδευσης
-            πλήρους
-            φοίτησης<br>
+          <p *ngIf="option.id=='B'" style=" padding:0px 0px 0px 40px;">{{'SHEETS.EXPLANATION-1' | translate}}
+            <br>{{'SHEETS.EXPLANATION-2' | translate}}<br>
           </p>
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -75,7 +50,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h3 class="text-danger pt-3">C) Μορφωτικό επίπεδο κατά την είσοδο</h3>
+      <h3 class="text-danger pt-3">{{'SHEETS.C-EDUCATION-LEVEL' | translate}}</h3>
       <div class="container-fluid row" *ngFor="let option of educationalStandardOptions; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -84,7 +59,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -94,7 +69,7 @@
           </mat-form-field>
         </div>
       </div>
-      <h3 class="text-danger pt-3">D) ΔΗΜΟΓΡΑΦΙΚΑ ΣΤΟΙΧΕΙΑ</h3>
+      <h3 class="text-danger pt-3">{{'SHEETS.D-DEMOGRAPHICS' | translate}}</h3>
       <div *ngFor="let option of demographicsOptionsMIS2127" class="container-fluid row">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -103,7 +78,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -118,11 +93,11 @@
 
   <form *ngIf="!isMisNew()" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
-      Το δελτίο μπορεί να τροποποιηθεί.
+      {{'INTERNSHIP-OFFICE.SHEET-EDITABLE' | translate}}
     </div>
     <div id="entrySheetPreviewContent">
-      <h3 class="text-danger pt-3">Α) Καθεστώς Εργασίας</h3>
-      <h4 class="text-dark"> Α1) Ανεργία </h4>
+      <h3 class="text-danger pt-3">{{'SHEETS.A-EMPLOYMENT-STATUS' | translate}}</h3>
+      <h4 class="text-dark"> {{'SHEETS.A1-UNEMPLOYMENT' | translate}} </h4>
       <div *ngFor="let option of unemployedOption; let i = index" class="container-fluid row">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -137,7 +112,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α2) Ιδιωτικός Τομέας</h4>
+      <h4 class="text-dark">{{'SHEETS.A2-PRIVATE' | translate}}</h4>
       <div *ngFor="let option of privateSecOptions; let i = index" class="container-fluid row">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -146,7 +121,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -157,7 +132,7 @@
         </div>
       </div>
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α2.2) Απασχολούμενος στο Δημόσιο Τομέα</h4>
+      <h4 class="text-dark">{{'SHEETS.A2-2-PUBLIC' | translate}}</h4>
       <div class="container-fluid row" *ngFor="let option of publicSecOptions; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -166,7 +141,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -178,25 +153,20 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">A2.3) Αυτοαπασχολούμενος</h4>
+      <h4 class="text-dark">{{'SHEETS.A2-3-SELF-EMPLOYED' | translate}}</h4>
       <div class="container-fluid row">
         <div class="col-10 ">
           <label for="A2_3">
-            <span style="font-weight: 500;">A2.3)</span> Είμαι αυτοαπασχολούμενος
+            <span style="font-weight: 500;">A2.3)</span> {{'SHEETS.I-AM-SELF-EMPLOYED' | translate}}
           </label><br>
-          <p style="padding:0px 0px 0px 40px;">α) Όσοι έχουν δική τους επιχείρηση ανεξαρτήτως από το εάν έχουν ή δεν
-            έχουν
-            πωλήσεις, παρεχόμενες υπηρεσίες ή κέρδη(περιλαμβάνονται και οι ελεύθεροι επαγγελματίες που δεν ασκούν
-            δραστηριότητα
-            <br>β) άτομα που βρίσκονται σε φάση έναρξης επαγγέλματος (π.χ έχουν παραγγείλει ή αγοράσει εξοπλισμό) και
-            <br>γ) όσοι εργάζονται σε οικογενειακή επιχείρηση και αμείβονται ή όσοι εργάζονται σε οικογενειακή
-            επιχείρηση
-            και δεν αμείβονται αλλά ζουν μαζί στο ίδιο νοικοκυριό, δηλ συμβοηθούντα μέλη οικογενειακών επιχειρήσεων)<br>
+          <p style="padding:0px 0px 0px 40px;">{{'SHEETS.SELF-EMPLOYED-A' | translate}}
+            <br>{{'SHEETS.SELF-EMPLOYED-B' | translate}}
+            <br>{{'SHEETS.SELF-EMPLOYED-C' | translate}}<br>
           </p>
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0]['A2_3']" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue('A2_3', element)"
                 [value]="element">
@@ -208,7 +178,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α2.4) Άλλη σχέση εργασίας</h4>
+      <h4 class="text-dark">{{'SHEETS.A2-4-OTHER' | translate}}</h4>
       <div class="container-fluid row" *ngFor="let option of jobRelationOtherThanAbove; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -217,7 +187,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -229,7 +199,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h4 class="text-dark">Α3) Μη υπαγωγή στις παραπάνω κατηγορίες</h4>
+      <h4 class="text-dark">{{'SHEETS.A3-NONE' | translate}}</h4>
       <div class="container-fluid row" *ngFor="let option of specialJobOptions; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -238,7 +208,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -250,44 +220,19 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+      <h3 class="text-danger pt-3">{{'SHEETS.B-EDUCATION-STATUS' | translate}}</h3>
       <div class="container-fluid row" *ngFor="let option of educationOptions; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
             <span style="font-weight: 500;">{{option.subCategory}})&nbsp;</span>{{option.text}}
           </label>
-          <p *ngIf="option.id=='B'" style=" padding:0px 0px 0px 40px;">Επεξήγηση 1: Η ερώτηση αφορά τη συμμετοχή σας σε
-            κάποιο άλλο
-            πρόγραμμα
-            εκπαίδευσης
-            ή κατάρτισης ή δια βίου μάθησης τη χρονική στιγμή πριν την είσοδο σας σε αυτήν την πράξη του ΕΚΤ).
-            <br>Επεξήγηση 2: Η συμμετοχή σε πρόγραμμα κατάρτισης ή εκπαίδευσης ή δια βίου μάθησης εννοεί μαθητές
-            όλων
-            των
-            εκπαιδευτικών βαθμίδων, συμπεριλαμβανόμενων των συμμετεχόντων σε Σχολεία Δεύτερης ευκαιρίας, Γενικά
-            και
-            Επαγγελματικά
-            Λύκεια,
-            σπουδαστές σε Σχολές Επαγγελματικής Κατάρτισης που παρέχουν αρχική επαγγελματική κατάρτιση σε
-            αποφοίτους της
-            υποχρεωτικής τυπικής εκπαίδευσης, σπουδαστές και πρακτικά ασκούμενους σε Ινστιτούτα Επαγγελματικής
-            κατάρτισης,
-            συμμετέχοντες σε
-            προγράμματα Κέντρων Δια Βίου Μάθησης που παρέχουν συνεχιζόμενη επαγγελματική κατάρτιση, γενική
-            εκπαίδευση
-            ενηλίκων,
-            επαγγελματικό προσανατολισμό και δια βίου συμβουλευτική, σπουδαστές Κολλεγίων, σπουδαστές και πρακτικά
-            ασκούμενους
-            Σχολών
-            που εποπτεύονται από τα Υπουργεία Πολιτισμού, Ναυτιλίας, Τουρισμού κλπ, φοιτητές τριτοβάθμιας
-            εκπαίδευσης
-            πλήρους
-            φοίτησης<br>
+          <p *ngIf="option.id=='B'" style=" padding:0px 0px 0px 40px;">{{'SHEETS.EXPLANATION-1' | translate}}
+            <br>{{'SHEETS.EXPLANATION-2' | translate}}<br>
           </p>
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -299,7 +244,7 @@
       </div>
 
       <mat-divider class="mt-2 mb-2"></mat-divider>
-      <h3 class="text-danger pt-3">C) Μορφωτικό επίπεδο κατά την είσοδο</h3>
+      <h3 class="text-danger pt-3">{{'SHEETS.C-EDUCATION-LEVEL' | translate}}</h3>
       <div class="container-fluid row" *ngFor="let option of educationalStandardOptions; let i = index">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -308,7 +253,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -318,7 +263,7 @@
           </mat-form-field>
         </div>
       </div>
-      <h3 class="text-danger pt-3">D) ΔΗΜΟΓΡΑΦΙΚΑ ΣΤΟΙΧΕΙΑ</h3>
+      <h3 class="text-danger pt-3">{{'SHEETS.D-DEMOGRAPHICS' | translate}}</h3>
       <div *ngFor="let option of demographicsOptions" class="container-fluid row">
         <div class="col-10">
           <label for="{{option.id}}">
@@ -327,7 +272,7 @@
         </div>
         <div class="col-2 text-right">
           <mat-form-field appearance="fill">
-            <mat-label>Επιλέξτε</mat-label>
+            <mat-label>{{'GENERIC.CHOOSE' | translate}}</mat-label>
             <mat-select [(value)]="entryForms[0][option.id]" required>
               <mat-option *ngFor="let element of yesNoOptions" (click)="submitFieldValue(option.id, element)"
                 [value]="element">
@@ -342,6 +287,6 @@
 </mat-dialog-content>
 <mat-dialog-actions style='text-align: right'>
   <button mat-button class="back-btn" (click)="onCancel()" class="btn btn-secondary mr-2">
-    Κλείσιμο</button>
+    {{'GENERIC.CLOSE' | translate}}</button>
   <!-- <button class="print-btn" (click)="printInputSheet()" class="btn btn-primary">Εκτύπωση</button> -->
 </mat-dialog-actions>

@@ -1,18 +1,17 @@
 <div class="container-fluid mt-5" style="max-width:90%;margin:auto;">
-  <h2 *ngIf="this.studentApplications[0]!=null" class="position-h2">Οι αιτήσεις μου
+  <h2 *ngIf="this.studentApplications[0]!=null" class="position-h2">{{'STUDENT.SIDEBAR-APPLICATIONS' | translate}}
   </h2>
   <div *ngIf="this.studentApplications[0]!=null">
-    <div class="alert alert-danger p-2 mt-2 " role="alert">Αν θέλετε να δημιουργήσετε εκ νέου αίτηση διαγράψτε τη παλιά
-      και επαναλάβετε τη διαδικασία από την αρχή</div>
+    <div class="alert alert-danger p-2 mt-2 " role="alert">{{'STUDENT.RECREATE-APPLICATION-INFO' | translate}}</div>
     <!-- Applications Table -->
     <table class="manage-table submissions responsive-table dark-div mt-3">
       <tr>
-        <th>Αρ. Πρωτοκόλλου</th>
-        <th>Ημερομηνία Αίτησης Θέσης</th>
-        <th>Κατάσταση</th>
+        <th>{{'STUDENT.PROTOCOL-NUMBER' | translate}}</th>
+        <th>{{'STUDENT.POSITION-APPLICATION-DATE' | translate}}</th>
+        <th>{{'STUDENT.APPLICATION-STATUS' | translate}}</th>
         <!-- <th> Θέση</th> -->
         <!-- <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th> -->
-        <th>Ενέργειες</th>
+        <th>{{'GENERIC.ACTIONS' | translate}}</th>
       </tr>
       <tr *ngFor="let application of studentApplications; let appIndex=index" [attr.data-index]="appIndex" class="dark-div
         submissions-div">
@@ -26,10 +25,10 @@
         <td class="action">
           <!-- <a href="#"><i class="fa fa-pencil-alt"></i> Επεξεργασία</a> -->
           <a class="cursor-pointer" (click)="printApplicationSheet(appIndex)"><i class="fa fa-eye"></i>
-            Προβολή</a>
+            {{'GENERIC.VIEW' | translate}}</a>
           <a *ngIf="application.application_status && canStudentDeleteApplication"
             (click)="deleteApplication(application.id)" class="delete"><i class="fa fa-trash-alt"></i>
-            Διαγραφή</a>
+            {{'GENERIC.DELETE' | translate}}</a>
           <!-- <a *ngIf="application.application_status && period.phase_state >= 4"><i class="fa fa-check"></i>
             Αποτελέσματα</a> -->
         </td>
@@ -38,13 +37,12 @@
   </div>
   <div class="alert alert-danger p-2" role="alert"
     *ngIf="this.studentApplications[0]==null && this.studentPositions[0]==null">
-    Δεν υπάρχουν καταχωρημένες αιτήσεις. Πηγαίνετε στις «Θέσεις Πρακτικής» για να προσθέσετε θέσεις.
+    {{'STUDENT.NO-APPLICATIONS' | translate}}
   </div>
   <div *ngIf="this.studentPositions[0]!=null && getActiveStatus()">
-    <h2 class="mt-4 mb-2 position-h2">Οι θέσεις μου</h2>
+    <h2 class="mt-4 mb-2 position-h2">{{'STUDENT.MY-POSITIONS' | translate}}</h2>
     <div class="alert alert-danger p-2 pl-3 mb-2" role="alert">
-      Επιλέξτε τις θέσεις στις οποίες έχετε κάνει αίτηση κατά σειρά προτίμησης και έπειτα οριστικοποιήστε την αίτησή
-      σας.
+      {{'STUDENT.RANK-POSITIONS-INFO' | translate}}
     </div>
 
     <ng-container *ngIf="isLoading">
@@ -53,17 +51,17 @@
         <mat-spinner></mat-spinner>
       </div>
       <br>
-      <h2>Περιμένετε να δημιουργηθεί η αίτησή σας</h2>
+      <h2>{{'STUDENT.WAIT-APPLICATION-CREATED' | translate}}</h2>
     </ng-container>
     <!-- Positions Table -->
     <table id="positionsTable" class="manage-table resumes responsive-table dark-div mt-3" *ngIf="!isLoading">
       <tr>
-        <th><i class="fas fa-sort"></i> Προτεραιότητα</th>
-        <th><i class="fa fa-building"></i> Εταιρεία</th>
-        <th><i class="fa fa-file"></i> Τίτλος</th>
-        <th><i class="fa fa-map-marker"></i> Τοποθεσία</th>
-        <th><i class="fa fa-calendar"></i> Ημερομηνία Δημοσίευσης</th>
-        <th><i class="fa fa-lightbulb"></i>Ενέργειες</th>
+        <th><i class="fas fa-sort"></i> {{'STUDENT.PRIORITY' | translate}}</th>
+        <th><i class="fa fa-building"></i> {{'COMPANY.COMPANY' | translate}}</th>
+        <th><i class="fa fa-file"></i> {{'STUDENT.TITLE' | translate}}</th>
+        <th><i class="fa fa-map-marker"></i> {{'GENERIC.LOCATION' | translate}}</th>
+        <th><i class="fa fa-calendar"></i> {{'GENERIC.PUBLICATION-DATE' | translate}}</th>
+        <th><i class="fa fa-lightbulb"></i>{{'GENERIC.ACTIONS' | translate}}</th>
       </tr>
       <tr id="{{'row' + position.priority}}" *ngFor="let position of studentPositions" class="dark-div">
         <td class="title">
@@ -77,13 +75,12 @@
         <td>{{position.place}}</td>
         <td>{{position.upload_date}}</td>
         <td class="action">
-          <a (click)="deletePosition(position.priority)" class="delete"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
+          <a (click)="deletePosition(position.priority)" class="delete"><i class="fa fa-trash-alt"></i> {{'GENERIC.DELETE' | translate}}</a>
         </td>
       </tr>
     </table>
     <br>
-    <a (click)="tempPositionsSave()" class="button btn-primary">Προσωρινη Αποθηκευση Αιτησης</a>
-    <a (click)="submitAlert()" class="ml-2 button btn-primary">Οριστικοποιηση
-      Αιτησης</a>
+    <a (click)="tempPositionsSave()" class="button btn-primary">{{'STUDENT.SAVE-APPLICATION-DRAFT' | translate}}</a>
+    <a (click)="submitAlert()" class="ml-2 button btn-primary">{{'STUDENT.FINALIZE-APPLICATION' | translate}}</a>
   </div>
 </div>

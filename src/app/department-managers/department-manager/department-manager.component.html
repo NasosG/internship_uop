@@ -20,7 +20,7 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a [routerLink]="['/department-manager/' + this.authService.getSessionId()]" class="nav-link">
-          <i style="font-size:1.2em;" class="fa fa-home"></i> Αρχική</a>
+          <i style="font-size:1.2em;" class="fa fa-home"></i> {{'HOME-PAGE-BTN' | translate}}</a>
       </li>
     </ul>
 
@@ -53,7 +53,7 @@
         <a class="nav-link btn btn-primary"
           [routerLink]="['/department-manager/choose-dept/' + this.authService.getSessionId()]" style="color:white;"
           role="button">
-          <i class="fa fa-building"></i> Επιλογή Τμήματος
+          <i class="fa fa-building"></i> {{'GENERIC.SELECT-DEPARTMENT' | translate}}
         </a>
       </li>
 
@@ -98,7 +98,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="cursor-pointer dropdown-item">
-              <i class="fas fa-sign-out-alt"></i>&nbsp; Αποσύνδεση</a>
+              <i class="fas fa-sign-out-alt"></i>&nbsp; {{'STUDENT.LOGOUT' | translate}}</a>
           </div>
         </li>
       </ul>
@@ -106,7 +106,7 @@
       <div class="dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <i class="fas fa-lg fa-globe"></i>
-          Γλώσσα
+          {{'LANGUAGE-BTN' | translate}}
         </a>
 
         <ul class="dropdown-menu">
@@ -145,7 +145,7 @@
     <a href="{{'./department-manager/' + this.authService.getSessionId()}}" class=" brand-link">
       <img src="assets/images/uoplogo2.png" alt="UOP Logo" class="brand-image img-circle elevation-3"
         style="opacity: 1" />
-      <span class="brand-text font-weight-light">Πρακτική Άσκηση</span>
+      <span class="brand-text font-weight-light">{{'BRAND-SPAN' | translate}}</span>
     </a>
 
     <!-- Sidebar -->
@@ -157,7 +157,7 @@
         </div>
         <div class="info">
           <!-- <a routerLink="/student/profile" class="d-block">Το προφίλ μου</a> -->
-          <a class="d-block">Τμηματικός/η Υπεύθυνος/η</a>
+          <a class="d-block">{{'DEPT-MANAGER.COORDINATOR' | translate}}</a>
         </div>
       </div>
       <!-- Sidebar user panel (optional) -->
@@ -176,13 +176,13 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-header">Βασικές Επιλογές</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-MAIN-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/add-period/' + this.authService.getSessionId()]"
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-calendar"></i>
               <p>
-                Διαχείριση περιόδου
+                {{'DEPT-MANAGER.PERIOD-MANAGEMENT' | translate}}
               </p>
             </a>
           </li>
@@ -192,7 +192,7 @@
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Αιτήσεις Φοιτητών
+                {{'COMPANY.STUDENT-APPLICATIONS' | translate}}
               </p>
             </a>
           </li>
@@ -201,7 +201,7 @@
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Αιτήσεις Φοιτητών
+                {{'COMPANY.STUDENT-APPLICATIONS' | translate}}
               </p>
             </a>
           </li>
@@ -211,7 +211,7 @@
               class="nav-link">
               <i class="nav-icon fa fa-check" aria-hidden="true"></i>
               <p>
-                Έγκυροι Φοιτητές
+                {{'DEPT-MANAGER.ELIGIBLE-STUDENTS' | translate}}
               </p>
             </a>
           </li>
@@ -221,7 +221,7 @@
               true" class="nav-link">
               <i class="nav-icon fas fa-graduation-cap"></i>
               <p>
-                Επιλογές Φοιτητών
+                {{'DEPT-MANAGER.STUDENT-CHOICES' | translate}}
               </p>
             </a>
           </li>
@@ -230,7 +230,7 @@
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-envelope"></i>
               <p>
-                Δελτία - Συμβάσεις
+                {{'DEPT-MANAGER.SHEETS-CONTRACTS' | translate}}
               </p>
             </a>
           </li>
@@ -239,7 +239,7 @@
               [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fas fa-globe"></i>
               <p>
-                Θέσεις ΑΤΛΑ
+                {{'GENERIC.ATLAS-POSITIONS' | translate}}
               </p>
             </a>
           </li>
@@ -251,18 +251,18 @@
               </p>
             </a>
           </li> -->
-          <li class="nav-header">Δευτερεύουσες Επιλογές</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-SECONDARY-OPTIONS' | translate}}</li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/manuals']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-video"></i>
-              <p>Εγχειρίδια</p>
+              <p>{{'STUDENT.SIDEBAR-MANUALS' | translate}}</p>
             </a>
           </li>
           <li class="nav-item">
             <a [routerLink]="['/department-manager/about']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>
-                Σχετικά
+                {{'STUDENT.SIDEBAR-ABOUT' | translate}}
               </p>
             </a>
           </li>
@@ -270,16 +270,16 @@
             <a [routerLink]="['/department-manager/contact']" [routerLinkActive]="['active']" class="nav-link">
               <i class="nav-icon fa fa-phone"></i>
               <p>
-                Επικοινωνία
+                {{'GENERIC.CONTACT' | translate}}
               </p>
             </a>
           </li>
-          <li class="nav-header">Προσβασιμότητα</li>
+          <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
             <a class="nav-link cursor-pointer">
               <i class="nav-icon fas fa-ruler"></i>
               <p>
-                Μέγεθος Κειμένου
+                {{'STUDENT.TEXT-SIZE' | translate}}
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>

@@ -1,8 +1,7 @@
 <mat-dialog-content class="mat-typography">
   <form ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal">
     <div class="alert alert-danger mt-3 mb-2" role="alert">
-      Εδώ μπορείτε να δείτε τις απαντήσεις του φοιτητή και να επεξεργαστείτε τις περισσότερες από αυτές.
-      Σημειώνεται ότι η επεξεργασία απαντήσεων δεν είναι η προτεινόμενη πρακτική, εκτός ειδικών περιπτώσεων.
+      {{'GENERIC.QUESTIONNAIRE-EDIT-INFO' | translate}}
     </div>
     <div id="exitSheetPreviewContent">
       <form ngNativeValidate #studentEvaluationForm="ngForm" class="form-horizontal" (ngSubmit)="onSubmitStudentEvaluationSheet(studentEvaluationForm.value)">
@@ -11,11 +10,11 @@
           <!-- Display titles before questions -->
           <ng-container>
             <!-- Depending on prefix of question_name, show specific title -->
-            <h4 *ngIf="showSectionTitle(i, 'A')" class="text-danger mt-2 mb-3">A - Ερωτήσεις σχετικές με το υπόβαθρο</h4>
-            <h4 *ngIf="showSectionTitle(i, 'B')" class="text-danger mt-2 mb-3">B - Ερωτήσεις σχετικές με το φορέα</h4>
-            <h4 *ngIf="showSectionTitle(i, 'C')" class="text-danger mt-2 mb-3">C - Ερωτήσεις σχετικές με την Π.Α.</h4>
-            <h4 *ngIf="showSectionTitle(i, 'D')" class="text-danger mt-2 mb-3">D - Βαθμός Ικανοποίησης από την Π.Α.</h4>
-            <h4 *ngIf="showSectionTitle(i, 'E')" class="text-danger mt-2 mb-3">E - Οι προτάσεις μου</h4>
+            <h4 *ngIf="showSectionTitle(i, 'A')" class="text-danger mt-2 mb-3">{{'SHEETS.EVAL-SECTION-A' | translate}}</h4>
+            <h4 *ngIf="showSectionTitle(i, 'B')" class="text-danger mt-2 mb-3">{{'SHEETS.EVAL-SECTION-B' | translate}}</h4>
+            <h4 *ngIf="showSectionTitle(i, 'C')" class="text-danger mt-2 mb-3">{{'SHEETS.EVAL-SECTION-C' | translate}}</h4>
+            <h4 *ngIf="showSectionTitle(i, 'D')" class="text-danger mt-2 mb-3">{{'SHEETS.EVAL-SECTION-D' | translate}}</h4>
+            <h4 *ngIf="showSectionTitle(i, 'E')" class="text-danger mt-2 mb-3">{{'SHEETS.EVAL-SECTION-E' | translate}}</h4>
           </ng-container>
 
           <div class="col-12">
@@ -31,11 +30,11 @@
             <mat-radio-group [(ngModel)]="answersMap[question.question_name]" [name]="question.question_name" [id]="question.question_name" required class="d-flex flex-wrap justify-content-start">
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="0" class="mr-1"></mat-radio-button>
-                <span><strong>1.</strong> Διαφωνώ</span>
+                <span><strong>1.</strong> {{'SHEETS.DISAGREE' | translate}}</span>
               </div>
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="1" class="mr-1"></mat-radio-button>
-                <span><strong>2.</strong> Συμφωνώ</span>
+                <span><strong>2.</strong> {{'SHEETS.AGREE' | translate}}</span>
               </div>
             </mat-radio-group>
           </div>
@@ -46,23 +45,23 @@
             <mat-radio-group [(ngModel)]="answersMap[question.question_name]" [name]="question.question_name" [id]="question.question_name" required class="d-flex flex-wrap justify-content-start">
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="1" class="mr-1"></mat-radio-button>
-                <span><strong>1.</strong> Διαφωνώ απόλυτα</span>
+                <span><strong>1.</strong> {{'SHEETS.STRONGLY-DISAGREE' | translate}}</span>
               </div>
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="2" class="mr-1"></mat-radio-button>
-                <span><strong>2.</strong> Διαφωνώ</span>
+                <span><strong>2.</strong> {{'SHEETS.DISAGREE' | translate}}</span>
               </div>
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="3" class="mr-1"></mat-radio-button>
-                <span><strong>3.</strong> Ούτε διαφωνώ ούτε συμφωνώ</span>
+                <span><strong>3.</strong> {{'SHEETS.NEUTRAL' | translate}}</span>
               </div>
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="4" class="mr-1"></mat-radio-button>
-                <span><strong>4.</strong> Συμφωνώ</span>
+                <span><strong>4.</strong> {{'SHEETS.AGREE' | translate}}</span>
               </div>
               <div class="d-flex align-items-center mr-4 mb-2">
                 <mat-radio-button [value]="5" class="mr-1"></mat-radio-button>
-                <span><strong>5.</strong> Συμφωνώ απόλυτα</span>
+                <span><strong>5.</strong> {{'SHEETS.STRONGLY-AGREE' | translate}}</span>
               </div>
             </mat-radio-group>
           </div>
@@ -70,8 +69,8 @@
           <!-- Textarea (normal TEXT question) -->
           <div *ngIf="question.question_type === 'TEXT' && !(question.question_name.startsWith('B1') || question.question_name.startsWith('C2'))" class="col-12">
             <mat-form-field class="w-100" appearance="fill">
-              <mat-label>Γράψτε εδώ</mat-label>
-              <textarea matInput [(ngModel)]="answersMap[question.question_name]" [name]="question.question_name" [id]="question.question_name" placeholder="Αποτυπώστε την απάντησή σας" required></textarea>
+              <mat-label>{{'GENERIC.WRITE-HERE' | translate}}</mat-label>
+              <textarea matInput [(ngModel)]="answersMap[question.question_name]" [name]="question.question_name" [id]="question.question_name" placeholder="{{'SHEETS.YOUR-ANSWER' | translate}}" required></textarea>
             </mat-form-field>
           </div>
 
@@ -79,7 +78,7 @@
           <div *ngIf="question.question_type === 'TEXT' && (question.question_name.startsWith('B1') || question.question_name.startsWith('C2'))" class="col-12">
             <label>{{ extractTextBeforeList(question.question_text)}}</label>
             <div class="alert alert-info mt-2 mb-2">
-              Σε αυτή την ερώτηση δεν μπορεί να αλλάξει η απάντηση του φοιτητή.
+              {{'GENERIC.ANSWER-NOT-EDITABLE' | translate}}
             </div>
             <ul class="list-unstyled mt-2">
               <li *ngFor="let option  of extractListItems(question.question_text)">
@@ -93,7 +92,7 @@
         </div>
         <br>
 
-        <button class="btn btn-primary">Αποθήκευση</button>
+        <button class="btn btn-primary">{{'GENERIC.SAVE' | translate}}</button>
       </form>
     </div>
   </form>

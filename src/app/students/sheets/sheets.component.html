@@ -1,40 +1,37 @@
 <div class="container-fluid mt-2 sheets-container">
   <div class="sheets-div">
-    <h2 *ngIf="true">ΕΓΓΡΑΦΑ ΓΙΑ ΣΥΜΒΑΣΗ</h2>
-    <h5 *ngIf="true" class="mb-4">Θα χρειαστεί να ανεβάσετε κάποια έγγραφα όπως το ΑΜΑ πριν την υπογραφή της σύμβασης
-      εργασίας.
+    <h2 *ngIf="true">{{'STUDENT.CONTRACT-DOCUMENTS-CAPS' | translate}}</h2>
+    <h5 *ngIf="true" class="mb-4">{{'STUDENT.CONTRACT-DOCS-INFO' | translate}}
     </h5>
     <!-- Option 1: Internship Contract -->
     <button *ngIf="true" [routerLink]="['../contract-files/'+ this.authService.getSessionId()]"
       class="btn btn-primary mb-4">
-      Ανεβασμα εγγραφων απαραιτητα για τη Συμβαση Εργασιας</button>
-    <h2>ΣΥΜΒΑΣΗ</h2>
-    <h5 class="mb-4">Απαραίτητη προϋπόθεση για την έναρξη της πρακτικής άσκησης είναι η υπογραφή της σύμβασης εργασίας.
+      {{'STUDENT.UPLOAD-CONTRACT-DOCS-BTN' | translate}}</button>
+    <h2>{{'STUDENT.CONTRACT-CAPS' | translate}}</h2>
+    <h5 class="mb-4">{{'STUDENT.CONTRACT-PREREQUISITE' | translate}}
     </h5>
     <!-- Option 1: Internship Contract -->
-    <button [routerLink]="['../student-contract']" class="btn btn-primary mb-4"> Συμβαση Εργασιας</button>
+    <button [routerLink]="['../student-contract']" class="btn btn-primary mb-4"> {{'STUDENT.EMPLOYMENT-CONTRACT-BTN' | translate}}</button>
     <!-- Option 2: Entry/Input Sheet -->
-    <h2>ΔΕΛΤΙΟ ΕΙΣΟΔΟΥ</h2>
+    <h2>{{'SHEETS.ENTRY-SHEET-CAPS' | translate}}</h2>
     <h5 class="mb-4">
       <!-- Μετά τη συμπλήρωση του δελτίου, στη σελίδα: «ΠΡΟΒΟΛΗ», μπορεί να εκτυπωθεί ένα αρχείο PDF το
       οποίο πρέπει κάθε φοιτητής να τυπώσει, υπογράψει και παραδώσει στον τμηματικό υπεύθυνο.  -->
-      Το δελτίο εισόδου θα πρέπει να περιέχει πληροφορίες που αφορούν την κατάσταση του φοιτητή πριν ξεκινήσει την
-      πρακτική.</h5>
+      {{'STUDENT.ENTRY-SHEET-INFO' | translate}}</h5>
     <button [class.disabled]="areEntrySheetsDisabled ? true : null"
       [routerLink]="['./input-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
-      Συμπληρωστε το Δελτιο Εισοδου</button>
+      {{'STUDENT.FILL-ENTRY-SHEET' | translate}}</button>
     <!-- Option 3: Exit/Output Sheet -->
-    <h2>ΔΕΛΤΙΟ ΕΞΟΔΟΥ</h2>
-    <h5 class="mb-4">Αν έχετε ολοκληρώσει την πρακτική άσκηση, συμπληρώστε το δελτίο εξόδου με βάση την κατάσταση που
-      ίσχυε για εσάς αμέσως μετά την ολοκληρωση της πρακτικής άσκησης.</h5>
+    <h2>{{'SHEETS.EXIT-SHEET-CAPS' | translate}}</h2>
+    <h5 class="mb-4">{{'STUDENT.EXIT-SHEET-INFO' | translate}}</h5>
     <button [class.disabled]="areExitSheetsDisabled ? true : null"
       [routerLink]="['./output-sheet/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
-      Συμπληρωστε το Δελτιο Εξοδου</button>
+      {{'STUDENT.FILL-EXIT-SHEET' | translate}}</button>
     <!-- Option 4: Evaluation Form -->
-    <h2>ΕΡΩΤΗΜΑΤΟΛΟΓΙΟ ΦΟΙΤΗΤΗ</h2>
-    <h5 class="mb-4">Η συμπλήρωση του παρακάτω ερωτηματολογίου μετά το πέρας της Πρακτικής Άσκησης είναι υποχρεωτική.</h5>
+    <h2>{{'SHEETS.STUDENT-QUESTIONNAIRE' | translate}}</h2>
+    <h5 class="mb-4">{{'STUDENT.QUESTIONNAIRE-INFO' | translate}}</h5>
     <button [class.disabled]="areExitSheetsDisabled ? true : null"
       [routerLink]="['./evaluation-form/' + this.authService.getSessionId()]" class="btn btn-primary mb-4">
-      Συμπληρωστε το Ερωτηματολογιο</button>
+      {{'STUDENT.FILL-QUESTIONNAIRE' | translate}}</button>
   </div>
 </div>

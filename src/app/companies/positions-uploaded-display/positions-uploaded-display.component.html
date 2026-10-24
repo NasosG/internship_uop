@@ -5,15 +5,14 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Αναρτημένες θέσεις</h3>
+            <h3 class="card-title">{{'COMPANY.POSTED-POSITIONS' | translate}}</h3>
           </div>
 
 
           <!-- /.card-header -->
           <div class="card-body table-responsive">
             <button style="border-radius:4px;" class="mb-0 p-2 mt-2 btn-primary"
-              [routerLink]="[this.authService.getSessionId() + '/upload']"><i class="fas fa-plus mr-1"></i> Δημιουργία
-              θέσης
+              [routerLink]="[this.authService.getSessionId() + '/upload']"><i class="fas fa-plus mr-1"></i> {{'COMPANY.CREATE-POSITION' | translate}}
             </button>
             <!-- <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
                 style='font-size:24px'></i> Excel</button> -->
@@ -25,10 +24,10 @@
               <!--datatable [dtOptions]="dtOptions">-->
               <thead>
                 <tr>
-                  <th>Α.Α</th>
-                  <th>Τίτλος Θέσης</th>
-                  <th>Ημ/νία Δημοσίευσης</th>
-                  <th>Ενέργειες</th>
+                  <th>{{'COMPANY.SERIAL-NO' | translate}}</th>
+                  <th>{{'GENERIC.POSITION-TITLE' | translate}}</th>
+                  <th>{{'GENERIC.PUBLICATION-DATE-SHORT' | translate}}</th>
+                  <th>{{'GENERIC.ACTIONS' | translate}}</th>
                 </tr>
               </thead>
               <tbody *ngFor="let position of positions ; let idx=index" [attr.data-index]="idx">
@@ -38,15 +37,15 @@
                 <td>
                   <a (click)="openDialog(position)" class="text-secondary" style="cursor: pointer;"><i
                       class="fa fa-eye"></i>
-                    Προβολή<br></a>
+                    {{'GENERIC.VIEW' | translate}}<br></a>
                 </td>
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Α.Α</th>
-                  <th>Τίτλος Θέσης</th>
-                  <th>Ημ/νία Δημοσίευσης</th>
-                  <th>Ενέργειες</th>
+                  <th>{{'COMPANY.SERIAL-NO' | translate}}</th>
+                  <th>{{'GENERIC.POSITION-TITLE' | translate}}</th>
+                  <th>{{'GENERIC.PUBLICATION-DATE-SHORT' | translate}}</th>
+                  <th>{{'GENERIC.ACTIONS' | translate}}</th>
                 </tr>
               </tfoot>
             </table>

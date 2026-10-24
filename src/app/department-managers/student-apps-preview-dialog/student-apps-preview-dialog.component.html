@@ -1,40 +1,40 @@
- <h3>Στοιχεία φοιτητή</h3>
+ <h3>{{'DEPT-MANAGER.STUDENT-DETAILS' | translate}}</h3>
  <mat-dialog-content class="mat-typography">
    <br>
-   <p><span>Ονοματεπώνυμο</span>: {{ this.data.studentsData[this.data.index].givenname}}
+   <p><span>{{'GENERIC.FULL-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].givenname}}
      {{ this.data.studentsData[this.data.index].sn}}
    </p>
-   <p><span>Εξάμηνο</span>: {{ this.data.studentsData[this.data.index].Semester}}</p>
+   <p><span>{{'GENERIC.SEMESTER' | translate}}</span>: {{ this.data.studentsData[this.data.index].Semester}}</p>
    <p><span>ECTS</span>: {{ this.data.studentsData[this.data.index].Ects}}</p>
-   <p><span>Βαθμολογία</span>: {{ this.data.studentsData[this.data.index].Grade}}</p>
-   <p><span>Σύνολο Περασμένων Μαθημάτων</span>: {{this.data.studentsData[this.data.index].CourseCount}}</p>
-   <p><span>Πατρώνυμο</span>: {{ this.data.studentsData[this.data.index].father_name}}</p>
-   <p><span>Μητρώνυμο</span>: {{ this.data.studentsData[this.data.index].mother_name}}</p>
-   <p><span>Επώνυμο πατέρα</span>: {{ this.data.studentsData[this.data.index].father_last_name}}</p>
-   <p><span>Επώνυμο μητέρας</span>: {{ this.data.studentsData[this.data.index].mother_last_name}}</p>
-   <p><span>Ημ/νια Γέννησης</span>: {{this.dateOfBirth}}</p>
-   <p><span>ΑΜ</span>: {{ this.data.studentsData[this.data.index].schacpersonaluniquecode}}</p>
+   <p><span>{{'GENERIC.SCORE' | translate}}</span>: {{ this.data.studentsData[this.data.index].Grade}}</p>
+   <p><span>{{'DEPT-MANAGER.PASSED-COURSES' | translate}}</span>: {{this.data.studentsData[this.data.index].CourseCount}}</p>
+   <p><span>{{'GENERIC.FATHERS-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].father_name}}</p>
+   <p><span>{{'GENERIC.MOTHERS-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].mother_name}}</p>
+   <p><span>{{'DEPT-MANAGER.FATHER-LAST-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].father_last_name}}</p>
+   <p><span>{{'DEPT-MANAGER.MOTHER-LAST-NAME' | translate}}</span>: {{ this.data.studentsData[this.data.index].mother_last_name}}</p>
+   <p><span>{{'DEPT-MANAGER.BIRTH-DATE' | translate}}</span>: {{this.dateOfBirth}}</p>
+   <p><span>{{'GENERIC.REG-NUMBER' | translate}}</span>: {{ this.data.studentsData[this.data.index].schacpersonaluniquecode}}</p>
    <!-- we don't check if the value is empty -->
-   <p><span>Φύλο</span>: {{ this.data.studentsData[this.data.index].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα'}}</p>
+   <p><span>{{'GENERIC.GENDER' | translate}}</span>: {{ this.data.studentsData[this.data.index].schacgender == 1 ? 'Άνδρας' : 'Γυναίκα'}}</p>
    <p><span>email</span>: {{ this.data.studentsData[this.data.index]?.mail}}</p>
-   <p><span>Τηλέφωνο</span>: {{ this.data.studentsData[this.data.index].phone}}</p>
-   <p><span>Πόλη</span>: {{ this.data.studentsData[this.data.index].city}}</p>
-   <p><span>ΤΚ</span>: {{ this.data.studentsData[this.data.index].post_address}}</p>
-   <p><span>Διεύθυνση</span>: {{ this.data.studentsData[this.data.index].address}}</p>
-   <p><span>Τοποθεσία</span>: {{ this.data.studentsData[this.data.index].location}}</p>
-   <p><span>ΑΦΜ</span>: {{ this.data.studentsData[this.data.index].ssn}}</p>
+   <p><span>{{'HOME.COMPANY-PHONE' | translate}}</span>: {{ this.data.studentsData[this.data.index].phone}}</p>
+   <p><span>{{'GENERIC.CITY' | translate}}</span>: {{ this.data.studentsData[this.data.index].city}}</p>
+   <p><span>{{'DEPT-MANAGER.POSTAL-CODE' | translate}}</span>: {{ this.data.studentsData[this.data.index].post_address}}</p>
+   <p><span>{{'DEPT-MANAGER.ADDRESS' | translate}}</span>: {{ this.data.studentsData[this.data.index].address}}</p>
+   <p><span>{{'GENERIC.LOCATION' | translate}}</span>: {{ this.data.studentsData[this.data.index].location}}</p>
+   <p><span>{{'HOME.TAX-NUMBER' | translate}}</span>: {{ this.data.studentsData[this.data.index].ssn}}</p>
    <p><span>AMKA</span>: {{ this.data.studentsData[this.data.index].user_ssn}}</p>
-   <p><span>ΔΟΥ</span>: {{ this.data.studentsData[this.data.index].doy}}</p>
-   <p><span>ΤΡΑΠΕΖΑ</span>: {{bank}}</p>
+   <p><span>{{'GENERIC.DOY' | translate}}</span>: {{ this.data.studentsData[this.data.index].doy}}</p>
+   <p><span>{{'DEPT-MANAGER.BANK' | translate}}</span>: {{bank}}</p>
    <p><span>IBAN</span>: {{ this.data.studentsData[this.data.index].iban}}</p>
    <!-- <p><span>Εμπειρία</span>: {{ this.data.studentsData[this.data.index].experience}}</p>
     <p><span>Γλώσσες</span>: {{ this.data.studentsData[this.data.index].languages}}</p> -->
    <!--we dont check if the value is empty-->
-   <p><span>Υπηρετώ στο στρατό</span>:
+   <p><span>{{'DEPT-MANAGER.MILITARY-SERVICE' | translate}}</span>:
      {{ this.data.studentsData[this.data.index].military_training == true ? 'ΝΑΙ' : 'OXI'}}</p>
-   <p><span>AMEA κατηγορίας 5</span>:
+   <p><span>{{'DEPT-MANAGER.DISABILITY-CAT5' | translate}}</span>:
      {{ this.data.studentsData[this.data.index].amea_cat == true ? 'ΝΑΙ' : 'OXI'}}</p>
-   <p><span>Σύμβαση εργασίας</span>:
+   <p><span>{{'DEPT-MANAGER.EMPLOYMENT-CONTRACT' | translate}}</span>:
      {{ this.data.studentsData[this.data.index].working_state == true ? 'ΝΑΙ' : 'OXI'}}</p>
    <!-- <p><span>Έτος γέννησης</span>: {{ this.data.studentsData[this.data.index].schacyearofbirth}}</p> -->
    <!-- <p><span>Εκπαίδευση</span>: {{ this.data.studentsData[this.data.index].education}}</p> -->
@@ -46,5 +46,5 @@
    <br>
  </mat-dialog-content>
  <mat-dialog-actions style='text-align: right'>
-   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">{{'GENERIC.CLOSE' | translate}}</button>
  </mat-dialog-actions>

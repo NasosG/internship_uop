@@ -1,20 +1,20 @@
-<h3>Στοιχεία Αίτησης</h3>
+<h3>{{'COMPANY.APPLICATION-DETAILS' | translate}}</h3>
 <mat-dialog-content class="mat-typography">
   <br>
-  <p><span>Τίτλος Θέσης</span>: {{this.data.positionTitle}}</p>
-  <p><span>Ονοματεπώνυμο φοιτητή</span>: {{this.data.application.firstname}} {{this.data.application.lastname}}</p>
-  <p><span>Πατρώνυμο φοιτητή</span>: {{this.data.application.father_name}}</p>
-  <p><span>Τμήμα</span>: {{this.data.application.department}}</p>
+  <p><span>{{'GENERIC.POSITION-TITLE' | translate}}</span>: {{this.data.positionTitle}}</p>
+  <p><span>{{'COMPANY.STUDENT-FULL-NAME' | translate}}</span>: {{this.data.application.firstname}} {{this.data.application.lastname}}</p>
+  <p><span>{{'COMPANY.STUDENT-FATHERS-NAME' | translate}}</span>: {{this.data.application.father_name}}</p>
+  <p><span>{{'GENERIC.DEPARTMENT' | translate}}</span>: {{this.data.application.department}}</p>
   <p><span>Email</span>: {{this.data.application.mail}}</p>
-  <p><span>Βαθμολογία</span>: {{this.data.application.score}}</p>
-  <p><span>Ημερομηνία αίτησης</span>: {{this.data.application.application_date}}</p>
-  <p><span>Πατρώνυμο</span>: {{ this.data.application.father_name}}</p>
-  <p><span>Επώνυμο Πατρός</span>: {{ this.data.application.father_last_name}}</p>
-  <p><span>Μητρώνυμο</span>: {{ this.data.application.mother_name}}</p>
-  <p><span>Επώνυμο Μητρός</span>: {{ this.data.application.mother_last_name}}</p>
-  <p><span>ΑΜΚΑ</span>: {{ this.data.application.user_ssn}}</p>
-  <p><span>ΑΦΜ</span>: {{ this.data.application.ssn}}</p>
+  <p><span>{{'GENERIC.SCORE' | translate}}</span>: {{this.data.application.score}}</p>
+  <p><span>{{'COMPANY.APPLICATION-DATE' | translate}}</span>: {{this.data.application.application_date}}</p>
+  <p><span>{{'GENERIC.FATHERS-NAME' | translate}}</span>: {{ this.data.application.father_name}}</p>
+  <p><span>{{'GENERIC.FATHER-LAST-NAME' | translate}}</span>: {{ this.data.application.father_last_name}}</p>
+  <p><span>{{'GENERIC.MOTHERS-NAME' | translate}}</span>: {{ this.data.application.mother_name}}</p>
+  <p><span>{{'GENERIC.MOTHER-LAST-NAME' | translate}}</span>: {{ this.data.application.mother_last_name}}</p>
+  <p><span>{{'GENERIC.AMKA' | translate}}</span>: {{ this.data.application.user_ssn}}</p>
+  <p><span>{{'HOME.TAX-NUMBER' | translate}}</span>: {{ this.data.application.ssn}}</p>
 </mat-dialog-content>
 <mat-dialog-actions style='text-align: right'>
-  <button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+  <button class="btn btn-primary mat-button" (click)="onCancel()">{{'GENERIC.CLOSE' | translate}}</button>
 </mat-dialog-actions>

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Προφίλ</h1>
+        <h1>{{'STUDENT.PROFILE' | translate}}</h1>
       </div>
       <div class="col-sm-6">
         <!-- <ol class=" float-sm-right">
@@ -62,27 +62,27 @@
         <!-- About Me Box -->
         <div class="card card-primary">
           <div class="card-header student-card-header">
-            <h3 class="card-title">Σχετικά με εμένα</h3>
+            <h3 class="card-title">{{'STUDENT.ABOUT-ME' | translate}}</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <strong><i class="fas fa-book mr-1"></i> Εκπαίδευση</strong>
+            <strong><i class="fas fa-book mr-1"></i> {{'STUDENT.EDUCATION' | translate}}</strong>
             <p class="text-muted">
               {{ studentsSSOData[0].education }}
             </p>
             <hr />
-            <strong><i class="fas fa-map-marker-alt mr-1"></i> Τοποθεσία</strong>
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> {{'GENERIC.LOCATION' | translate}}</strong>
             <p class="text-muted">
               {{ studentsSSOData[0].address }}, {{ studentsSSOData[0].city }}
             </p>
             <hr />
-            <strong><i class="fas fa-pencil-alt mr-1"></i> Ικανότητες</strong>
+            <strong><i class="fas fa-pencil-alt mr-1"></i> {{'STUDENT.SKILLS' | translate}}</strong>
             <p class="text-muted">
               <span class="tag tag-danger">{{ studentsSSOData[0].skills }}
               </span>
             </p>
             <hr />
-            <strong><i class="far fa-file-alt mr-1"></i> Ενδιαφέροντα</strong>
+            <strong><i class="far fa-file-alt mr-1"></i> {{'STUDENT.INTERESTS' | translate}}</strong>
             <p class="text-muted">
               {{ studentsSSOData[0].interests }}
             </p>
@@ -105,16 +105,16 @@
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Εργασιακή Εμπειρία:</a></li>
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Εκπαίδευση:</a></li> -->
               <li class="nav-item">
-                <a class="nav-link active" href="#settings" data-toggle="tab">Βασικά Στοιχεία</a>
+                <a class="nav-link active" href="#settings" data-toggle="tab">{{'STUDENT.BASIC-INFO' | translate}}</a>
               </li>
               <!-- <li class="nav-item">
                 <a class="nav-link" href="#sumbasiDetails" data-toggle="tab">Στοιχεία Σύμβασης</a>
               </li> -->
               <li class="nav-item">
-                <a class="nav-link" href="#bio" data-toggle="tab">Βιογραφικό</a>
+                <a class="nav-link" href="#bio" data-toggle="tab">{{'STUDENT.CV' | translate}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#studentContact" data-toggle="tab">Στοιχεία Επικοινωνίας</a>
+                <a class="nav-link" href="#studentContact" data-toggle="tab">{{'STUDENT.CONTACT-DETAILS' | translate}}</a>
               </li>
             </ul>
           </div>
@@ -133,65 +133,64 @@
               <!-- {{ studentsSSOData | json }} -->
               <div class="tab-pane active" id="settings">
                 <div class="alert alert-danger" role="alert">
-                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
-                  δεν συμφωνείτε επικοινωνήστε με την γραμματεία
+                  {{'STUDENT.DATA-FROM-REGISTRY' | translate}}
                 </div>
                 <form ngNativeValidate #studentsDetailsForm="ngForm" class="form-horizontal"
                   (ngSubmit)="onSubmitStudentDetails(studentsDetailsForm.value)">
                   <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Όνομα&nbsp;<span
+                    <label for="inputName" class="col-sm-2 col-form-label">{{'GENERIC.FIRST-NAME' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" name="name" placeholder="Όνομα"
+                      <input type="text" class="form-control" id="inputName" name="name" placeholder="{{'GENERIC.FIRST-NAME' | translate}}"
                         [value]="studentsSSOData[0].givenname" readonly />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Επώνυμο&nbsp;<span
+                    <label for="inputName" class="col-sm-2 col-form-label">{{'GENERIC.LAST-NAME' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" name="surname" placeholder="Επώνυμο"
+                      <input type="text" class="form-control" id="inputName" name="surname" placeholder="{{'GENERIC.LAST-NAME' | translate}}"
                         [value]="studentsSSOData[0].sn" readonly />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Πατρός&nbsp;<span
+                    <label for="inputName2" class="col-sm-2 col-form-label">{{'GENERIC.FATHER-FIRST-NAME' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input type="text" name="father_name" ngModel [ngModel]="studentsSSOData[0].father_name"
-                        class="form-control" id="inputName2" placeholder="Όνομα Πατρός" />
+                        class="form-control" id="inputName2" placeholder="{{'GENERIC.FATHER-FIRST-NAME' | translate}}" />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Επώνυμο Πατρός&nbsp;<span
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'GENERIC.FATHER-LAST-NAME' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input type="text" name="father_last_name" ngModel [ngModel]="studentsSSOData[0].father_last_name"
-                        class="form-control" id="fatherLastName" placeholder="Επώνυμο Πατρός" />
+                        class="form-control" id="fatherLastName" placeholder="{{'GENERIC.FATHER-LAST-NAME' | translate}}" />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Όνομα Μητρός&nbsp;<span
+                    <label for="inputName2" class="col-sm-2 col-form-label">{{'STUDENT.MOTHER-FIRST-NAME' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input type="text" name="mother_name" ngModel [ngModel]="studentsSSOData[0].mother_name"
-                        class="form-control" id="inputName2" placeholder="Όνομα Μητρός" value="" />
+                        class="form-control" id="inputName2" placeholder="{{'STUDENT.MOTHER-FIRST-NAME' | translate}}" value="" />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Επώνυμο Μητρός&nbsp;<span
+                    <label for="inputName2" class="col-sm-2 col-form-label">{{'GENERIC.MOTHER-LAST-NAME' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input type="text" name="mother_last_name" ngModel [ngModel]="studentsSSOData[0].mother_last_name"
-                        class="form-control" id="inputName2" placeholder="Επώνυμο Μητρός" value="" />
+                        class="form-control" id="inputName2" placeholder="{{'GENERIC.MOTHER-LAST-NAME' | translate}}" value="" />
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ημ. Γέννησης&nbsp;<span
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.BIRTH-DATE-SHORT' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input class="form-control" type="text" id="date_of_birth" name="schacdateofbirth"
-                        placeholder="Ημερομηνία Γέννησης" required readonly min="1900-01-01" max="2500-01-01"
+                        placeholder="{{'STUDENT.BIRTH-DATE' | translate}}" required readonly min="1900-01-01" max="2500-01-01"
                         [value]="studentsSSOData[0].schacdateofbirth" />
                     </div>
                   </div>
@@ -206,7 +205,7 @@
                     </div>
                   </div> -->
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Φύλο&nbsp;<span
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'GENERIC.GENDER' | translate}}&nbsp;<span
                         class="text-danger">*</span></label>
                     <div class="col-sm-10">
                       <input *ngIf="studentsSSOData[0].schacgender == 1" type="text" id="sex" class="form-control"
@@ -247,12 +246,12 @@
                   <div class="form-group container-fluid row" style="width: 280px; margin: auto">
                     <div class="col-sm-6">
                       <button type="submit" class="btn btn-primary">
-                        Αποθήκευση
+                        {{'GENERIC.SAVE' | translate}}
                       </button>
                     </div>
                     <div class="col-sm-6">
                       <a (click)="studentsDetailsForm.resetForm()" class="btn btn-secondary">
-                        Ακύρωση
+                        {{'STUDENT.CANCEL' | translate}}
                       </a>
                     </div>
                   </div>
@@ -348,8 +347,7 @@
 
               <div class="tab-pane" id="studentContact">
                 <div class="alert alert-danger" role="alert">
-                  Τα στοιχεία αντλούνται από τo φοιτητολόγιο. Σε περίπτωση που
-                  δεν συμφωνείτε επικοινωνήστε με την γραμματεία
+                  {{'STUDENT.DATA-FROM-REGISTRY' | translate}}
                 </div>
                 <form ngNativeValidate #studentContactForm="ngForm" class="form-horizontal"
                   (ngSubmit)="onSubmitStudentContact(studentContactForm.value)">
@@ -372,7 +370,7 @@
                     </div>
                     <div class="form-group row">
                       <label for="edit-profile-student-field-student-address-und-0-phone"
-                        class="col-sm-2 col-form-label">Τηλέφωνο</label>
+                        class="col-sm-2 col-form-label">{{'HOME.COMPANY-PHONE' | translate}}</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control"
                           id="edit-profile-student-field-student-address-und-0-phone" name="phone" ngModel
@@ -383,7 +381,7 @@
                     <div
                       class="form-group row form-type-textfield form-item-profile-student-field-student-address-und-0-street">
                       <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-street">Οδός
+                        for="edit-profile-student-field-student-address-und-0-street">{{'STUDENT.STREET' | translate}}
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-street" name="address"
@@ -393,7 +391,7 @@
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-additional">Περιοχή
+                        for="edit-profile-student-field-student-address-und-0-additional">{{'STUDENT.AREA' | translate}}
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-additional"
@@ -403,7 +401,7 @@
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-city">Πόλη
+                        for="edit-profile-student-field-student-address-und-0-city">{{'GENERIC.CITY' | translate}}
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-city" name="city"
@@ -413,7 +411,7 @@
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-postal-code">Ταχυδρομικός κώδικας
+                        for="edit-profile-student-field-student-address-und-0-postal-code">{{'STUDENT.POSTAL-CODE' | translate}}
                       </label>
                       <div class="col-sm-10">
                         <input type="text" id="edit-profile-student-field-student-address-und-0-postal-code"
@@ -423,282 +421,282 @@
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label"
-                        for="edit-profile-student-field-student-address-und-0-country">Χώρα
+                        for="edit-profile-student-field-student-address-und-0-country">{{'GENERIC.COUNTRY' | translate}}
                       </label>
                       <div class="col-sm-10">
                         <select name="country" ngModel [ngModel]="studentsSSOData[0].country"
                           class="location_auto_country form-select ajax-processed"
                           id="edit-profile-student-field-student-address-und-0-country">
-                          <option value="xx">ΕΚΤΟΣ ΛΙΣΤΑΣ</option>
-                          <option value="bl">Άγιος Βαρθολομαίος</option>
+                          <option value="xx">{{'STUDENT.NOT-IN-LIST' | translate}}</option>
+                          <option value="bl">{{'COUNTRIES.BL' | translate}}</option>
                           <option value="vc">
-                            Άγιος Βικέντιος και Γρεναδίνες
+                            {{'COUNTRIES.VC' | translate}}
                           </option>
 
-                          <option value="sm">Άγιος Μαρίνος</option>
-                          <option value="sx">Άγιος Μαρτίνος</option>
-                          <option value="mf">Άγιος Μαρτίνος Γαλλίας</option>
+                          <option value="sm">{{'COUNTRIES.SM' | translate}}</option>
+                          <option value="sx">{{'COUNTRIES.SX' | translate}}</option>
+                          <option value="mf">{{'COUNTRIES.MF' | translate}}</option>
                           <option value="kn">
-                            Άγιος Χριστόφορος και Νέβις
+                            {{'COUNTRIES.KN' | translate}}
                           </option>
-                          <option value="eg">Αίγυπτος</option>
-                          <option value="sh">Αγία Ελένη</option>
-                          <option value="lc">Αγία Λουκία</option>
-                          <option value="ao">Αγκόλα</option>
-                          <option value="az">Αζερμπαϊτζάν</option>
-                          <option value="et">Αιθιοπία</option>
-                          <option value="ci">Ακτή Ελεφαντοστού</option>
-                          <option value="al">Αλβανία</option>
-                          <option value="dz">Αλγερία</option>
+                          <option value="eg">{{'COUNTRIES.EG' | translate}}</option>
+                          <option value="sh">{{'COUNTRIES.SH' | translate}}</option>
+                          <option value="lc">{{'COUNTRIES.LC' | translate}}</option>
+                          <option value="ao">{{'COUNTRIES.AO' | translate}}</option>
+                          <option value="az">{{'COUNTRIES.AZ' | translate}}</option>
+                          <option value="et">{{'COUNTRIES.ET' | translate}}</option>
+                          <option value="ci">{{'COUNTRIES.CI' | translate}}</option>
+                          <option value="al">{{'COUNTRIES.AL' | translate}}</option>
+                          <option value="dz">{{'COUNTRIES.DZ' | translate}}</option>
                           <option value="vi">
-                            Αμερικανικές Παρθένοι Νήσοι
+                            {{'COUNTRIES.VI' | translate}}
                           </option>
-                          <option value="as">Αμερικανική Σαμόα</option>
-                          <option value="tl">Ανατολικό Τιμόρ</option>
-                          <option value="ai">Ανγκουίλα</option>
-                          <option value="ad">Ανδόρρα</option>
-                          <option value="ag">Αντίγκουα και Μπαρμπούντα</option>
-                          <option value="aq">Ανταρκτική</option>
+                          <option value="as">{{'COUNTRIES.AS' | translate}}</option>
+                          <option value="tl">{{'COUNTRIES.TL' | translate}}</option>
+                          <option value="ai">{{'COUNTRIES.AI' | translate}}</option>
+                          <option value="ad">{{'COUNTRIES.AD' | translate}}</option>
+                          <option value="ag">{{'COUNTRIES.AG' | translate}}</option>
+                          <option value="aq">{{'COUNTRIES.AQ' | translate}}</option>
                           <option value="um">
-                            Απομακρυσμένες Νησίδες των ΗΠΑ
+                            {{'COUNTRIES.UM' | translate}}
                           </option>
-                          <option value="ar">Αργεντινή</option>
-                          <option value="am">Αρμενία</option>
-                          <option value="aw">Αρούμπα</option>
-                          <option value="at">Αυστρία</option>
-                          <option value="au">Αυστραλία</option>
-                          <option value="af">Αφγανιστάν</option>
-                          <option value="ht">Αϊτή</option>
-                          <option value="be">Βέλγιο</option>
-                          <option value="vu">Βανουάτου</option>
-                          <option value="va">Βατικανό</option>
-                          <option value="ve">Βενεζουέλα</option>
-                          <option value="bm">Βερμούδες</option>
-                          <option value="vn">Βιετνάμ</option>
-                          <option value="bo">Βολιβία</option>
-                          <option value="ba">Βοσνία και Ερζεγοβίνη</option>
-                          <option value="bg">Βουλγαρία</option>
-                          <option value="br">Βραζιλία</option>
-                          <option value="vg">Βρετανικές Παρθένοι Νήσοι</option>
+                          <option value="ar">{{'COUNTRIES.AR' | translate}}</option>
+                          <option value="am">{{'COUNTRIES.AM' | translate}}</option>
+                          <option value="aw">{{'COUNTRIES.AW' | translate}}</option>
+                          <option value="at">{{'COUNTRIES.AT' | translate}}</option>
+                          <option value="au">{{'COUNTRIES.AU' | translate}}</option>
+                          <option value="af">{{'COUNTRIES.AF' | translate}}</option>
+                          <option value="ht">{{'COUNTRIES.HT' | translate}}</option>
+                          <option value="be">{{'COUNTRIES.BE' | translate}}</option>
+                          <option value="vu">{{'COUNTRIES.VU' | translate}}</option>
+                          <option value="va">{{'COUNTRIES.VA' | translate}}</option>
+                          <option value="ve">{{'COUNTRIES.VE' | translate}}</option>
+                          <option value="bm">{{'COUNTRIES.BM' | translate}}</option>
+                          <option value="vn">{{'COUNTRIES.VN' | translate}}</option>
+                          <option value="bo">{{'COUNTRIES.BO' | translate}}</option>
+                          <option value="ba">{{'COUNTRIES.BA' | translate}}</option>
+                          <option value="bg">{{'COUNTRIES.BG' | translate}}</option>
+                          <option value="br">{{'COUNTRIES.BR' | translate}}</option>
+                          <option value="vg">{{'COUNTRIES.VG' | translate}}</option>
                           <option value="io">
-                            Βρετανικό Έδαφος Ινδικού Ωκεανού
+                            {{'COUNTRIES.IO' | translate}}
                           </option>
-                          <option value="kp">Βόρεια Κορέα</option>
-                          <option value="mp">Βόρειες Μαριάνες Νήσοι</option>
-                          <option value="fr">Γαλλία</option>
-                          <option value="tf">Γαλλικά Νότια Εδάφη</option>
-                          <option value="gf">Γαλλική Γουιάνα</option>
-                          <option value="pf">Γαλλική Πολυνησία</option>
-                          <option value="de">Γερμανία</option>
-                          <option value="ge">Γεωργία</option>
-                          <option value="gi">Γιβραλτάρ</option>
-                          <option value="gm">Γκάμπια</option>
-                          <option value="gh">Γκάνα</option>
-                          <option value="gg">Γκέρνσεϊ</option>
-                          <option value="ga">Γκαμπόν</option>
-                          <option value="gu">Γκουαχάν</option>
-                          <option value="gp">Γουαδελούπη</option>
-                          <option value="gt">Γουατεμάλα</option>
-                          <option value="gy">Γουιάνα</option>
-                          <option value="gn">Γουινέα</option>
-                          <option value="gw">Γουινέα-Μπισσάου</option>
-                          <option value="gd">Γρενάδα</option>
-                          <option value="gl">Γροιλανδία</option>
-                          <option value="dk">Δανία</option>
-                          <option value="cg">Δημοκρατία του Κονγκό</option>
-                          <option value="do">Δομινικανή Δημοκρατία</option>
-                          <option value="eh">Δυτική Σαχάρα</option>
-                          <option value="sv">Ελ Σαλβαδόρ</option>
-                          <option value="ch">Ελβετία</option>
-                          <option value="gr" selected="selected">Ελλάδα</option>
-                          <option value="er">Ερυθραία</option>
-                          <option value="ee">Εσθονία</option>
-                          <option value="zm">Ζάμπια</option>
-                          <option value="zw">Ζιμπάμπουε</option>
-                          <option value="ae">Ηνωμένα Αραβικά Εμιράτα</option>
+                          <option value="kp">{{'COUNTRIES.KP' | translate}}</option>
+                          <option value="mp">{{'COUNTRIES.MP' | translate}}</option>
+                          <option value="fr">{{'COUNTRIES.FR' | translate}}</option>
+                          <option value="tf">{{'COUNTRIES.TF' | translate}}</option>
+                          <option value="gf">{{'COUNTRIES.GF' | translate}}</option>
+                          <option value="pf">{{'COUNTRIES.PF' | translate}}</option>
+                          <option value="de">{{'COUNTRIES.DE' | translate}}</option>
+                          <option value="ge">{{'COUNTRIES.GE' | translate}}</option>
+                          <option value="gi">{{'COUNTRIES.GI' | translate}}</option>
+                          <option value="gm">{{'COUNTRIES.GM' | translate}}</option>
+                          <option value="gh">{{'COUNTRIES.GH' | translate}}</option>
+                          <option value="gg">{{'COUNTRIES.GG' | translate}}</option>
+                          <option value="ga">{{'COUNTRIES.GA' | translate}}</option>
+                          <option value="gu">{{'COUNTRIES.GU' | translate}}</option>
+                          <option value="gp">{{'COUNTRIES.GP' | translate}}</option>
+                          <option value="gt">{{'COUNTRIES.GT' | translate}}</option>
+                          <option value="gy">{{'COUNTRIES.GY' | translate}}</option>
+                          <option value="gn">{{'COUNTRIES.GN' | translate}}</option>
+                          <option value="gw">{{'COUNTRIES.GW' | translate}}</option>
+                          <option value="gd">{{'COUNTRIES.GD' | translate}}</option>
+                          <option value="gl">{{'COUNTRIES.GL' | translate}}</option>
+                          <option value="dk">{{'COUNTRIES.DK' | translate}}</option>
+                          <option value="cg">{{'COUNTRIES.CG' | translate}}</option>
+                          <option value="do">{{'COUNTRIES.DO' | translate}}</option>
+                          <option value="eh">{{'COUNTRIES.EH' | translate}}</option>
+                          <option value="sv">{{'COUNTRIES.SV' | translate}}</option>
+                          <option value="ch">{{'COUNTRIES.CH' | translate}}</option>
+                          <option value="gr" selected="selected">{{'COUNTRIES.GR' | translate}}</option>
+                          <option value="er">{{'COUNTRIES.ER' | translate}}</option>
+                          <option value="ee">{{'COUNTRIES.EE' | translate}}</option>
+                          <option value="zm">{{'COUNTRIES.ZM' | translate}}</option>
+                          <option value="zw">{{'COUNTRIES.ZW' | translate}}</option>
+                          <option value="ae">{{'COUNTRIES.AE' | translate}}</option>
                           <option value="us">
-                            Ηνωμένες Πολιτείες της Αμερικής
+                            {{'COUNTRIES.US' | translate}}
                           </option>
-                          <option value="gb">Ηνωμένο Βασίλειο</option>
-                          <option value="jp">Ιαπωνία</option>
-                          <option value="in">Ινδία</option>
-                          <option value="id">Ινδονησία</option>
-                          <option value="jo">Ιορδανία</option>
-                          <option value="iq">Ιράκ</option>
-                          <option value="ir">Ιράν</option>
-                          <option value="ie">Ιρλανδία</option>
-                          <option value="gq">Ισημερινή Γουινέα</option>
-                          <option value="ec">Ισημερινός</option>
-                          <option value="is">Ισλανδία</option>
-                          <option value="es">Ισπανία</option>
-                          <option value="il">Ισραήλ</option>
-                          <option value="it">Ιταλία</option>
-                          <option value="ke">Κένυα</option>
-                          <option value="cn">Κίνα</option>
-                          <option value="kz">Καζακστάν</option>
-                          <option value="cm">Καμερούν</option>
-                          <option value="kh">Καμπότζη</option>
-                          <option value="ca">Καναδάς</option>
-                          <option value="qa">Κατάρ</option>
+                          <option value="gb">{{'COUNTRIES.GB' | translate}}</option>
+                          <option value="jp">{{'COUNTRIES.JP' | translate}}</option>
+                          <option value="in">{{'COUNTRIES.IN' | translate}}</option>
+                          <option value="id">{{'COUNTRIES.ID' | translate}}</option>
+                          <option value="jo">{{'COUNTRIES.JO' | translate}}</option>
+                          <option value="iq">{{'COUNTRIES.IQ' | translate}}</option>
+                          <option value="ir">{{'COUNTRIES.IR' | translate}}</option>
+                          <option value="ie">{{'COUNTRIES.IE' | translate}}</option>
+                          <option value="gq">{{'COUNTRIES.GQ' | translate}}</option>
+                          <option value="ec">{{'COUNTRIES.EC' | translate}}</option>
+                          <option value="is">{{'COUNTRIES.IS' | translate}}</option>
+                          <option value="es">{{'COUNTRIES.ES' | translate}}</option>
+                          <option value="il">{{'COUNTRIES.IL' | translate}}</option>
+                          <option value="it">{{'COUNTRIES.IT' | translate}}</option>
+                          <option value="ke">{{'COUNTRIES.KE' | translate}}</option>
+                          <option value="cn">{{'COUNTRIES.CN' | translate}}</option>
+                          <option value="kz">{{'COUNTRIES.KZ' | translate}}</option>
+                          <option value="cm">{{'COUNTRIES.CM' | translate}}</option>
+                          <option value="kh">{{'COUNTRIES.KH' | translate}}</option>
+                          <option value="ca">{{'COUNTRIES.CA' | translate}}</option>
+                          <option value="qa">{{'COUNTRIES.QA' | translate}}</option>
                           <option value="cf">
-                            Κεντροαφρικανική Δημοκρατία
+                            {{'COUNTRIES.CF' | translate}}
                           </option>
-                          <option value="kg">Κιργιζία</option>
-                          <option value="ki">Κιριμπάτι</option>
-                          <option value="co">Κολομβία</option>
-                          <option value="km">Κομόρες</option>
-                          <option value="cd">Κονγκό (Κινσάσα)</option>
-                          <option value="kw">Κουβέιτ</option>
-                          <option value="cw">Κουρασάο</option>
-                          <option value="cu">Κούβα</option>
-                          <option value="hr">Κροατία</option>
-                          <option value="cr">Κόστα Ρίκα</option>
-                          <option value="cy">Κύπρος</option>
-                          <option value="la">Λάος</option>
-                          <option value="lb">Λίβανος</option>
-                          <option value="ls">Λεσότο</option>
-                          <option value="lv">Λεττονία</option>
-                          <option value="by">Λευκορωσία</option>
-                          <option value="lr">Λιβερία</option>
-                          <option value="ly">Λιβύη</option>
-                          <option value="lt">Λιθουανία</option>
-                          <option value="li">Λιχτενστάιν</option>
-                          <option value="lu">Λουξεμβούργο</option>
-                          <option value="ml">Μάλι</option>
-                          <option value="mt">Μάλτα</option>
-                          <option value="yt">Μαγιότ</option>
-                          <option value="mg">Μαδαγασκάρη</option>
-                          <option value="mo">Μακάου</option>
-                          <option value="mw">Μαλάουι</option>
-                          <option value="my">Μαλαισία</option>
-                          <option value="mv">Μαλδίβες</option>
-                          <option value="mq">Μαρτινίκα</option>
-                          <option value="ma">Μαρόκο</option>
-                          <option value="mu">Μαυρίκιος</option>
-                          <option value="mr">Μαυριτανία</option>
-                          <option value="me">Μαυροβούνιο</option>
-                          <option value="mx">Μεξικό</option>
-                          <option value="mm">Μιανμάρ</option>
-                          <option value="fm">Μικρονησία</option>
-                          <option value="mn">Μογγολία</option>
-                          <option value="mz">Μοζαμβίκη</option>
-                          <option value="md">Μολδαβία</option>
-                          <option value="mc">Μονακό</option>
-                          <option value="ms">Μοντσερράτ</option>
-                          <option value="bd">Μπανγκλαντές</option>
-                          <option value="bb">Μπαρμπάντος</option>
-                          <option value="bs">Μπαχάμες</option>
-                          <option value="bh">Μπαχρέιν</option>
-                          <option value="bz">Μπελίζε</option>
-                          <option value="bj">Μπενίν</option>
-                          <option value="bw">Μποτσουάνα</option>
-                          <option value="bf">Μπουρκίνα Φάσο</option>
-                          <option value="bi">Μπουρούντι</option>
-                          <option value="bt">Μπουτάν</option>
-                          <option value="bn">Μπρουνέι</option>
-                          <option value="nr">Ναουρού</option>
-                          <option value="nz">Νέα Ζηλανδία</option>
-                          <option value="nc">Νέα Καληδονία</option>
-                          <option value="ax">Νήσοι Ώλαντ</option>
-                          <option value="ck">Νήσοι Κουκ</option>
-                          <option value="mh">Νήσοι Μάρσαλ</option>
+                          <option value="kg">{{'COUNTRIES.KG' | translate}}</option>
+                          <option value="ki">{{'COUNTRIES.KI' | translate}}</option>
+                          <option value="co">{{'COUNTRIES.CO' | translate}}</option>
+                          <option value="km">{{'COUNTRIES.KM' | translate}}</option>
+                          <option value="cd">{{'COUNTRIES.CD' | translate}}</option>
+                          <option value="kw">{{'COUNTRIES.KW' | translate}}</option>
+                          <option value="cw">{{'COUNTRIES.CW' | translate}}</option>
+                          <option value="cu">{{'COUNTRIES.CU' | translate}}</option>
+                          <option value="hr">{{'COUNTRIES.HR' | translate}}</option>
+                          <option value="cr">{{'COUNTRIES.CR' | translate}}</option>
+                          <option value="cy">{{'COUNTRIES.CY' | translate}}</option>
+                          <option value="la">{{'COUNTRIES.LA' | translate}}</option>
+                          <option value="lb">{{'COUNTRIES.LB' | translate}}</option>
+                          <option value="ls">{{'COUNTRIES.LS' | translate}}</option>
+                          <option value="lv">{{'COUNTRIES.LV' | translate}}</option>
+                          <option value="by">{{'COUNTRIES.BY' | translate}}</option>
+                          <option value="lr">{{'COUNTRIES.LR' | translate}}</option>
+                          <option value="ly">{{'COUNTRIES.LY' | translate}}</option>
+                          <option value="lt">{{'COUNTRIES.LT' | translate}}</option>
+                          <option value="li">{{'COUNTRIES.LI' | translate}}</option>
+                          <option value="lu">{{'COUNTRIES.LU' | translate}}</option>
+                          <option value="ml">{{'COUNTRIES.ML' | translate}}</option>
+                          <option value="mt">{{'COUNTRIES.MT' | translate}}</option>
+                          <option value="yt">{{'COUNTRIES.YT' | translate}}</option>
+                          <option value="mg">{{'COUNTRIES.MG' | translate}}</option>
+                          <option value="mo">{{'COUNTRIES.MO' | translate}}</option>
+                          <option value="mw">{{'COUNTRIES.MW' | translate}}</option>
+                          <option value="my">{{'COUNTRIES.MY' | translate}}</option>
+                          <option value="mv">{{'COUNTRIES.MV' | translate}}</option>
+                          <option value="mq">{{'COUNTRIES.MQ' | translate}}</option>
+                          <option value="ma">{{'COUNTRIES.MA' | translate}}</option>
+                          <option value="mu">{{'COUNTRIES.MU' | translate}}</option>
+                          <option value="mr">{{'COUNTRIES.MR' | translate}}</option>
+                          <option value="me">{{'COUNTRIES.ME' | translate}}</option>
+                          <option value="mx">{{'COUNTRIES.MX' | translate}}</option>
+                          <option value="mm">{{'COUNTRIES.MM' | translate}}</option>
+                          <option value="fm">{{'COUNTRIES.FM' | translate}}</option>
+                          <option value="mn">{{'COUNTRIES.MN' | translate}}</option>
+                          <option value="mz">{{'COUNTRIES.MZ' | translate}}</option>
+                          <option value="md">{{'COUNTRIES.MD' | translate}}</option>
+                          <option value="mc">{{'COUNTRIES.MC' | translate}}</option>
+                          <option value="ms">{{'COUNTRIES.MS' | translate}}</option>
+                          <option value="bd">{{'COUNTRIES.BD' | translate}}</option>
+                          <option value="bb">{{'COUNTRIES.BB' | translate}}</option>
+                          <option value="bs">{{'COUNTRIES.BS' | translate}}</option>
+                          <option value="bh">{{'COUNTRIES.BH' | translate}}</option>
+                          <option value="bz">{{'COUNTRIES.BZ' | translate}}</option>
+                          <option value="bj">{{'COUNTRIES.BJ' | translate}}</option>
+                          <option value="bw">{{'COUNTRIES.BW' | translate}}</option>
+                          <option value="bf">{{'COUNTRIES.BF' | translate}}</option>
+                          <option value="bi">{{'COUNTRIES.BI' | translate}}</option>
+                          <option value="bt">{{'COUNTRIES.BT' | translate}}</option>
+                          <option value="bn">{{'COUNTRIES.BN' | translate}}</option>
+                          <option value="nr">{{'COUNTRIES.NR' | translate}}</option>
+                          <option value="nz">{{'COUNTRIES.NZ' | translate}}</option>
+                          <option value="nc">{{'COUNTRIES.NC' | translate}}</option>
+                          <option value="ax">{{'COUNTRIES.AX' | translate}}</option>
+                          <option value="ck">{{'COUNTRIES.CK' | translate}}</option>
+                          <option value="mh">{{'COUNTRIES.MH' | translate}}</option>
                           <option value="gs">
-                            Νήσοι Νότια Γεωργία και Νότιες Σάντουιτς
+                            {{'COUNTRIES.GS' | translate}}
                           </option>
-                          <option value="pn">Νήσοι Πίτκαιρν</option>
-                          <option value="sb">Νήσοι Σολομώντα</option>
-                          <option value="fo">Νήσοι Φερόες</option>
-                          <option value="fk">Νήσοι Φώκλαντ</option>
+                          <option value="pn">{{'COUNTRIES.PN' | translate}}</option>
+                          <option value="sb">{{'COUNTRIES.SB' | translate}}</option>
+                          <option value="fo">{{'COUNTRIES.FO' | translate}}</option>
+                          <option value="fk">{{'COUNTRIES.FK' | translate}}</option>
                           <option value="hm">
-                            Νήσοι Χερντ και Μακντόναλντ
+                            {{'COUNTRIES.HM' | translate}}
                           </option>
-                          <option value="im">Νήσος του Μαν</option>
-                          <option value="ne">Νίγηρας</option>
-                          <option value="na">Ναμίμπια</option>
-                          <option value="np">Νεπάλ</option>
-                          <option value="bv">Νησί Μπουβέ</option>
-                          <option value="nf">Νησί Νόρφολκ</option>
-                          <option value="cx">Νησί των Χριστουγέννων</option>
-                          <option value="bq">Νησιά BES</option>
-                          <option value="ky">Νησιά Καϋμάν</option>
-                          <option value="cc">Νησιά Κόκος (Κήλινγκ)</option>
-                          <option value="ng">Νιγηρία</option>
-                          <option value="ni">Νικαράγουα</option>
-                          <option value="nu">Νιούε</option>
-                          <option value="no">Νορβηγία</option>
-                          <option value="dm">Ντομίνικα</option>
-                          <option value="za">Νότια Αφρική</option>
-                          <option value="kr">Νότια Κορέα</option>
-                          <option value="ss">Νότιο Σουδάν</option>
-                          <option value="nl">Ολλανδία</option>
-                          <option value="an">Ολλανδικές Αντίλλες</option>
-                          <option value="om">Ομάν</option>
-                          <option value="hn">Ονδούρα</option>
-                          <option value="hu">Ουγγαρία</option>
-                          <option value="ug">Ουγκάντα</option>
-                          <option value="uz">Ουζμπεκιστάν</option>
-                          <option value="ua">Ουκρανία</option>
-                          <option value="uy">Ουρουγουάη</option>
-                          <option value="wf">Ουώλις και Φουτούνα</option>
-                          <option value="pk">Πακιστάν</option>
-                          <option value="pw">Παλάου</option>
-                          <option value="ps">Παλαιστίνη</option>
-                          <option value="pa">Παναμάς</option>
-                          <option value="pg">Παπούα Νέα Γουινέα</option>
-                          <option value="py">Παραγουάη</option>
-                          <option value="pe">Περού</option>
-                          <option value="pl">Πολωνία</option>
-                          <option value="pt">Πορτογαλία</option>
-                          <option value="pr">Πουέρτο Ρίκο</option>
-                          <option value="cv">Πράσινο Ακρωτήριο</option>
-                          <option value="re">Ρεουνιόν</option>
-                          <option value="rw">Ρουάντα</option>
-                          <option value="ro">Ρουμανία</option>
-                          <option value="ru">Ρωσία</option>
-                          <option value="st">Σάο Τομέ και Πρίνσιπε</option>
-                          <option value="pm">Σαιν Πιερ και Μικελόν</option>
-                          <option value="ws">Σαμόα</option>
-                          <option value="sa">Σαουδική Αραβία</option>
-                          <option value="sj">Σβάλμπαρντ και Γιαν Μαγιέν</option>
-                          <option value="sn">Σενεγάλη</option>
-                          <option value="rs">Σερβία</option>
-                          <option value="sc">Σεϋχέλλες</option>
-                          <option value="sl">Σιέρα Λεόνε</option>
-                          <option value="sg">Σιγκαπούρη</option>
-                          <option value="mk">Σκόπια</option>
-                          <option value="sk">Σλοβακία</option>
-                          <option value="si">Σλοβενία</option>
-                          <option value="so">Σομαλία</option>
-                          <option value="sz">Σουαζιλάνδη</option>
-                          <option value="sd">Σουδάν</option>
-                          <option value="se">Σουηδία</option>
-                          <option value="sr">Σουρινάμ</option>
-                          <option value="lk">Σρι Λάνκα</option>
-                          <option value="sy">Συρία</option>
-                          <option value="tz">Τανζανία</option>
-                          <option value="tj">Τατζικιστάν</option>
-                          <option value="tw">Ταϊβάν</option>
-                          <option value="th">Ταϊλάνδη</option>
-                          <option value="tc">Τερκ και Κάικος</option>
-                          <option value="je">Τζέρσεϊ</option>
-                          <option value="jm">Τζαμάικα</option>
-                          <option value="dj">Τζιμπουτί</option>
-                          <option value="tk">Τοκελάου</option>
-                          <option value="tv">Τουβαλού</option>
-                          <option value="tr">Τουρκία</option>
-                          <option value="tm">Τουρκμενιστάν</option>
-                          <option value="tt">Τρινιδάδ και Τομπάγκο</option>
-                          <option value="td">Τσαντ</option>
-                          <option value="cz">Τσεχία</option>
-                          <option value="tn">Τυνησία</option>
-                          <option value="tg">Τόγκο</option>
-                          <option value="to">Τόνγκα</option>
-                          <option value="ye">Υεμένη</option>
-                          <option value="ph">Φιλιππίνες</option>
-                          <option value="fi">Φινλανδία</option>
-                          <option value="fj">Φίτζι</option>
-                          <option value="cl">Χιλή</option>
-                          <option value="hk">Χονγκ Κονγκ</option>
+                          <option value="im">{{'COUNTRIES.IM' | translate}}</option>
+                          <option value="ne">{{'COUNTRIES.NE' | translate}}</option>
+                          <option value="na">{{'COUNTRIES.NA' | translate}}</option>
+                          <option value="np">{{'COUNTRIES.NP' | translate}}</option>
+                          <option value="bv">{{'COUNTRIES.BV' | translate}}</option>
+                          <option value="nf">{{'COUNTRIES.NF' | translate}}</option>
+                          <option value="cx">{{'COUNTRIES.CX' | translate}}</option>
+                          <option value="bq">{{'COUNTRIES.BQ' | translate}}</option>
+                          <option value="ky">{{'COUNTRIES.KY' | translate}}</option>
+                          <option value="cc">{{'COUNTRIES.CC' | translate}}</option>
+                          <option value="ng">{{'COUNTRIES.NG' | translate}}</option>
+                          <option value="ni">{{'COUNTRIES.NI' | translate}}</option>
+                          <option value="nu">{{'COUNTRIES.NU' | translate}}</option>
+                          <option value="no">{{'COUNTRIES.NO' | translate}}</option>
+                          <option value="dm">{{'COUNTRIES.DM' | translate}}</option>
+                          <option value="za">{{'COUNTRIES.ZA' | translate}}</option>
+                          <option value="kr">{{'COUNTRIES.KR' | translate}}</option>
+                          <option value="ss">{{'COUNTRIES.SS' | translate}}</option>
+                          <option value="nl">{{'COUNTRIES.NL' | translate}}</option>
+                          <option value="an">{{'COUNTRIES.AN' | translate}}</option>
+                          <option value="om">{{'COUNTRIES.OM' | translate}}</option>
+                          <option value="hn">{{'COUNTRIES.HN' | translate}}</option>
+                          <option value="hu">{{'COUNTRIES.HU' | translate}}</option>
+                          <option value="ug">{{'COUNTRIES.UG' | translate}}</option>
+                          <option value="uz">{{'COUNTRIES.UZ' | translate}}</option>
+                          <option value="ua">{{'COUNTRIES.UA' | translate}}</option>
+                          <option value="uy">{{'COUNTRIES.UY' | translate}}</option>
+                          <option value="wf">{{'COUNTRIES.WF' | translate}}</option>
+                          <option value="pk">{{'COUNTRIES.PK' | translate}}</option>
+                          <option value="pw">{{'COUNTRIES.PW' | translate}}</option>
+                          <option value="ps">{{'COUNTRIES.PS' | translate}}</option>
+                          <option value="pa">{{'COUNTRIES.PA' | translate}}</option>
+                          <option value="pg">{{'COUNTRIES.PG' | translate}}</option>
+                          <option value="py">{{'COUNTRIES.PY' | translate}}</option>
+                          <option value="pe">{{'COUNTRIES.PE' | translate}}</option>
+                          <option value="pl">{{'COUNTRIES.PL' | translate}}</option>
+                          <option value="pt">{{'COUNTRIES.PT' | translate}}</option>
+                          <option value="pr">{{'COUNTRIES.PR' | translate}}</option>
+                          <option value="cv">{{'COUNTRIES.CV' | translate}}</option>
+                          <option value="re">{{'COUNTRIES.RE' | translate}}</option>
+                          <option value="rw">{{'COUNTRIES.RW' | translate}}</option>
+                          <option value="ro">{{'COUNTRIES.RO' | translate}}</option>
+                          <option value="ru">{{'COUNTRIES.RU' | translate}}</option>
+                          <option value="st">{{'COUNTRIES.ST' | translate}}</option>
+                          <option value="pm">{{'COUNTRIES.PM' | translate}}</option>
+                          <option value="ws">{{'COUNTRIES.WS' | translate}}</option>
+                          <option value="sa">{{'COUNTRIES.SA' | translate}}</option>
+                          <option value="sj">{{'COUNTRIES.SJ' | translate}}</option>
+                          <option value="sn">{{'COUNTRIES.SN' | translate}}</option>
+                          <option value="rs">{{'COUNTRIES.RS' | translate}}</option>
+                          <option value="sc">{{'COUNTRIES.SC' | translate}}</option>
+                          <option value="sl">{{'COUNTRIES.SL' | translate}}</option>
+                          <option value="sg">{{'COUNTRIES.SG' | translate}}</option>
+                          <option value="mk">{{'COUNTRIES.MK' | translate}}</option>
+                          <option value="sk">{{'COUNTRIES.SK' | translate}}</option>
+                          <option value="si">{{'COUNTRIES.SI' | translate}}</option>
+                          <option value="so">{{'COUNTRIES.SO' | translate}}</option>
+                          <option value="sz">{{'COUNTRIES.SZ' | translate}}</option>
+                          <option value="sd">{{'COUNTRIES.SD' | translate}}</option>
+                          <option value="se">{{'COUNTRIES.SE' | translate}}</option>
+                          <option value="sr">{{'COUNTRIES.SR' | translate}}</option>
+                          <option value="lk">{{'COUNTRIES.LK' | translate}}</option>
+                          <option value="sy">{{'COUNTRIES.SY' | translate}}</option>
+                          <option value="tz">{{'COUNTRIES.TZ' | translate}}</option>
+                          <option value="tj">{{'COUNTRIES.TJ' | translate}}</option>
+                          <option value="tw">{{'COUNTRIES.TW' | translate}}</option>
+                          <option value="th">{{'COUNTRIES.TH' | translate}}</option>
+                          <option value="tc">{{'COUNTRIES.TC' | translate}}</option>
+                          <option value="je">{{'COUNTRIES.JE' | translate}}</option>
+                          <option value="jm">{{'COUNTRIES.JM' | translate}}</option>
+                          <option value="dj">{{'COUNTRIES.DJ' | translate}}</option>
+                          <option value="tk">{{'COUNTRIES.TK' | translate}}</option>
+                          <option value="tv">{{'COUNTRIES.TV' | translate}}</option>
+                          <option value="tr">{{'COUNTRIES.TR' | translate}}</option>
+                          <option value="tm">{{'COUNTRIES.TM' | translate}}</option>
+                          <option value="tt">{{'COUNTRIES.TT' | translate}}</option>
+                          <option value="td">{{'COUNTRIES.TD' | translate}}</option>
+                          <option value="cz">{{'COUNTRIES.CZ' | translate}}</option>
+                          <option value="tn">{{'COUNTRIES.TN' | translate}}</option>
+                          <option value="tg">{{'COUNTRIES.TG' | translate}}</option>
+                          <option value="to">{{'COUNTRIES.TO' | translate}}</option>
+                          <option value="ye">{{'COUNTRIES.YE' | translate}}</option>
+                          <option value="ph">{{'COUNTRIES.PH' | translate}}</option>
+                          <option value="fi">{{'COUNTRIES.FI' | translate}}</option>
+                          <option value="fj">{{'COUNTRIES.FJ' | translate}}</option>
+                          <option value="cl">{{'COUNTRIES.CL' | translate}}</option>
+                          <option value="hk">{{'COUNTRIES.HK' | translate}}</option>
                         </select>
                       </div>
                     </div>
@@ -714,12 +712,12 @@
                     <div class="form-group container-fluid row" style="width: 280px; margin: auto">
                       <div class="col-sm-6">
                         <button type="submit" class="btn btn-primary">
-                          Αποθήκευση
+                          {{'GENERIC.SAVE' | translate}}
                         </button>
                       </div>
                       <div class="col-sm-6">
                         <a (click)="studentContactForm.resetForm()" class="btn btn-secondary">
-                          Ακύρωση
+                          {{'STUDENT.CANCEL' | translate}}
                         </a>
                       </div>
                     </div>
@@ -731,53 +729,53 @@
                 <form ngNativeValidate #studentBioForm="ngForm" class="form-horizontal"
                   (ngSubmit)="onSubmitStudentBio(studentBioForm.value)">
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Εκπαίδευση</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.EDUCATION' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="education" ngModel [ngModel]="studentsSSOData[0].education"
-                        id="inputExperience" placeholder="Εκπαίδευση"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.EDUCATION' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Εμπειρία</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.EXPERIENCE' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="experience" ngModel [ngModel]="studentsSSOData[0].experience"
-                        id="inputExperience" placeholder="Εμπειρία"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.EXPERIENCE' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ξένες Γλώσσες</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.FOREIGN-LANGUAGES' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="languages" ngModel [ngModel]="studentsSSOData[0].languages"
-                        id="inputExperience" placeholder="Ξένες Γλώσσες"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.FOREIGN-LANGUAGES' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Γνώσεις Η/Υ</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.COMPUTER-SKILLS' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="computer_skills" ngModel
                         [ngModel]="studentsSSOData[0].computer_skills" id="inputExperience"
-                        placeholder="Γνώσεις Η/Υ"></textarea>
+                        placeholder="{{'STUDENT.COMPUTER-SKILLS' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Δια Βίου Μόρφωση</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.LIFELONG-LEARNING' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="other_edu" ngModel [ngModel]="studentsSSOData[0].other_edu"
-                        id="inputExperience" placeholder="Δια Βίου Μόρφωση"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.LIFELONG-LEARNING' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Διακρίσεις-Βραβεία-Υποτροφίες</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.AWARDS' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="honors" ngModel [ngModel]="studentsSSOData[0].honors"
-                        id="inputExperience" placeholder="Διακρίσεις-Βραβεία-Υποτροφίες"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.AWARDS' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ενδιαφέροντα</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.INTERESTS' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="interests" ngModel [ngModel]="studentsSSOData[0].interests"
-                        id="inputExperience" placeholder="Ενδιαφέροντα"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.INTERESTS' | translate}}"></textarea>
                     </div>
                   </div>
                   <!-- <div class="form-group row">
@@ -787,10 +785,10 @@
                     </div>
                   </div> -->
                   <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Ικανότητες</label>
+                    <label for="inputExperience" class="col-sm-2 col-form-label">{{'STUDENT.SKILLS' | translate}}</label>
                     <div class="col-sm-10">
                       <textarea class="form-control" name="skills" ngModel [ngModel]="studentsSSOData[0].skills"
-                        id="inputExperience" placeholder="Ικανότητες"></textarea>
+                        id="inputExperience" placeholder="{{'STUDENT.SKILLS' | translate}}"></textarea>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -805,12 +803,12 @@
                   <div class="form-group container-fluid row" style="width: 280px; margin: auto">
                     <div class="col-sm-6">
                       <button type="submit" class="btn btn-primary">
-                        Αποθήκευση
+                        {{'GENERIC.SAVE' | translate}}
                       </button>
                     </div>
                     <div class="col-sm-6">
                       <a (click)="studentBioForm.resetForm()" class="btn btn-secondary">
-                        Ακύρωση
+                        {{'STUDENT.CANCEL' | translate}}
                       </a>
                     </div>
                   </div>

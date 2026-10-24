@@ -1,4 +1,4 @@
- <h3>Έγγραφα φοιτητή</h3>
+ <h3>{{'DEPT-MANAGER.STUDENT-DOCUMENTS' | translate}}</h3>
  <mat-dialog-content class="mat-typography text-center">
    <br>
    <button (click)="receiveFile(data.student.sso_uid, 'IBAN')"
@@ -8,7 +8,7 @@
    <br>
    <button (click)="receiveFile(data.student.sso_uid, 'SSN')"
      class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
-     <i class="fa fa-download" aria-hidden="true"></i> ΑΦΜ
+     <i class="fa fa-download" aria-hidden="true"></i> {{'HOME.TAX-NUMBER' | translate}}
    </button>
    <br>
    <button *ngIf="data.student.amea_cat == true" (click)="receiveFile(data.student.sso_uid, 'AMEA')"
@@ -18,24 +18,24 @@
    </button>
    <button (click)="receiveFile(data.student.sso_uid, 'AFFIDAVIT')"
      class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
-     <i class="fa fa-download" aria-hidden="true"></i> Υπ.Δήλωση
+     <i class="fa fa-download" aria-hidden="true"></i> {{'DEPT-MANAGER.SOLEMN-DECLARATION-SHORT' | translate}}
    </button>
    <button *ngIf="this.data.resignAppFiles[data.index]" (click)="receiveFile(data.student.sso_uid, 'RESIGN')"
      class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
-     <i class="fa fa-download" aria-hidden="true"></i> Παραίτηση
+     <i class="fa fa-download" aria-hidden="true"></i> {{'DEPT-MANAGER.RESIGNATION' | translate}}
      <br>
    </button>
    <button *ngIf="this.data.amaFiles[data.index]" (click)="receiveFile(data.student.sso_uid, 'AMA')"
      class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
-     <i class="fa fa-download" aria-hidden="true"></i> ΑΜΑ
+     <i class="fa fa-download" aria-hidden="true"></i> {{'GENERIC.AMA' | translate}}
      <br>
    </button>
    <button *ngIf="this.data.idFiles[data.index]" (click)="receiveFile(data.student.sso_uid, 'IDENTITY')"
      class="mt-0 mb-2 pt-0 pb-0 btn btn-primary td-button-responsive w-100">
-     <i class="fa fa-download" aria-hidden="true"></i> ΑΔΤ
+     <i class="fa fa-download" aria-hidden="true"></i> {{'GENERIC.ID-CARD-NUMBER' | translate}}
      <br>
    </button>
  </mat-dialog-content>
  <mat-dialog-actions style='text-align: right'>
-   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">Κλείσιμο</button>
+   <button mat-button class="btn btn-primary mat-button" (click)="onCancel()">{{'GENERIC.CLOSE' | translate}}</button>
  </mat-dialog-actions>

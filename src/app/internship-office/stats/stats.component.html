@@ -1,11 +1,11 @@
 <div class="container-responsive row">
   <div class="col-6 asd">
     <h3 class="text-center font-weight-normal mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif;">
-      <i class="fa fa-chart-line"></i> ΕΠΙΤΕΥΞΗ ΔΕΙΚΤΩΝ
+      <i class="fa fa-chart-line"></i> {{'INTERNSHIP-OFFICE.INDICATORS-ACHIEVEMENT' | translate}}
     </h3>
     <mat-divider></mat-divider>
     <br>
-    <h4 class="label text-center">Εξαγωγή Βασικής Λίστας Ανά Τμήμα</h4>
+    <h4 class="label text-center">{{'INTERNSHIP-OFFICE.EXPORT-BASIC-LIST' | translate}}</h4>
     <!-- <br> -->
     <div class="container">
       <!-- <mat-form-field>
@@ -36,7 +36,7 @@
   </div>
   <div class="col-6">
     <h3 class="text-center font-weight-normal mb-4" style="font-family: Georgia, 'Times New Roman', Times, serif;">
-      <i class="fa fa-home"></i> ΕΠΙΤΕΥΞΗ ΔΕΙΚΤΩΝ
+      <i class="fa fa-home"></i> {{'INTERNSHIP-OFFICE.INDICATORS-ACHIEVEMENT' | translate}}
     </h3>
     <mat-divider></mat-divider>
     <!-- <br>
@@ -56,12 +56,12 @@
     </div> -->
 
     <br>
-    <h4 class="label text-center">Εξαγωγή Λίστας Ανά Φοιτητές / Έτος</h4>
+    <h4 class="label text-center">{{'INTERNSHIP-OFFICE.EXPORT-STUDENTS-YEAR' | translate}}</h4>
     <br>
     <div class="container">
       <mat-form-field>
 
-        <mat-label>Επιλέξτε έτος</mat-label>
+        <mat-label>{{'INTERNSHIP-OFFICE.SELECT-YEAR' | translate}}</mat-label>
         <mat-select [(ngModel)]="selectedYearAcc">
           <mat-option *ngFor="let year of internshipYears" [value]="year">{{ year + ' - ' + (year + 1)}}</mat-option>
         </mat-select>

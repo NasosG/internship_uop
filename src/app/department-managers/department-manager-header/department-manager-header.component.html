@@ -1,5 +1,5 @@
  <div class="pb-0 pt-3 mb-4 pl-3 " style="border:1px solid black; border-radius:6px;">
-   <p>Τμήμα: {{depManagerData?.department}}<br>Τμηματικός/η Υπεύθυνος/η:
+   <p>{{'GENERIC.DEPARTMENT' | translate}}: {{depManagerData?.department}}<br>{{'DEPT-MANAGER.COORDINATOR' | translate}}:
      {{depManagerData?.givenname}} {{depManagerData?.sn}}</p>
  </div>
  <!-- <div class="card-header p-2 mb-0" style="border:none;">
@@ -11,21 +11,20 @@
  </div> -->
  <div *ngIf="!periodData || periodData.semester == null" ngNativeValidate id="dep-manager-no-period"
    class="alert alert-danger" role="alert">
-   Δεν
-   υπάρχουν καταχωρημένες περιόδοι. Δημιουργήστε μία νέα περίοδο από το παρακάτω μενού
+   {{'DEPT-MANAGER.NO-PERIODS' | translate}}
  </div>
- <h4 *ngIf="periodData.semester != null"> Τρέχουσα Περίοδος </h4>
+ <h4 *ngIf="periodData.semester != null"> {{'GENERIC.CURRENT-PERIOD' | translate}} </h4>
  <table *ngIf="periodData.semester != null" ngNativeValidate id="dep-manager-table" class="table table-bordered"
    style="background-color:white">
    <thead>
      <tr>
-       <th scope="col">Εξάμηνο</th>
-       <th scope="col">Φάση Περιόδου</th>
-       <th scope="col">Έναρξη Φάσης {{periodData?.phase_state}}</th>
-       <th scope="col">Λήξη Φάσης {{periodData?.phase_state}}</th>
-       <th scope="col">Θέσεις ΕΣΠΑ</th>
-       <th scope="col">Θέσεις εκτός ΕΣΠΑ</th>
-       <th scope="col">Ενέργειες</th>
+       <th scope="col">{{'GENERIC.SEMESTER' | translate}}</th>
+       <th scope="col">{{'GENERIC.PERIOD-PHASE' | translate}}</th>
+       <th scope="col">{{'GENERIC.PHASE-START' | translate}} {{periodData?.phase_state}}</th>
+       <th scope="col">{{'GENERIC.PHASE-END' | translate}} {{periodData?.phase_state}}</th>
+       <th scope="col">{{'DEPT-MANAGER.ESPA-POSITIONS' | translate}}</th>
+       <th scope="col">{{'DEPT-MANAGER.NON-ESPA-POSITIONS' | translate}}</th>
+       <th scope="col">{{'GENERIC.ACTIONS' | translate}}</th>
      </tr>
    </thead>
    <tbody>
@@ -40,16 +39,16 @@
        <td class="action text-dark">
          <a style="cursor:pointer" (click)="openDialog(periodData?.id)" class="text-dark"><i class="fa fa-eye"
              aria-hidden="true"></i>
-           Προβολή</a><br>
+           {{'GENERIC.VIEW' | translate}}</a><br>
          <a class="text-dark" [routerLink]="['/department-manager/edit-period/' + this.authService.getSessionId()]"><i
              class="fa fa-pencil-alt"></i>
-           Επεξεργασία</a><br>
+           {{'GENERIC.EDIT' | translate}}</a><br>
          <a [routerLink]="['delete-period/' + this.authService.getSessionId()]" (click)="deletePeriodById()"
-           class="delete text-danger"><i class="fa fa-trash-alt"></i> Διαγραφή</a>
+           class="delete text-danger"><i class="fa fa-trash-alt"></i> {{'GENERIC.DELETE' | translate}}</a>
          <br>
          <a *ngIf="periodData?.phase_state == 2 || periodData?.phase_state == 3" (click)="completePeriodById()"
            style="cursor: pointer" class="text-success"><i class="fa fa-check"></i>
-           Ολοκλήρωση</a>
+           {{'GENERIC.COMPLETE' | translate}}</a>
        </td>
      </tr>
    </tbody>

@@ -1,43 +1,43 @@
 <div class="dialog-header">
-  <h3>Στοιχεία Εντολής Πληρωμής</h3>
+  <h3>{{'DEPT-MANAGER.PAYMENT-ORDER-DETAILS' | translate}}</h3>
   <div mat-icon-button class="close-button" (click)="closeDialog()">
     <i class="fa fa-times"></i>
   </div>
 </div>
 <mat-dialog-content class="mat-typography">
   <br>
-  <p><span><strong>Φοιτητής/ρια</strong></span>: {{ this.data.studentsData[this.data.index].givenname}}
+  <p><span><strong>{{'DEPT-MANAGER.STUDENT' | translate}}</strong></span>: {{ this.data.studentsData[this.data.index].givenname}}
     {{ this.data.studentsData[this.data.index].sn}}
   </p>
   <form [formGroup]="profileForm" style="max-width:78%; margin:auto">
     <br>
     <mat-form-field class="mt-2 w-100 mat-full-width" appearance="fill">
-      <mat-label for="department_manager_name">Τμηματικός Υπεύθυνος</mat-label>
+      <mat-label for="department_manager_name">{{'DEPT-MANAGER.COORDINATOR-SHORT' | translate}}</mat-label>
       <input id="department_manager_name" matInput [(ngModel)]="studentPaymentDetails.department_manager_name"
         formControlName="department_manager_name">
     </mat-form-field>
     <br>
     <mat-form-field class="w-100 mat-full-width" appearance="fill">
-      <mat-label for="dept_name">Τμήμα</mat-label>
+      <mat-label for="dept_name">{{'GENERIC.DEPARTMENT' | translate}}</mat-label>
       <input id="dept_name" class="inactive-field" readonly matInput [(ngModel)]="studentPaymentDetails.dept_name"
         formControlName="dept_name">
     </mat-form-field>
     <br>
     <mat-form-field class="w-100 mat-full-width" appearance="fill">
-      <mat-label for="student_wages">Ποσό. Αμοιβής φοιτητή/ριας(ευρώ)</mat-label>
+      <mat-label for="student_wages">{{'DEPT-MANAGER.STUDENT-PAY-AMOUNT' | translate}}</mat-label>
       <input id="student_wages" matInput type="number" [(ngModel)]="studentPaymentDetails.student_wages"
         formControlName="student_wages">
     </mat-form-field>
     <br>
-    <h4>Ημερομηνίες Υλοποίησης Πρακτικής Άσκησης</h4>
+    <h4>{{'DEPT-MANAGER.INTERNSHIP-IMPLEMENTATION-DATES' | translate}}</h4>
 
     <mat-form-field class="w-40 mt-2 mat-full-width" appearance="fill">
-      <mat-label for="pa_start_date">Ημερομηνία Έναρξης: </mat-label>
+      <mat-label for="pa_start_date">{{'DEPT-MANAGER.START-DATE' | translate}}: </mat-label>
       <input matInput id="pa_start_date" [(ngModel)]="studentPaymentDetails.pa_start_date" type="date"
         class="date-input" formControlName="pa_start_date">
     </mat-form-field>
     <mat-form-field class="w-40 ml-2 mt-2 mat-full-width" appearance="fill">
-      <mat-label for="pa_end_date">Ημερομηνία Λήξης: </mat-label>
+      <mat-label for="pa_end_date">{{'DEPT-MANAGER.END-DATE' | translate}}: </mat-label>
       <input matInput id="pa_end_date" type="date" [(ngModel)]="studentPaymentDetails.pa_end_date" class="date-input"
         formControlName="pa_end_date">
     </mat-form-field>
@@ -45,5 +45,5 @@
   <br>
 </mat-dialog-content>
 <mat-dialog-actions style='text-align: right'>
-  <button mat-button class="btn btn-primary mat-button" (click)="updateStudentsAllDetails()">Υποβολή</button>
+  <button mat-button class="btn btn-primary mat-button" (click)="updateStudentsAllDetails()">{{'HOME.SUBMIT-BTN' | translate}}</button>
 </mat-dialog-actions>

@@ -10,7 +10,7 @@
 
     <!-- THIS IS THE RIGHT CODE BELOW -->
   <button id="toggleVisibilityAddPeriod" *ngIf="(periodSet==false)" (click)="toggleShow()"
-    class="btn btn-secondary mb-3" type="button"> <i class="fas fa-plus mr-1"></i>Δημιουργία νέας περιόδου</button>
+    class="btn btn-secondary mb-3" type="button"> <i class="fas fa-plus mr-1"></i>{{'DEPT-MANAGER.CREATE-NEW-PERIOD' | translate}}</button>
   <div *ngIf="isShown" class="card">
     <!-- <div class="card-header">
       <h3 class="card-title">
@@ -22,25 +22,25 @@
     <div class="card-body">
       <div class="tab-content p-0">
         <div class="chart tab-pane active" style="min-height:430px" id="revenue-chart">
-          <h5 class="font-weight-normal pt-2 pb-2">Στοιχεία περιόδου</h5>
+          <h5 class="font-weight-normal pt-2 pb-2">{{'DEPT-MANAGER.PERIOD-DETAILS' | translate}}</h5>
           <form ngNativeValidate #periodForm="ngForm" (ngSubmit)="onSubmitPeriodForm(periodForm.value)">
             <div class="form-group row">
-              <label for="staticEmail" class="col-sm-2 col-form-label">Ακαδημαϊκό εξάμηνο</label>
+              <label for="staticEmail" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.ACADEMIC-SEMESTER' | translate}}</label>
               <div class="col-sm-10">
                 <select required class="custom-select" id="semester" name="semester" [(ngModel)]='ngSelect'>
-                  <option value="">Επιλέξτε εξάμηνο</option>
-                  <option value="1">Χειμερινό</option>
-                  <option value="2">Εαρινό</option>
+                  <option value="">{{'DEPT-MANAGER.SELECT-SEMESTER' | translate}}</option>
+                  <option value="1">{{'DEPT-MANAGER.WINTER' | translate}}</option>
+                  <option value="2">{{'DEPT-MANAGER.SPRING' | translate}}</option>
                 </select>
                 <!-- <input type="text" class="form-control" id="staticEmail" placeholder="Tίτλος Περιόδου" value=""> -->
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Φάση αιτήσεων</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.APPLICATIONS-PHASE' | translate}}</label>
               <div class="btn-group dropup col-sm-10">
                 <select class="custom-select" name="phase_state" [(ngModel)]='ngSelectPhase' id="phase_state" required>
                   <!-- <option value="" selected>Επιλέξτε φάση περιόδου</option> -->
-                  <option value="1" selected>1. Αιτήσεις ενδιαφέροντος φοιτητών</option>
+                  <option value="1" selected>{{'DEPT-MANAGER.PHASE-1-INTEREST' | translate}}</option>
                   <!-- <option value="2">2. Φάση επιλογής φοιτητών</option>
                   <option value="3">3. Δήλωση προτίμησης από τους φοιτητές</option>
                   <option value="4">4. Επιλογή φοιτητών από φορείς</option> -->
@@ -48,7 +48,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Έναρξη</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.START' | translate}}</label>
               <div class="col-sm-10">
 
                 <div class="pl-0 ml-0 input-group">
@@ -63,7 +63,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="inputPassword" class="col-sm-2 col-form-label">Λήξη</label>
+              <label for="inputPassword" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.END' | translate}}</label>
               <div class="col-sm-10">
                 <div class="pl-0 ml-0 input-group">
                   <input class="form-control ngb-popup-top" placeholder="dd/mm/yyyy" id="date_to" name="date_to"
@@ -78,21 +78,21 @@
             </div>
 
             <div class="form-group row">
-              <label for="positions" class="col-sm-2 col-form-label">Θέσεις ΕΣΠΑ</label>
+              <label for="positions" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.ESPA-POSITIONS' | translate}}</label>
               <div class="col-sm-10">
                 <input type="number" name="positions" id="positions" class="form-control" [(ngModel)]="espaPositions"
-                  placeholder="Αριθμός θέσεων" readonly required>
+                  placeholder="{{'GENERIC.POSITIONS-NUMBER' | translate}}" readonly required>
               </div>
             </div>
             <div class="form-group row">
-              <label for="available_positions" class="col-sm-2 col-form-label">Θέσεις εκτός ΕΣΠΑ</label>
+              <label for="available_positions" class="col-sm-2 col-form-label">{{'DEPT-MANAGER.NON-ESPA-POSITIONS' | translate}}</label>
               <div class="col-sm-10">
                 <input type="number" name="available_positions" #availablePositionsItem [(ngModel)]='availablePositions'
                   (input)="validateInputNumber(availablePositionsItem)" id="available_positions" class="form-control"
-                  placeholder="Αριθμός θέσεων" defaultValue="0" value="0" min="0" maxLength="5" required>
+                  placeholder="{{'GENERIC.POSITIONS-NUMBER' | translate}}" defaultValue="0" value="0" min="0" maxLength="5" required>
               </div>
             </div>
-            <button class="btn btn-primary">Δημιουργία</button>
+            <button class="btn btn-primary">{{'DEPT-MANAGER.CREATE' | translate}}</button>
           </form>
         </div>
       </div>

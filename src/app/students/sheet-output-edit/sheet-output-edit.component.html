@@ -1,20 +1,18 @@
 <div *ngIf="this.entries[0]!=null">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Το δελτίο εξόδου έχει δημιουργηθεί. Πηγαίνετε στη καρτέλα <span
-      (click)="tabGroup.selectedIndex = 1">'Προβολή'</span> για να το αποθηκεύσετε και να το εκτυπώσετε.
+    {{'SHEETS.EXIT-SHEET-CREATED' | translate}} <span
+      (click)="tabGroup.selectedIndex = 1">{{'SHEETS.VIEW-TAB' | translate}}</span> {{'SHEETS.TAB-TO-SAVE-PRINT' | translate}}
   </div>
 </div>
 <form *ngIf="this.entries[0]==null" ngNativeValidate #studentEntryForm="ngForm" class="form-horizontal"
   (ngSubmit)="onSubmitStudentEntrySheet(studentEntryForm.value)">
   <div class="alert alert-danger mt-3 mb-2" role="alert">
-    Κάποιες ερωτήσεις ενδέχεται να είναι προεπιλεγμένες. Διαβάστε πολύ προσεκτικά τις ερωτήσεις-επεξηγήσεις και
-    απαντήστε σε όλα τα ερωτήματα.
+    {{'SHEETS.PRESELECTED-READ-CAREFULLY' | translate}}
     <br>
-    Το καθεστώς εργασίας αφορά συμβάσεις που έχετε εκτός της σύμβασης πρακτικής άσκησης ΕΣΠΑ.
+    {{'SHEETS.EMPLOYMENT-STATUS-NOTE' | translate}}
   </div>
 
-  <h3 class="text-dark pt-3">Α) Καθεστώς Εργασίας 4 εβδομάδες μετά την Έξοδο από την πράξη και 6 μήνες μετά την Έξοδο
-    από την πράξη</h3>
+  <h3 class="text-dark pt-3">{{'SHEETS.A-EMPLOYMENT-STATUS-EXIT' | translate}}</h3>
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
   <!-- <h4 class="text-dark"> Ενεργή Εργασία </h4> -->
@@ -26,15 +24,15 @@
     </div>
     <div class="col-2 text-right">
       <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-        <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button value="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" value="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
 
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
-  <h3 class="text-danger pt-3">Β) Καθεστώς Εκπαίδευσης</h3>
+  <h3 class="text-danger pt-3">{{'SHEETS.B-EDUCATION-STATUS' | translate}}</h3>
   <div *ngFor="let option of educationOptionsOutputSheetMIS2127" class="container-fluid row">
     <div class="col-10">
       <label for="{{option.id}}">
@@ -45,32 +43,32 @@
       <mat-radio-group *ngIf="option.id == 'B1' || option.id == 'B2' || option.id == 'B4' || option.id == 'B5'"
         name="{{option.id}}" [(ngModel)]="selectedNOOption" id="{{option.id}}" [disabled]="true" required
         aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B'" name="{{option.id}}" [(ngModel)]="optionValue" id="{{option.id}}"
         required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B3' && optionValue == 1" name="{{option.id}}"
         [(ngModel)]="selectedYESOption" id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0" [disabled]="true">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0" [disabled]="true">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B3' && optionValue == 0" name="{{option.id}}" [(ngModel)]="selectedNOOption"
         id="{{option.id}}" required aria-label="Select an option">
-        <mat-radio-button [value]="1" [disabled]="true">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1" [disabled]="true">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
 
       <mat-radio-group *ngIf="option.id == 'B3' && optionValue == null" name="{{option.id}}" id="{{option.id}}" required
         aria-label="Select an option">
-        <mat-radio-button [value]="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [value]="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button [value]="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [value]="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
@@ -78,7 +76,7 @@
   <mat-divider class="mt-2 mb-2"></mat-divider>
 
 
-  <h3 class="text-danger pt-3">E) Στοιχεία Πρακτικής</h3>
+  <h3 class="text-danger pt-3">{{'SHEETS.E-INTERNSHIP-DETAILS-TITLE' | translate}}</h3>
 
   <div *ngFor="let option of internshipExperienceOutputSheetMIS2127" class="container-fluid row">
     <div class="col-10 ">
@@ -88,13 +86,13 @@
     </div>
     <div class="col-2 text-right">
       <mat-radio-group id="{{option.id}}" name="{{option.id}}" ngModel required aria-label="Select an option">
-        <mat-radio-button value="1">ΝΑΙ &nbsp;</mat-radio-button>
-        <mat-radio-button [checked]="true" value="0">ΟΧΙ</mat-radio-button>
+        <mat-radio-button value="1">{{'GENERIC.YES-CAPS' | translate}} &nbsp;</mat-radio-button>
+        <mat-radio-button [checked]="true" value="0">{{'GENERIC.NO-CAPS' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
   <br>
   <button [routerLink]="['../sheets/' + authService.getSessionId()]" class="btn btn-secondary mr-2"> <i
-      class="fas fa-angle-left"></i> Πίσω</button>
-  <button class="btn btn-primary">Αποθήκευση</button>
+      class="fas fa-angle-left"></i> {{'GENERIC.BACK' | translate}}</button>
+  <button class="btn btn-primary">{{'GENERIC.SAVE' | translate}}</button>
 </form>

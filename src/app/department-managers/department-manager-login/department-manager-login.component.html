@@ -7,14 +7,14 @@
     <div id="content" class="content" role="main" id="a1">
       <div id="main-terms-div">
         <div class="mt-0" style="max-width:600px;margin:auto;">
-          <h4 style="word-wrap:break-word; color: #224957">Επιλέξτε το τμήμα που θέλετε να επεξεργαστείτε
+          <h4 style="word-wrap:break-word; color: #224957">{{'DEPT-MANAGER.SELECT-DEPARTMENT-TO-MANAGE' | translate}}
 
           </h4>
         </div>
         <div class="terms-box mt-3">
           <div class="tacbox tacbox-bold">
             <mat-form-field class="mt-2 mat-full-width" appearance="fill">
-              <mat-label>Τμήμα...</mat-label>
+              <mat-label>{{'DEPT-MANAGER.DEPARTMENT-PLACEHOLDER' | translate}}</mat-label>
               <mat-select class="mt-2" [formControl]="academics" [required]="true" panelClass="dept-select-panel">
                 <mat-option *ngFor="let academic of managedAcademics" [value]="academic.atlas_id">
                   {{academic.department}}
@@ -28,7 +28,7 @@
             data-bs-dismiss="modal">{{'HOME.BACK-BTN' | translate}}</button> -->
           <button type="submit" class="text-white btn btn-primary">
             <a>
-              <span class="text-white">ΕΠΟΜΕΝΟ</span>
+              <span class="text-white">{{'GENERIC.NEXT-CAPS' | translate}}</span>
             </a>
           </button>
         </div>

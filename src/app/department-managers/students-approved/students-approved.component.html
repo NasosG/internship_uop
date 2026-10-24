@@ -5,15 +5,14 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Έγκυροι φοιτητές</h3>
+            <h3 class="card-title">{{'DEPT-MANAGER.ELIGIBLE-STUDENTS-TITLE' | translate}}</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
             <div class="mb-3" style="display: flex; justify-content: space-between;">
-              <h4 class="mb-3" *ngIf="period != null">Τρέχουσα Περίοδος:
+              <h4 class="mb-3" *ngIf="period != null">{{'GENERIC.CURRENT-PERIOD' | translate}}:
                 {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') + period?.pyear}}</h4>
-              <button class="btn btn-primary" style="float:right" (click)="runAlgorithm()">Ανανέωση
-                Αποτελεσμάτων</button>
+              <button class="btn btn-primary" style="float:right" (click)="runAlgorithm()">{{'DEPT-MANAGER.REFRESH-RESULTS' | translate}}</button>
             </div>
             <button class="btn btn-primary" (click)="exportToExcel()"><i class='fas fa-file-export'
                 style='font-size:24px'></i> Excel</button>
@@ -25,15 +24,15 @@
             <table id="example" #example class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th name="first">Αρ.Κατάταξης</th>
-                  <th>Αποτελέσματα</th>
-                  <th>Ονοματεπώνυμο</th>
+                  <th name="first">{{'DEPT-MANAGER.RANK-SHORT' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.RESULTS' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
                   <!-- <th>Πατρώνυμο</th> -->
-                  <th>ΑΜ</th>
+                  <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
                   <!-- <th>email</th> -->
-                  <th>Βαθμολογία (στα 100)</th>
-                  <th>ΑΜΕΑ (Κατ.5)</th>
-                  <th class="text-center">Ενέργειες</th>
+                  <th>{{'DEPT-MANAGER.SCORE-OUT-OF-100' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.DISABILITY-CAT5-SHORT' | translate}}</th>
+                  <th class="text-center">{{'GENERIC.ACTIONS' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -60,22 +59,22 @@
                   <td class="action text-center">
                     <a (click)="openDialog(idx)" class="text-secondary" style="cursor: pointer;"><i
                         class="fa fa-eye"></i>
-                      Προβολή<br></a>
+                      {{'GENERIC.VIEW' | translate}}<br></a>
                     <!-- <a href="#" class="delete text-danger"><i class="fa fa-trash-alt"></i> Ακύρωση</a> -->
                   </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
-                  <th>Αρ.Κατάταξης</th>
-                  <th>Αποτελέσματα</th>
-                  <th>Ονοματεπώνυμο</th>
+                  <th>{{'DEPT-MANAGER.RANK-SHORT' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.RESULTS' | translate}}</th>
+                  <th>{{'GENERIC.FULL-NAME' | translate}}</th>
                   <!-- <th>Πατρώνυμο</th> -->
-                  <th>ΑΜ</th>
+                  <th>{{'GENERIC.REG-NUMBER' | translate}}</th>
                   <!-- <th>email</th> -->
-                  <th>Βαθμολογία (στα 100)</th>
-                  <th>ΑΜΕΑ (Κατ.5)</th>
-                  <th class="text-center">Ενέργειες</th>
+                  <th>{{'DEPT-MANAGER.SCORE-OUT-OF-100' | translate}}</th>
+                  <th>{{'DEPT-MANAGER.DISABILITY-CAT5-SHORT' | translate}}</th>
+                  <th class="text-center">{{'GENERIC.ACTIONS' | translate}}</th>
                 </tr>
               </tfoot>
             </table>
