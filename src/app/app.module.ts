@@ -158,7 +158,7 @@ export const MY_DATE_FORMATS: MatDateFormats = {
 // AoT requires an exported function for factories
 // ?v= makes browsers fetch the json again after it changes (bump it on every gr.json / en.json change)
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json?v=20261024');
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json?v=20261024-2');
 }
 
 @NgModule({

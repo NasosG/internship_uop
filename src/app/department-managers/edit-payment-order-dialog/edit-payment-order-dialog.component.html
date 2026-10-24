@@ -12,7 +12,7 @@
   <form [formGroup]="profileForm" style="max-width:78%; margin:auto">
     <br>
     <mat-form-field class="mt-2 w-100 mat-full-width" appearance="fill">
-      <mat-label for="department_manager_name">Τμηματικός Υπεύθυνος</mat-label>
+      <mat-label for="department_manager_name">{{'DEPT-MANAGER.COORDINATOR-SHORT' | translate}}</mat-label>
       <input id="department_manager_name" matInput [(ngModel)]="studentPaymentDetails.department_manager_name"
         formControlName="department_manager_name">
     </mat-form-field>

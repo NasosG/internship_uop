@@ -464,7 +464,9 @@
     "ASSIGNMENT-OPTIONS": "Assignment Options",
     "PRE-RESERVE-POSITION": "Pre-reserve Position",
     "FINAL-ASSIGNMENT": "Final assignment",
-    "CHANGE-STUDENT-DATES": "Change Student's Internship Dates"
+    "CHANGE-STUDENT-DATES": "Change Student's Internship Dates",
+    "COORDINATOR": "Department Manager",
+    "COORDINATOR-SHORT": "Department Manager"
   },
   "COMPANY": {
     "CARRIER": "Carrier",

@@ -463,7 +463,9 @@
     "ASSIGNMENT-OPTIONS": "Επιλογές Ανάθεσης",
     "PRE-RESERVE-POSITION": "Προδέσμευση Θέσης",
     "FINAL-ASSIGNMENT": "Τελική ανάθεση",
-    "CHANGE-STUDENT-DATES": "Αλλαγή Ημερομηνιών Διεξαγωγής ΠΑ Φοιτητή"
+    "CHANGE-STUDENT-DATES": "Αλλαγή Ημερομηνιών Διεξαγωγής ΠΑ Φοιτητή",
+    "COORDINATOR": "Τμηματικός/η Υπεύθυνος/η",
+    "COORDINATOR-SHORT": "Τμηματικός Υπεύθυνος"
   },
   "COMPANY": {
     "CARRIER": "Φορέας",
