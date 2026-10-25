@@ -739,26 +739,50 @@
 /* ------------------------------------------------------------------- */
 /* Job List and resumes list li dark mode start
 ---------------------------------------------------------------------- */
+/* the dividers (and the description box border) are a little softer than in light mode */
 .dark-mode .resumes-list li,
 .dark-mode .job-list li {
   background-color: #343a40 !important;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #cccecf !important;
   position: relative;
 }
 
 .dark-mode .resumes-list li:last-child,
 .dark-mode .job-list li:last-child {
-  border-bottom: 1px solid #343a40 !important;
+  border-bottom: 1px solid #cccecf !important;
 }
 
-.dark-mode .resumes-list li:last-child,
-.dark-mode .job-list li:last-child {
-  border-bottom: 1px solid #343a40 !important;
+.dark-mode #job-description {
+  border-color: #cccecf !important;
 }
 
 .dark-mode .resumes-list li:nth-child(2n),
 .dark-mode .job-list li:nth-child(2n) {
   background-color: #343a40 !important;
+}
+
+.dark-mode .resumes-list li .dark-div,
+.dark-mode .job-list li .dark-div {
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Hover: a lighter row (the content div covers the li, so it changes too) and whiter dividers above
+   and below it (the light mode hover would turn them dark gray) */
+.dark-mode .resumes-list li:hover,
+.dark-mode .resumes-list li:hover .dark-div,
+.dark-mode .job-list li:hover,
+.dark-mode .job-list li:hover .dark-div {
+  background-color: #43494e !important;
+}
+
+.dark-mode .resumes-list li:hover,
+.dark-mode .job-list li:hover {
+  border-color: #f8f9fa !important;
+}
+
+.dark-mode .resumes-list li:hover a:before,
+.dark-mode .job-list li:hover a:before {
+  box-shadow: 0px 1px 0px 0px #f8f9fa !important;
 }
 
 .dark-mode .resumes-list li.highlighted,
