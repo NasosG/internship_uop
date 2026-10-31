@@ -140,7 +140,7 @@ export class AuthService {
   }
 
   loginWithPassword(username: string, password: string) {
-    console.log(username + "|" + password);
+    // console.log(username + "|" + password);
     this.shown = true;
     this.http.post<{token: string; userId: number;}>(API_URL + '/company/login', {"username": username, "password": password})
      .subscribe((response) => {
