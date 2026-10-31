@@ -335,6 +335,10 @@ const routes: Routes = [{
   {
     path: 'sheets/remind/:uuid',
     component: AdminPanelComponent
+  },
+  {
+    path: 'ops/:uuid',
+    component: AdminPanelComponent
   }]
 }
 ];

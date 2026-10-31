@@ -96,6 +96,12 @@
               <p>Δελτία Υπενθυμίσεις</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a [routerLink]="['/admin/ops/' + this.authService.getSessionId()]" [routerLinkActive]="['active']" class="nav-link">
+              <i class="nav-icon fas fa-cloud-upload-alt"></i>
+              <p>ΟΠΣ</p>
+            </a>
+          </li>
           <li class="nav-header">{{'STUDENT.SIDEBAR-ACCESSIBILITY' | translate}}</li>
           <li class="nav-item">
             <a class="nav-link cursor-pointer">
@@ -271,6 +277,7 @@
       </div>
       <app-atlas-position-sync-manual *ngIf="isSyncPositionRoute()"></app-atlas-position-sync-manual>
       <app-students-sheet-reminder *ngIf="isSheetsRemindRoute()"></app-students-sheet-reminder>
+      <app-ops-sheets *ngIf="isOpsRoute()"></app-ops-sheets>
       <section class="content">
         <div class="row">
 

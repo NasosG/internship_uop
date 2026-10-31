@@ -6,6 +6,7 @@ import { catchError, throwError } from 'rxjs';
 
 const API_URL = environment.apiUrl + "/admin/";
 const ATLAS_URL = environment.apiUrl + "/atlas/";
+const OPS_URL = environment.apiUrl + "/ops/";
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,11 @@ export class AdminService {
         return throwError(() => 'An error occurred while syncing the position. Please try again.');
       })
     );
+  }
+
+  // Result of a sheet already submitted to the ΟΠΣ, by its submission id (RequestProgressID)
+  getOpsSheetResult(type: 'entry' | 'exit', requestId: string) {
+    return this.http.post<any>(OPS_URL + 'getDeltioResultWS', { type, requestId });
   }
 
   getStudentsWithoutSheets(departmentId: number, type: 'entry' | 'exit', useDate: boolean, selectedDate: any) {

@@ -1,0 +1,28 @@
+.ops-card {
+  max-width: 720px;
+  margin: 8px 0 0 16px;
+}
+
+.ops-tab-content {
+  padding: 20px 4px 8px;
+}
+
+.ops-tab-content mat-form-field {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.ops-hint {
+  color: #6c757d;
+  margin-bottom: 20px;
+}
+
+.ops-request-id {
+  font-family: monospace;
+}
+
+.ops-submit {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+}

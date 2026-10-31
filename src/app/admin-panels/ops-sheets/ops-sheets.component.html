@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="card card-primary card-outline ops-card">
+    <div class="card-header">
+      <h5 class="mb-0"><i class="fas fa-cloud-upload-alt"></i>&nbsp; ΟΠΣ</h5>
+    </div>
+    <div class="card-body">
+      <mat-tab-group>
+        <mat-tab label="Επαναποστολή αποτυχημένου δελτίου">
+          <div class="ops-tab-content">
+            <p class="ops-hint">
+              Για δελτία που στάλθηκαν στο ΟΠΣ, αλλά δεν λήφθηκε το αποτέλεσμά τους. Το δελτίο δεν ξαναστέλνεται:
+              ζητείται από το ΟΠΣ μόνο το αποτέλεσμα της υποβολής (2ο βήμα) και, αν πέτυχε, ο Α/Α αποθηκεύεται
+              στο δελτίο του φοιτητή.
+            </p>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Τύπος δελτίου</mat-label>
+              <mat-select [(ngModel)]="sheetType">
+                <mat-option value="entry">Δελτίο Εισόδου</mat-option>
+                <mat-option value="exit">Δελτίο Εξόδου</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <ng-container *ngIf="sheetType">
+              <mat-form-field appearance="fill">
+                <mat-label>Κωδικός υποβολής ΟΠΣ (RequestProgressID)</mat-label>
+                <input matInput class="ops-request-id" [(ngModel)]="requestId" (keyup.enter)="resendSheet()"
+                  placeholder="π.χ. b920d39d-d55e-41a9-a3b9-e4032183b2cf" autocomplete="off" spellcheck="false">
+                <mat-hint [class.text-danger]="showInvalidRequestId()">
+                  {{ showInvalidRequestId()
+                    ? 'Μη έγκυρος κωδικός: 36 χαρακτήρες της μορφής xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+                    : 'Εμφανίζεται στο μήνυμα σφάλματος της αποτυχημένης αποστολής' }}
+                </mat-hint>
+              </mat-form-field>
+
+              <button class="btn btn-primary ops-submit" [disabled]="!isRequestIdValid() || isLoading" (click)="resendSheet()">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+                {{ isLoading ? 'Αναμονή απάντησης ΟΠΣ...' : 'Επαναποστολή' }}
+              </button>
+            </ng-container>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

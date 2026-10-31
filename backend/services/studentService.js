@@ -148,6 +148,15 @@ const getStudentExitSheets = async (id) => {
   }
 };
 
+const getStudentIdsBySsn = async (ssn) => {
+  try {
+    const results = await pool.query("SELECT sso_uid FROM student_users WHERE ssn = $1", [ssn]);
+    return results.rows.map(row => row.sso_uid);
+  } catch (error) {
+    throw Error('Error while fetching students by ssn');
+  }
+};
+
 const getStudentEvaluationSheets = async (id) => {
   try {
     const resultsEvaluationSheet = await pool.query("SELECT * FROM student_evaluation_form where student_id = $1", [id]);
@@ -1461,6 +1470,7 @@ module.exports = {
   getStudentById,
   getStudentEntrySheets,
   getStudentExitSheets,
+  getStudentIdsBySsn,
   getStudentEvaluationSheets,
   getStudentApplications,
   getStudentPositions,

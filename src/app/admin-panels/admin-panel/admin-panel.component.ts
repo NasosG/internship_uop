@@ -226,4 +226,8 @@ export class AdminPanelComponent implements OnInit {
   isSheetsRemindRoute() {
     return this.router.url === '/admin/sheets/remind/' + this.authService.getSessionId();
   }
+
+  isOpsRoute() {
+    return this.router.url === '/admin/ops/' + this.authService.getSessionId();
+  }
 }

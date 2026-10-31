@@ -137,6 +137,7 @@ import { MatDateFormats, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/mate
 import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
 import { StudentsSheetReminderComponent } from './admin-panels/students-sheet-reminder/students-sheet-reminder.component';
+import { OpsSheetsComponent } from './admin-panels/ops-sheets/ops-sheets.component';
 import { SheetQuestionnairesEditDialogComponent } from './department-managers/sheet-questionnaires-edit-dialog/sheet-questionnaires-edit-dialog.component';
 import { SheetQuestionnairesOfficeComponent } from './internship-office/sheet-questionnaires-office/sheet-questionnaires-office.component';
 import { SheetQuestionnairesOfficeEditDialogComponent } from './internship-office/sheet-questionnaires-office-edit-dialog/sheet-questionnaires-office-edit-dialog.component';
@@ -263,6 +264,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StudentFilesViewDialogComponent,
     AtlasPositionSyncManualComponent,
     StudentsSheetReminderComponent,
+    OpsSheetsComponent,
     SheetQuestionnairesEditDialogComponent,
     SheetQuestionnairesOfficeComponent,
     SheetQuestionnairesOfficeEditDialogComponent,

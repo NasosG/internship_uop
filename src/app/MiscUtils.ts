@@ -15,6 +15,44 @@ export abstract class Utils {
     });
   }
 
+  /**
+   * Error of uploading a sheet to the ΟΠΣ: shows the reason given by the ΟΠΣ and,
+   * when the sheet reached the ΟΠΣ, the submission id (to check its result in the ΟΠΣ later)
+   */
+  static displayOPSErrorSwal(error: any) {
+    const response = error?.error || {};
+    let text = 'Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.';
+
+    if (response.message == 'Sheet already exists') {
+      text = 'Υπάρχει ήδη δελτίο του φοιτητή στο ΟΠΣ. Αν εδώ φαίνεται ότι δεν έχει ανέβει ακόμη, ο Α/Α του δελτίου πρέπει να αναζητηθεί στο ΟΠΣ.';
+    } else if (response.message?.includes('failed after retries')) {
+      text = 'Το δελτίο στάλθηκε στο ΟΠΣ, αλλά δεν λήφθηκε έγκαιρα το αποτέλεσμα της επεξεργασίας του, οπότε ο αριθμός του δεν αποθηκεύτηκε.';
+    }
+
+    if (response.opsMessage) {
+      text += '\n\nΜήνυμα ΟΠΣ:\n' + response.opsMessage;
+    }
+
+    if (response.requestId) {
+      text += '\n\nΚωδικός υποβολής ΟΠΣ (RequestProgressID):\n' + response.requestId;
+    }
+
+    // textContent (not innerHTML): the message is shown as plain text, keeping its line breaks
+    const content = document.createElement('div');
+    content.style.whiteSpace = 'pre-line';
+    content.textContent = text;
+
+    Swal.fire({
+      title: 'Σφάλμα',
+      html: content,
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
   static displaySuccessSwal(displayText: string) {
     Swal.fire({
       title: 'Επιτυχία',

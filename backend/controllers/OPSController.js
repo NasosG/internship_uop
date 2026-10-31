@@ -30,6 +30,9 @@ const createMicrodata = (id, answer) => {
 };
 
 const sendDeltioEisodouWS = async (req, res) => {
+  // Id of the submission (call 1): sent with every error after it, so the result can be checked in the OPS later
+  let requestId;
+
   try {
     const studentId = req.params.id;
     const MODE = 'WS';
@@ -68,24 +71,31 @@ const sendDeltioEisodouWS = async (req, res) => {
     const { RequestProgressMessage, RequestProgressMessageCode } = parsedResponseCall1;
     logger.info('RequestProgressMessage: ', RequestProgressMessage);
     logger.info('Extracted Code: ', RequestProgressMessageCode);
+    requestId = RequestProgressMessageCode;
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
 
     let responseCall2;
     try {
-      const MAX_RETRIES = 4;
+      const MAX_RETRIES = 5;
       const RETRY_DELAY = 5000; // 5 seconds
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       if (responseCall2?.message == 'XMLErrors found') {
         logger.error('Error XMLErrors found');
-        return res.status(500).send({ message: 'XMLErrors found' });
+        return res.status(500).send({ message: 'XMLErrors found', opsMessage: responseCall2.opsMessage, requestId });
+      }
+      if (responseCall2?.message == 'Already processed') {
+        logger.warn(`OPS entry sheet already exists for student ${studentId}`);
+        return res.status(400).json({ message: 'Sheet already exists', opsMessage: responseCall2.opsMessage, requestId });
       }
       logger.info('Response from Call 2:', responseCall2);
     } catch (error) {
       logger.error(error.message);
-      return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries' });
+      // The sheet was submitted (call 1), only its result was not received in time
+      logger.warn(`OPS entry sheet result not received for student ${studentId}, RequestProgressID: ${requestId}`);
+      return res.status(500).send({ message: 'Entry sheet - SOAP request Call 2 failed after retries', requestId });
     }
 
     const parsedResponse = responseCall2?.data;//await parseXmlResponseCall2(responseCall2?.data);
@@ -106,24 +116,15 @@ const sendDeltioEisodouWS = async (req, res) => {
         await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults.rows[0].id, 'entry');
       }
       logger.info(`all OK for sheet with OPS number: ${idDeltiou}`);
-    } else if (Number(errorCode) == -11) {
-      logger.info('idOfel:', parsedResponse.idOfel);
-      logger.info('kodikosMis:', parsedResponse.kodikosMis);
-      logger.info('idDeltiou:', parsedResponse.idDeltiou);
-      logger.info('eidosDeltiou:', parsedResponse.eidosDeltiou);
-      logger.info('errorDescr:', parsedResponse.errorDescr);
-
-      console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
-      return res.status(400).json({ message: 'Sheet already exists' });
     } else {
       console.warn('OPS entry sheet WS response: ', parsedResponse);
-      return res.status(400).json({ message: 'Entry sheet - SOAP request failed' });
+      return res.status(400).json({ message: 'Entry sheet - SOAP request failed', requestId });
     }
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (exc) {
     logger.error(exc);
-    return res.status(500).send({ message: 'Entry sheet - SOAP request failed' });
+    return res.status(500).send({ message: 'Entry sheet - SOAP request failed', requestId });
   }
 };
 
@@ -153,14 +154,15 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
       if (parsedResponse?.status == 'failure') {
 
         if (parsedResponse?.errorDescr == 'XMLError') {
-          return { message: 'XMLErrors found' };
+          return { message: 'XMLErrors found', opsMessage: parsedResponse.errorMessage };
         }
 
         throw Error('Data processing has not been fully completed yet.');
       }
 
-      if (Number(parsedResponse?.errorCode) == -11) {
-        return { message: 'Already processed' };
+      // -11: an entry sheet, -10: an exit sheet already exists for the student
+      if (Number(parsedResponse?.errorCode) == -11 || Number(parsedResponse?.errorCode) == -10) {
+        return { message: 'Already processed', opsMessage: parsedResponse.errorDescr };
       }
 
       return { data: parsedResponse };
@@ -177,6 +179,9 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
 };
 
 const sendDeltioExodouWS = async (req, res) => {
+  // Id of the submission (call 1): sent with every error after it, so the result can be checked in the OPS later
+  let requestId;
+
   try {
     const studentId = req.params.id;
     const MODE = 'WS';
@@ -215,24 +220,31 @@ const sendDeltioExodouWS = async (req, res) => {
     const { RequestProgressMessage, RequestProgressMessageCode } = parsedResponseCall1;
     logger.info('RequestProgressMessage: ', RequestProgressMessage);
     logger.info('Extracted Code: ', RequestProgressMessageCode);
+    requestId = RequestProgressMessageCode;
 
     const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(RequestProgressMessageCode);
     const soapActionCall2 = 'getResponse';
 
     let responseCall2;
     try {
-      const MAX_RETRIES = 4;
+      const MAX_RETRIES = 5;
       const RETRY_DELAY = 5000; // 5 seconds
 
       responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, soapActionCall2);
       if (responseCall2?.message == 'XMLErrors found') {
         logger.error('Error XMLErrors found');
-        return res.status(500).send({ message: 'XMLErrors found' });
+        return res.status(500).send({ message: 'XMLErrors found', opsMessage: responseCall2.opsMessage, requestId });
+      }
+      if (responseCall2?.message == 'Already processed') {
+        logger.warn(`OPS exit sheet already exists for student ${studentId}`);
+        return res.status(400).json({ message: 'Sheet already exists', opsMessage: responseCall2.opsMessage, requestId });
       }
       logger.info('Response from Call 2:', responseCall2);
     } catch (error) {
       logger.error(error.message);
-      return res.status(500).send({ message: 'Exit sheet - SOAP request Call 2 failed after retries' });
+      // The sheet was submitted (call 1), only its result was not received in time
+      logger.warn(`OPS exit sheet result not received for student ${studentId}, RequestProgressID: ${requestId}`);
+      return res.status(500).send({ message: 'Exit sheet - SOAP request Call 2 failed after retries', requestId });
     }
 
     const parsedResponse = responseCall2?.data;
@@ -253,24 +265,94 @@ const sendDeltioExodouWS = async (req, res) => {
         await studentService.updateSheetOpsNumberById(idDeltiou, sheetResults[0].exit_id, 'exit');
       }
       logger.info(`all OK for sheet with OPS number: ${idDeltiou}`);
-    } else if (Number(errorCode) == -11) {
-      logger.info('idOfel:', parsedResponse.idOfel);
-      logger.info('kodikosMis:', parsedResponse.kodikosMis);
-      logger.info('idDeltiou:', parsedResponse.idDeltiou);
-      logger.info('eidosDeltiou:', parsedResponse.eidosDeltiou);
-      logger.info('errorDescr:', parsedResponse.errorDescr);
-
-      console.warn(`Sheet already exists for: ${parsedResponse.idOfel}`);
-      return res.status(400).json({ message: 'Sheet already exists' });
     } else {
       console.warn('OPS exit sheet WS response: ', parsedResponse);
-      return res.status(400).json({ message: 'Exit sheet - SOAP request failed' });
+      return res.status(400).json({ message: 'Exit sheet - SOAP request failed', requestId });
     }
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (error) {
     logger.error(error);
-    res.status(500).send('SOAP request failed');
+    res.status(500).send({ message: 'Exit sheet - SOAP request failed', requestId });
+  }
+};
+
+// Submission id of the OPS (RequestProgressID), e.g. b920d39d-d55e-41a9-a3b9-e4032183b2cf
+const REQUEST_ID_PATTERN = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+/**
+ * Gets the result of a sheet that was already submitted to the OPS, by its submission id (only the second call),
+ * e.g. when the result was not received in time during the upload. On success it stores the OPS number
+ * in the sheet of the student (found by the ΑΦΜ the OPS returns), if the sheet has no number yet.
+ */
+const getDeltioResultWS = async (req, res) => {
+  const requestId = String(req.body.requestId ?? '').trim();
+  const sheetType = req.body.type;
+
+  try {
+    if (!REQUEST_ID_PATTERN.test(requestId) || !['entry', 'exit'].includes(sheetType)) {
+      return res.status(400).json({ message: 'Invalid submission id or sheet type' });
+    }
+
+    if (process.env.ENV == 'DEV') {
+      return res.status(200).json({ 'status': 200, 'message': 'deactivated' });
+    }
+
+    const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
+    const xmlPostStringCall2 = await getXmlPostStringMIS21_27_Call2Res(requestId);
+
+    let responseCall2;
+    try {
+      const MAX_RETRIES = 2;
+      const RETRY_DELAY = 5000; // 5 seconds
+
+      responseCall2 = await callServiceWithRetry(soapUrl, xmlPostStringCall2, MAX_RETRIES, RETRY_DELAY, 'getResponse');
+    } catch (error) {
+      logger.error(error.message);
+      return res.status(500).send({ message: 'Sheet result - SOAP request Call 2 failed after retries', requestId });
+    }
+
+    if (responseCall2?.message == 'XMLErrors found') {
+      return res.status(500).send({ message: 'XMLErrors found', opsMessage: responseCall2.opsMessage, requestId });
+    }
+    if (responseCall2?.message == 'Already processed') {
+      return res.status(400).json({ message: 'Sheet already exists', opsMessage: responseCall2.opsMessage, requestId });
+    }
+
+    const parsedResponse = responseCall2?.data;
+    const idDeltiou = parsedResponse?.idDeltiou;
+    logger.info(`OPS sheet result for RequestProgressID ${requestId}: ${parsedResponse?.errorDescr}`);
+
+    // EidosDeltiou: 1 entry, 0 exit
+    if (String(parsedResponse?.eidosDeltiou) !== (sheetType == 'entry' ? '1' : '0')) {
+      return res.status(400).json({ message: 'Wrong sheet type', opsNumber: idDeltiou, requestId });
+    }
+
+    // saved: stored now, existing: the sheet already had a number, not-found: no single sheet of a student for this ΑΦΜ
+    let storage = 'not-found';
+    let existingOpsNumber;
+    const studentIds = await studentService.getStudentIdsBySsn(parsedResponse.idOfel);
+
+    if (studentIds.length == 1 && idDeltiou) {
+      const studentId = studentIds[0];
+      const sheet = sheetType == 'entry'
+        ? (await studentService.getStudentEntrySheets(studentId)).rows[0]
+        : (await studentService.getStudentExitSheets(studentId))[0];
+      existingOpsNumber = sheetType == 'entry' ? sheet?.ops_number_eisodou : sheet?.ops_number_exodou;
+
+      if (sheet && existingOpsNumber) {
+        storage = 'existing';
+      } else if (sheet) {
+        await studentService.updateSheetOpsNumberById(idDeltiou, sheetType == 'entry' ? sheet.id : sheet.exit_id, sheetType);
+        storage = 'saved';
+        logger.warn(`OPS ${sheetType} sheet number ${idDeltiou} stored for student ${studentId} (RequestProgressID ${requestId})`);
+      }
+    }
+
+    return res.status(200).json({ status: "DONE", opsNumber: idDeltiou, storage, existingOpsNumber });
+  } catch (exc) {
+    logger.error(exc);
+    return res.status(500).send({ message: 'Sheet result - SOAP request failed', requestId });
   }
 };
 
@@ -400,8 +482,9 @@ const parseXmlResponseCall2 = async (xml) => {
     const errorMessage = response?.['ofel:ErrorMessage'];
     const errorCodeNum = Number(response?.['ofel:ErrorCode']);
 
-    if (errorCodeNum !== -11 && errorCodeNum !== 0) {
-      return { status: 'failure', errorDescr: 'XMLError' };
+    // 0: success, -11 / -10: entry / exit sheet already exists, 103: the OPS rejected the sheet (errors in the message)
+    if (errorCodeNum !== -11 && errorCodeNum !== -10 && errorCodeNum !== 0) {
+      return { status: 'failure', errorDescr: 'XMLError', errorMessage: errorMessage };
     }
 
     return {
@@ -1085,6 +1168,7 @@ const testParsersWS = async () => {
 module.exports = {
   sendDeltioEisodouWS,
   sendDeltioExodouWS,
+  getDeltioResultWS,
   sendDeltioEisodouXML,
   sendDeltioExodouXML,
   testParsersWS

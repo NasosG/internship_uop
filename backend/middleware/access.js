@@ -13,5 +13,9 @@ module.exports = {
   // University users, but a student only with his own id in the route (:id)
   checkOwnStudentData: [...checkUniversityUser, requireOwnStudentId],
   // Department managers, office and admin only (actions on students, not done by the students)
-  checkStaff: [checkAuth, requireRole("depmanager", "office", "admin")]
+  checkStaff: [checkAuth, requireRole("depmanager", "office", "admin")],
+  // Internship office and admin only (e.g. sending the students' sheets to the OPS)
+  checkOffice: [checkAuth, requireRole("office", "admin")],
+  // Admin only (admin panel)
+  checkAdmin: [checkAuth, requireRole("admin")]
 };

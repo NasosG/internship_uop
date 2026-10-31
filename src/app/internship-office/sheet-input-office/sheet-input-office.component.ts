@@ -10,7 +10,7 @@ import { SheetInputOfficeEditDialogComponent } from '../sheet-input-office-edit-
 import { OfficeUser } from '../office-user.model';
 import { Period } from 'src/app/department-managers/period.model';
 import { DepManagerService } from 'src/app/department-managers/dep-manager.service';
-import { catchError, of } from 'rxjs';
+import { catchError, EMPTY, of } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 
@@ -113,8 +113,9 @@ export class SheetInputOfficeComponent implements OnInit {
       .pipe(
         catchError((error: any) => {
           console.error(error);
-          Utils.displayErrorSwal('Παρουσιάστηκε κάποιο πρόβλημα κατά την ανέβασμα του δελτίου.');
-          return of([]);
+          Utils.displayOPSErrorSwal(error);
+          // nothing else to show (the generic error below would replace this message)
+          return EMPTY;
         })
       )
       .subscribe((res: any) => {
