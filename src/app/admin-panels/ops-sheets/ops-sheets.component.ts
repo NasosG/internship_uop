@@ -69,12 +69,14 @@ export class OpsSheetsComponent {
 
     if (res.storage == 'saved') {
       Utils.displaySuccessSwal(found + ' Ο αριθμός αποθηκεύτηκε στο δελτίο του φοιτητή.');
+    } else if (res.storage == 'existing' && String(res.existingOpsNumber) == String(res.opsNumber)) {
+      Utils.displaySuccessSwal(found + ' Ο αριθμός είναι ήδη αποθηκευμένος στο δελτίο του φοιτητή.');
     } else if (res.storage == 'existing') {
-      Utils.displaySuccessSwal(found + ` Το δελτίο του φοιτητή έχει ήδη αριθμό ΟΠΣ (${res.existingOpsNumber}), οπότε δεν άλλαξε.`);
+      Utils.displaySuccessSwal(found + ` Το δελτίο του φοιτητή έχει ήδη άλλον αριθμό ΟΠΣ (${res.existingOpsNumber}), οπότε δεν άλλαξε.`);
     } else {
       Swal.fire({
         title: 'Δεν αποθηκεύτηκε',
-        text: found + ' Δεν βρέθηκε το αντίστοιχο δελτίο φοιτητή, οπότε ο αριθμός δεν αποθηκεύτηκε.',
+        text: found + ' Δεν βρέθηκε δελτίο φοιτητή με αυτό το ΑΦΜ χωρίς αριθμό ΟΠΣ, οπότε ο αριθμός δεν αποθηκεύτηκε.',
         icon: 'warning',
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'ΟΚ'

@@ -148,12 +148,17 @@ const getStudentExitSheets = async (id) => {
   }
 };
 
-const getStudentIdsBySsn = async (ssn) => {
+// Entry or exit sheets of the students with this ΑΦΜ (one per student, more than one student can have the same ΑΦΜ)
+const getSheetsBySsn = async (ssn, sheetType) => {
   try {
-    const results = await pool.query("SELECT sso_uid FROM student_users WHERE ssn = $1", [ssn]);
-    return results.rows.map(row => row.sso_uid);
+    const results = sheetType == 'entry'
+      ? await pool.query(`SELECT f.id AS sheet_id, f.student_id, f.ops_number_eisodou AS ops_number FROM entry_form f
+                          INNER JOIN student_users s ON s.sso_uid = f.student_id WHERE s.ssn = $1`, [ssn])
+      : await pool.query(`SELECT f.exit_id AS sheet_id, f.student_id, f.ops_number_exodou AS ops_number FROM exit_form f
+                          INNER JOIN student_users s ON s.sso_uid = f.student_id WHERE s.ssn = $1`, [ssn]);
+    return results.rows;
   } catch (error) {
-    throw Error('Error while fetching students by ssn');
+    throw Error('Error while fetching sheets by ssn');
   }
 };
 
@@ -1470,7 +1475,7 @@ module.exports = {
   getStudentById,
   getStudentEntrySheets,
   getStudentExitSheets,
-  getStudentIdsBySsn,
+  getSheetsBySsn,
   getStudentEvaluationSheets,
   getStudentApplications,
   getStudentPositions,

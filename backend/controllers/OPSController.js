@@ -328,24 +328,27 @@ const getDeltioResultWS = async (req, res) => {
       return res.status(400).json({ message: 'Wrong sheet type', opsNumber: idDeltiou, requestId });
     }
 
-    // saved: stored now, existing: the sheet already had a number, not-found: no single sheet of a student for this ΑΦΜ
+    // saved: stored now, existing: already stored (or the sheet has another number, which is not overwritten),
+    // not-found: no sheet for this ΑΦΜ, or several sheets without a number (it can't be told which one)
     let storage = 'not-found';
     let existingOpsNumber;
-    const studentIds = await studentService.getStudentIdsBySsn(parsedResponse.idOfel);
 
-    if (studentIds.length == 1 && idDeltiou) {
-      const studentId = studentIds[0];
-      const sheet = sheetType == 'entry'
-        ? (await studentService.getStudentEntrySheets(studentId)).rows[0]
-        : (await studentService.getStudentExitSheets(studentId))[0];
-      existingOpsNumber = sheetType == 'entry' ? sheet?.ops_number_eisodou : sheet?.ops_number_exodou;
+    if (idDeltiou) {
+      const sheets = await studentService.getSheetsBySsn(parsedResponse.idOfel, sheetType);
+      const sameNumber = sheets.find(sheet => String(sheet.ops_number) == String(idDeltiou));
+      // e.g. a second account of the student with the same ΑΦΜ: the number goes to the only sheet still without one
+      const withoutNumber = sheets.filter(sheet => !sheet.ops_number);
 
-      if (sheet && existingOpsNumber) {
+      if (sameNumber) {
         storage = 'existing';
-      } else if (sheet) {
-        await studentService.updateSheetOpsNumberById(idDeltiou, sheetType == 'entry' ? sheet.id : sheet.exit_id, sheetType);
+        existingOpsNumber = sameNumber.ops_number;
+      } else if (withoutNumber.length == 1) {
+        await studentService.updateSheetOpsNumberById(idDeltiou, withoutNumber[0].sheet_id, sheetType);
         storage = 'saved';
-        logger.warn(`OPS ${sheetType} sheet number ${idDeltiou} stored for student ${studentId} (RequestProgressID ${requestId})`);
+        logger.warn(`OPS ${sheetType} sheet number ${idDeltiou} stored for student ${withoutNumber[0].student_id} (RequestProgressID ${requestId})`);
+      } else if (sheets.length > 0 && withoutNumber.length == 0) {
+        storage = 'existing';
+        existingOpsNumber = sheets.map(sheet => sheet.ops_number).join(', ');
       }
     }
 
