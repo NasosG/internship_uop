@@ -439,7 +439,7 @@ const updatePositionsList = async (data) => {
 const updateProvidersList = async (data) => {
   try {
     for (const item of data) {
-      await pool.query("UPDATE atlas_provider \
+      const updateResults = await pool.query("UPDATE atlas_provider \
        SET name = $1, contact_email = $2, contact_name = $3, contact_phone = $4, afm = $5 \
         WHERE atlas_provider_id = $6",
         [item.name,
@@ -449,6 +449,11 @@ const updateProvidersList = async (data) => {
         item.afm,
         item.atlasProviderId
         ]);
+
+      // A provider that is missing from the local db (its insert had failed) is inserted
+      if (updateResults.rowCount == 0) {
+        await insertProvider([item]);
+      }
     }
   } catch (error) {
     logger.info('Error while updating provider[s] ' + error.message);
@@ -469,6 +474,38 @@ const updatePositionGroupRelationsList = async (data) => {
   } catch (error) {
     logger.info('Error while updating position group relation[s] ' + error.message);
     throw Error('Error while updating position group relation[s]');
+  }
+};
+
+/**
+ * Stores the last update date of Atlas, for the positions ('position') or the providers ('provider') that were fetched
+ * @param {*} data pairs of GetAvailablePositionGroups
+ */
+const updatePositionGroupRelationsDates = async (data, type) => {
+  try {
+    for (const item of data) {
+      if (type == 'position') {
+        await pool.query("UPDATE atlas_position_group_relations SET position_group_last_update = $1 \
+          WHERE position_group_id = $2 AND provider_id = $3",
+          [item.PositionGroupLastUpdateString, item.PositionGroupID, item.ProviderID]);
+      } else {
+        await pool.query("UPDATE atlas_position_group_relations SET provider_last_update = $1 \
+          WHERE position_group_id = $2 AND provider_id = $3",
+          [item.ProviderLastUpdateString, item.PositionGroupID, item.ProviderID]);
+      }
+    }
+  } catch (error) {
+    logger.info('Error while updating position group relation dates ' + error.message);
+    throw Error('Error while updating position group relation dates');
+  }
+};
+
+const positionGroupExists = async (atlasPositionId) => {
+  try {
+    const results = await pool.query("SELECT 1 FROM atlas_position_group WHERE atlas_position_id = $1", [atlasPositionId]);
+    return results.rowCount > 0;
+  } catch (error) {
+    throw Error('Error while checking position group ' + error.message);
   }
 };
 
@@ -723,6 +760,8 @@ module.exports = {
   updatePositionsList,
   updateProvidersList,
   updatePositionGroupRelationsList,
+  updatePositionGroupRelationsDates,
+  positionGroupExists,
   updateToken,
   insertOrUpdateAtlasTable,
   checkAtlasPositionAcademicsMatchStudents

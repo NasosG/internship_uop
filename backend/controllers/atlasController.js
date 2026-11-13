@@ -9,6 +9,79 @@ const logger = require('../config/logger');
 // Global variables
 const ATLAS_URL = (process.env.ATLAS_ENV !== 'PROD') ? process.env.ATLAS_PILOT_NEW : process.env.ATLAS_PROD;
 
+// Atlas requests never wait forever for an answer
+const ATLAS_TIMEOUT_MS = 60000;
+// The sync spreads its requests out instead of sending bursts (Atlas is behind AWS, which blocks bursts with 403)
+const ATLAS_SYNC_REQUEST_GAP_MS = parseInt(process.env.ATLAS_REQUEST_GAP_MS, 10) || 1000;
+const ATLAS_SYNC_MAX_ATTEMPTS = 4;
+// Wait before retrying a rejected / failed request of the sync: 30 s, then 60 s, then 120 s
+const ATLAS_SYNC_RETRY_WAIT_MS = 30000;
+// After this many requests that failed even with the retries (e.g. AWS blocks us), in a row or in total,
+// the rest of the run is skipped (each failed request has already waited 3.5 minutes)
+const ATLAS_SYNC_MAX_FAILED_REQUESTS_IN_A_ROW = 5;
+const ATLAS_SYNC_MAX_FAILED_REQUESTS = 10;
+
+// Token of the sync, renewed when Atlas rejects it
+let syncAccessToken = null;
+let lastSyncRequestTime = 0;
+let syncFailedRequestsInARow = 0;
+let syncFailedRequests = 0;
+// Only one sync at a time: a scheduled run is skipped while the previous one is still running
+let isAtlasSyncRunning = false;
+
+/**
+ * Atlas request of the sync: waits ATLAS_SYNC_REQUEST_GAP_MS since the previous request, logs in again when the
+ * token is rejected (401) and retries with growing waits when Atlas / AWS rejects the request (403, 429) or fails
+ * (5xx, timeout). Throws the last error after ATLAS_SYNC_MAX_ATTEMPTS attempts, and without a request once
+ * too many requests of the run have failed
+ */
+const atlasSyncRequest = async (options) => {
+  if (syncFailedRequestsInARow >= ATLAS_SYNC_MAX_FAILED_REQUESTS_IN_A_ROW || syncFailedRequests >= ATLAS_SYNC_MAX_FAILED_REQUESTS) {
+    throw Error('skipped, Atlas did not answer the previous requests');
+  }
+
+  for (let attempt = 1; ; attempt++) {
+    const gap = lastSyncRequestTime + ATLAS_SYNC_REQUEST_GAP_MS - Date.now();
+    if (gap > 0) await MiscUtils.sleep(gap);
+    lastSyncRequestTime = Date.now();
+
+    try {
+      const response = await axios({
+        ...options,
+        timeout: ATLAS_TIMEOUT_MS,
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': syncAccessToken
+        }
+      });
+      syncFailedRequestsInARow = 0;
+      return response;
+    } catch (error) {
+      const status = error.response?.status;
+      const canRetry = !status || status == 401 || status == 403 || status == 429 || status >= 500;
+      if (!canRetry || attempt >= ATLAS_SYNC_MAX_ATTEMPTS) {
+        if (canRetry) {
+          syncFailedRequestsInARow++;
+          syncFailedRequests++;
+          if (syncFailedRequestsInARow == ATLAS_SYNC_MAX_FAILED_REQUESTS_IN_A_ROW || syncFailedRequests == ATLAS_SYNC_MAX_FAILED_REQUESTS) {
+            logger.error(`Atlas sync: ${syncFailedRequests} requests failed (${syncFailedRequestsInARow} in a row), the rest of this run is skipped`);
+          }
+        }
+        throw error;
+      }
+
+      if (status == 401) {
+        logger.warn('Atlas sync: the token was rejected, logging in again');
+        syncAccessToken = await atlasLogin();
+      } else {
+        const retryWait = ATLAS_SYNC_RETRY_WAIT_MS * 2 ** (attempt - 1);
+        logger.warn(`Atlas sync: ${options.url.replace(ATLAS_URL, '')} ${error.message}, retrying in ${retryWait / 1000} s`);
+        await MiscUtils.sleep(retryWait);
+      }
+    }
+  }
+};
+
 // Atlas login - if token is valid, it is returned; else a new one is acquired
 const atlasLogin = async (uid = false, username = null, password = null) => {
   let credentials;
@@ -41,6 +114,7 @@ const atlasLogin = async (uid = false, username = null, password = null) => {
       url: ATLAS_URL + '/Login',
       method: 'POST',
       data: loginData,
+      timeout: ATLAS_TIMEOUT_MS,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -170,11 +244,16 @@ const insertDepartmentIds = async (accessToken) => {
   }
 };
 
-const getPositionGroupDetails = async (positionId, accessToken) => {
+// forSync: through atlasSyncRequest (spaced out requests, new login and retries)
+const getPositionGroupDetails = async (positionId, accessToken, forSync = false) => {
   try {
-    const atlasResponse = await axios({
+    const request = {
       url: ATLAS_URL + '/GetPositionGroupDetails?ID=' + positionId,
-      method: 'GET',
+      method: 'GET'
+    };
+    const atlasResponse = forSync ? await atlasSyncRequest(request) : await axios({
+      ...request,
+      timeout: ATLAS_TIMEOUT_MS,
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken
@@ -193,11 +272,16 @@ const getPositionGroupDetails = async (positionId, accessToken) => {
   }
 };
 
-const getProviderDetails = async (providerId, accessToken) => {
+// forSync: through atlasSyncRequest (spaced out requests, new login and retries)
+const getProviderDetails = async (providerId, accessToken, forSync = false) => {
   try {
-    const atlasResponse = await axios({
+    const request = {
       url: ATLAS_URL + '/GetProviderDetails?ID=' + providerId,
-      method: 'GET',
+      method: 'GET'
+    };
+    const atlasResponse = forSync ? await atlasSyncRequest(request) : await axios({
+      ...request,
+      timeout: ATLAS_TIMEOUT_MS,
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken
@@ -658,224 +742,187 @@ const insertOrUpdateWholeAtlasTables = async () => {
   }
 };
 
+/**
+ * New position of Atlas: the provider and the position are stored first and the relation (with the last update
+ * dates) last, so that a position that could not be fetched is not marked as synced and is retried in the next run
+ * @returns true when the position was stored
+ */
+const insertNewAtlasPosition = async (atlasItem) => {
+  try {
+    const positionGroupResults = await getPositionGroupDetails(atlasItem.PositionGroupID, null, true);
+    if (!positionGroupResults.message?.ID) {
+      logger.error(`Insert - Missing ID in position group message. Skipping position ${atlasItem.PositionGroupID} ...`);
+      return false;
+    }
+
+    const providerResults = await getProviderDetails(atlasItem.ProviderID, null, true);
+    if (!providerResults?.message?.ID) {
+      logger.error(`Insert - Missing ID for provider. Skipping provider ${atlasItem.ProviderID ?? -1} ...`);
+      return false;
+    }
+
+    await atlasService.insertProvider([getProviderJson(providerResults.message)]);
+
+    const academics = getAcademicsByPosition(positionGroupResults.message.Academics);
+    const position = getPosition(atlasItem, positionGroupResults.message, academics);
+    try {
+      await atlasService.insertPositionGroup([position]);
+    } catch (ex) {
+      // Already stored (e.g. its provider changed in Atlas, so there was no relation for this pair): it is updated
+      if (!await atlasService.positionGroupExists(atlasItem.PositionGroupID)) throw ex;
+      await atlasService.updatePositionsList([position]);
+    }
+
+    await atlasService.insertPositionGroupRelation([atlasItem]);
+    return true;
+  } catch (ex) {
+    logger.info(`Failed to insert position ${atlasItem.PositionGroupID}: ${ex.message}`);
+    return false;
+  }
+};
+
 const insertOrUpdateAtlasTables = async (/*emergency = 0*/) => {
+  if (isAtlasSyncRunning) {
+    logger.warn('Atlas sync: the previous sync is still running, this one is skipped');
+    return {
+      message: 'skipped'
+    };
+  }
+
+  isAtlasSyncRunning = true;
+  syncFailedRequestsInARow = 0;
+  syncFailedRequests = 0;
+  const startTime = Date.now();
+  const stats = { batches: 0, failedBatches: 0, insertedPositions: 0, updatedPositions: 0, updatedProviders: 0, failedPositions: 0, failedProviders: 0 };
+
   try {
     // accessToken = emergency == 1 ? await atlasLogin(false, 'pa_user', 'pa_pass') : await atlasLogin();
-    accessToken = await atlasLogin();
-    // Lists to keep elements for update or insert and Sync local DB with Atlas
-    let positionInsertList = [];
-    let positionUpdateList = [];
-    let positionPairUpdates = [];
-    let providerInsertList = [];
-    let providerUpdateList = [];
-    let providerPairUpdates = [];
-    let availablePositionGroups;
+    syncAccessToken = await atlasLogin();
 
-    // Get the count of position group pairs of the previous job run (the previous hour)
-    let skip = 0;//await atlasService.getCountOfPositionPairs();
-    // skip = Number.parseInt(skip);
+    let skip = 0;
     const batchSize = 200;
+    // A batch whose list can't be fetched is skipped (the next run gets it), after a few in a row the run stops
+    const MAX_FAILED_BATCHES_IN_A_ROW = 3;
+    let failedBatchesInARow = 0;
 
-    let SKIP_VALUES = [400, 600, 800];
-    let selectedSkipValue = 800;
-
-    let itemsAtlas = await getAvailablePositionGroups(0, 1, accessToken);
-    let numberOfItems = itemsAtlas.message.NumberOfItems;
+    let itemsAtlas = await getAvailablePositionGroups(0, 1, null, true);
+    let numberOfItems = itemsAtlas.message?.NumberOfItems;
     logger.info(numberOfItems);
-    do {
-      availablePositionGroups = [];
+    if (!numberOfItems) {
+      logger.error(`Atlas sync: the number of positions could not be fetched: ${itemsAtlas.message}`);
+      return {
+        status: "400 bad request",
+        message: "something went wrong while updating position group relations"
+      };
+    }
 
+    do {
       logger.info('Processing batch ' + skip + ' to ' + (skip + batchSize) + ' of ' + numberOfItems + ' items');
 
-      availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, accessToken);
-      if (availablePositionGroups?.status == "400 bad request") {
-        logger.error(`Fetching position groups error: ${availablePositionGroups.message}`);
+      const availablePositionGroups = await getAvailablePositionGroups(skip, batchSize, null, true);
+      // Atlas can also answer without a list (Result: null)
+      if (availablePositionGroups?.status == "400 bad request" || !Array.isArray(availablePositionGroups?.message?.Pairs)) {
+        logger.error(`Fetching position groups error: ${availablePositionGroups?.message}`);
+        stats.failedBatches++;
+        failedBatchesInARow++;
 
-        if (availablePositionGroups?.message.includes('Request failed with status code 403')) {
-          await MiscUtils.sleep(1200000); // Sleep for 20 minutes
+        if (failedBatchesInARow >= MAX_FAILED_BATCHES_IN_A_ROW) {
+          logger.error(`Atlas sync: stopped after ${failedBatchesInARow} batches in a row that could not be fetched`);
+          break;
         }
-        // Change 23/03/24 just skip the batch - it's not correct
-        // TODO change it 25/03 - 30/03
-        // skip += (batchSize / 2);
+
+        skip += batchSize;
         continue;
       }
+      failedBatchesInARow = 0;
+      stats.batches++;
+
+      // Changes of this batch only
+      const positionPairUpdates = [];
+      const providerPairUpdates = [];
 
       for (const atlasItem of availablePositionGroups.message.Pairs) {
         let localPositionGroups = await atlasService.getPositionGroupRelations(atlasItem);
 
         if (localPositionGroups) {
-          if (localPositionGroups.position_group_id == atlasItem.PositionGroupID) {
-            // logger.info("position found in local position groups\n");
-          }
           if (localPositionGroups.position_group_last_update != atlasItem.PositionGroupLastUpdateString) {
-            positionUpdateList.push(atlasItem.PositionGroupID);
             positionPairUpdates.push(atlasItem);
           }
           if (localPositionGroups.provider_last_update != atlasItem.ProviderLastUpdateString) {
-            providerUpdateList.push(atlasItem.ProviderID);
             providerPairUpdates.push(atlasItem);
           }
+        } else if (await insertNewAtlasPosition(atlasItem)) {
+          stats.insertedPositions++;
         } else {
-          // logger.info("position not found in local position groups\n");
-          // Insert atlasItem into atlas_position_group in local db
-          await atlasService.insertPositionGroupRelation([atlasItem]);
-
-          // Insert provider to the local db
-          try {
-            let providerResults = await getProviderDetails(atlasItem.ProviderID, accessToken);
-            let providersInsertArray = [];
-            providersInsertArray.push(getProviderJson(providerResults.message));
-            await atlasService.insertProvider(providersInsertArray);
-          } catch (ex) {
-            // logger.info("Failed to fetch provider: " + ex.message);
-          }
-
-          // Insert position group to the local db
-          try {
-            let positionGroupResults = await getPositionGroupDetails(atlasItem.PositionGroupID, accessToken);
-            let academics = getAcademicsByPosition(positionGroupResults.message.Academics);
-            let positionsInsertArray = [];
-            positionsInsertArray.push(getPosition(atlasItem, positionGroupResults.message, academics));
-            await atlasService.insertPositionGroup(positionsInsertArray);
-          } catch (ex) {
-            // logger.info("Failed to fetch position group: " + ex.message);
-          }
-
-          positionInsertList.push(atlasItem.PositionGroupID);
-          providerInsertList.push(atlasItem.ProviderID);
-          // logger.info("finished the inserts they are");
+          stats.failedPositions++;
         }
       }
 
-      // logger.info("positionInsertList: " + positionInsertList + " | " +
-      //   "\n\npositionUpdateList: " + positionUpdateList + " | " +
-      //   "\n\npositionPairUpdates: " + positionPairUpdates + " | " +
-      //   "\n\nproviderInsertList: " + providerInsertList + " | " +
-      //   "\n\nproviderUpdateList: " + providerUpdateList + " | " +
-      //   "\n\nproviderPairUpdates: " + providerPairUpdates);
-
+      // Find the details of the positions which are to be updated (the pair of each position is kept with it)
       let positionsArray = [];
-      let providersArray = [];
-      let count = 0;
-      // Insert or update the records according to the lists above
+      let updatedPositionPairs = [];
+      for (const pair of positionPairUpdates) {
+        let positionGroupResults = await getPositionGroupDetails(pair.PositionGroupID, null, true);
 
-      // Update the position if positionUpdateList is not empty
-      for (const itemId of positionUpdateList) {
-        // Find the details of the positions which are to be updated and update them locally
-        let positionGroupResults = await getPositionGroupDetails(itemId, accessToken);
-        let academics = [];
-
-        academics.push(getAcademicsByPosition(positionGroupResults.message.Academics));
+        if (!positionGroupResults.message?.ID) {
+          logger.error(`Insert - Missing ID in position group message. Skipping position ${pair.PositionGroupID} ...`);
+          stats.failedPositions++;
+          continue;
+        }
 
         try {
-          let positionPushed = false;
-          if (!positionGroupResults.message?.ID) {
-            logger.info(`MISSING...`);
-            logger.info(positionGroupResults.message);
-            logger.error(`Insert - Missing ID in position group message. Skipping position ${itemId} ...`);
-            continue;
-          }
-          //logger.info(" to be tested " + positionPairUpdates[count].PositionGroupLastUpdateString);
-          positionsArray.push(getPosition(positionPairUpdates[count], positionGroupResults.message, academics));
-          // logger.info(positionGroupResults.message);
-          positionPushed = true;
-          // reset the academics array
-          academics = [];
+          let academics = [getAcademicsByPosition(positionGroupResults.message.Academics)];
+          positionsArray.push(getPosition(pair, positionGroupResults.message, academics));
+          updatedPositionPairs.push(pair);
         } catch (ex) {
           logger.info("Failed to fetch position group: " + ex.message);
-          if (positionPushed) positionsArray.pop();
-          continue;
+          stats.failedPositions++;
         }
-
-        count++;
       }
-      count = 0;
 
-      // Update the position if providerUpdateList is not empty
-      for (const providerId of providerUpdateList) {
-        let providerPushed = false;
-        try {
-          let providerResults = await getProviderDetails(providerId, accessToken);
+      // Find the details of the providers which are to be updated
+      let providersArray = [];
+      let updatedProviderPairs = [];
+      for (const pair of providerPairUpdates) {
+        let providerResults = await getProviderDetails(pair.ProviderID, null, true);
 
-          if (!providerResults.message?.ID) {
-            logger.error(`Insert - Missing ID for provider. Skipping provider ${providerId ?? -1} ...`);
-            continue;
-          }
-
-          providersArray.push(getProviderJson(providerResults?.message));
-          providerPushed = true;
-        } catch (ex) {
-          logger.info(`Exception in provider fetching - providerId: ${providerId}. Error: ${ex.message}`);
-          if (providerPushed) providersArray.pop();
+        if (!providerResults?.message?.ID) {
+          logger.error(`Insert - Missing ID for provider. Skipping provider ${pair.ProviderID ?? -1} ...`);
+          stats.failedProviders++;
           continue;
         }
+
+        providersArray.push(getProviderJson(providerResults.message));
+        updatedProviderPairs.push(pair);
       }
 
       // Update the positions list in the local db
       await atlasService.updatePositionsList(positionsArray);
       // Update the providers list in the local db
       await atlasService.updateProvidersList(providersArray);
-      // Update the relations list in the local db
-      await atlasService.updatePositionGroupRelationsList(providerPairUpdates);
+      // Store the last update dates only for what was fetched, the rest is retried in the next run
+      await atlasService.updatePositionGroupRelationsDates(updatedPositionPairs, 'position');
+      await atlasService.updatePositionGroupRelationsDates(updatedProviderPairs, 'provider');
 
+      stats.updatedPositions += positionsArray.length;
+      stats.updatedProviders += providersArray.length;
       skip += batchSize;
-
-      // Sleep to prevent API rate limit issues - added 28/03/2025
-      // if (skip % selectedSkipValue == 0) {
-      //   SKIP_VALUES = [skip + 400, skip + 600, skip + 800];
-      //   selectedSkipValue = SKIP_VALUES[Math.floor(Math.random() * SKIP_VALUES.length)];
-
-      //   const MIN_SLEEP_MS = parseInt(process.env.MIN_SLEEP_MS, 10) || 480_000; // Default: 8 minutes
-      //   const MAX_SLEEP_MS = parseInt(process.env.MAX_SLEEP_MS, 10) || 600_000; // Default: 10 minutes
-
-      //   // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
-      //   let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MAX_SLEEP_MS;
-      //   let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
-        
-      //   logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
-        
-      //   await MiscUtils.sleep(randomMilliseconds);
-      // }
-
-      logger.info(`Checking 200 positions skip=${skip}, condition: ${skip % 200 == 0}`);
-      if (skip % 200 == 0) {
-        const MIN_SLEEP_MS = 600000//parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
-        const MAX_SLEEP_MS = 700000//parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
-
-        // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
-        let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MIN_SLEEP_MS;
-        let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
-
-        logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
-
-        await MiscUtils.sleep(randomMilliseconds);
-      }
-
-      logger.info(`Checking 1000 positions skip=${skip}, condition: ${skip % 1000 == 0}`);
-      if (skip % 1000 == 0) {
-        const MIN_SLEEP_MS = 1250000;//parseInt(process.env.MIN_SLEEP_MS, 10) || 2600000; 
-        const MAX_SLEEP_MS = 1300000;//parseInt(process.env.MAX_SLEEP_MS, 10) || 3000000;
-
-        // Have a random number so that requests appear less automated to AWS, also 8-10 minutes seem to work
-        let randomMilliseconds = Math.floor(Math.random() * (MAX_SLEEP_MS - MIN_SLEEP_MS + 1)) + MIN_SLEEP_MS;
-        let randomMinutes = (randomMilliseconds / 1000 / 60).toFixed(2);
-
-        logger.info(`Sleeping for ${randomMinutes} minutes to avoid rate limiting...`);
-
-        await MiscUtils.sleep(randomMilliseconds);
-      }
-
     } while (skip < numberOfItems);
+
+    logger.info(`Atlas sync finished in ${((Date.now() - startTime) / 60000).toFixed(1)} minutes: ${JSON.stringify(stats)}`);
     return {
       message: 'done'
     };
   } catch (error) {
     logger.info("insertOrUpdateAtlasTables - ERROR -> " + error.message);
     logger.info("Stack Trace: " + error.stack);
+    logger.info(`Atlas sync stopped after ${((Date.now() - startTime) / 60000).toFixed(1)} minutes: ${JSON.stringify(stats)}`);
     return {
       status: "400 bad request",
       message: "something went wrong while updating position group relations"
     };
+  } finally {
+    isAtlasSyncRunning = false;
   }
 };
 
@@ -1520,7 +1567,8 @@ const getFundingType = async (positionId) => {
   }
 };
 
-const getAvailablePositionGroups = async (begin, end, accessToken) => {
+// forSync: through atlasSyncRequest (spaced out requests, new login and retries)
+const getAvailablePositionGroups = async (begin, end, accessToken, forSync = false) => {
   try {
     //let begin = request.params.begin;
     //let end = parseInt(begin) + 10;
@@ -1529,10 +1577,14 @@ const getAvailablePositionGroups = async (begin, end, accessToken) => {
       'Take': end
     };
 
-    const atlasResponse = await axios({
+    const request = {
       url: ATLAS_URL + '/GetAvailablePositionGroups',
       method: 'POST',
-      data: paginationData,
+      data: paginationData
+    };
+    const atlasResponse = forSync ? await atlasSyncRequest(request) : await axios({
+      ...request,
+      timeout: ATLAS_TIMEOUT_MS,
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken
@@ -1577,6 +1629,7 @@ const testIfTokenIsValid = async (accessToken) => {
     const atlasResponse = await axios({
       url: ATLAS_URL + '/GetFundingTypes',
       method: 'GET',
+      timeout: ATLAS_TIMEOUT_MS,
       headers: {
         'Content-Type': 'application/json',
         'access_token': accessToken
@@ -1584,7 +1637,8 @@ const testIfTokenIsValid = async (accessToken) => {
     });
 
     // return result depending whether /GetFundingTypes succeeded
-    if (atlasResponse.data.success) {
+    // (Atlas answers with "Success": with "success" the token was never found valid and every call logged in again)
+    if (atlasResponse.data.Success) {
       return true;
     }
 
