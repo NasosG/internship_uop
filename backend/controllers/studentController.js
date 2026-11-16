@@ -4,8 +4,6 @@ const path = require("path");
 const moment = require('moment');
 // Third-party libraries
 const { signToken, JWT_EXPIRES_IN_SECONDS } = require("../config/jwt.js");
-const multer = require("multer");
-const formidable = require('formidable');
 const PizZip = require("pizzip");
 const Docxtemplater = require("docxtemplater");
 // Custom services
@@ -271,7 +269,7 @@ const updateStudentDetails = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.send({
+    response.status(500).json({
       message: error.message
     });
   }
@@ -291,7 +289,7 @@ const updateStudentContractDetails = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.send({
+    response.status(500).json({
       message: error.message
     });
   }
@@ -351,7 +349,7 @@ const updateStudentContact = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.send({
+    response.status(500).json({
       message: error.message
     });
   }
@@ -371,7 +369,7 @@ const updateStudentSpecialDetails = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.send({
+    response.status(500).json({
       message: error.message
     });
   }
@@ -433,7 +431,7 @@ const updatePhase = async (request, response, next) => {
       });
   } catch (error) {
     logger.error(error.message);
-    response.send({
+    response.status(500).json({
       message: error.message
     });
   }
@@ -740,233 +738,55 @@ const updateStudentPositions = async (request, response) => {
   }
 };
 
-const validateFile = async (request, response, err, fileType) => {
+/**
+ * Stores a file of a student with multer and then its metadata (sso_user_files), and answers only after both:
+ * { message: "FILE ADDED" } or { message: "ERROR" }.
+ * (The request used to be parsed by formidable for the metadata and by multer for the file at the same time,
+ * so when one of them failed the file or its metadata was lost, while the student saw no error)
+ */
+const saveStudentFile = async (request, response, uploadFile, docType, uploadDir) => {
+  const ssoUserId = request.params.id;
+
   try {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-
-      // File type not valid
-      if (err.message.includes("This file type is not valid")) {
-        throw new Error("Multer error: The file type was not valid for " + fileType + "upload");
-      }
-
-      throw new Error("A generic Multer error occurred");
-    } else if (err) {
-      // An unknown error occurred when uploading.
-
-      // File type not valid
-      if (err.message.includes("This file type is not valid")) {
-        throw new Error("Unkown Error: The file type was not valid for " + fileType + " upload");
-      }
-
-      throw new Error("An unknown error occurred");
+    await uploadFile(request, response);
+    if (!request.file) {
+      throw Error("no file was received");
     }
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED"
-      });
-  } catch (error) {
-    // return (err.message);
-    logger.info(err.message);
+
+    // Same name as the one multer gives to the stored file (middleware/file.js)
+    const fileExtension = MiscUtils.formatDocExtension(request.file.mimetype.split("/")[1]);
+    const fileName = "student" + ssoUserId + "_" + docType + "." + fileExtension;
+    const filePath = `./uploads/${uploadDir}/${ssoUserId}`;
+
+    const result = await studentService.insertOrUpdateMetadataBySSOUid(ssoUserId, docType, filePath, fileName, fileExtension);
+    if (result == 'Incorrect File Type') {
+      throw Error("incorrect file type: " + fileExtension);
+    }
+
     response.status(201).json({
-      message: 'ERROR'
+      message: "FILE ADDED"
     });
-  }
-};
-
-const insertToDB = async (request, response, ssoUserId, fileType, filePath, fileName) => {
-  let form = new formidable.IncomingForm();
-  let fileExtension;
-
-  await new Promise(function (resolve, reject) {
-    form.parse(request, (err, fields, files) => {
-      if (err) {
-        logger.info("An error on form parsing occurred");
-        reject(err);
-        return;
-      }
-      let mimetype = files.file.mimetype;
-      fileExtension = mimetype.split("/")[1];
-      logger.info("In form.parse method, file extension is: " + fileExtension);
-      resolve(fileExtension);
-    });
-  });
-
-  fileExtension = MiscUtils.formatDocExtension(fileExtension);
-  fileName += '.' + fileExtension;
-
-  await studentService.insertOrUpdateMetadataBySSOUid(ssoUserId, fileType, filePath, fileName, fileExtension);
-};
-
-const insertSSNFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "SSN";
-    const userType = "student";
-    let fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/ssns/${ssoUserId}`;
-
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.ssn(request, response, (err) => validateFile(request, response, err, docType));
-
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED SSN"
-      });
-
   } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING SSN FILE"
+    logger.error(`The ${docType} file of student ${ssoUserId} was not saved: ${error.message}`);
+    response.status(201).json({
+      message: "ERROR"
     });
   }
 };
 
-const insertIbanFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "IBAN";
-    const userType = "student";
-    const fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/ibans/${ssoUserId}`;
+const insertSSNFile = async (request, response) => saveStudentFile(request, response, upload.ssn, "SSN", "ssns");
 
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.iban(request, response, (err) => validateFile(request, response, err, docType));
+const insertIbanFile = async (request, response) => saveStudentFile(request, response, upload.iban, "IBAN", "ibans");
 
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED IBAN"
-      });
-  } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING IBAN FILE"
-    });
-  }
-};
+const insertAMEAFile = async (request, response) => saveStudentFile(request, response, upload.amea, "AMEA", "amea");
 
-const insertAMEAFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "AMEA";
-    const userType = "student";
-    const fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/amea/${ssoUserId}`;
+const insertAffidavitFile = async (request, response) => saveStudentFile(request, response, upload.affidavit, "AFFIDAVIT", "affidavit");
 
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.amea(request, response, (err) => validateFile(request, response, err, docType));
+const insertStudentResignAppFile = async (request, response) => saveStudentFile(request, response, upload.resignApp, "RESIGN", "resign");
 
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED IBAN"
-      });
-  } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING AMEA FILE"
-    });
-  }
-};
+const insertAMAFile = async (request, response) => saveStudentFile(request, response, upload.ama, "AMA", "ama");
 
-const insertAffidavitFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "AFFIDAVIT";
-    const userType = "student";
-    const fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/affidavit/${ssoUserId}`;
-
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.affidavit(request, response, (err) => validateFile(request, response, err, docType));
-
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED AFFIDAVIT"
-      });
-  } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING AFFIDAVIT FILE"
-    });
-  }
-};
-
-const insertStudentResignAppFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "RESIGN";
-    const userType = "student";
-    const fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/resign/${ssoUserId}`;
-
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.resignApp(request, response, (err) => validateFile(request, response, err, docType));
-
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED RESIGN APP"
-      });
-  } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING RESIGN APP FILE"
-    });
-  }
-};
-
-const insertAMAFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "AMA";
-    const userType = "student";
-    const fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/ama/${ssoUserId}`;
-
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.ama(request, response, (err) => validateFile(request, response, err, docType));
-
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED AMA"
-      });
-  } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING AMA FILE"
-    });
-  }
-};
-
-const insertIdentityCardFile = async (request, response, next) => {
-  try {
-    const ssoUserId = request.params.id;
-    const docType = "IDENTITY";
-    const userType = "student";
-    const fileName = userType + ssoUserId + "_" + docType;
-    const filePath = `./uploads/identity/${ssoUserId}`;
-
-    insertToDB(request, response, ssoUserId, docType, filePath, fileName);
-    await upload.policeId(request, response, (err) => validateFile(request, response, err, docType));
-
-    response
-      .status(201)
-      .json({
-        message: "FILE ADDED IDENTITY CARD"
-      });
-  } catch (error) {
-    logger.error(error.message);
-    response.status(400).json({
-      message: "ERROR INSERTING IDENTITY CARD"
-    });
-  }
-};
+const insertIdentityCardFile = async (request, response) => saveStudentFile(request, response, upload.policeId, "IDENTITY", "identity");
 
 const sendFile = async (request, response) => {
   try {

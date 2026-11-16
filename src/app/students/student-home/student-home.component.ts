@@ -27,6 +27,8 @@ export class StudentHomeComponent implements OnInit {
   phaseArray = ["no-state", "STUDENT.PHASE-1", "STUDENT.PHASE-2"];
   isDeclarationEnabled: boolean|undefined;
   areOptionsEnabled: boolean|undefined;
+  // false only when the server answered that there is no application for the current period
+  hasInterestAppForPeriod: boolean|undefined;
 
   private INTEREST_EXPRESSION_PHASE: number = 1;
   private PREFERENCE_DECLARATION_PHASE: number = 2;
@@ -55,9 +57,16 @@ export class StudentHomeComponent implements OnInit {
 
             // Fetch protocol number if interest app for this period exists
             this.studentsService.getProtocolNumberIfInterestAppExists(this.period.id)
-              .subscribe((response: any) => {
-                if (response.protocolNumber) {
-                  this.studentsSSOData[0].latest_app_protocol_number = response.protocolNumber;
+              .subscribe({
+                next: (response: any) => {
+                  this.hasInterestAppForPeriod = true;
+                  if (response.protocolNumber) {
+                    this.studentsSSOData[0].latest_app_protocol_number = response.protocolNumber;
+                  }
+                },
+                error: (error: any) => {
+                  // 404: no application for this period (on other errors it is not known)
+                  this.hasInterestAppForPeriod = error?.status == 404 ? false : undefined;
                 }
               });
 

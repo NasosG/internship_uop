@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { concatMap, forkJoin, from, mergeMap, Observable } from 'rxjs';
+import { catchError, concatMap, forkJoin, from, map, Observable, of, throwError, toArray } from 'rxjs';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
 import { Student } from '../student.model';
@@ -27,6 +27,8 @@ export class PracticeEnableComponent implements OnInit {
   studentsSSOData: Student[] = [];
   gender!: String;
   fileSubmitted: boolean = false;
+  // while the application is being submitted (the button is disabled)
+  isSubmitting: boolean = false;
   programsOfStudy: string[] = [];
   @Input() periodId!: number;
 
@@ -163,7 +165,7 @@ export class PracticeEnableComponent implements OnInit {
   updateStudentsAllDetails() {
     // check if the only required field in the last stepper is empty
     // to check if a more generic implementation can implemented
-    if (!this.checkIfFieldEmpty(this.contactFormGroup, 'emailCtrl')) {
+    if (!this.checkIfFieldEmpty(this.contactFormGroup, 'emailCtrl') || this.isSubmitting) {
       return;
     }
     const generalDetailsData: any = {
@@ -176,7 +178,8 @@ export class PracticeEnableComponent implements OnInit {
       id_card: this.secondFormGroup.get('policeIDControl')?.value,
       ssn: this.secondFormGroup.get('ssnControl')?.value,
       doy: this.secondFormGroup.get('doyControl')?.value,
-      iban: this.secondFormGroup.get('ibanControl')?.value,
+      // stored as it is validated: without spaces, in capitals
+      iban: this.secondFormGroup.get('ibanControl')?.value?.replace(/\s+/g, '').toUpperCase(),
       ama: this.secondFormGroup.get('amaNumberControl')?.value
     };
     const contractFiles: any = {
@@ -208,25 +211,39 @@ export class PracticeEnableComponent implements OnInit {
       studyProgramId: this.getProgramOfStudy(this.firstFormGroup.get('programOfStudyMergedCtrl')?.value)
     };
 
-    this.onSubmitStudentDetails(generalDetailsData);
-    this.onSubmitStudentContractDetails(contractsData, contractFiles);
-    this.onSubmitStudentContact(contactDetails);
-    this.onSubmitStudentSpecialDetails(specialDetails);
+    const detailsRequests: Observable<any>[] = [
+      this.studentsService.updateStudentDetailsRequest(generalDetailsData),
+      this.studentsService.updateStudentContractDetailsRequest(contractsData),
+      this.studentsService.updateStudentContactRequest(contactDetails),
+      this.studentsService.updateStudentSpecialDetailsRequest(specialDetails)
+    ];
     if (this.isProgramOfStudyMerged(departmentDetails.departmentId)) {
-      this.onSubmitDepartmentDetails(departmentDetails);
+      detailsRequests.push(this.studentsService.insertOrUpdateDepartmentDetailsRequest(departmentDetails));
     }
-    this.onSubmitStudentInterestApp(this.periodId).subscribe({
+
+    // The details, then the files, then the application: each only when the previous ones were saved, so that the
+    // student never sees "success" while something is missing (if something fails, pressing the button again resends it)
+    this.isSubmitting = true;
+    forkJoin(detailsRequests).pipe(
+      concatMap(() => this.uploadContractFiles(contractFiles)),
+      concatMap((failedFiles: string[]) => failedFiles.length > 0
+        ? throwError(() => ({ failedFiles }))
+        : this.onSubmitStudentInterestApp(this.periodId)),
+      concatMap(() => this.studentsService.updatePhaseRequest(1))
+    ).subscribe({
       next: () => {
-        this.setPhase(1);
+        this.isSubmitting = false;
         this.onSave();
       },
-      error: () => {
-        // stop success flow
-        this.onSubmitError(); // or create a generic server error popup
+      error: (error: any) => {
+        this.isSubmitting = false;
+        if (error?.failedFiles) {
+          this.onFilesError(error.failedFiles);
+        } else {
+          this.onSubmitError();
+        }
       }
     });
-    // this.setPhase(1);
-    // this.onSave();
   }
 
 
@@ -261,60 +278,33 @@ export class PracticeEnableComponent implements OnInit {
     return this.studentsService.createStudentInterestApp(periodId);
   }
 
-  onSubmitStudentDetails(data: any) {
-    this.studentsService.updateStudentDetails(data);
-  }
+  /**
+   * Uploads the files one after the other
+   * @returns the names of the files that were not saved (empty when all were saved)
+   */
+  uploadContractFiles(contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any, amaFile: any, idFile: any }): Observable<string[]> {
+    const isAmeaCatSelected = this.specialDataFormGroup.get('ameaCatCtrl')?.value == "1";
 
-  onSubmitStudentSpecialDetails(data: any) {
-    this.studentsService.updateStudentSpecialDetails(data);
-  }
-
-  setPhase(phase: number) {
-    this.studentsService.updatePhase(phase);
-  }
-
-  onSubmitStudentContractDetails(data: any, contractFiles: { ssnFile: any; ibanFile: any, ameaFile: any, affidavitFile: any, amaFile: any, idFile: any }) {
-    const fileSSN = this.uploadFile(contractFiles.ssnFile);
-    const fileIban = this.uploadFile(contractFiles.ibanFile);
-    const fileAffidavit = this.uploadFile(contractFiles.affidavitFile);
-    const fileAMA = this.uploadFile(contractFiles.amaFile)
-    const fileIdentityCard = this.uploadFile(contractFiles.idFile);
-
-    const fileAmea = !contractFiles.ameaFile ? null : this.uploadFile(contractFiles.ameaFile);
-    const isAmeaCatSelected = this.specialDataFormGroup.get('ameaCatCtrl')?.value == "1"
-
-    // let files;
-
-    const files: Array<{ fileData: any; type: string }> = [
-      { fileData: fileSSN, type: 'SSN' },
-      { fileData: fileIban, type: 'IBAN' },
-      { fileData: fileAffidavit, type: 'AFFIDAVIT' },
-      { fileData: fileAMA, type: 'AMA' },
-      { fileData: fileIdentityCard, type: 'IDENTITY' },
+    const files: Array<{ fileData: any; type: string; name: string }> = [
+      { fileData: this.uploadFile(contractFiles.ssnFile), type: 'SSN', name: 'ΑΦΜ' },
+      { fileData: this.uploadFile(contractFiles.ibanFile), type: 'IBAN', name: 'IBAN' },
+      { fileData: this.uploadFile(contractFiles.affidavitFile), type: 'AFFIDAVIT', name: 'Υπεύθυνη Δήλωση' },
+      { fileData: this.uploadFile(contractFiles.amaFile), type: 'AMA', name: 'ΑΜΑ' },
+      { fileData: this.uploadFile(contractFiles.idFile), type: 'IDENTITY', name: 'Ταυτότητα' },
     ];
 
-    if (isAmeaCatSelected && fileAmea != null) {
-      files.push({ fileData: fileAmea, type: 'AMEA' });
+    if (isAmeaCatSelected && contractFiles.ameaFile) {
+      files.push({ fileData: this.uploadFile(contractFiles.ameaFile), type: 'AMEA', name: 'ΑμεΑ' });
     }
 
-    this.studentsService.updateStudentContractDetails(data);
-
-    const filesToSave = from(files).pipe(
-      mergeMap(file => this.studentsService.updateStudentFile(file.fileData, file.type))
+    return from(files).pipe(
+      concatMap(file => (this.studentsService.updateStudentFile(file.fileData, file.type) as Observable<any>).pipe(
+        map((response: any) => response?.message == 'ERROR' ? file.name : ''),
+        catchError(() => of(file.name))
+      )),
+      toArray(),
+      map((names: string[]) => names.filter(name => name != ''))
     );
-
-    filesToSave.subscribe(
-      (data) => console.log('File saved!'),
-      (err) => console.error('error: ' + err)
-    );
-  }
-
-  onSubmitStudentContact(data: any) {
-    this.studentsService.updateStudentContact(data);
-  }
-
-  onSubmitDepartmentDetails(data: any) {
-    this.studentsService.insertOrUpdateDepartmentDetails(data);
   }
 
   onSave() {
@@ -346,7 +336,20 @@ export class PracticeEnableComponent implements OnInit {
   onSubmitError() {
     Swal.fire({
       title: 'Αποτυχία ενημέρωσης στοιχείων',
-      text: 'Παρουσιάστηκε ένα πρόβλημα κατά την υποβολή της αίτησής σου. Παρακαλούμε δοκίμασε ξανά αργότερα.',
+      text: 'Παρουσιάστηκε ένα πρόβλημα κατά την υποβολή της αίτησής σου και η αίτηση δεν υποβλήθηκε. Παρακαλούμε δοκίμασε ξανά.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ΟΚ'
+    });
+  }
+
+  onFilesError(fileNames: string[]) {
+    Swal.fire({
+      title: 'Η αίτηση δεν υποβλήθηκε',
+      text: 'Δεν ανέβηκαν τα αρχεία: ' + fileNames.join(', ') + '. Έλεγξε ότι είναι pdf, jpg ή png έως 4 MB '
+        + 'και πάτησε ξανά «Ολοκλήρωση». Τα υπόλοιπα στοιχεία σου έχουν αποθηκευτεί.',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
@@ -372,7 +375,7 @@ export class PracticeEnableComponent implements OnInit {
       return;
     }
 
-    let ext = fileName.match(/\.([^\.]+)$/)[1];
+    let ext = fileName.match(/\.([^\.]+)$/)[1].toLowerCase();
     switch (ext) {
       case 'jpg':
       case 'jpeg':

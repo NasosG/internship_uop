@@ -84,6 +84,13 @@
     <div *ngIf="!this.period?.is_active" class="alert alert-danger" role="alert">
       {{'STUDENT.NO-INTERNSHIP-PERIOD'| translate}}
     </div>
+    <!-- The declaration is open and the student has not submitted one for this period -->
+    <div *ngIf="isDeclarationEnabled && hasInterestAppForPeriod === false" class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-triangle mr-1"></i>
+      <strong>{{'STUDENT.APP-NOT-SUBMITTED' | translate}}</strong>
+      {{'STUDENT.APP-NOT-SUBMITTED-INFO' | translate}}
+      <a [routerLink]="['/student/enable_intern/' + this.authService.getSessionId()]">{{'STUDENT.APP-NOT-SUBMITTED-LINK' | translate}}</a>
+    </div>
     <!--Student phases-->
     <div *ngIf="this.studentsSSOData[0]?.phase == 0" class="card">
       <div class="card-header">

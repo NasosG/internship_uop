@@ -38,7 +38,7 @@ const storageIban = multer.diskStorage({
 const uploadIban = multer({
   storage: storageIban,
   fileFilter: function (req, file, callback) {
-    let ext = path.extname(file.originalname);
+    let ext = path.extname(file.originalname).toLowerCase();
     if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
@@ -69,7 +69,7 @@ const storageSsn = multer.diskStorage({
 const uploadSsn = multer({
   storage: storageSsn,
   fileFilter: function (req, file, callback) {
-    let ext = path.extname(file.originalname);
+    let ext = path.extname(file.originalname).toLowerCase();
     if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
@@ -117,7 +117,7 @@ const storageAffidavit = multer.diskStorage({
 const uploadAmea = multer({
   storage: storageAmea,
   fileFilter: function (req, file, callback) {
-    let ext = path.extname(file.originalname);
+    let ext = path.extname(file.originalname).toLowerCase();
     if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
@@ -131,7 +131,7 @@ const uploadAmea = multer({
 const uploadAffidavit = multer({
   storage: storageAffidavit,
   fileFilter: function (req, file, callback) {
-    let ext = path.extname(file.originalname);
+    let ext = path.extname(file.originalname).toLowerCase();
     if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
       return callback(new Error("This file type is not valid"));
     }
@@ -166,7 +166,7 @@ const createUpload = (storage) => {
   return multer({
     storage,
     fileFilter: function (req, file, callback) {
-      let ext = path.extname(file.originalname);
+      let ext = path.extname(file.originalname).toLowerCase();
       if (!MiscUtils.FILE_TYPES_WITH_DOT.includes(ext)) {
         return callback(new Error("This file type is not valid"));
       }

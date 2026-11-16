@@ -196,21 +196,30 @@ export class StudentsService {
 
   // this functions adds a new bio and details to a student
   updateStudentDetails(data: any) {
-    const id = this.authService.getSessionId();
-    this.http
-      .put<{ message: string }>(STUDENTS_URL + "updateStudentDetails/" + id, data)
+    this.updateStudentDetailsRequest(data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
   }
 
-  updateStudentContractDetails(data: any) {
+  // The ...Request methods return the request, so the caller knows whether the data was saved
+  updateStudentDetailsRequest(data: any) {
     const id = this.authService.getSessionId();
-    this.http
-      .put<{ message: string }>(STUDENTS_URL + "updateStudentContractDetails/" + id, data)
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentDetails/" + id, data);
+  }
+
+  updateStudentContractDetails(data: any) {
+    this.updateStudentContractDetailsRequest(data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
+  }
+
+  updateStudentContractDetailsRequest(data: any) {
+    const id = this.authService.getSessionId();
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentContractDetails/" + id, data);
   }
 
   updateStudentExtraContractDetails(data: any) {
@@ -286,21 +295,29 @@ export class StudentsService {
   }
 
   updateStudentContact(data: any) {
-    const id = this.authService.getSessionId();
-    this.http
-      .put<{ message: string }>(STUDENTS_URL + "updateStudentContact/" + id, data)
+    this.updateStudentContactRequest(data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
   }
 
-  updateStudentSpecialDetails(data: any) {
+  updateStudentContactRequest(data: any) {
     const id = this.authService.getSessionId();
-    this.http
-      .put<{ message: string }>(STUDENTS_URL + "updateStudentSpecialDetails/" + id, data)
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentContact/" + id, data);
+  }
+
+  updateStudentSpecialDetails(data: any) {
+    this.updateStudentSpecialDetailsRequest(data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
+  }
+
+  updateStudentSpecialDetailsRequest(data: any) {
+    const id = this.authService.getSessionId();
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updateStudentSpecialDetails/" + id, data);
   }
 
   updateStudentEntrySheet(data: any) {
@@ -381,13 +398,16 @@ export class StudentsService {
   }
 
   insertOrUpdateDepartmentDetails(data: any) {
-    const id = this.authService.getSessionId();
-
-    this.http
-      .post<{ message: string }>(STUDENTS_URL + "addDepartmentDetails/" + id, { data })
+    this.insertOrUpdateDepartmentDetailsRequest(data)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
+  }
+
+  insertOrUpdateDepartmentDetailsRequest(data: any) {
+    const id = this.authService.getSessionId();
+    return this.http
+      .post<{ message: string }>(STUDENTS_URL + "addDepartmentDetails/" + id, { data });
   }
 
   deleteStudentPositions(studentId: number) {
@@ -427,14 +447,18 @@ export class StudentsService {
   }
 
   updatePhase(phase: number) {
-    const studentId = this.authService.getSessionId();
-    const phaseJson: any = { 'phase': phase };
-    console.log("phase " + phaseJson);
-    this.http
-      .put<{ message: string }>(STUDENTS_URL + "updatePhase/" + studentId, phaseJson)
+    this.updatePhaseRequest(phase)
       .subscribe(responseData => {
         console.log(responseData.message);
       });
+  }
+
+  updatePhaseRequest(phase: number) {
+    const studentId = this.authService.getSessionId();
+    const phaseJson: any = { 'phase': phase };
+    console.log("phase " + phaseJson);
+    return this.http
+      .put<{ message: string }>(STUDENTS_URL + "updatePhase/" + studentId, phaseJson);
   }
 
   checkPositionOfAtlasExists(positions: any): Observable<any> {
