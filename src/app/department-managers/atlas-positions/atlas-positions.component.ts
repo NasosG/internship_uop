@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Utils } from 'src/app/MiscUtils';
 import { AtlasFilters } from 'src/app/students/atlas-filters.model';
 import { AtlasPosition } from 'src/app/students/atlas-position.model';
@@ -167,20 +167,6 @@ export class AtlasPositionsComponent implements OnInit {
     this.entries = [];
     this.filters.institution = depValue.value == "unselected" ? null : depValue.value;
     this.fetchFilteredPositions(this.filters);
-  }
-
-  @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
-    this.scrollFunction();
-  }
-
-  public scrollFunction() {
-    if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
-      // const a:any = document.getElementById("pos");
-      $('#pos').addClass("fixed-right-desc");
-    } else {
-      // const a:any = document.getElementById("pos");
-      $('#pos').removeClass("fixed-right-desc");
-    }
   }
 
   displayDescription(index: number) {

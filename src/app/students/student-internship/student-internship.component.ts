@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Period } from 'src/app/department-managers/period.model';
 import { Utils } from 'src/app/MiscUtils';
 import Swal from 'sweetalert2';
@@ -218,20 +218,6 @@ export class StudentInternshipComponent implements OnInit {
   //   this.filters.workingHours = currentCheckbox.value == "unselected" ? "" : currentCheckbox.value;
   //   this.fetchFilteredPositions(this.filters);
   // }
-
-  @HostListener('window:scroll', ['$event']) onScrollEvent($event: any) {
-    this.scrollFunction();
-  }
-
-  public scrollFunction() {
-    if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
-      // const a:any = document.getElementById("pos");
-      $('#pos').addClass("fixed-right-desc");
-    } else {
-      // const a:any = document.getElementById("pos");
-      $('#pos').removeClass("fixed-right-desc");
-    }
-  }
 
   displayDescription(index: number) {
     this.setJobsDetails(index);

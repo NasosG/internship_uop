@@ -4129,19 +4129,17 @@ screen and (max-height: 300px) {
   display: inline-block;
 }
 
+/* The description stays in view while the list is scrolled: sticky keeps it inside its row (so it stops
+   above the footer) and its height follows the screen, so all of it can be scrolled on short screens too */
 @media screen and (min-width: 768px) {
-  .fixed-right-desc {
-    right: 8px;
-    position: fixed;
-    top: 50px;
+  #pos {
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
   }
-}
 
-@media screen and (min-width: 1668px) {
-  .fixed-right-desc {
-    right: 58px;
-    position: fixed;
-    top: 50px;
+  #pos #job-description {
+    max-height: calc(100vh - 120px);
   }
 }
 
