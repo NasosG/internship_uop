@@ -1020,17 +1020,18 @@ const updateDepartmentIdByStudentId = async (request, response) => {
   }
 };
 
-const getProtocolNumberIfInterestAppExists = async (request, response) => {
+const getInterestAppDetailsIfExists = async (request, response) => {
   const studentId = request.query.studentId;
   const periodId = request.query.periodId;
 
   try {
-    const results = await studentService.getSemesterProtocolNumberIfExistsOrNull(studentId, periodId);
+    const results = await studentService.getInterestAppDetailsIfExists(studentId, periodId);
     if (results.found) {
       const protocolNumber = results.protocolNumber;
       response.status(200).json({
         message: 'Protocol number retrieved successfully',
-        protocolNumber: protocolNumber
+        protocolNumber: protocolNumber,
+        academicYear: results.academicYear
       });
     } else {
       response.status(404).json({
@@ -1560,7 +1561,7 @@ module.exports = {
   getMergedDepartmentInfoByStudentId,
   updateDepartmentIdByStudentId,
   updateStudentEvaluationSheet,
-  getProtocolNumberIfInterestAppExists,
+  getInterestAppDetailsIfExists,
   getStudentFilesForAppPrint,
   produceContractFile,
   producePaymentOrderFile,

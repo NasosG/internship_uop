@@ -1170,11 +1170,29 @@ const semesterInterestAppFound = async (studentId, periodId) => {
   }
 };
 
-const getSemesterProtocolNumberIfExistsOrNull = async (studentId, periodId) => {
+const getInterestAppDetailsIfExists = async (studentId, periodId) => {
   try {
-    const result = await pool.query("SELECT protocol_number FROM semester_interest_apps WHERE student_id = $1 AND period_id = $2", [studentId, periodId]);
-    const protocolNumber = !result.rows[0]?.protocol_number ? "" : result.rows[0].protocol_number;
-    return { found: result.rowCount > 0, protocolNumber: protocolNumber };
+    // with the start of the 1st phase of the period of the application (for its academic year)
+    const result = await pool.query(`SELECT apps.protocol_number, apps.interest_app_date, phase.date_from AS phase_one_date_from
+      FROM semester_interest_apps apps
+      LEFT JOIN phase ON phase.period_id = apps.period_id AND phase.phase_number = 1
+      WHERE apps.student_id = $1 AND apps.period_id = $2`, [studentId, periodId]);
+
+    const app = result.rows[0];
+    const protocolNumber = !app?.protocol_number ? "" : app.protocol_number;
+    
+    // Academic year of the application: from the start of the 1st phase of its period, which does not change
+    // (period.date_from changes with every phase), or else from the date of the application
+    let academicYear = null;
+    const academicYearDate = app?.phase_one_date_from || app?.interest_app_date;
+    
+    if (academicYearDate) {
+      // Set the the academic year to start in September
+      const startYear = academicYearDate.getMonth() >= 8 ? academicYearDate.getFullYear() : academicYearDate.getFullYear() - 1;
+      academicYear = `${startYear} - ${startYear + 1}`;
+    }
+
+    return { found: result.rowCount > 0, protocolNumber: protocolNumber, academicYear: academicYear };
   } catch (error) {
     logger.error(error);
     throw Error(`An error occured while fetching semester interest app protocol number: ${error}`);
@@ -1491,7 +1509,7 @@ module.exports = {
   getPaymentOrderMetadataByStudentId,
   getContractDetailsByDepartmentAndPeriod,
   getMergedDepartmentInfoByStudentId,
-  getSemesterProtocolNumberIfExistsOrNull,
+  getInterestAppDetailsIfExists,
   getStudentFilesForAppPrint,
   getAllContractsFromEnv,
   getAllPaymentOrdersFromEnv,

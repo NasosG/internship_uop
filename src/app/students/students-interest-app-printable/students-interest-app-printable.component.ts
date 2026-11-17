@@ -14,6 +14,8 @@ import { DocTypeLabels } from '../doc-type-labels.model';
 })
 export class StudentsInterestAppPrintableComponent implements OnInit {
   period!: Period;
+  // academic year of the application, e.g. "2026 - 2027" (from its period, sent by the backend)
+  public academicYear: string | null = null;
   public studentsSSOData: any;
   public studentFiles!: any[];
   public docTypeLabels: DocTypeLabels = {
@@ -35,10 +37,13 @@ export class StudentsInterestAppPrintableComponent implements OnInit {
         this.studentsService.getPhase(this.studentsSSOData[0]?.department_id)
           .subscribe((period: Period) => {
             // Fetch protocol number if interest app for this period exists
-            this.studentsService.getProtocolNumberIfInterestAppExists(period.id)
+            this.studentsService.getInterestAppDetailsIfExists(period.id)
               .subscribe((response: any) => {
                 if (response.protocolNumber) {
                   this.studentsSSOData[0].latest_app_protocol_number = response.protocolNumber;
+                }
+                if (response.academicYear) {
+                  this.academicYear = response.academicYear;
                 }
 
               this.studentsService.getStudentFilesForAppPrint()
@@ -53,7 +58,14 @@ export class StudentsInterestAppPrintableComponent implements OnInit {
   }
 
   calculateCurrYear(): string {
-    return `${(new Date().getFullYear() - 1)} - ${ new Date().getFullYear()}`;
+    if (this.academicYear) {
+      return this.academicYear;
+    }
+    
+    // Fallback: the academic year of today, which starts in September (as in the backend)
+    const today = new Date();
+    const startYear = today.getMonth() >= 8 ? today.getFullYear() : today.getFullYear() - 1;
+    return `${startYear} - ${startYear + 1}`;
   }
 
 }

@@ -56,7 +56,7 @@ router.post("/insertUserAcceptance/:id", checkOwnStudentData, studentController.
 router.post("/insertStudentInterestApp/:id", checkOwnStudentData, studentController.insertStudentInterestApp);
 router.get("/getMergedDepartmentInfoByStudentId/:id", checkOwnStudentData, studentController.getMergedDepartmentInfoByStudentId);
 router.patch("/updateDepartmentIdByStudentId/:id", checkOwnStudentData, studentController.updateDepartmentIdByStudentId);
-router.get("/getProtocolNumberIfInterestAppExists/", checkUniversityUser, studentController.getProtocolNumberIfInterestAppExists);
+router.get("/getInterestAppDetailsIfExists/", checkUniversityUser, studentController.getInterestAppDetailsIfExists);
 router.get("/getStudentRankedApprovalStatusForPeriod/", checkUniversityUser, studentController.getStudentRankedApprovalStatusForPeriod);
 router.get("/getStudentFilesForAppPrint/:id", checkOwnStudentData, studentController.getStudentFilesForAppPrint);
 router.post("/checkPositionOfAtlasExists/:id", checkOwnStudentData, studentController.checkPositionOfAtlasExists);

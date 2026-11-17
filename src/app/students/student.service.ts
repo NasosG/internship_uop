@@ -496,12 +496,12 @@ export class StudentsService {
       .patch<any>(STUDENTS_URL + "updateDepartmentIdByStudentId/" + studentId, { departmentId });
   }
 
-  getProtocolNumberIfInterestAppExists(periodId: number): Observable<any> {
+  getInterestAppDetailsIfExists(periodId: number): Observable<any> {
     const studentId = this.authService.getSessionId();
     const params = new HttpParams()
          .set('studentId', studentId)
          .set('periodId', periodId);
-    return this.http.get<any>(STUDENTS_URL + "getProtocolNumberIfInterestAppExists/", { params });
+    return this.http.get<any>(STUDENTS_URL + "getInterestAppDetailsIfExists/", { params });
   }
 
   getStudentRankedApprovalStatusForPeriod(periodId: number): Observable<boolean> {

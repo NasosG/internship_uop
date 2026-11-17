@@ -56,7 +56,7 @@ export class StudentHomeComponent implements OnInit {
             this.isResultsPhase = period.is_active && period.phase_state == this.INTEREST_EXPRESSION_PHASE && moment(new Date()).isAfter(period.date_to, 'day');
 
             // Fetch protocol number if interest app for this period exists
-            this.studentsService.getProtocolNumberIfInterestAppExists(this.period.id)
+            this.studentsService.getInterestAppDetailsIfExists(this.period.id)
               .subscribe({
                 next: (response: any) => {
                   this.hasInterestAppForPeriod = true;
