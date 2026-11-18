@@ -48,8 +48,7 @@
                     <div class="form-group col-md-4 mb-0 pb-0">
                       <mat-form-field appearance="outline" style="min-width:310px;">
                         <mat-label>{{'GENERIC.PERIOD' | translate}}</mat-label>
-                        <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true"
-                          panelClass="dept-select-panel">
+                        <mat-select #departmentSelect formControlName="acadmic_type" [disableOptionCentering]="true">
                           <mat-option *ngFor="let period of this.periods" [value]="period"
                             (click)="onPeriodChange(period.id)">
                             {{(period?.semester == 1 ? 'Χειμερινό ' : 'Εαρινό ') }}

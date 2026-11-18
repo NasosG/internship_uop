@@ -33,3 +33,17 @@
 :host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
   color: rgba(255, 255, 255, 0.35) !important;
 }
+
+/* The list of "Show entries": black on white as in light mode (AdminLTE makes the select text white in dark mode,
+   and the options were white on the white list) */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length select option {
+  color: #000;
+  background-color: #fff;
+}
+
+/* Even rows: DataTables gives every row a white background (jquery.dataTables.css), which "table-dark" covers on the
+   other tables; this table has no "table" class (hence no "table-dark"), so in dark mode the even rows were white with white text. No background:
+   the stripes as in light mode (the odd rows a little darker) */
+:host-context(.dark-mode) table.dataTable tbody tr:nth-of-type(even) {
+  background-color: transparent;
+}

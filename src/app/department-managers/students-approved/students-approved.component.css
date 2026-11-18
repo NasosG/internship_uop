@@ -5,3 +5,29 @@
 .red {
   color: rgba(168, 14, 14, 0.8) !important;
 }
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* DataTables: "Show entries", "Search" and the text typed in it, "Showing x to y of z entries", page buttons */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter input,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_info,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button:not(.current) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* The list of "Show entries": black on white as in light mode (AdminLTE makes the select text white in dark mode,
+   and the options were white on the white list) */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length select option {
+  color: #000;
+  background-color: #fff;
+}

@@ -52,34 +52,31 @@
 
 /* ---------- Dark mode only (light mode unchanged) ---------- */
 
-/* Material fields: light value, label, arrow and lines; green when focused, as in the department select */
+/* Material fields: light value, label, arrow and lines; when focused, the purple of Material as in the other pages */
 :host-context(.dark-mode) ::ng-deep .mat-select-value {
   color: #fff;
 }
 
-:host-context(.dark-mode) ::ng-deep .mat-form-field-label,
-:host-context(.dark-mode) ::ng-deep .mat-select-arrow {
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-select-arrow {
   color: rgba(255, 255, 255, 0.65) !important;
 }
 
-:host-context(.dark-mode) ::ng-deep .mat-focused .mat-form-field-label,
-:host-context(.dark-mode) ::ng-deep .mat-focused .mat-select-arrow {
-  color: rgb(14, 219, 99) !important;
-}
-
-:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline:not(.mat-focused) .mat-form-field-outline {
   color: rgba(255, 255, 255, 0.35) !important;
 }
 
-:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex:hover .mat-form-field-outline {
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline:not(.mat-focused) .mat-form-field-flex:hover .mat-form-field-outline {
   color: rgba(255, 255, 255, 0.7) !important;
-}
-
-:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color: rgb(14, 219, 99) !important;
 }
 
 /* "ΟΧΙ" of military service / disability / employment contract: white like the rest of the table */
 :host-context(.dark-mode) td.text-dark {
   color: #fff !important;
+}
+
+/* Odd (striped) rows: Bootstrap gives their cells the dark text of a light table when the table does not have
+   "table-dark" (app.component adds it only when the body class changes, so a table that is created later misses it) */
+:host-context(.dark-mode) .table-striped > tbody > tr:nth-of-type(odd) > * {
+  color: #fff;
 }

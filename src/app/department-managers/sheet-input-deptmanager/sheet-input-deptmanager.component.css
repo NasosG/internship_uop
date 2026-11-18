@@ -39,3 +39,25 @@
 .sort-icons .custom-sort-icon.active {
   color: #7a80dd !important;
 }
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* Period dropdown and search field at rest: light label, arrow, chosen period and outline, so that they show;
+   on hover and when focused they stay as they were (Material) */
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-select-arrow {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-select-value {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* On hover: a lighter outline instead of the black one of Material (light theme); the purple stays for the focused field */
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline:not(.mat-focused) .mat-form-field-flex:hover .mat-form-field-outline-thick {
+  color: rgba(255, 255, 255, 0.7);
+}

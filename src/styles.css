@@ -956,3 +956,23 @@
   background-color: rgba(25, 170, 141, 0.22);
   color: rgb(14, 219, 99);
 }
+
+/* Dept manager applications, list of the selection column, dark mode: dark like the department select, with the chosen option
+   on a purple background (the purple of Material, as in the rest of the page) and the same light text as the others */
+.dark-mode .mat-select-panel.apps-select-panel {
+  background-color: #2b3035;
+}
+
+.dark-mode .apps-select-panel .mat-option {
+  color: #e9ecef;
+}
+
+.dark-mode .apps-select-panel .mat-option:hover:not(.mat-option-disabled),
+.dark-mode .apps-select-panel .mat-option.mat-active {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .apps-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: rgba(63, 81, 181, 0.3);
+  color: #e9ecef;
+}

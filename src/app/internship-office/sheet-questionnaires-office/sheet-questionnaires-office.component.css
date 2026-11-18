@@ -40,3 +40,38 @@
   color: #7a80dd !important;
 }
   
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* Department / period dropdowns and search field, as in the department manager tabs: light at rest, a lighter outline
+   on hover, the purple of Material when focused. !important: the dark mode styles of the contracts tab apply to every
+   page once that tab has been opened (white outline with a background, white labels), and would win otherwise */
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-select-arrow {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field.mat-focused .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-form-field.mat-focused .mat-select-arrow {
+  color: #3f51b5 !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-select-value {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: transparent !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline:not(.mat-focused) .mat-form-field-flex:hover .mat-form-field-outline-thick {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3f51b5 !important;
+}

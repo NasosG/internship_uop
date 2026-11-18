@@ -35,3 +35,96 @@
 .container:hover .input-message {
   display: block;
 }
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* Student names: white like the rest of the table (on hover they stay as they are) */
+:host-context(.dark-mode) a.custom-info-btn:not(:hover) {
+  color: #fff;
+}
+
+/* Position choices without the green background: white, and on hover the colour of the links (names) in dark mode;
+   the green ones keep their dark text on the green */
+:host-context(.dark-mode) span.custom-info-btn:not(.green-bckg) {
+  color: #fff;
+}
+
+:host-context(.dark-mode) span.custom-info-btn:not(.green-bckg):hover {
+  color: #3395ff;
+}
+
+/* Dates box: a panel a little darker than the card (as the light grey panel in light mode), so that the white
+   title and labels show; the background is inline, hence !important */
+:host-context(.dark-mode) .dates-box {
+  background-color: #2b3035 !important;
+}
+
+/* Dividers (dates box and table): light lines instead of the dark ones of Material (light theme) */
+:host-context(.dark-mode) .mat-divider {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Calendar: dark like the dates box, light days, muted weekday names, a light background on hover (the days of other
+   months are already muted by AdminLTE/ng-bootstrap); the chosen day keeps the primary colour */
+:host-context(.dark-mode) ::ng-deep ngb-datepicker {
+  background-color: #2b3035;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-header,
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-weekdays,
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-month,
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-week {
+  background-color: transparent;
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-weekdays {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-weekday {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-arrow-btn {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-arrow-btn:hover {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-day .btn-light:not(.bg-primary) {
+  background-color: transparent;
+  border-color: transparent;
+  color: #e9ecef;
+}
+
+:host-context(.dark-mode) ::ng-deep ngb-datepicker .ngb-dp-day .btn-light:not(.bg-primary):hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* DataTables: "Show entries", "Search" and the text typed in it, "Showing x to y of z entries", page buttons */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter input,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_info,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button:not(.current) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* The list of "Show entries": black on white as in light mode (AdminLTE makes the select text white in dark mode,
+   and the options were white on the white list) */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length select option {
+  color: #000;
+  background-color: #fff;
+}

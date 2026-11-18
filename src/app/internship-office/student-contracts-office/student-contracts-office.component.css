@@ -101,3 +101,59 @@
   opacity: 0;
   transition: opacity 0.4s ease-out;
 }
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* Department / period dropdowns and search field, as in the department manager tabs: light at rest, a lighter outline
+   on hover, the purple of Material when focused. !important: the dark mode styles of the contracts tab apply to every
+   page once that tab has been opened (white outline with a background, white labels), and would win otherwise */
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-form-field:not(.mat-focused) .mat-select-arrow {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field.mat-focused .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-form-field.mat-focused .mat-select-arrow {
+  color: #3f51b5 !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-select-value {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: transparent !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline:not(.mat-form-field-outline-thick) {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline:not(.mat-focused) .mat-form-field-flex:hover .mat-form-field-outline-thick {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3f51b5 !important;
+}
+
+/* Student names: white like the rest of the table (on hover they stay as they are) */
+:host-context(.dark-mode) a.custom-info-btn:not(:hover) {
+  color: #fff;
+}
+
+/* Cancelled contracts, dark mode: the dark table covers the red of the row, so the cells get a deep red (the bright
+   red of light mode would glare on the dark page) with a red bar on the left; white text, and the secondary links a
+   lighter grey so that they read on the red */
+:host-context(.dark-mode) tr.red-bckg-cancelled > td {
+  background-color: #5c1a21;
+  box-shadow: none;
+}
+
+:host-context(.dark-mode) tr.red-bckg-cancelled > td:first-child {
+  box-shadow: inset 4px 0 0 #ea868f;
+}
+
+:host-context(.dark-mode) tr.red-bckg-cancelled .text-secondary {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
