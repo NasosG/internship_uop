@@ -1107,7 +1107,7 @@ const produceContractFile = async (request, response) => {
     const departmentId = request.body.departmentId;
 
     let metadata = await studentService.getContractFileMetadataByStudentId(studentId, periodId);
-    logger.info(metadata);
+    logger.info(`produceContractFile: contract data ${metadata ? "found" : "NOT found"} for student ${studentId}, period ${periodId}`);
 
     // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
     // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files
@@ -1205,7 +1205,7 @@ const produceCompletionCertificateFile = async (req, res) => {
     logger.info("produceCompletionCertificateFile endpoint called");
 
     const { doctype, data: metadata } = req.body;
-    logger.info(req.body);
+    logger.info(`produceCompletionCertificateFile: certificate data received for position ${metadata?.position_id}`);
     // Define the path to the .docx template file
     const fileDir = process.env.COMPLETION_CERT_FILE_PATH || "./word-contract-templates/ΒΕΒΑΙΩΣΗ_ΟΛΟΚΛΗΡΩΣΗΣ_ΠΑ2025.docx";
     logger.info(fileDir);
@@ -1217,7 +1217,7 @@ const produceCompletionCertificateFile = async (req, res) => {
       paragraphLoop: true,
       linebreaks: true,
     });
-    logger.info(metadata);
+    logger.info("produceCompletionCertificateFile: filling the certificate template");
     // Define the replacements for placeholders
     doc.render({
       STUDENT_NAME: metadata.student_name || "………………",
@@ -1270,7 +1270,7 @@ const producePaymentOrderFile = async (request, response) => {
     const departmentId = request.body.departmentId;
 
     let metadata = await studentService.getPaymentOrderMetadataByStudentId(studentId, periodId);
-    logger.info(metadata);
+    logger.info(`producePaymentOrderFile: payment order data ${metadata ? "found" : "NOT found"} for student ${studentId}, period ${periodId}`);
 
     // The separation of old and new contracts/payment orders - due to changes in the NSRF (MIS, logo, texts, etc.)
     // Old files (_old) cover 2022-2023 contracts; from 2023 onwards contracts are covered by the new files

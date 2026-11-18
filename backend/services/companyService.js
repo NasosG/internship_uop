@@ -379,7 +379,7 @@ const updateStudentEvaluationSheet = async (studentId, positionId, evaluationDat
 
 const insertStudentEvaluationSheet = async (studentId, positionId, evaluationData) => {
   try {
-    logger.info(evaluationData);
+    // logger.info(evaluationData);
     const { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments } = evaluationData;
     const query = `
       INSERT INTO evaluation_form_company (student_id, position_id, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, comments)

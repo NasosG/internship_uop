@@ -291,7 +291,7 @@ const insertOrUpdateEvaluationSheet = async (request, response) => {
   try {
     const { providerId, studentId, positionId } = request.query;
     const { evaluationFormData } = request.body;
-    logger.info(request.body);
+    // logger.info(request.body);
 
     const evaluationExists = await companyService.checkIfEvaluationExists(studentId, positionId);
 
@@ -320,7 +320,7 @@ const getCompanysEvaluationForm = async (request, response) => {
     const evaluationFormRow = await companyService.getCompanysEvaluationForm(studentId, positionId);
 
     if (evaluationFormRow) {
-      logger.info(evaluationFormRow);
+      // logger.info(evaluationFormRow);
       return response.status(200).json(evaluationFormRow);
     }
 

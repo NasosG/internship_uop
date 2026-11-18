@@ -117,7 +117,7 @@ cron.schedule("58 23 * * *", async () => {
   try {
     await setPeriodCompletedJob.setPeriodCompleted();
   } catch (error) {
-    logger.error(error);
+    logger.error(`setPeriodCompleted job failed: ${error.message}`);
   }
 }, {
   scheduled: true,
@@ -130,7 +130,7 @@ cron.schedule("30 21 * * 0", async () => {
   try {
     await deleteOldPositionsAtlasJob.doDelete();
   } catch (error) {
-    logger.error(error);
+    logger.error(`deleteOldPositionsAtlas job failed: ${error.message}`);
   }
 }, {
   scheduled: true,
@@ -141,7 +141,7 @@ cron.schedule("37 01 * * *", async () => {
   try {
     await syncAtlasPositionAcademics.executeSync();
   } catch (error) {
-    logger.error(error);
+    logger.error(`syncAtlasPositionAcademics job failed: ${error.message}`);
   }
 }, {
   scheduled: true,

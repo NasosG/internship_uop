@@ -353,7 +353,7 @@ const isOldContractForStudentAndPeriod = async (studentId, periodId) => {
           a.student_id = $1
           AND prd.id = $2`,
       [studentId, periodId]);
-    logger.info(students.rows);
+    logger.info(`isOldContractForStudentAndPeriod: ${students.rowCount} assignment row(s) found for student ${studentId}, period ${periodId}`);
     const periodEndDate = students.rows[0].period_end_date;
 
     // Determine the contract year based on the period end date
@@ -454,8 +454,7 @@ const updateStudentContractDetails = async (student, id) => {
 
 const updateStudentExtraContractDetails = async (student, id) => {
   try {
-    logger.info(student);
-    logger.info(id);
+    logger.info(`updateStudentExtraContractDetails: student ${id} - ΑΜΑ ${student?.ama_number ? 'given' : 'empty'}, ΑΔΤ ${student?.id_card ? 'given' : 'empty'}`);
     const updateResults = await pool.query("UPDATE student_users \
      SET ama_number = $1, id_card = $2 WHERE sso_uid = $3",
       [student.ama_number, student.id_card, id]
@@ -1354,7 +1353,7 @@ const updateContractDetails = async (studentId, periodId, contractDetails) => {
 
 const updatePaymentOrderDetails = async (studentId, periodId, contractDetails) => {
   try {
-    logger.info(contractDetails);
+    logger.info(`updatePaymentOrderDetails: student ${studentId}, period ${periodId} - start date ${contractDetails?.pa_start_date}, end date ${contractDetails?.pa_end_date}, fee ${contractDetails?.student_wages}`);
     // await pool.query(`UPDATE student_users SET father_name = $1
     //                                 WHERE sso_uid = $2`, [contractDetails.father_name, studentId]);
 

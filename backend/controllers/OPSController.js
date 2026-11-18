@@ -19,6 +19,24 @@ const opsHttpsAgent = new https.Agent({
   rejectUnauthorized: false
 });
 
+// A failed call to the OPS, for the log. The error of axios contains the whole request (the XML with the OPS
+// password and the data of the student), so only its message, the HTTP status and the SOAP fault of the OPS are kept
+const describeOpsError = (error) => {
+  const httpStatus = error?.response?.status ? ` (HTTP ${error.response.status})` : '';
+  const opsFault = String(error?.response?.data ?? '').match(/<faultstring[^>]*>([\s\S]*?)<\/faultstring>/i)?.[1];
+  return `${error?.message}${httpStatus}${opsFault ? ` - OPS: ${opsFault.trim().slice(0, 300)}` : ''}`;
+};
+
+// The participant data of a sheet, for the log, without the data themselves: the MIS code, the date of the sheet
+// and which of the fields of the XML are empty (a usual reason for a rejection by the OPS)
+const describeParticipantData = (studentId, sheetType, info) => {
+  const sheetDate = sheetType === 'entry' ? info?.startTimeFormatted : info?.endTimeFormatted;
+  const fields = { 'ΑΦΜ': info?.afm, 'ΑΔΤ': info?.adt, 'sheet date': sheetDate };
+  const emptyFields = Object.keys(fields).filter(name => fields[name] == null || String(fields[name]).trim() === '');
+  return `OPS ${sheetType} sheet of student ${studentId}: participant data ready (MIS ${info?.kodikosMIS}, sheet date ${sheetDate})`
+    + (emptyFields.length ? ` - EMPTY: ${emptyFields.join(', ')}` : '');
+};
+
 const createMicrodata = (id, answer) => {
   const answerValue = answer === true ? 5321 : answer === false ? 5322 : 5323;
 
@@ -47,7 +65,7 @@ const sendDeltioEisodouWS = async (req, res) => {
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
     const soapActionCall1 = 'sentParticipants';
-    logger.info(xmlPostString);
+    logger.info(`OPS entry sheet of student ${studentId}: sending it (call 1, sentParticipants)`);
 
     // asmx URL of WSDL
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
@@ -123,7 +141,7 @@ const sendDeltioEisodouWS = async (req, res) => {
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (exc) {
-    logger.error(exc);
+    logger.error(`OPS entry sheet of student ${req.params.id} failed${requestId ? ` (RequestProgressID ${requestId})` : ''}: ${describeOpsError(exc)}`);
     return res.status(500).send({ message: 'Entry sheet - SOAP request failed', requestId });
   }
 };
@@ -167,7 +185,7 @@ const callServiceWithRetry = async (soapUrl, xmlPostString, maxRetries, retryDel
 
       return { data: parsedResponse };
     } catch (error) {
-      logger.error(`Attempt ${attempt} failed:`, error);
+      logger.error(`OPS ${soapAction} attempt ${attempt} of ${maxRetries} failed: ${describeOpsError(error)}`);
 
       if (attempt === maxRetries) {
         throw Error('Maximum retry attempts reached. Data processing is not completed.');
@@ -196,7 +214,7 @@ const sendDeltioExodouWS = async (req, res) => {
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
     const soapActionCall1 = 'sentParticipants';
-    logger.info(xmlPostString);
+    logger.info(`OPS exit sheet of student ${studentId}: sending it (call 1, sentParticipants)`);
 
     // asmx URL of WSDL
     const soapUrl = "https://logon.ops.gr/services/v6/participants?wsdl";
@@ -272,7 +290,7 @@ const sendDeltioExodouWS = async (req, res) => {
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou });
   } catch (error) {
-    logger.error(error);
+    logger.error(`OPS exit sheet of student ${req.params.id} failed${requestId ? ` (RequestProgressID ${requestId})` : ''}: ${describeOpsError(error)}`);
     res.status(500).send({ message: 'Exit sheet - SOAP request failed', requestId });
   }
 };
@@ -354,7 +372,7 @@ const getDeltioResultWS = async (req, res) => {
 
     return res.status(200).json({ status: "DONE", opsNumber: idDeltiou, storage, existingOpsNumber });
   } catch (exc) {
-    logger.error(exc);
+    logger.error(`OPS sheet result for RequestProgressID ${requestId} failed: ${describeOpsError(exc)}`);
     return res.status(500).send({ message: 'Sheet result - SOAP request failed', requestId });
   }
 };
@@ -369,7 +387,7 @@ const sendDeltioEisodouXML = async (req, res) => {
 
     // New MIS XML string - New fields
     const xmlPostString = await getXmlPostStringEisodouMIS21_27(studentId, MODE, sheetResults);
-    logger.info(xmlPostString);
+    logger.info(`OPS entry sheet of student ${studentId}: XML file created for download`);
 
     const filename = `deltioEisodou${studentId}.xml`;
     res.set('Content-Type', 'text/xml; charset=utf-8');
@@ -378,7 +396,7 @@ const sendDeltioEisodouXML = async (req, res) => {
     return res.send(xmlPostString);
 
   } catch (exc) {
-    logger.error(exc);
+    logger.error(`OPS entry sheet XML of student ${req.params.id} could not be created: ${describeOpsError(exc)}`);
     return res.status(500).send({ message: 'Entry sheet - XML generation failed' });
   }
 };
@@ -393,7 +411,7 @@ const sendDeltioExodouXML = async (req, res) => {
 
     // New MIS 2021 2027 - New Fields
     const xmlPostString = await getXmlPostStringExodouMIS21_27(studentId, MODE, sheetResults);
-    logger.info(xmlPostString);
+    logger.info(`OPS exit sheet of student ${studentId}: XML file created for download`);
 
     const filename = `deltioExodou${studentId}.xml`;
     res.set('Content-Type', 'text/xml; charset=utf-8');
@@ -402,7 +420,7 @@ const sendDeltioExodouXML = async (req, res) => {
     return res.send(xmlPostString);
 
   } catch (exc) {
-    logger.error(exc);
+    logger.error(`OPS exit sheet XML of student ${req.params.id} could not be created: ${describeOpsError(exc)}`);
     return res.status(500).send({ message: 'Exit sheet - XML generation failed' });
   }
 };
@@ -683,7 +701,7 @@ const getXmlPostStringEisodou = async (studentId, mode, sheets) => {
 
     // logger.info(microdata);
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'entry');
-    logger.info(deltioCandidateInfo);
+    logger.info(describeParticipantData(studentId, 'entry', deltioCandidateInfo));
 
     // Prepare XML string
     if (mode == 'XML') {
@@ -810,7 +828,7 @@ const getXmlPostStringEisodouMIS21_27 = async (studentId, mode, sheets) => {
 
     // logger.info(microdata);
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'entry');
-    logger.info(deltioCandidateInfo);
+    logger.info(describeParticipantData(studentId, 'entry', deltioCandidateInfo));
 
     // Prepare XML string
     if (mode == 'XML') {
@@ -948,7 +966,7 @@ const getXmlPostStringExodou = async (studentId, mode, sheets) => {
     });
 
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'exit');
-    logger.info(deltioCandidateInfo);
+    logger.info(describeParticipantData(studentId, 'exit', deltioCandidateInfo));
 
     if (mode == 'XML') {
       finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
@@ -1033,7 +1051,7 @@ const getXmlPostStringExodouMIS21_27 = async (studentId, mode, sheets) => {
     });
 
     let deltioCandidateInfo = await getDataOfeloumenou(studentInfo[0], assignmenInfo, 'exit');
-    logger.info(deltioCandidateInfo);
+    logger.info(describeParticipantData(studentId, 'exit', deltioCandidateInfo));
 
     if (mode == 'XML') {
       finalCode = `<?xml version="1.0" encoding="utf-8"?>`;
