@@ -11,3 +11,59 @@
     text-align: center;
   }
 }
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* Material fields: light value, label, arrow and lines; green when focused, as in the department select */
+:host-context(.dark-mode) ::ng-deep .mat-select-value {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-select-arrow {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-focused .mat-form-field-label,
+:host-context(.dark-mode) ::ng-deep .mat-focused .mat-select-arrow {
+  color: rgb(14, 219, 99) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-underline {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+:host-context(.dark-mode) ::ng-deep .mat-form-field-ripple {
+  background-color: rgb(14, 219, 99);
+}
+
+/* "ΟΧΙ" of military service / disability / employment contract: white like the rest of the table */
+:host-context(.dark-mode) td.text-dark {
+  color: #fff !important;
+}
+
+/* DataTables: "Show entries", "Search" and the text typed in it, "Showing x to y of z entries", page buttons */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter input,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_info,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button:not(.current) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* "Add comment" / "Edit comment" links */
+:host-context(.dark-mode) a.text-secondary {
+  color: #ced4da !important;
+}
+
+:host-context(.dark-mode) a.text-secondary:hover {
+  color: #fff !important;
+}

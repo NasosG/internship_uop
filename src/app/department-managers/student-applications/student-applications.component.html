@@ -64,7 +64,7 @@
                           <mat-select value="{{
                               student.phase == 2 ? 'option1' :
                               student.phase == 3 ? 'option4' :
-                              student.phase == 1 ? '' : 'option2'}}" name="phase">
+                              student.phase == 1 ? '' : 'option2'}}" name="phase" panelClass="dept-select-panel">
                             <mat-option value="option3" (click)="onSubmitSelect('option3', student.sso_uid)">{{'DEPT-MANAGER.PENDING-SELECTION' | translate}}
                             </mat-option>
                             <mat-option value="option1" (click)="onSubmitSelect('option1', student.sso_uid)">{{'DEPT-MANAGER.ACCEPT' | translate}}

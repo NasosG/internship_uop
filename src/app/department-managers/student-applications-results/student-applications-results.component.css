@@ -9,3 +9,27 @@
 .yellow-text {
   color: rgb(122, 122, 2) !important;
 }
+
+/* ---------- Dark mode only (light mode unchanged) ---------- */
+
+/* "ΟΧΙ" of military service / disability / employment contract: white like the rest of the table */
+:host-context(.dark-mode) td.text-dark {
+  color: #fff !important;
+}
+
+/* DataTables: "Show entries", "Search" and the text typed in it, "Showing x to y of z entries", page buttons */
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_length,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_filter input,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_info,
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate {
+  color: #fff;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button:not(.current) {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:host-context(.dark-mode) ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
