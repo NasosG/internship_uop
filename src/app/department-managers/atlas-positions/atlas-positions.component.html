@@ -94,7 +94,7 @@
       <h3 class="margin-bottom-18">{{'STUDENT.INTERNSHIP-POSITIONS' | translate}}</h3>
       <ul class="job-list">
         <!-- <li *ngFor="let entry of this.entries" class="highlighted"><a href=""></a> -->
-        <li class="custom-height" *ngFor="let entry of this.entries; let i = index">
+        <li class="custom-height" *ngFor="let entry of this.entries; let i = index" [class.selected-position]="entry.id === jobInternalPositionId">
           <a class="cursor-pointer" (click)="displayDescription(i)">
             <div class="dark-div">
               <img class="mr-2" src="assets/images/job_offer.jpg" alt="">

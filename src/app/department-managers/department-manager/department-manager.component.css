@@ -190,6 +190,10 @@ input:checked+.slider:before {
 .nav-theme-moon { display: none; }
 :host-context(.dark-mode) .nav-theme-sun { display: none; }
 :host-context(.dark-mode) .nav-theme-moon { display: inline-block; }
+/* Small screens: the building icon has no arrow, while the name and the flag after it have one (a space, then the arrow
+   with its margin); the same room on its right (0.274em space + 0.255em margin + 0.6em arrow), so that from the building
+   to the name looks as far as from the name to the flag */
+#nav-bar .navbar-nav > .nav-item.nav-dept-menu { margin-right: calc(0.274em + 0.255em + 0.6em); }
 /* (also the icon of the "Select department" menu of the small screens) */
 .nav-theme-item-icon, .nav-menu-item-icon { width: 24px; height: 24px; font-size: 1em; line-height: 20px; text-align: center; overflow: hidden; vertical-align: middle; }
 :host-context(body:not(.dark-mode)) .nav-theme-light-item,

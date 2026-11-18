@@ -58,7 +58,7 @@
       </li>
       <!-- Small screens: only the building icon (as the other icons of the bar), with a menu of one item, the same
            "Select department", which goes to the same page -->
-      <li *ngIf="!managesOnlyOneAcademic" class="nav-item dropdown d-md-none">
+      <li *ngIf="!managesOnlyOneAcademic" class="nav-item dropdown d-md-none nav-dept-menu">
         <a href="#" class="nav-link" data-toggle="dropdown" role="button" [attr.aria-label]="'GENERIC.SELECT-DEPARTMENT' | translate"><i class="fa fa-lg fa-building"></i></a>
         <div class="dropdown-menu">
           <a [routerLink]="['/department-manager/choose-dept/' + this.authService.getSessionId()]" class="dropdown-item"><i class="fa fa-building nav-menu-item-icon"></i>
