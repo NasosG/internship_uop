@@ -49,12 +49,21 @@
       </li> -->
 
 
-      <li *ngIf="!managesOnlyOneAcademic" class="nav-item mr-2">
+      <li *ngIf="!managesOnlyOneAcademic" class="nav-item mr-2 d-none d-md-block">
         <a class="nav-link btn btn-primary"
           [routerLink]="['/department-manager/choose-dept/' + this.authService.getSessionId()]" style="color:white;"
           role="button">
           <i class="fa fa-building"></i> {{'GENERIC.SELECT-DEPARTMENT' | translate}}
         </a>
+      </li>
+      <!-- Small screens: only the building icon (as the other icons of the bar), with a menu of one item, the same
+           "Select department", which goes to the same page -->
+      <li *ngIf="!managesOnlyOneAcademic" class="nav-item dropdown d-md-none">
+        <a href="#" class="nav-link" data-toggle="dropdown" role="button" [attr.aria-label]="'GENERIC.SELECT-DEPARTMENT' | translate"><i class="fa fa-lg fa-building"></i></a>
+        <div class="dropdown-menu">
+          <a [routerLink]="['/department-manager/choose-dept/' + this.authService.getSessionId()]" class="dropdown-item"><i class="fa fa-building nav-menu-item-icon"></i>
+            &nbsp; {{'GENERIC.SELECT-DEPARTMENT' | translate}}</a>
+        </div>
       </li>
 
       <!-- Notifications Dropdown Menu -->
@@ -94,7 +103,7 @@
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
             <i class="fas fa-lg fa-user-graduate"></i>
-            {{ depManagerData?.givenname }} {{ depManagerData?.sn }}
+            <span class="d-none d-md-inline"> {{ depManagerData?.givenname }} {{ depManagerData?.sn }} </span><span class="d-md-none"> {{ initials(depManagerData?.givenname, depManagerData?.sn) }} </span>
           </a>
           <div class="dropdown-menu dropdown-menu-end">
             <a href="#" class="cursor-pointer dropdown-item">
@@ -105,8 +114,7 @@
 
       <div class="dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-          <i class="fas fa-lg fa-globe"></i>
-          {{'LANGUAGE-BTN' | translate}}
+          <i class="fas fa-lg fa-globe d-none d-md-inline-block"></i><span class="d-none d-md-inline"> {{'LANGUAGE-BTN' | translate}} </span><img class="d-md-none nav-lang-flag" [src]="langFlag" [alt]="'LANGUAGE-BTN' | translate" width="22" height="22" />&ngsp;
         </a>
 
         <ul class="dropdown-menu">
@@ -119,7 +127,7 @@
         </ul>
       </div>
 
-      <li class="nav-item">
+      <li class="nav-item d-none d-md-block">
         <span href="#" style="color: black;" class="pr-0 mr-0 nav-link" role="button">
           <label class="theme-switch" style="height:30px;" for="ChangeTheme">
             <input type="checkbox" id="ChangeTheme" />
@@ -128,11 +136,21 @@
         </span>
 
       </li>
-      <li class="nav-item pl-0 ml-0">
+      <li class="nav-item pl-0 ml-0 d-none d-md-block">
         <span href="#" class="nav-link moon-icon" role="button">
           <span style="font-size:1.27em;"><i class="fa fa-moon"></i></span>
         </span>
 
+      </li>
+      <!-- Small screens: the sun (light) or the moon (dark) with a menu, in the place of the switch (it switches the theme through that same switch) -->
+      <li class="nav-item dropdown d-md-none">
+        <a href="#" class="nav-link" data-toggle="dropdown" role="button" [attr.aria-label]="'THEME-BTN' | translate"><i class="fas fa-lg fa-sun nav-theme-sun"></i><i class="fas fa-lg fa-moon nav-theme-moon"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a (click)="setTheme('light')" class="cursor-pointer dropdown-item nav-theme-light-item"><i class="fas fa-sun nav-theme-item-icon"></i>
+            &nbsp; {{'THEME-LIGHT' | translate}}</a>
+          <a (click)="setTheme('dark')" class="cursor-pointer dropdown-item nav-theme-dark-item"><i class="fas fa-moon nav-theme-item-icon"></i>
+            &nbsp; {{'THEME-DARK' | translate}}</a>
+        </div>
       </li>
 
     </ul>

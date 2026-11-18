@@ -171,3 +171,36 @@ input:checked+.slider:before {
 .nav-link.active {
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
+
+/* Small screens (below 768px), where the initials and the flag are shown: the items of the right side stay where
+   they were, right after the menu button (the space that the shorter name frees does not push them to the right) */
+@media (max-width: 767.98px) {
+  #nav-bar > .navbar-nav.ml-auto { margin-left: 0 !important; }
+}
+
+/* Small screens: the flag of the chosen language (in the place of the globe, same size) */
+.nav-lang-flag { vertical-align: -5px; }
+/* Small screens: the language menu opens towards the left (under the flag), so that it stays inside the screen */
+@media (max-width: 767.98px) {
+  #nav-bar > .navbar-nav > div.dropdown > .dropdown-menu { right: 0; left: auto; }
+}
+
+/* Small screens: the sun (light) or the moon (dark) in the place of the switch, and its menu with the theme in use
+   marked as the active items of Bootstrap (blue); the icons of the menu in a 24px box placed as the flags of the
+   language menu (vertical-align: middle, as Bootstrap places images), so that the two menus have the same sizes and
+   spaces, and the 16px icon 2px higher in its box (line-height 20px) so that its centre is the centre of the letters */
+.nav-theme-moon { display: none; }
+:host-context(.dark-mode) .nav-theme-sun { display: none; }
+:host-context(.dark-mode) .nav-theme-moon { display: inline-block; }
+.nav-theme-item-icon { width: 24px; height: 24px; font-size: 1em; line-height: 20px; text-align: center; overflow: hidden; vertical-align: middle; }
+:host-context(body:not(.dark-mode)) .nav-theme-light-item,
+:host-context(.dark-mode) .nav-theme-dark-item { color: #fff; background-color: #007bff; }
+
+/* Phones (below 576px): the floating "Αρχική" button (the classes d-sm-none hide it on wider screens), at the bottom
+   right, in the colour of the sidebar; above the page but below the menus, dialogs and the open sidebar */
+.home-fab { position: fixed; right: 16px; bottom: 16px; z-index: 999; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 22px; background-color: #224957; color: #fff; font-weight: 600; text-decoration: none; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); }
+.home-fab i { font-size: 1.2em; margin-right: 8px; }
+.home-fab:hover, .home-fab:focus, .home-fab:active { color: #fff; background-color: #1b3a45; text-decoration: none; }
+:host-context(.dark-mode) .home-fab { border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
+:host-context(.dark-mode) .home-fab:hover, :host-context(.dark-mode) .home-fab:focus { color: #fff; }
+.home-fab-space { height: 76px; }

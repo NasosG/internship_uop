@@ -2,6 +2,9 @@
   "LANGUAGE-BTN": "Γλώσσα",
   "LANGUAGE-SELECT-GR": "Ελληνικά",
   "LANGUAGE-SELECT-EN": "Αγγλικά",
+  "THEME-BTN": "Εμφάνιση",
+  "THEME-LIGHT": "Φωτεινό",
+  "THEME-DARK": "Σκοτεινό",
   "HOME-PAGE-BTN": "Αρχική",
   "BRAND-SPAN": "Πρακτική Άσκηση",
   "HOME": {

@@ -2,6 +2,9 @@
   "LANGUAGE-BTN": "Language",
   "LANGUAGE-SELECT-GR": "Greek",
   "LANGUAGE-SELECT-EN": "English",
+  "THEME-BTN": "Appearance",
+  "THEME-LIGHT": "Light",
+  "THEME-DARK": "Dark",
   "HOME-PAGE-BTN": "Home",
   "BRAND-SPAN": "My Internship",
   "HOME": {

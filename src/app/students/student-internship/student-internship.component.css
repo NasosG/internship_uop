@@ -7871,3 +7871,48 @@ label.upload-btn input[type="file"] {
   }
 
 }
+
+/* ---------- Small screens (below 768px): the position cards; wide screens unchanged ----------
+   The text block of a card has two class attributes in the html and only the second one (pt-*) is kept, so it does not
+   get .job-list-content: its text wrapped around the image and went under it, and the image kept the 35px paddings of
+   the wide screens (130px high, 50x60 stretched), which left empty space in the cards with short titles.
+   Here: the image in its own column (50x50, the image is square), all the text in one column on its right with the
+   same left edge, the same space all around the card and tighter lines in the title. */
+@media (max-width: 767.98px) {
+  .padding-right { padding-right: 0; }
+  .job-list li > a { display: block; }
+  .job-list li .dark-div { display: flex; align-items: flex-start; padding: 14px 16px; }
+  .job-list li .dark-div > img { float: none; flex: 0 0 50px; width: 50px; height: 50px !important; margin: 0 14px 0 0 !important; padding: 0; }
+  .job-list li .dark-div > div { flex: 1 1 auto; min-width: 0; padding-top: 0 !important; }
+  .job-list li .dark-div h4 { line-height: 1.35; margin: 0 0 6px; overflow-wrap: anywhere; }
+  .job-list li .job-icons span { display: block; position: relative; padding-left: 22px; margin: 0 0 4px; }
+  .job-list li .job-icons span:last-child { margin-bottom: 0; }
+  /* The icons in a column of their own (16px), so that the texts and their second lines start at the same place.
+     The company line has a &nbsp; after its icon (the others a space, which is dropped at the start of the line, or
+     nothing), so its first line starts one nbsp (0.274em of this font) to the left */
+  .job-list li .job-icons span > i { position: absolute; left: 0; top: 0; width: 16px; margin: 0; text-align: center; text-indent: 0; line-height: inherit; }
+  .job-list li .job-icons span:nth-child(2) { text-indent: -0.274em; }
+
+  /* No hover look (a finger passing over a card, or scrolling, made it look chosen while its description had not
+     changed): the cards stay as they are, and the chosen one (the one whose description is shown, class
+     selected-position) gets the hover look of the wide screens, with a blue bar on its left */
+  .job-list li:not(.selected-position):hover { background-color: #fff; border-top-color: #e0e0e0; border-bottom-color: currentColor; }
+  .job-list li:not(.selected-position):last-child:hover { border-bottom-color: #e0e0e0; }
+  .job-list li:not(.selected-position):nth-child(2n):hover { background-color: #fbfbfb; }
+  .job-list li:not(.selected-position):hover a:before { opacity: 0; }
+  :host-context(.dark-mode) .job-list li:not(.selected-position):hover,
+  :host-context(.dark-mode) .job-list li:not(.selected-position):hover .dark-div { background-color: #343a40 !important; }
+  :host-context(.dark-mode) .job-list li:not(.selected-position):hover { border-top-color: #cccecf !important; border-bottom-color: currentColor !important; }
+  :host-context(.dark-mode) .job-list li:not(.selected-position):last-child:hover { border-bottom-color: #cccecf !important; }
+  :host-context(.dark-mode) .job-list li:not(.selected-position):hover a:before { box-shadow: 0px 1px 0px 0px rgba(80, 80, 80, 0.7) !important; }
+  .job-list li:not(.selected-position):hover { z-index: auto; }
+  /* z-index 1 (not the 1011 of the hover): enough for its bottom line over the next card, and below the floating
+     "Αρχική" button of the phones */
+  .job-list li.selected-position { background-color: rgba(80, 80, 80, 0.05); border-color: rgba(80, 80, 80, 0.7); z-index: 1; }
+  .job-list li.selected-position a:before { opacity: 1; }
+  .job-list li.selected-position .dark-div { box-shadow: inset 3px 0 0 #007bff; }
+  :host-context(.dark-mode) .job-list li.selected-position,
+  :host-context(.dark-mode) .job-list li.selected-position .dark-div { background-color: #43494e !important; }
+  :host-context(.dark-mode) .job-list li.selected-position { border-color: #f8f9fa !important; }
+  :host-context(.dark-mode) .job-list li.selected-position a:before { box-shadow: 0px 1px 0px 0px #f8f9fa !important; }
+}

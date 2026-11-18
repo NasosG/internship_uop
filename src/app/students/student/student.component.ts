@@ -161,6 +161,26 @@ export class StudentComponent implements OnInit, OnDestroy {
     this.translate.use(language);
   }
 
+  /** Small screens (below 768px): the flag of the chosen language instead of the globe and "Language" */
+  get langFlag(): string {
+    return (this.translate.currentLang || localStorage.getItem('language')) === 'en' ? 'assets/images/englishIcon.png' : 'assets/images/greeceIcon.png';
+  }
+
+  /** Small screens, sun / moon menu: switches the theme through the switch of the wide screens (hidden on small ones),
+   *  so that the dark mode logic stays in one place (script.js) */
+  setTheme(mode: 'light' | 'dark') {
+    const themeSwitch = document.getElementById('ChangeTheme') as HTMLInputElement | null;
+    if (!themeSwitch || document.body.classList.contains('dark-mode') === (mode === 'dark')) return;
+    themeSwitch.checked = mode === 'dark';
+    themeSwitch.dispatchEvent(new Event('change'));
+  }
+
+  /** Small screens (below 768px): the initials instead of the full name, e.g. "jason" "statham" -> "JS"
+   *  (capitals; Greek names without accents) */
+  initials(...names: (string | null | undefined)[]): string {
+    return names.map(name => (name || '').trim().charAt(0)).join('').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+  }
+
   openCommentsDialog() {
     const dialogRef = this.dialog.open(StudentCommentsDialogComponent, {
       data: { studentsData: this.studentsSSOData, index: 0 }
