@@ -1,7 +1,8 @@
-/* Phones (below 576px): "All rights reserved." on its own line under the copyright, and 40px under it instead of 16px:
-   at the end of the page the floating "Home" button of the phones (44px, 16px from the bottom) sits beside this short
-   line and under the copyright line; wider screens unchanged */
+/* Phones (below 576px), only on the pages with the floating "Home" button (class has-home-fab on the wrapper of the
+   layout): "All rights reserved." on its own line under the copyright and 40px under it instead of 16px, so that at the
+   end of the page the button (44px, 16px from the bottom) sits beside this short line and under the copyright line;
+   the home pages (no button) and wider screens unchanged */
 @media (max-width: 575.98px) {
-  .footer-rights { display: block; }
-  .main-footer { padding-bottom: 40px; }
+  :host-context(.has-home-fab) .footer-rights { display: block; }
+  :host-context(.has-home-fab) .main-footer { padding-bottom: 40px; }
 }
