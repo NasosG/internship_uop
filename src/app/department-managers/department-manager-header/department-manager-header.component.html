@@ -1,6 +1,15 @@
- <div class="pb-0 pt-3 mb-4 pl-3 " style="border:1px solid black; border-radius:6px;">
+ <div class="pb-0 pt-3 mb-4 pl-3 d-none d-md-block" style="border:1px solid black; border-radius:6px;">
    <p>{{'GENERIC.DEPARTMENT' | translate}}: {{depManagerData?.department}}<br>{{'DEPT-MANAGER.COORDINATOR' | translate}}:
      {{depManagerData?.givenname}} {{depManagerData?.sn}}</p>
+ </div>
+ <!-- Small screens (below 768px): the department and the coordinator in a card (the box above is for wide screens) -->
+ <div class="dm-card dm-dept d-md-none">
+   <div class="dm-dept-icon"><i class="fas fa-building"></i></div>
+   <div>
+     <div class="dm-dept-name">{{depManagerData?.department}}</div>
+     <div class="dm-dept-label">{{'DEPT-MANAGER.COORDINATOR' | translate}}</div>
+     <div class="dm-dept-person">{{depManagerData?.givenname}} {{depManagerData?.sn}}</div>
+   </div>
  </div>
  <!-- <div class="card-header p-2 mb-0" style="border:none;">
    <div class="card-tools mb-0 mr-1 p-1">
@@ -13,8 +22,8 @@
    class="alert alert-danger" role="alert">
    {{'DEPT-MANAGER.NO-PERIODS' | translate}}
  </div>
- <h4 *ngIf="periodData.semester != null"> {{'GENERIC.CURRENT-PERIOD' | translate}} </h4>
- <table *ngIf="periodData.semester != null" ngNativeValidate id="dep-manager-table" class="table table-bordered"
+ <h4 *ngIf="periodData?.semester != null"> {{'GENERIC.CURRENT-PERIOD' | translate}} </h4>
+ <table *ngIf="periodData?.semester != null" ngNativeValidate id="dep-manager-table" class="table table-bordered d-none d-md-table"
    style="background-color:white">
    <thead>
      <tr>
@@ -53,3 +62,33 @@
      </tr>
    </tbody>
  </table>
+ <!-- Small screens: the current period as a card (the table above is for wide screens); the same actions -->
+ <div *ngIf="periodData?.semester != null" class="dm-card dm-period d-md-none">
+   <div class="dm-period-title">{{periodData?.semester == 1 ? "Χειμερινό Εξάμηνο" : "Εαρινό Εξάμηνο"}} {{periodData?.pyear}}</div>
+   <div class="dm-phase" [class.dm-later-phase]="(periodData?.phase_state || 0) >= 2">{{phaseArray[(periodData?.phase_state)!]}}</div>
+   <div class="dm-dates">
+     <i class="far fa-calendar-alt dm-cal"></i>
+     <div><small>{{'DEPT-MANAGER.START' | translate}}</small><span>{{dateFrom}}</span></div>
+     <i class="fas fa-long-arrow-alt-right dm-arrow"></i>
+     <div><small>{{'DEPT-MANAGER.END' | translate}}</small><span>{{dateTo}}</span></div>
+   </div>
+   <ng-container *ngIf="phaseProgress as progress">
+     <div class="dm-progress" [class.dm-later-phase]="(periodData?.phase_state || 0) >= 2"><div [style.width.%]="progress.percent"></div></div>
+     <div class="dm-progress-text">
+       <span><ng-container *ngIf="progress.day > 0 && progress.day <= progress.total && progress.label !== 'DEPT-MANAGER.PHASE-ENDED'">{{'DEPT-MANAGER.PHASE-DAY-OF' | translate:{day: progress.day, total: progress.total} }}</ng-container></span>
+       <span class="dm-progress-left">{{progress.label | translate:{days: progress.days} }}</span>
+     </div>
+   </ng-container>
+   <div class="dm-tiles">
+     <div><small>{{'DEPT-MANAGER.ESPA-POSITIONS' | translate}}</small><span>{{periodData?.positions}}</span></div>
+     <div><small>{{'DEPT-MANAGER.NON-ESPA-POSITIONS' | translate}}</small><span>{{periodData?.available_positions}}</span></div>
+   </div>
+   <div class="dm-actions">
+     <a style="cursor:pointer" (click)="openDialog(periodData?.id)" class="dm-btn dm-btn-outline"><i class="fa fa-eye"></i> {{'GENERIC.VIEW' | translate}}</a>
+     <a [routerLink]="['/department-manager/edit-period/' + this.authService.getSessionId()]" class="dm-btn dm-btn-primary"><i class="fa fa-pencil-alt"></i> {{'GENERIC.EDIT' | translate}}</a>
+   </div>
+   <a *ngIf="periodData?.phase_state == 2 || periodData?.phase_state == 3" (click)="completePeriodById()" style="cursor: pointer" class="dm-btn dm-btn-success"><i class="fa fa-check"></i> {{'GENERIC.COMPLETE' | translate}}</a>
+   <div class="dm-delete">
+     <a [routerLink]="['delete-period/' + this.authService.getSessionId()]" (click)="deletePeriodById()" class="delete text-danger"><i class="fa fa-trash-alt"></i> {{'GENERIC.DELETE' | translate}}</a>
+   </div>
+ </div>

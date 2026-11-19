@@ -357,6 +357,13 @@
     "NO-NEW-NOTIFICATIONS": "Δεν υπάρχουν νέες ειδοποιήσεις"
   },
   "DEPT-MANAGER": {
+    "PHASE-DAY-OF": "Ημέρα {{day}} από {{total}}",
+    "PHASE-STARTS-IN": "ξεκινά σε {{days}} ημέρες",
+    "PHASE-STARTS-TOMORROW": "ξεκινά αύριο",
+    "PHASE-ENDS-IN": "λήγει σε {{days}} ημέρες",
+    "PHASE-ENDS-TOMORROW": "λήγει αύριο",
+    "PHASE-ENDS-TODAY": "λήγει σήμερα",
+    "PHASE-ENDED": "έληξε",
     "SHOW-RESULTS": "Επίδειξη",
     "ENTRIES": "εγγραφών ανά σελίδα",
     "COMMENTS": "Σχόλια",

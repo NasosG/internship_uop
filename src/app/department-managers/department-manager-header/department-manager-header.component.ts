@@ -23,6 +23,8 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   private language!: string;
   dateFrom: string = "";
   dateTo: string = "";
+  /** Small screens, card of the current period: where today is in its current phase (for the progress bar) */
+  phaseProgress: { percent: number, day: number, total: number, days: number, label: string } | null = null;
 
   phaseArray = ["no-state",
     "1. Αιτήσεις ενδιαφέροντος φοιτητών",
@@ -44,8 +46,36 @@ export class DepartmentManagerHeaderComponent implements OnInit {
             this.periodData = periodData;
             this.dateFrom = Utils.changeDateFormat(periodData.date_from);
             this.dateTo = Utils.changeDateFormat(periodData.date_to);
+            this.phaseProgress = this.computePhaseProgress(periodData?.date_from, periodData?.date_to);
+            // The table of the period appears with the data, often after the app has given the tables their dark mode
+            // class (table-dark, given on every switch of the mode), so it depended on which came first: give it here
+            // too, once the table is drawn
+            setTimeout(() => {
+              if (document.body.classList.contains('dark-mode')) document.getElementById('dep-manager-table')?.classList.add('table-dark');
+            });
         });
       });
+  }
+
+  /** Where today is in the phase from dateFrom to dateTo ("2026-11-11", local whole days): the percent of the bar, the day
+   *  of the phase, and the text on its right (starts in / ends in N days, tomorrow, today, ended) */
+  computePhaseProgress(dateFrom: any, dateTo: any) {
+    const toDay = (value: any) => {
+      const [y, m, d] = String(value || '').substring(0, 10).split('-').map(Number);
+      return y && m && d ? new Date(y, m - 1, d).getTime() : NaN;
+    };
+    const from = toDay(dateFrom), to = toDay(dateTo);
+    if (isNaN(from) || isNaN(to) || to < from) return null;
+    const now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const DAY = 24 * 60 * 60 * 1000, total = Math.round((to - from) / DAY) + 1;
+    if (today < from) {
+      const days = Math.round((from - today) / DAY);
+      return { percent: 0, day: 0, total, days, label: days === 1 ? 'DEPT-MANAGER.PHASE-STARTS-TOMORROW' : 'DEPT-MANAGER.PHASE-STARTS-IN' };
+    }
+    if (today > to) return { percent: 100, day: total, total, days: 0, label: 'DEPT-MANAGER.PHASE-ENDED' };
+    const day = Math.round((today - from) / DAY) + 1, days = Math.round((to - today) / DAY);
+    const label = days === 0 ? 'DEPT-MANAGER.PHASE-ENDS-TODAY' : days === 1 ? 'DEPT-MANAGER.PHASE-ENDS-TOMORROW' : 'DEPT-MANAGER.PHASE-ENDS-IN';
+    return { percent: Math.round(day / total * 100), day, total, days, label };
   }
 
   deletePeriodById() {

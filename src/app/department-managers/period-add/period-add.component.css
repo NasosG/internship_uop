@@ -1,1 +1,22 @@
-
+/* ---------- Small screens (below 768px): the "new period" form with the labels above the fields, fields of 44px, the
+   two numbers of positions side by side and a big "Create" button; the dates stay one under the other, because both
+   calendars open on the left of the "end" button and would not fit if it were in the right half; wide screens
+   unchanged ---------- */
+@media (max-width: 767.98px) {
+  #toggleVisibilityAddPeriod { width: 100%; height: 44px; border-radius: 9px; font-weight: 600; }
+  .card { border-radius: 12px; }
+  .card-body { padding: 1rem; }
+  form { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; }
+  form > * { grid-column: 1 / -1; }
+  form > .pf-number { grid-column: auto; }
+  form .form-group.row { margin-left: 0; margin-right: 0; margin-bottom: 13px; }
+  form .form-group.row > label { flex: 0 0 100%; max-width: 100%; padding: 0; margin-bottom: 5px; font-size: 13.5px; font-weight: 600; color: #495057; }
+  form .form-group.row > div { flex: 0 0 100%; max-width: 100%; padding: 0; }
+  form .custom-select, form .form-control { height: 44px; border-radius: 9px; font-size: 15.5px; }
+  form .input-group > .form-control { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+  form .input-group > .btn { border-radius: 0 9px 9px 0; }
+  form > button.btn-primary { height: 48px; border-radius: 9px; font-size: 16.5px; font-weight: 600; margin-top: 4px; }
+}
+@media (max-width: 767.98px) {
+  :host-context(.dark-mode) form .form-group.row > label { color: #ced4da; }
+}
