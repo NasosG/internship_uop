@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const checkLoginSecret = require("../middleware/loginSecret.js");
-const { checkUniversityUser } = require("../middleware/access.js");
+const { checkUniversityUser, checkStaff } = require("../middleware/access.js");
 const officeController = require("../controllers/officeController.js");
 
 router.get("/getOfficeUserById/:id", checkUniversityUser, officeController.getOfficeUserById);
@@ -14,8 +14,9 @@ router.get("/getStudentListForPeriodAndAcademic/", checkUniversityUser, officeCo
 router.get("/getStudentPaymentsListForPeriodAndAcademic", checkUniversityUser, officeController.getStudentPaymentsListForPeriodAndAcademic);;
 router.post("/insertEspaPosition/:id", checkUniversityUser, officeController.insertEspaPosition);
 router.post("/login/", checkLoginSecret, officeController.login);
-router.put("/updateEntrySheetField/:id", checkUniversityUser, officeController.updateEntrySheetField);
-router.put("/updateExitSheetField/:id", checkUniversityUser, officeController.updateExitSheetField);
+// The office edits the students' entry / exit sheets (staff only, not the students themselves)
+router.put("/updateEntrySheetField/:id", checkStaff, officeController.updateEntrySheetField);
+router.put("/updateExitSheetField/:id", checkStaff, officeController.updateExitSheetField);
 router.get("/stats/achievements", checkUniversityUser, officeController.getAchievementsStats);
 router.get("/stats/achievements/students", checkUniversityUser, officeController.getAchievementsStatsForStudents);
 router.get("/stats/achievements/students/:year", checkUniversityUser, officeController.getAchievementsYearlyStatsForStudents);
