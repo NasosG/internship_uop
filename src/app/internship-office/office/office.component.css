@@ -189,3 +189,12 @@ input:checked+.slider:before {
 .nav-theme-item-icon { width: 24px; height: 24px; font-size: 1em; line-height: 20px; text-align: center; overflow: hidden; vertical-align: middle; }
 :host-context(body:not(.dark-mode)) .nav-theme-light-item,
 :host-context(.dark-mode) .nav-theme-dark-item { color: #fff; background-color: #007bff; }
+
+/* Phones (below 576px): the floating "Home" button (the classes d-sm-none hide it on wider screens), at the bottom
+   right, in the colour of the sidebar; above the page but below the menus, dialogs and the open sidebar (as the student's) */
+.home-fab { position: fixed; right: 16px; bottom: 16px; z-index: 999; display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 22px; background-color: #224957; color: #fff; font-weight: 600; text-decoration: none; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); }
+.home-fab i { font-size: 1.2em; margin-right: 8px; }
+.home-fab:hover, .home-fab:focus, .home-fab:active { color: #fff; background-color: #1b3a45; text-decoration: none; }
+:host-context(.dark-mode) .home-fab { border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
+:host-context(.dark-mode) .home-fab:hover, :host-context(.dark-mode) .home-fab:focus { color: #fff; }
+.home-fab-space { height: 76px; }

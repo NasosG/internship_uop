@@ -377,6 +377,15 @@
   <!-- Generic footer component -->
   <app-users-footer></app-users-footer>
 
+  <!-- Phones (below 576px), where the "Αρχική" of the top bar is hidden: a floating "Αρχική" button at the bottom right
+       (not on the home page itself, at either of its two addresses), and space after the footer so that at the end of
+       the page it does not cover it -->
+  <ng-container *ngIf="!isPositionsAddRoute() && !isOfficeHomeRoute()">
+    <div class="home-fab-space d-sm-none"></div>
+    <a [routerLink]="['/office/positions-add/' + this.authService.getSessionId()]" class="home-fab d-sm-none">
+      <i class="fa fa-home"></i> {{'HOME-PAGE-BTN' | translate}}</a>
+  </ng-container>
+
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->

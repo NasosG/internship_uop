@@ -976,3 +976,9 @@
   background-color: rgba(63, 81, 181, 0.3);
   color: #e9ecef;
 }
+
+/* Phones and small tablets (below 768px): the accessibility button (UserWay widget, top right) just below the top bar,
+   so that it does not cover the sun / moon of the bar; wide screens unchanged (13px from the top, set by the widget) */
+@media (max-width: 767.98px) {
+  .uwy.userway_p1 .userway_buttons_wrapper { top: 65px !important; }
+}

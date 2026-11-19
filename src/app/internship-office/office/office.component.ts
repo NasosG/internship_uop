@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -11,7 +11,7 @@ import { OfficeService } from '../office.service';
   templateUrl: './office.component.html',
   styleUrls: ['./office.component.css']
 })
-export class OfficeComponent implements OnInit {
+export class OfficeComponent implements OnInit, AfterViewInit {
   officeUserData!: OfficeUser;
 
   @Output()
@@ -25,6 +25,14 @@ export class OfficeComponent implements OnInit {
     translate.setDefaultLang('gr');
     const browserLang = localStorage.getItem('language') || null;
     translate.use((browserLang != null) ? browserLang : 'gr');
+  }
+
+  /** The sidebar of AdminLTE collapses itself on narrow screens (to the column of icons) only if its menu button already
+   *  exists when the page finishes loading; on fast loads (e.g. on iPhones) this layout is drawn later and the sidebar
+   *  stayed hidden, leaving an empty white column. Starting it here does what AdminLTE does on load (and nothing if it
+   *  has already done it). */
+  ngAfterViewInit(): void {
+    ($('[data-widget="pushmenu"]') as any).PushMenu?.();
   }
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
   templateUrl: './admin-panel.component.html',
   styleUrls: ['./admin-panel.component.css']
 })
-export class AdminPanelComponent implements OnInit {
+export class AdminPanelComponent implements OnInit, AfterViewInit {
   username = new FormControl('');
   roles = new FormControl('');
   academics = new FormControl('');
@@ -41,6 +41,14 @@ export class AdminPanelComponent implements OnInit {
 
     const browserLang = localStorage.getItem('language') || null;
     translate.use((browserLang != null) ? browserLang : 'gr');
+  }
+
+  /** The sidebar of AdminLTE collapses itself on narrow screens (to the column of icons) only if its menu button already
+   *  exists when the page finishes loading; on fast loads (e.g. on iPhones) this layout is drawn later and the sidebar
+   *  stayed hidden, leaving an empty white column. Starting it here does what AdminLTE does on load (and nothing if it
+   *  has already done it). */
+  ngAfterViewInit(): void {
+    ($('[data-widget="pushmenu"]') as any).PushMenu?.();
   }
 
   async ngOnInit() {

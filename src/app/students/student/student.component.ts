@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription, takeUntil } from 'rxjs';
 import { Student } from '../student.model';
@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.css'],
 })
-export class StudentComponent implements OnInit, OnDestroy {
+export class StudentComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output()
   readonly darkModeSwitched = new EventEmitter<boolean>();
 
@@ -47,6 +47,14 @@ export class StudentComponent implements OnInit, OnDestroy {
 
     const browserLang = localStorage.getItem('language') || null;
     translate.use((browserLang != null) ? browserLang : 'gr');
+  }
+
+  /** The sidebar of AdminLTE collapses itself on narrow screens (to the column of icons) only if its menu button already
+   *  exists when the page finishes loading; on fast loads (e.g. on iPhones) this layout is drawn later and the sidebar
+   *  stayed hidden, leaving an empty white column. Starting it here does what AdminLTE does on load (and nothing if it
+   *  has already done it). */
+  ngAfterViewInit(): void {
+    ($('[data-widget="pushmenu"]') as any).PushMenu?.();
   }
 
   async ngOnInit() {

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, throwError } from 'rxjs';
@@ -16,7 +16,7 @@ import { Period } from '../period.model';
   templateUrl: './department-manager.component.html',
   styleUrls: ['./department-manager.component.css']
 })
-export class DepartmentManagerComponent implements OnInit, OnDestroy {
+export class DepartmentManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public depManagerData!: DepManager;
   private studentSubscription!: Subscription;
@@ -33,6 +33,14 @@ export class DepartmentManagerComponent implements OnInit, OnDestroy {
 
     const browserLang = localStorage.getItem('language') || null;
     translate.use((browserLang != null) ? browserLang : 'gr');
+  }
+
+  /** The sidebar of AdminLTE collapses itself on narrow screens (to the column of icons) only if its menu button already
+   *  exists when the page finishes loading; on fast loads (e.g. on iPhones) this layout is drawn later and the sidebar
+   *  stayed hidden, leaving an empty white column. Starting it here does what AdminLTE does on load (and nothing if it
+   *  has already done it). */
+  ngAfterViewInit(): void {
+    ($('[data-widget="pushmenu"]') as any).PushMenu?.();
   }
 
   ngOnInit() {
