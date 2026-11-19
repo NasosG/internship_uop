@@ -158,6 +158,9 @@ const checkAcademicPosition = async (positionId, academicId) => {
 const getAtlasFilteredPositions = async (offset, limit, filters) => {
   logger.info("array is : " + JSON.stringify(filters));
   let moreThanOneFilters = false;
+  // The values of the filters and the paging go to the database as parameters ($1, $2, ...), never inside the text of
+  // the query (SQL injection); String() gives each value the same text that it had inside the quotes before
+  const values = [];
   try {
     let queryStr = "SELECT *, g.id as g_position_id FROM"
       + " atlas_position_group g"
@@ -171,13 +174,15 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     if (filters.institution) {
       queryStr += "INNER JOIN position_has_academics pa ON pa.position_id = g.atlas_position_id ";
       queryStr += "INNER JOIN atlas_academics ac ON ac.atlas_id = pa.academic_id ";
-      queryStr += ` WHERE pa.academic_id = '${filters.institution}'`;
+      values.push(String(filters.institution));
+      queryStr += " WHERE pa.academic_id = $" + values.length;
 
       moreThanOneFilters = true;
     }
 
     if (filters.location != null) {
-      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + ` g.city = '${filters.location}'`;
+      values.push(String(filters.location));
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.city = $" + values.length;
       moreThanOneFilters = true;
     }
     // if (filters.location != null) {
@@ -186,6 +191,7 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     // }
     if (filters.monthsOfInternship != null) {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " g.duration <= ";
+      // a number calculated here (e.g. "months3" -> "12"), not the text that was sent, so it stays in the query as before
       queryStr += MiscUtils.getWeeksFromMonths(filters.monthsOfInternship);
       moreThanOneFilters = true;
     }
@@ -197,12 +203,14 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
     // }
     if (filters.physicalObject) {
       queryStr += (moreThanOneFilters ? " AND" : " WHERE");
-      queryStr += " '" + filters.physicalObject + "'";
+      values.push(String(filters.physicalObject));
+      queryStr += " $" + values.length;
       queryStr += " = ANY(physical_objects)";
       moreThanOneFilters = true;
     }
     if (filters.provider) {
-      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " p.name ILIKE '%" + filters.provider + "%'";
+      values.push("%" + filters.provider + "%");
+      queryStr += (moreThanOneFilters ? " AND" : " WHERE") + " p.name ILIKE $" + values.length;
     }
     queryStr += " AND g.is_available = true";
     if (filters.publicationDate) {
@@ -213,11 +221,12 @@ const getAtlasFilteredPositions = async (offset, limit, filters) => {
 
     // fetch newest first by default
     //queryStr += (!filters.publicationDate) ? " ORDER BY last_update_string DESC" : " ";
-    queryStr += " OFFSET " + offset + " LIMIT " + limit;
+    values.push(offset, limit);
+    queryStr += " OFFSET $" + (values.length - 1) + " LIMIT $" + values.length;
 
     // logger.info("\n" + queryStr + "  " + "\n");
 
-    const results = await pool.query(queryStr);
+    const results = await pool.query(queryStr, values);
     return results.rows;
   } catch (error) {
     throw Error('Error while fetching filtered positions from postgres');
