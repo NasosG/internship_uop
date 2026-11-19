@@ -265,8 +265,16 @@ const insertOrUpdateEspaPositionsByDepId = async (body, departmentId) => {
   }
 };
 
+// The name of the sheet field goes inside the text of the query (a column name cannot be sent as a $ parameter), so only
+// names made of letters of any alphabet (the column "A16M" of exit_form starts with the Greek capital alpha), digits, _
+// and - are accepted; the double quote, which would end the name, and every other symbol are rejected (SQL injection)
+const isSheetFieldName = (fieldId) => /^[\p{L}\p{N}_-]+$/u.test(String(fieldId));
+
 const updateEntrySheetField = async (id, body) => {
   try {
+    if (!isSheetFieldName(body.fieldId)) {
+      throw Error('invalid field name');
+    }
     await pool.query('UPDATE entry_form SET "' + body.fieldId + '" = $1 WHERE id = $2',
       [body.elementValue, id]);
 
@@ -278,6 +286,9 @@ const updateEntrySheetField = async (id, body) => {
 
 const updateExitSheetField = async (id, body) => {
   try {
+    if (!isSheetFieldName(body.fieldId)) {
+      throw Error('invalid field name');
+    }
     await pool.query('UPDATE exit_form SET "' + body.fieldId + '" = $1 WHERE exit_id = $2',
       [body.elementValue, id]);
   } catch (error) {
