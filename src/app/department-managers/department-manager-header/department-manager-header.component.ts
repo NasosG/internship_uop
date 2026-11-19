@@ -23,6 +23,8 @@ export class DepartmentManagerHeaderComponent implements OnInit {
   private language!: string;
   dateFrom: string = "";
   dateTo: string = "";
+  /** true until the department and its period have loaded (or failed: no period), for the loader */
+  isLoading: boolean = true;
   /** Small screens, card of the current period: where today is in its current phase (for the progress bar) */
   phaseProgress: { percent: number, day: number, total: number, days: number, label: string } | null = null;
 
@@ -44,6 +46,7 @@ export class DepartmentManagerHeaderComponent implements OnInit {
         this.depManagerService.getPeriodByDepartmentId(this.depManagerData.department_id)
           .subscribe((periodData: Period) => {
             this.periodData = periodData;
+            this.isLoading = false;
             this.dateFrom = Utils.changeDateFormat(periodData.date_from);
             this.dateTo = Utils.changeDateFormat(periodData.date_to);
             this.phaseProgress = this.computePhaseProgress(periodData?.date_from, periodData?.date_to);
@@ -53,8 +56,20 @@ export class DepartmentManagerHeaderComponent implements OnInit {
             setTimeout(() => {
               if (document.body.classList.contains('dark-mode')) document.getElementById('dep-manager-table')?.classList.add('table-dark');
             });
-        });
-      });
+        }, () => { this.isLoading = false; });
+      }, () => { this.isLoading = false; });
+  }
+
+  /** Small screens, card of the period: the phase as "Phase 1 · <text>" from "1. <text>" of phaseArray */
+  get phaseLabel(): { number: string, text: string } {
+    const phase = this.phaseArray[(this.periodData?.phase_state)!] || '';
+    const match = phase.match(/^(\d+)\.\s*(.*)$/);
+    return match ? { number: match[1], text: match[2] } : { number: '', text: phase };
+  }
+
+  /** Small screens: in capitals and without accents (Greek capitals do not take them), e.g. the labels of the dates */
+  capitals(text: string): string {
+    return (text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
   }
 
   /** Where today is in the phase from dateFrom to dateTo ("2026-11-11", local whole days): the percent of the bar, the day

@@ -358,6 +358,7 @@
     "NO-NEW-NOTIFICATIONS": "No new notifications"
   },
   "DEPT-MANAGER": {
+    "PHASE": "Phase",
     "PHASE-DAY-OF": "Day {{day}} of {{total}}",
     "PHASE-STARTS-IN": "starts in {{days}} days",
     "PHASE-STARTS-TOMORROW": "starts tomorrow",

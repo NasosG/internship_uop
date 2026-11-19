@@ -1,0 +1,7 @@
+/* Phones (below 576px): "All rights reserved." on its own line under the copyright, and 40px under it instead of 16px:
+   at the end of the page the floating "Home" button of the phones (44px, 16px from the bottom) sits beside this short
+   line and under the copyright line; wider screens unchanged */
+@media (max-width: 575.98px) {
+  .footer-rights { display: block; }
+  .main-footer { padding-bottom: 40px; }
+}

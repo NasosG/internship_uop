@@ -357,6 +357,7 @@
     "NO-NEW-NOTIFICATIONS": "Δεν υπάρχουν νέες ειδοποιήσεις"
   },
   "DEPT-MANAGER": {
+    "PHASE": "Φάση",
     "PHASE-DAY-OF": "Ημέρα {{day}} από {{total}}",
     "PHASE-STARTS-IN": "ξεκινά σε {{days}} ημέρες",
     "PHASE-STARTS-TOMORROW": "ξεκινά αύριο",

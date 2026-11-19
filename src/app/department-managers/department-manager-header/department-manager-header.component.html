@@ -3,7 +3,7 @@
      {{depManagerData?.givenname}} {{depManagerData?.sn}}</p>
  </div>
  <!-- Small screens (below 768px): the department and the coordinator in a card (the box above is for wide screens) -->
- <div class="dm-card dm-dept d-md-none">
+ <div *ngIf="depManagerData" class="dm-card dm-dept d-md-none">
    <div class="dm-dept-icon"><i class="fas fa-building"></i></div>
    <div>
      <div class="dm-dept-name">{{depManagerData?.department}}</div>
@@ -18,7 +18,11 @@
      </button>
    </div>
  </div> -->
- <div *ngIf="!periodData || periodData.semester == null" ngNativeValidate id="dep-manager-no-period"
+ <!-- While the department and its period load: the loader of the app (the "no periods" message only once it is known) -->
+ <div *ngIf="isLoading" class="loading-indicator dm-loading">
+   <mat-spinner></mat-spinner>
+ </div>
+ <div *ngIf="!isLoading && (!periodData || periodData.semester == null)" ngNativeValidate id="dep-manager-no-period"
    class="alert alert-danger" role="alert">
    {{'DEPT-MANAGER.NO-PERIODS' | translate}}
  </div>
@@ -65,12 +69,12 @@
  <!-- Small screens: the current period as a card (the table above is for wide screens); the same actions -->
  <div *ngIf="periodData?.semester != null" class="dm-card dm-period d-md-none">
    <div class="dm-period-title">{{periodData?.semester == 1 ? "Χειμερινό Εξάμηνο" : "Εαρινό Εξάμηνο"}} {{periodData?.pyear}}</div>
-   <div class="dm-phase" [class.dm-later-phase]="(periodData?.phase_state || 0) >= 2">{{phaseArray[(periodData?.phase_state)!]}}</div>
+   <div class="dm-phase" [class.dm-later-phase]="(periodData?.phase_state || 0) >= 2"><ng-container *ngIf="phaseLabel.number">{{'DEPT-MANAGER.PHASE' | translate}} {{phaseLabel.number}} · </ng-container>{{phaseLabel.text}}</div>
    <div class="dm-dates">
      <i class="far fa-calendar-alt dm-cal"></i>
-     <div><small>{{'DEPT-MANAGER.START' | translate}}</small><span>{{dateFrom}}</span></div>
+     <div><small>{{capitals('DEPT-MANAGER.START' | translate)}}</small><span>{{dateFrom}}</span></div>
      <i class="fas fa-long-arrow-alt-right dm-arrow"></i>
-     <div><small>{{'DEPT-MANAGER.END' | translate}}</small><span>{{dateTo}}</span></div>
+     <div><small>{{capitals('DEPT-MANAGER.END' | translate)}}</small><span>{{dateTo}}</span></div>
    </div>
    <ng-container *ngIf="phaseProgress as progress">
      <div class="dm-progress" [class.dm-later-phase]="(periodData?.phase_state || 0) >= 2"><div [style.width.%]="progress.percent"></div></div>

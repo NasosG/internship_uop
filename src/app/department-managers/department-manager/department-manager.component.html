@@ -397,10 +397,8 @@
   <app-users-footer></app-users-footer>
 
   <!-- Phones (below 576px), where the "Αρχική" of the top bar is hidden: a floating "Αρχική" button at the bottom right
-       (not on the home page itself, nor on the period management page, which shows the same), and space after the
-       footer so that at the end of the page it does not cover it -->
+       (not on the home page itself, nor on the period management page, which shows the same) -->
   <ng-container *ngIf="!isDepartmentManagerRoute() && !isPeriodAddRoute()">
-    <div class="home-fab-space d-sm-none"></div>
     <a [routerLink]="['/department-manager/' + this.authService.getSessionId()]" class="home-fab d-sm-none">
       <i class="fa fa-home"></i> {{'HOME-PAGE-BTN' | translate}}</a>
   </ng-container>

@@ -206,4 +206,3 @@ input:checked+.slider:before {
 .home-fab:hover, .home-fab:focus, .home-fab:active { color: #fff; background-color: #1b3a45; text-decoration: none; }
 :host-context(.dark-mode) .home-fab { border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
 :host-context(.dark-mode) .home-fab:hover, :host-context(.dark-mode) .home-fab:focus { color: #fff; }
-.home-fab-space { height: 76px; }
