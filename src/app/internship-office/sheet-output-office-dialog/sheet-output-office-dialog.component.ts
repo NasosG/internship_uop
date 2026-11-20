@@ -115,13 +115,14 @@ export class SheetOutputOfficeDialogComponent implements OnInit {
     let headerContent = 'ΔΕΛΤΙΟ ΕΞΟΔΟΥ ΠΡΑΚΤΙΚΗΣ ΑΣΚΗΣΗΣ<br>ΠΛΗΡΟΦΟΡΙΑΚΑ ΣΤΟΙΧΕΙΑ ΩΦΕΛΟΥΜΕΝΩΝ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ';
     windowPrint?.document.write("<h3 style='text-align: center;'>" + headerContent + "</h3>");
     windowPrint?.document.write("<table>");
-    windowPrint?.document.write("<tr><td><strong>Όνομα:</strong> " + studentFirstName + "</td></tr><td><strong>Επώνυμο:</strong> " + studentLastName + "</td></tr>");
-    windowPrint?.document.write("<tr><td><strong>Email:</strong> " + studentEmail + "</td></tr><td><strong>Τηλέφωνο:</strong> " + studentPhone + "</td></tr></table>");
+    // the student's details are escaped (Utils.escapeHtml): shown as text, the phone is typed by the student
+    windowPrint?.document.write("<tr><td><strong>Όνομα:</strong> " + Utils.escapeHtml(studentFirstName) + "</td></tr><td><strong>Επώνυμο:</strong> " + Utils.escapeHtml(studentLastName) + "</td></tr>");
+    windowPrint?.document.write("<tr><td><strong>Email:</strong> " + Utils.escapeHtml(studentEmail) + "</td></tr><td><strong>Τηλέφωνο:</strong> " + Utils.escapeHtml(studentPhone) + "</td></tr></table>");
     windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
     windowPrint?.document.write("<br><br><br><br><br><h3 style='text-align: center;'>Δηλώνω υπεύθυνα ότι τα παραπάνω στοιχεία είναι αληθή</h3>");
     windowPrint?.document.write("<br><h3 style='text-align: right;'>Υπογραφή</h3>");
     windowPrint?.document.write("<h5 style='text-align: right;'>" + currentDate + "</h5><br><br><br>");
-    windowPrint?.document.write("<h5 style='text-align: right;'>" + studentName + "</h5>");
+    windowPrint?.document.write("<h5 style='text-align: right;'>" + Utils.escapeHtml(studentName) + "</h5>");
     windowPrint?.document.close();
     windowPrint?.focus();
     windowPrint?.print();

@@ -373,7 +373,8 @@ export class StudentPositionsComponent implements OnInit {
     this.studentsData = [...this.studentsService.students];
     this.studentName = this.studentsData[0].givenname + " " + this.studentsData[0].sn;
     const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    windowPrint?.document.write("<h3 style='text-align: center;'>" + this.studentName + "</h3><hr><br>");
+    // the values are escaped (Utils.escapeHtml): they are shown as text, the company / title / place come from Atlas
+    windowPrint?.document.write("<h3 style='text-align: center;'>" + Utils.escapeHtml(this.studentName) + "</h3><hr><br>");
 
     windowPrint?.document.write(
       "<h2>Αιτήσεις Φοιτητή/τριας</h2>" +
@@ -384,8 +385,8 @@ export class StudentPositionsComponent implements OnInit {
       "<th>Κατάσταση Αίτησης</th>" +
       "</tr>" +
       "<tr>" +
-      ` <td>${this.studentApplications[appIndex].protocol_number}</td>` +
-      ` <td>${this.studentApplications[appIndex].application_date}</td>` +
+      ` <td>${Utils.escapeHtml(this.studentApplications[appIndex].protocol_number)}</td>` +
+      ` <td>${Utils.escapeHtml(this.studentApplications[appIndex].application_date)}</td>` +
       ` <td>${this.studentApplications[appIndex].application_status ? ' Ενεργή' : ' Ανενεργή'} </td>` +
       "</tr>" +
       "</table>" + "<br>" +
@@ -400,11 +401,11 @@ export class StudentPositionsComponent implements OnInit {
       "</tr>" +
       ` ${this.studentApplications[appIndex].positions.map(element => {
         return '<tr>' +
-          '<td>' + element.priority + '</td>' +
-          '<td>' + element.company + '</td>' +
-          '<td>' + element.title + '</td>' +
-          '<td>' + element.place + '</td>' +
-          '<td>' + element.upload_date + '</td>' +
+          '<td>' + Utils.escapeHtml(element.priority) + '</td>' +
+          '<td>' + Utils.escapeHtml(element.company) + '</td>' +
+          '<td>' + Utils.escapeHtml(element.title) + '</td>' +
+          '<td>' + Utils.escapeHtml(element.place) + '</td>' +
+          '<td>' + Utils.escapeHtml(element.upload_date) + '</td>' +
           '</tr>'
       }).join('')}` +
       "</table>");

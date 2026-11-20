@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { CompanyEvaluationForm } from '../company-evaluation-form.model';
 import Swal from 'sweetalert2';
 import {CompanyService} from '../company.service';
+import { Utils } from 'src/app/MiscUtils';
 
 @Component({
   selector: 'app-company-evaluation-dialog',
@@ -68,7 +69,9 @@ export class CompanyEvaluationDialogComponent implements OnInit {
   const windowPrint = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
 
   const printResults = (results: any[]) => {
-    return results.map(result => `<tr><td>${result.text}</td><td style="text-align: center;">${this.getDisplayValue(result.value)}</td></tr>`).join('');
+    // the answers, the student name and the position title are escaped (Utils.escapeHtml): shown as text;
+    // the questions are fixed texts of this file
+    return results.map(result => `<tr><td>${result.text}</td><td style="text-align: center;">${Utils.escapeHtml(this.getDisplayValue(result.value))}</td></tr>`).join('');
   };
 
   const allResults = [
@@ -95,8 +98,8 @@ export class CompanyEvaluationDialogComponent implements OnInit {
   windowPrint?.document.write((printContent?.innerHTML == null) ? '' : printContent?.innerHTML);
   windowPrint?.document.write("<h5 style='text-align: left;'>ΑΞΙΟΛΟΓΗΣΗ ΦΟΙΤΗΤΗ</h5>");
   windowPrint?.document.write(`<p style='text-align: left;'> Ημ. Εκτύπωσης: ${currentDate}</p>`);
-  windowPrint?.document.write(`<p style='text-align: left;'><strong>Φοιτητής:</strong> ${this.data.studentName}</p>`);
-  windowPrint?.document.write(`<p style='text-align: left;'><strong>Θέση φοιτητή:</strong> ${this.data.positionTitle}</p>`);
+  windowPrint?.document.write(`<p style='text-align: left;'><strong>Φοιτητής:</strong> ${Utils.escapeHtml(this.data.studentName)}</p>`);
+  windowPrint?.document.write(`<p style='text-align: left;'><strong>Θέση φοιτητή:</strong> ${Utils.escapeHtml(this.data.positionTitle)}</p>`);
 
   windowPrint?.document.write(resultsTable);
   windowPrint?.document.close();

@@ -3,6 +3,20 @@ import Swal from 'sweetalert2';
 
 export abstract class Utils {
 
+  /**
+   * A value to put inside HTML that is built as text (e.g. the print windows), shown exactly as it is:
+   * & < > " ' become entities, so the value cannot add tags or scripts (XSS); any other text stays the same.
+   * String(value) gives the same text as before for numbers, null and undefined (e.g. "null")
+   */
+  static escapeHtml(value: unknown): string {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   static displayErrorSwal(displayText: string) {
     Swal.fire({
       title: 'Σφάλμα',

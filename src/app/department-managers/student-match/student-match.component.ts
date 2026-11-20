@@ -316,17 +316,18 @@ export class StudentMatchComponent implements OnInit {
     for (let student of this.activeApplications) {
       let studentChoices = '';
       for (let j = 0; j < student.positions.length; j++) {
-        studentChoices += (j + 1) + "." + student.positions[j].company + "<br>";
+        // the values are escaped (Utils.escapeHtml): shown as text, the company names come from Atlas
+        studentChoices += (j + 1) + "." + Utils.escapeHtml(student.positions[j].company) + "<br>";
       }
 
       windowPrint?.document.write(
         // print the rows - another color for the odd lines - could be done with i % 2 != 0
         // but with bitwise operator it was a bit faster
         "<tr " + ((i & 1) ? "style=\"background-color: #f3f3f3;\">" : ">") +
-        "<td>" + student.app_id + "</td>" +
-        "<td>" + student.application_date + "</td>" +
-        "<td>" + student.lastname + " " + student.firstname + "</td>" +
-        "<td>" + student.reg_code + "</td>" +
+        "<td>" + Utils.escapeHtml(student.app_id) + "</td>" +
+        "<td>" + Utils.escapeHtml(student.application_date) + "</td>" +
+        "<td>" + Utils.escapeHtml(student.lastname) + " " + Utils.escapeHtml(student.firstname) + "</td>" +
+        "<td>" + Utils.escapeHtml(student.reg_code) + "</td>" +
         "<td>" + studentChoices + "</td>" +
         // "<td>" + "2.citrix" + "</td>" +
         "</tr>");
