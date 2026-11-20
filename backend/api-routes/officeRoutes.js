@@ -12,7 +12,7 @@ router.get("/getAcademicsByOfficeUserId/:id", checkUniversityUser, officeControl
 router.get("/getEspaPositionsByDepartmentId/:id", checkUniversityUser, officeController.getEspaPositionsByDepartmentId);
 router.get("/getStudentListForPeriodAndAcademic/", checkStaff, officeController.getStudentListForPeriodAndAcademic);
 router.get("/getStudentPaymentsListForPeriodAndAcademic", checkStaff, officeController.getStudentPaymentsListForPeriodAndAcademic);;
-router.post("/insertEspaPosition/:id", checkUniversityUser, officeController.insertEspaPosition);
+router.post("/insertEspaPosition/:id", checkStaff, officeController.insertEspaPosition);
 router.post("/login/", checkLoginSecret, officeController.login);
 // The office edits the students' entry / exit sheets (staff only, not the students themselves)
 router.put("/updateEntrySheetField/:id", checkStaff, officeController.updateEntrySheetField);
